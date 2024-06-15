@@ -1,0 +1,65 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# PRA
+
+<!-- badges: start -->
+
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+<!-- badges: end -->
+
+Data Analysis for Project Risk Managment via the Second Moment Method
+(SMM), Monte Carlo (MC) Simulation, Bayesian methods, Causal Networks,
+and more.
+
+## Installation
+
+You can install the development version of PRA like so:
+
+``` r
+devtools::install_github('paulgovan/PRA')
+```
+
+## Usage
+
+Here is a basic example which shows you how to solve a common problem
+using Monte Carlo Simulation:
+
+``` r
+library(PRA)
+
+num_simulations <- 10000
+task_distributions <- list(
+  list(type = "normal", mean = 10, sd = 2),  # Task A: Normal distribution
+  list(type = "triangular", a = 5, b = 10, c = 15),  # Task B: Triangular distribution
+  list(type = "uniform", min = 8, max = 12)  # Task C: Uniform distribution
+)
+correlation_matrix <- matrix(c(
+  1, 0.5, 0.3,
+  0.5, 1, 0.4,
+  0.3, 0.4, 1
+), nrow = 3, byrow = TRUE)
+
+results <- mcs(num_simulations, task_distributions, correlation_matrix)
+cat("Mean Total Duration:", results$total_mean, "\n")
+#> Mean Total Duration: 38.69081
+```
+
+``` r
+cat("Variance of Total Duration:", results$total_variance, "\n")
+#> Variance of Total Duration: 19.54678
+```
+
+``` r
+hist(results$total_distribution, breaks = 50, main = "Distribution of Total Project Duration", 
+     xlab = "Total Duration", col = "skyblue", border = "white")
+```
+
+<img src="man/figures/README-example-1.png" width="100%" />
+
+## Code of Conduct
+
+Please note that the PRA project is released with a [Contributor Code of
+Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
