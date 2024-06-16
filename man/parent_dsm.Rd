@@ -7,10 +7,10 @@
 parent_dsm(sm)
 }
 \arguments{
-\item{sm}{Resource-Task Matrix giving the links (arcs) between resources and tasks.}
+\item{sm}{Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.}
 }
 \value{
-The function returns the Resource-based 'Parent' matrix giving the number
+The function returns the Resource-based 'Parent' Matrix 'P' giving the number
 of resources shared between each task.
 }
 \description{

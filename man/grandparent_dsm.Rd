@@ -7,12 +7,12 @@
 grandparent_dsm(sm, rm)
 }
 \arguments{
-\item{sm}{Resource-Task Matrix giving the links (arcs) between resources and tasks.}
+\item{sm}{Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.}
 
-\item{rm}{Risk-Resource Matrix giving the links (arcs) between risks and resources.}
+\item{rm}{Risk-Resource Matrix 'R' giving the links (arcs) between risks and resources.}
 }
 \value{
-The function returns the Risk-based 'Grandparent' matrix giving the number
+The function returns the Risk-based 'Grandparent' Matrix 'G' giving the number
 of risks shared between each task.
 }
 \description{

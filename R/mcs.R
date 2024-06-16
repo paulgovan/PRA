@@ -4,7 +4,7 @@
 #' @param task_dists A list of lists describing each task distribution.
 #' @param cor_mat The correlation matrix for the tasks.
 #' @return The function returns a list of the total mean, variance, standard deviation,
-#' and percentiles.
+#' and percentiles for the project.
 #' @examples
 #' num_sims <- 10000
 #' task_dists <- list(
@@ -30,12 +30,8 @@
 #' @export
 
 # Monte Carlo Simulation
-mcs <- function(num_sims, task_dists, cor_mat) {
-  # Check if the correlation matrix is square and matches the number of tasks
+mcs <- function(num_sims, task_dists, cor_mat = NULL) {
   num_tasks <- length(task_dists)
-  if (!is.matrix(cor_mat) || nrow(cor_mat) != num_tasks || ncol(cor_mat) != num_tasks) {
-    stop("The correlation matrix must be square and match the number of tasks.")
-  }
 
   # Generate uncorrelated random samples for each task based on the specified distributions
   uncorrelated_samples <- matrix(NA, nrow = num_sims, ncol = num_tasks)
@@ -52,11 +48,16 @@ mcs <- function(num_sims, task_dists, cor_mat) {
     }
   }
 
-  # Apply Cholesky decomposition to the correlation matrix
-  cholesky_decomp <- chol(cor_mat)
-
-  # Generate correlated random samples
-  correlated_samples <- uncorrelated_samples %*% cholesky_decomp
+  # Apply Cholesky decomposition to the correlation matrix if provided
+  if (!is.null(cor_mat)) {
+    if (!is.matrix(cor_mat) || nrow(cor_mat) != num_tasks || ncol(cor_mat) != num_tasks) {
+      stop("The correlation matrix must be square and match the number of tasks.")
+    }
+    cholesky_decomp <- chol(cor_mat)
+    correlated_samples <- uncorrelated_samples %*% cholesky_decomp
+  } else {
+    correlated_samples <- uncorrelated_samples
+  }
 
   # Calculate total project duration for each simulation
   total_distribution <- rowSums(correlated_samples)

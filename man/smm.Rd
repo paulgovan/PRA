@@ -4,17 +4,17 @@
 \alias{smm}
 \title{Second Moment Analysis.}
 \usage{
-smm(mean, var, cov = NULL)
+smm(mean, var, cor_mat = NULL)
 }
 \arguments{
 \item{mean}{The mean vector.}
 
 \item{var}{The variance vector.}
 
-\item{cov}{The covariance matrix.}
+\item{cor_mat}{The correlation matrix.}
 }
 \value{
-The function returns a list of the total mean, variance, and standard deviation.
+The function returns a list of the total mean, variance, and standard deviation for the project.
 }
 \description{
 Second Moment Analysis.
@@ -22,7 +22,11 @@ Second Moment Analysis.
 \examples{
 mean <- c(10, 15, 20)
 var <- c(4, 9, 16)
-cov <- matrix(c(4, 1, 0.5, 1, 9, 2, 0.5, 2, 16), nrow = 3, byrow = TRUE)
-result <- smm(mean, var, cov)
+cor_mat <- matrix(c(
+  1, 0.5, 0.3,
+  0.5, 1, 0.4,
+  0.3, 0.4, 1
+), nrow = 3, byrow = TRUE)
+result <- smm(mean, var, cor_mat)
 print(result)
 }

@@ -21,7 +21,7 @@
 #' @export
 
 # Define the sensitivity analysis function
-sensitivity <- function(task_dists, cor_mat) {
+sensitivity <- function(task_dists, cor_mat = NULL) {
   num_tasks <- length(task_dists)
 
   # Extract variances from task distributions
@@ -37,18 +37,31 @@ sensitivity <- function(task_dists, cor_mat) {
     }
   })
 
-  # Apply Cholesky decomposition to the correlation matrix
-  cholesky_decomp <- chol(cor_mat)
+  # Create the covariance matrix
+  if (!is.null(cor_mat)) {
+    if (!is.matrix(cor_mat) || nrow(cor_mat) != num_tasks || ncol(cor_mat) != num_tasks) {
+      stop("The correlation matrix must be square and match the number of tasks.")
+    }
+
+    cov_matrix <- matrix(0, nrow = num_tasks, ncol = num_tasks)
+    for (i in 1:num_tasks) {
+      for (j in 1:num_tasks) {
+        cov_matrix[i, j] <- cor_mat[i, j] * sqrt(task_variances[i] * task_variances[j])
+      }
+    }
+  } else {
+    cov_matrix <- diag(task_variances)
+  }
 
   # Calculate the total variance of the project cost
-  total_variance <- sum(task_variances) + 2 * sum(cor_mat[upper.tri(cor_mat)] * sqrt(outer(task_variances, task_variances)[upper.tri(cor_mat)]))
+  total_variance <- sum(task_variances) + sum(cov_matrix[upper.tri(cov_matrix)] * 2)
 
   # Initialize sensitivity vector
   sensitivity <- numeric(num_tasks)
 
   # Calculate the sensitivity of the total variance with respect to each task's variance
   for (i in 1:num_tasks) {
-    sensitivity[i] <- 1 + 2 * sum(cor_mat[i, -i] * sqrt(task_variances[-i] / task_variances[i]))
+    sensitivity[i] <- 1 + 2 * sum(cov_matrix[i, -i] / sqrt(task_variances[i] * task_variances[-i]))
   }
 
   # Return the sensitivity vector

@@ -2,7 +2,7 @@
 #'
 #' @param sims List of results from a Monte Carlo simulation.
 #' @param phigh Percentile level for contingency calculation.
-#' @param pbase Base level for the contingency calculation.
+#' @param pbase Base level for contingency calculation.
 #' @return The function returns the value of calculated contingency.
 #' @examples
 #' num_sims <- 10000

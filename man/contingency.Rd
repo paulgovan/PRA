@@ -11,7 +11,7 @@ contingency(sims, phigh = 0.95, pbase = 0.5)
 
 \item{phigh}{Percentile level for contingency calculation.}
 
-\item{pbase}{Base level for the contingency calculation.}
+\item{pbase}{Base level for contingency calculation.}
 }
 \value{
 The function returns the value of calculated contingency.

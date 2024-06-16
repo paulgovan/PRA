@@ -4,7 +4,7 @@
 \alias{mcs}
 \title{Monte Carlo Simulation.}
 \usage{
-mcs(num_sims, task_dists, cor_mat)
+mcs(num_sims, task_dists, cor_mat = NULL)
 }
 \arguments{
 \item{num_sims}{The number of simulations.}
@@ -15,7 +15,7 @@ mcs(num_sims, task_dists, cor_mat)
 }
 \value{
 The function returns a list of the total mean, variance, standard deviation,
-and percentiles.
+and percentiles for the project.
 }
 \description{
 Monte Carlo Simulation.

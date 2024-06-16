@@ -1,7 +1,7 @@
 #' Resource-based 'Parent' DSM.
 #'
-#' @param sm Resource-Task Matrix giving the links (arcs) between resources and tasks.
-#' @return The function returns the Resource-based 'Parent' matrix giving the number
+#' @param sm Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.
+#' @return The function returns the Resource-based 'Parent' Matrix 'P' giving the number
 #' of resources shared between each task.
 #' @examples
 #' sm <- matrix(c(1, 1, 0, 0, 1, 0, 0, 1, 1), nrow = 3, ncol = 3)
@@ -29,9 +29,9 @@ parent_dsm <- function(sm) {
 
 #' Risk-based 'Grandparent' DSM.
 #'
-#' @param sm Resource-Task Matrix giving the links (arcs) between resources and tasks.
-#' @param rm Risk-Resource Matrix giving the links (arcs) between risks and resources.
-#' @return The function returns the Risk-based 'Grandparent' matrix giving the number
+#' @param sm Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.
+#' @param rm Risk-Resource Matrix 'R' giving the links (arcs) between risks and resources.
+#' @return The function returns the Risk-based 'Grandparent' Matrix 'G' giving the number
 #' of risks shared between each task.
 #' @examples
 #' sm <- matrix(c(1, 1, 0, 0, 1, 0, 0, 1, 1), nrow = 3, ncol = 3)
@@ -51,13 +51,13 @@ grandparent_dsm <- function(sm, rm) {
 
   # Check if matrix S is square
   if (ncol(sm) != nrow(sm)) {
-    stop("The Resource-Task Matrix must be square.")
+    stop("Matrix S must be square.")
   }
 
   # Check if the matrices can be multiplied
   if (ncol(sm) != ncol(rm)) {
-    stop("Number of columns in the Resource-Task Matrix must be equal to the number
-         of columns in the Risk-Resource Matrix.")
+    stop("Number of columns in the Matrix S must be equal to the number
+         of columns in Matrix R.")
   }
 
   # Multiply matrix S by the transpose of R

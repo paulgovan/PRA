@@ -4,7 +4,7 @@
 \alias{sensitivity}
 \title{Sensitivity Analysis.}
 \usage{
-sensitivity(task_dists, cor_mat)
+sensitivity(task_dists, cor_mat = NULL)
 }
 \arguments{
 \item{task_dists}{A list of lists describing each task distribution.}
