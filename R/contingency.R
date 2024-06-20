@@ -21,6 +21,17 @@
 #' cat("Contingency based on 95th percentile and 50th percentile:", contingency)
 #' @export
 contingency <- function(sims, phigh = 0.95, pbase = 0.50) {
+  # Check for valid p-values
+  if (!is.numeric(phigh) || phigh < 0 || phigh > 1) {
+    stop("phigh must be between 0 and 1")
+  }
+  if (!is.numeric(pbase) || pbase < 0 || phigh > 1) {
+    stop("pbase must be between 0 and 1")
+  }
+  if (phigh < pbase) {
+    stop("phigh must be greater than pbase.")
+  }
+
   # Extract the relevant percentiles from the simulation results
   phigh_value <- stats::quantile(sims$total_distribution, probs = phigh)
   pbase_value <- stats::quantile(sims$total_distribution, probs = pbase)

@@ -1,7 +1,7 @@
-#' Resource-based 'Parent' DSM.
+#' Resource-based 'Parent' Design Structure Matrix (DSM).
 #'
 #' @param sm Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.
-#' @return The function returns the Resource-based 'Parent' Matrix 'P' giving the number
+#' @return The function returns the Resource-based 'Parent' DSM 'P' giving the number
 #' of resources shared between each task.
 #' @examples
 #' sm <- matrix(c(1, 1, 0, 0, 1, 0, 0, 1, 1), nrow = 3, ncol = 3)
@@ -10,6 +10,7 @@
 #' resource_dsm <- parent_dsm(sm)
 #' cat("\nResource-based 'Parent' DSM:\n")
 #' print(resource_dsm)
+#' @seealso \url{https://ascelibrary.org/doi/abs/10.1061/AJRUA6.0001041}
 #' @export
 
 # Parent DSM function
@@ -27,11 +28,11 @@ parent_dsm <- function(sm) {
 }
 
 
-#' Risk-based 'Grandparent' DSM.
+#' Risk-based 'Grandparent' Design Structure Matrix (DSM).
 #'
 #' @param sm Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.
 #' @param rm Risk-Resource Matrix 'R' giving the links (arcs) between risks and resources.
-#' @return The function returns the Risk-based 'Grandparent' Matrix 'G' giving the number
+#' @return The function returns the Risk-based 'Grandparent' DSM 'G' giving the number
 #' of risks shared between each task.
 #' @examples
 #' sm <- matrix(c(1, 1, 0, 0, 1, 0, 0, 1, 1), nrow = 3, ncol = 3)
@@ -43,6 +44,7 @@ parent_dsm <- function(sm) {
 #' risk_dsm <- grandparent_dsm(sm, rm)
 #' cat("\nRisk-based 'Grandparent' DSM:\n")
 #' print(risk_dsm)
+#' @seealso \url{https://ascelibrary.org/doi/abs/10.1061/AJRUA6.0001041}
 #' @export
 
 # Grandparent DSM function

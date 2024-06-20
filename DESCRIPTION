@@ -13,3 +13,9 @@ LazyData: true
 RoxygenNote: 7.3.1
 URL: https://paulgovan.github.io/PRA/
 BugReports: https://github.com/paulgovan/PRA/issues
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3

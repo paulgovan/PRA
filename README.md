@@ -7,6 +7,10 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/PRA)](https://CRAN.R-project.org/package=PRA)
+[![Codecov test
+coverage](https://codecov.io/gh/paulgovan/PRA/branch/main/graph/badge.svg)](https://app.codecov.io/gh/paulgovan/PRA?branch=main)
 <!-- badges: end -->
 
 Data Analysis for Project Risk Managment via the Second Moment Method
@@ -43,12 +47,12 @@ correlation_matrix <- matrix(c(
 
 results <- mcs(num_simulations, task_distributions, correlation_matrix)
 cat("Mean Total Duration:", results$total_mean, "\n")
-#> Mean Total Duration: 38.69081
+#> Mean Total Duration: 38.66335
 ```
 
 ``` r
 cat("Variance of Total Duration:", results$total_variance, "\n")
-#> Variance of Total Duration: 19.54678
+#> Variance of Total Duration: 19.81134
 ```
 
 ``` r
