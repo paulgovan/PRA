@@ -2,7 +2,7 @@
 % Please edit documentation in R/dsm.R
 \name{parent_dsm}
 \alias{parent_dsm}
-\title{Resource-based 'Parent' DSM.}
+\title{Resource-based 'Parent' Design Structure Matrix (DSM).}
 \usage{
 parent_dsm(sm)
 }
@@ -10,11 +10,11 @@ parent_dsm(sm)
 \item{sm}{Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.}
 }
 \value{
-The function returns the Resource-based 'Parent' Matrix 'P' giving the number
+The function returns the Resource-based 'Parent' DSM 'P' giving the number
 of resources shared between each task.
 }
 \description{
-Resource-based 'Parent' DSM.
+Resource-based 'Parent' Design Structure Matrix (DSM).
 }
 \examples{
 sm <- matrix(c(1, 1, 0, 0, 1, 0, 0, 1, 1), nrow = 3, ncol = 3)
@@ -23,4 +23,7 @@ print(sm)
 resource_dsm <- parent_dsm(sm)
 cat("\nResource-based 'Parent' DSM:\n")
 print(resource_dsm)
+}
+\seealso{
+\url{https://ascelibrary.org/doi/abs/10.1061/AJRUA6.0001041}
 }

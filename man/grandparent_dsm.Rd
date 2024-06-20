@@ -2,7 +2,7 @@
 % Please edit documentation in R/dsm.R
 \name{grandparent_dsm}
 \alias{grandparent_dsm}
-\title{Risk-based 'Grandparent' DSM.}
+\title{Risk-based 'Grandparent' Design Structure Matrix (DSM).}
 \usage{
 grandparent_dsm(sm, rm)
 }
@@ -12,11 +12,11 @@ grandparent_dsm(sm, rm)
 \item{rm}{Risk-Resource Matrix 'R' giving the links (arcs) between risks and resources.}
 }
 \value{
-The function returns the Risk-based 'Grandparent' Matrix 'G' giving the number
+The function returns the Risk-based 'Grandparent' DSM 'G' giving the number
 of risks shared between each task.
 }
 \description{
-Risk-based 'Grandparent' DSM.
+Risk-based 'Grandparent' Design Structure Matrix (DSM).
 }
 \examples{
 sm <- matrix(c(1, 1, 0, 0, 1, 0, 0, 1, 1), nrow = 3, ncol = 3)
@@ -28,4 +28,7 @@ print(rm)
 risk_dsm <- grandparent_dsm(sm, rm)
 cat("\nRisk-based 'Grandparent' DSM:\n")
 print(risk_dsm)
+}
+\seealso{
+\url{https://ascelibrary.org/doi/abs/10.1061/AJRUA6.0001041}
 }

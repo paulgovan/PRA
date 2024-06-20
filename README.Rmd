@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/paulgovan/PRA/branch/main/graph/badge.svg)](https://app.codecov.io/gh/paulgovan/PRA?branch=main)
 <!-- badges: end -->
 
-Data Analysis for Project Risk Managment via the Second Moment Method (SMM), Monte Carlo (MC) Simulation, Bayesian methods, Causal Networks, and more.
+Data Analysis for Project Risk Managment via the Second Moment Method (SMM), Monte Carlo (MC) Simulation, Bayesian methods, Design Structure Matrices (DSMs), and more.
 
 ## Installation
 

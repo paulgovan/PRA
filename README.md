@@ -14,8 +14,8 @@ coverage](https://codecov.io/gh/paulgovan/PRA/branch/main/graph/badge.svg)](http
 <!-- badges: end -->
 
 Data Analysis for Project Risk Managment via the Second Moment Method
-(SMM), Monte Carlo (MC) Simulation, Bayesian methods, Causal Networks,
-and more.
+(SMM), Monte Carlo (MC) Simulation, Bayesian methods, Design Structure
+Matrices (DSMs), and more.
 
 ## Installation
 
@@ -47,12 +47,12 @@ correlation_matrix <- matrix(c(
 
 results <- mcs(num_simulations, task_distributions, correlation_matrix)
 cat("Mean Total Duration:", results$total_mean, "\n")
-#> Mean Total Duration: 38.66335
+#> Mean Total Duration: 38.61906
 ```
 
 ``` r
 cat("Variance of Total Duration:", results$total_variance, "\n")
-#> Variance of Total Duration: 19.81134
+#> Variance of Total Duration: 19.95962
 ```
 
 ``` r
