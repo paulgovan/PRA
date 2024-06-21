@@ -57,6 +57,10 @@ hist(results$total_distribution, breaks = 50, main = "Distribution of Total Proj
      xlab = "Total Duration", col = "skyblue", border = "white")
 ```
 
+## More Resources
+
+Much of this package is based on the book [Data Analysis for Engineering and Project Risk Managment](https://a.co/d/0gns3EX1) by Ivan Damnjanovic and Ken Reinschmidt and comes highly recommended.
+
 ## Code of Conduct
   
 Please note that the PRA project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.

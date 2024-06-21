@@ -47,12 +47,12 @@ correlation_matrix <- matrix(c(
 
 results <- mcs(num_simulations, task_distributions, correlation_matrix)
 cat("Mean Total Duration:", results$total_mean, "\n")
-#> Mean Total Duration: 38.61906
+#> Mean Total Duration: 38.47304
 ```
 
 ``` r
 cat("Variance of Total Duration:", results$total_variance, "\n")
-#> Variance of Total Duration: 19.95962
+#> Variance of Total Duration: 19.73083
 ```
 
 ``` r
@@ -61,6 +61,12 @@ hist(results$total_distribution, breaks = 50, main = "Distribution of Total Proj
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
+
+## More Resources
+
+Much of this package is based on the book [Data Analysis for Engineering
+and Project Risk Managment](https://a.co/d/0gns3EX1) by Ivan Damnjanovic
+and Ken Reinschmidt and comes highly recommended.
 
 ## Code of Conduct
 
