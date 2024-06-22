@@ -7,6 +7,8 @@
 src="https://github.com/paulgovan/PRA/blob/main/inst/logo.png?raw=true"
 style="width:25.0%" />
 
+PRA is no laughing matter…
+
 <!-- badges: start -->
 
 [![Lifecycle:
@@ -51,12 +53,12 @@ correlation_matrix <- matrix(c(
 
 results <- mcs(num_simulations, task_distributions, correlation_matrix)
 cat("Mean Total Duration:", results$total_mean, "\n")
-#> Mean Total Duration: 38.64761
+#> Mean Total Duration: 38.69008
 ```
 
 ``` r
 cat("Variance of Total Duration:", results$total_variance, "\n")
-#> Variance of Total Duration: 19.96276
+#> Variance of Total Duration: 20.06746
 ```
 
 ``` r
