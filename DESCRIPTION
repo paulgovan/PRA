@@ -6,6 +6,7 @@ Authors@R: person("Paul", "Govan", email = "pgovan1@aggienetwork.com", role = c(
 Description: Data analysis for Project Risk Management via the Second Moment Method (SMM), Monte Carlo (MC) Simulation, Bayesian methods, Design Structure Matrices (DSMs), and more.
 Imports: 
   mc2d,
+  minpack.lm,
   stats
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -14,6 +15,7 @@ RoxygenNote: 7.3.1
 URL: https://paulgovan.github.io/PRA/
 BugReports: https://github.com/paulgovan/PRA/issues
 Suggests: 
+    ggplot2,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
