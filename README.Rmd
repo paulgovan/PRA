@@ -17,8 +17,6 @@ knitr::opts_chunk$set(
 
 ![](https://github.com/paulgovan/PRA/blob/main/inst/logo.png?raw=true){width=25%}
 
-PRA is no laughing matter...
-
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN status](https://www.r-pkg.org/badges/version/PRA)](https://CRAN.R-project.org/package=PRA)
