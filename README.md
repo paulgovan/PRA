@@ -23,6 +23,12 @@ Matrices (DSMs), and more.
 
 ## Installation
 
+To install the release verion of PRA, use:
+
+``` r
+install_packages('PRA')
+```
+
 You can install the development version of PRA like so:
 
 ``` r
@@ -51,12 +57,12 @@ correlation_matrix <- matrix(c(
 
 results <- mcs(num_simulations, task_distributions, correlation_matrix)
 cat("Mean Total Duration:", results$total_mean, "\n")
-#> Mean Total Duration: 38.65452
+#> Mean Total Duration: 38.69981
 ```
 
 ``` r
 cat("Variance of Total Duration:", results$total_variance, "\n")
-#> Variance of Total Duration: 20.20677
+#> Variance of Total Duration: 19.74921
 ```
 
 ``` r
@@ -69,8 +75,9 @@ hist(results$total_distribution, breaks = 50, main = "Distribution of Total Proj
 ## More Resources
 
 Much of this package is based on the book [Data Analysis for Engineering
-and Project Risk Managment](https://a.co/d/0gns3EX1) by Ivan Damnjanovic
-and Ken Reinschmidt and comes highly recommended.
+and Project Risk
+Managment](https://www.amazon.com/dp/3030142531?ref=cm_sw_r_cp_ud_dp_AC0JN7RWC29CM028V2YZ&ref_=cm_sw_r_cp_ud_dp_AC0JN7RWC29CM028V2YZ&social_share=cm_sw_r_cp_ud_dp_AC0JN7RWC29CM028V2YZ)
+by Ivan Damnjanovic and Ken Reinschmidt and comes highly recommended.
 
 ## Code of Conduct
 

@@ -24,6 +24,3 @@ resource_dsm <- parent_dsm(sm)
 cat("\nResource-based 'Parent' DSM:\n")
 print(resource_dsm)
 }
-\seealso{
-\url{https://ascelibrary.org/doi/abs/10.1061/AJRUA6.0001041}
-}

@@ -1,9 +1,9 @@
 Package: PRA
 Type: Package
-Title: PRA: Project Risk Analysis
+Title: Project Risk Analysis
 Version: 0.1.0
-Authors@R: person("Paul", "Govan", email = "pgovan1@aggienetwork.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-1821-8492"))
-Description: Data analysis for Project Risk Management via the Second Moment Method (SMM), Monte Carlo (MC) Simulation, Bayesian methods, Design Structure Matrices (DSMs), and more.
+Authors@R: person("Paul", "Govan", email = "paul.govan2@gmail.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-1821-8492"))
+Description: Data analysis for Project Risk Management via the Second Moment Method, Monte Carlo Simulation, Bayesian methods, Design Structure Matrices, and more.
 Imports: 
   mc2d,
   minpack.lm,

@@ -10,7 +10,6 @@
 #' resource_dsm <- parent_dsm(sm)
 #' cat("\nResource-based 'Parent' DSM:\n")
 #' print(resource_dsm)
-#' @seealso \url{https://ascelibrary.org/doi/abs/10.1061/AJRUA6.0001041}
 #' @export
 
 # Parent DSM function
@@ -44,7 +43,6 @@ parent_dsm <- function(sm) {
 #' risk_dsm <- grandparent_dsm(sm, rm)
 #' cat("\nRisk-based 'Grandparent' DSM:\n")
 #' print(risk_dsm)
-#' @seealso \url{https://ascelibrary.org/doi/abs/10.1061/AJRUA6.0001041}
 #' @export
 
 # Grandparent DSM function
