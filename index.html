@@ -76,7 +76,6 @@
 <div class="page-header"><h1 id="pra">PRA<a class="anchor" aria-label="anchor" href="#pra"></a>
 </h1></div>
 <p><img src="https://github.com/paulgovan/PRA/blob/main/inst/logo.png?raw=true" style="width:25.0%"></p>
-<p>PRA is no laughing matter…</p>
 <!-- badges: start -->
 
 <p>Data Analysis for Project Risk Managment via the Second Moment Method (SMM), Monte Carlo (MC) Simulation, Bayesian methods, Design Structure Matrices (DSMs), and more.</p>
@@ -108,10 +107,10 @@
 <span></span>
 <span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mcs.html">mcs</a></span><span class="op">(</span><span class="va">num_simulations</span>, <span class="va">task_distributions</span>, <span class="va">correlation_matrix</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Mean Total Duration:"</span>, <span class="va">results</span><span class="op">$</span><span class="va">total_mean</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Mean Total Duration: 38.69008</span></span></code></pre></div>
+<span><span class="co">#&gt; Mean Total Duration: 38.61746</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Variance of Total Duration:"</span>, <span class="va">results</span><span class="op">$</span><span class="va">total_variance</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Variance of Total Duration: 20.06746</span></span></code></pre></div>
+<span><span class="co">#&gt; Variance of Total Duration: 19.51307</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_distribution</span>, breaks <span class="op">=</span> <span class="fl">50</span>, main <span class="op">=</span> <span class="st">"Distribution of Total Project Duration"</span>, </span>
 <span>     xlab <span class="op">=</span> <span class="st">"Total Duration"</span>, col <span class="op">=</span> <span class="st">"skyblue"</span>, border <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span></span></code></pre></div>
