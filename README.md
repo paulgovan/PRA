@@ -51,12 +51,12 @@ correlation_matrix <- matrix(c(
 
 results <- mcs(num_simulations, task_distributions, correlation_matrix)
 cat("Mean Total Duration:", results$total_mean, "\n")
-#> Mean Total Duration: 38.61746
+#> Mean Total Duration: 38.65452
 ```
 
 ``` r
 cat("Variance of Total Duration:", results$total_variance, "\n")
-#> Variance of Total Duration: 19.51307
+#> Variance of Total Duration: 20.20677
 ```
 
 ``` r
