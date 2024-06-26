@@ -1,12 +1,11 @@
 library(hexSticker)
 
 # Create the sticker
-sticker("inst/logo2.png",
-        package = "PRA",
-        p_size=25, p_color = "black",
-        s_x=1, s_y=0.8, s_width=.6,
-        h_fill = "white",  # Hexagon fill color
-        h_color = "black",     # Hexagon border color
+sticker("inst/logo.png",
+        package = "",
+        s_x=1, s_y=1, s_width=.67,
+        h_fill = rgb(210, 190, 155, maxColorValue = 255),
+        h_color = rgb(253, 63, 56, maxColorValue = 255),
         filename = "pra_hex_sticker.png")
 
 # Display the sticker
