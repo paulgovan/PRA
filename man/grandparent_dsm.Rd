@@ -4,12 +4,12 @@
 \alias{grandparent_dsm}
 \title{Risk-based 'Grandparent' Design Structure Matrix (DSM).}
 \usage{
-grandparent_dsm(sm, rm)
+grandparent_dsm(S, R)
 }
 \arguments{
-\item{sm}{Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.}
+\item{S}{Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.}
 
-\item{rm}{Risk-Resource Matrix 'R' giving the links (arcs) between risks and resources.}
+\item{R}{Risk-Resource Matrix 'R' giving the links (arcs) between risks and resources.}
 }
 \value{
 The function returns the Risk-based 'Grandparent' DSM 'G' giving the number
@@ -19,13 +19,13 @@ of risks shared between each task.
 Risk-based 'Grandparent' Design Structure Matrix (DSM).
 }
 \examples{
-sm <- matrix(c(1, 1, 0, 0, 1, 0, 0, 1, 1), nrow = 3, ncol = 3)
-rm <- matrix(c(1, 1, 1, 1, 0, 0), nrow = 2, ncol = 3)
+S <- matrix(c(1, 1, 0, 0, 1, 0, 0, 1, 1), nrow = 3, ncol = 3)
+R <- matrix(c(1, 1, 1, 1, 0, 0), nrow = 2, ncol = 3)
 cat("Resource-Task Matrix:\n")
-print(sm)
+print(S)
 cat("\nRisk-Resource Matrix:\n")
-print(rm)
-risk_dsm <- grandparent_dsm(sm, rm)
+print(R)
+risk_dsm <- grandparent_dsm(S, R)
 cat("\nRisk-based 'Grandparent' DSM:\n")
 print(risk_dsm)
 }

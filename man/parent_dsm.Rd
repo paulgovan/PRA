@@ -4,10 +4,10 @@
 \alias{parent_dsm}
 \title{Resource-based 'Parent' Design Structure Matrix (DSM).}
 \usage{
-parent_dsm(sm)
+parent_dsm(S)
 }
 \arguments{
-\item{sm}{Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.}
+\item{S}{Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.}
 }
 \value{
 The function returns the Resource-based 'Parent' DSM 'P' giving the number
@@ -17,10 +17,10 @@ of resources shared between each task.
 Resource-based 'Parent' Design Structure Matrix (DSM).
 }
 \examples{
-sm <- matrix(c(1, 1, 0, 0, 1, 0, 0, 1, 1), nrow = 3, ncol = 3)
+s <- matrix(c(1, 1, 0, 0, 1, 0, 0, 1, 1), nrow = 3, ncol = 3)
 cat("Resource-Task Matrix:\n")
-print(sm)
-resource_dsm <- parent_dsm(sm)
+print(s)
+resource_dsm <- parent_dsm(s)
 cat("\nResource-based 'Parent' DSM:\n")
 print(resource_dsm)
 }
