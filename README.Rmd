@@ -20,6 +20,8 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN status](https://www.r-pkg.org/badges/version/PRA)](https://CRAN.R-project.org/package=PRA)
+![](http://cranlogs.r-pkg.org/badges/PRA)
+![](http://cranlogs.r-pkg.org/badges/grand-total/PRA)
 <!-- badges: end -->
 
 Data Analysis for Project Risk Managment via the Second Moment Method (SMM), Monte Carlo (MC) Simulation, Bayesian methods, Design Structure Matrices (DSMs), and more.
