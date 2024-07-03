@@ -15,6 +15,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://www.r-pkg.org/badges/version/PRA)](https://CRAN.R-project.org/package=PRA)
 ![](http://cranlogs.r-pkg.org/badges/PRA)
 ![](http://cranlogs.r-pkg.org/badges/grand-total/PRA)
+[![DOI](https://zenodo.org/badge/815388332.svg)](https://zenodo.org/doi/10.5281/zenodo.12627130)
 <!-- badges: end -->
 
 Data Analysis for Project Risk Managment via the Second Moment Method
