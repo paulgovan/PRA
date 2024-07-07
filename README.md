@@ -15,6 +15,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://www.r-pkg.org/badges/version/PRA)](https://CRAN.R-project.org/package=PRA)
 ![](http://cranlogs.r-pkg.org/badges/PRA)
 ![](http://cranlogs.r-pkg.org/badges/grand-total/PRA)
+[![DOI](https://zenodo.org/badge/815388332.svg)](https://zenodo.org/doi/10.5281/zenodo.12627130)
 <!-- badges: end -->
 
 Data Analysis for Project Risk Managment via the Second Moment Method
@@ -38,32 +39,56 @@ devtools::install_github('paulgovan/PRA')
 ## Usage
 
 Here is a basic example which shows you how to solve a common problem
-using Monte Carlo Simulation:
+using Monte Carlo Simulation.
+
+First, load the package:
 
 ``` r
 library(PRA)
+```
 
+Next, set the number of simulations and describe probability distributions for 3 work packages:
+
+```
 num_simulations <- 10000
 task_distributions <- list(
   list(type = "normal", mean = 10, sd = 2),  # Task A: Normal distribution
   list(type = "triangular", a = 5, b = 10, c = 15),  # Task B: Triangular distribution
   list(type = "uniform", min = 8, max = 12)  # Task C: Uniform distribution
 )
+```
+
+Then, set the correlation matrix between the 3 work packages:
+
+```
 correlation_matrix <- matrix(c(
   1, 0.5, 0.3,
   0.5, 1, 0.4,
   0.3, 0.4, 1
 ), nrow = 3, byrow = TRUE)
+```
 
+Finally, run the simulation using the `mcs` function:
+
+```
 results <- mcs(num_simulations, task_distributions, correlation_matrix)
+```
+
+To calculate the mean of the total duration:
+
+```
 cat("Mean Total Duration:", results$total_mean, "\n")
 #> Mean Total Duration: 38.6582
 ```
+
+To calculate the variance of the total duration:
 
 ``` r
 cat("Variance of Total Duration:", results$total_variance, "\n")
 #> Variance of Total Duration: 19.92074
 ```
+
+To build a histogram of the total duration:
 
 ``` r
 hist(results$total_distribution, breaks = 50, main = "Distribution of Total Project Duration", 
