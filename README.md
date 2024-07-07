@@ -47,9 +47,10 @@ First, load the package:
 library(PRA)
 ```
 
-Next, set the number of simulations and describe probability distributions for 3 work packages:
+Next, set the number of simulations and describe probability
+distributions for 3 work packages:
 
-```
+``` r
 num_simulations <- 10000
 task_distributions <- list(
   list(type = "normal", mean = 10, sd = 2),  # Task A: Normal distribution
@@ -60,7 +61,7 @@ task_distributions <- list(
 
 Then, set the correlation matrix between the 3 work packages:
 
-```
+``` r
 correlation_matrix <- matrix(c(
   1, 0.5, 0.3,
   0.5, 1, 0.4,
@@ -70,22 +71,22 @@ correlation_matrix <- matrix(c(
 
 Finally, run the simulation using the `mcs` function:
 
-```
+``` r
 results <- mcs(num_simulations, task_distributions, correlation_matrix)
 ```
 
 To calculate the mean of the total duration:
 
-```
+``` r
 cat("Mean Total Duration:", results$total_mean, "\n")
-#> Mean Total Duration: 38.6582
+#> Mean Total Duration: 38.66811
 ```
 
 To calculate the variance of the total duration:
 
 ``` r
 cat("Variance of Total Duration:", results$total_variance, "\n")
-#> Variance of Total Duration: 19.92074
+#> Variance of Total Duration: 19.87372
 ```
 
 To build a histogram of the total duration:
@@ -95,7 +96,7 @@ hist(results$total_distribution, breaks = 50, main = "Distribution of Total Proj
      xlab = "Total Duration", col = "skyblue", border = "white")
 ```
 
-<img src="man/figures/README-example-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
 
 ## More Resources
 
