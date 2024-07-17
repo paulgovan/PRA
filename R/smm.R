@@ -1,27 +1,12 @@
-# # Estimated means of the work packages
-# mean <- c(1036, 180, 75, 3.4, 17.7, 38.1, 71.7, 136, 124, 71.9, 140, 1089,
-#           -3.4, 38.7, 3.2, 6.4, 6.4, 8)
-#
-# # Estimated correlation matrix for the work packages
-# cor <- matrix(
-#   data = c(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-#            0 , 1, 0.6, 0, 0, 0.6, 0.6, 0.6, 0.6, 0, 0, 0.8, 0, 0, 0, 0, 0, 0,
-#            0, 0.6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-#            0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-#            0, 0, 0, 0, 1, 0.8, 0.8, 0.6, 0, 0, 0, 0.8, 0, 0, 0.8, 0, 0, 0),
-#   nrow = 18, ncol = 18)
-#
-# # Estimated standard deviations of the work packages
-# sd <- c(0.78, 33.3, 19.5, 4.36, 8.29, 15.8, 34.4, 29.3, 19.5, 19.9, 10.2, 33.4,
-#          9.82, 56.4, 4.6, 9.34, 9.34, 11.7)
-
 #' Second Moment Analysis.
 #'
 #' @param mean The mean vector.
 #' @param var The variance vector.
-#' @param cor_mat The correlation matrix.
+#' @param cor_mat The correlation matrix (optional).
 #' @return The function returns a list of the total mean, variance, and standard deviation for the project.
 #' @examples
+#'
+#' # Set the mean vector, variance vector, and correlation matrix for a toy project.
 #' mean <- c(10, 15, 20)
 #' var <- c(4, 9, 16)
 #' cor_mat <- matrix(c(
@@ -29,10 +14,11 @@
 #'   0.5, 1, 0.4,
 #'   0.3, 0.4, 1
 #' ), nrow = 3, byrow = TRUE)
+#'
+#' # Use the Second Moment Method to estimate the results for the project.
 #' result <- smm(mean, var, cor_mat)
 #' print(result)
 #' @export
-
 # Second Moment Method
 smm <- function(mean, var, cor_mat = NULL) {
 

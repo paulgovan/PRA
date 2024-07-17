@@ -2,21 +2,26 @@
 #'
 #' @param num_sims The number of simulations.
 #' @param task_dists A list of lists describing each task distribution.
-#' @param cor_mat The correlation matrix for the tasks.
+#' @param cor_mat The correlation matrix for the tasks (Optional).
 #' @return The function returns a list of the total mean, variance, standard deviation,
 #' and percentiles for the project.
 #' @examples
+#' # Set the number of simulations and task distributions for a toy project.
 #' num_sims <- 10000
 #' task_dists <- list(
 #'   list(type = "normal", mean = 10, sd = 2),  # Task A: Normal distribution
 #'   list(type = "triangular", a = 5, b = 10, c = 15),  # Task B: Triangular distribution
 #'   list(type = "uniform", min = 8, max = 12)  # Task C: Uniform distribution
 #' )
+#'
+#' # Set the correlation matrix for the correlations between tasks.
 #' cor_mat <- matrix(c(
 #'   1, 0.5, 0.3,
 #'   0.5, 1, 0.4,
 #'   0.3, 0.4, 1
 #' ), nrow = 3, byrow = TRUE)
+#'
+#' # Run the Monte Carlo sumulation and print the results.
 #' results <- mcs(num_sims, task_dists, cor_mat)
 #' cat("Mean Total Duration:", results$total_mean, "\n")
 #' cat("Variance of Total Variance:", results$total_variance, "\n")

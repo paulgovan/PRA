@@ -1,20 +1,25 @@
 #' Sensitivity Analysis.
 #'
 #' @param task_dists A list of lists describing each task distribution.
-#' @param cor_mat The correlation matrix for the tasks.
+#' @param cor_mat The correlation matrix for the tasks (Optional).
 #' @return The function returns a vector of sensitivity results with respect to
 #' each task.
 #' @examples
+#' # Set the task distributions for a toy project.
 #' task_dists <- list(
 #'   list(type = "normal", mean = 10, sd = 2),  # Task A: Normal distribution
 #'   list(type = "triangular", a = 5, b = 15, c = 10),  # Task B: Triangular distribution
 #'   list(type = "uniform", min = 8, max = 12)  # Task C: Uniform distribution
 #' )
+#'
+#' # Set the correlation matrix between the tasks.
 #' cor_mat <- matrix(c(
 #'   1, 0.5, 0.3,
 #'  0.5, 1, 0.4,
 #'   0.3, 0.4, 1
 #' ), nrow = 3, byrow = TRUE)
+#'
+#' # Calculate the sensitivity of each task and print the results
 #' sensitivity_results <- sensitivity(task_dists, cor_mat)
 #' cat("Sensitivity of the variance in total cost with respect to the variance in each task cost:\n")
 #' print(sensitivity_results)

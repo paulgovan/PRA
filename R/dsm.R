@@ -4,9 +4,12 @@
 #' @return The function returns the Resource-based 'Parent' DSM 'P' giving the number
 #' of resources shared between each task.
 #' @examples
+#' # Set the S matrix for a toy project and print the results.
 #' s <- matrix(c(1, 1, 0, 0, 1, 0, 0, 1, 1), nrow = 3, ncol = 3)
 #' cat("Resource-Task Matrix:\n")
 #' print(s)
+#'
+#' # Calculate the Resource-based Parent DSM and print the results.
 #' resource_dsm <- parent_dsm(s)
 #' cat("\nResource-based 'Parent' DSM:\n")
 #' print(resource_dsm)
@@ -34,12 +37,14 @@ parent_dsm <- function(S) {
 #' @return The function returns the Risk-based 'Grandparent' DSM 'G' giving the number
 #' of risks shared between each task.
 #' @examples
+#' # Set the S and R matrices and print the results.
 #' S <- matrix(c(1, 1, 0, 0, 1, 0, 0, 1, 1), nrow = 3, ncol = 3)
 #' R <- matrix(c(1, 1, 1, 1, 0, 0), nrow = 2, ncol = 3)
 #' cat("Resource-Task Matrix:\n")
 #' print(S)
 #' cat("\nRisk-Resource Matrix:\n")
 #' print(R)
+#' # Calculate the Risk-based Grandparent Matrix and print the results.
 #' risk_dsm <- grandparent_dsm(S, R)
 #' cat("\nRisk-based 'Grandparent' DSM:\n")
 #' print(risk_dsm)
