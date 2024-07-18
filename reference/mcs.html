@@ -59,7 +59,7 @@
 
 
 <dt id="arg-cor-mat">cor_mat<a class="anchor" aria-label="anchor" href="#arg-cor-mat"></a></dt>
-<dd><p>The correlation matrix for the tasks.</p></dd>
+<dd><p>The correlation matrix for the tasks (Optional).</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -70,17 +70,22 @@ and percentiles for the project.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">num_sims</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Set the number of simulations and task distributions for a toy project.</span></span></span>
+<span class="r-in"><span><span class="va">num_sims</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span></span>
 <span class="r-in"><span><span class="va">task_dists</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">10</span>, sd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,  <span class="co"># Task A: Normal distribution</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"triangular"</span>, a <span class="op">=</span> <span class="fl">5</span>, b <span class="op">=</span> <span class="fl">10</span>, c <span class="op">=</span> <span class="fl">15</span><span class="op">)</span>,  <span class="co"># Task B: Triangular distribution</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"uniform"</span>, min <span class="op">=</span> <span class="fl">8</span>, max <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>  <span class="co"># Task C: Uniform distribution</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Set the correlation matrix for the correlations between tasks.</span></span></span>
 <span class="r-in"><span><span class="va">cor_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.3</span>,</span></span>
 <span class="r-in"><span>  <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">0.4</span>,</span></span>
 <span class="r-in"><span>  <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">1</span></span></span>
 <span class="r-in"><span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">3</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Run the Monte Carlo sumulation and print the results.</span></span></span>
 <span class="r-in"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu">mcs</span><span class="op">(</span><span class="va">num_sims</span>, <span class="va">task_dists</span>, <span class="va">cor_mat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Mean Total Duration:"</span>, <span class="va">results</span><span class="op">$</span><span class="va">total_mean</span>, <span class="st">"\n"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mean Total Duration: 38.59957 </span>

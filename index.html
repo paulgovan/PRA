@@ -17,8 +17,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Project Risk Analysis">
-<meta name="description" content="Data analysis for Project Risk Management via the Second Moment Method, Monte Carlo Simulation, Bayesian methods, Design Structure Matrices, and more.">
-<meta property="og:description" content="Data analysis for Project Risk Management via the Second Moment Method, Monte Carlo Simulation, Bayesian methods, Design Structure Matrices, and more.">
+<meta name="description" content="Data analysis for Project Risk Management via the Second Moment Method, Monte Carlo Simulation, Contingency Analysis, Sensitivity Analysis, Earned Value Management, Learning Curves, Design Structure Matrices, and more.">
+<meta property="og:description" content="Data analysis for Project Risk Management via the Second Moment Method, Monte Carlo Simulation, Contingency Analysis, Sensitivity Analysis, Earned Value Management, Learning Curves, Design Structure Matrices, and more.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -64,7 +64,17 @@
 <p><img src="https://github.com/paulgovan/PRA/blob/main/inst/logo.png?raw=true" style="width:25.0%"></p>
 <!-- badges: start -->
 
-<p>Data Analysis for Project Risk Managment via the Second Moment Method (SMM), Monte Carlo (MC) Simulation, Bayesian methods, Design Structure Matrices (DSMs), and more.</p>
+<p>Data analysis for Project Risk Management via:</p>
+<ul>
+<li>Second Moment Method</li>
+<li>Monte Carlo Simulation</li>
+<li>Contingency Analysis</li>
+<li>Sensitivity Analysis</li>
+<li>Earned Value Management</li>
+<li>Learning Curves</li>
+<li>Design Structure Matrices</li>
+<li>And more.</li>
+</ul>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -103,11 +113,11 @@
 <p>To calculate the mean of the total duration:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Mean Total Duration:"</span>, <span class="va">results</span><span class="op">$</span><span class="va">total_mean</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Mean Total Duration: 38.66811</span></span></code></pre></div>
+<span><span class="co">#&gt; Mean Total Duration: 38.64942</span></span></code></pre></div>
 <p>To calculate the variance of the total duration:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Variance of Total Duration:"</span>, <span class="va">results</span><span class="op">$</span><span class="va">total_variance</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Variance of Total Duration: 19.87372</span></span></code></pre></div>
+<span><span class="co">#&gt; Variance of Total Duration: 19.87956</span></span></code></pre></div>
 <p>To build a histogram of the total duration:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_distribution</span>, breaks <span class="op">=</span> <span class="fl">50</span>, main <span class="op">=</span> <span class="st">"Distribution of Total Project Duration"</span>, </span>

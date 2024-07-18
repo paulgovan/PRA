@@ -65,13 +65,19 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">bac</span> <span class="op">&lt;-</span> <span class="fl">100000</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Set the BAC, schedule, and current time period for an example project.</span></span></span>
+<span class="r-in"><span><span class="va">bac</span> <span class="op">&lt;-</span> <span class="fl">100000</span></span></span>
 <span class="r-in"><span><span class="va">schedule</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.4</span>, <span class="fl">0.7</span>, <span class="fl">1.0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">time_period</span> <span class="op">&lt;-</span> <span class="fl">3</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Calculate the PV.</span></span></span>
 <span class="r-in"><span><span class="va">pv</span> <span class="op">&lt;-</span> <span class="fu"><a href="pv.html">pv</a></span><span class="op">(</span><span class="va">bac</span>, <span class="va">schedule</span>, <span class="va">time_period</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Set the actual % complete and calculate the EV.</span></span></span>
 <span class="r-in"><span><span class="va">actual_per_complete</span> <span class="op">&lt;-</span> <span class="fl">0.35</span></span></span>
 <span class="r-in"><span><span class="va">ev</span> <span class="op">&lt;-</span> <span class="fu"><a href="ev.html">ev</a></span><span class="op">(</span><span class="va">bac</span>, <span class="va">actual_per_complete</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Calculate the SPI and print the results.</span></span></span>
 <span class="r-in"><span><span class="va">spi</span> <span class="op">&lt;-</span> <span class="fu">spi</span><span class="op">(</span><span class="va">ev</span>, <span class="va">pv</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Schedule Performance Index (SPI):"</span>, <span class="va">spi</span>, <span class="st">"\n"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Schedule Performance Index (SPI): 0.875 </span>
