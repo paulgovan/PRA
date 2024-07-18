@@ -18,9 +18,16 @@ status](https://www.r-pkg.org/badges/version/PRA)](https://CRAN.R-project.org/pa
 [![DOI](https://zenodo.org/badge/815388332.svg)](https://zenodo.org/doi/10.5281/zenodo.12627130)
 <!-- badges: end -->
 
-Data Analysis for Project Risk Managment via the Second Moment Method
-(SMM), Monte Carlo (MC) Simulation, Bayesian methods, Design Structure
-Matrices (DSMs), and more.
+Data analysis for Project Risk Management via:
+
+- Second Moment Method
+- Monte Carlo Simulation
+- Contingency Analysis
+- Sensitivity Analysis
+- Earned Value Management
+- Learning Curves
+- Design Structure Matrices
+- And more.
 
 ## Installation
 
@@ -79,14 +86,14 @@ To calculate the mean of the total duration:
 
 ``` r
 cat("Mean Total Duration:", results$total_mean, "\n")
-#> Mean Total Duration: 38.66811
+#> Mean Total Duration: 38.64942
 ```
 
 To calculate the variance of the total duration:
 
 ``` r
 cat("Variance of Total Duration:", results$total_variance, "\n")
-#> Variance of Total Duration: 19.87372
+#> Variance of Total Duration: 19.87956
 ```
 
 To build a histogram of the total duration:

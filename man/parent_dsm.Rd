@@ -17,9 +17,12 @@ of resources shared between each task.
 Resource-based 'Parent' Design Structure Matrix (DSM).
 }
 \examples{
+# Set the S matrix for a toy project and print the results.
 s <- matrix(c(1, 1, 0, 0, 1, 0, 0, 1, 1), nrow = 3, ncol = 3)
 cat("Resource-Task Matrix:\n")
 print(s)
+
+# Calculate the Resource-based Parent DSM and print the results.
 resource_dsm <- parent_dsm(s)
 cat("\nResource-based 'Parent' DSM:\n")
 print(resource_dsm)

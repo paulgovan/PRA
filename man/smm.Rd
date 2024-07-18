@@ -11,7 +11,7 @@ smm(mean, var, cor_mat = NULL)
 
 \item{var}{The variance vector.}
 
-\item{cor_mat}{The correlation matrix.}
+\item{cor_mat}{The correlation matrix (optional).}
 }
 \value{
 The function returns a list of the total mean, variance, and standard deviation for the project.
@@ -20,6 +20,8 @@ The function returns a list of the total mean, variance, and standard deviation 
 Second Moment Analysis.
 }
 \examples{
+
+# Set the mean vector, variance vector, and correlation matrix for a toy project.
 mean <- c(10, 15, 20)
 var <- c(4, 9, 16)
 cor_mat <- matrix(c(
@@ -27,6 +29,8 @@ cor_mat <- matrix(c(
   0.5, 1, 0.4,
   0.3, 0.4, 1
 ), nrow = 3, byrow = TRUE)
+
+# Use the Second Moment Method to estimate the results for the project.
 result <- smm(mean, var, cor_mat)
 print(result)
 }

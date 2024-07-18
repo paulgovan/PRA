@@ -23,6 +23,14 @@
 #' sensitivity_results <- sensitivity(task_dists, cor_mat)
 #' cat("Sensitivity of the variance in total cost with respect to the variance in each task cost:\n")
 #' print(sensitivity_results)
+#'
+#' # Build a vertical barchart and display the results.
+#' data <- data.frame(
+#'   Tasks = c('A', 'B', 'C'),
+#'   Sensitivity = sensitivity_results
+#' )
+#' barplot(height=data$Sensitivity, names=data$Tasks, col='skyblue',
+#'         horiz=TRUE, xlab = 'Sensitivity', ylab = 'Tasks')
 #' @export
 
 # Define the sensitivity analysis function

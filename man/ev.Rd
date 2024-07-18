@@ -7,7 +7,7 @@
 ev(bac, actual_per_complete)
 }
 \arguments{
-\item{bac}{Budget at Completion (total planned budget).}
+\item{bac}{Budget at Completion (BAC) (total planned budget).}
 
 \item{actual_per_complete}{Actual work completion percentage.}
 }
@@ -18,9 +18,11 @@ The function returns the Earned Value (EV) of work completed.
 Earned Value (EV).
 }
 \examples{
+# Set the BAC and actual \% complete for a toy project.
 bac <- 100000
 actual_per_complete <- 0.35
 
+# Calculate the EV and print the results.
 ev <- ev(bac, actual_per_complete)
 cat("Earned Value (EV):", ev, "\n")
 }

@@ -3,7 +3,9 @@ Type: Package
 Title: Project Risk Analysis
 Version: 0.2.0
 Authors@R: person("Paul", "Govan", email = "paul.govan2@gmail.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-1821-8492"))
-Description: Data analysis for Project Risk Management via the Second Moment Method, Monte Carlo Simulation, Bayesian methods, Design Structure Matrices, and more.
+Description: Data analysis for Project Risk Management via the Second Moment Method, 
+  Monte Carlo Simulation, Contingency Analysis, Sensitivity Analysis, Earned Value Management, 
+  Learning Curves, Design Structure Matrices, and more.
 Imports: 
   mc2d,
   minpack.lm,
@@ -11,7 +13,7 @@ Imports:
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 URL: https://paulgovan.github.io/PRA/, https://github.com/paulgovan/PRA
 BugReports: https://github.com/paulgovan/PRA/issues
 Suggests: 
