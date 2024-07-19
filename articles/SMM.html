@@ -71,9 +71,177 @@
 
     
     
+<p>The second moment method for project risk analysis is a quantitative
+technique used to estimate and manage the uncertainty in project
+outcomes. This method focuses on the first two moments of the
+probability distribution of project outcomes: the mean (or expected
+value) and the variance.</p>
+<div class="section level2">
+<h2 id="steps-in-the-second-moment-method">Steps in the Second Moment Method<a class="anchor" aria-label="anchor" href="#steps-in-the-second-moment-method"></a>
+</h2>
+<div class="section level3">
+<h3 id="identify-project-activities-and-risks">1. Identify Project Activities and Risks<a class="anchor" aria-label="anchor" href="#identify-project-activities-and-risks"></a>
+</h3>
+<p>List all the activities involved in the project; Identify the risks
+associated with each activity; Estimate the mean (expected value) for
+each activity.</p>
+</div>
+<div class="section level3">
+<h3 id="determine-the-expected-duration-cost-or-other-metrics-for-each-activity-considering-the-identified-risks">2. Determine the expected duration, cost, or other metrics for each
+activity considering the identified risks<a class="anchor" aria-label="anchor" href="#determine-the-expected-duration-cost-or-other-metrics-for-each-activity-considering-the-identified-risks"></a>
+</h3>
+<p>The expected value is the average outcome, calculated as the weighted
+sum of all possible outcomes, where the weights are the probabilities of
+those outcomes.</p>
+</div>
+<div class="section level3">
+<h3 id="estimate-variance-and-standard-deviation">3. Estimate Variance and Standard Deviation<a class="anchor" aria-label="anchor" href="#estimate-variance-and-standard-deviation"></a>
+</h3>
+<p>Calculate the variance of each activity’s duration, cost, or other
+metrics. Variance measures the spread of possible outcomes around the
+mean.</p>
+<p>The standard deviation is the square root of the variance, providing
+a measure of uncertainty in the same units as the original metric.</p>
+</div>
+<div class="section level3">
+<h3 id="aggregate-mean-and-variance">4. Aggregate Mean and Variance<a class="anchor" aria-label="anchor" href="#aggregate-mean-and-variance"></a>
+</h3>
+<p>For the entire project, aggregate the means of all activities to get
+the project’s overall expected duration, cost, etc.</p>
+<p>Aggregate the variances to get the project’s overall variance. If
+activities are independent, the total variance is the sum of the
+individual variances.</p>
+</div>
+<div class="section level3">
+<h3 id="assess-project-risk">5. Assess Project Risk<a class="anchor" aria-label="anchor" href="#assess-project-risk"></a>
+</h3>
+<p>Use the overall mean and variance to assess the project’s risk. A
+larger variance indicates greater uncertainty and risk.</p>
+<p>Calculate confidence intervals to understand the range within which
+the project outcomes are likely to fall. For example, assuming a normal
+distribution, approximately 95% of outcomes will fall within two
+standard deviations of the mean.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="benefits-and-limitations">Benefits and Limitations<a class="anchor" aria-label="anchor" href="#benefits-and-limitations"></a>
+</h2>
+<div class="section level3">
+<h3 id="benefits">Benefits<a class="anchor" aria-label="anchor" href="#benefits"></a>
+</h3>
+<p>Simplicity: The method is relatively straightforward and easy to
+understand.</p>
+<p>Quantitative Insight: Provides a numerical estimate of uncertainty
+and risk.</p>
+</div>
+<div class="section level3">
+<h3 id="limitations">Limitations<a class="anchor" aria-label="anchor" href="#limitations"></a>
+</h3>
+<p>Normal Distribution Assumption: Often assumes that outcomes are
+normally distributed, which may not accurately represent all real-world
+scenarios.</p>
+<p>Limited to First Two Moments: Ignores higher-order moments such as
+skewness and kurtosis, which can also be important in risk analysis.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="correlation">Correlation<a class="anchor" aria-label="anchor" href="#correlation"></a>
+</h2>
+<p>When accounting for correlation between tasks, the total variance of
+the project is calculated using both the individual variances and the
+covariances between each pair of activities.</p>
+</div>
+<div class="section level2">
+<h2 id="formulation">Formulation<a class="anchor" aria-label="anchor" href="#formulation"></a>
+</h2>
+<div class="section level3">
+<h3 id="expected-value-mean">Expected Value (Mean):<a class="anchor" aria-label="anchor" href="#expected-value-mean"></a>
+</h3>
+<p>For a given project activity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>,
+the expected value (mean) of the duration, cost, or any other metric
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>X</mi><mi>i</mi></msub><annotation encoding="application/x-tex">X_i</annotation></semantics></math>
+is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>P</mi><mi>j</mi></msub><mo>⋅</mo><msub><mi>X</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex"> E(X_i) = \sum_{j} P_j \cdot X_{ij} </annotation></semantics></math></p>
+<p>For the entire project, if there are
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+activities, the total expected value
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">E(X)</annotation></semantics></math>
+is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex"> E(X) = \sum_{i=1}^{n} E(X_i) </annotation></semantics></math></p>
+</div>
+<div class="section level3">
+<h3 id="variance">Variance:<a class="anchor" aria-label="anchor" href="#variance"></a>
+</h3>
+<p>The variance of a project activity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>P</mi><mi>j</mi></msub><mo>⋅</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>−</mo><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex"> Var(X_i) = \sum_{j} P_j \cdot (X_{ij} - E(X_i))^2 </annotation></semantics></math></p>
+</div>
+<div class="section level3">
+<h3 id="covariance">Covariance:<a class="anchor" aria-label="anchor" href="#covariance"></a>
+</h3>
+<p>The covariance between two activities
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>X</mi><mi>i</mi></msub><annotation encoding="application/x-tex">X_i</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>X</mi><mi>j</mi></msub><annotation encoding="application/x-tex">X_j</annotation></semantics></math>
+is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>o</mi><mi>v</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo>,</mo><msub><mi>X</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munder><mo>∑</mo><mi>k</mi></munder><msub><mi>P</mi><mi>k</mi></msub><mo>⋅</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><mo>−</mo><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo>⋅</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mrow><mi>j</mi><mi>k</mi></mrow></msub><mo>−</mo><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex"> Cov(X_i, X_j) = \sum_{k} P_k \cdot (X_{ik} - E(X_i)) \cdot (X_{jk} - E(X_j)) </annotation></semantics></math></p>
+</div>
+<div class="section level3">
+<h3 id="variance-with-correlation">Variance with Correlation:<a class="anchor" aria-label="anchor" href="#variance-with-correlation"></a>
+</h3>
+<p>When considering the correlation between activities, the total
+variance
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Var(X)</annotation></semantics></math>
+of the project is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mi>V</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mn>2</mn><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></munderover><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mi>i</mi><mo>+</mo><mn>1</mn></mrow><mi>n</mi></munderover><mi>C</mi><mi>o</mi><mi>v</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo>,</mo><msub><mi>X</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex"> Var(X) = \sum_{i=1}^{n} Var(X_i) + 2 \sum_{i=1}^{n-1} \sum_{j=i+1}^{n} Cov(X_i, X_j) </annotation></semantics></math></p>
+</div>
+<div class="section level3">
+<h3 id="correlation-coefficient">Correlation Coefficient:<a class="anchor" aria-label="anchor" href="#correlation-coefficient"></a>
+</h3>
+<p>The correlation coefficient
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ρ</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">\rho_{ij}</annotation></semantics></math>
+between activities
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>
+is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ρ</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mfrac><mrow><mi>C</mi><mi>o</mi><mi>v</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo>,</mo><msub><mi>X</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>σ</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>⋅</mo><mi>σ</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex"> \rho_{ij} = \frac{Cov(X_i, X_j)}{\sigma(X_i) \cdot \sigma(X_j)} </annotation></semantics></math></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
+<p>First, load the package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulgovan.github.io/PRA/">PRA</a></span><span class="op">)</span></span></code></pre></div>
-  </main>
+<p>Set the mean vector, variance vector, and correlation matrix for a
+toy project:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span><span class="op">)</span></span>
+<span><span class="va">var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">9</span>, <span class="fl">16</span><span class="op">)</span></span>
+<span><span class="va">cor_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.3</span>,</span>
+<span>  <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">0.4</span>,</span>
+<span>  <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">1</span></span>
+<span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">3</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>Use the Second Moment Method to estimate the results for the project
+and print the results:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smm.html">smm</a></span><span class="op">(</span><span class="va">mean</span>, <span class="va">var</span>, <span class="va">cor_mat</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $total_mean</span></span>
+<span><span class="co">#&gt; [1] 45</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $total_var</span></span>
+<span><span class="co">#&gt; [1] 49.4</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $total_std</span></span>
+<span><span class="co">#&gt; [1] 7.028513</span></span></code></pre></div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
