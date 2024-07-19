@@ -14,6 +14,110 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+The second moment method for project risk analysis is a quantitative technique used to estimate and manage the uncertainty in project outcomes. This method focuses on the first two moments of the probability distribution of project outcomes: the mean (or expected value) and the variance.
+
+## Steps in the Second Moment Method
+
+### 1. Identify Project Activities and Risks
+
+List all the activities involved in the project; Identify the risks associated with each activity;  Estimate the mean (expected value) for each activity.
+
+### 2. Determine the expected duration, cost, or other metrics for each activity considering the identified risks
+
+The expected value is the average outcome, calculated as the weighted sum of all possible outcomes, where the weights are the probabilities of those outcomes.
+
+### 3. Estimate Variance and Standard Deviation
+
+Calculate the variance of each activity's duration, cost, or other metrics. Variance measures the spread of possible outcomes around the mean.
+
+The standard deviation is the square root of the variance, providing a measure of uncertainty in the same units as the original metric.
+
+### 4. Aggregate Mean and Variance
+
+For the entire project, aggregate the means of all activities to get the project's overall expected duration, cost, etc.
+
+Aggregate the variances to get the project's overall variance. If activities are independent, the total variance is the sum of the individual variances.
+
+### 5. Assess Project Risk
+
+Use the overall mean and variance to assess the project's risk. A larger variance indicates greater uncertainty and risk.
+
+Calculate confidence intervals to understand the range within which the project outcomes are likely to fall. For example, assuming a normal distribution, approximately 95% of outcomes will fall within two standard deviations of the mean.
+
+## Benefits and Limitations
+
+### Benefits
+
+Simplicity: The method is relatively straightforward and easy to understand.
+
+Quantitative Insight: Provides a numerical estimate of uncertainty and risk.
+
+### Limitations
+
+Normal Distribution Assumption: Often assumes that outcomes are normally distributed, which may not accurately represent all real-world scenarios.
+
+Limited to First Two Moments: Ignores higher-order moments such as skewness and kurtosis, which can also be important in risk analysis.
+
+## Correlation
+
+When accounting for correlation between tasks, the total variance of the project is calculated using both the individual variances and the covariances between each pair of activities.
+
+## Formulation
+
+### Expected Value (Mean):
+
+For a given project activity \(i\), the expected value (mean) of the duration, cost, or any other metric \(X_i\) is:
+
+\[ E(X_i) = \sum_{j} P_j \cdot X_{ij} \]
+
+For the entire project, if there are \(n\) activities, the total expected value \(E(X)\) is:
+
+\[ E(X) = \sum_{i=1}^{n} E(X_i) \]
+
+### Variance:
+
+The variance of a project activity \(i\) is:
+
+\[ Var(X_i) = \sum_{j} P_j \cdot (X_{ij} - E(X_i))^2 \]
+
+### Covariance:
+
+The covariance between two activities \(X_i\) and \(X_j\) is:
+
+\[ Cov(X_i, X_j) = \sum_{k} P_k \cdot (X_{ik} - E(X_i)) \cdot (X_{jk} - E(X_j)) \]
+
+### Variance with Correlation:
+
+When considering the correlation between activities, the total variance \(Var(X)\) of the project is:
+
+\[ Var(X) = \sum_{i=1}^{n} Var(X_i) + 2 \sum_{i=1}^{n-1} \sum_{j=i+1}^{n} Cov(X_i, X_j) \]
+
+### Correlation Coefficient:
+
+The correlation coefficient \(\rho_{ij}\) between activities \(i\) and \(j\) is:
+
+\[ \rho_{ij} = \frac{Cov(X_i, X_j)}{\sigma(X_i) \cdot \sigma(X_j)} \]
+
+## Example 
+
+First, load the package:
+``` {r}
 library(PRA)
+```
+
+Set the mean vector, variance vector, and correlation matrix for a toy project:
+```{r}
+mean <- c(10, 15, 20)
+var <- c(4, 9, 16)
+cor_mat <- matrix(c(
+  1, 0.5, 0.3,
+  0.5, 1, 0.4,
+  0.3, 0.4, 1
+), nrow = 3, byrow = TRUE)
+```
+
+Use the Second Moment Method to estimate the results for the project and print the results:
+```{r}
+result <- smm(mean, var, cor_mat)
+print(result)
 ```
