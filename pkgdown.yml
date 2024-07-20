@@ -2,8 +2,9 @@ pandoc: 3.1.11
 pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
+  MCS: MCS.html
   SMM: SMM.html
-last_built: 2024-07-19T03:39Z
+last_built: 2024-07-20T03:32Z
 urls:
   reference: https://paulgovan.github.io/PRA/reference
   article: https://paulgovan.github.io/PRA/articles
