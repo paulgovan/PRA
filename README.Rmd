@@ -20,6 +20,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN status](https://www.r-pkg.org/badges/version/PRA)](https://CRAN.R-project.org/package=PRA)
+[![CRAN checks](https://badges.cranchecks.info/summary/PRA.svg)](https://cran.r-project.org/web/checks/check_results_PRA.html)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/PRA)](https://cran.r-project.org/package=PRA)
 [![](http://cranlogs.r-pkg.org/badges/last-month/PRA)](https://cran.r-project.org/package=PRA)
 [![DOI](https://zenodo.org/badge/815388332.svg)](https://zenodo.org/doi/10.5281/zenodo.12627130)

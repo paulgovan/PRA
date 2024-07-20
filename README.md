@@ -13,6 +13,8 @@ style="width:25.0%" />
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/PRA)](https://CRAN.R-project.org/package=PRA)
+[![CRAN
+checks](https://badges.cranchecks.info/summary/PRA.svg)](https://cran.r-project.org/web/checks/check_results_PRA.html)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/PRA)](https://cran.r-project.org/package=PRA)
 [![](http://cranlogs.r-pkg.org/badges/last-month/PRA)](https://cran.r-project.org/package=PRA)
 [![DOI](https://zenodo.org/badge/815388332.svg)](https://zenodo.org/doi/10.5281/zenodo.12627130)
@@ -86,14 +88,14 @@ To calculate the mean of the total duration:
 
 ``` r
 cat("Mean Total Duration:", results$total_mean, "\n")
-#> Mean Total Duration: 38.6829
+#> Mean Total Duration: 38.62412
 ```
 
 To calculate the variance of the total duration:
 
 ``` r
 cat("Variance of Total Duration:", results$total_variance, "\n")
-#> Variance of Total Duration: 19.93473
+#> Variance of Total Duration: 19.36012
 ```
 
 To build a histogram of the total duration:

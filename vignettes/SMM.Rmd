@@ -44,20 +44,6 @@ Use the overall mean and variance to assess the project's risk. A larger varianc
 
 Calculate confidence intervals to understand the range within which the project outcomes are likely to fall. For example, assuming a normal distribution, approximately 95% of outcomes will fall within two standard deviations of the mean.
 
-## Benefits and Limitations
-
-### Benefits
-
-Simplicity: The method is relatively straightforward and easy to understand.
-
-Quantitative Insight: Provides a numerical estimate of uncertainty and risk.
-
-### Limitations
-
-Normal Distribution Assumption: Often assumes that outcomes are normally distributed, which may not accurately represent all real-world scenarios.
-
-Limited to First Two Moments: Ignores higher-order moments such as skewness and kurtosis, which can also be important in risk analysis.
-
 ## Correlation
 
 When accounting for correlation between tasks, the total variance of the project is calculated using both the individual variances and the covariances between each pair of activities.
@@ -121,3 +107,17 @@ Use the Second Moment Method to estimate the results for the project and print t
 result <- smm(mean, var, cor_mat)
 print(result)
 ```
+
+## Benefits and Limitations
+
+### Benefits
+
+Simplicity: The method is relatively straightforward and easy to understand.
+
+Quantitative Insight: Provides a numerical estimate of uncertainty and risk.
+
+### Limitations
+
+Normal Distribution Assumption: Often assumes that outcomes are normally distributed, which may not accurately represent all real-world scenarios.
+
+Limited to First Two Moments: Ignores higher-order moments such as skewness and kurtosis, which can also be important in risk analysis.
