@@ -1,0 +1,127 @@
+---
+title: "Earned Value Management"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{evm}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Earned Value Management (EVM) is a project management technique used to measure project performance and progress in an objective manner. It integrates project scope, time (schedule), and cost parameters to provide accurate forecasts of project performance issues.
+
+Here are the key components and common equations used in EVM:
+
+### Key Components
+
+1. **Planned Value (PV):** The authorized budget assigned to scheduled work.
+2. **Earned Value (EV):** The value of work actually performed expressed in terms of the approved budget for that work.
+3. **Actual Cost (AC):** The actual cost incurred for the work performed on an activity during a specific time period.
+4 **Budget at Completion (BAC):** The total budget for the project.
+
+### Common EVM Equations
+
+1. **Cost Variance (CV):**
+
+   \[CV = EV - AC\]
+   
+   - Positive CV indicates under budget.
+   - Negative CV indicates over budget.
+
+2. **Schedule Variance (SV):**
+   
+   \[SV = EV - PV\]
+   
+   - Positive SV indicates ahead of schedule.
+   - Negative SV indicates behind schedule.
+
+3. **Cost Performance Index (CPI):**
+
+   \[CPI = \frac{EV}{AC}\]
+  
+   - CPI > 1 indicates cost efficiency.
+   - CPI < 1 indicates cost inefficiency.
+
+4. **Schedule Performance Index (SPI):**
+   
+   \[SPI = \frac{EV}{PV}\]
+   
+   - SPI > 1 indicates schedule efficiency.
+   - SPI < 1 indicates schedule inefficiency.
+
+5. **Estimate at Completion (EAC):**
+     
+   - If both CPI and SPI influence the remaining work:
+   
+     \[EAC = AC + \frac{(BAC - EV)}{CPI \times SPI}\]
+
+6. **Estimate to Complete (ETC):**
+   
+   \[ETC = EAC - AC\]
+
+7. **Variance at Completion (VAC):**
+   
+   \[VAC = BAC - EAC\]
+   
+   - Positive VAC indicates under budget at completion.
+   - Negative VAC indicates over budget at completion.
+
+## Example
+
+First, load the package:
+```{r setup}
+library(PRA)
+```
+
+Then set the BAC, schedule, and current time period for a toy project.
+```{r}
+bac <- 100000
+schedule <- c(0.1, 0.2, 0.4, 0.7, 1.0)
+time_period <- 3
+```
+
+Calculate the PV and print the results:
+```{r}
+pv <- pv(bac, schedule, time_period)
+cat("Planned Value (PV):", pv, "\n")
+```
+
+Set the actual % complete and calculate the EV:
+```{r}
+actual_per_complete <- 0.35
+ev <- ev(bac, actual_per_complete)
+cat("Earned Value (EV):", ev, "\n")
+```
+
+Set the actual costs and current time period and calculate the AC to date:
+
+```{r}
+actual_costs <- c(9000, 18000, 36000, 70000, 100000)
+time_period <- 3
+ac <- ac(actual_costs, time_period)
+cat("Actual Cost (AC):", ac, "\n")
+```
+
+Calculate the SV and CV and print the results:
+```{r}
+sv <- sv(ev, pv)
+cat("Schedule Variance (SV):", sv, "\n")
+
+cv <- cv(ev, ac)
+cat("Cost Variance (CV):", cv, "\n")
+```
+
+Calculate the SPI and CPI and print the results:
+```{r}
+spi <- spi(ev, pv)
+cat("Schedule Performance Index (SPI):", spi, "\n")
+
+cpi <- cpi(ev, ac)
+cat("Cost Performance Index (CPI):", cpi, "\n")
+```
