@@ -38,13 +38,13 @@ The general form of a sigmoidal function (logistic function) is:
 
 where:
 
-- $L(t)$ is the learning outcome (e.g., efficiency, proficiency) at time 
+- L(t) is the learning outcome (e.g., efficiency, proficiency) at time 
 
-- $L ~max~$ is the maximum learning outcome (the plateau).
+- L<sub>max</sub> is the maximum learning outcome (the plateau).
 
-- $k$ is the growth rate, determining how quickly the learning improves.
+- k is the growth rate, determining how quickly the learning improves.
 
-- $t ~o~$ is the time at which the learning outcome is at its midpoint (the point of inflection).
+- t<sub>o</sub> is the time at which the learning outcome is at its midpoint (the point of inflection).
 
 ## Applications in Project Management
 
