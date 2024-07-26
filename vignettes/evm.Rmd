@@ -55,23 +55,6 @@ Here are the key components and common equations used in EVM:
    - SPI > 1 indicates schedule efficiency.
    - SPI < 1 indicates schedule inefficiency.
 
-5. **Estimate at Completion (EAC):**
-     
-   - If both CPI and SPI influence the remaining work:
-   
-     \[EAC = AC + \frac{(BAC - EV)}{CPI \times SPI}\]
-
-6. **Estimate to Complete (ETC):**
-   
-   \[ETC = EAC - AC\]
-
-7. **Variance at Completion (VAC):**
-   
-   \[VAC = BAC - EAC\]
-   
-   - Positive VAC indicates under budget at completion.
-   - Negative VAC indicates over budget at completion.
-
 ## Example
 
 First, load the package:
