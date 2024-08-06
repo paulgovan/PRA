@@ -2,6 +2,7 @@
 
 export(ac)
 export(contingency)
+export(cor_matrix)
 export(cpi)
 export(cv)
 export(ev)
