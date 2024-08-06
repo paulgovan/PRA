@@ -29,7 +29,7 @@ Data analysis for Project Risk Management via:
 - Earned Value Management
 - Learning Curves
 - Design Structure Matrices
-- And more.
+- And more
 
 ## Installation
 
