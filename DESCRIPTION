@@ -1,7 +1,7 @@
 Package: PRA
 Type: Package
 Title: Project Risk Analysis
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: person("Paul", "Govan", email = "paul.govan2@gmail.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-1821-8492"))
 Description: Data analysis for Project Risk Management via the Second Moment Method, 
   Monte Carlo Simulation, Contingency Analysis, Sensitivity Analysis, Earned Value Management, 

@@ -88,14 +88,14 @@ To calculate the mean of the total duration:
 
 ``` r
 cat("Mean Total Duration:", results$total_mean, "\n")
-#> Mean Total Duration: 38.60775
+#> Mean Total Duration: 38.59119
 ```
 
 To calculate the variance of the total duration:
 
 ``` r
 cat("Variance of Total Duration:", results$total_variance, "\n")
-#> Variance of Total Duration: 19.60752
+#> Variance of Total Duration: 19.23919
 ```
 
 To build a histogram of the total duration:
@@ -110,8 +110,7 @@ hist(results$total_distribution, breaks = 50, main = "Distribution of Total Proj
 ## More Resources
 
 Much of this package is based on the book [Data Analysis for Engineering
-and Project Risk
-Managment](https://www.amazon.com/dp/3030142531?ref=cm_sw_r_cp_ud_dp_AC0JN7RWC29CM028V2YZ&ref_=cm_sw_r_cp_ud_dp_AC0JN7RWC29CM028V2YZ&social_share=cm_sw_r_cp_ud_dp_AC0JN7RWC29CM028V2YZ)
+and Project Risk Managment](https://doi.org/10.1007/978-3-030-14251-3)
 by Ivan Damnjanovic and Ken Reinschmidt and comes highly recommended.
 
 ## Code of Conduct
