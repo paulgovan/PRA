@@ -23,7 +23,7 @@ Here are the key components and common equations used in EVM:
 1. **Planned Value (PV):** The authorized budget assigned to scheduled work.
 2. **Earned Value (EV):** The value of work actually performed expressed in terms of the approved budget for that work.
 3. **Actual Cost (AC):** The actual cost incurred for the work performed on an activity during a specific time period.
-4 **Budget at Completion (BAC):** The total budget for the project.
+4. **Budget at Completion (BAC):** The total budget for the project.
 
 ### Common EVM Equations
 
