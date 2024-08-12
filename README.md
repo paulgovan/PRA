@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# PRA
+## PRA: Project Risk Analysis in R
 
 <img
 src="https://github.com/paulgovan/PRA/blob/main/inst/logo.png?raw=true"
@@ -20,9 +20,9 @@ checks](https://badges.cranchecks.info/summary/PRA.svg)](https://cran.r-project.
 [![](https://img.shields.io/badge/doi-10.32614/CRAN.package.eAnalytics-green.svg)](https://doi.org/10.32614/CRAN.package.PRA)
 <!-- badges: end -->
 
-Data analysis for Project Risk Management in R:
+## Key features:
 
-- Second Moment Method
+- The Second Moment Method
 - Monte Carlo Simulation
 - Contingency Analysis
 - Sensitivity Analysis
@@ -33,7 +33,7 @@ Data analysis for Project Risk Management in R:
 
 ## Installation
 
-To install the release verion of PRA in R, use:
+To install the release verion of PRA, use:
 
 ``` r
 install_packages('PRA')
@@ -88,14 +88,14 @@ To calculate the mean of the total duration:
 
 ``` r
 cat("Mean Total Duration:", results$total_mean, "\n")
-#> Mean Total Duration: 38.63244
+#> Mean Total Duration: 38.57388
 ```
 
 To calculate the variance of the total duration:
 
 ``` r
 cat("Variance of Total Duration:", results$total_variance, "\n")
-#> Variance of Total Duration: 19.81996
+#> Variance of Total Duration: 19.65191
 ```
 
 To build a histogram of the total duration:

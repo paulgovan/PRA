@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# PRA 
+## PRA: Project Risk Analysis in R 
 
 ![](https://github.com/paulgovan/PRA/blob/main/inst/logo.png?raw=true){width=25%}
 
@@ -26,9 +26,9 @@ knitr::opts_chunk$set(
 [![](https://img.shields.io/badge/doi-10.32614/CRAN.package.eAnalytics-green.svg)](https://doi.org/10.32614/CRAN.package.PRA)
 <!-- badges: end -->
 
-Data analysis for Project Risk Management in R:
+## Key features:
 
-* Second Moment Method
+* The Second Moment Method
 * Monte Carlo Simulation
 * Contingency Analysis
 * Sensitivity Analysis 
@@ -39,7 +39,8 @@ Data analysis for Project Risk Management in R:
 
 ## Installation
 
-To install the release verion of PRA in R, use:
+To install the release verion of PRA, use:
+
 ``` r
 install_packages('PRA')
 ```
