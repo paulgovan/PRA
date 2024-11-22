@@ -103,9 +103,10 @@ cor_mat <- matrix(c(
 ```
 
 Use the Second Moment Method to estimate the results for the project and print the results:
-```{r}
+```{r results='asis'}
 result <- smm(mean, var, cor_mat)
-print(result)
+cat("Mean Total Cost is ", round(result$total_mean, 2))
+cat("Variance around the Total Cost is ", round(result$total_var, 2))
 ```
 
 ## Benefits and Limitations

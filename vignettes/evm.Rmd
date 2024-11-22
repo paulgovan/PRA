@@ -20,10 +20,15 @@ Here are the key components and common equations used in EVM:
 
 ### Key Components
 
-1. **Planned Value (PV):** The authorized budget assigned to scheduled work.
-2. **Earned Value (EV):** The value of work actually performed expressed in terms of the approved budget for that work.
-3. **Actual Cost (AC):** The actual cost incurred for the work performed on an activity during a specific time period.
-4. **Budget at Completion (BAC):** The total budget for the project.
+1. **Budget at Completion (BAC):** The total budget for the project.
+2. **Actual Cost (AC):** The actual cost incurred for the work performed on an activity during a specific time period.
+3. **Planned Value (PV):** The authorized budget assigned to scheduled work.
+
+\[PV = BAC * PlannedPercentComplete\]
+
+4. **Earned Value (EV):** The value of work actually performed expressed in terms of the approved budget for that work.
+
+\[EV = BAC * ActualPercentComplete\]
 
 ### Common EVM Equations
 
@@ -55,6 +60,10 @@ Here are the key components and common equations used in EVM:
    - SPI > 1 indicates schedule efficiency.
    - SPI < 1 indicates schedule inefficiency.
 
+5. **Estimate at Completion (EAC):**
+   
+   \[EAC = \frac{BAC}{CPI}\]
+
 ## Example
 
 First, load the package:
@@ -70,13 +79,13 @@ time_period <- 3
 ```
 
 Calculate the PV and print the results:
-```{r}
+```{r results='asis'}
 pv <- pv(bac, schedule, time_period)
 cat("Planned Value (PV):", pv, "\n")
 ```
 
 Set the actual % complete and calculate the EV:
-```{r}
+```{r results='asis'}
 actual_per_complete <- 0.35
 ev <- ev(bac, actual_per_complete)
 cat("Earned Value (EV):", ev, "\n")
@@ -84,27 +93,67 @@ cat("Earned Value (EV):", ev, "\n")
 
 Set the actual costs and current time period and calculate the AC to date:
 
-```{r}
-actual_costs <- c(9000, 18000, 36000, 70000, 100000)
-time_period <- 3
+```{r results='asis'}
+actual_costs <- c(9000, 18000, 36000)
 ac <- ac(actual_costs, time_period)
 cat("Actual Cost (AC):", ac, "\n")
 ```
 
 Calculate the SV and CV and print the results:
-```{r}
+```{r results='asis'}
 sv <- sv(ev, pv)
-cat("Schedule Variance (SV):", sv, "\n")
+cat("The project is behind schedule because the Schedule Variance (SV) is", sv, "\n")
 
 cv <- cv(ev, ac)
-cat("Cost Variance (CV):", cv, "\n")
+cat("The project is above budget because the Cost Variance (CV) is", cv, "\n")
 ```
 
 Calculate the SPI and CPI and print the results:
-```{r}
+```{r results='asis'}
 spi <- spi(ev, pv)
-cat("Schedule Performance Index (SPI):", spi, "\n")
+cat("The project is behind schedule because the Schedule Performance Index (SPI) is", round(spi, 2), "\n")
 
 cpi <- cpi(ev, ac)
-cat("Cost Performance Index (CPI):", cpi, "\n")
+cat("The project is above budget because the Cost Performance Index (CPI) is", round(cpi, 2), "\n")
+```
+
+Calculate the EAC and print the results:
+```{r results='asis'}
+eac <- eac(bac, cpi)
+cat("The Estimate at Completion (EAC) is", round(eac, 2), "\n")
+```
+
+Finally, create a performance trend and plot the results:
+
+```{r warning=FALSE}
+# Calculate PV, AC, and EV for time periods 1 to 3
+time_period <- c(1, 2, 3)
+actual_per_complete <- c(0.05, 0.15, 0.35)
+pv <- sapply(1:3, function(t) pv(bac, schedule, t))
+ac <- actual_costs
+ev <- ev(bac, actual_per_complete)
+
+# Create a data frame for easier plotting
+data <- data.frame(
+  time_period,
+  PV = pv,
+  AC = ac,
+  EV = ev
+)
+
+# Plot PV, AC, and EV over time
+p <- ggplot2::ggplot(data, ggplot2::aes(x = time_period)) +
+  ggplot2::geom_line(ggplot2::aes(y = PV, color = 'PV'), size = 1) +
+  ggplot2::geom_line(ggplot2::aes(y = AC, color = 'AC'), size = 1) +
+  ggplot2::geom_line(ggplot2::aes(y = EV, color = 'EV'), size = 1) +
+  ggplot2::geom_hline(yintercept = bac, linetype = 'dashed', color = 'blue', size = 1, show.legend = TRUE) +
+  ggplot2::geom_hline(yintercept = eac, linetype = 'dotted', color = 'red', size = 1, show.legend = TRUE) +
+  ggplot2::labs(title = 'Earned Value',
+       x = 'Time Period',
+       y = 'Value',
+       color = 'Metric') +
+  ggplot2::theme_minimal()
+
+# Print the plot
+print(p)
 ```

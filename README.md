@@ -87,16 +87,18 @@ results <- mcs(num_simulations, task_distributions, correlation_matrix)
 To calculate the mean of the total duration:
 
 ``` r
-cat("Mean Total Duration:", results$total_mean, "\n")
-#> Mean Total Duration: 38.70397
+cat("Mean Total Duration is ", round(results$total_mean, 2))
 ```
+
+Mean Total Duration is 38.6
 
 To calculate the variance of the total duration:
 
 ``` r
-cat("Variance of Total Duration:", results$total_variance, "\n")
-#> Variance of Total Duration: 19.46001
+cat("Variance around the Total Duration is ", round(results$total_variance, 2))
 ```
+
+Variance around the Total Duration is 19.29
 
 To build a histogram of the total duration:
 

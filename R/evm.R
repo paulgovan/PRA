@@ -171,3 +171,25 @@ cpi <- function(ev, ac) {
   cpi <- ev / ac
   return(cpi)
 }
+
+#' Estimate at Completion (EAC).
+#'
+#' @param bac Budget at Completion (BAC) (total planned budget).
+#' @param cpi Cost Performance Index (CPI), the efficiency of cost utilization.
+#' @return The function returns the Estimate at Completion (EAC).
+#' @examples
+#' # Set the BAC and CPI for a toy project.
+#' bac <- 100000
+#' cpi <- 0.83
+#'
+#' # Calculate the EAC
+#' eac <- eac(bac, cpi)
+#' print(eac)
+#' @export
+eac <- function(bac, cpi) {
+  if (cpi > 0) {
+    return(bac / cpi)
+  } else {
+    stop("CPI must be greater than zero")
+  }
+}

@@ -75,18 +75,18 @@ results <- mcs(num_simulations, task_distributions, correlation_matrix)
 ```
 
 To calculate the mean of the total duration:
-```{r}
-cat("Mean Total Duration:", results$total_mean, "\n")
+```{r results='asis'}
+cat("Mean Total Duration:", round(results$total_mean, 2), "\n")
 ```
 
 To calculate the variance of the total duration:
-```{r}
-cat("Variance of Total Duration:", results$total_variance, "\n")
+```{r results='asis'}
+cat("Variance of Total Duration:", round(results$total_variance, 2), "\n")
 ```
 
 To build a histogram of the total duration:
 ```{r}
-hist(results$total_distribution, breaks = 50, main = "Distribution of Total Project Duration", 
+hist(results$total_distribution, breaks = 50, main = "Total Project Duration", 
      xlab = "Total Duration", col = "skyblue", border = "white")
 ```
 
@@ -100,9 +100,9 @@ hist(results$total_distribution, breaks = 50, main = "Distribution of Total Proj
 
 For the previous example, calculate the contingency with a confidence level of 95%:
 
-```{r}
+```{r results='asis'}
 contingency <- contingency(results, phigh = 0.95, pbase = 0.50)
-cat("Contingency based on 95th percentile and 50th percentile:", contingency)
+cat("Contingency based on 95th percentile:", round(contingency, 2))
 ```
 
 ### Key Considerations
@@ -127,12 +127,10 @@ Estimating sensitivity involves determining how changes in input variables impac
 
 ### Example
 
-For the previous example, calculate the sensitivity of each task and print the results:
+For the previous example, calculate the sensitivity of each task:
 
 ```{r}
 sensitivity_results <- sensitivity(task_distributions, correlation_matrix)
-cat("Sensitivity of the variance in total cost with respect to the variance in each task cost:\n")
-print(sensitivity_results)
 ```
 
 Build a vertical barchart and display the results:
@@ -143,7 +141,7 @@ data <- data.frame(
    Sensitivity = sensitivity_results
 )
 barplot(height=data$Sensitivity, names=data$Tasks, col='skyblue', 
-        horiz=TRUE, xlab = 'Sensitivity', ylab = 'Tasks')
+        horiz=TRUE, main = "Sensitivity Analysis", xlab = 'Sensitivity', ylab = 'Tasks')
 ```
 
 ### Interpretation and Action
