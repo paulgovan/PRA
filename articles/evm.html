@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Earned Value Management">
 </head>
 <body>
@@ -84,18 +84,22 @@ provide accurate forecasts of project performance issues.</p>
 </h3>
 <ol style="list-style-type: decimal">
 <li>
-<strong>Planned Value (PV):</strong> The authorized budget assigned
-to scheduled work.</li>
-<li>
-<strong>Earned Value (EV):</strong> The value of work actually
-performed expressed in terms of the approved budget for that work.</li>
+<strong>Budget at Completion (BAC):</strong> The total budget for
+the project.</li>
 <li>
 <strong>Actual Cost (AC):</strong> The actual cost incurred for the
 work performed on an activity during a specific time period.</li>
 <li>
-<strong>Budget at Completion (BAC):</strong> The total budget for
-the project.</li>
+<strong>Planned Value (PV):</strong> The authorized budget assigned
+to scheduled work.</li>
 </ol>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>V</mi><mo>=</mo><mi>B</mi><mi>A</mi><mi>C</mi><mo>*</mo><mi>P</mi><mi>l</mi><mi>a</mi><mi>n</mi><mi>n</mi><mi>e</mi><mi>d</mi><mi>P</mi><mi>e</mi><mi>r</mi><mi>c</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi>C</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>l</mi><mi>e</mi><mi>t</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">PV = BAC * PlannedPercentComplete</annotation></semantics></math></p>
+<ol start="4" style="list-style-type: decimal">
+<li>
+<strong>Earned Value (EV):</strong> The value of work actually
+performed expressed in terms of the approved budget for that work.</li>
+</ol>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mi>V</mi><mo>=</mo><mi>B</mi><mi>A</mi><mi>C</mi><mo>*</mo><mi>A</mi><mi>c</mi><mi>t</mi><mi>u</mi><mi>a</mi><mi>l</mi><mi>P</mi><mi>e</mi><mi>r</mi><mi>c</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi>C</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>l</mi><mi>e</mi><mi>t</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">EV = BAC * ActualPercentComplete</annotation></semantics></math></p>
 </div>
 <div class="section level3">
 <h3 id="common-evm-equations">Common EVM Equations<a class="anchor" aria-label="anchor" href="#common-evm-equations"></a>
@@ -133,6 +137,10 @@ the project.</li>
 <li>SPI &lt; 1 indicates schedule inefficiency.</li>
 </ul>
 </li>
+<li>
+<p><strong>Estimate at Completion (EAC):</strong></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mi>A</mi><mi>C</mi><mo>=</mo><mfrac><mrow><mi>B</mi><mi>A</mi><mi>C</mi></mrow><mrow><mi>C</mi><mi>P</mi><mi>I</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">EAC = \frac{BAC}{CPI}</annotation></semantics></math></p>
+</li>
 </ol>
 </div>
 <div class="section level2">
@@ -150,40 +158,83 @@ project.</p>
 <p>Calculate the PV and print the results:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pv.html">pv</a></span><span class="op">(</span><span class="va">bac</span>, <span class="va">schedule</span>, <span class="va">time_period</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Planned Value (PV):"</span>, <span class="va">pv</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Planned Value (PV): 40000</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Planned Value (PV):"</span>, <span class="va">pv</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<p>Planned Value (PV): 40000</p>
 <p>Set the actual % complete and calculate the EV:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">actual_per_complete</span> <span class="op">&lt;-</span> <span class="fl">0.35</span></span>
 <span><span class="va">ev</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ev.html">ev</a></span><span class="op">(</span><span class="va">bac</span>, <span class="va">actual_per_complete</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Earned Value (EV):"</span>, <span class="va">ev</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Earned Value (EV): 35000</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Earned Value (EV):"</span>, <span class="va">ev</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<p>Earned Value (EV): 35000</p>
 <p>Set the actual costs and current time period and calculate the AC to
 date:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">actual_costs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">9000</span>, <span class="fl">18000</span>, <span class="fl">36000</span>, <span class="fl">70000</span>, <span class="fl">100000</span><span class="op">)</span></span>
-<span><span class="va">time_period</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
+<code class="sourceCode R"><span><span class="va">actual_costs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">9000</span>, <span class="fl">18000</span>, <span class="fl">36000</span><span class="op">)</span></span>
 <span><span class="va">ac</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ac.html">ac</a></span><span class="op">(</span><span class="va">actual_costs</span>, <span class="va">time_period</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Actual Cost (AC):"</span>, <span class="va">ac</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Actual Cost (AC): 36000</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Actual Cost (AC):"</span>, <span class="va">ac</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<p>Actual Cost (AC): 36000</p>
 <p>Calculate the SV and CV and print the results:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sv.html">sv</a></span><span class="op">(</span><span class="va">ev</span>, <span class="va">pv</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Schedule Variance (SV):"</span>, <span class="va">sv</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Schedule Variance (SV): -5000</span></span>
-<span></span>
-<span><span class="va">cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cv.html">cv</a></span><span class="op">(</span><span class="va">ev</span>, <span class="va">ac</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Cost Variance (CV):"</span>, <span class="va">cv</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Cost Variance (CV): -1000</span></span></code></pre></div>
-<p>Calculate the SPI and CPI and print the results:</p>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"The project is behind schedule because the Schedule Variance (SV) is"</span>, <span class="va">sv</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<p>The project is behind schedule because the Schedule Variance (SV) is
+-5000</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cv.html">cv</a></span><span class="op">(</span><span class="va">ev</span>, <span class="va">ac</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"The project is above budget because the Cost Variance (CV) is"</span>, <span class="va">cv</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<p>The project is above budget because the Cost Variance (CV) is
+-1000</p>
+<p>Calculate the SPI and CPI and print the results:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">spi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/spi.html">spi</a></span><span class="op">(</span><span class="va">ev</span>, <span class="va">pv</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Schedule Performance Index (SPI):"</span>, <span class="va">spi</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Schedule Performance Index (SPI): 0.875</span></span>
-<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"The project is behind schedule because the Schedule Performance Index (SPI) is"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">spi</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<p>The project is behind schedule because the Schedule Performance Index
+(SPI) is 0.88</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="va">cpi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cpi.html">cpi</a></span><span class="op">(</span><span class="va">ev</span>, <span class="va">ac</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Cost Performance Index (CPI):"</span>, <span class="va">cpi</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Cost Performance Index (CPI): 0.9722222</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"The project is above budget because the Cost Performance Index (CPI) is"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">cpi</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<p>The project is above budget because the Cost Performance Index (CPI)
+is 0.97</p>
+<p>Calculate the EAC and print the results:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">eac</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eac.html">eac</a></span><span class="op">(</span><span class="va">bac</span>, <span class="va">cpi</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"The Estimate at Completion (EAC) is"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">eac</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<p>The Estimate at Completion (EAC) is 102857.1</p>
+<p>Finally, create a performance trend and plot the results:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Calculate PV, AC, and EV for time periods 1 to 3</span></span>
+<span><span class="va">time_period</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">actual_per_complete</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.15</span>, <span class="fl">0.35</span><span class="op">)</span></span>
+<span><span class="va">pv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="kw">function</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="fu"><a href="../reference/pv.html">pv</a></span><span class="op">(</span><span class="va">bac</span>, <span class="va">schedule</span>, <span class="va">t</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">ac</span> <span class="op">&lt;-</span> <span class="va">actual_costs</span></span>
+<span><span class="va">ev</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ev.html">ev</a></span><span class="op">(</span><span class="va">bac</span>, <span class="va">actual_per_complete</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create a data frame for easier plotting</span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  <span class="va">time_period</span>,</span>
+<span>  PV <span class="op">=</span> <span class="va">pv</span>,</span>
+<span>  AC <span class="op">=</span> <span class="va">ac</span>,</span>
+<span>  EV <span class="op">=</span> <span class="va">ev</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot PV, AC, and EV over time</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time_period</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">PV</span>, color <span class="op">=</span> <span class="st">'PV'</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">AC</span>, color <span class="op">=</span> <span class="st">'AC'</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">EV</span>, color <span class="op">=</span> <span class="st">'EV'</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">bac</span>, linetype <span class="op">=</span> <span class="st">'dashed'</span>, color <span class="op">=</span> <span class="st">'blue'</span>, size <span class="op">=</span> <span class="fl">1</span>, show.legend <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">eac</span>, linetype <span class="op">=</span> <span class="st">'dotted'</span>, color <span class="op">=</span> <span class="st">'red'</span>, size <span class="op">=</span> <span class="fl">1</span>, show.legend <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">'Earned Value'</span>,</span>
+<span>       x <span class="op">=</span> <span class="st">'Time Period'</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">'Value'</span>,</span>
+<span>       color <span class="op">=</span> <span class="st">'Metric'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Print the plot</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span></code></pre></div>
+<p><img src="evm_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -196,7 +247,7 @@ date:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>

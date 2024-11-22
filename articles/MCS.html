@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Monte Carlo Simulation">
 </head>
 <body>
@@ -153,15 +153,15 @@ distributions for 3 work packages:</p>
 <code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mcs.html">mcs</a></span><span class="op">(</span><span class="va">num_simulations</span>, <span class="va">task_distributions</span>, <span class="va">correlation_matrix</span><span class="op">)</span></span></code></pre></div>
 <p>To calculate the mean of the total duration:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Mean Total Duration:"</span>, <span class="va">results</span><span class="op">$</span><span class="va">total_mean</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Mean Total Duration: 38.62362</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Mean Total Duration:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_mean</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<p>Mean Total Duration: 38.62</p>
 <p>To calculate the variance of the total duration:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Variance of Total Duration:"</span>, <span class="va">results</span><span class="op">$</span><span class="va">total_variance</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Variance of Total Duration: 19.42731</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Variance of Total Duration:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_variance</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<p>Variance of Total Duration: 19.43</p>
 <p>To build a histogram of the total duration:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_distribution</span>, breaks <span class="op">=</span> <span class="fl">50</span>, main <span class="op">=</span> <span class="st">"Distribution of Total Project Duration"</span>, </span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_distribution</span>, breaks <span class="op">=</span> <span class="fl">50</span>, main <span class="op">=</span> <span class="st">"Total Project Duration"</span>, </span>
 <span>     xlab <span class="op">=</span> <span class="st">"Total Duration"</span>, col <span class="op">=</span> <span class="st">"skyblue"</span>, border <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="MCS_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
@@ -185,8 +185,8 @@ duration at the 95th percentile of the schedule distribution.</p></li>
 level of 95%:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">contingency</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/contingency.html">contingency</a></span><span class="op">(</span><span class="va">results</span>, phigh <span class="op">=</span> <span class="fl">0.95</span>, pbase <span class="op">=</span> <span class="fl">0.50</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Contingency based on 95th percentile and 50th percentile:"</span>, <span class="va">contingency</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Contingency based on 95th percentile and 50th percentile: 7.214802</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Contingency based on 95th percentile:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">contingency</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Contingency based on 95th percentile: 7.21</p>
 </div>
 <div class="section level3">
 <h3 id="key-considerations">Key Considerations<a class="anchor" aria-label="anchor" href="#key-considerations"></a>
@@ -231,14 +231,9 @@ on the output.</p></li>
 <div class="section level3">
 <h3 id="example-2">Example<a class="anchor" aria-label="anchor" href="#example-2"></a>
 </h3>
-<p>For the previous example, calculate the sensitivity of each task and
-print the results:</p>
+<p>For the previous example, calculate the sensitivity of each task:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sensitivity_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sensitivity.html">sensitivity</a></span><span class="op">(</span><span class="va">task_distributions</span>, <span class="va">correlation_matrix</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Sensitivity of the variance in total cost with respect to the variance in each task cost:\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Sensitivity of the variance in total cost with respect to the variance in each task cost:</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">sensitivity_results</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 2.6 2.8 2.4</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sensitivity_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sensitivity.html">sensitivity</a></span><span class="op">(</span><span class="va">task_distributions</span>, <span class="va">correlation_matrix</span><span class="op">)</span></span></code></pre></div>
 <p>Build a vertical barchart and display the results:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -246,7 +241,7 @@ print the results:</p>
 <span>   Sensitivity <span class="op">=</span> <span class="va">sensitivity_results</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html" class="external-link">barplot</a></span><span class="op">(</span>height<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">Sensitivity</span>, names<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">Tasks</span>, col<span class="op">=</span><span class="st">'skyblue'</span>, </span>
-<span>        horiz<span class="op">=</span><span class="cn">TRUE</span>, xlab <span class="op">=</span> <span class="st">'Sensitivity'</span>, ylab <span class="op">=</span> <span class="st">'Tasks'</span><span class="op">)</span></span></code></pre></div>
+<span>        horiz<span class="op">=</span><span class="cn">TRUE</span>, main <span class="op">=</span> <span class="st">"Sensitivity Analysis"</span>, xlab <span class="op">=</span> <span class="st">'Sensitivity'</span>, ylab <span class="op">=</span> <span class="st">'Tasks'</span><span class="op">)</span></span></code></pre></div>
 <p><img src="MCS_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 </div>
 <div class="section level3">
@@ -274,7 +269,7 @@ concentrated.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>
