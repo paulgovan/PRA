@@ -43,7 +43,7 @@ Helps in making informed decisions by quantifying uncertainties.
 Enhances the ability to prepare for various risk scenarios and develop mitigation strategies.
 Monte Carlo simulation is a powerful tool in project management, enabling project managers to foresee potential issues and plan accordingly to improve the chances of project success.
 
-## Example
+## Examples
 
 First, load the package:
 ``` {r}

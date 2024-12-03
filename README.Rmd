@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## PRA: Project Risk Analysis in R 
+## PRA: Project Risk Analysis
 
 ![](https://github.com/paulgovan/PRA/blob/main/inst/logo.png?raw=true){width=25%}
 
@@ -28,14 +28,13 @@ knitr::opts_chunk$set(
 
 ## Key features:
 
-* The Second Moment Method
+* Second Moment Analysis
 * Monte Carlo Simulation
 * Contingency Analysis
 * Sensitivity Analysis 
 * Earned Value Management
 * Learning Curves
 * Design Structure Matrices
-* And more!
 
 ## Installation
 

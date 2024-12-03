@@ -16,9 +16,7 @@ knitr::opts_chunk$set(
 
 Earned Value Management (EVM) is a project management technique used to measure project performance and progress in an objective manner. It integrates project scope, time (schedule), and cost parameters to provide accurate forecasts of project performance issues.
 
-Here are the key components and common equations used in EVM:
-
-### Key Components
+## Key Components
 
 1. **Budget at Completion (BAC):** The total budget for the project.
 2. **Actual Cost (AC):** The actual cost incurred for the work performed on an activity during a specific time period.
@@ -30,41 +28,29 @@ Here are the key components and common equations used in EVM:
 
 \[EV = BAC * ActualPercentComplete\]
 
-### Common EVM Equations
+## Common EVM Equations
 
-1. **Cost Variance (CV):**
-
+1. **Cost Variance (CV):** Positive CV indicates under budget and negative CV indicates over budget.
+   
    \[CV = EV - AC\]
    
-   - Positive CV indicates under budget.
-   - Negative CV indicates over budget.
-
-2. **Schedule Variance (SV):**
+2. **Schedule Variance (SV):** Positive SV indicates ahead of schedule and negative SV indicates behind schedule.
    
    \[SV = EV - PV\]
    
-   - Positive SV indicates ahead of schedule.
-   - Negative SV indicates behind schedule.
-
-3. **Cost Performance Index (CPI):**
+3. **Cost Performance Index (CPI):** CPI > 1 indicates cost efficiency and CPI < 1 indicates cost inefficiency.
 
    \[CPI = \frac{EV}{AC}\]
   
-   - CPI > 1 indicates cost efficiency.
-   - CPI < 1 indicates cost inefficiency.
-
-4. **Schedule Performance Index (SPI):**
+4. **Schedule Performance Index (SPI):** SPI > 1 indicates schedule efficiency and SPI < 1 indicates schedule inefficiency.
    
    \[SPI = \frac{EV}{PV}\]
    
-   - SPI > 1 indicates schedule efficiency.
-   - SPI < 1 indicates schedule inefficiency.
-
 5. **Estimate at Completion (EAC):**
    
    \[EAC = \frac{BAC}{CPI}\]
 
-## Example
+## Examples
 
 First, load the package:
 ```{r setup}
@@ -152,6 +138,7 @@ p <- ggplot2::ggplot(data, ggplot2::aes(x = time_period)) +
        x = 'Time Period',
        y = 'Value',
        color = 'Metric') +
+  ggplot2::xlim(1, 5) +
   ggplot2::theme_minimal()
 
 # Print the plot

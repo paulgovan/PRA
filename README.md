@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-## PRA: Project Risk Analysis in R
+## PRA: Project Risk Analysis
 
 <img
 src="https://github.com/paulgovan/PRA/blob/main/inst/logo.png?raw=true"
@@ -22,14 +22,13 @@ checks](https://badges.cranchecks.info/summary/PRA.svg)](https://cran.r-project.
 
 ## Key features:
 
-- The Second Moment Method
+- Second Moment Analysis
 - Monte Carlo Simulation
 - Contingency Analysis
 - Sensitivity Analysis
 - Earned Value Management
 - Learning Curves
 - Design Structure Matrices
-- And more!
 
 ## Installation
 
@@ -90,7 +89,7 @@ To calculate the mean of the total duration:
 cat("Mean Total Duration is ", round(results$total_mean, 2))
 ```
 
-Mean Total Duration is 38.6
+Mean Total Duration is 38.65
 
 To calculate the variance of the total duration:
 
@@ -98,7 +97,7 @@ To calculate the variance of the total duration:
 cat("Variance around the Total Duration is ", round(results$total_variance, 2))
 ```
 
-Variance around the Total Duration is 19.29
+Variance around the Total Duration is 19.79
 
 To build a histogram of the total duration:
 

@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-Learning curves are a valuable way to represent how a team or individual enhances efficiency and performance over time as they gain experience. These curves aid in comprehending and forecasting the time and resources required for future tasks. The primary insights from learning curves include:
+Learning curves are a useful way to represent how a team or individual improves efficiency and performance over time as they gain experience. These curves aid in comprehending and forecasting the time and resources required for future tasks. The primary insights from learning curves include:
 
 - **Performance Improvement**: As a team or individual performs a task repeatedly, they typically become more efficient, leading to a reduction in the time and cost required.
 
@@ -38,7 +38,7 @@ The general form of a sigmoidal function (logistic function) is:
 
 where:
 
-- L(t) is the learning outcome (e.g., efficiency, proficiency) at time 
+- L(t) is the learning outcome (e.g., efficiency, proficiency) at time t
 
 - L<sub>max</sub> is the maximum learning outcome (the plateau).
 
@@ -65,7 +65,7 @@ library(PRA)
 
 Then, set up a data frame of time and completion percentage data:
 ```{r}
-data <- data.frame(time = 1:10, completion = c(5, 15, 40, 60, 70, 75, 80, 85, 90, 95))
+data <- data.frame(time = 1:9, completion = c(5, 15, 40, 60, 70, 75, 80, 85, 90))
 ```
 
 Fit a logistic model to the data:
@@ -75,7 +75,7 @@ fit <- fit_sigmoidal(data, "time", "completion", "logistic")
 
 Use the model to predict future completion times:
 ```{r}
-predictions <- predict_sigmoidal(fit, seq(min(data$time), max(data$time),
+predictions <- predict_sigmoidal(fit, seq(min(data$time), max(data$time) + 1,
   length.out = 100), "logistic")
 ```
 
@@ -84,12 +84,12 @@ Plot the results:
 p <- ggplot2::ggplot(data, ggplot2::aes_string(x = "time", y = "completion")) +
   ggplot2::geom_point() +
   ggplot2::geom_line(data = predictions, ggplot2::aes(x = x, y = pred), color = "red") +
-  ggplot2::labs(title = "Fitted Logistic Model", x = "time", y = "completion %") + ggplot2::theme_minimal()
+  ggplot2::labs(title = "Fitted Logistic Model", x = "time", y = "completion %")
 p
 ```
 
 ## Summary
 
-In summary, learning curves provide valuable insights into how performance improves with experience, and sigmoidal functions offer a mathematical model to describe and predict these improvements in project management.
+Learning curves provide valuable insights into how performance improves with experience, and sigmoidal functions offer a mathematical model to describe and predict these improvements in project management.
 
 
