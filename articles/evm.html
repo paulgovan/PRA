@@ -78,10 +78,9 @@
 to measure project performance and progress in an objective manner. It
 integrates project scope, time (schedule), and cost parameters to
 provide accurate forecasts of project performance issues.</p>
-<p>Here are the key components and common equations used in EVM:</p>
-<div class="section level3">
-<h3 id="key-components">Key Components<a class="anchor" aria-label="anchor" href="#key-components"></a>
-</h3>
+<div class="section level2">
+<h2 id="key-components">Key Components<a class="anchor" aria-label="anchor" href="#key-components"></a>
+</h2>
 <ol style="list-style-type: decimal">
 <li>
 <strong>Budget at Completion (BAC):</strong> The total budget for
@@ -101,41 +100,31 @@ performed expressed in terms of the approved budget for that work.</li>
 </ol>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mi>V</mi><mo>=</mo><mi>B</mi><mi>A</mi><mi>C</mi><mo>*</mo><mi>A</mi><mi>c</mi><mi>t</mi><mi>u</mi><mi>a</mi><mi>l</mi><mi>P</mi><mi>e</mi><mi>r</mi><mi>c</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi>C</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>l</mi><mi>e</mi><mi>t</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">EV = BAC * ActualPercentComplete</annotation></semantics></math></p>
 </div>
-<div class="section level3">
-<h3 id="common-evm-equations">Common EVM Equations<a class="anchor" aria-label="anchor" href="#common-evm-equations"></a>
-</h3>
+<div class="section level2">
+<h2 id="common-evm-equations">Common EVM Equations<a class="anchor" aria-label="anchor" href="#common-evm-equations"></a>
+</h2>
 <ol style="list-style-type: decimal">
 <li>
-<p><strong>Cost Variance (CV):</strong></p>
+<p><strong>Cost Variance (CV):</strong> Positive CV indicates under
+budget and negative CV indicates over budget.</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>V</mi><mo>=</mo><mi>E</mi><mi>V</mi><mo>−</mo><mi>A</mi><mi>C</mi></mrow><annotation encoding="application/x-tex">CV = EV - AC</annotation></semantics></math></p>
-<ul>
-<li>Positive CV indicates under budget.</li>
-<li>Negative CV indicates over budget.</li>
-</ul>
 </li>
 <li>
-<p><strong>Schedule Variance (SV):</strong></p>
+<p><strong>Schedule Variance (SV):</strong> Positive SV indicates
+ahead of schedule and negative SV indicates behind schedule.</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>V</mi><mo>=</mo><mi>E</mi><mi>V</mi><mo>−</mo><mi>P</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">SV = EV - PV</annotation></semantics></math></p>
-<ul>
-<li>Positive SV indicates ahead of schedule.</li>
-<li>Negative SV indicates behind schedule.</li>
-</ul>
 </li>
 <li>
-<p><strong>Cost Performance Index (CPI):</strong></p>
+<p><strong>Cost Performance Index (CPI):</strong> CPI &gt; 1
+indicates cost efficiency and CPI &lt; 1 indicates cost
+inefficiency.</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>P</mi><mi>I</mi><mo>=</mo><mfrac><mrow><mi>E</mi><mi>V</mi></mrow><mrow><mi>A</mi><mi>C</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">CPI = \frac{EV}{AC}</annotation></semantics></math></p>
-<ul>
-<li>CPI &gt; 1 indicates cost efficiency.</li>
-<li>CPI &lt; 1 indicates cost inefficiency.</li>
-</ul>
 </li>
 <li>
-<p><strong>Schedule Performance Index (SPI):</strong></p>
+<p><strong>Schedule Performance Index (SPI):</strong> SPI &gt; 1
+indicates schedule efficiency and SPI &lt; 1 indicates schedule
+inefficiency.</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>P</mi><mi>I</mi><mo>=</mo><mfrac><mrow><mi>E</mi><mi>V</mi></mrow><mrow><mi>P</mi><mi>V</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">SPI = \frac{EV}{PV}</annotation></semantics></math></p>
-<ul>
-<li>SPI &gt; 1 indicates schedule efficiency.</li>
-<li>SPI &lt; 1 indicates schedule inefficiency.</li>
-</ul>
 </li>
 <li>
 <p><strong>Estimate at Completion (EAC):</strong></p>
@@ -144,7 +133,7 @@ performed expressed in terms of the approved budget for that work.</li>
 </ol>
 </div>
 <div class="section level2">
-<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
 <p>First, load the package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -230,6 +219,7 @@ is 0.97</p>
 <span>       x <span class="op">=</span> <span class="st">'Time Period'</span>,</span>
 <span>       y <span class="op">=</span> <span class="st">'Value'</span>,</span>
 <span>       color <span class="op">=</span> <span class="st">'Metric'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">xlim</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Print the plot</span></span>
