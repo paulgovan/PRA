@@ -91,7 +91,7 @@ sv <- sv(ev, pv)
 cat("The project is behind schedule because the Schedule Variance (SV) is", sv, "\n")
 
 cv <- cv(ev, ac)
-cat("The project is above budget because the Cost Variance (CV) is", cv, "\n")
+cat("The project is over budget because the Cost Variance (CV) is", cv, "\n")
 ```
 
 Calculate the SPI and CPI and print the results:
@@ -100,7 +100,7 @@ spi <- spi(ev, pv)
 cat("The project is behind schedule because the Schedule Performance Index (SPI) is", round(spi, 2), "\n")
 
 cpi <- cpi(ev, ac)
-cat("The project is above budget because the Cost Performance Index (CPI) is", round(cpi, 2), "\n")
+cat("The project is over budget because the Cost Performance Index (CPI) is", round(cpi, 2), "\n")
 ```
 
 Calculate the EAC and print the results:

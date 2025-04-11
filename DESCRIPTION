@@ -6,7 +6,7 @@ Authors@R: person("Paul", "Govan", email = "paul.govan2@gmail.com", role = c("au
 Description: Data analysis for Project Risk Management via the Second Moment Method, 
   Monte Carlo Simulation, Contingency Analysis, Sensitivity Analysis, Earned Value Management, 
   Learning Curves, Design Structure Matrices, and more.
-Imports: 
+Imports:
   mc2d,
   minpack.lm,
   stats

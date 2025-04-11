@@ -24,6 +24,7 @@
 #'   ggplot2::theme_minimal()
 #' p
 #' @import minpack.lm
+#' @importFrom stats median
 #' @export
 
 # Fit a Sigmoidal Model
@@ -47,11 +48,11 @@ fit_sigmoidal <- function(data, x_col, y_col, model_type) {
   }
 
   if (model_type == "pearl") {
-    fit <- minpack.lm::nlsLM(y ~ pearl(x, K, r, t0), start = list(K = max(y), r = 0.1, t0 = median(x)))
+    fit <- minpack.lm::nlsLM(y ~ pearl(x, K, r, t0), start = list(K = max(y), r = 0.1, t0 = stats::median(x)))
   } else if (model_type == "gompertz") {
     fit <- minpack.lm::nlsLM(y ~ gompertz(x, A, b, c), start = list(A = max(y), b = 1, c = 0.1))
   } else if (model_type == "logistic") {
-    fit <- minpack.lm::nlsLM(y ~ logistic(x, K, r, t0), start = list(K = max(y), r = 0.1, t0 = median(x)))
+    fit <- minpack.lm::nlsLM(y ~ logistic(x, K, r, t0), start = list(K = max(y), r = 0.1, t0 = stats::median(x)))
   } else {
     stop("Invalid model type. Choose 'pearl', 'gompertz', or 'logistic'.")
   }
@@ -83,7 +84,7 @@ fit_sigmoidal <- function(data, x_col, y_col, model_type) {
 #'   ggplot2::labs(title = "Fitted Logistic Model", x = "time", y = "completion %") +
 #'   ggplot2::theme_minimal()
 #' p
-#' @import stats
+#' @importFrom stats predict
 #' @export
 # Predict a Sigmoidal Function
 predict_sigmoidal <- function(fit, x_range, model_type) {

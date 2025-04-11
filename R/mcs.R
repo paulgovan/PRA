@@ -31,7 +31,8 @@
 #' cat("95th Percentile:", results$percentiles[3], "\n")
 #' hist(results$total_distribution, breaks = 50, main = "Distribution of Total Project Duration",
 #'   xlab = "Total Duration", col = "skyblue", border = "white")
-#' @import mc2d stats
+#' @importFrom mc2d rtriang
+#' @importFrom stats rnorm runif var sd quantile
 #' @export
 
 # Monte Carlo Simulation

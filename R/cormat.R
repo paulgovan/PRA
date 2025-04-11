@@ -19,6 +19,7 @@
 #'
 #' # Print correlation matrix
 #' print(cor_matrix)
+#' @importFrom stats cor
 #' @export
 # Function to generate random samples and calculate correlation matrix
 cor_matrix <- function(num_samples = 100, num_vars = 5, dists = dists) {
@@ -54,7 +55,7 @@ cor_matrix <- function(num_samples = 100, num_vars = 5, dists = dists) {
   }
 
   # Calculate the correlation matrix
-  cor_matrix <- cor(samples)
+  cor_matrix <- stats::cor(samples)
 
   return(cor_matrix)
 }

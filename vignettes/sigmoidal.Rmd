@@ -84,7 +84,8 @@ Plot the results:
 p <- ggplot2::ggplot(data, ggplot2::aes_string(x = "time", y = "completion")) +
   ggplot2::geom_point() +
   ggplot2::geom_line(data = predictions, ggplot2::aes(x = x, y = pred), color = "red") +
-  ggplot2::labs(title = "Fitted Logistic Model", x = "time", y = "completion %")
+  ggplot2::labs(title = "Fitted Logistic Model", x = "time", y = "completion %") + 
+  ggplot2::theme_minimal()
 p
 ```
 
