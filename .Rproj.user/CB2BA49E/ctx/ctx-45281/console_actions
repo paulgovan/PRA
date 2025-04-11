@@ -1,0 +1,40 @@
+{
+    "type": [
+        2,
+        2,
+        3,
+        0,
+        1,
+        2,
+        3,
+        3,
+        3,
+        0,
+        1,
+        0,
+        1,
+        2,
+        3,
+        2,
+        2
+    ],
+    "data": [
+        "\nR version 4.4.2 (2024-10-31) -- \"Pile of Leaves\"\nCopyright (C) 2024 The R Foundation for Statistical Computing\nPlatform: aarch64-apple-darwin20\n\nR is free software and comes with ABSOLUTELY NO WARRANTY.\nYou are welcome to redistribute it under certain conditions.\nType 'license()' or 'licence()' for distribution details.\n\n  Natural language support but running in an English locale\n\nR is a collaborative project with many contributors.\nType 'contributors()' for more information and\n'citation()' on how to cite",
+        " R or R packages in publications.\n\nType 'demo()' for some demos, 'help()' for on-line help, or\n'help.start()' for an HTML browser interface to help.\nType 'q()' to quit R.\n\n[Workspace loaded from ~/Documents/PRA/.RData]\n\n\nRestarting R session...\n\n",
+        "\nAttaching package: ‘PRA’\n\nThe following objects are masked _by_ ‘.GlobalEnv’:\n\n    cor_matrix, cpi, cv, eac, spi, sv\n\n",
+        "> ",
+        "devtools::load_all(\".\")",
+        "\u001B[38;5;232m\u001B[36mℹ\u001B[38;5;232m Loading \u001B[34mPRA\u001B[38;5;232m\u001B[39m\n",
+        "Warning messages:\n1: replacing previous import ‘igraph::spectrum’ by ‘stats::spectrum’ when loading ‘PRA’ \n2: replacing previous import ‘igraph::decompose’ by ‘stats::decompose’ when loading ‘PRA’ \n3: replacing previous import ‘igraph::spectrum’ by ‘stats::spectrum’ when loading ‘PRA’ \n4: replacing previous import ‘igraph::decompose’ by ‘stats::decompose’ when loading ‘PRA’ \n5: \u001B[38;5;232m── \u001B[1mConflicts\u001B[22m ───────────────�",
+        "��─────────────────────────────────────────────────────────────── PRA conflicts\n──\n\u001B[31m✖\u001B[38;5;232m `\u001B[32mcor_matrix\u001B[38;5;232m` masks `\u001B[34mPRA\u001B[38;5;232m::cor_matrix()`.\n\u001B[31m✖\u001B[38;5;232m `\u001B[32mcpi\u001B[38;5;232m` masks `\u001B[34mPRA\u001B[38;5;232m::cpi()`.\n\u001B[31m✖\u001B[38;5;232m `\u001B[32mcv\u001B[38;5;232m` masks `\u001B[34mPRA\u001B[38;5;232m::cv()`.\n  … and more.\n\u001B[36mℹ\u001B[38;5;232m \u001B[90mDid you acci",
+        "dentally source a file rather than using `load_all()`?\u001B[38;5;232m\n  \u001B[90mRun `rm(list = c(\"cor_matrix\", \"cpi\", \"cv\", \"eac\", \"spi\", \"sv\"))` to remove the conflicts.\u001B[38;5;232m\u001B[39m \n",
+        "> ",
+        "rm(list = c(\"cor_matrix\", \"cpi\", \"cv\", \"eac\", \"spi\", \"sv\"))",
+        "> ",
+        "devtools::load_all(\".\")",
+        "\u001B[38;5;232m\u001B[36mℹ\u001B[38;5;232m Loading \u001B[34mPRA\u001B[38;5;232m\u001B[39m\n",
+        "Warning messages:\n1: replacing previous import ‘igraph::spectrum’ by ‘stats::spectrum’ when loading ‘PRA’ \n2: replacing previous import ‘igraph::decompose’ by ‘stats::decompose’ when loading ‘PRA’ \n",
+        "\nRestarting R session...\n\n",
+        "\nRestarting R session...\n\n"
+    ]
+}

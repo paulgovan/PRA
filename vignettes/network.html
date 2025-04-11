@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Bayesian Networks</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Bayesian Networks</h1>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>Bayesian networks are a type of mathematical model that represent
+dependencies and uncertainties using probability theory and graph
+structures. A Bayesian network is a directed acyclic graph (DAG) where
+nodes represent random variables and edges represent dependencies
+between the variables.</p>
+<p>This document explores Bayesian networks for project risk analysis
+and decision making.</p>
+</div>
+<div id="project-risk-analysis" class="section level2">
+<h2>Project Risk Analysis</h2>
+<p>Suppose there is a simple roadway project. The project consists of 8
+tasks, each with a specific duration and cost. The tasks are as
+follows:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>roadway_tasks <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;E&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;G&quot;</span>, <span class="st">&quot;H&quot;</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="at">Label =</span> <span class="fu">c</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>    <span class="st">&quot;Task-1&quot;</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>    <span class="st">&quot;Task-2&quot;</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>    <span class="st">&quot;Task-3&quot;</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>    <span class="st">&quot;Task-4&quot;</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>    <span class="st">&quot;Task-5&quot;</span>, </span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>    <span class="st">&quot;Task-6&quot;</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>    <span class="st">&quot;Task-7&quot;</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>    <span class="st">&quot;Task-8&quot;</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>  ),</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>  <span class="at">Task =</span> <span class="fu">c</span>(</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>    <span class="st">&quot;Survey and Site Assessment&quot;</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>    <span class="st">&quot;Design and Planning&quot;</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>    <span class="st">&quot;Permitting and Approvals&quot;</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>    <span class="st">&quot;Excavation and Grading&quot;</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>    <span class="st">&quot;Pavement Installation&quot;</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>    <span class="st">&quot;Drainage and Utilities Installation&quot;</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>    <span class="st">&quot;Signage and Markings&quot;</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>    <span class="st">&quot;Final Inspection and Handover&quot;</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>  ), </span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>  <span class="at">Project_ID =</span> <span class="fu">rep</span>(<span class="st">&quot;T&quot;</span>, <span class="dv">8</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>)</span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(roadway_tasks, <span class="at">caption =</span> <span class="st">&quot;Roadway Tasks&quot;</span>)</span></code></pre></div>
+<table>
+<caption>Roadway Tasks</caption>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Label</th>
+<th align="left">Task</th>
+<th align="left">Project_ID</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">A</td>
+<td align="left">Task-1</td>
+<td align="left">Survey and Site Assessment</td>
+<td align="left">T</td>
+</tr>
+<tr class="even">
+<td align="left">B</td>
+<td align="left">Task-2</td>
+<td align="left">Design and Planning</td>
+<td align="left">T</td>
+</tr>
+<tr class="odd">
+<td align="left">C</td>
+<td align="left">Task-3</td>
+<td align="left">Permitting and Approvals</td>
+<td align="left">T</td>
+</tr>
+<tr class="even">
+<td align="left">D</td>
+<td align="left">Task-4</td>
+<td align="left">Excavation and Grading</td>
+<td align="left">T</td>
+</tr>
+<tr class="odd">
+<td align="left">E</td>
+<td align="left">Task-5</td>
+<td align="left">Pavement Installation</td>
+<td align="left">T</td>
+</tr>
+<tr class="even">
+<td align="left">F</td>
+<td align="left">Task-6</td>
+<td align="left">Drainage and Utilities Installation</td>
+<td align="left">T</td>
+</tr>
+<tr class="odd">
+<td align="left">G</td>
+<td align="left">Task-7</td>
+<td align="left">Signage and Markings</td>
+<td align="left">T</td>
+</tr>
+<tr class="even">
+<td align="left">H</td>
+<td align="left">Task-8</td>
+<td align="left">Final Inspection and Handover</td>
+<td align="left">T</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="resources" class="section level2">
+<h2>Resources</h2>
+<p>The project requires various resources to complete the tasks. The
+resources include surveyors, engineers, regulatory support, heavy
+machinery, pavement and related machinery, drainage material and
+equipment, painters, traffic signs, road markers, inspectors, and
+quality control support. The resources are allocated to specific tasks
+based on their expertise and availability.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>roadway_resources <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="at">ID =</span> <span class="fu">c</span>(<span class="st">&quot;I&quot;</span>, <span class="st">&quot;J&quot;</span>, <span class="st">&quot;K&quot;</span>, <span class="st">&quot;L&quot;</span>, <span class="st">&quot;M&quot;</span>, <span class="st">&quot;N&quot;</span>, <span class="st">&quot;O&quot;</span>, <span class="st">&quot;P&quot;</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">Label =</span> <span class="fu">c</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>    <span class="st">&quot;Resource-1&quot;</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>    <span class="st">&quot;Resource-2&quot;</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>    <span class="st">&quot;Resource-3&quot;</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>    <span class="st">&quot;Resource-4&quot;</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>    <span class="st">&quot;Resource-5&quot;</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>    <span class="st">&quot;Resource-6&quot;</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>    <span class="st">&quot;Resource-7&quot;</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>    <span class="st">&quot;Resource-8&quot;</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>  ),</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>  <span class="at">Resource =</span> <span class="fu">c</span>(</span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>    <span class="st">&quot;Surveyer&quot;</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>    <span class="st">&quot;Engineer&quot;</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>    <span class="st">&quot;Regulatory Support&quot;</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>    <span class="st">&quot;Heavy Machinery&quot;</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>    <span class="st">&quot;Pavement and Related Machinery&quot;</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>    <span class="st">&quot;Drainage Material and Equipment&quot;</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>    <span class="st">&quot;Painters, Traffic Signs, Road Markers&quot;</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>    <span class="st">&quot;Inspectors and Quality Control Support&quot;</span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>  ),</span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a>  <span class="at">Task_ID =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;E&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;G&quot;</span>, <span class="st">&quot;H&quot;</span>),</span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a>  <span class="at">Task =</span> <span class="fu">c</span>(</span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>    <span class="st">&quot;Survey and Site Assessment&quot;</span>,</span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a>    <span class="st">&quot;Design and Planning&quot;</span>,</span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a>    <span class="st">&quot;Permitting and Approvals&quot;</span>,</span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a>    <span class="st">&quot;Excavation and Grading&quot;</span>,</span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a>    <span class="st">&quot;Pavement Installation&quot;</span>,</span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a>    <span class="st">&quot;Drainage and Utilities Installation&quot;</span>,</span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a>    <span class="st">&quot;Signage and Markings&quot;</span>,</span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a>    <span class="st">&quot;Final Inspection and Handover&quot;</span></span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a>  ),</span>
+<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a>  <span class="at">Mean =</span> <span class="fu">c</span>(</span>
+<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a>    <span class="dv">10000</span>,</span>
+<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a>    <span class="dv">20000</span>,</span>
+<span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a>    <span class="dv">3500</span>,</span>
+<span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a>    <span class="dv">35000</span>,</span>
+<span id="cb2-39"><a href="#cb2-39" tabindex="-1"></a>    <span class="dv">100000</span>,</span>
+<span id="cb2-40"><a href="#cb2-40" tabindex="-1"></a>    <span class="dv">25000</span>,</span>
+<span id="cb2-41"><a href="#cb2-41" tabindex="-1"></a>    <span class="dv">6500</span>,</span>
+<span id="cb2-42"><a href="#cb2-42" tabindex="-1"></a>    <span class="dv">2000</span></span>
+<span id="cb2-43"><a href="#cb2-43" tabindex="-1"></a>  ), </span>
+<span id="cb2-44"><a href="#cb2-44" tabindex="-1"></a>  <span class="at">SD =</span> <span class="fu">c</span>(</span>
+<span id="cb2-45"><a href="#cb2-45" tabindex="-1"></a>    <span class="dv">2000</span>,</span>
+<span id="cb2-46"><a href="#cb2-46" tabindex="-1"></a>    <span class="dv">5000</span>,</span>
+<span id="cb2-47"><a href="#cb2-47" tabindex="-1"></a>    <span class="dv">1000</span>,</span>
+<span id="cb2-48"><a href="#cb2-48" tabindex="-1"></a>    <span class="dv">10000</span>,</span>
+<span id="cb2-49"><a href="#cb2-49" tabindex="-1"></a>    <span class="dv">20000</span>,</span>
+<span id="cb2-50"><a href="#cb2-50" tabindex="-1"></a>    <span class="dv">5000</span>,</span>
+<span id="cb2-51"><a href="#cb2-51" tabindex="-1"></a>    <span class="dv">1500</span>,</span>
+<span id="cb2-52"><a href="#cb2-52" tabindex="-1"></a>    <span class="dv">500</span></span>
+<span id="cb2-53"><a href="#cb2-53" tabindex="-1"></a>  )</span>
+<span id="cb2-54"><a href="#cb2-54" tabindex="-1"></a>)</span>
+<span id="cb2-55"><a href="#cb2-55" tabindex="-1"></a></span>
+<span id="cb2-56"><a href="#cb2-56" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(roadway_resources, <span class="at">caption =</span> <span class="st">&quot;Roadway Resources&quot;</span>)</span></code></pre></div>
+<table>
+<caption>Roadway Resources</caption>
+<colgroup>
+<col width="2%" />
+<col width="10%" />
+<col width="35%" />
+<col width="7%" />
+<col width="32%" />
+<col width="6%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="left">Label</th>
+<th align="left">Resource</th>
+<th align="left">Task_ID</th>
+<th align="left">Task</th>
+<th align="right">Mean</th>
+<th align="right">SD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">I</td>
+<td align="left">Resource-1</td>
+<td align="left">Surveyer</td>
+<td align="left">A</td>
+<td align="left">Survey and Site Assessment</td>
+<td align="right">10000</td>
+<td align="right">2000</td>
+</tr>
+<tr class="even">
+<td align="left">J</td>
+<td align="left">Resource-2</td>
+<td align="left">Engineer</td>
+<td align="left">B</td>
+<td align="left">Design and Planning</td>
+<td align="right">20000</td>
+<td align="right">5000</td>
+</tr>
+<tr class="odd">
+<td align="left">K</td>
+<td align="left">Resource-3</td>
+<td align="left">Regulatory Support</td>
+<td align="left">C</td>
+<td align="left">Permitting and Approvals</td>
+<td align="right">3500</td>
+<td align="right">1000</td>
+</tr>
+<tr class="even">
+<td align="left">L</td>
+<td align="left">Resource-4</td>
+<td align="left">Heavy Machinery</td>
+<td align="left">D</td>
+<td align="left">Excavation and Grading</td>
+<td align="right">35000</td>
+<td align="right">10000</td>
+</tr>
+<tr class="odd">
+<td align="left">M</td>
+<td align="left">Resource-5</td>
+<td align="left">Pavement and Related Machinery</td>
+<td align="left">E</td>
+<td align="left">Pavement Installation</td>
+<td align="right">100000</td>
+<td align="right">20000</td>
+</tr>
+<tr class="even">
+<td align="left">N</td>
+<td align="left">Resource-6</td>
+<td align="left">Drainage Material and Equipment</td>
+<td align="left">F</td>
+<td align="left">Drainage and Utilities Installation</td>
+<td align="right">25000</td>
+<td align="right">5000</td>
+</tr>
+<tr class="odd">
+<td align="left">O</td>
+<td align="left">Resource-7</td>
+<td align="left">Painters, Traffic Signs, Road Markers</td>
+<td align="left">G</td>
+<td align="left">Signage and Markings</td>
+<td align="right">6500</td>
+<td align="right">1500</td>
+</tr>
+<tr class="even">
+<td align="left">P</td>
+<td align="left">Resource-8</td>
+<td align="left">Inspectors and Quality Control Support</td>
+<td align="left">H</td>
+<td align="left">Final Inspection and Handover</td>
+<td align="right">2000</td>
+<td align="right">500</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="risks" class="section level2">
+<h2>Risks</h2>
+<p>The project is subject to various risks that may impact the cost,
+duration, and quality of the project. The risks include delays in
+permitting and approvals, unforeseen site conditions, material price
+fluctuations, labor shortages, weather disruptions, equipment
+breakdowns, design changes, and regulatory changes. Each risk event has
+a probability of occurrence, an impact on the project, and a root cause.
+The root causes are related to resources, tasks, or external
+factors.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>roadway_risks <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="at">Risk_ID =</span> <span class="fu">c</span>(<span class="st">&quot;Q&quot;</span>, <span class="st">&quot;R&quot;</span>, <span class="st">&quot;S&quot;</span>),</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="at">Name =</span> <span class="fu">c</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>    <span class="st">&quot;Risk-1&quot;</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>    <span class="st">&quot;Risk-2&quot;</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>    <span class="st">&quot;Risk-3&quot;</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  ),</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  <span class="at">Risk =</span> <span class="fu">c</span>(</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>    <span class="st">&quot;Delays in Permitting and Approvals&quot;</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>    <span class="st">&quot;Unforeseen Site Conditions&quot;</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>    <span class="st">&quot;Material Price Fluctuations&quot;</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>  ),</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>  <span class="at">Probability =</span> <span class="fu">c</span>(</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>    <span class="fl">0.1</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>    <span class="fl">0.05</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>    <span class="fl">0.2</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>  ),</span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a>  <span class="at">Resource_ID =</span> <span class="fu">c</span>(<span class="st">&quot;K&quot;</span>, <span class="st">&quot;L&quot;</span>, <span class="st">&quot;M&quot;</span>),</span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>  <span class="at">Resource =</span> <span class="fu">c</span>(</span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>    <span class="st">&quot;Regulatory Support&quot;</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a>    <span class="st">&quot;Heavy Machinery&quot;</span>,</span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a>    <span class="st">&quot;Pavement and Related Machinery&quot;</span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>  ),</span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a>  <span class="at">Mean =</span> <span class="fu">c</span>(</span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a>    <span class="dv">3500</span>,</span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a>    <span class="dv">35000</span>,</span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a>    <span class="dv">100000</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a>  ),</span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a>  <span class="at">SD =</span> <span class="fu">c</span>(</span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a>    <span class="dv">1000</span>,</span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a>    <span class="dv">10000</span>,</span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a>    <span class="dv">20000</span></span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a>  )</span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a>)</span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a></span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(roadway_risks, <span class="at">caption =</span> <span class="st">&quot;Roadway Risks&quot;</span>)</span></code></pre></div>
+<table style="width:100%;">
+<caption>Roadway Risks</caption>
+<colgroup>
+<col width="6%" />
+<col width="5%" />
+<col width="29%" />
+<col width="10%" />
+<col width="10%" />
+<col width="26%" />
+<col width="5%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Risk_ID</th>
+<th align="left">Name</th>
+<th align="left">Risk</th>
+<th align="right">Probability</th>
+<th align="left">Resource_ID</th>
+<th align="left">Resource</th>
+<th align="right">Mean</th>
+<th align="right">SD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Q</td>
+<td align="left">Risk-1</td>
+<td align="left">Delays in Permitting and Approvals</td>
+<td align="right">0.10</td>
+<td align="left">K</td>
+<td align="left">Regulatory Support</td>
+<td align="right">3500</td>
+<td align="right">1000</td>
+</tr>
+<tr class="even">
+<td align="left">R</td>
+<td align="left">Risk-2</td>
+<td align="left">Unforeseen Site Conditions</td>
+<td align="right">0.05</td>
+<td align="left">L</td>
+<td align="left">Heavy Machinery</td>
+<td align="right">35000</td>
+<td align="right">10000</td>
+</tr>
+<tr class="odd">
+<td align="left">S</td>
+<td align="left">Risk-3</td>
+<td align="left">Material Price Fluctuations</td>
+<td align="right">0.20</td>
+<td align="left">M</td>
+<td align="left">Pavement and Related Machinery</td>
+<td align="right">100000</td>
+<td align="right">20000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="bayesian-network" class="section level2">
+<h2>Bayesian Network</h2>
+<p>To model the project risks and dependencies, we can create a Bayesian
+network. The Bayesian network will represent the relationships between
+tasks, resources, and risks in the project. The network will help us
+analyze the impact of risks on the project outcomes and make informed
+decisions.</p>
+<p>First, we need to define the nodes and edges of the Bayesian network.
+The nodes represent the tasks, resources, and risks in the project, and
+the edges represent the dependencies between them.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a> <span class="at">id =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;E&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;G&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;I&quot;</span>, <span class="st">&quot;J&quot;</span>, <span class="st">&quot;K&quot;</span>, <span class="st">&quot;L&quot;</span>, <span class="st">&quot;M&quot;</span>, <span class="st">&quot;N&quot;</span>, <span class="st">&quot;O&quot;</span>, <span class="st">&quot;P&quot;</span>, <span class="st">&quot;Q&quot;</span>, <span class="st">&quot;R&quot;</span>, <span class="st">&quot;S&quot;</span>, <span class="st">&quot;T&quot;</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">c</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>    <span class="st">&quot;Task-1&quot;</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    <span class="st">&quot;Task-2&quot;</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>    <span class="st">&quot;Task-3&quot;</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>    <span class="st">&quot;Task-4&quot;</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>    <span class="st">&quot;Task-5&quot;</span>, </span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>    <span class="st">&quot;Task-6&quot;</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>    <span class="st">&quot;Task-7&quot;</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>    <span class="st">&quot;Task-8&quot;</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>    <span class="st">&quot;Resource-1&quot;</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>    <span class="st">&quot;Resource-2&quot;</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>    <span class="st">&quot;Resource-3&quot;</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>    <span class="st">&quot;Resource-4&quot;</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>    <span class="st">&quot;Resource-5&quot;</span>,</span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>    <span class="st">&quot;Resource-6&quot;</span>,</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>    <span class="st">&quot;Resource-7&quot;</span>,</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>    <span class="st">&quot;Resource-8&quot;</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>    <span class="st">&quot;Risk-1&quot;</span>,</span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>    <span class="st">&quot;Risk-2&quot;</span>,</span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>    <span class="st">&quot;Risk-3&quot;</span>,</span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>    <span class="st">&quot;Project&quot;</span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a>  ),</span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a> )</span></code></pre></div>
+<p>Next, we define the edges between the nodes in the Bayesian network.
+The edges represent the dependencies between the nodes.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>links <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="at">source =</span> <span class="fu">c</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    <span class="st">&quot;I&quot;</span>, <span class="st">&quot;J&quot;</span>, <span class="st">&quot;K&quot;</span>, <span class="st">&quot;L&quot;</span>, <span class="st">&quot;M&quot;</span>, <span class="st">&quot;N&quot;</span>, <span class="st">&quot;O&quot;</span>, <span class="st">&quot;P&quot;</span>, <span class="st">&quot;Q&quot;</span>, <span class="st">&quot;R&quot;</span>, <span class="st">&quot;S&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;E&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;G&quot;</span>, <span class="st">&quot;H&quot;</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  ),</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="at">target =</span> <span class="fu">c</span>(</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>    <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;E&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;G&quot;</span>, <span class="st">&quot;H&quot;</span>, <span class="st">&quot;K&quot;</span>, <span class="st">&quot;L&quot;</span>, <span class="st">&quot;M&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;T&quot;</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  ),</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>)</span></code></pre></div>
+<p>Then, we define the distributions for the nodes in the Bayesian
+network. The distributions represent the probabilities of the outcomes
+for each node.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>distributions <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="at">A =</span> <span class="fu">list</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;aggregate&quot;</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  ),</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="at">B =</span> <span class="fu">list</span>(</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;aggregate&quot;</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>    <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  ),</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>  <span class="at">C =</span> <span class="fu">list</span>(</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;aggregate&quot;</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>    <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>  ),</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>  <span class="at">D =</span> <span class="fu">list</span>(</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;aggregate&quot;</span>,</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>    <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>  ),</span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a>  <span class="at">E =</span> <span class="fu">list</span>(</span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;aggregate&quot;</span>,</span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a>    <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>)</span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a>  ),</span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a>  <span class="at">F =</span> <span class="fu">list</span>(</span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;aggregate&quot;</span>,</span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a>    <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>)</span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a>  ),</span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a>  <span class="at">G =</span> <span class="fu">list</span>(</span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;aggregate&quot;</span>,</span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a>    <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>)</span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a>  ),</span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a>  <span class="at">H =</span> <span class="fu">list</span>(</span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;aggregate&quot;</span>,</span>
+<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a>    <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>)</span>
+<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a>  ),</span>
+<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a>  <span class="at">I =</span> <span class="fu">list</span>(</span>
+<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;continuous&quot;</span>,</span>
+<span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a>    <span class="at">mean =</span> <span class="dv">10000</span>,</span>
+<span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">2000</span></span>
+<span id="cb6-38"><a href="#cb6-38" tabindex="-1"></a>  ),</span>
+<span id="cb6-39"><a href="#cb6-39" tabindex="-1"></a>  <span class="at">J =</span> <span class="fu">list</span>(</span>
+<span id="cb6-40"><a href="#cb6-40" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;continuous&quot;</span>,</span>
+<span id="cb6-41"><a href="#cb6-41" tabindex="-1"></a>    <span class="at">mean =</span> <span class="dv">20000</span>,</span>
+<span id="cb6-42"><a href="#cb6-42" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">5000</span></span>
+<span id="cb6-43"><a href="#cb6-43" tabindex="-1"></a>  ),</span>
+<span id="cb6-44"><a href="#cb6-44" tabindex="-1"></a>  <span class="at">K =</span> <span class="fu">list</span>(</span>
+<span id="cb6-45"><a href="#cb6-45" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;conditional&quot;</span>, <span class="at">condition =</span> <span class="st">&quot;Q&quot;</span>,</span>
+<span id="cb6-46"><a href="#cb6-46" tabindex="-1"></a>    <span class="at">true_dist =</span> <span class="fu">list</span>(</span>
+<span id="cb6-47"><a href="#cb6-47" tabindex="-1"></a>      <span class="at">mean =</span> <span class="dv">3500</span>,</span>
+<span id="cb6-48"><a href="#cb6-48" tabindex="-1"></a>      <span class="at">sd =</span> <span class="dv">1000</span></span>
+<span id="cb6-49"><a href="#cb6-49" tabindex="-1"></a>    ),</span>
+<span id="cb6-50"><a href="#cb6-50" tabindex="-1"></a>    <span class="at">false_dist =</span> <span class="fu">list</span>(</span>
+<span id="cb6-51"><a href="#cb6-51" tabindex="-1"></a>      <span class="at">mean =</span> <span class="dv">0</span>,</span>
+<span id="cb6-52"><a href="#cb6-52" tabindex="-1"></a>      <span class="at">sd =</span> <span class="dv">0</span></span>
+<span id="cb6-53"><a href="#cb6-53" tabindex="-1"></a>    )</span>
+<span id="cb6-54"><a href="#cb6-54" tabindex="-1"></a>  ),</span>
+<span id="cb6-55"><a href="#cb6-55" tabindex="-1"></a>  <span class="at">L =</span> <span class="fu">list</span>(</span>
+<span id="cb6-56"><a href="#cb6-56" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;conditional&quot;</span>, <span class="at">condition =</span> <span class="st">&quot;R&quot;</span>,</span>
+<span id="cb6-57"><a href="#cb6-57" tabindex="-1"></a>    <span class="at">true_dist =</span> <span class="fu">list</span>(</span>
+<span id="cb6-58"><a href="#cb6-58" tabindex="-1"></a>      <span class="at">mean =</span> <span class="dv">35000</span>,</span>
+<span id="cb6-59"><a href="#cb6-59" tabindex="-1"></a>      <span class="at">sd =</span> <span class="dv">10000</span></span>
+<span id="cb6-60"><a href="#cb6-60" tabindex="-1"></a>    ),</span>
+<span id="cb6-61"><a href="#cb6-61" tabindex="-1"></a>    <span class="at">false_dist =</span> <span class="fu">list</span>(</span>
+<span id="cb6-62"><a href="#cb6-62" tabindex="-1"></a>      <span class="at">mean =</span> <span class="dv">0</span>,</span>
+<span id="cb6-63"><a href="#cb6-63" tabindex="-1"></a>      <span class="at">sd =</span> <span class="dv">0</span></span>
+<span id="cb6-64"><a href="#cb6-64" tabindex="-1"></a>    )</span>
+<span id="cb6-65"><a href="#cb6-65" tabindex="-1"></a>  ),</span>
+<span id="cb6-66"><a href="#cb6-66" tabindex="-1"></a>  <span class="at">M =</span> <span class="fu">list</span>(</span>
+<span id="cb6-67"><a href="#cb6-67" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;conditional&quot;</span>, <span class="at">condition =</span> <span class="st">&quot;S&quot;</span>,</span>
+<span id="cb6-68"><a href="#cb6-68" tabindex="-1"></a>    <span class="at">true_dist =</span> <span class="fu">list</span>(</span>
+<span id="cb6-69"><a href="#cb6-69" tabindex="-1"></a>      <span class="at">mean =</span> <span class="dv">100000</span>,</span>
+<span id="cb6-70"><a href="#cb6-70" tabindex="-1"></a>      <span class="at">sd =</span> <span class="dv">20000</span></span>
+<span id="cb6-71"><a href="#cb6-71" tabindex="-1"></a>    ),</span>
+<span id="cb6-72"><a href="#cb6-72" tabindex="-1"></a>    <span class="at">false_dist =</span> <span class="fu">list</span>(</span>
+<span id="cb6-73"><a href="#cb6-73" tabindex="-1"></a>      <span class="at">mean =</span> <span class="dv">0</span>,</span>
+<span id="cb6-74"><a href="#cb6-74" tabindex="-1"></a>      <span class="at">sd =</span> <span class="dv">0</span></span>
+<span id="cb6-75"><a href="#cb6-75" tabindex="-1"></a>    )</span>
+<span id="cb6-76"><a href="#cb6-76" tabindex="-1"></a>  ),</span>
+<span id="cb6-77"><a href="#cb6-77" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">list</span>(</span>
+<span id="cb6-78"><a href="#cb6-78" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;continuous&quot;</span>,</span>
+<span id="cb6-79"><a href="#cb6-79" tabindex="-1"></a>    <span class="at">mean =</span> <span class="dv">100000</span>,</span>
+<span id="cb6-80"><a href="#cb6-80" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">20000</span></span>
+<span id="cb6-81"><a href="#cb6-81" tabindex="-1"></a>  ),</span>
+<span id="cb6-82"><a href="#cb6-82" tabindex="-1"></a>  <span class="at">O =</span> <span class="fu">list</span>(</span>
+<span id="cb6-83"><a href="#cb6-83" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;continuous&quot;</span>,</span>
+<span id="cb6-84"><a href="#cb6-84" tabindex="-1"></a>    <span class="at">mean =</span> <span class="dv">25000</span>,</span>
+<span id="cb6-85"><a href="#cb6-85" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">5000</span></span>
+<span id="cb6-86"><a href="#cb6-86" tabindex="-1"></a>  ),</span>
+<span id="cb6-87"><a href="#cb6-87" tabindex="-1"></a>  <span class="at">P =</span> <span class="fu">list</span>(</span>
+<span id="cb6-88"><a href="#cb6-88" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;continuous&quot;</span>,</span>
+<span id="cb6-89"><a href="#cb6-89" tabindex="-1"></a>    <span class="at">mean =</span> <span class="dv">6500</span>,</span>
+<span id="cb6-90"><a href="#cb6-90" tabindex="-1"></a>    <span class="at">sd =</span> <span class="dv">1500</span></span>
+<span id="cb6-91"><a href="#cb6-91" tabindex="-1"></a>  ),</span>
+<span id="cb6-92"><a href="#cb6-92" tabindex="-1"></a>  <span class="at">Q =</span> <span class="fu">list</span>(</span>
+<span id="cb6-93"><a href="#cb6-93" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;discrete&quot;</span>,</span>
+<span id="cb6-94"><a href="#cb6-94" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>),</span>
+<span id="cb6-95"><a href="#cb6-95" tabindex="-1"></a>    <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>)</span>
+<span id="cb6-96"><a href="#cb6-96" tabindex="-1"></a>  ),</span>
+<span id="cb6-97"><a href="#cb6-97" tabindex="-1"></a>  <span class="at">R =</span> <span class="fu">list</span>(</span>
+<span id="cb6-98"><a href="#cb6-98" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;discrete&quot;</span>,</span>
+<span id="cb6-99"><a href="#cb6-99" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>),</span>
+<span id="cb6-100"><a href="#cb6-100" tabindex="-1"></a>    <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>)</span>
+<span id="cb6-101"><a href="#cb6-101" tabindex="-1"></a>  ),</span>
+<span id="cb6-102"><a href="#cb6-102" tabindex="-1"></a>  <span class="at">S =</span> <span class="fu">list</span>(</span>
+<span id="cb6-103"><a href="#cb6-103" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;discrete&quot;</span>,</span>
+<span id="cb6-104"><a href="#cb6-104" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>),</span>
+<span id="cb6-105"><a href="#cb6-105" tabindex="-1"></a>    <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)</span>
+<span id="cb6-106"><a href="#cb6-106" tabindex="-1"></a>  ),</span>
+<span id="cb6-107"><a href="#cb6-107" tabindex="-1"></a>  <span class="at">T =</span> <span class="fu">list</span>(</span>
+<span id="cb6-108"><a href="#cb6-108" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;aggregate&quot;</span>,</span>
+<span id="cb6-109"><a href="#cb6-109" tabindex="-1"></a>    <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;E&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;G&quot;</span>, <span class="st">&quot;H&quot;</span>)</span>
+<span id="cb6-110"><a href="#cb6-110" tabindex="-1"></a>  )</span>
+<span id="cb6-111"><a href="#cb6-111" tabindex="-1"></a>)</span></code></pre></div>
+<p>Finally, we create the Bayesian network using the nodes, edges, and
+distributions defined above.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>graph <span class="ot">&lt;-</span> <span class="fu">prob_net</span>(nodes, links, <span class="at">distributions =</span> distributions)</span></code></pre></div>
+<p>To plot the Bayesian network, we can use the igraph package. The
+igraph package provides functions for creating and analyzing graph
+structures.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>g <span class="ot">&lt;-</span> igraph<span class="sc">::</span><span class="fu">graph_from_data_frame</span>(graph<span class="sc">$</span>links, <span class="at">vertices =</span> graph<span class="sc">$</span>nodes, <span class="at">directed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">plot</span>(g, <span class="at">main =</span> <span class="st">&quot;Bayesian Network&quot;</span>)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAYAAAAUg66AAAAEDmlDQ1BrQ0dDb2xvclNwYWNlR2VuZXJpY1JHQgAAOI2NVV1oHFUUPpu5syskzoPUpqaSDv41lLRsUtGE2uj+ZbNt3CyTbLRBkMns3Z1pJjPj/KRpKT4UQRDBqOCT4P9bwSchaqvtiy2itFCiBIMo+ND6R6HSFwnruTOzu5O4a73L3PnmnO9+595z7t4LkLgsW5beJQIsGq4t5dPis8fmxMQ6dMF90A190C0rjpUqlSYBG+PCv9rt7yDG3tf2t/f/Z+uuUEcBiN2F2Kw4yiLiZQD+FcWyXYAEQfvICddi+AnEO2ycIOISw7UAVxieD/Cyz5mRMohfRSwoqoz+xNuIB+cj9loEB3Pw2448NaitKSLLRck2q5pOI9O9g/t/tkXda8Tbg0+PszB9FN8DuPaXKnKW4YcQn1Xk3HSIry5ps8UQ/2W5aQnxIwBdu7yFcgrxPsRjVXu8HOh0qao30cArp9SZZxDfg3h1wTzKxu5E/LUxX5wKdX5SnAzmDx4A4OIqLbB69yMesE1pKojLjVdoNsfyiPi45hZmAn3uLWdpOtfQOaVmikEs7ovj8hFWpz7EV6mel0L9Xy23FMYlPYZenAx0yDB1/PX6dledmQjikjkXCxqMJS9WtfFCyH9XtSekEF+2dH+P4tzITduTygGfv58a5VCTH5PtXD7EFZiNyUDBhHnsFTBgE0SQIA9pfFtgo6cKGuhooeilaKH41eDs38Ip+f4At1Rq/sjr6NEwQqb/I/DQqsLvaFUjvAx+eWirddAJZnAj1DFJL0mSg/gcIpPkMBkhoyCSJ8lTZIxk0TpKDjXHliJzZPO50dR5ASNSnzeLvIvod0HG/mdkmOC0z8VKnzcQ2M/Yz2vKldduXjp9bleLu0ZWn7vWc+l0JGcaai10yNrUnXLP/8Jf59ewX+c3Wgz+B34Df+vbVrc16zTMVgp9um9bxEfzPU5kPqUtVWxhs6OiWTVW+gIfywB9uXi7CGcGW/zk98k/kmvJ95IfJn/j3uQ+4c5zn3Kfcd+AyF3gLnJfcl9xH3OfR2rUee80a+6vo7EK5mmXUdyfQlrYLTwoZIU9wsPCZEtP6BWGhAlhL3p2N6sTjRdduwbHsG9kq32sgBepc+xurLPW4T9URpYGJ3ym4+8zA05u44QjST8ZIoVtu3qE7fWmdn5LPdqvgcZz8Ww8BWJ8X3w0PhQ/wnCDGd+LvlHs8dRy6bLLDuKMaZ20tZrqisPJ5ONiCq8yKhYM5cCgKOu66Lsc0aYOtZdo5QCwezI4wm9J/v0X23mlZXOfBjj8Jzv3WrY5D+CsA9D7aMs2gGfjve8ArD6mePZSeCfEYt8CONWDw8FXTxrPqx/r9Vt4biXeANh8vV7/+/16ffMD1N8AuKD/A/8leAvFY9bLAAAAOGVYSWZNTQAqAAAACAABh2kABAAAAAEAAAAaAAAAAAACoAIABAAAAAEAAAEgoAMABAAAAAEAAAEgAAAAAKtAJY0AAEAASURBVHgB7V0HeBTVFj4hPYRQQy+hg/QqSpHeexVEsT6xgRXB8uwN9GEFRZCiFEWULkhHkN57Db2EhJJGKvv+/6yzbEIIAYFs2Hu/ZHd25s7Mvefu/Hv68bChiWmGAoYChgKZQIFsmXBPc0tDAUMBQwGlgAEg80UwFDAUyDQKGADKNNKbGxsKGAoYADLfAUMBQ4FMo4ABoEwjvbmxoYChgAEg8x0wFDAUyDQKGADKNNKbGxsKGAoYADLfAUMBQ4FMo4ABoEwjvbmxoYChgAEg8x0wFDAUyDQKGADKNNKbGxsKGAoYADLfAUMBQ4FMo4ABoEwjvbmxoYChgAEg8x0wFDAUyDQKGADKNNKbGxsKGAoYADLfAUMBQ4FMo4ABoEwjvbmxoYChgAEg8x0wFDAUyDQKGADKNNKbGxsKGAoYADLfAUMBQ4FMo4ABoEwjvbmxoYChgAEg8x0wFDAUyDQKGADKNNKbGxsKGAoYADLfAUMBQ4FMo4ABoEwjvbmxoYChgAEg8x0wFDAUyDQKGADKNNKbGxsKGAoYADLfAUMBQ4FMo4ABoEwjvbmxoYChgAEg8x0wFDAUyDQKGADKNNKbGxsKGAoYADLfAUMBQ4FMo4BXpt35Drrx8OHDZdasWVfMyMvLSwICAuSuu+6SRx55RMqWLXtFn6yyY+jQoTJv3jwd7sKFCyVbttv/2/XVV1/J77//rmN4/fXXpVmzZinIt2XLFnnhhRd039tvvy2NGjVKcTyjHy5duiTbt2+XqlWrZvSU29Zv8ODBsnbtWsmVK5f89ttvt+2+t+xGNtP+NQX69+9vwwKl++/t7W37448//vW9MusCDz/8sGN+SUlJmTKMZ5991jGGMmXK2OLi4lKMY+nSpY7jv/76a4pjGf2wcuVKW61atWwPPPBARk+5rf1at26tc8yXL99tve+tupnhgG4ytPfr10+Cg4MFCyZ4UGXjxo3y119/SWJiojz00ENy+vRp8fDwuMl3vfWXq1Gjhpw9e1Zv5Arj379/v3z88cfy1ltv3dTJ169fX69XoUKFm3pdc7G0KWAAKG263PDeF1988QrWvUePHoJfZDlz5ozs2rVLRTLnGyQnJyswRUZGSu7cuaVAgQLOh294myB4+PBhyZ8/v4qCV7sQgfL48ePCcRQsWDDNvgMGDBD+p9VudPycb0xMjBQqVCity15z30cffSTgVATc0DX7Wh14zwsXLkixYsWsXbf9nd8DirB58+bN0L2PHTsmRYsWzVDfrNbp9gvyWY1CN2G8lNfZfH19pUSJEimu+N577wnYaSlSpIhUrFhRAaBkyZKyePFiR7/7779fAgMDJUeOHHLy5EnHfm68++67eozHqQNhi4+PV11Izpw5hdfiedWrV5dVq1bpceuF3Bi5Mn9/fwkJCZHSpUvrtVq0aCFHjx61uuk7xEzHfQg4VsvI+Nn38ccf1/PJYezevVvuvvtuBdvChQvrvRcsWGBdMsPvnOczzzyTof6cO3U6XIvixYvrvZ9//nmlFS+wYcMGHZ91sZ9//lk/f/3119KyZUvdbtKkiXVY3wl8pHv58uVT7L/33nt1f/PmzR37L168qADONeYPAtecoPK///1PqHOyGsfJa/J/zpw5em2CJcdscaBWX+t91KhRjnO4dhBNrUOu/36rZDt3uq6zDmjkyJE2KGtV3zNz5kzboEGDbH5+fiq3P/HEEynIAsW17se3xAZltS1PnjyOz9QZ4UHV/lC8OvZDEZviGvhC67FKlSo59kM56+gP8LHh11Y/Qylu+/PPPx39oKR17K9SpYqN/xCvdB8eNhseDEfftHRAGR0/L9K3b1+9LsRTG7g8G+fnPF/OH5yB435pbTjrgNq0aaPXI+0AFtr9ajoggLnN09PT0R/A7Ni+77779Fwodh37eE3rHwBhGzZsmH7mNSIiIrQ/OFlHH/Y9cOCA7j9x4oRjPxT3ug/gYwMYOfZb17be27dvr/34smLFCkc/cMKO7dq1a2uf1Dqg2bNnO+YGgLUBpBzXygob1FWY9i8p4AxA1pcq9XuvXr1SPNC8JR9KPoT4hbUlJCTo8S+++MLxpRszZoyOjMf44PKaDRo0cIx2x44djr7Qh+h+PozWvfELb4uOjtaHg19O7qeClc35Qfnuu+90H18mTZpkg77HRsA5ePCgY39aAJTR8fMiFgBxDHyIzp8/bwMnZYPOzDHeaymOnQGIDzw4Nz0XXJQNopUtLQCiwrxy5craD+Klbf369Tbo42yff/654778oaBCe9++fY59HTt21M/nzp2zQd/k2D958mSlCTgjxz7OafTo0bqf7xb9eR7b008/7dgHjtNG8IJe0Na0aVPH/u+//177OgMQr8Nxzpgxw2HAcAYgziV79ux6DSrlT506pdfISi8GgG7CamUEgPjrSW6Iv4apGwGGDXoY26effur4Un722WeOrjAv635yKNAJ6H6YmnUfORyITLqPQMcvLu8XFhbmON8Z2Hbu3KkPrMUVkEvigzF+/HgbRDzHOc4baQGQdTwj43cGIIuz4/kQvRzzJfeYXnMGIPb78MMPHecOHDgwTQBy5lSee+45x+UJQrQkkVY9e/Z07LfAI7UVjNwhj5FObJ07d9bPFgBY/bt06aL7q1Wr5rgmxCfdB52PzdmCSBC17levXj3t7wxA7dq1c1zD2rAAiByjxSGRwz506JDVJUu9Gx0QvgE3s23atEmVuVTsgvuQvXv3Svfu3XUffWnwC5nidvQfeuqpp1TGpx7o5ZdfdhzHN8mxTT8iNu6jQpvNescvqUNJiV9xPUYlJ3UW+PXXf/yS6n6+UL9DvRAeSN0XFRUlEyZMEHAjQp0M9TPgChz909vI6Pidr0F9k9WCgoKsTYc+xrHjGhukFX2s2KirIe1TN4se3D9t2jQHPagTo16GLbW+S3emegGw6B76QnFtwW3pZwCfvi9ZskQAxEIfKbauXbvqe2hoqBw5ckS3ASgC0NdtvpQqVUoAbPqZfkfO682dderU0WNpvcTGxqrhgseo80lr7mmd52r7DADd5BXhg89/ftHw66jOhxBxHKZ3CzR4WypQweoLRC2BTkT4Zf7mm28cI+J1rMYvKsQn/fjLL7/Inj171FmOO6hItpr1UPH+ljKT71R8Elj4bymRqQCdOnWqUHFJBTkbHwI6unXq1MkBcNa1U79fz/itc2nCt+7Ffc4PpNUno++kGbgm7c45pWWSt+jBTnQKdaYJwZn0yIgVzgIgcJUCcUkgQur6gqvV+UCk1R8XgjmbBUBU8FuNjqmpm+XSYL07H7eMF877nLc5Fyqn2V566aXrBnDna2XaNr5wpv1LCjiLYLBEXXE1ihxYYP2vWbOmHqcYZe2DhchxDn7JHPsp/zs3S+9AMezJJ5/UfhQBqOexWtu2bXU/Fc7OSl2Ynm341bS66TvFEI4NpnAVDRctWmQDN+a4f7du3Rz9U4tg1zt+SwTj2J0b9RgWHVLP17kft1OLYNZxcIeOa1jXArDqYWflMnVizi0tnYl1fp8+fZy76jY4N70PwFzfKQ6xWboca3+5cuV0v/VinUc9HvVeVqPYZN0vLRFsxIgRVlfHuyWCcX3BddmmT5/uuAbcEhz9ssrG5Z9YUMK0f08Bms/xpdB/cjv8hSY3YTVYXXSTopnVnP1BnEU0inDOrXfv3vpriy+X0PTKxl9aclpWs+5FMQHWG/1VpJmX+/mLSYdC+sJQHOGvMx3u3nnnHYEeQSjK0azu4+Ojl0vvF/hGxm+N8Wa/U7R1pqHz9SlqWVzClClT1A+Lx7lO9HniHPGgO04hV8VGjoaijbPp25kLYh/LzG69kztis7gf/YAXKySE/j/kGumbRZEJymmrizz22GOObWsjPe6Q427cuLGuK9/ZPvjggyvcNPSAK79kFaR05XE6c0BYa8cvUuptxII5zLg0l1rmYHIFNInDR0jP5WeeS8Vq6kaFqfN1qcR1bvCNUSuW1Ye/upaykvvGjh2r3akMtxSr3M97N2zY0GFZAgjZ1qxZ47h0ag7oesd/KzkgDpIWQ2vOfLc4IB6jZQ8Ps+M4XRcg3upnbpMDtBoA2dGP6/DGG29Yh2zLly93HOM9yK2yrVu3LsV+cl3OjZY0iHqOPs5j4XXItVrNWQntbJ20jlsckHMoBnyYHO4TXKes1Cjzm/YvKZAWAPHLS18XikgEnldffdUGZWSKO82fP99GE7L14MAxTU2ulh8Pz0vdGE/m3N+Zpbf68oGieZvWLfblw0Y/EssvxepHEY3iC3QyjmuyP7gGG5SpVjd9Tw1A3Hk947/VAESfJQKoRRtnAOJYCdQUjSxwp0UKDp42ujI4N+jXHCDMvvBsdxwmrS13CAKA5SfF/ZZPE5wGHfsdJ2KDbgKkNdfYGiP9oWjJc7aM3QgA8T60zvG6HHNqAHQeh6ttq0COgZuWSRSgqAR/GxWtwIVccxQU7yxRgArQTz755Krn4MsmMPWqmEHP26s1ihp096dlheJKeqJX6mtc7/hTn3+7P1NJzLnSe9lZye88DiquGWvG9XC20jn3+Tfb0P3ovS3R8N9cK6ufawAoC6wgHwiw8RouQNMz9S98eODPc0UYQBaYjhmioYCDAlfaBR2HzIarUIB+JKmjsxmEmToGyVXGa8ZhKJBRChgrWEYplYn9GIxoiUXQQaglhb5FphkKZHUKGBEsC60glJ3/ynEvC03VDNVNKGAAyE0W2kzTUMAVKWBEMFdcFTMmQwE3oYABIDdZaDNNQwFXpIABIFdcFTMmQwE3oYABIDdZaDNNQwFXpIABIFdcFTMmQwE3oYABIDdZaDNNQwFXpIABIFdcFTMmQwE3oYABIDdZaDNNQwFXpIABIFdcFTMmQwE3oYABIDdZaDNNQwFXpIABIFdcFTMmQwE3oYABIDdZaDNNQwFXpIABIFdcFTMmQwE3oYABIDdZaDNNQwFXpIABIFdcFTMmQwE3oYABIDdZaDNNQwFXpIABIFdcFTMmQwE3oYABIDdZaDNNQwFXpIABIFdcFTMmQwE3oYABIDdZaDNNQwFXpIABIFdcFTMmQwE3oYABIDdZaDNNQwFXpIABIFdcFTMmQwE3oYABIDdZaDNNQwFXpIABIFdcFTMmQwE3oYCXm8zTTPM2UMBms8nFixflwoULEhkZKfzs7e0tPj4+jrvHxsYKa90HBAQ49pkN96WAASD3XfubOvMZM2ZIeHi4ZMuWTRITE696bYJR7ty5DQBdlULudcCIYO613rdkthERMbJjxwm9dnrgww5nzyZIfPyNDeP48QsSHX2DJ9/YLc1Zt5gChgO6xQTOipfftu2UvPPOQpk2bYeUKpVHGjcuKbGxiQCPi9KkSSl5+eWG4uXl6ZjaW28tlKVL4+Sjj4oqF5QWCMXEJMuCBRfkjz8uSM2aURDD8jvOv9bGzp2n5dVX58mZMwS60/LQQzXlm286Xes0czwLUMAAUBZYpNs9xCpVCsr777dUAOrTp5q8915LHcL27acAHl/J7t1nZNy4Ho5hDR3aRqKi4iV//kBZvHixHD58WJKSkvR4PNidlStXyuGDe8Qm2bGvoXh6ZpzxTkpKljVrjsovv/QRf39v+fPPvdKq1Vh57LHaGEsRxxjMRtakQMa/CVlzfmbUN0iBwEDfK86sXLmgVKpUQObN25viWECAjxQokEM8PDykWbNmCj7UBcXHJ8hrQwZJ2I4Z0qPsDmlWcIue99KLA1RBneIiV/kQF5ekHA/Bh61eveISFOQrxYvnusoZZndWooABoKy0Wpk81osXE2Xv3nBp3bqcYyTHjl2A6LUEwDDCsa9x4y7y11/JMvjViSLJbaXfvSWkS21P6VbXznBv37pF3n7rv/Lllyulfv2RMnz4Cjl37qLjfOcNAqEzx/Ttt2vk6687Sr585KZMy+oUMACU1VfwNoz/woU4WbHikDRvPlrKlMmrOiDrttmz+8iJE1Fy4ECEtUs+/fQv6dq1ptgurZMJT66XyIspuakPenjK2DFjZOfOMPnpp17ywgsNYBnzd5yf1sbRo+eld+/JqgtasuSgxMVd3dKW1vlmn2tSwOiAXHNdXGZUv/22Q2bP3i2bN5+Uzz9vLwMH1k8xNgJHxYrBEKku7z58+LyMHHlSKhTPLdVLhEmQf0qwCPT1leMnK8hbbzWTQoWCLp+YzpaXVzbp27eGinljx26QwoWDVE+VzinmUBaggOGAssAiZeYQu3atBOvVY1KwYKCMGLE6TTM4dT/4c7TnnrtHFi06IVv2d5b1oQWkVP5zjmPceP3XpvADCroCfKZO3abiHEU6/p84Eek4j0DVrl0FmTTpfunQoYJMn77DccxsZF0KGADKumt320ZOfcv48T1k375w6d9/+jXv2759RVmy5HHx9QuSnl/1kKW7QlKccyZyg8TElpIpU+xKaesg/XyoY7L+qXNKq3XuXCkFx5VWH7Mva1DAiGBZY50yfZQtW5ZT8evzz1dK06al5dFHa191TMuXh0qjRiXl2LG3YZp/Sh4bXVsGtjog52Iv6Tnt21aVmrWbylNPTVerVkhIbt3//PMNrnpN5wN0Rqxfv4TzLrOdRSlgOKAsunC3etinTkXpLej8Z7WPP24tVaoUkOeem6kOgdZ++gDFxCTIpUt2gBk1aq0eypMnh0ydOlgaNqwuXpUHyin/5rq/QaMm8uabTVWh3bPnJMSPpc3psDMV4L/9th3hHcl6LuPLFi8+IO++20I/m5esTQHPt9Gy9hTM6G82BbZuPQmAWACRK0L1MAEB3lKnTlF4P2cDmIQIAWbatO1SokRuOCDGyf/+twLOh+clRw5fqV27iHzxxd+ybt0x1QutWnVEXnmlhbRp00q9pbdvP4dA1Vh8ribZs3vL99+vg45pHxTZ+dP07SEQdu78IxTgK+X8+TjZvv20Ws2KFs15s6dtrpcJFPDAL4qT/SITRmBuecdRIDn5kvA/MjI+hb9OXFwczO4/qRNi9+7dNSjVmjy5J0bRM1A1rXb2bKzkyWMi6NOiTVbeZ0SwrLx6Ljp2Og76+HilAB8O1c/PD5xORQWgo0eP6uijoqIQarEGSu7xENem6rG0pnWrwefw4ZSWurTGYPbdfAoYJfTNp6nLXpFm7jff/FP27AlHyERpoRhD3Q3/6QzYokXZWz722rVrQ3+0Q7Zu3SoHDx6UiIgIBR1yQMwRRJP+7WiffLJMBg+e57hV377V5ccfezk+m43bQwEDQLeHzi5xlx49qiCQNEz++9+F0Nu0k6pVC+m43ntvkbRs+QMcDvupr82tGixFLILPqVOn5K9lS+TM6WOSPTCnVK91t1SrVk0CAwNv1a1TXDcq6qIq0bdtG+jYb2LLHKS4rRtGBLut5M78m1lBps6cRu/e1XRgqYNMMzLaa6kQmQFx//79UFpPk19//RUOiovgAf2WlPb4W56/97C0L74FDo4jZO6s3yVnzmsrlq91v2uNmXqoxx//WsLCIjSqn4p0BtkGBfld61Rz/BZQwHBAt4CoWe2SW7ac0iG3aXM5yJQ75s3bA8A4ADP4DrVujRjRSfLmtQeBTp68WU3kUVEJ8vvvO+Tvv5/Sa0RGxslrr82HOOWN+LCzkpBwDhYvP1jQbEjLESETJpyWrrXryqvttsrsTeXk+6X3SI+6R+W3uX9IkeL1ZeLEs/C6ziG+vp5qTZszp5/cfXdxGT16HfIBRcvp09EAjxjNB8QwEIpujD2j8+L8+XtlwID6sLo10rGk9ZKQkCAbNxIUz6L/JETxB8AS1x3e1RXT6m723WIKGA7oFhPYVS9PK9XJk5GwSm2Cd/Pv0rNnlRRR7mvWHEHysL0ybFhbWb/+WY0Fe+qpGTod+uTwoe/fv54+7HQKJBCQO2nTZqw6CQ4d2lZ+/rk3wMJDvvvuDCLaPQEqoQLdtJTMbw9ObV9jrxTNc0Fi4v1k6P1esnHdSoRY7IQouEuqVy+M2K/qEhwciPPXAGDOyJAhTWCO74DxHJOPP16qY3nttT+lbt1iAKhuqsMZNOgPcFrbrkp2pgkZMqQYzi8mffrkhWn/onTpMkGWLTOhHVcl2i08YADoFhLXlS89ZMh8iB6fK/isXNkfYNFH8zlbY37//SXq18NwCXIWhQrlkJkzdyrQ0PFw69ZTsFrZH/Qnn6wL8BGZM2e3Jg+jromNWROfeOJu9I1CpkQ/ZFWMFV+vZHFWM/t52xOXFcntIYkJoVK+fD44OxZUjoRgU6RIkPokdep0lzU0DQvp1asqMjTGyg8/rFcg5TgJqH5+XsqROTqn2iBQUvzMndtL7rsvCIrowuDWsoFrm4Hxz1FXgFSnmI+3kAJGBLuFxHXlSzOL4f79EUib8RPEmdUQdzqkGC6zEDIbYtmy+XT/Z5+103cCDU3iDz9cE1zTJKTIqAYdTifN2UPnw+Dg7CnStd59dzE9z98/BGBSROKTLgeYOt9wxb5LUiKkrJyP8krh70PRikBDR0ir3XOPPQxj6dKDyJLoJeXKBVuHkDakP4DTRz8TIPfvD3cc69evFriwlF7XhQv7SK1a2SEuxsPp8oTqqcqWLQuuqq66DThOvskbDCchLem86c7NAJAbr36XLpXAodRBYrC/Nb7LmctgCASzENaqVSRNCn3/fTeEUuSDRW0BxLMTEGH+g3CJS6qjoViTK5c9v89dd+VXD+oNG47LqlXBkpCUTb5ecJccDMstFxO8ZeOhQhIcdFbmbklC2tWH5Ntvz6e4X3h4DJwabSoCUtRybhwjdUI1ahRKwb1ZfazgVuszQz6yZUu8wtRfqpQfuKdEFSGTk5Mh7u1VxXnVqlWh+7p6zJt13et5X7v2KDjJXbD6FYIbwlnZtSsM4mzbK3ymrueaWbmvEcGy8urdwNhTW5GGD28PDiKfPPLIr3LkyOWHn4nHpkzZmuIONOFTF8PkYKGhZ5Ec7D5ZvfppVQpPnrwFIl0B/VUn92S148cjkaL1kjzwQHV58MEaujsu8aCsOzRPiuWbLXFJ8bL7RDHp1vUVcFtX+iGVLp1Xz2FOIue2bNlBjSWLj09WvZHzMYqKnCeDW8eO7eH457Xmzp0rn37yrrz26gvy0XtvyOxZMwEEcbjWZSuYpc/avTvlPZ3vcaPb5Djpg0UxlfSjaDt06LIbvVyWP88AUJZfwuubgBVkGhYWrScyo+HEib00z8/99092BH0+/HAt1fEMG7ZcRaCFC/fDgrVJxR2GWPz8sx2catQorMrrYsVySbdulbWKxty5exyDolhWvXohdXK0XABq1eogfR57VUI9u4qHVw7tG3E2lxY1JKA4l96hf07LlmWhDF8OIFmv/jtvvPGnBrCSu6Jo9uyzM2Gt269WspEjVyMXNfRMaTg0zpwxHcnsX5HquXPKb8/YZHj3CzJr9nxZs/ogsj3ax8HzvLy85J577gFoPuCYBzdSg3eKgxn4QGAjGP/11yFHb6aitbhFx0432jDBqG602JMmbUY+5VUa1Mlcziy5Qz8YZhdkoOn48RuFIkLNmoWlbdvyqiP6/PMV8sknyzXlKkUF6iwYIf/ii3MQbuEp5HCYOOz55+ujCqongKYMRIrlmuOZQEXO6Pvvu0LpGwBu6QgU2vsUPHbs8MX9S+GBtOF6SXCKDAAnFS+zZh3RwNbw8FhVfjNlB7mEXLn8MPbVqMaxQRXTHMfSpaGyZctJgI1osCotcxwPFdHMHf3XX6FQNJfScY4cuQQc2BzpjrzUMzbeK1PX1MB7HSlbsDyA5Xc5H50d5vnsEOk8QYsS8swzC7UcEb3F6QJARTwDcAnCTEdiJcmnq8J3363V1CJ//30Yx0pBqW3XQaX+ahHc+APAcZYqlRsuCslKc+rfOGa3bEB10wwFrkoBKIBt0KWkOA49iX4+dy7WBm4lxTHrw759Z2wHD0ZYH/X9f//7C2rXwba1a4/YkEPaNnr0Kltg4Gu2WrXes40c+a0NsWDab/Xqw7YBA2bqNu9frtynth49JtrCw6NtMTHxtpo1v3Rc9+WX59g4ntDQCNvdd39jmzRpkx5LTEyy3XPPCFurVmP084QJE2x+3s/aXmrb0Lbtoxy2pa/ntzUo19vWtlpX26hHvW3ly9S15cz5X1u1ap/bIMLZBg6cqWP89tvVtldemeO4X9myw2yDBs3Vz1cbp6NzGhvIZa1j8vAYrPeKjU1Io5f77HJT2HXL35obmjSd/VInjKcvDVt6ogMV1FdrDAUhpxUfnwTOoi88kv+GojnZUU+eLgBU0loZEy0XgClT7lfuzXIBoB7FcgFgmg76Bzm7ADBp2hNP/KacEINevTztLgDZYQnjv7+P3SIWFOAhQTmiJG/+gsoV0imR/xwf05L8/ntfx1SYGdLX1/7YXG2cFLUsGjlO/GeD5zZrVka5yI0bT8jrr89HWEz71N3c5rMBILdZateZqLMLwC+/7IcjYGm1POF3Hw/mGfUlupkuAEyoX7duLYlLpN8SmLBUbcpq1Bu79z7ZsSvjLgC8RHquCmm5AFDUZSkipralc+fbby9EYrXFEClzyksvNUw1Kvf4aADIPdbZ5Wbp7AJQv35P5RjIBTFNx812AaDndt2694iX9yT5dG6SPNnUJp7Z7O6QoWcuya4TCXJy1ltQOs9KQaf0XADYMb1xpuUCwHPoczVhQg9Vkr/zTgukrb2AzxvdFoCMFYzfCtNuCwXI4Tg3ywWgf/9ZiDErqYcYuHqzXQDoHkAFcK5cuaFED5KyL8dLvzFesvqgpxw+5wsF+wHEnxV0Hppup+cCwA7pjTMtFwBaHulYScuj1e6/v5pa9liC2h2bASB3XPVMmnN6LgCffLIbYR4eGgrx4IPVHS4AERExCLdAgcN/6QLAVCAFCnjC4ncv6okNlZ79R0m+AlWlRs371BpHklyPCwD7p+eqwOOpW/78gVKyZG6NsbOOHT16ASb/4rC8eVq73OrdpGR1q+W++ZNt336c0MuZDxH9fCZO3KwPGWu401xPh8FRo7qqmZ/+O6Gh59RU/fbbzZFf2s71sAYYg0rr1csvrVp5y/33t4JuZIOa8Dlib+9scujQq+ousGPHaeQsGieDBjXSz/RPohmbWRh37jyNcyfjv5oqsR988JcUJZ87dcoFf6FImMn9FTwY08a816+80lA9qllyiOZ9FmDkNdjoYtCnzxTMI1Qj/D/8sJWjOGNCQhKu86sqy8nc3XtvcQDnAzouPTmNF3qNM4d22bJ5AYg54HJwTiuMWNxWGqfc0bsMAN3Ry3vrJ9er1yT43HRxWMr8/d/Ew1tVvY95dypjGcv15JN3X3MwSUlJeDj/p2EQefPmRVxZMYBYMfj+bIW/zxMAMS+IUblUX8RwD/odOYsz8fHxAJxzcGT0Umc/OvnRiZHizcyZM5QDqlq1Bhwja6gfD3VDvEZGGjkx5gxKqz/vwzAPKpkz2gh+BFY/P++MnnJH9jNK6DtyWW/fpAYMuNcBPmndtUuXu+DgdyLFoas9+Pv27ZOPP3xXmlTwkJx542TmET9Ztr0MHvx2MmPGDM2Y2Lt3b71WWi4Aa9euRWzVLuiT8gIUjyPQtppyQIGB0QAvmyY8q1evjuqDeJG0wCTFQPGBJnVycuRWrtacXRWoRM+ePTsCavNcrbvud/cgVIs4BoAsSpj3G6JA/foh6Z5H3YYVRMryOwSjbLBAsbTyiBGdVVSiGMdihlFRR6VYnp7y2xqU6Ml7QWqUOCV5A4MlIjIJolMYQj2KIGZtKjicBETiV3X4/FgDyJHDDhI7dpyUbdtOw9fInvOZbkt162aXP/98yAE+1jlXeyeH8s47CzU1CINhV606rPdjgcartdDQUJQYWqBR/+3a2bMHXK2v2W+ngFFCm2/CbaEAnfr69ZuK7IbFNIlZq1bloOdZpPdmWIO/f4J0rwddyxuTYSK3Se2Sx2V433nyfOvN4pUtHmLZISTPF+W2GLtmORw6D97b21sTnx0+vEnKhPwsBYN/k7x5QsHFCDijBDgQXg44dT4vrW1G+cfGJmLMtVRH89RT9RCeMVPLDaXV//z58yhHvUQPnTx5EmO9XNAxrf5mn50ChgMy34TbQgHGjT3ySC2kziis98uZ0w9K4zAN8OzTpwrirLZJQLlSOHZAsnmwwqrdT4edfZDELDb2AhTBYXDku18+++wveBAvgFjloVH2jKmiT46vb7Jkk8Xy62+T5LtHvaVEPg/ZcvigvPrzIzieF9Hn3wFQGkilSpUgfqWveyFgrlhxSMdHEz6LIjLPEJXdqRt1T7NmzYKuyZ5cjce3b98OsL223iv1tTL6+bHHfoV1cMMV3b/8sgMq1957xX5X3XElNV11pGZcWZoCfIg/+KCVpvFgOlV6EbMc0KpVq5AtcQ3EFuSLXtFBBv7YGmIS4Mfjss9QQrIXOKAQpPvIq7mLqOzNndtPa4/RrE0/nzp1ikDEOgjwKSgDWtaXbxf1lnIFs0mPu72kZglyI4maxXH69FWwQH2AdK9jNJD1akR96KGaWoWVljQqoJkyg+lpnRu9tplsf9CgQUhlcsRxiHqjnTt3aniJY+dN3KA/EYFw69aBCL4d4vgvXDhHlsttbTigm/jFuB2XYlWHjRs3wuSbdX7lLLq8//5iNWt/800njVZfufKQ5M+fXxXHDz9cEAC1UP7Y0lCSL2WT+ET7V/NgGFJYJCdKw3sDUU1jncZhRUT8V8+nPolJ8xnVf+mSTS1R4Jfk3nInJTYhQEUv6n98vT0k0C8G1rizqImWC6b+XBDhSqj+iWNLK3aLbgRffdVRU33MmLETMWuPguYlrKnAuveLPNLvQalZEuIj/Aq/3BwjdWtXl0cf7696Jjpd0sGxXLmr64wcF7vODU9PD81C6ew7xKwAzEYZEpJ2ZdnrvMVt624A6LaR+ubcaP369Qje3K2Bm82aNbumKHFz7vrvr7Jx43EN7AwPfyOFIrhMmTISF+cDBfRiGTjggnz+xQTc7GHZdixIPvvjkoxdnqxWpfvvLwIuI1zTpFoe1VRmN25cCsriFmrqZ0iDj1eCVCt2WvLniEHUl4cC0/FzOZD4PgcU0zlwrUSY9TvDi7mMJlejm0C+fFRQ75P//KcuwMkOGBwvk/KTqzh5Mkr9izZtek65roceGqNJ0Mb9J0iql0iQkYvqSP6girJ2/R/QOU1DdY/WEBejAHLLZd06e4qQ7dufV53SBx8sUT0WfaeY9mTQoPuUuMxnzTQdmzad0ET5X3/dKQXgOa+AVZnEeR8rk3TuXMl5V5bYxu+Daa5OAVawYKQ3HzxWEuUv9rFjx+AANwUOdKdTDJ/+KIcOnUuxL6Mf6FhHn50bbfS3oe6EaVJTNyvb4sqVh/EgJiAz4R6IYInIiZOEeXlju7i0btMOIPUfPfVsnLfstTVAsrN2sJoxR48HlNY1VYRjLuoTJ6IUXKj7YabGDz9cArFEkPLVRx78tqscCs+lyuxhc+v/I84l6zVWroxEeteLeg8+8MyHxDkXKBAIYNqgic0YLNqq1Q+g41mESbyAnD09EaN2AWLeN+qouG/3FJyfA5Y6TwmC8vyZ5mslLDJQPu3tL8uWr8D1LsLBMQ5K6TDonCppwjaKoJ06TYBrQCVVwg8efB90UvN0XUm3Rx+dhvm1wP0fR1WREOnYccJ1rQWtis4pdVPT31U/GwDKhJVhxj96/3p6voZf1NfVtPzAA1OE5uhHH/0VMv2FFKPiQ8sv/+7dZ5Tz4UGC0MWLF1HCZrb6yIwZMwYF94ZCpHkXStrlKc6/1oc9e0Jh1h4PPcxHiIn6ANHpP6arH0nretu3nwIH8TvARFR5S50Ja4RZrXXrcpq7uVevyZoig6WgCZYPPPCz5nz+/vt1EFmC8IDXUjN9pcohUvfuzniQvcAdXQJHEQl6Jaq39a+/bgfXlKjZBWfN2o1688Mx3lPwnKbSd6lsCC0kj37fRToN7wW9UnU5ec4b4zoB/6Ccem1yC2yHD5/XQNBNm44CNM/imknq8/Pee4uVK+KY6W/EVLLkVujF/fffuyX00EE933rx9bbHcfn5iJQrnA1gZk+8X6OGP8SiSKxHO01oxvzPtWvbk+uz7NBPP/XUeLJJk7b8M5ddmmmSzpUREbHqmmDdI713pselktxS8KfX19WOGREsE1aEIQusccUvHi04zFvMRqVs8+ajkR3wC1UsWl6yjRqVRN7iV/BrnQsP9+WHmuds3rQRGftGSdNKvkju7iGxMZ2RoW89vvRtAG54IjLQBg6E2FAkmyxc2BXWogANPejefSIe/pczcLa9C6uL/vBDd/1P6yTOZePGAQo6VjbB8+ffUmdAgilDLejdTAXr66+vAdciUry4L0QUu9WM15w27ZCmd1206AmEfowAMCUALO9SbogpYmvW9IQY011efnkYLGm95VzsOUlMyi6eEMu6dmoD7qMKQiemArCCdYjPPXcPzv8JoO0JTiW/vPfeU1iPS2JP+ZqUwsuaYESd07ffMhOkt8SmXAbHlMMuJAMkae5PwPmeqpzmDwUtalaFEKvzAw/Yc2RTIV+8eE4ox+05lPhONwOu97Ztp7ROmnUOfaqYT8i5sZZaVuR+OAcDQM4reRu37fliIvRXl6DD1J8EIIoDZOGZS9mKleKwSpbMgwf0PLgAT4e5l5HjX38zQua87CMVC9t/hfceQwWJI8nSvk1zmb9wWQp9S1rTQ4ZBfNE9cP0EhC8sQV2u8ngYa0CkWaambZrLb2azwIfXtDyRreRdTFJGjohpWj09g3SuTNFhtWPHokGXk1Aef44H+4KC2WefrZAGDUoAFDxhpdqjHNhnn72ONLBHsa+EnDyfXWrWKgZdTi5cu4ZyPVSGt21bAaJRWcSghSDV62GcS93LVIi1e1W0o3czxUR7yoxj4Ej26TAKFfKSUqUBRpusUYm89nNT/fDseHtisWHDEvTzhg3RoGd2iHE7lKOh3ietRjGS4nVaFUj27DmjEfTWefwepG7k6BhblxWbAaBMWjX+wr344mzociIR/9QOXE8hHUmVKp/rO3Mis1HUYGlkFuB74olKDkBZuzZa5s3dKi0r3yNvTC0r0wb+ov350rNuNvlj41qYrH+GiHFGqzDw4WOWwdTt02EfypRJQwW+gHIBOhmGMbRu+ypCCfwQunBzwSf1vZ0/09TNYon0QKYYt2VLOEzZTHJ/HkCFHWh16gRgf6yKGwxloOWLeacpejz2WG2IstOgpPYA1xCPPNJ55OmnUfa5xzzlXKhIZg0z/tMBskWLMXjg/eV8xE+SEHcQYmAH6IDCwB1VwvUTARiMIysJkBoO8LIhn3UUAM0DgJIDuqR2AKCT0mpoonzTz1ci4+i3xPYHLGfPY1w+CFjdhmsFqSme4SGlSpVQ0CRHw8KLbNR/EZSY1uOLL1aqyGrVqKdeiPmz27WroDohPSGNF5arpmjXqFFIGkddf5fRAWXiGllObYyNoiIV+Y01QRWHtHjxAR0ZwwCYxoHm5qioaP1Cc9+CBRfElrxGBrXfILVKnsSXnlUb/pkMxJdqIV4wFa+CziEZnFQyuIkIDdT8p4e+TRg3Wt5+512ZOfCSrHpTZNuHKPKXO1zGjJmLhzMb9C7LoFSOdz4lxbZljUqxM40PVDovXLgujSOXd5GTYVwZgcVm+wgP4zsQI3tA5LpLOaHo6GSIKAGoXno/xNFB2Ge3cPEKFI86diyNhzU3AJtZFS8BzGpJ9+73AbSKqtWJpZsZgT5v3l4t4Tx5cj3Q8C8p6bNLlgxOlC/6bpHSecMBVmshjnr9w/2dhGUpAIARgHg0H4hv5XGPdkge9rCKZw0aPiEj1obIjvBo/DDYoEB/B2b7h+Wuu+rqxNq3b4EfjScAer0h1lbHOd4q3jJZPkNPGH1P0ZU6JgIpI/mpzyHX89JLcxE+crkY42VKpdxijbE2bcoDFKGBz4LNcEAusGj8sjHdQ/PmZZAxr5OKIW3alNORUSFZrZr9F3PixB1wjovAA+IDoEpAqMFdcvrCOimQM1omrqoiF+N9YL7OL+UKhcvm0GpStwEsSXtjIWLswEO5GRyNFx7KvPhFD4b1JRpi1mZ5pd3d8s5vIbIeilv63+QNJOeVU5YtPQdr0UKAwUKIhMkaPb5o0WPQYxTXKhH85aW1KywsRsds5Y1mlQiCJbm22rWL6C/4c8/N0FgsL68Y/FI3giI45e/ejz9uhA6jonIIqZeD/k4nT56FLmgtACAfgDFGU5lSgWwBLkXWI0cOQ4mfC+JODESnc+Aok6F3WYD4sUpQ+C8Dbcco9/jii/UBBHvlhednoUx0Ydl0qJ+8NS0CFq1I+aTXBnl5ciOU6VkAR8WmsH5FqJsDK6+WLFkSdOzhEBsJliwVdNddj8joH1qrv9Dx44lYn1MQ6+brNIYPX6k/HjVrFgHNg1B19QHM4VfQYJSULp1Hy2ETcPn/ww/dtLJGqVLD1J9n3LjueA9MTY4rPlP8euSR2lfszyo7DAC5wEox/8w77yyCNWsXdBxHYZGqor/q1tDok8LWuHFO/NL7yscfn4CI5CUnTjeSp8YVkMLI9Df3lUnaZ/yKajJ9fSm5cNETD2MgHsrcAI0c4GQS8eAegvhxFP4l56HkPi7enl5yyeajydmXvzFWBvzYRg6dyYXYK3JMp2AuLwnuwQuiSCCUxAkAsSNwgDuuZv6hQ+1ewahYgfEsRemeNvBuPqK+Mw0bInZrz0qZNbO4rF+3Dpa13Mq50TGP6TJat24NQPPX8bI6KE3qDz5YEyBirzWvB/55ofl682ZvgKA9zOHo0QNQFvfBf0uEP+xSc3WePP7gIDcD2AQK5OLKcaxadUI5ijNn3oS5uzEcAj8FMDQGkMQgyfx+CT8TKYuGzJbcUBR/PKshOMmVesdcSFAf4OsBEaoJwC5OxaT//OfuKxLwMy8QTemWyLR794sOcKJotXHjc1dYpVq3Lg8wfU0V7amj6xlzRi6J5n4qny3u2JkWaW3TWZL6w6zaUv4UZdVZZPFxU/fBOudMmM6qCeSCnLkEJrBi27CBepGLysmcP58Eq04eiYorK7tPBsvrUyvKqn3J4GKiAT6h+MUtCKCIl+HD/4Nf877QkTwCzuoefPmTAEbB4AKKId6Brnpw+2u0SXIGxEtElD+4qRhwCoIHIAHmZG9wW954yHNBFMkFrms3HuY50K9Q77AX4k4cuIQe0qtXVR0fq0Ts2L5O7u/1lgRGHJASuc9iDF7gwnZBfIxUEAoPD8cv/8/qv0T/JsZ1vfhiAz0/rRcq69u0qfDPIQ8o6mMgrtjN3Fb/bduOQW8TqRwO468CAgL0IX7ttSZWFzWrr1ixQ72TCWYJSaXkfEwOgG+y9Gu4xdGPG/BvhIl8r1qlBg1qfAX4WJ0t8OFnS6F+LZM4ATU1+FjX4zXo1Z1R8OF5VEpb97auk5XeDQfkAqvlXCWCIs1DD/0CXcfD+kBxeBs2nNBR5sjhAW7CFxwEE3EF4sGvjYc3OzijMTJ5VStZuK+qeCN9Rb8uLaAwDYAlaB1M/Bugh7DrJFge+ZNPlqnOoGfP0lK40NvwEGbk+UlZd9Bu7s4fFIPQB4FJPzdEHBvu44kHglYyX3BNcUiFkQxv3SNI8HUAepIkBD6G4EEtCUDxgui1F5apTdL33qK4XjEZ2nsBruUh/ce2hsh3CfMIxfi9wUmhJI7/fjyI2QGQnVSZTAdG6sIoVnGb9zx1Klrrp1uR7wQWm+0SAG1viprtgwcvAsdSEJxefg00JbFYFojFElna5+DBcHAWYRB1/GBhyw3OJAD7vaXrlw/K4PZ/A4A3K335grJdcjaqBHyKDkKn08mxnxt3ukk8xWRv0wfDAd0mQqd1GyoerWZVieBnhgBQv2A1y6EvONgPfiv3QFzpBC6oNBS01WAhKQMgqg4up4ZciCwKEccPCkl//cXn+QMGzII4YBfhWMqYFVD5oBcoUEBy5c4l3y1Olj+3BSF4sw4e+kvy93485OCLfHwLgdMAEqExcpw+Rbt22Z1fihb1BTcVDNBJhGMeubKd0PlMB/gky8MNIeZ1Xy4NKxyRSkXCpEbIaSlTAMGT2RL1+n5+2RTMnn02P7ijKARP/gjL1Zv6TxM8HfD4edCgP7TC6gsv1Ncx8KVWrZq6zfs5t0ceKQCLkx8sWy0coE1nT7o3JCdfhIhyHFwRlfR2axVB9ZlnsoMLOiLvTm8sb/5q55TmbS0gmw57QD+TDWDlpY6VzvfhOjCpvPXPRGWpG3UyWdUnJ/VcbsdnwwHdDiqnugcfDnIiTOXJxpCATz5pDW6gvYpi1IsMHjxPLTE0L9NxkX0PH84J3U9J9Rf66qu/1Q+mWDG7d+/Ysd01Kpzn8SGwUjKQo2BYwRtvNAV4VVKPW0aPs7FCRIkSdeSZ8dUguuXSfdbLoUOJeBCzQxEaLE2aNFGxphCU21On/oiHvCz0FY3AYf0A8aQYTPeFJSQET7iEysq9VIiGSp97tiqQHTiNmu8JXuLnDX3KJS8opXOpVYn3adYsCKbmC3jQCwBIS0DPkws6qr80ynvixE0al+Xjc/krmjNnToioxbR0j7MYhgSEALWSAF27Ix+v/d//zgeYnQWNtoPDsszkPCIAkItSoUII9G7+CHCdLRP/bipL9uyRkxHtoPPyAE0KYmzB0JntwhzXOjhIhkikl4Atq5vE7dS5va+GA7q99Na7EVCoRGUydLaHHqoB0YSBkj7wjr5fwwUYjU3nslKl8sKk3Fj3MRo7KIiiUCScBWsJwxmqVSsMS0x+cBfZoJ+5D5xJdVipuuk51CewcigVsQMH1lfnxurVC4FTKKv3rVgxFxTNeRAAWgPexwXAKfjBmzg/HnJPWGtqYkz5MKZcAJcQWHOYMP4urf0+bNhfOD4daTQuwnnxGPoEgTupJMH5EmXfaVi+Pu2jcVir9heV39ZXhJ4lCaJeAMDPzv3ozfESH28Hhn37YuE/swOgsRDjiYe+aRx0QysAEsEYezSsQ7/rKfYqpbEyZ/Y8qVqpjPTs3lv3//TTUVy7mG7TbeDppyfA1L4OQHYeiuoIjDNZrYY00a9eHY/A0xgAaSzAPgii2BsAYk8JzNsXgJkd3GEOKMMTAGbJoGFD0O0yB6k3SOclq5vE05naLTvk+TbaLbu6ufBVKTBp0maYdVepUx2L0xEsGBhJcy3FpPHjN2r5YsYgtW1bHvlwIlCtYQU4peXQaUSAa2qrZlqGL7z4IsMDPBWYWMWBug8qJlu0KKNiDLkninuTJ2/BL3pX/MqTW6FIEosHcB/EqIuqOylVKj84BoZFnNMKEIzMprmbVhb6q5BzGzt2vXJkVJrTg5dOdO+/30qv17xFQYSBLJLwqPwy7q+acuB0Hnmj03IZPq+UxCd5AUT9oARPhP4mEA95PEIrzkmxYj6Yr4BbSYZIx8BUG8ISyKXEID3HEoiif0F/ZBchaSHasuUE/GQi5T+NLsrp87UlPDoQynCEPBzeAvDMh3i4n0DDJIin2SF6xsASGIfxBoP7q4y57ge3VgBiXxVcP1L/jx/3ALfYAGb0xqozo6c5dU39+3eC/1QpTfsxZcpWNQ7wRyG9xiyKrKbBHwTTMkYBUxUjY3RyiV5pVV+geEGLWVpVIqxB798frhxSWm78NBnTsZEhElay+NSVLazrDBkyT0GRsVj0XO7a9Sd19Pv003YQi86reHfhwhEoeTvClN9NapVaKzGJm2Xfye4SkL0oQPAS7iUAAS+AQjacGyj33ZcD4JkNImYSxM6j4F7yw9vYX4Fw166L8OQOB8AVhUL4GDjFXPBWnobhNJMpz/4idUudgB4nm1QYNECCsv8u/R7tBID0AmdYBSBUGECSHeLddPUFYpxa0aIfIY3Ggyj/U1w5yjlzdsOilwPcG5TmcH+oW3cEgP5liJ55rSlf1zstYATrrGyVuq4J34TOlwXsm3Axc4lbSwHn6gvWnSxzfVpVIqw+tAhdrTnrWPjgpJdSg9wQo87JCREMmfi9QoX86itDDot+OYMHNwYnsx4cx1iIbi0hutWV2JlBAMhkiI+ecMILgqPgeSiBCyn3wwoSLLXDooEiBIGq4CCCcI9oWNt24hwviIL+4IxENm1cJv2bHpVvFyPH8/FgBSAPmMzZGsFvEwkKoSPLASWwXbTl/pUr+0PE8gG3E65jpme0ZeZu374iu1zRjhw5Aa5rFzjP+lCIZzwchQBPQGc8X548di7zioubHSkoYHRAKcjh3h+ulVKDCbv4wFeqNBw6lG0IF2gAf5lNKi6Sct9+uwaOiqsg0p0BF1QBiu9e4GRKQP+SCD8gO/fTq1dliFyeED/DoUyvqE6Dbdq0QUCp3dpVunRpcEZ1VPFdqlQZcE30d+qtHEu+PLklJF8EbHQ21Hi/F+b99vLK5Ba6aEt2tkBoxUVwYqw0+g04mlCMoRC4myJwQgyGHihGOb3Nm0+mWOSoqCiImYchrm3S/f/971hY1L6BL9Y6jPtYir7pfWAMGyt2/JuUJuld/049ZkSwO3Vlb9G8+AtPDsLiIiyxLS1RkA/2n3+y4mk9gNUaeCuHQ/czOM2RUaTLl+99KLWfBBiFaB/qyWianzfvEYhqxaG0f0U2L/pFVux6VEb0myWtqx2QxORsUv6VAVB6H5IuXXMj3CEndF9B4Lx8wG3lUBeC3buTwanlRq6l9QhOLYz/ggDGi1CCx4PLipDFC76VQ4eRTC2xrwT4/SCBQQ9A5xUMX6cBULDDxJaB9jxCO5jrp3v3yhBTj2nMF8Xa60lpkoHb3HFdDAd0xy3prZ0QRTYLfHgnS9/hLApa1UpLlCihwZhVqlSBzuiiiib0fk6rMS8SG8U7q3XrVhkK6SBwS/OgC5oAh8eysvFQIaRdPSetqh7QboyIZ0vG+5QpX0H5XADiU5w6N0ZHX0IQbATEvygoqsMh2vnDReEk8uscgSI/ElzcaRk5cpTcU/i4zHkpQa/zatucUJSfBlAeyTD4MNiWqWHpi8W8R8zf9OijtdVwQEX97WiW6Hc77nUz72GsYDeTmuZaV1CAHBLTpU6bth1cR5LqYcqVy+fQkTAr4vbtpzUdBXMg0bmvfPm8AKsjyAiwCHokgVf4GXArHhCn6kNHVQ5Wum9k5MJ4+XndvfLhjK64pwd0RcGIRaO1zAOxZdHwuo7SjAFJsL4VLuwFXVA07s9kYZ5IlRoFMTEa8WAnNVykcK5qcB/IK1EXfWX+1iqSP2c2OX46VJ56ug10R+cRTzceYBKugaV0l0jdCMLUhTk3WiMZ8c74M4pymzdvVsU4rWw3s1H069//d42sp9WQSdMqVsyvbh038z636lpGBLtVlL1Drss0scxZc889xdX8PnHiZjj95VZLEsFi2bKDMmpUV1io7F7K1zNtOkw+9tg0BN9Wgh9SXQ2Q5cPKxGs0x/OfsVNMklagQAVYy7xw7zxwJ5gMDuYgxKS68IdaAXeABLgD+CKYtydcGcqoBzRz5DDC/Mknp0Mv9IqW/+nbdykUyznxgPoj7UW8jPthgUx7dqGUQkbEoXPqy6B2KyUaCfKfHtdeDp87L6N/fAaxYzk1Or1Xr2ppTo3xcP9983VZOG+WRMfEIo1sPRk05L8o47MRYBmDsfiCY/SEhZHpZx/IMFeV5s3S2JnVRT9jBUtjUc2uyxSgOLVz54uaU4d7qXxu2DDEkUaWn2n1uVpjvfejR49C8YzIe7gMkBNYtGCehIedkNz5CoFzoaiyD6JSpD6kztdh+EfLli2Vc7D20zpGxbGfXwkofVdBbxQIADoLjsoL6TdWaEK1Dh0qwuHwKLimZHAgTdSSRW/uokW349xssLr54pxYpC8JkRPngqRswWjpdfcOVW4zKJeNYRsffrgAVrkysNYVATdzAWMN0ih+RvITVBgYW61qFalW3EPebGtD6R8j8Pn6AAAmGElEQVSRH1fOgHPoHCijX0A4SXGdM+fNuWRUn2TN9VrvluhnVcOwRD/mtKbodzsTyl1rrFc7bgDoapQx+5UCzHtj5fpJiyTMyUy237lZimnuY710KqPJzaz+e4WMm/CjvNbRW4pVgYl8324cywPRpiTAJ4/jEny4ixQpopYwX19fx35uEMBiYwksu1Tpa1XgyJfPfv6cOXPAsXkBkPw19ITZBRiQSheCQ4cu4NxAeECfReCqH/RXPvLEmIfkyaabUDssWfJkh2f3nuJyJspXTp4tIbHbAmCRS0Q+oe0w5UMsO54AixrBJxu4G5ssXXJI4hOekmFItB/kH6fleeZvrYiCiGFy6sIkKLifgegXq1zXsmVn4VQ5HOLmzSvPExDgc0UpnvLl8wGUA7IE+HA9jRKaVDDtqhRIL/aJJ9GkzkTpbB98sBgm+Q3wxJ4N57+foHNJROxUfXWUnDFjn4wdv02eanqvzN3cW1pW8ZR3unpK+ULZZMvmjdANnQOnFA+u4wSsXvHQYVSF93FK8GHpY9ZEmznzPADrklaqiI62K48ZDhIWlgywOQ3L216EujQHSFxScYycAP2W6HTYqlVZ9HkA1zgL0a8I8iEdlW8W3i3bjgZLn3u3SfPK62T/aQGXVwwPck64FYRDlOuDmLGGCAIuCH0UE7VFQ1eVIHEXzwJY/TXi37k8T9NK4cgzdBbR/Oe1PM+aNTEQFW9PeR7q0VjHPqs0A0BZZaVcfJyLFu1HqMhKjVFjPiOmFWVFUYod5ctXhAgTJ0M6bJeX2210pJDllPJk95AiCADdtm0buKUkgEIJ+eWXp2DNKnzFjPcgYJScFGtu0dGPDpYBAd7a77ffdsFb+oj6HH30UVHobY4jsHWhHmM1CubUpqWNpY1YBJChK4mJRWT2nEfACUXKgu1lpPKQ7DLsz3PgvgrAh6gKxh2sjoUrV56Ba0ADxIbRRaAEdFQC3VVBVNv4K8UYtx21K6IrFw1DZslLsODZxbk6dYLgy1QN8W23tjwPXRkoeg4a1CjFuFz5gwEgV16dLDQ2ZvFzTgBGroOKYLYyZe6CeT1AIqLL62crUl4/4CXIj7ohb/Xd+eSTy3mQrON8J/Bs2rQJgHAJAJKAmK86GmCbP7/dT4d6Fpbb2b37IkSteOhALgD0tuC6JzVTI+PrWADArsjODaCsqaZyOkEOG9YOd0D55pz95bH/fKg6H5r3GVpB8HIOSG3YsDR0XvHStGlHKVHMzvlxfIfO5JRRS5gJAPmbQgvIxgOFYI3LqZ+hMtKsAvxwtfI89GR3Ls9jleZZv/5Z9YtiLiLWkrP+Cfip2+uv/wndXHc1FqQ+5qqfjQ7IVVcmi43LOQEYvZFZKI9lhtgKFsyFYNtoPKAdUCZnt7zXHUUZs9n9d3h85/HS4u2bAxxGP7V6cR+bcwIwZlL08GDwqrfGkzF4l57bBw+e0760lrGwIHMmjR59BpH1PnhwAxGMGgb/nJ8BSPEQo5ohfSwTspVTSx6VtRThfHzygKOpDB+h3bBeHVexksnQKOaxDDJLQFspTazKIl5e3jLwxUEQd9YCcLxkxKL2EnrGXpd97PI6GFMd+BvZlfNUwFspaJnv6FaU5xkzZh2CbCuqCV4JkkVeDAeURRbK1YdJB0ImACPn88orjcDN2DkTehwvWbIE+pNgTGGpzN1SVrp90RPcENgCtEPhl+DNHAoLVT71ZdGd/7xYCcB27jwN7mAfQISZFO3JwsidMEKfyd2peKUynMryd95prInUfvjhDBwXfZE9oBiSsgVrGAaj1FkMkRkiWZP9xRcbKofD/aNHPwC/oV5QOhdS5XZo6KvYLqogFxX1DnQ+9pQmzBSQK5efBp3Wq8dKrCKvTIF+KXiKNK7yjX6+q8IOZAUoCZHLHj3PPEZWI3CyphnB1Wp0Ily16rBmFmAtMisBHY8zNo9Bs9TFsYCl9c+oe6uRq2JjCR+rMadUVmgGgLLCKjmNkV/c7t1/AjcwBA/fMPxy/4p4qsn6C83k8PzCZkajExwbS8SwcRxHjhxFXp4fAR67wEmUQiT6YHgsT5AjEQHy0qSy8sgP2ZBOwxP+Mb3g29NHg1mZAMxq1kPXt29uefjh/AAEmtyZaiOvg4tgGWuCwqpVR/QBfvLJRngQ84DzuQhl9AVwMx5QPnvBodEXYttU6KW2AEzAjY1aqzqhQoWCNA0H71mzZmUE0zaH7saenI1ASk5uJUpjW41K3pdeaviPf1IwxB0fcFY/yWtDJ0mlRh/BQoaSSDUaa3dmGWALCLic7O1ml+ehgyTXPTg4OxTrO/X/u+/WaMlpvbmLvxgRzMUXKPXwWNTu/fdbwrN4B+KNqmliM/ahOFKz5leqZB03rkfq027KZ4IK8zVbpu+///4beaAX4UFOgPIzDxKARSkwFi8eAJN1rHodT52ajODVXBBjEgAGrHn/iBQuGisx2UvDX6ayREg5cC55MPYiwgRs1LcwgJSf2VavXg3OZAFEpSQ4BeaDvxDL8tREArNdEK2mwHIWqf1YyJEuAxTFnn66CuixCiLVOVjiLsEMbk+q/+23YYgDm4o+ojqkYcPa6rkEsKeemg6P5wq43xFN7MYDTABHnQo9jd98s6la0sjZ9e1bXUNGmFiOmSc/+IDlefIDCFojne5MiJ7ZoadKgrkf2mq0qVMP4VrHdU43szwPOaV27cZrpP+cOXv0XtYLY+qyQjOe0FlhlVKNkQnMihX7GNHmTRwAxC41anyJL34UzL+vpzoj/Y9WIGl6vQhwrM7BJPdMb1Ey5LicO/2bdKh2UbyzXZIv5hdENYlu4uXtpw88dMZqsoblHKbsjppIjdaZsWPXwjEwBlxPXiipL0H0Oani2sSJ96uZnJVhGU9FXUkhmOjPhO1CRsXsCJMoiuEdxX8xzD07gCdGLWCMwaJ5neBhOeTRVE9wpNmeLS7uEgAxBoGqZ+CI6AEOKgigFikTJ7ZBArEGUHAjlgwxakwpki/flcGnFJF27ToDMEsA2CzVcJEdO06r9zctfgQCq0KG5QN16NAhBWeWlu7Xr98VLgVUqoeFRcPD+8rQDl6DerTrKc+jE82CL0YEy4KLltaQ6XPDnDesEurcaHJ+6aU5sNp8j1/gL/FgXhYn9u49o747rJ5Bv5358/c6Tv3mm1XgJKbjIZuE/MjfAtROQUlcDQ9xawnwj5at26Jl0Sux0q5qPtl6pIvkD+qIOmMjpV6dg8qF7NoVD3HGbg5m0cVDh14Fx1MI+pqCGqc0cmQYAjjr4uF9G4rkQaoUZoZI+hQVLpwD+p1AgOmHsmTIXPmszwYd1xud7OVz6t97QcUtKp0Z9MmskQQPxkWxFSxYUN+tl2VL58uIr1+Ts2HbJfL8CYDP+3qIpv/Ro0erYyGtY2mBDzvyWKVK+RWEfvmlD7ikp8GBPgBgXQ0nzOMO8GFfKzg3JCQE4mgbOC6WuwJ82I+cWlrgY12DuiLnoF/uvxObAaAsvqp0uacSkgpgpkd9+eWGjhlRZHr00Wnwh2mBX+PHVZHZseMER+gEk+E3a1YG8VJ3q9jBrIpsw4evQP/9UNaWgCUpGg9mLCwsv0BHswR5dXZDFNkupSGKeKF0TsUi4XAq3C9hkYGy/j14O6/5A346MQAPpli1X486lSNHzmuFDoo0Y8b0g5hVGqEUSAiP2LLWrccCIEc7xlmuXF6IUOdRr6uevD+jvexAtVe2YHgjs/05f5Zapvz8vLSc9ZIlB8EJLgYQfaVzo9KXXB3b2jWr5Lffp8v8lz2kbRUbKnWgCEBvKGrQGCKS0eBQgh3j3Zhig41ZFZmf29IX6c5UL8zK2Lhx41R7zUdnChgAcqZGFttm+ePGjUfBa/c7OPBVRbbCgWoZsqYxadIWiCGXVLn7889b4RToo6INo7TZGJ5AroMsPzkPOv9Rx/POOws1t3GlSpXw6++DQFR/iDE2mJUjVKxJSoLp2kl76OdtF3Wyo6JokeBkiGCVcXWbgxujmPTuu4s0howcAmOqkpO9cM+i+lA3aVJKdVe//bYdgLQRCmVyYl5yT5kohEmsl9h4+0PPMbPFxSWCazoL7iIfvJp7K/CyesiBAxEoUTRZuYscOZhcPlrG/LBHXmpTW979vb2cOG8vddzkLjsArV+9AgD9qHz55UqA80gFXnpMp9Wo73HmSJh87euvO16Va0rrGmbflRQwAHQlTbLMnq5dK0GceAwiR6CKA865dDiJ9BzbePy55+6B1/FW1R2xrDI9f/ftC1efGepVCD70AOYvPaukMlSCNcLo1Adcu6Ilwupz7MxF9M2rYGeJI+xILs05qTvToVqOi/ROZmMxwosXT+C+HgCRg1Kl2AmU80mCf43dirRge2ntF5/go8BKJTx1UuQCmQqWHODChfsVRMkFMY1HkXyn5JkW2xXIEpPswKMXwUvo0eMaLrJzZxgyO/bSKiPpxb3xPOa+ptXx1Vfnwb3goIKhdT3zfv0UMAB0/TRzqTOot2B5ZAJH//7TU4yNDyZFB1qVnP8tXQdBYMmSJ1R30rjx97Dg7NEHmxehPomtTJkyCHvIA78XH3UA5L5ChQoDFOwmZn62Wt23EqRGtaoOpztrP99ppVq//phjF6udUifESh9btpzU/fv2rYdoFfaPEjsE5X26oVBgIYkB4LCFRdoVxB4ezQFSnhC3LqoISe6PLUcOX30fNGguzO2nISp6yLmoapo1sXqJ04jPitPj1ouPN9wBXpqrDoppJey3+jm/E3yZeKx3bzv4sRy1aTdOAQNAN047lzmzZctyGpZAfQpjnqxGjuBqjm3sQ1GMvjY7dryA9xJQSC9RscbbO5v61VjXYSoL1lNnnXi2ChXvghbVW0q9GCe/rEmS9aF2dsg/MI+sXL0O3It15uV3Ogw6m4rJcVEx3rJlWS0fxJ4XLsToCTVqBKGaRQ45H+uPqqXgbArYgcvXe7Me79CxiPrw0EHPGchCQ+1e0QcOnIUOKgHcW26Ib2Xlvg/6yObDBRGxbldS60XwcsnWWi1Y9AVybkwxYoU88J3JxazGvnT4Y/22Dh0qwLdph3XIvN8ABQwA3QDRMvuUU6eidAjOpYHpg1KlSgGIVTMBKAjnRnvwwRpqHbr//ska18QAUf7iU/fCRmc8NsufhQpVpnh49tl7VAlNXQtbQAAtUklwdrSnvChZ0g+cSl5Un3hcZhyqLUvxz7Zy1U6IZ14KDrTKWelSeYwJ7SlqPfnk7zq+Dh0mANCC4D9TQEGEfVav9oUXcjNY3PJB1AkAZ1IS4l8k6t7bPXzDbCHsBlExCGb8ClBUn1YRrEOH8bDiVXZwb/TZGTr0PqRGzQkaeMqp897S46vucjg8UBKhrnp3uh0w33ijrVA3xnQdzo3OjVb5Zb5zLmk1mv1pwjftxilgAOjGaZcpZ27dehKOeAv13qzEOXLkat1m3hv+KvOhZ9wSU6CyvhWzArKIYKlSw1RZzXQUwcF2ZazlgEdOwtkB7/33WyIJfCmIGVOQGmMPdCOzUY+rOyw+dhGocuUA+O54QymdD0m9OsgnQ59Tzmny5O0qZpETY+wVU3OwhYXFwOJVS6O0WdiwcuXP1VpFpTj9Yax8QoyRql79OzhargcItkU+oJrSu08FKVuuuF6n0X3N9Z3+PY8/XhKhFixE+Cv8gnJCcb5IlcLaAS+0QB05YoOC+VUEpD6HEJFo+XtfQdl1ylPO+dfSbiVK+CATYxN1QiQtrPb88w0AbJfDHq5WJ4w6N3KOpt04BYwj4o3TLsuceTXHNjrfpeeAx0yHdHpkjmEqlGm2pley5eCHohIAqa54uHM7/F8solCMGTp0GQDpOLiaIhp7RXGJXBX1UkOHLkcU+nLVTQ0d2gY5hGZp8Ornn3cAAC0GSBWAnucosiXGwdJXD0rmeeBoikJsPAYOLhDWq1LgtIrDtD9bY7NYcJAcFvVgVMw3ahSiLghULtOyR73QqFHrdL70gGbOopdfLoR4sF7SsSO9oz2QXvY/DjO7NQ/rnfo0uiYw4JO0IHB26fIjShF1Ub8mq595vz4KGAC6Pnq5fe+5c+dq7mY+sKxScd99990wTSjaWH41BELqjlhdg9ubN28BIKyG6OcDDu5iCiDr1q2Shn+waOBrr82/AshiYxMR/vCAcjYMXaGXNK1wDOCk2MfYKdaer1MnO+Lq8kFsrADRdL6KpszZ06BByBVzIod0993fqP/RY4/V0dirzp3v0nLaV3Q2OzJMAQNAGSaV6UgKMCczk8ITgPr27av5lm82ZehEOH78ePgnJQIU6kIsq57uLdIDsvQ4vEmTJul8WAu+R48eDo9lhl7Q58fZ78cagKl6alHi5rwbHdDNoWOWvQr1GLT0eHq+BpHndehqpkLBOwVcwziIML+C22EA6eUWGBiouZobNWp0S8CHd2LmQ4IQFdqpwyouj+TylsVFcQ9Bw6pRxu30QizIvbFvbGws9Fmz4Y5wUd0CqC+zFP2X72LfMiWXU1Pk3302HNC/o98dczaDQJmydM+el3ROTCbG8A5agY4fH6IBord6slu3boXSe54GklKJXK1aNSiZHweopHQgvJnjmD59OpTkYcrRHTkSh7Qh1aF0nwvd12CIa5fz+NzMe5prXaaA4YAu08Ktt5jXhjoYq9FCRYUrnf2YA+d6mhWHdT3njPpupDSqX1d2/fG2hMTNlckTRkGh3F91PddznevtS09vAhyVysWL+yF+zTX8esh5pvZsv965ZYX+XllhkGaMmUOBrVtPaXkbZga0GsGFQazkjBg9P2BAfc2AyOOMrqf1i57Wf/65T31/WrWyR+czapxJ65k4i0nVHniguiawZwR7z54jwPkclsK5H5FxS3MhSX2kxCX4IwzjtBQt8rz858ku6hjJKqO89/HjkfABujnlbfLly6e6H4phBCHWi2dj4cMiRWro9u18YfZHhnnQx8s55cftHMNtvReIbpqhgK1evW9s5ct/aoOZ3LZr12nbSy/NtuXN+64N2fVSUOfVV/+wLVlyQPfxXWSwberUrfr5iSem2ZBaVLfh6WybMmWzbgOYbAULvm8LD4/Wz7y+v/8bttGj1+rnKhUb63UebthS3399LkTfv+5X2Rbo31S3eZ8HH/zZNnv2LtuLL87W85o1+962bt1R3d606bj24+fExCRb69Y/2MBB2ACYtmefnaFzQdUI7Zv6Ze3atbbvv/8ec/3O1r//R3qdBvVb2Po99JBt/fr1qbvfss8c9w8/rLOh4KDeY/78PTqWDRuO3bJ7ZvaFjQh2W+HetW/GkIMePSbC72c44rNOwZHvVeVirFHTAsRQD+YYovcw35kSgyWW2dKKrud+psqgaZsJ3tlYR71hw5JIqPanfj4Vdlzf/X3sHsc+KBJoteolD1qbMJlX1jCIjJS3oe/TrFm71NM5dRYAxwX/2aA7AZXRkZGRMmHcGN1bN2idZDv8M3yYaiOX0FfKHaU+L/VnPMypd13X5xtJ+XFdN3DBzkYEc8FFyawhMV3ozJn9kOp1ikbJU/dDj2irUSTz9/eC13OwtQv+Nf01QyJ3MLq+a9ef4MNzAjl/usFvxu7BzCDU5s3LOM7hBsvdUEyjtSkQZvAzESkOOz7sPn45TsvZAjVu3AYNG2FebDo6jhjRCWJdDQUKphhhsCrTlRB8GFpCJ0hWS2UkO0U4gimDV+kJzaDcVavOITnZIalctJRsh8orV0BZ+X19TWlX/Yg889wA2bw1AlayUvAuLwiRzVO++OJvxLb10zmOHr1O80wzVS29vpklkVH16Ymrjgk6bTAkxrm5Q8oPwwE5r7jZVgqMHNlZqz4QiMLDYxxUoTcwH7IaNQqliK63ACmt6HqezPI2e/bYo+uti1nlbVasWCUVKtn9fCwG4tIluzb8f3MLSfiFxhr0aZ3HdwayUj9Cfx3WzWLtr6eemqFdmI6DeiWmM508+X7onAJ0rMyayPI8TDnCwFhmB2DQKmtpsRUocA4J1kQqFrZH3jevdFCK5rkAQPOXNzp7y5rVy8BR7UHajtUI8/DSvNAMaWECeOq+hgxpAh1XBw1FoaMj22uv/Qk/pmIAtm5Izt8L3th/IKPkNj2W3os7pfwwAJTeN8FNj7G0zo8/9gR3Eo2EYb84xA9G18fHJyMCfGcKyrAaA8WPtKLr2ZFhFWvXHnVch/voWZw9uydixo5Krdq1uEu+XWwPEh388736+eCZarDADURcVnf9bL0wBUb+/IEQES+gosVazQnNMcTFJcjixQeUq6L4RVcCei2z8TirhjKPNuO8xo/viTLQrZBI/5T89VeoKp/9fZJhCbwsRlmJ1ioWQs7ohFDNiVSwoCc8tfco2NCr+s03FyAoF9kB/mlMjdKrV1XlsNITV63+ab27U8oPA0BpfQPccB9FIefoeupohgxpjBxBezXUgSSpVKmA1sp69tmZGhfF8jYMhiUo0TM6reh6npe6vA3Batas9UjDkQsPc7I+2L7IplisWE12l2gPFvQjEHgBCHeof5Luh9MkGxOtMRkb9U+8J6tUfPVVR5jtZ+D/bo3uj4pKQAK0ESqKMQvAhx8uhXUuAM6Nl32KKAaykYNi7mZGyicm248n2y4/GjtPiOTMnQ/XygaOKgdKBD2s59ESSFHO2Up4zz0ltPqFs7jKoFlyiRRXWRyRzaT8UDLIZSrbP5tXN6MAfU3efPNPVSDT5+fll+c4vIDffruZxkcNGTIfosp8eAwnQATpqbWwmjcfAy/lDzUNKvUrbFeLrncub0Pl9bPPjgEQxCMXUA49jw92kyZBcP6z60Aa3tcAYOGN6/sgmv1vcDHTtN/w4Ss1CTxFQeqrfv+9L3xlEpC7+ndU3VimJXJKlMgNBfoAODEi8h2VLKwsANxPgLXyXvOCLKVDboMK6y5dukh8kpcs3WVPaD9qcW2JjvcRGKTkgxmJcm+DJgi6zYnrlQQQ2cU0iqes/UUAS92uJa6alB92ihlP6NTfHPM5QxQ4fPgcrFoBym1YJzDuKr3YK+psWN5n+fJZqrgm9+Pc5s49j0yG51BWuQjAxxtclRfyNJ9X4Ni8eYAjAXylSsOR+6ig5oMmN8XyNszlzBLKFBsbNSqplx02bBn0LvMAroPAfRyGkvpn+Bs9gnQldt8kJsovUeIT+DM9AjAsB+7mDei8lkiTSuulZaVL8v2SznIoIkmefqqgfPDhJwCpnzXn9hdfdNDrW+cz/xAT/1tt2bKD6gvFtCOsntG1a2XrkIqCdPAkx5iRxnzVzHs0alTXjHTPcn0MB5Tllsw1BkyOIrXV5lqxV4zLqlGjCMIrHoSYUhMglEO9kK3YLRYRZIuMTMZ+D3AnNuhruqhHMJOqkVNhe/jhWirCMJ0HgWfbttOoBLpJxRzqgJicno0VTJkvm+Z/JixjqRtmiLQarXzVqxeCKFhWdzHRWenSTSV7yfYydV8DCUMtsuLFK0uVqjXAnR1TUdPZO5kJ3JjRkeNgniMqxulawODYa4mr1hic38k1MTG/NU+CK+fjDG7O/e+Ebc+30e6EiZg5ZA0K8JefIkyhQoXAxVQBKJQC0HhB13QEeqVzEPMuAVSSVAQrUMAPZu5KyPeTA0rjjarIpjWrbdvyyBMUoYGjn3yyXAHn00/bqlmdNdY/++wvNYMvXRqqbgQUASlqtWhRBp7UdtBiHbHJk7dAid0VfQOUeOHhRwFQp5H3KBhjqw7dzl3gqpj9kfXt9yLP0BlVfBctmlM5IZ7UrFlp1UlRVKRrQMeOFaGTsntQ33dfSVi9tqsHONN/sIb9Cy80uOpCUQ/XufOP2p8locn5sD/vd6c2I4LdqSubBed15swZmLT3IsH+PrWY0Y+mXr164CYqpTkbcj/kNqgPshpFQIpidBcoUCAwTVGH9dTJraVORL9ixQpYxXYgBKMcnCUrARzzavKxHTt2oD78SuXWunXrBkDMZd1OnTGZxpY12Fgd1bkSiNUpLXHVOuacSsTa504pPwwAWatu3l2GAhQ9WIl1165dyiUFB192fLyRQTL2jLXOpk3boWJY48YlwWklaqAta5KxmCOtY9RJRUREQORZhWRooRDtntfbEQh/+uknmPnjNAVJz549AXw25bSYyJ912NNKYpbeWFnXjIpzVjNZvPiJ9Lre0ceMJ/QdvbxZc3IU0yii8f9mNCqs33+/pQIQa4m9915LvSwV4qymylSu48b1UA4nf/78SBfbRp0ZrXtTR8Wo+aVLl6JCxgnp3q2zxEadFT//AuhyWcFs9b/WO/VI/KfDIcMv3LkZJbQ7r74bzT21wpxTr1y5oCqL583bm4ISFKlS122nriouLh6+UUMkOHqpPHzXZmmYc5me9/prg1Kcf60PHEvVqoU0nWsGjWHXumSWPW4AKMsunRn4v6UA9S90Jmzd2m6W5/WYhJ8ZIunEaDWGWrz99p/yzDOjUKOsqzSuECINy3tKq6p2p8UNa9dAcTw8QyWerWuadzsFjAhmvgluRwGau6kXQmoRLedMHZDVGLx64kSUw5TP/cxBVLOml1QscVA+6HxOjp1NaZV6qU02mTRhvNSsG6IlnlMrt61rm/crKWAA6EqamD13MAUYIT979m71Xv788/ZaUdZ5uoxir1gxGFa4y3uZZmT37ggJyecjLPEc5J9w+SC2/OFWsGN3cRn3U60rLGspOpoPV1DAiGBXkMTsuJMpwBgy1g2jg+KIEavTTHtKJbizboZpRpiuY8HmLrLpUAEplf9yEUPS6pPZzeDblAN9FsDLe7kjjWx68V53Mo2vZ24GgK6HWqbvHUEBpoxl1DpN4CxkeK3GNCM0lXt6waP6yx6IFwtJccr52A1yIbIYou1Z0nmvTJw4UTZt2gSnxXOqY6Keif/UOZmWkgJGBEtJD/PJTSjA2K+BA+ur13HTpqVRgshe3z6t6TPNCOPLjh9/B/Fi/eXx0bXlwYahcirS/vvduVMdRNLnBvBEQATzVS9uAlCuXDZUXq2rvkxpXdfsQyFKQwRDAXeggFXnyznlyMcftwY4FEAU/UyN47LowIRmzCVEB0Q2K81I3rxB8CV6TapWKyWxBTpKjjL2oNQyZcshVWwu5ChiepAwiGCXtHw1z6dT5dUaswskJdnvcbU+d/p+Ewt2p6+wmR/CK05q4rB9+yJg4YpEKldvzeHD+LCGDUMUYKZN265+OVFRcfK//63Q9CRM2cp0r0y/ysBV6oVWrTqCqPpKiDsLRKxWAKpnxCN41AYPaz/ogbIh6j4aCus4BLEGoupHZ411S70ErFU/ceIm1JVfK6GhZyUkJDdyIeV0lKlO3f9O/mxCMe7k1TVzuykUSJ1m5OTJk0jhMd+hbHa+CWuMlSlTRurXr69Bts7HzPaVFDA6oCtpYvYYCqSgAANX+Z8vn/1xYWKy1LmMGK7h7e2N6PhmiF4vmuJ88+HqFDAc0NVpY44YClyVAjExMRo7Rj0PwcjX11cBKKOJxq56YTc7YADIzRbcTNdQwJUoYKxgrrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5EAQNArrQaZiyGAm5GAQNAbrbgZrqGAq5Egf8DmZ9zfh5IGYwAAAAASUVORK5CYII=" /><!-- --></p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
