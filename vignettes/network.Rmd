@@ -329,7 +329,7 @@ library(PRA)
 graph <- prob_net(nodes, links, distributions = distributions)
 ```
 
-To plot the Bayesian network, we can use the `igraph` package. The igraph package provides functions for creating and analyzing graph structures. 
+To plot the Bayesian network, we can use the igraph package. The igraph package provides functions for creating and analyzing graph structures. 
 
 ```{r message=FALSE}
 library(igraph)
