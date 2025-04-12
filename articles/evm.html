@@ -39,8 +39,11 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/evm.html">Earned Value Management</a></li>
+<li><a class="dropdown-item" href="../articles/Bayes.html">Bayesian Methods</a></li>
+    <li><a class="dropdown-item" href="../articles/evm.html">Earned Value Management</a></li>
     <li><a class="dropdown-item" href="../articles/MCS.html">Monte Carlo Simulation</a></li>
+    <li><a class="dropdown-item" href="../articles/network.html">Bayesian Networks</a></li>
+    <li><a class="dropdown-item" href="../articles/network2.html">Bayesian Networks for Project Portfolio Risk Analysis</a></li>
     <li><a class="dropdown-item" href="../articles/sigmoidal.html">Learning Curves</a></li>
     <li><a class="dropdown-item" href="../articles/SMM.html">Second Moment Method</a></li>
   </ul>
@@ -171,8 +174,8 @@ date:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cv.html">cv</a></span><span class="op">(</span><span class="va">ev</span>, <span class="va">ac</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"The project is above budget because the Cost Variance (CV) is"</span>, <span class="va">cv</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
-<p>The project is above budget because the Cost Variance (CV) is
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"The project is over budget because the Cost Variance (CV) is"</span>, <span class="va">cv</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<p>The project is over budget because the Cost Variance (CV) is
 -1000</p>
 <p>Calculate the SPI and CPI and print the results:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -183,8 +186,8 @@ date:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">cpi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cpi.html">cpi</a></span><span class="op">(</span><span class="va">ev</span>, <span class="va">ac</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"The project is above budget because the Cost Performance Index (CPI) is"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">cpi</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
-<p>The project is above budget because the Cost Performance Index (CPI)
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"The project is over budget because the Cost Performance Index (CPI) is"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">cpi</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<p>The project is over budget because the Cost Performance Index (CPI)
 is 0.97</p>
 <p>Calculate the EAC and print the results:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">

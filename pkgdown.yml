@@ -2,11 +2,14 @@ pandoc: 3.1.11
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
+  Bayes: Bayes.html
   evm: evm.html
   MCS: MCS.html
+  network: network.html
+  network2: network2.html
   sigmoidal: sigmoidal.html
   SMM: SMM.html
-last_built: 2024-12-03T02:25Z
+last_built: 2025-04-12T02:58Z
 urls:
   reference: https://paulgovan.github.io/PRA/reference
   article: https://paulgovan.github.io/PRA/articles
