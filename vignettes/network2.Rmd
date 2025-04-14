@@ -889,7 +889,9 @@ To plot the Bayesian network, we can use the igraph package. The igraph package 
 ```{r message=FALSE}
 library(igraph)
 g <- graph_from_data_frame(graph$links, vertices = graph$nodes, directed = TRUE)
-plot(g, main = "Bayesian Network")
+plot(g, main = "Bayesian Network", vertex.label = graph$nodes$label,
+     vertex.size = 5, vertex.color = "lightblue", edge.arrow.size = 0.5,
+     edge.color = "gray", layout = layout_with_fr)
 ```
 
 The Bayesian network represents the dependencies between the projects, tasks, resources, and risks. The Bayesian network helps us understand the relationships between the variables and make inferences about the risks.
@@ -927,8 +929,11 @@ We can use the updated results to estimate the total project cost and assess the
 ```{r}
 hist <- hist(simulation_results$I, breaks = 50, plot = FALSE)
 hist2 <- hist(updated_results$I, breaks = 50, plot = FALSE)
-plot(hist, main = "Heavy Machinery Resource Cost", xlab = "Resource Cost", col = "skyblue", border = "white")
+plot(hist, main = "Heavy Machinery Resource Cost", xlab = "Resource Cost", 
+     col = "skyblue", border = "white")
 plot(hist2, col = "blue", border = "white", add = TRUE)
+legend("topright", legend = c("Before Update", "After Update"), 
+       fill = c("skyblue", "blue"), bty = "n")
 ```
 
 ## Updating
@@ -960,8 +965,11 @@ We can compare the results before and after updating the Bayesian network. The f
 ```{r}
 hist <- hist(simulation_results$H, breaks = 50, plot = FALSE)
 hist2 <- hist(updated_results$H, breaks = 50, plot = FALSE)
-plot(hist, main = "Regulatory Support Resource Cost", xlab = "Resource Cost", col = "skyblue", border = "white")
+plot(hist, main = "Regulatory Support Resource Cost", xlab = "Resource Cost", 
+     col = "skyblue", border = "white", ylim = c(0, max(hist$counts, hist2$counts)))
 plot(hist2, col = "blue", border = "white", add = TRUE)
+legend("topright", legend = c("Before Update", "After Update"), 
+       fill = c("skyblue", "blue"), bty = "n")
 ```
 
 ## Conclusion

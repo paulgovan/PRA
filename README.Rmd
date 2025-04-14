@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## PRA: Project Risk Analysis
+## PRA
 
 ![](https://github.com/paulgovan/PRA/blob/main/inst/logo.png?raw=true){width=25%}
 

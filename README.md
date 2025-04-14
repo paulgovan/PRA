@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-## PRA: Project Risk Analysis
+## PRA
 
 <img
 src="https://github.com/paulgovan/PRA/blob/main/inst/logo.png?raw=true"
@@ -89,7 +89,7 @@ To calculate the mean of the total duration:
 cat("Mean Total Duration is ", round(results$total_mean, 2))
 ```
 
-Mean Total Duration is 38.65
+Mean Total Duration is 38.56
 
 To calculate the variance of the total duration:
 
@@ -97,7 +97,7 @@ To calculate the variance of the total duration:
 cat("Variance around the Total Duration is ", round(results$total_variance, 2))
 ```
 
-Variance around the Total Duration is 19.79
+Variance around the Total Duration is 19.42
 
 To build a histogram of the total duration:
 
