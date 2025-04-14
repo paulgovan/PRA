@@ -65,7 +65,7 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level2">
-<h2 id="pra-project-risk-analysis">PRA: Project Risk Analysis<a class="anchor" aria-label="anchor" href="#pra-project-risk-analysis"></a>
+<h2 id="pra">PRA<a class="anchor" aria-label="anchor" href="#pra"></a>
 </h2>
 <p><img src="https://github.com/paulgovan/PRA/blob/main/inst/logo.png?raw=true" style="width:25.0%"></p>
 <!-- badges: start -->
@@ -122,11 +122,11 @@
 <p>To calculate the mean of the total duration:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Mean Total Duration is "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_mean</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Mean Total Duration is 38.65</p>
+<p>Mean Total Duration is 38.56</p>
 <p>To calculate the variance of the total duration:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Variance around the Total Duration is "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_variance</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Variance around the Total Duration is 19.79</p>
+<p>Variance around the Total Duration is 19.42</p>
 <p>To build a histogram of the total duration:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_distribution</span>, breaks <span class="op">=</span> <span class="fl">50</span>, main <span class="op">=</span> <span class="st">"Distribution of Total Project Duration"</span>, </span>
