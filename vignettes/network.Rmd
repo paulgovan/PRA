@@ -336,7 +336,7 @@ library(igraph)
 g <- graph_from_data_frame(graph$links, vertices = graph$nodes, directed = TRUE)
 plot(g, main = "Bayesian Network", vertex.label = graph$nodes$label,
      vertex.size = 30, vertex.color = "lightblue", edge.arrow.size = 0.5,
-     edge.color = "gray", layout = layout_with_fr)
+     edge.color = "gray", layout = layout_with_graphopt(g))
 ```
 
 ## Inference
@@ -367,7 +367,7 @@ We can compare the updated results with the original results to see how the chan
 ```{r}
 hist <- hist(simulation_results$H, breaks = 50, plot = FALSE)
 hist2 <- hist(updated_results$H, breaks = 50, plot = FALSE)
-plot(hist, main = "Pavement Resource Cost", xlab = "Resource Cost", col = "skyblue", border = "white")
+plot(hist, main = "Pavement Cost", xlab = "Resource Cost", col = "skyblue", border = "white")
 plot(hist2, col = "blue", border = "white", add = TRUE)
 legend("topright", legend = c("Original", "Updated"), fill = c("skyblue", "blue"))
 ```
@@ -401,7 +401,7 @@ We can compare the updated results with the original results to see how the chan
 ```{r}
 hist <- hist(simulation_results$F, breaks = 50, plot = FALSE)
 hist2 <- hist(updated_results$F, breaks = 50, plot = FALSE)
-plot(hist, main = "Regulatory Support Resource Cost", xlab = "Resource Cost", col = "skyblue", border = "white")
+plot(hist, main = "Regulatory Support Cost", xlab = "Resource Cost", col = "skyblue", border = "white")
 plot(hist2, col = "blue", border = "white", add = TRUE)
 legend("topright", legend = c("Original", "Updated"), fill = c("skyblue", "blue"))
 ```
