@@ -2,7 +2,7 @@
 title: "Bayesian Networks Expanded"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{network2}
+  %\VignetteIndexEntry{G. Bayesian Networks Expanded}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

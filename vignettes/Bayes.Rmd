@@ -3,7 +3,7 @@
 title: "Bayesian Methods"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Bayes}
+  %\VignetteIndexEntry{E. Bayesian Methods}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

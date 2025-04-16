@@ -2,7 +2,7 @@
 title: "Learning Curves"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{sigmoidal}
+  %\VignetteIndexEntry{D. Learning Curves}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

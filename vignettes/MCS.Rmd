@@ -2,7 +2,7 @@
 title: "Monte Carlo Simulation"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{MCS}
+  %\VignetteIndexEntry{B. Monte Carlo Simulation}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
