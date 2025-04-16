@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-## PRA
+# PRA
 
 <img
 src="https://github.com/paulgovan/PRA/blob/main/inst/logo.png?raw=true"
@@ -19,6 +19,13 @@ checks](https://badges.cranchecks.info/summary/PRA.svg)](https://cran.r-project.
 [![](http://cranlogs.r-pkg.org/badges/last-month/PRA)](https://cran.r-project.org/package=PRA)
 [![](https://img.shields.io/badge/doi-10.32614/CRAN.package.PRA-green.svg)](https://doi.org/10.32614/CRAN.package.PRA)
 <!-- badges: end -->
+
+## Introduction
+
+PRA is an R package for project risk analysis. The package provides a
+set of tools for performing various types of risk analysis, including
+Monte Carlo simulation, sensitivity analysis, and earned value
+management.
 
 ## Key features:
 
@@ -46,8 +53,8 @@ devtools::install_github('paulgovan/PRA')
 
 ## Usage
 
-Here is a basic example which shows you how to solve a common problem
-using Monte Carlo Simulation.
+Here is a simple example of how to use the package for Monte Carlo
+simulation.
 
 First, load the package:
 
@@ -89,7 +96,7 @@ To calculate the mean of the total duration:
 cat("Mean Total Duration is ", round(results$total_mean, 2))
 ```
 
-Mean Total Duration is 38.56
+Mean Total Duration is 38.7
 
 To calculate the variance of the total duration:
 
@@ -97,7 +104,7 @@ To calculate the variance of the total duration:
 cat("Variance around the Total Duration is ", round(results$total_variance, 2))
 ```
 
-Variance around the Total Duration is 19.42
+Variance around the Total Duration is 19.79
 
 To build a histogram of the total duration:
 
