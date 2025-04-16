@@ -1,5 +1,5 @@
 ---
-title: "Bayesian Networks for Project Portfolio Risk Analysis"
+title: "Bayesian Networks Expanded"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{network2}
@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 Similar to the vignette on Bayesian networks for project risk analysis, we will use Bayesian Networks to analyze project portfolio risks. Bayesian Networks are probabilistic graphical models that represent a set of variables and their conditional dependencies via a directed acyclic graph (DAG). Bayesian Networks are useful for modeling complex systems and making inferences about the relationships between variables.
 
-## Projects
+## Project Portfolio Risk Analysis
 
 Suppose we have a simple project portfolio. The portfolio consists of 3 civil engineering projects: construction of a roadway, a small building construction, and a pedestrian bridge project. The primary tasks for these projects are as follows.
 

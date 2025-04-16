@@ -117,7 +117,7 @@ knitr::kable(roadway_resources, caption = "Roadway Resources")
 
 ## Risks
 
-The project is subject to various risks that may impact the cost, duration, and quality of the project. The risks include delays in permitting and approvals, unforeseen site conditions, material price fluctuations, labor shortages, weather disruptions, equipment breakdowns, design changes, and regulatory changes. Each risk event has a probability of occurrence, an impact on the project, and a root cause. The root causes are related to resources, tasks, or external factors.
+The project is subject to various risks that may impact the cost, duration, and quality of the project. The risks include delays in permitting and approvals, unforeseen site conditions, material price fluctuations, labor shortages, weather disruptions, equipment breakdowns, design changes, and regulatory changes. Each risk event has a probability of occurrence, an impact on the project, and a root cause. 
 ```{r results='asis'}
 roadway_risks <- data.frame(
   Risk_ID = c("A", "B", "C"),
@@ -161,7 +161,7 @@ knitr::kable(roadway_risks, caption = "Roadway Risks")
 
 To model the project risks and dependencies, we can create a Bayesian network. The Bayesian network will represent the relationships between tasks, resources, and risks in the project. The network will help us analyze the impact of risks on the project outcomes and make informed decisions.
 
-First, we need to define the nodes and edges of the Bayesian network. The nodes represent the tasks, resources, and risks in the project, and the edges represent the dependencies between them. 
+First, we need to define the nodes and edges of the Bayesian network. The nodes represent the tasks, resources, and risks in the project. 
 ```{r}
 nodes <- data.frame(
  id = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T"),
