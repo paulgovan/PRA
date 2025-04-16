@@ -43,7 +43,7 @@
     <li><a class="dropdown-item" href="../articles/evm.html">Earned Value Management</a></li>
     <li><a class="dropdown-item" href="../articles/MCS.html">Monte Carlo Simulation</a></li>
     <li><a class="dropdown-item" href="../articles/network.html">Bayesian Networks</a></li>
-    <li><a class="dropdown-item" href="../articles/network2.html">Bayesian Networks for Project Portfolio Risk Analysis</a></li>
+    <li><a class="dropdown-item" href="../articles/network2.html">Bayesian Networks Expanded</a></li>
     <li><a class="dropdown-item" href="../articles/sigmoidal.html">Learning Curves</a></li>
     <li><a class="dropdown-item" href="../articles/SMM.html">Second Moment Method</a></li>
   </ul>
@@ -351,9 +351,8 @@ duration, and quality of the project. The risks include delays in
 permitting and approvals, unforeseen site conditions, material price
 fluctuations, labor shortages, weather disruptions, equipment
 breakdowns, design changes, and regulatory changes. Each risk event has
-a probability of occurrence, an impact on the project, and a root cause.
-The root causes are related to resources, tasks, or external
-factors.</p>
+a probability of occurrence, an impact on the project, and a root
+cause.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">roadway_risks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  Risk_ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span>,</span>
@@ -456,8 +455,7 @@ tasks, resources, and risks in the project. The network will help us
 analyze the impact of risks on the project outcomes and make informed
 decisions.</p>
 <p>First, we need to define the nodes and edges of the Bayesian network.
-The nodes represent the tasks, resources, and risks in the project, and
-the edges represent the dependencies between them.</p>
+The nodes represent the tasks, resources, and risks in the project.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span> id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>, <span class="st">"I"</span>, <span class="st">"J"</span>, <span class="st">"K"</span>, <span class="st">"L"</span>, <span class="st">"M"</span>, <span class="st">"N"</span>, <span class="st">"O"</span>, <span class="st">"P"</span>, <span class="st">"Q"</span>, <span class="st">"R"</span>, <span class="st">"S"</span>, <span class="st">"T"</span><span class="op">)</span>,</span>
