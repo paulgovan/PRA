@@ -1,6 +1,9 @@
 ---
 title: "Bayesian Networks"
-output: rmarkdown::html_vignette
+output:
+  html_vignette:
+    fig_width: 7
+    fig_height: 5
 vignette: >
   %\VignetteIndexEntry{F. Bayesian Networks}
   %\VignetteEngine{knitr::rmarkdown}
@@ -334,9 +337,8 @@ To plot the Bayesian network, we can use the igraph package. The igraph package 
 ```{r message=FALSE}
 library(igraph)
 g <- graph_from_data_frame(graph$links, vertices = graph$nodes, directed = TRUE)
-plot(g, main = "Bayesian Network", vertex.label = graph$nodes$label,
-     vertex.size = 30, vertex.color = "lightblue", edge.arrow.size = 0.5,
-     edge.color = "gray", layout = layout_with_graphopt(g))
+plot(g, main = "Project Risk Bayesian Network", vertex.label = graph$nodes$label, 
+     vertex.color = "lightblue", layout = layout_nicely(g))
 ```
 
 ## Inference

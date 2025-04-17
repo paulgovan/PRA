@@ -1,6 +1,9 @@
 ---
 title: "Learning Curves"
-output: rmarkdown::html_vignette
+output:
+  html_vignette:
+    fig_width: 7
+    fig_height: 5
 vignette: >
   %\VignetteIndexEntry{D. Learning Curves}
   %\VignetteEngine{knitr::rmarkdown}

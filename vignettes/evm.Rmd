@@ -1,6 +1,9 @@
 ---
 title: "Earned Value Management"
-output: rmarkdown::html_vignette
+output:
+  html_vignette:
+    fig_width: 7
+    fig_height: 5
 vignette: >
   %\VignetteIndexEntry{C. Earned Value Management}
   %\VignetteEngine{knitr::rmarkdown}
