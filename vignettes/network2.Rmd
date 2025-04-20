@@ -494,6 +494,69 @@ nodes <- data.frame(
     "Project 3",
     "Project Portfolio"
   ),
+ group = c(
+    "Risk",
+    "Risk",
+    "Risk",
+    "Risk",
+    "Risk",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Resource",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Task",
+    "Project",
+    "Project",
+    "Project",
+    "Portfolio"
+  ),
   stringsAsFactors = FALSE
  )
 ```
@@ -891,9 +954,11 @@ To plot the Bayesian network, we can use the igraph package. The igraph package 
 
 ```{r message=FALSE}
 library(igraph)
+library(networkD3)
 g <- graph_from_data_frame(graph$links, vertices = graph$nodes, directed = TRUE)
-plot(g, main = "Portfolio Risk Bayesian Network", vertex.label = graph$nodes$label,
-     width = 2, vertex.color = "lightblue", layout = layout_nicely(g))
+d3g <- igraph_to_networkD3(g, group = graph$nodes$group)
+forceNetwork(Links = d3g$links, Nodes = d3g$nodes, NodeID = "name", Group = "group",
+zoom = TRUE, legend = TRUE)
 ```
 
 The Bayesian network represents the dependencies between the projects, tasks, resources, and risks. The Bayesian network helps us understand the relationships between the variables and make inferences about the risks.
