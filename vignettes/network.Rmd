@@ -223,6 +223,7 @@ links <- data.frame(
   ),
   target = c("F", "G", "H", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "T", "T", "T", "T", "T", "T", "T"
   ),
+  value = rep(1, 19),
   stringsAsFactors = FALSE
 )
 ```
@@ -361,8 +362,8 @@ library(igraph)
 library(networkD3)
 g <- graph_from_data_frame(graph$links, vertices = graph$nodes, directed = TRUE)
 d3g <- igraph_to_networkD3(g, group = graph$nodes$group)
-forceNetwork(Links = d3g$links, Nodes = d3g$nodes, NodeID = "name", Group = "group",
-             zoom = TRUE, legend = TRUE, opacity = 0.8)
+forceNetwork(Links = d3g$links, Nodes = d3g$nodes, NodeID = "name", Group = "group", Value = "value",
+             zoom = TRUE, legend = TRUE, arrows = TRUE, opacity = 0.8, fontSize = 14)
 ```
 
 ## Inference

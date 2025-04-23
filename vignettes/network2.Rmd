@@ -576,7 +576,8 @@ links <- data.frame(
          "AV", "AW", "AX", "AY", "AZ", "BA", "BB", "BC", "BD", "BE", "BF", "BF",
          "BF", "BF", "BF", "BF", "BF", "BF", "BG", "BG", "BG", "BG", "BG", "BG",
          "BG", "BG", "BH", "BH", "BH", "BH", "BH", "BH", "BH", "BH", "BH", "BH",
-         "BI", "BI", "BI")
+         "BI", "BI", "BI"),
+  value = rep(1, 64)
 )
 ```
 
@@ -957,8 +958,8 @@ library(igraph)
 library(networkD3)
 g <- graph_from_data_frame(graph$links, vertices = graph$nodes, directed = TRUE)
 d3g <- igraph_to_networkD3(g, group = graph$nodes$group)
-forceNetwork(Links = d3g$links, Nodes = d3g$nodes, NodeID = "name", Group = "group",
-  zoom = TRUE, legend = TRUE, opacity = 0.8)
+forceNetwork(Links = d3g$links, Nodes = d3g$nodes, NodeID = "name", Group = "group", Value = "value",
+             zoom = TRUE, legend = TRUE, arrows = TRUE, opacity = 0.8, fontSize = 14)
 ```
 
 The Bayesian network represents the dependencies between the projects, tasks, resources, and risks. The Bayesian network helps us understand the relationships between the variables and make inferences about the risks.
