@@ -22,24 +22,32 @@ checks](https://badges.cranchecks.info/summary/PRA.svg)](https://cran.r-project.
 
 ## Introduction
 
-PRA is an R package for project risk analysis. The package provides a
-set of tools for performing various types of risk analysis, including
-Monte Carlo simulation, sensitivity analysis, and earned value
-management.
+Welcome to **PRA**! This package provides a set of tools for performing
+various types of project risk analysis, including Monte Carlo
+simulation, sensitivity analysis, and earned value management.
 
 ## Key features:
 
-- Second Moment Analysis
-- Monte Carlo Simulation
-- Contingency Analysis
-- Sensitivity Analysis
-- Earned Value Management
-- Learning Curves
-- Design Structure Matrices
+- [Second Moment
+  Analysis](https://paulgovan.github.io/PRA/articles/SMM.html)
+- [Monte Carlo
+  Simulation](https://paulgovan.github.io/PRA/articles/MCS.html)
+- [Contingency
+  Analysis](https://paulgovan.github.io/PRA/articles/MCS.html#contingency)
+- [Sensitivity
+  Analysis](https://paulgovan.github.io/PRA/articles/MCS.html#sensitivity)
+- [Earned Value
+  Management](https://paulgovan.github.io/PRA/articles/evm.html)
+- [Learning
+  Curves](https://paulgovan.github.io/PRA/articles/sigmoidal.html)
+- [Bayesian
+  Methods](https://paulgovan.github.io/PRA/articles/Bayes.html)
+- [Bayesian
+  Networks](https://paulgovan.github.io/PRA/articles/network.html)
 
 ## Installation
 
-To install the release verion of PRA, use:
+To install the release verion of PRA in R, use:
 
 ``` r
 install_packages('PRA')
@@ -96,7 +104,7 @@ To calculate the mean of the total duration:
 cat("Mean Total Duration is ", round(results$total_mean, 2))
 ```
 
-Mean Total Duration is 38.7
+Mean Total Duration is 38.72
 
 To calculate the variance of the total duration:
 
@@ -104,7 +112,7 @@ To calculate the variance of the total duration:
 cat("Variance around the Total Duration is ", round(results$total_variance, 2))
 ```
 
-Variance around the Total Duration is 19.79
+Variance around the Total Duration is 19.11
 
 To build a histogram of the total duration:
 
