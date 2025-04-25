@@ -17,8 +17,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Project Risk Analysis">
-<meta name="description" content="Data analysis for Project Risk Management via the Second Moment Method, Monte Carlo Simulation, Contingency Analysis, Sensitivity Analysis, Earned Value Management, Learning Curves, Design Structure Matrices, and more.">
-<meta property="og:description" content="Data analysis for Project Risk Management via the Second Moment Method, Monte Carlo Simulation, Contingency Analysis, Sensitivity Analysis, Earned Value Management, Learning Curves, Design Structure Matrices, and more.">
+<meta name="description" content="Data analysis for Project Risk Management via the Second Moment Method, Monte Carlo Simulation, Contingency Analysis, Sensitivity Analysis, Earned Value Management, Learning Curves, Bayesian Methods, Bayesian Networks, and more.">
+<meta property="og:description" content="Data analysis for Project Risk Management via the Second Moment Method, Monte Carlo Simulation, Contingency Analysis, Sensitivity Analysis, Earned Value Management, Learning Curves, Bayesian Methods, Bayesian Networks, and more.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -73,25 +73,26 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>PRA is an R package for project risk analysis. The package provides a set of tools for performing various types of risk analysis, including Monte Carlo simulation, sensitivity analysis, and earned value management.</p>
+<p>Welcome to <strong>PRA</strong>! This package provides a set of tools for performing various types of project risk analysis, including Monte Carlo simulation, sensitivity analysis, and earned value management.</p>
 </div>
 <div class="section level2">
 <h2 id="key-features">Key features:<a class="anchor" aria-label="anchor" href="#key-features"></a>
 </h2>
 <ul>
-<li>Second Moment Analysis</li>
-<li>Monte Carlo Simulation</li>
-<li>Contingency Analysis</li>
-<li>Sensitivity Analysis</li>
-<li>Earned Value Management</li>
-<li>Learning Curves</li>
-<li>Design Structure Matrices</li>
+<li><a href="https://paulgovan.github.io/PRA/articles/SMM.html">Second Moment Analysis</a></li>
+<li><a href="https://paulgovan.github.io/PRA/articles/MCS.html">Monte Carlo Simulation</a></li>
+<li><a href="https://paulgovan.github.io/PRA/articles/MCS.html#contingency">Contingency Analysis</a></li>
+<li><a href="https://paulgovan.github.io/PRA/articles/MCS.html#sensitivity">Sensitivity Analysis</a></li>
+<li><a href="https://paulgovan.github.io/PRA/articles/evm.html">Earned Value Management</a></li>
+<li><a href="https://paulgovan.github.io/PRA/articles/sigmoidal.html">Learning Curves</a></li>
+<li><a href="https://paulgovan.github.io/PRA/articles/Bayes.html">Bayesian Methods</a></li>
+<li><a href="https://paulgovan.github.io/PRA/articles/network.html">Bayesian Networks</a></li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>To install the release verion of PRA, use:</p>
+<p>To install the release verion of PRA in R, use:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">install_packages</span><span class="op">(</span><span class="st">'PRA'</span><span class="op">)</span></span></code></pre></div>
 <p>You can install the development version of PRA like so:</p>
@@ -126,11 +127,11 @@
 <p>To calculate the mean of the total duration:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Mean Total Duration is "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_mean</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Mean Total Duration is 38.7</p>
+<p>Mean Total Duration is 38.72</p>
 <p>To calculate the variance of the total duration:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Variance around the Total Duration is "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_variance</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Variance around the Total Duration is 19.79</p>
+<p>Variance around the Total Duration is 19.11</p>
 <p>To build a histogram of the total duration:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_distribution</span>, breaks <span class="op">=</span> <span class="fl">50</span>, main <span class="op">=</span> <span class="st">"Distribution of Total Project Duration"</span>, </span>
