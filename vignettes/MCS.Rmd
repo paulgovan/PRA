@@ -5,7 +5,7 @@ output:
     fig_width: 7
     fig_height: 5
 vignette: >
-  %\VignetteIndexEntry{B. Monte Carlo Simulation}
+  %\VignetteIndexEntry{Monte Carlo Simulation}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

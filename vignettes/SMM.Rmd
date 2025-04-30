@@ -2,7 +2,7 @@
 title: "Second Moment Method"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{A. Second Moment Method}
+  %\VignetteIndexEntry{Second Moment Method}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

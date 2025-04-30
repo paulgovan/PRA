@@ -28,7 +28,7 @@ knitr::opts_chunk$set(
 
 ## Introduction 
 
-Welcome to **PRA**! This package provides a set of tools for performing various types of project risk analysis, including Monte Carlo simulation, sensitivity analysis, and earned value management.
+Welcome to **PRA**! This package provides a set of functions for performing various types of project risk analysis, including Monte Carlo simulation, sensitivity analysis, and earned value management.
 
 ## Key features:
 

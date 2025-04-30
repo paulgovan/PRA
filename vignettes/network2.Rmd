@@ -5,7 +5,7 @@ output:
     fig_width: 7
     fig_height: 5
 vignette: >
-  %\VignetteIndexEntry{G. Bayesian Networks Expanded}
+  %\VignetteIndexEntry{Bayesian Networks Expanded}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -19,11 +19,11 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-Similar to the vignette on Bayesian networks for project risk analysis, we will use Bayesian Networks to analyze project portfolio risks. Bayesian Networks are probabilistic graphical models that represent a set of variables and their conditional dependencies via a directed acyclic graph (DAG). Bayesian Networks are useful for modeling complex systems and making inferences about the relationships between variables.
+Similar to project-level risk analysis, Bayesian Networks are useful for analyzing project portfolio risks. Bayesian Networks are probabilistic graphical models that represent a set of variables and their conditional dependencies via a directed acyclic graph (DAG). Bayesian Networks are helpful for modeling complex systems and making inferences about the relationships between variables.
 
 ## Project Portfolio Risk Analysis
 
-Suppose we have a simple project portfolio. The portfolio consists of 3 civil engineering projects: construction of a roadway, a small building construction, and a pedestrian bridge project. The primary tasks for these projects are as follows.
+Imagine a simple project portfolio. The portfolio consists of 3 civil engineering projects: construction of a roadway, a small building construction, and a pedestrian bridge project. The primary tasks for these projects are as follows.
 
 ```{r results='asis'}
 roadway_tasks <- data.frame(
@@ -114,7 +114,7 @@ knitr::kable(bridge_tasks, caption = "Project 3: Bridge Tasks")
 
 ## Resources
 
-The primary resources required for these projects are as follows.
+Each project requires resources to complete the tasks. These resources are allocated to the tasks based on the project requirements. The resources for the projects are as follows.
 
 ```{r results='asis'}
 roadway_resources <- data.frame(
@@ -301,7 +301,7 @@ knitr::kable(bridge_resources, caption = "Project 3: Bridge Resources")
 
 ## Risks
 
-The primary risks for these projects are as follows.
+Each project is also subject to risks that can impact the project outcomes. Each risk event has a probability of occurrence and an impact on the project. The risks for the projects are as follows.
 
 ```{r results='asis'}
 roadway_risks <- data.frame(
@@ -416,13 +416,13 @@ bridge_risks <- data.frame(
 knitr::kable(bridge_risks, caption = "Project 3: Bridge Risks")
 ```
 
-Notice how most of the risks are common across multiple projects. Key portfolo-level risks are **Regulatory Delays**, **Unforeseen Site Conditions**, **Material Price Volatility**, and **Labor/Supply Disruptions**.
+Notice how the risks are associated with the resources. The risks can impact the resources, and the resources can ultimately impact the project outcomes. Most of the risks are also common across the projects. For example, Risk 1 is common across all three projects. If Risk 1 occurs, the impact will be felt across all three. 
 
 ## Bayesian Network
 
-To model the project portfolio risks, we will use a Bayesian Network. The Bayesian Network will represent the dependencies between the projects, tasks, resources, and risks. The Bayesian Network will help us understand the relationships between the variables and make inferences about the risks.
+A Bayesian network is useful for modeling project portfolio risks. The Bayesian Network represents the dependencies between the projects, tasks, resources, and risks. The network helps in understanding the relationships between the variables and in making inferences about the risks.
 
-First, we need to define the nodes and edges of the Bayesian network. The nodes represent the variables, and the edges represent the dependencies between the variables. The following code defines the nodes and edges of the Bayesian network.
+First, define the nodes and edges of the Bayesian network. The nodes represent the variables, and the edges represent the dependencies between the variables. The following code defines the nodes and edges of the Bayesian network.
 
 ```{r}
 nodes <- data.frame(
@@ -561,7 +561,7 @@ nodes <- data.frame(
  )
 ```
 
-Next, we define the edges of the Bayesian network. The following code defines the edges of the Bayesian network.
+Next, define the edges of the Bayesian network. The following code defines the edges of the Bayesian network.
 
 ```{r}
 links <- data.frame(
@@ -581,7 +581,7 @@ links <- data.frame(
 )
 ```
 
-Then we define the distributions for the nodes. The following code defines the distributions for the nodes.
+Then define the distributions for the nodes. The distributions represent the probabilities of the outcomes for each node. The following code defines the distributions for the nodes.
 
 ```{r}
 distributions <- list(
@@ -944,14 +944,14 @@ distributions <- list(
 )
 ```
 
-Finally, we define the Bayesian network using the nodes, edges, and distributions. The following code defines the Bayesian network.
+Finally, define the Bayesian network using the nodes, edges, and distributions. The following code defines the Bayesian network.
 
 ```{r}
 library(PRA)
 graph <- prob_net(nodes, links, distributions = distributions)
 ```
 
-To plot the Bayesian network, we can use the igraph and networkD3 packages. The igraph package provides functions for creating and analyzing graph structures, and the networkD3 package provides functions for creating interactive network visualizations.
+The Bayesian network can be visualized using the igraph and networkD3 packages. The igraph package provides functions for creating and analyzing graph structures, and the networkD3 package provides functions for creating interactive network visualizations.
 
 ```{r message=FALSE}
 library(igraph)
@@ -962,29 +962,28 @@ forceNetwork(Links = d3g$links, Nodes = d3g$nodes, NodeID = "name", Group = "gro
              zoom = TRUE, legend = TRUE, arrows = TRUE, opacity = 0.8, fontSize = 14)
 ```
 
-The Bayesian network represents the dependencies between the projects, tasks, resources, and risks. The Bayesian network helps us understand the relationships between the variables and make inferences about the risks.
-
 ## Inference
 
-To make inferences about the risks, we can use probabilistic inference. Probabilistic inference is the process of estimating the probability distribution of a variable given evidence about other variables. Probabilistic inference allows us to make predictions about the risks based on the observed data.
+To analyze the Bayesian network, use probabilistic inference to calculate the probabilities of different outcomes. Probabilistic inference is the process of estimating the probability distribution of a variable given evidence about other variables. Inference helps in making predictions about the risks based on the observed data.
 
 ```{r results='asis'}
 simulation_results <- prob_net_sim(graph, num_samples = 1000)
 ```
 
-We can use these  results to estimate the total project cost and assess the impact of risks on the project outcomes.
+The simulation results can be used to estimate the total project portfolio cost and assess the impact of risks on the project outcomes. The following code estimates the total portfolio cost.
+
 ```{r}
 hist <- hist(simulation_results$BI, breaks = 50, plot = FALSE)
 plot(hist, main = "Total Project Portfolio Cost", xlab = "Project Cost", col = "skyblue", border = "white")
 ```
 
-The histogram shows the distribution of the total project cost. The histogram helps us understand the range of possible project costs and assess the impact of risks on the project outcomes.
+The histogram shows the distribution of the total portfolio cost. The histogram helps in understanding the range of possible project costs and assess the impact of risks on the project outcomes.
 
 ## Learning
 
-The Bayesian network can be updated with new data to improve the model's accuracy. Learning and updating the Bayesian network involves updating the distributions based on new evidence. The updated Bayesian network can be used to make more accurate predictions about the risks.
+The Bayesian network can be updated with new data to improve the model's accuracy. Learning the Bayesian network involves updating the distributions based on new evidence. The updated Bayesian network can be used to make more accurate predictions about the risks.
 
-For example, suppose we have new data that Risk 2 occurred. We can update the Bayesian network with this new data. The following code updates the Bayesian network with the new data.
+For example, if Risk 1.2 occurred, the Bayesian network can be updated with this new data. The following code updates the Bayesian network with the new data.
 
 
 ```{r results='asis'}
@@ -992,7 +991,7 @@ updated_results <- prob_net_learn(graph, observations = list(B = "Yes"),
                                   num_samples = 1000)
 ```
 
-We can use the updated results to estimate the total project cost and assess the impact of risks on the project outcomes.
+The updated results can be compared with the original results to see how the changes in the risk probabilities affect the project outcomes. The following code compares the results before and after updating the Bayesian network.
 
 ```{r}
 hist <- hist(simulation_results$I, breaks = 50, plot = FALSE)
@@ -1006,9 +1005,9 @@ legend("topright", legend = c("Before Update", "After Update"),
 
 ## Updating
 
-The Bayesian network can also be updated by adding or removing arcs between nodes. Adding or removing arcs can change the dependencies between the variables and improve the model's accuracy. 
+Similarly, the Bayesian network can be updated by adding or removing arcs between nodes. Adding or removing arcs changes the dependencies between the variables and improve the model's accuracy. 
 
-For example, suppose we learn that Resource 1.3 is no longer at risk of delays. We can remove the arc between Resource 1.3 and Risk 1.1. The following code removes the arc between Resource 1.3 and Risk 1.1.
+For example, suppose Resource 1.3 is no longer at risk of delays. Remove the arc between Resource 1.3 and Risk 1.1 to account for this new information. The following code removes the arc between Resource 1.3 and Risk 1.1.
 
 ```{r}
 remove_links <- data.frame(
@@ -1028,7 +1027,7 @@ updated_graph <- prob_net_update(graph, remove_links = remove_links,
 updated_results <- prob_net_sim(updated_graph, num_samples = 1000)
 ```
 
-We can compare the results before and after updating the Bayesian network. The following code compares the results before and after updating the Bayesian network.
+Just as before, the updated results can be compared with the original results to see how the changes in the network structure affect the project outcomes.
 
 ```{r}
 hist <- hist(simulation_results$H, breaks = 50, plot = FALSE)
@@ -1042,5 +1041,5 @@ legend("topright", legend = c("Before Update", "After Update"),
 
 ## Conclusion
 
-In this vignette, we used Bayesian Networks to analyze project portfolio risks. We defined the projects, tasks, resources, and risks for a simple project portfolio. We then defined a Bayesian network to represent the dependencies between the variables. We used probabilistic inference to make inferences about the risks and estimate the total project cost. We also learned and updated the Bayesian network with new data to improve the model's accuracy. The Bayesian network provides a powerful tool for modeling project portfolio risks and making informed decisions about project outcomes.
+In this vignette, Bayesian Networks were used to analyze project portfolio risks. The projects, tasks, resources, and risks for a simple project portfolio were defined. A Bayesian network was then constructed to represent the dependencies between the variables. Probabilistic inference was applied to assess the risks and estimate the total project cost. The Bayesian network was also updated with new data to improve the model's accuracy. Overall, the Bayesian network served as a powerful tool for modeling project portfolio risks and supporting informed decision-making regarding project outcomes.
 

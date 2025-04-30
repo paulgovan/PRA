@@ -22,8 +22,8 @@ checks](https://badges.cranchecks.info/summary/PRA.svg)](https://cran.r-project.
 
 ## Introduction
 
-Welcome to **PRA**! This package provides a set of tools for performing
-various types of project risk analysis, including Monte Carlo
+Welcome to **PRA**! This package provides a set of functions for
+performing various types of project risk analysis, including Monte Carlo
 simulation, sensitivity analysis, and earned value management.
 
 ## Key features:
@@ -104,7 +104,7 @@ To calculate the mean of the total duration:
 cat("Mean Total Duration is ", round(results$total_mean, 2))
 ```
 
-Mean Total Duration is 38.72
+Mean Total Duration is 38.65
 
 To calculate the variance of the total duration:
 
@@ -112,7 +112,7 @@ To calculate the variance of the total duration:
 cat("Variance around the Total Duration is ", round(results$total_variance, 2))
 ```
 
-Variance around the Total Duration is 19.11
+Variance around the Total Duration is 19.5
 
 To build a histogram of the total duration:
 

@@ -5,7 +5,7 @@ output:
     fig_width: 7
     fig_height: 5
 vignette: >
-  %\VignetteIndexEntry{F. Bayesian Networks}
+  %\VignetteIndexEntry{Bayesian Networks}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -441,7 +441,7 @@ updated_graph <- prob_net_update(graph, remove_links = remove_links,
 updated_results <- prob_net_sim(updated_graph, num_samples = 1000)
 ```
 
-Just as before the updated results can be comparedwith the original results to see how the changes in the network structure affect the project outcomes.
+Just as before the updated results can be compared with the original results to see how the changes in the network structure affect the project outcomes.
 
 ```{r}
 hist <- hist(simulation_results$F, breaks = 50, plot = FALSE)

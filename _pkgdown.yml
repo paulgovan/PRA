@@ -1,4 +1,19 @@
 url: https://paulgovan.github.io/PRA/
 template:
   bootstrap: 5
+articles:
+  - title: "Second Moment Method"
+    contents: SMM
+  - title: "Monte Carlo Simulation"
+    contents: MCS
+  - title: "Learning Curves"
+    contents: sigmoidal
+  - title: "Earned Value Management"
+    contents: evm
+  - title: "Bayesian Methods"
+    contents: Bayes
+  - title: "Bayesian Networks"
+    contents: network
+  - title: "Bayesian Networks Expanded"
+    contents: network2
 
