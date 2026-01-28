@@ -3,7 +3,7 @@
 from the distribution of each node. The function supports normal, uniform, lognormal, discrete, conditional distributions,
 and aggregate nodes that sum the values of specified continuous nodes."><meta property="og:description" content="This function performs inference on a probabilistic network of project risks by simulating random samples
 from the distribution of each node. The function supports normal, uniform, lognormal, discrete, conditional distributions,
-and aggregate nodes that sum the values of specified continuous nodes."></head><body>
+and aggregate nodes that sum the values of specified continuous nodes."><meta property="og:image" content="https://paulgovan.github.io/PRA/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -32,8 +32,7 @@ and aggregate nodes that sum the values of specified continuous nodes."></head><
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Perform Inference on a Probabilistic Network of Project Risks.</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Perform Inference on a Probabilistic Network of Project Risks.</h1>
       <small class="dont-index">Source: <a href="https://github.com/paulgovan/PRA/blob/main/R/network.R" class="external-link"><code>R/network.R</code></a></small>
       <div class="d-none name"><code>prob_net_sim.Rd</code></div>
     </div>
@@ -107,12 +106,12 @@ For discrete distributions, sampling is performed using `sample()`.</p>
 <span class="r-in"><span><span class="va">simulation_results</span> <span class="op">&lt;-</span> <span class="fu">prob_net_sim</span><span class="op">(</span><span class="va">graph</span>, num_samples <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">simulation_results</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A        B         C        D</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1 1.601315 0.8091387 2.410454</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0 2.640721 1.1514592 3.792181</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0 2.293165 0.6401644 2.933330</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0 2.785081 1.0640430 3.849124</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0 1.666340 0.9996170 2.665957</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 0 1.392993 1.1028116 2.495804</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1 2.103331 0.5879059 2.691237</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1 0.597253 1.5355512 2.132804</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0 1.964833 1.1928628 3.157696</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0 1.109507 0.8385735 1.948080</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 1 2.367750 1.3184723 3.686222</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 1 1.545696 0.8710332 2.416729</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -125,7 +124,7 @@ For discrete distributions, sampling is performed using `sample()`.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

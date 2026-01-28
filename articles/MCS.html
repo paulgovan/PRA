@@ -55,8 +55,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Monte Carlo Simulation</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Monte Carlo Simulation</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/paulgovan/PRA/blob/main/vignettes/MCS.Rmd" class="external-link"><code>vignettes/MCS.Rmd</code></a></small>
@@ -128,9 +127,9 @@ distributions for 3 work packages:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">num_simulations</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
 <span><span class="va">task_distributions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">10</span>, sd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,  <span class="co"># Task A: Normal distribution</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"triangular"</span>, a <span class="op">=</span> <span class="fl">5</span>, b <span class="op">=</span> <span class="fl">10</span>, c <span class="op">=</span> <span class="fl">15</span><span class="op">)</span>,  <span class="co"># Task B: Triangular distribution</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"uniform"</span>, min <span class="op">=</span> <span class="fl">8</span>, max <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>  <span class="co"># Task C: Uniform distribution</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">10</span>, sd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>, <span class="co"># Task A: Normal distribution</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"triangular"</span>, a <span class="op">=</span> <span class="fl">5</span>, b <span class="op">=</span> <span class="fl">10</span>, c <span class="op">=</span> <span class="fl">15</span><span class="op">)</span>, <span class="co"># Task B: Triangular distribution</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"uniform"</span>, min <span class="op">=</span> <span class="fl">8</span>, max <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> <span class="co"># Task C: Uniform distribution</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Then, set the correlation matrix between the 3 work packages:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -152,9 +151,11 @@ distributions for 3 work packages:</p>
 <p>Variance of Total Duration: 19.43</p>
 <p>To build a histogram of the total duration:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_distribution</span>, breaks <span class="op">=</span> <span class="fl">50</span>, main <span class="op">=</span> <span class="st">"Total Project Duration"</span>, </span>
-<span>     xlab <span class="op">=</span> <span class="st">"Total Duration"</span>, col <span class="op">=</span> <span class="st">"skyblue"</span>, border <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="MCS_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_distribution</span>,</span>
+<span>  breaks <span class="op">=</span> <span class="fl">50</span>, main <span class="op">=</span> <span class="st">"Total Project Duration"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"Total Duration"</span>, col <span class="op">=</span> <span class="st">"skyblue"</span>, border <span class="op">=</span> <span class="st">"white"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="MCS_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="contingency">Contingency<a class="anchor" aria-label="anchor" href="#contingency"></a>
@@ -228,12 +229,14 @@ on the output.</p></li>
 <p>Build a vertical barchart and display the results:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>   Tasks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'C'</span><span class="op">)</span>,</span>
-<span>   Sensitivity <span class="op">=</span> <span class="va">sensitivity_results</span></span>
+<span>  Tasks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span>,</span>
+<span>  Sensitivity <span class="op">=</span> <span class="va">sensitivity_results</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html" class="external-link">barplot</a></span><span class="op">(</span>height<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">Sensitivity</span>, names<span class="op">=</span><span class="va">data</span><span class="op">$</span><span class="va">Tasks</span>, col<span class="op">=</span><span class="st">'skyblue'</span>, </span>
-<span>        horiz<span class="op">=</span><span class="cn">TRUE</span>, main <span class="op">=</span> <span class="st">"Sensitivity Analysis"</span>, xlab <span class="op">=</span> <span class="st">'Sensitivity'</span>, ylab <span class="op">=</span> <span class="st">'Tasks'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="MCS_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html" class="external-link">barplot</a></span><span class="op">(</span></span>
+<span>  height <span class="op">=</span> <span class="va">data</span><span class="op">$</span><span class="va">Sensitivity</span>, names <span class="op">=</span> <span class="va">data</span><span class="op">$</span><span class="va">Tasks</span>, col <span class="op">=</span> <span class="st">"skyblue"</span>,</span>
+<span>  horiz <span class="op">=</span> <span class="cn">TRUE</span>, main <span class="op">=</span> <span class="st">"Sensitivity Analysis"</span>, xlab <span class="op">=</span> <span class="st">"Sensitivity"</span>, ylab <span class="op">=</span> <span class="st">"Tasks"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="MCS_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="interpretation-and-action">Interpretation and Action<a class="anchor" aria-label="anchor" href="#interpretation-and-action"></a>
@@ -260,7 +263,7 @@ concentrated.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

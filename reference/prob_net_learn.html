@@ -5,7 +5,7 @@ The function supports normal, uniform, lognormal, conditional continuous, condit
 and aggregate (summation) node types."><meta property="og:description" content="This function updates a probabilistic network of project risks with observed values for certain nodes
 and then performs inference to generate posterior distributions for unobserved nodes.
 The function supports normal, uniform, lognormal, conditional continuous, conditional discrete, discrete,
-and aggregate (summation) node types."></head><body>
+and aggregate (summation) node types."><meta property="og:image" content="https://paulgovan.github.io/PRA/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -34,8 +34,7 @@ and aggregate (summation) node types."></head><body>
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Perform Bayesian Learning on a Probabilistic Network of Project Risks.</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Perform Bayesian Learning on a Probabilistic Network of Project Risks.</h1>
       <small class="dont-index">Source: <a href="https://github.com/paulgovan/PRA/blob/main/R/network.R" class="external-link"><code>R/network.R</code></a></small>
       <div class="d-none name"><code>prob_net_learn.Rd</code></div>
     </div>
@@ -118,12 +117,12 @@ Observed nodes are fixed at their given values.</p>
 <span class="r-in"><span><span class="va">updated_results</span> <span class="op">&lt;-</span> <span class="fu">prob_net_learn</span><span class="op">(</span><span class="va">graph</span>, <span class="va">observations</span>, num_samples <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">updated_results</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A        B         C        D</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1 2.902341 0.2902422 3.192583</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1 2.226350 0.7261965 2.952547</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 1 1.786184 1.1850027 2.971187</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 1 2.240081 0.4780507 2.718131</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 1 1.353897 0.6481988 2.002096</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 1 2.083298 0.6129808 2.696279</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1 1.957772 0.4210529 2.378824</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1 2.017685 0.7016152 2.719300</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 1 2.796837 0.6181802 3.415017</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 1 2.800354 0.9521132 3.752467</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 1 2.110299 1.3386718 3.448971</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 1 2.573886 0.8767631 3.450649</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -136,7 +135,7 @@ Observed nodes are fixed at their given values.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

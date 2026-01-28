@@ -55,8 +55,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Bayesian Methods</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Bayesian Methods</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/paulgovan/PRA/blob/main/vignettes/Bayes.Rmd" class="external-link"><code>vignettes/Bayes.Rmd</code></a></small>
@@ -241,7 +240,7 @@ cost given each risk event are:</p>
 <code class="sourceCode R"><span><span class="va">num_sims</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
 <span><span class="va">samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cost_pdf.html">cost_pdf</a></span><span class="op">(</span><span class="va">num_sims</span>, <span class="va">risk_probs</span>, <span class="va">means_given_risks</span>, <span class="va">sds_given_risks</span>, <span class="va">base_cost</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">samples</span>, breaks <span class="op">=</span> <span class="fl">30</span>, col <span class="op">=</span> <span class="st">"skyblue"</span>, main <span class="op">=</span> <span class="st">"Histogram of Cost"</span>, xlab <span class="op">=</span> <span class="st">"Cost"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Bayes_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="Bayes_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="700"></p>
 <p>The histogram above shows the distribution of cost outcomes based on
 the risk events and their associated costs.</p>
 </div>
@@ -283,8 +282,10 @@ and
 <p>To calculate the posterior probability of the risk event, use the
 <code>risk_post_prob</code> function:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">risk_post_prob</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/risk_post_prob.html">risk_post_prob</a></span><span class="op">(</span><span class="va">cause_probs</span>, <span class="va">risks_given_causes</span>,</span>
-<span>  <span class="va">risks_given_not_causes</span>, <span class="va">observed_causes</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">risk_post_prob</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/risk_post_prob.html">risk_post_prob</a></span><span class="op">(</span></span>
+<span>  <span class="va">cause_probs</span>, <span class="va">risks_given_causes</span>,</span>
+<span>  <span class="va">risks_given_not_causes</span>, <span class="va">observed_causes</span></span>
+<span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">risk_post_prob</span><span class="op">)</span></span></code></pre></div>
 <p>0.6315789</p>
 <p>The posterior probability of the risk event is updated based on the
@@ -330,7 +331,7 @@ the <code>cost_post_pdf</code> function:</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">posterior_samples</span>, breaks <span class="op">=</span> <span class="fl">30</span>, col <span class="op">=</span> <span class="st">"skyblue"</span>, main <span class="op">=</span> <span class="st">"Posterior Cost PDF"</span>, xlab <span class="op">=</span> <span class="st">"Cost"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Bayes_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<p><img src="Bayes_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" alt="" width="700"></p>
 <p>The histogram above shows the posterior probability density function
 of costs based on the observed risk events.</p>
 </div>
@@ -354,7 +355,7 @@ and make informed decisions in a wide range of applications.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

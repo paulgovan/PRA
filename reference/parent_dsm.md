@@ -1,0 +1,46 @@
+# Resource-based 'Parent' Design Structure Matrix (DSM).
+
+Resource-based 'Parent' Design Structure Matrix (DSM).
+
+## Usage
+
+``` r
+parent_dsm(S)
+```
+
+## Arguments
+
+- S:
+
+  Resource-Task Matrix 'S' giving the links (arcs) between resources and
+  tasks.
+
+## Value
+
+The function returns the Resource-based 'Parent' DSM 'P' giving the
+number of resources shared between each task.
+
+## Examples
+
+``` r
+# Set the S matrix for a toy project and print the results.
+s <- matrix(c(1, 1, 0, 0, 1, 0, 0, 1, 1), nrow = 3, ncol = 3)
+cat("Resource-Task Matrix:\n")
+#> Resource-Task Matrix:
+print(s)
+#>      [,1] [,2] [,3]
+#> [1,]    1    0    0
+#> [2,]    1    1    1
+#> [3,]    0    0    1
+
+# Calculate the Resource-based Parent DSM and print the results.
+resource_dsm <- parent_dsm(s)
+cat("\nResource-based 'Parent' DSM:\n")
+#> 
+#> Resource-based 'Parent' DSM:
+print(resource_dsm)
+#>      [,1] [,2] [,3]
+#> [1,]    1    1    0
+#> [2,]    1    3    1
+#> [3,]    0    1    1
+```

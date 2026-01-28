@@ -1,0 +1,60 @@
+# Probabilistic Network of Project Risks.
+
+This function creates a probabilistic network graph representation of
+project risks that supports discrete and continuous probability
+distributions.
+
+## Usage
+
+``` r
+prob_net(nodes, links, distributions = NULL)
+```
+
+## Arguments
+
+- nodes:
+
+  A data frame containing the nodes of the graph. Must include a column
+  \`id\` with unique identifiers for each node.
+
+- links:
+
+  A data frame containing the links of the graph. Must include columns
+  \`source\` and \`target\` specifying the nodes that form each edge.
+
+- distributions:
+
+  A named list where names correspond to node IDs and values specify
+  discrete probabilities, continuous probability distributions,
+  conditional distributions, or aggregate distributions. - "discrete":
+  Specifies \`values\` and \`probs\`. - "normal": Specifies \`mean\` and
+  \`sd\`. - "lognormal": Specifies \`meanlog\` and \`sdlog\`. -
+  "uniform": Specifies \`min\` and \`max\`. - "conditional": Specifies a
+  \`condition\` (a discrete node) and two distributions (\`true_dist\`,
+  \`false_dist\`). The conditional distributions can themselves be
+  discrete or continuous. - "aggregate": Specifies \`nodes\` (a list of
+  continuous node IDs to sum).
+
+## Value
+
+A list with: - \`nodes\`: The input \`nodes\` data frame. - \`links\`:
+The input \`links\` data frame. - \`adjacency_matrix\`: A matrix
+representing connections between nodes. - \`distributions\`: The input
+\`distributions\` list.
+
+## Examples
+
+``` r
+nodes <- data.frame(id = c("A", "B", "C", "D"))
+links <- data.frame(source = c("A", "B", "C"), target = c("B", "C", "D"))
+distributions <- list(
+  A = list(type = "discrete", values = c(0, 1), probs = c(0.5, 0.5)),
+  B = list(type = "normal", mean = 0, sd = 1),
+  C = list(type = "lognormal", meanlog = 0, sdlog = 0.5),
+  D = list(type = "uniform", min = 1, max = 5),
+  E = list(type = "conditional", condition = "A",
+           true_dist = list(type = "normal", mean = 1, sd = 0.5),
+           false_dist = list(type = "lognormal", meanlog = -1, sdlog = 0.5))
+)
+graph <- prob_net(nodes, links, distributions = distributions)
+```
