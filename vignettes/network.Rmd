@@ -36,7 +36,7 @@ roadway_tasks <- data.frame(
     "Task-2",
     "Task-3",
     "Task-4",
-    "Task-5", 
+    "Task-5",
     "Task-6",
     "Task-7",
     "Task-8"
@@ -50,7 +50,7 @@ roadway_tasks <- data.frame(
     "Drainage and Utilities Installation",
     "Signage and Markings",
     "Final Inspection and Handover"
-  ), 
+  ),
   Project_ID = rep("P", 8)
 )
 
@@ -104,7 +104,7 @@ roadway_resources <- data.frame(
     25000,
     6500,
     2000
-  ), 
+  ),
   SD = c(
     2000,
     5000,
@@ -174,7 +174,7 @@ First, define the nodes and edges of the Bayesian network. The nodes represent t
 
 ```{r}
 nodes <- data.frame(
- id = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T"),
+  id = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T"),
   label = c(
     "Risk-1",
     "Risk-2",
@@ -191,13 +191,13 @@ nodes <- data.frame(
     "Task-2",
     "Task-3",
     "Task-4",
-    "Task-5", 
+    "Task-5",
     "Task-6",
     "Task-7",
     "Task-8",
     "Project"
   ),
- group = c(
+  group = c(
     "Risk",
     "Risk",
     "Risk",
@@ -218,9 +218,9 @@ nodes <- data.frame(
     "Task",
     "Task",
     "Project"
-    ),
+  ),
   stringsAsFactors = FALSE
- )
+)
 ```
 
 ### Edges
@@ -229,10 +229,8 @@ Next, define the edges between the nodes in the Bayesian network. The edges repr
 
 ```{r}
 links <- data.frame(
-  source = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S"
-  ),
-  target = c("F", "G", "H", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "T", "T", "T", "T", "T", "T", "T"
-  ),
+  source = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S"),
+  target = c("F", "G", "H", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "T", "T", "T", "T", "T", "T", "T"),
   value = rep(1, 19),
   stringsAsFactors = FALSE
 )
@@ -376,8 +374,10 @@ library(igraph)
 library(networkD3)
 g <- graph_from_data_frame(graph$links, vertices = graph$nodes, directed = TRUE)
 d3g <- igraph_to_networkD3(g, group = graph$nodes$group)
-forceNetwork(Links = d3g$links, Nodes = d3g$nodes, NodeID = "name", Group = "group", Value = "value",
-             zoom = TRUE, legend = TRUE, arrows = TRUE, opacity = 0.8, fontSize = 14)
+forceNetwork(
+  Links = d3g$links, Nodes = d3g$nodes, NodeID = "name", Group = "group", Value = "value",
+  zoom = TRUE, legend = TRUE, arrows = TRUE, opacity = 0.8, fontSize = 14
+)
 ```
 
 ## Inference
@@ -402,8 +402,10 @@ The `prob_net_learn()` function can be used to update the probabilities of the r
 For example, if Risk 3 (material price fluctuations) did not occur, the Bayesian network can be updated with the new probability. 
 
 ```{r results='asis'}
-updated_results <- prob_net_learn(graph, observations = list(C = "No"),
-                                  num_samples = 1000)
+updated_results <- prob_net_learn(graph,
+  observations = list(C = "No"),
+  num_samples = 1000
+)
 ```
 
 The updated results can be compared with the original results to see how the changes in the risk probabilities affect the project outcomes.
@@ -411,8 +413,10 @@ The updated results can be compared with the original results to see how the cha
 ```{r}
 hist <- hist(simulation_results$H, breaks = 50, plot = FALSE)
 hist2 <- hist(updated_results$H, breaks = 50, plot = FALSE)
-plot(hist, main = "Pavement Cost", xlab = "Resource Cost", col = "skyblue", 
-     border = "white", ylim = c(0, max(hist$counts, hist2$counts)))
+plot(hist,
+  main = "Pavement Cost", xlab = "Resource Cost", col = "skyblue",
+  border = "white", ylim = c(0, max(hist$counts, hist2$counts))
+)
 plot(hist2, col = "blue", border = "white", add = TRUE)
 legend("topright", legend = c("Original", "Updated"), fill = c("skyblue", "blue"))
 ```
@@ -432,12 +436,14 @@ remove_links <- data.frame(
 update_distributions <- list(
   F = list(
     type = "normal",
-    mean = 3500, 
+    mean = 3500,
     sd = 1000
-    )
+  )
 )
-updated_graph <- prob_net_update(graph, remove_links = remove_links,
-                                   update_distributions = update_distributions)
+updated_graph <- prob_net_update(graph,
+  remove_links = remove_links,
+  update_distributions = update_distributions
+)
 updated_results <- prob_net_sim(updated_graph, num_samples = 1000)
 ```
 
@@ -446,8 +452,10 @@ Just as before the updated results can be compared with the original results to 
 ```{r}
 hist <- hist(simulation_results$F, breaks = 50, plot = FALSE)
 hist2 <- hist(updated_results$F, breaks = 50, plot = FALSE)
-plot(hist, main = "Regulatory Support Cost", xlab = "Resource Cost", 
-     col = "skyblue", border = "white", ylim = c(0, max(hist$counts, hist2$counts)))
+plot(hist,
+  main = "Regulatory Support Cost", xlab = "Resource Cost",
+  col = "skyblue", border = "white", ylim = c(0, max(hist$counts, hist2$counts))
+)
 plot(hist2, col = "blue", border = "white", add = TRUE)
 legend("topright", legend = c("Original", "Updated"), fill = c("skyblue", "blue"))
 ```

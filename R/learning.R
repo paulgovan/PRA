@@ -1,5 +1,3 @@
-
-
 #' Posterior Risk Probability.
 #'
 #' Calculates the posterior probability of the risk event given observations of the root causes.
@@ -13,25 +11,31 @@
 #' risks_given_causes <- c(0.8, 0.6)
 #' risks_given_not_causes <- c(0.2, 0.4)
 #' observed_causes <- c(1, NA)
-#' risk_post_prob <- risk_post_prob(cause_probs, risks_given_causes,
-#'   risks_given_not_causes, observed_causes)
+#' risk_post_prob <- risk_post_prob(
+#'   cause_probs, risks_given_causes,
+#'   risks_given_not_causes, observed_causes
+#' )
 #' print(risk_post_prob)
 #' @export
 risk_post_prob <- function(cause_probs, risks_given_causes, risks_given_not_causes, observed_causes) {
-
   # Validate inputs
   if (length(cause_probs) != length(risks_given_causes) ||
-      length(cause_probs) != length(risks_given_not_causes) ||
-      length(cause_probs) != length(observed_causes))
+    length(cause_probs) != length(risks_given_not_causes) ||
+    length(cause_probs) != length(observed_causes)) {
     stop("All input vectors must have the same length.")
-  if (any(cause_probs < 0 | cause_probs > 1))
+  }
+  if (any(cause_probs < 0 | cause_probs > 1)) {
     stop("All values in cause_probs must be between 0 and 1.")
-  if (any(risks_given_causes < 0 | risks_given_causes > 1))
+  }
+  if (any(risks_given_causes < 0 | risks_given_causes > 1)) {
     stop("All values in risks_given_causes must be between 0 and 1.")
-  if (any(risks_given_not_causes < 0 | risks_given_not_causes > 1))
+  }
+  if (any(risks_given_not_causes < 0 | risks_given_not_causes > 1)) {
     stop("All values in risks_given_not_causes must be between 0 and 1.")
-  if (!all(is.na(observed_causes) | observed_causes %in% c(0, 1)))
+  }
+  if (!all(is.na(observed_causes) | observed_causes %in% c(0, 1))) {
     stop("All values in observed_causes must be 0, 1, or NA.")
+  }
 
   # Initialize posterior probability of the risk event
   numerator <- 1
@@ -42,11 +46,11 @@ risk_post_prob <- function(cause_probs, risks_given_causes, risks_given_not_caus
       if (observed_causes[i] == 1) {
         numerator <- numerator * risks_given_causes[i] * cause_probs[i]
         denominator <- denominator * (risks_given_causes[i] * cause_probs[i] +
-                                        risks_given_not_causes[i] * (1 - cause_probs[i]))
+          risks_given_not_causes[i] * (1 - cause_probs[i]))
       } else {
         numerator <- numerator * risks_given_not_causes[i] * (1 - cause_probs[i])
         denominator <- denominator * (risks_given_causes[i] * cause_probs[i] +
-                                        risks_given_not_causes[i] * (1 - cause_probs[i]))
+          risks_given_not_causes[i] * (1 - cause_probs[i]))
       }
     }
   }
@@ -81,12 +85,12 @@ risk_post_prob <- function(cause_probs, risks_given_causes, risks_given_not_caus
 #' hist(posterior_samples, breaks = 30, col = "skyblue", main = "Posterior Cost PDF", xlab = "Cost")
 #' @export
 cost_post_pdf <- function(num_sims, observed_risks, means_given_risks, sds_given_risks, base_cost = 0) {
-
   # Validate inputs
   if (num_sims <= 0 || !is.numeric(num_sims)) stop("num_sims must be a positive integer.")
   if (!all(is.na(observed_risks) | observed_risks %in% c(0, 1))) stop("All values in observed_risks must be 0, 1, or NA.")
-  if (length(observed_risks) != length(means_given_risks) || length(observed_risks) != length(sds_given_risks))
+  if (length(observed_risks) != length(means_given_risks) || length(observed_risks) != length(sds_given_risks)) {
     stop("observed_risks, means_given_risks, and sds_given_risks must have the same length.")
+  }
   if (any(sds_given_risks < 0)) stop("Standard deviations must be non-negative.")
 
   # Number of risk events

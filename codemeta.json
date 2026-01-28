@@ -1,0 +1,180 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "identifier": "PRA",
+  "description": "Data analysis for Project Risk Management via the Second Moment Method, Monte Carlo Simulation, Contingency Analysis, Sensitivity Analysis, Earned Value Management, Learning Curves, Bayesian Methods, Bayesian Networks, and more.",
+  "name": "PRA: Project Risk Analysis",
+  "relatedLink": ["https://paulgovan.github.io/PRA/", "https://CRAN.R-project.org/package=PRA"],
+  "codeRepository": "https://github.com/paulgovan/PRA",
+  "issueTracker": "https://github.com/paulgovan/PRA/issues",
+  "license": "https://spdx.org/licenses/MIT",
+  "version": "0.3.0",
+  "programmingLanguage": {
+    "@type": "ComputerLanguage",
+    "name": "R",
+    "url": "https://r-project.org"
+  },
+  "runtimePlatform": "R version 4.4.2 (2024-10-31)",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Paul",
+      "familyName": "Govan",
+      "email": "paul.govan2@gmail.com",
+      "@id": "https://orcid.org/0000-0002-1821-8492"
+    }
+  ],
+  "copyrightHolder": [
+    {
+      "@type": "Person",
+      "givenName": "Paul",
+      "familyName": "Govan",
+      "email": "paul.govan2@gmail.com",
+      "@id": "https://orcid.org/0000-0002-1821-8492"
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "givenName": "Paul",
+      "familyName": "Govan",
+      "email": "paul.govan2@gmail.com",
+      "@id": "https://orcid.org/0000-0002-1821-8492"
+    }
+  ],
+  "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "ggplot2",
+      "name": "ggplot2",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=ggplot2"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "igraph",
+      "name": "igraph",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=igraph"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "knitr",
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "networkD3",
+      "name": "networkD3",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=networkD3"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "rmarkdown",
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "testthat",
+      "name": "testthat",
+      "version": ">= 3.0.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=testthat"
+    }
+  ],
+  "softwareRequirements": {
+    "1": {
+      "@type": "SoftwareApplication",
+      "identifier": "mc2d",
+      "name": "mc2d",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=mc2d"
+    },
+    "2": {
+      "@type": "SoftwareApplication",
+      "identifier": "minpack.lm",
+      "name": "minpack.lm",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=minpack.lm"
+    },
+    "3": {
+      "@type": "SoftwareApplication",
+      "identifier": "stats",
+      "name": "stats"
+    },
+    "SystemRequirements": null
+  },
+  "fileSize": "1378.348KB",
+  "citation": [
+    {
+      "@type": "SoftwareSourceCode",
+      "datePublished": "2024",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": "Paul",
+          "familyName": "Govan"
+        }
+      ],
+      "name": "PRA: Project Risk Analysis",
+      "identifier": "10.32614/CRAN.package.PRA",
+      "url": "https://cran.r-project.org/package=PRA",
+      "description": "R package version 0.2",
+      "@id": "https://doi.org/10.32614/CRAN.package.PRA",
+      "sameAs": "https://doi.org/10.32614/CRAN.package.PRA"
+    }
+  ],
+  "releaseNotes": "https://github.com/paulgovan/PRA/blob/main/NEWS.md",
+  "developmentStatus": "https://lifecycle.r-lib.org/articles/stages.html#experimental"
+}

@@ -45,4 +45,3 @@ test_that("predict_sigmoidal stops with an invalid model type", {
   fit <- fit_sigmoidal(data, "time", "completion", "logistic")
   expect_error(predict_sigmoidal(fit, seq(min(data$time), max(data$time), length.out = 100), "invalid_type"), "Invalid model type. Choose 'pearl', 'gompertz', or 'logistic'.")
 })
-

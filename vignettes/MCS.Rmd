@@ -57,9 +57,9 @@ Next, set the number of simulations and describe probability distributions for 3
 ```{r}
 num_simulations <- 10000
 task_distributions <- list(
-  list(type = "normal", mean = 10, sd = 2),  # Task A: Normal distribution
-  list(type = "triangular", a = 5, b = 10, c = 15),  # Task B: Triangular distribution
-  list(type = "uniform", min = 8, max = 12)  # Task C: Uniform distribution
+  list(type = "normal", mean = 10, sd = 2), # Task A: Normal distribution
+  list(type = "triangular", a = 5, b = 10, c = 15), # Task B: Triangular distribution
+  list(type = "uniform", min = 8, max = 12) # Task C: Uniform distribution
 )
 ```
 
@@ -89,8 +89,10 @@ cat("Variance of Total Duration:", round(results$total_variance, 2), "\n")
 
 To build a histogram of the total duration:
 ```{r}
-hist(results$total_distribution, breaks = 50, main = "Total Project Duration", 
-     xlab = "Total Duration", col = "skyblue", border = "white")
+hist(results$total_distribution,
+  breaks = 50, main = "Total Project Duration",
+  xlab = "Total Duration", col = "skyblue", border = "white"
+)
 ```
 
 ## Contingency
@@ -140,11 +142,13 @@ Build a vertical barchart and display the results:
 
 ```{r}
 data <- data.frame(
-   Tasks = c('A', 'B', 'C'),
-   Sensitivity = sensitivity_results
+  Tasks = c("A", "B", "C"),
+  Sensitivity = sensitivity_results
 )
-barplot(height=data$Sensitivity, names=data$Tasks, col='skyblue', 
-        horiz=TRUE, main = "Sensitivity Analysis", xlab = 'Sensitivity', ylab = 'Tasks')
+barplot(
+  height = data$Sensitivity, names = data$Tasks, col = "skyblue",
+  horiz = TRUE, main = "Sensitivity Analysis", xlab = "Sensitivity", ylab = "Tasks"
+)
 ```
 
 ### Interpretation and Action

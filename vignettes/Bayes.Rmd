@@ -145,8 +145,10 @@ observed_causes <- c(1, NA)
 
 To calculate the posterior probability of the risk event, use the `risk_post_prob` function:
 ```{r results='asis'}
-risk_post_prob <- risk_post_prob(cause_probs, risks_given_causes,
-  risks_given_not_causes, observed_causes)
+risk_post_prob <- risk_post_prob(
+  cause_probs, risks_given_causes,
+  risks_given_not_causes, observed_causes
+)
 cat(risk_post_prob)
 ```
 

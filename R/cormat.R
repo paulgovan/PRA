@@ -23,7 +23,6 @@
 #' @export
 # Function to generate random samples and calculate correlation matrix
 cor_matrix <- function(num_samples = 100, num_vars = 5, dists = dists) {
-
   # Error checks for dists
   if (!is.list(dists) || length(dists) == 0) {
     stop("dists must be a non-empty list.")

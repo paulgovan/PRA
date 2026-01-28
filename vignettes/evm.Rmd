@@ -132,15 +132,17 @@ data <- data.frame(
 
 # Plot PV, AC, and EV over time
 p <- ggplot2::ggplot(data, ggplot2::aes(x = time_period)) +
-  ggplot2::geom_line(ggplot2::aes(y = PV, color = 'PV'), size = 1) +
-  ggplot2::geom_line(ggplot2::aes(y = AC, color = 'AC'), size = 1) +
-  ggplot2::geom_line(ggplot2::aes(y = EV, color = 'EV'), size = 1) +
-  ggplot2::geom_hline(yintercept = bac, linetype = 'dashed', color = 'blue', size = 1, show.legend = TRUE) +
-  ggplot2::geom_hline(yintercept = eac, linetype = 'dotted', color = 'red', size = 1, show.legend = TRUE) +
-  ggplot2::labs(title = 'Earned Value',
-       x = 'Time Period',
-       y = 'Value',
-       color = 'Metric') +
+  ggplot2::geom_line(ggplot2::aes(y = PV, color = "PV"), size = 1) +
+  ggplot2::geom_line(ggplot2::aes(y = AC, color = "AC"), size = 1) +
+  ggplot2::geom_line(ggplot2::aes(y = EV, color = "EV"), size = 1) +
+  ggplot2::geom_hline(yintercept = bac, linetype = "dashed", color = "blue", size = 1, show.legend = TRUE) +
+  ggplot2::geom_hline(yintercept = eac, linetype = "dotted", color = "red", size = 1, show.legend = TRUE) +
+  ggplot2::labs(
+    title = "Earned Value",
+    x = "Time Period",
+    y = "Value",
+    color = "Metric"
+  ) +
   ggplot2::xlim(1, 5) +
   ggplot2::theme_minimal()
 

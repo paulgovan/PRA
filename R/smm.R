@@ -21,7 +21,6 @@
 #' @export
 # Second Moment Method
 smm <- function(mean, var, cor_mat = NULL) {
-
   # Check if the mean and variance vectors have the same length
   if (length(mean) != length(var)) {
     stop("The mean and variance vectors must have the same length.")
@@ -45,18 +44,18 @@ smm <- function(mean, var, cor_mat = NULL) {
     cov_matrix <- diag(var)
   }
 
-    # Calculate the total mean
-    total_mean <- sum(mean)
+  # Calculate the total mean
+  total_mean <- sum(mean)
 
-    # Calculate the total variance
-    total_var <- sum(var) + sum(cov_matrix[upper.tri(cov_matrix)] *2)
+  # Calculate the total variance
+  total_var <- sum(var) + sum(cov_matrix[upper.tri(cov_matrix)] * 2)
 
-    # Return a list with the results
-    result <- list(total_mean = total_mean,
-                   total_var = total_var,
-                   total_std = sqrt(total_var))
+  # Return a list with the results
+  result <- list(
+    total_mean = total_mean,
+    total_var = total_var,
+    total_std = sqrt(total_var)
+  )
 
-    return(result)
-
+  return(result)
 }
-

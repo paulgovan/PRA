@@ -33,7 +33,7 @@ roadway_tasks <- data.frame(
     "Task-1.2",
     "Task-1.3",
     "Task-1.4",
-    "Task-1.5", 
+    "Task-1.5",
     "Task-1.6",
     "Task-1.7",
     "Task-1.8"
@@ -47,7 +47,7 @@ roadway_tasks <- data.frame(
     "Drainage and Utilities Installation",
     "Signage and Markings",
     "Final Inspection and Handover"
-  ), 
+  ),
   Project_ID = rep("BF", 8)
 )
 
@@ -60,7 +60,7 @@ building_tasks <- data.frame(
     "Task-2.2",
     "Task-2.3",
     "Task-2.4",
-    "Task-2.5", 
+    "Task-2.5",
     "Task-2.6",
     "Task-2.7",
     "Task-2.8"
@@ -87,7 +87,7 @@ bridge_tasks <- data.frame(
     "Task-3.2",
     "Task-3.3",
     "Task-3.4",
-    "Task-3.5", 
+    "Task-3.5",
     "Task-3.6",
     "Task-3.7",
     "Task-3.8",
@@ -105,7 +105,7 @@ bridge_tasks <- data.frame(
     "Decking and Surface Finishing",
     "Inspection and Load Testing",
     "Final Handover"
-  ), 
+  ),
   Project_ID = rep("BH", 10)
 )
 
@@ -159,7 +159,7 @@ roadway_resources <- data.frame(
     25000,
     6500,
     2000
-  ), 
+  ),
   SD = c(
     2000,
     5000,
@@ -405,7 +405,7 @@ bridge_risks <- data.frame(
     40000,
     10000,
     80000
-  ), 
+  ),
   SD = c(
     9000,
     2000,
@@ -426,11 +426,13 @@ First, define the nodes and edges of the Bayesian network. The nodes represent t
 
 ```{r}
 nodes <- data.frame(
- id = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", 
-        "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", 
-        "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", 
-        "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ", 
-        "BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI"),
+  id = c(
+    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
+    "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB",
+    "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN",
+    "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ",
+    "BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI"
+  ),
   label = c(
     "Risk-1",
     "Risk-2",
@@ -494,7 +496,7 @@ nodes <- data.frame(
     "Project 3",
     "Project Portfolio"
   ),
- group = c(
+  group = c(
     "Risk",
     "Risk",
     "Risk",
@@ -558,25 +560,29 @@ nodes <- data.frame(
     "Portfolio"
   ),
   stringsAsFactors = FALSE
- )
+)
 ```
 
 Next, define the edges of the Bayesian network. The following code defines the edges of the Bayesian network.
 
 ```{r}
 links <- data.frame(
-  source = c("A", "B", "C", "A", "D", "C", "B", "D", "E", "F", "G", "H", "I", 
-           "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", 
-           "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", 
-           "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU",
-           "AV", "AW", "AX", "AY", "AZ", "BA", "BB", "BC", "BD", "BE", "BF", "BG",
-           "BH"),
-  target = c("H", "I", "J", "P", "S", "O", "W", "AD", "Y", "AF", "AG", "AH", "AI", 
-         "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", 
-         "AV", "AW", "AX", "AY", "AZ", "BA", "BB", "BC", "BD", "BE", "BF", "BF",
-         "BF", "BF", "BF", "BF", "BF", "BF", "BG", "BG", "BG", "BG", "BG", "BG",
-         "BG", "BG", "BH", "BH", "BH", "BH", "BH", "BH", "BH", "BH", "BH", "BH",
-         "BI", "BI", "BI"),
+  source = c(
+    "A", "B", "C", "A", "D", "C", "B", "D", "E", "F", "G", "H", "I",
+    "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W",
+    "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI",
+    "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU",
+    "AV", "AW", "AX", "AY", "AZ", "BA", "BB", "BC", "BD", "BE", "BF", "BG",
+    "BH"
+  ),
+  target = c(
+    "H", "I", "J", "P", "S", "O", "W", "AD", "Y", "AF", "AG", "AH", "AI",
+    "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU",
+    "AV", "AW", "AX", "AY", "AZ", "BA", "BB", "BC", "BD", "BE", "BF", "BF",
+    "BF", "BF", "BF", "BF", "BF", "BF", "BG", "BG", "BG", "BG", "BG", "BG",
+    "BG", "BG", "BH", "BH", "BH", "BH", "BH", "BH", "BH", "BH", "BH", "BH",
+    "BI", "BI", "BI"
+  ),
   value = rep(1, 64)
 )
 ```
@@ -958,8 +964,10 @@ library(igraph)
 library(networkD3)
 g <- graph_from_data_frame(graph$links, vertices = graph$nodes, directed = TRUE)
 d3g <- igraph_to_networkD3(g, group = graph$nodes$group)
-forceNetwork(Links = d3g$links, Nodes = d3g$nodes, NodeID = "name", Group = "group", Value = "value",
-             zoom = TRUE, legend = TRUE, arrows = TRUE, opacity = 0.8, fontSize = 14)
+forceNetwork(
+  Links = d3g$links, Nodes = d3g$nodes, NodeID = "name", Group = "group", Value = "value",
+  zoom = TRUE, legend = TRUE, arrows = TRUE, opacity = 0.8, fontSize = 14
+)
 ```
 
 ## Inference
@@ -987,8 +995,10 @@ For example, if Risk 1.2 occurred, the Bayesian network can be updated with this
 
 
 ```{r results='asis'}
-updated_results <- prob_net_learn(graph, observations = list(B = "Yes"),
-                                  num_samples = 1000)
+updated_results <- prob_net_learn(graph,
+  observations = list(B = "Yes"),
+  num_samples = 1000
+)
 ```
 
 The updated results can be compared with the original results to see how the changes in the risk probabilities affect the project outcomes. The following code compares the results before and after updating the Bayesian network.
@@ -996,11 +1006,15 @@ The updated results can be compared with the original results to see how the cha
 ```{r}
 hist <- hist(simulation_results$I, breaks = 50, plot = FALSE)
 hist2 <- hist(updated_results$I, breaks = 50, plot = FALSE)
-plot(hist, main = "Heavy Machinery Cost", xlab = "Resource Cost", 
-     col = "skyblue", border = "white")
+plot(hist,
+  main = "Heavy Machinery Cost", xlab = "Resource Cost",
+  col = "skyblue", border = "white"
+)
 plot(hist2, col = "blue", border = "white", add = TRUE)
-legend("topright", legend = c("Before Update", "After Update"), 
-       fill = c("skyblue", "blue"), bty = "n")
+legend("topright",
+  legend = c("Before Update", "After Update"),
+  fill = c("skyblue", "blue"), bty = "n"
+)
 ```
 
 ## Updating
@@ -1018,12 +1032,14 @@ remove_links <- data.frame(
 update_distributions <- list(
   H = list(
     type = "normal",
-    mean = 3500, 
+    mean = 3500,
     sd = 1000
-    )
+  )
 )
-updated_graph <- prob_net_update(graph, remove_links = remove_links,
-                                   update_distributions = update_distributions)
+updated_graph <- prob_net_update(graph,
+  remove_links = remove_links,
+  update_distributions = update_distributions
+)
 updated_results <- prob_net_sim(updated_graph, num_samples = 1000)
 ```
 
@@ -1032,11 +1048,15 @@ Just as before, the updated results can be compared with the original results to
 ```{r}
 hist <- hist(simulation_results$H, breaks = 50, plot = FALSE)
 hist2 <- hist(updated_results$H, breaks = 50, plot = FALSE)
-plot(hist, main = "Regulatory Support Cost", xlab = "Resource Cost", 
-     col = "skyblue", border = "white", ylim = c(0, max(hist$counts, hist2$counts)))
+plot(hist,
+  main = "Regulatory Support Cost", xlab = "Resource Cost",
+  col = "skyblue", border = "white", ylim = c(0, max(hist$counts, hist2$counts))
+)
 plot(hist2, col = "blue", border = "white", add = TRUE)
-legend("topright", legend = c("Before Update", "After Update"), 
-       fill = c("skyblue", "blue"), bty = "n")
+legend("topright",
+  legend = c("Before Update", "After Update"),
+  fill = c("skyblue", "blue"), bty = "n"
+)
 ```
 
 ## Conclusion

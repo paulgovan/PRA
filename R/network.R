@@ -1,4 +1,3 @@
-
 #' Probabilistic Network of Project Risks.
 #'
 #' This function creates a probabilistic network graph representation of project risks
@@ -32,15 +31,16 @@
 #'   B = list(type = "normal", mean = 0, sd = 1),
 #'   C = list(type = "lognormal", meanlog = 0, sdlog = 0.5),
 #'   D = list(type = "uniform", min = 1, max = 5),
-#'   E = list(type = "conditional", condition = "A",
-#'            true_dist = list(type = "normal", mean = 1, sd = 0.5),
-#'            false_dist = list(type = "lognormal", meanlog = -1, sdlog = 0.5))
+#'   E = list(
+#'     type = "conditional", condition = "A",
+#'     true_dist = list(type = "normal", mean = 1, sd = 0.5),
+#'     false_dist = list(type = "lognormal", meanlog = -1, sdlog = 0.5)
+#'   )
 #' )
 #' graph <- prob_net(nodes, links, distributions = distributions)
 #'
 #' @export
 prob_net <- function(nodes, links, distributions = NULL) {
-
   # Check inputs
   if (!is.data.frame(nodes) || !is.data.frame(links)) {
     stop("Both nodes and links must be data frames.")
@@ -84,7 +84,7 @@ prob_net <- function(nodes, links, distributions = NULL) {
         if (dist$true_dist$type == "discrete" && dist$false_dist$type == "discrete") {
           # Check discrete conditional structure
           if (!all(c("values", "probs") %in% names(dist$true_dist)) ||
-              !all(c("values", "probs") %in% names(dist$false_dist))) {
+            !all(c("values", "probs") %in% names(dist$false_dist))) {
             stop("Both discrete conditional distributions must specify 'values' and 'probs'.")
           }
         }
@@ -94,8 +94,10 @@ prob_net <- function(nodes, links, distributions = NULL) {
 
   # Create an adjacency matrix
   node_ids <- nodes$id
-  adjacency_matrix <- matrix(0, nrow = length(node_ids), ncol = length(node_ids),
-                             dimnames = list(node_ids, node_ids))
+  adjacency_matrix <- matrix(0,
+    nrow = length(node_ids), ncol = length(node_ids),
+    dimnames = list(node_ids, node_ids)
+  )
 
   for (i in seq_len(nrow(links))) {
     source <- links$source[i]
@@ -154,9 +156,11 @@ prob_net <- function(nodes, links, distributions = NULL) {
 #' distributions <- list(
 #'   A = list(type = "discrete", values = c(0, 1), probs = c(0.5, 0.5)),
 #'   B = list(type = "normal", mean = 2, sd = 0.5),
-#'   C = list(type = "conditional", condition = "A",
-#'            true_dist = list(type = "normal", mean = 1, sd = 0.5),
-#'            false_dist = list(type = "lognormal", meanlog = 0, sdlog = 0.2)),
+#'   C = list(
+#'     type = "conditional", condition = "A",
+#'     true_dist = list(type = "normal", mean = 1, sd = 0.5),
+#'     false_dist = list(type = "lognormal", meanlog = 0, sdlog = 0.2)
+#'   ),
 #'   D = list(type = "aggregate", nodes = c("B", "C"))
 #' )
 #'
@@ -170,8 +174,9 @@ prob_net <- function(nodes, links, distributions = NULL) {
 #' @importFrom stats rnorm runif rlnorm sample
 #' @export
 prob_net_sim <- function(network, num_samples = 1000) {
-  if (!inherits(network, "prob_net"))
+  if (!inherits(network, "prob_net")) {
     stop("The network must be a prob_net object.")
+  }
 
   nodes <- network$nodes
   distributions <- network$distributions
@@ -213,7 +218,6 @@ prob_net_sim <- function(network, num_samples = 1000) {
 
         # Apply condition (assumes binary condition with value 1 == true)
         samples[[node]] <- ifelse(condition_values == 1, true_samples, false_samples)
-
       } else if (dist$type == "aggregate") {
         component_samples <- sapply(dist$nodes, function(p) samples[[p]])
         samples[[node]] <- rowSums(component_samples)
@@ -269,9 +273,11 @@ prob_net_sim <- function(network, num_samples = 1000) {
 #' distributions <- list(
 #'   A = list(type = "discrete", values = c(0, 1), probs = c(0.5, 0.5)),
 #'   B = list(type = "normal", mean = 2, sd = 0.5),
-#'   C = list(type = "conditional", condition = "A",
-#'            true_dist = list(type = "normal", mean = 1, sd = 0.5),
-#'            false_dist = list(type = "discrete", values = c(0, 1), probs = c(0.4, 0.6))),
+#'   C = list(
+#'     type = "conditional", condition = "A",
+#'     true_dist = list(type = "normal", mean = 1, sd = 0.5),
+#'     false_dist = list(type = "discrete", values = c(0, 1), probs = c(0.4, 0.6))
+#'   ),
 #'   D = list(type = "aggregate", nodes = c("B", "C"))
 #' )
 #'
@@ -286,8 +292,9 @@ prob_net_sim <- function(network, num_samples = 1000) {
 #' @importFrom stats rnorm runif rlnorm sample
 #' @export
 prob_net_learn <- function(network, observations = list(), num_samples = 1000) {
-  if (!inherits(network, "prob_net"))
+  if (!inherits(network, "prob_net")) {
     stop("The network must be a prob_net object.")
+  }
 
   nodes <- network$nodes
   distributions <- network$distributions
@@ -331,7 +338,6 @@ prob_net_learn <- function(network, observations = list(), num_samples = 1000) {
 
         # Apply condition (assumes binary condition where 1 = TRUE)
         samples[[node]] <- ifelse(condition_values == 1, true_samples, false_samples)
-
       } else if (dist$type == "aggregate") {
         component_samples <- sapply(dist$nodes, function(p) samples[[p]])
         samples[[node]] <- rowSums(component_samples)
@@ -360,8 +366,9 @@ prob_net_learn <- function(network, observations = list(), num_samples = 1000) {
 #'
 #' @export
 prob_net_update <- function(graph, add_links = NULL, remove_links = NULL, update_distributions = NULL) {
-  if (!inherits(graph, "prob_net"))
+  if (!inherits(graph, "prob_net")) {
     stop("The graph must be a prob_net object.")
+  }
 
   nodes <- graph$nodes
   links <- graph$links
@@ -425,8 +432,10 @@ prob_net_update <- function(graph, add_links = NULL, remove_links = NULL, update
 
   # Recreate adjacency matrix
   node_ids <- nodes$id
-  adjacency_matrix <- matrix(0, nrow = length(node_ids), ncol = length(node_ids),
-                             dimnames = list(node_ids, node_ids))
+  adjacency_matrix <- matrix(0,
+    nrow = length(node_ids), ncol = length(node_ids),
+    dimnames = list(node_ids, node_ids)
+  )
 
   for (i in seq_len(nrow(links))) {
     source <- links$source[i]
@@ -446,4 +455,3 @@ prob_net_update <- function(graph, add_links = NULL, remove_links = NULL, update
   class(updated_graph) <- "prob_net"
   return(updated_graph)
 }
-

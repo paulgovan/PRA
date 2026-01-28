@@ -15,11 +15,11 @@ test_that("second moment analysis works with correlation matrix", {
     1, 0.5, 0.3,
     0.5, 1, 0.4,
     0.3, 0.4, 1
-    ), nrow = 3, byrow = TRUE)
+  ), nrow = 3, byrow = TRUE)
 
   results <- smm(mean, var, cor_mat)
 
-  task_variances <- c(4,  9, 16)
+  task_variances <- c(4, 9, 16)
 
   cov_matrix <- matrix(0, nrow = 3, ncol = 3)
   for (i in 1:3) {
@@ -33,4 +33,3 @@ test_that("second moment analysis works with correlation matrix", {
   expect_equal(results$total_mean, 10 + 15 + 20)
   expect_equal(results$total_std, sqrt(total_variance))
 })
-

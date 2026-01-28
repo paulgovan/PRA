@@ -7,15 +7,15 @@
 #' @examples
 #' # Set the task distributions for a toy project.
 #' task_dists <- list(
-#'   list(type = "normal", mean = 10, sd = 2),  # Task A: Normal distribution
-#'   list(type = "triangular", a = 5, b = 15, c = 10),  # Task B: Triangular distribution
-#'   list(type = "uniform", min = 8, max = 12)  # Task C: Uniform distribution
+#'   list(type = "normal", mean = 10, sd = 2), # Task A: Normal distribution
+#'   list(type = "triangular", a = 5, b = 15, c = 10), # Task B: Triangular distribution
+#'   list(type = "uniform", min = 8, max = 12) # Task C: Uniform distribution
 #' )
 #'
 #' # Set the correlation matrix between the tasks.
 #' cor_mat <- matrix(c(
 #'   1, 0.5, 0.3,
-#'  0.5, 1, 0.4,
+#'   0.5, 1, 0.4,
 #'   0.3, 0.4, 1
 #' ), nrow = 3, byrow = TRUE)
 #'
@@ -26,11 +26,13 @@
 #'
 #' # Build a vertical barchart and display the results.
 #' data <- data.frame(
-#'   Tasks = c('A', 'B', 'C'),
+#'   Tasks = c("A", "B", "C"),
 #'   Sensitivity = sensitivity_results
 #' )
-#' barplot(height=data$Sensitivity, names=data$Tasks, col='skyblue',
-#'         horiz=TRUE, xlab = 'Sensitivity', ylab = 'Tasks')
+#' barplot(
+#'   height = data$Sensitivity, names = data$Tasks, col = "skyblue",
+#'   horiz = TRUE, xlab = "Sensitivity", ylab = "Tasks"
+#' )
 #' @export
 
 # Define the sensitivity analysis function
@@ -42,7 +44,7 @@ sensitivity <- function(task_dists, cor_mat = NULL) {
     if (dist$type == "normal") {
       return(dist$sd^2)
     } else if (dist$type == "triangular") {
-      return((dist$a^2 + dist$b^2 + dist$c^2 - dist$a*dist$b - dist$a*dist$c - dist$b*dist$c) / 18)
+      return((dist$a^2 + dist$b^2 + dist$c^2 - dist$a * dist$b - dist$a * dist$c - dist$b * dist$c) / 18)
     } else if (dist$type == "uniform") {
       return((dist$max - dist$min)^2 / 12)
     } else {

@@ -1,20 +1,18 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# PRA
-
-<img
-src="https://github.com/paulgovan/PRA/blob/main/inst/logo.png?raw=true"
-style="width:25.0%" />
+# PRA <a href="https://paulgovan.github.io/PRA/"><img src="man/figures/logo.png" align="right" height="139" alt="PRA website" /></a>
 
 <!-- badges: start -->
 
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/PRA)](https://CRAN.R-project.org/package=PRA)
-[![CRAN
-checks](https://badges.cranchecks.info/summary/PRA.svg)](https://cran.r-project.org/web/checks/check_results_PRA.html)
+[![R-CMD-check](https://github.com/paulgovan/PRA/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/paulgovan/PRA/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/paulgovan/PRA/graph/badge.svg)](https://app.codecov.io/gh/paulgovan/PRA)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/PRA)](https://cran.r-project.org/package=PRA)
 [![](http://cranlogs.r-pkg.org/badges/last-month/PRA)](https://cran.r-project.org/package=PRA)
 [![](https://img.shields.io/badge/doi-10.32614/CRAN.package.PRA-green.svg)](https://doi.org/10.32614/CRAN.package.PRA)
@@ -76,9 +74,9 @@ distributions for 3 work packages:
 ``` r
 num_simulations <- 10000
 task_distributions <- list(
-  list(type = "normal", mean = 10, sd = 2),  # Task A: Normal distribution
-  list(type = "triangular", a = 5, b = 10, c = 15),  # Task B: Triangular distribution
-  list(type = "uniform", min = 8, max = 12)  # Task C: Uniform distribution
+  list(type = "normal", mean = 10, sd = 2), # Task A: Normal distribution
+  list(type = "triangular", a = 5, b = 10, c = 15), # Task B: Triangular distribution
+  list(type = "uniform", min = 8, max = 12) # Task C: Uniform distribution
 )
 ```
 
@@ -104,7 +102,7 @@ To calculate the mean of the total duration:
 cat("Mean Total Duration is ", round(results$total_mean, 2))
 ```
 
-Mean Total Duration is 38.65
+Mean Total Duration is 38.64
 
 To calculate the variance of the total duration:
 
@@ -112,13 +110,15 @@ To calculate the variance of the total duration:
 cat("Variance around the Total Duration is ", round(results$total_variance, 2))
 ```
 
-Variance around the Total Duration is 19.5
+Variance around the Total Duration is 19.39
 
 To build a histogram of the total duration:
 
 ``` r
-hist(results$total_distribution, breaks = 50, main = "Distribution of Total Project Duration", 
-     xlab = "Total Duration", col = "skyblue", border = "white")
+hist(results$total_distribution,
+  breaks = 50, main = "Distribution of Total Project Duration",
+  xlab = "Total Duration", col = "skyblue", border = "white"
+)
 ```
 
 <img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />

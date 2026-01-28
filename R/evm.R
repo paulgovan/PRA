@@ -15,7 +15,6 @@
 #' cat("Planned Value (PV):", pv, "\n")
 #' @export
 pv <- function(bac, schedule, time_period) {
-
   pv <- bac * schedule[time_period]
   return(pv)
 }
@@ -35,7 +34,6 @@ pv <- function(bac, schedule, time_period) {
 #' cat("Earned Value (EV):", ev, "\n")
 #' @export
 ev <- function(bac, actual_per_complete) {
-
   ev <- bac * actual_per_complete
   return(ev)
 }
@@ -55,7 +53,6 @@ ev <- function(bac, actual_per_complete) {
 #' cat("Actual Cost (AC):", ac, "\n")
 #' @export
 ac <- function(actual_costs, time_period) {
-
   ac <- actual_costs[time_period]
   return(ac)
 }
@@ -83,7 +80,6 @@ ac <- function(actual_costs, time_period) {
 #' cat("Schedule Variance (SV):", sv, "\n")
 #' @export
 sv <- function(ev, pv) {
-
   sv <- ev - pv
   return(sv)
 }
@@ -111,7 +107,6 @@ sv <- function(ev, pv) {
 #' cat("Cost Variance (CV):", cv, "\n")
 #' @export
 cv <- function(ev, ac) {
-
   cv <- ev - ac
   return(cv)
 }
@@ -139,7 +134,6 @@ cv <- function(ev, ac) {
 #' cat("Schedule Performance Index (SPI):", spi, "\n")
 #' @export
 spi <- function(ev, pv) {
-
   spi <- ev / pv
   return(spi)
 }
@@ -167,7 +161,6 @@ spi <- function(ev, pv) {
 #' cat("Cost Performance Index (CPI):", cpi, "\n")
 #' @export
 cpi <- function(ev, ac) {
-
   cpi <- ev / ac
   return(cpi)
 }

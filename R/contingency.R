@@ -8,9 +8,9 @@
 #' # Set the number os simulations and the task distributions for a toy project.
 #' num_sims <- 10000
 #' task_dists <- list(
-#'   list(type = "normal", mean = 10, sd = 2),  # Task A: Normal distribution
-#'   list(type = "triangular", a = 5, b = 10, c = 15),  # Task B: Triangular distribution
-#'   list(type = "uniform", min = 8, max = 12)  # Task C: Uniform distribution
+#'   list(type = "normal", mean = 10, sd = 2), # Task A: Normal distribution
+#'   list(type = "triangular", a = 5, b = 10, c = 15), # Task B: Triangular distribution
+#'   list(type = "uniform", min = 8, max = 12) # Task C: Uniform distribution
 #' )
 #'
 #' # Set the correlation matrix for the correlations between tasks.

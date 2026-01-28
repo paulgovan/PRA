@@ -14,9 +14,10 @@
 #'
 #' # Use the model to predict future completion times.
 #' predictions <- predict_sigmoidal(fit, seq(min(data$time), max(data$time),
-#'   length.out = 100), "logistic")
+#'   length.out = 100
+#' ), "logistic")
 #'
-#'# Plot the results.
+#' # Plot the results.
 #' p <- ggplot2::ggplot(data, ggplot2::aes_string(x = "time", y = "completion")) +
 #'   ggplot2::geom_point() +
 #'   ggplot2::geom_line(data = predictions, ggplot2::aes(x = x, y = pred), color = "red") +
@@ -75,9 +76,10 @@ fit_sigmoidal <- function(data, x_col, y_col, model_type) {
 #'
 #' # Use the model to predict future completion times.
 #' predictions <- predict_sigmoidal(fit, seq(min(data$time), max(data$time),
-#'   length.out = 100), "logistic")
+#'   length.out = 100
+#' ), "logistic")
 #'
-#'# Plot the results.
+#' # Plot the results.
 #' p <- ggplot2::ggplot(data, ggplot2::aes_string(x = "time", y = "completion")) +
 #'   ggplot2::geom_point() +
 #'   ggplot2::geom_line(data = predictions, ggplot2::aes(x = x, y = pred), color = "red") +
@@ -104,9 +106,9 @@ predict_sigmoidal <- function(fit, x_range, model_type) {
   }
 
   new_data <- new_data
-    # %>%
-    # dplyr::mutate(lwr = confint[, "lwr"],
-           # upr = confint[, "upr"])
+  # %>%
+  # dplyr::mutate(lwr = confint[, "lwr"],
+  # upr = confint[, "upr"])
 
   new_data
 }

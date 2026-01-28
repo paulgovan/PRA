@@ -9,9 +9,9 @@
 #' # Set the number of simulations and task distributions for a toy project.
 #' num_sims <- 10000
 #' task_dists <- list(
-#'   list(type = "normal", mean = 10, sd = 2),  # Task A: Normal distribution
-#'   list(type = "triangular", a = 5, b = 10, c = 15),  # Task B: Triangular distribution
-#'   list(type = "uniform", min = 8, max = 12)  # Task C: Uniform distribution
+#'   list(type = "normal", mean = 10, sd = 2), # Task A: Normal distribution
+#'   list(type = "triangular", a = 5, b = 10, c = 15), # Task B: Triangular distribution
+#'   list(type = "uniform", min = 8, max = 12) # Task C: Uniform distribution
 #' )
 #'
 #' # Set the correlation matrix for the correlations between tasks.
@@ -29,8 +29,10 @@
 #' cat("5th Percentile:", results$percentiles[1], "\n")
 #' cat("Median (50th Percentile):", results$percentiles[2], "\n")
 #' cat("95th Percentile:", results$percentiles[3], "\n")
-#' hist(results$total_distribution, breaks = 50, main = "Distribution of Total Project Duration",
-#'   xlab = "Total Duration", col = "skyblue", border = "white")
+#' hist(results$total_distribution,
+#'   breaks = 50, main = "Distribution of Total Project Duration",
+#'   xlab = "Total Duration", col = "skyblue", border = "white"
+#' )
 #' @importFrom mc2d rtriang
 #' @importFrom stats rnorm runif var sd quantile
 #' @export

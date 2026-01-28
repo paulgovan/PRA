@@ -1,4 +1,3 @@
-
 #' Bayesian Inference for Risk Probability.
 #'
 #' Bayesian inference for calculating the risk probability given root cause(s).
@@ -14,16 +13,19 @@
 #' print(risk_prob_value)
 #' @export
 risk_prob <- function(cause_probs, risks_given_causes, risks_given_not_causes) {
-
   # Validate inputs
-  if (length(cause_probs) != length(risks_given_causes) || length(cause_probs) != length(risks_given_not_causes))
+  if (length(cause_probs) != length(risks_given_causes) || length(cause_probs) != length(risks_given_not_causes)) {
     stop("All input vectors must have the same length.")
-  if (any(cause_probs < 0 | cause_probs > 1))
+  }
+  if (any(cause_probs < 0 | cause_probs > 1)) {
     stop("All values in cause_probs must be between 0 and 1.")
-  if (any(risks_given_causes < 0 | risks_given_causes > 1))
+  }
+  if (any(risks_given_causes < 0 | risks_given_causes > 1)) {
     stop("All values in risks_given_causes must be between 0 and 1.")
-  if (any(risks_given_not_causes < 0 | risks_given_not_causes > 1))
+  }
+  if (any(risks_given_not_causes < 0 | risks_given_not_causes > 1)) {
     stop("All values in risks_given_not_causes must be between 0 and 1.")
+  }
 
   # Calculate P(R) using the law of total probability
   total_risk_prob <- 0
@@ -64,13 +66,13 @@ risk_prob <- function(cause_probs, risks_given_causes, risks_given_not_causes) {
 #' @importFrom stats rbinom rnorm
 #' @export
 cost_pdf <- function(num_sims, risk_probs, means_given_risks, sds_given_risks, base_cost = 0) {
-
   # Validate inputs
   if (num_sims <= 0 || !is.numeric(num_sims)) stop("num_sims must be a positive integer.")
   if (any(risk_probs < 0 | risk_probs > 1)) stop("All risk_probs must be between 0 and 1.")
   if (sum(risk_probs) > 1) stop("Sum of risk_probs must not exceed 1.")
-  if (length(risk_probs) != length(means_given_risks) || length(risk_probs) != length(sds_given_risks))
+  if (length(risk_probs) != length(means_given_risks) || length(risk_probs) != length(sds_given_risks)) {
     stop("risk_probs, means_given_risks, and sds_given_risks must have the same length.")
+  }
   if (any(sds_given_risks < 0)) stop("Standard deviations must be non-negative.")
 
   # Number of risk events

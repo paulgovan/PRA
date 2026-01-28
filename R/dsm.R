@@ -17,7 +17,6 @@
 
 # Parent DSM function
 parent_dsm <- function(S) {
-
   # Check if the matrix is square
   if (ncol(S) != nrow(S)) {
     stop("The Resource-Task Matrix must be square.")
@@ -52,8 +51,6 @@ parent_dsm <- function(S) {
 
 # Grandparent DSM function
 grandparent_dsm <- function(S, R) {
-
-
   # Check if matrix S is square
   if (ncol(S) != nrow(S)) {
     stop("Matrix S must be square.")
