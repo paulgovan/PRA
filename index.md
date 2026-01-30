@@ -84,7 +84,7 @@ To calculate the mean of the total duration:
 cat("Mean Total Duration is ", round(results$total_mean, 2))
 ```
 
-Mean Total Duration is 38.66
+Mean Total Duration is 38.72
 
 To calculate the variance of the total duration:
 
@@ -92,7 +92,7 @@ To calculate the variance of the total duration:
 cat("Variance around the Total Duration is ", round(results$total_variance, 2))
 ```
 
-Variance around the Total Duration is 19.8
+Variance around the Total Duration is 19.62
 
 To build a histogram of the total duration:
 
