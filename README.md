@@ -45,7 +45,7 @@ simulation, sensitivity analysis, and earned value management.
 
 ## Installation
 
-To install the release verion of PRA in R, use:
+To install the release verion of PRA, use:
 
 ``` r
 install_packages('PRA')
@@ -102,7 +102,7 @@ To calculate the mean of the total duration:
 cat("Mean Total Duration is ", round(results$total_mean, 2))
 ```
 
-Mean Total Duration is 38.65
+Mean Total Duration is 38.66
 
 To calculate the variance of the total duration:
 
@@ -110,7 +110,7 @@ To calculate the variance of the total duration:
 cat("Variance around the Total Duration is ", round(results$total_variance, 2))
 ```
 
-Variance around the Total Duration is 19.69
+Variance around the Total Duration is 19.8
 
 To build a histogram of the total duration:
 
@@ -125,9 +125,9 @@ hist(results$total_distribution,
 
 ## More Resources
 
-Much of this package is based on the book [Data Analysis for Engineering
-and Project Risk Managment](https://doi.org/10.1007/978-3-030-14251-3)
-by Ivan Damnjanovic and Ken Reinschmidt and comes highly recommended.
+This project was inspired by the book [Data Analysis for Engineering and
+Project Risk Managment](https://doi.org/10.1007/978-3-030-14251-3) by
+Ivan Damnjanovic and Ken Reinschmidt and is highly recommended.
 
 ## Code of Conduct
 

@@ -42,7 +42,7 @@ Welcome to **PRA**! This package provides a set of functions for performing vari
 
 ## Installation
 
-To install the release verion of PRA in R, use:
+To install the release verion of PRA, use:
 
 ``` r
 install_packages('PRA')
@@ -114,7 +114,7 @@ hist(results$total_distribution,
 
 ## More Resources
 
-Much of this package is based on the book [Data Analysis for Engineering and Project Risk Managment](https://doi.org/10.1007/978-3-030-14251-3) by Ivan Damnjanovic and Ken Reinschmidt and comes highly recommended.
+This project was inspired by the book [Data Analysis for Engineering and Project Risk Managment](https://doi.org/10.1007/978-3-030-14251-3) by Ivan Damnjanovic and Ken Reinschmidt and is highly recommended.
 
 ## Code of Conduct
   
