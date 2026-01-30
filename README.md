@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# PRA <a href="https://paulgovan.github.io/PRA/"><img src="man/figures/logo.png" align="right" height="139" alt="PRA website" /></a>
+# PRA <a href="https://paulgovan.github.io/PRA/"><img src="man/figures/logo.png" align="right" height="150" alt="PRA website" /></a>
 
 <!-- badges: start -->
 
@@ -102,7 +102,7 @@ To calculate the mean of the total duration:
 cat("Mean Total Duration is ", round(results$total_mean, 2))
 ```
 
-Mean Total Duration is 38.64
+Mean Total Duration is 38.65
 
 To calculate the variance of the total duration:
 
@@ -110,7 +110,7 @@ To calculate the variance of the total duration:
 cat("Variance around the Total Duration is ", round(results$total_variance, 2))
 ```
 
-Variance around the Total Duration is 19.39
+Variance around the Total Duration is 19.69
 
 To build a histogram of the total duration:
 
