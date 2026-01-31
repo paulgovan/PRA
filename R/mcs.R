@@ -1,8 +1,21 @@
 #' Monte Carlo Simulation.
 #'
-#' @param num_sims The number of simulations.
-#' @param task_dists A list of lists describing each task distribution.
-#' @param cor_mat The correlation matrix for the tasks (Optional).
+#' This function performs a Monte Carlo simulation to estimate the total duration of a project
+#' based on individual task distributions and an optional correlation matrix.
+#'
+#' @param num_sims The number of simulations to run.
+#' @param task_dists A list of lists describing each task distribution with its parameters.
+#' Each task distribution should be specified as a list with a "type" field (indicating
+#' the distribution type: "normal", "triangular", or "uniform") and the corresponding
+#' parameters: for "normal" (mean, sd), for "triangular" (a, b, c), and for "uniform"
+#' (min, max). For example:
+#' list(
+#'  list(type = "normal", mean = 10, sd = 2),
+#'  list(type = "triangular", a = 5, b = 10, c = 15),
+#'  list(type = "uniform", min = 8, max = 12)
+#'  )
+#' @param cor_mat The correlation matrix for the tasks (Optional). If not provided,
+#' tasks are assumed to be independent.
 #' @return The function returns a list of the total mean, variance, standard deviation,
 #' and percentiles for the project.
 #' @examples
@@ -33,6 +46,8 @@
 #'   breaks = 50, main = "Distribution of Total Project Duration",
 #'   xlab = "Total Duration", col = "skyblue", border = "white"
 #' )
+#' legend("topright", legend = c("Total Duration Distribution"), fill = c("skyblue"))
+#'
 #' @importFrom mc2d rtriang
 #' @importFrom stats rnorm runif var sd quantile
 #' @export
@@ -77,7 +92,7 @@ mcs <- function(num_sims, task_dists, cor_mat = NULL) {
   percentiles <- stats::quantile(total_distribution, probs = c(0.05, 0.50, 0.95))
 
   # Create a list to return the results
-  results <- list(
+  result <- list(
     total_mean = total_mean,
     total_variance = total_variance,
     total_sd = total_sd,
@@ -85,5 +100,23 @@ mcs <- function(num_sims, task_dists, cor_mat = NULL) {
     total_distribution = total_distribution
   )
 
-  return(results)
+  class(result) <- "mcs"
+  return(result)
+}
+
+#' Print method for Monte Carlo Simulation results.
+#'
+#' Displays the total mean, variance, standard deviation, and percentiles of the
+#' Monte Carlo Simulation results in a readable format.
+#' @param x An object of class "mcs".
+#' @param ... Additional arguments (not used).
+#' @export
+#'
+print.mcs <- function(x, ...) {
+  cat("Monte Carlo Simulation Results:\n")
+  cat("Total Mean:", x$total_mean, "\n")
+  cat("Total Variance:", x$total_variance, "\n")
+  cat("Total Standard Deviation:", x$total_sd, "\n")
+  cat("Percentiles:\n")
+  print(x$percentiles)
 }

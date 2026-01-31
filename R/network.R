@@ -84,7 +84,7 @@ prob_net <- function(nodes, links, distributions = NULL) {
         if (dist$true_dist$type == "discrete" && dist$false_dist$type == "discrete") {
           # Check discrete conditional structure
           if (!all(c("values", "probs") %in% names(dist$true_dist)) ||
-            !all(c("values", "probs") %in% names(dist$false_dist))) {
+              !all(c("values", "probs") %in% names(dist$false_dist))) {
             stop("Both discrete conditional distributions must specify 'values' and 'probs'.")
           }
         }
@@ -95,8 +95,8 @@ prob_net <- function(nodes, links, distributions = NULL) {
   # Create an adjacency matrix
   node_ids <- nodes$id
   adjacency_matrix <- matrix(0,
-    nrow = length(node_ids), ncol = length(node_ids),
-    dimnames = list(node_ids, node_ids)
+                             nrow = length(node_ids), ncol = length(node_ids),
+                             dimnames = list(node_ids, node_ids)
   )
 
   for (i in seq_len(nrow(links))) {
@@ -452,8 +452,8 @@ prob_net_update <- function(graph, add_links = NULL, remove_links = NULL, update
   # Recreate adjacency matrix
   node_ids <- nodes$id
   adjacency_matrix <- matrix(0,
-    nrow = length(node_ids), ncol = length(node_ids),
-    dimnames = list(node_ids, node_ids)
+                             nrow = length(node_ids), ncol = length(node_ids),
+                             dimnames = list(node_ids, node_ids)
   )
 
   for (i in seq_len(nrow(links))) {

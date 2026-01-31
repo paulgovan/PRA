@@ -1,8 +1,12 @@
-#' Second Moment Analysis.
+#' Second Moment Method Analysis.
 #'
-#' @param mean The mean vector.
+#' This function performs the Second Moment Method (SMM) analysis to estimate the
+#' total mean, variance, and standard deviation of a project based on individual
+#' task means, variances, and an optional correlation matrix.
+#'
+#' @param mean  The mean vector.
 #' @param var The variance vector.
-#' @param cor_mat The correlation matrix (optional).
+#' @param cor_mat The correlation matrix (optional). If not provided, tasks are assumed to be independent.
 #' @return The function returns a list of the total mean, variance, and standard deviation for the project.
 #' @examples
 #'
@@ -18,6 +22,30 @@
 #' # Use the Second Moment Method to estimate the results for the project.
 #' result <- smm(mean, var, cor_mat)
 #' print(result)
+#'
+#' # Without correlation matrix (independent tasks)
+#' result <- smm(mean, var)
+#' print(result)
+#'
+#' # When certain tasks are discrete and others are continuous, the SMM can still
+#' # be applied as long as the variance values accurately reflect the variability of each task.
+#'
+#' discrete_mean <- c(5, 10)
+#' discrete_var <- c(0, 0)
+#' continuous_mean <- c(15, 20)
+#' continuous_var <- c(4, 5)
+#' mean <- c(discrete_mean, continuous_mean)
+#' var <- c(discrete_var, continuous_var)
+#' cor_mat <- matrix(c(
+#'  1, 0, 0.2, 0.3,
+#'  0, 1, 0.1, 0.2,
+#'  0.2, 0.1, 1, 0.4,
+#'  0.3, 0.2, 0.4,
+#'  1
+#'  ), nrow = 4, byrow = TRUE)
+#'  result <- smm(mean, var, cor_mat)
+#'  print(result)
+#'
 #' @export
 # Second Moment Method
 smm <- function(mean, var, cor_mat = NULL) {
@@ -57,5 +85,44 @@ smm <- function(mean, var, cor_mat = NULL) {
     total_std = sqrt(total_var)
   )
 
+  class(result) <- "smm"
   return(result)
 }
+
+#' Print method for SMM results.
+#'
+#' This function defines how to print the results of the Second Moment Method
+#' (SMM) analysis. It formats the output to display the total mean, variance,
+#' and standard deviation in a readable manner.
+#' @param x An object of class "smm" containing the SMM results.
+#' @param ... Additional arguments (not used).
+#' @export
+#' @method print smm
+#' @examples
+#' mean <- c(10, 15, 20)
+#' var <- c(4, 9, 16)
+#' cor_mat <- matrix(c(
+#'  1, 0.5, 0.3,
+#'  0.5, 1, 0.4,
+#'  0.3, 0.4, 1
+#'  ), nrow = 3, byrow = TRUE)
+#'  result <- smm(mean, var, cor_mat)
+#'  print(result)
+#'
+#'  # Without correlation matrix (independent tasks)
+#'  result <- smm(mean, var)
+#'  print(result)
+#'
+#'  @export
+#'  @method print smm
+print.smm <- function(x, ...) {
+  cat("Second Moment Method Results:\n")
+  cat("------------------------------\n")
+  cat("Total Mean: ", x$total_mean, "\n")
+  cat("Total Variance: ", x$total_var, "\n")
+  cat("Total Standard Deviation: ", x$total_std, "\n")
+}
+
+
+
+
