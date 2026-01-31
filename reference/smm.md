@@ -51,4 +51,6 @@ print(result)
 #> $total_std
 #> [1] 7.028513
 #> 
+#> attr(,"class")
+#> [1] "smm"
 ```
