@@ -1,6 +1,7 @@
 # Earned Value (EV).
 
-Earned Value (EV).
+Calculates the Earned Value (EV) of work completed based on the Budget
+at Completion (BAC) and the actual work completion percentage.
 
 ## Usage
 
@@ -21,6 +22,16 @@ ev(bac, actual_per_complete)
 ## Value
 
 The function returns the Earned Value (EV) of work completed.
+
+## See also
+
+[`pv`](https://paulgovan.github.io/PRA/reference/pv.md),
+[`ac`](https://paulgovan.github.io/PRA/reference/ac.md),
+[`sv`](https://paulgovan.github.io/PRA/reference/sv.md),
+[`cv`](https://paulgovan.github.io/PRA/reference/cv.md),
+[`spi`](https://paulgovan.github.io/PRA/reference/spi.md),
+[`cpi`](https://paulgovan.github.io/PRA/reference/cpi.md),
+[`eac`](https://paulgovan.github.io/PRA/reference/eac.md)
 
 ## Examples
 

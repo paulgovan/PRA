@@ -1,6 +1,7 @@
 # Cost Performance Index (CPI).
 
-Cost Performance Index (CPI).
+Calculates the Cost Performance Index (CPI) of work completed based on
+the Earned Value (EV) and Actual Cost (AC).
 
 ## Usage
 
@@ -21,6 +22,16 @@ cpi(ev, ac)
 ## Value
 
 The function returns the Cost Performance Index (CPI) of work completed.
+
+## See also
+
+[`pv`](https://paulgovan.github.io/PRA/reference/pv.md),
+[`ev`](https://paulgovan.github.io/PRA/reference/ev.md),
+[`ac`](https://paulgovan.github.io/PRA/reference/ac.md),
+[`sv`](https://paulgovan.github.io/PRA/reference/sv.md),
+[`cv`](https://paulgovan.github.io/PRA/reference/cv.md),
+[`spi`](https://paulgovan.github.io/PRA/reference/spi.md),
+[`eac`](https://paulgovan.github.io/PRA/reference/eac.md)
 
 ## Examples
 

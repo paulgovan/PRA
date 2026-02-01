@@ -18,6 +18,8 @@
   Variance (CV).
 - [`eac()`](https://paulgovan.github.io/PRA/reference/eac.md) : Estimate
   at Completion (EAC).
+- [`etc()`](https://paulgovan.github.io/PRA/reference/etc.md) : Estimate
+  to Complete (ETC).
 - [`ev()`](https://paulgovan.github.io/PRA/reference/ev.md) : Earned
   Value (EV).
 - [`fit_sigmoidal()`](https://paulgovan.github.io/PRA/reference/fit_sigmoidal.md)
@@ -52,3 +54,7 @@
   Performance Index (SPI).
 - [`sv()`](https://paulgovan.github.io/PRA/reference/sv.md) : Schedule
   Variance (SV).
+- [`tcpi()`](https://paulgovan.github.io/PRA/reference/tcpi.md) :
+  To-Complete Performance Index (TCPI).
+- [`vac()`](https://paulgovan.github.io/PRA/reference/vac.md) : Variance
+  at Completion (VAC).

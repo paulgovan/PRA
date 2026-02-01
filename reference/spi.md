@@ -1,6 +1,7 @@
 # Schedule Performance Index (SPI).
 
-Schedule Performance Index (SPI).
+Calculates the Schedule Performance Index (SPI) of work completed based
+on the Earned Value (EV) and Planned Value (PV).
 
 ## Usage
 
@@ -22,6 +23,16 @@ spi(ev, pv)
 
 The function returns the Schedule Performance Index (SPI) of work
 completed.
+
+## See also
+
+[`pv`](https://paulgovan.github.io/PRA/reference/pv.md),
+[`ev`](https://paulgovan.github.io/PRA/reference/ev.md),
+[`ac`](https://paulgovan.github.io/PRA/reference/ac.md),
+[`sv`](https://paulgovan.github.io/PRA/reference/sv.md),
+[`cv`](https://paulgovan.github.io/PRA/reference/cv.md),
+[`cpi`](https://paulgovan.github.io/PRA/reference/cpi.md),
+[`eac`](https://paulgovan.github.io/PRA/reference/eac.md)
 
 ## Examples
 
