@@ -24,7 +24,8 @@ risk_post_prob(
 A numeric value for the posterior probability of the risk event given the observed causes.
 }
 \description{
-Calculates the posterior probability of the risk event given observations of the root causes.
+This function calculates the posterior probability of a risk event 'R' occurring
+based on observations of multiple root causes and their associated conditional probabilities.
 }
 \examples{
 cause_probs <- c(0.3, 0.2)

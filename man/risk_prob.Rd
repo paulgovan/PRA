@@ -17,7 +17,8 @@ risk_prob(cause_probs, risks_given_causes, risks_given_not_causes)
 The function returns a numeric value for the probability of risk event 'R'.
 }
 \description{
-Bayesian inference for calculating the risk probability given root cause(s).
+This function calculates the overall probability of a risk event 'R' occurring
+based on the probabilities of multiple root causes and their associated conditional probabilities.
 }
 \examples{
 cause_probs <- c(0.3, 0.2)
@@ -25,4 +26,5 @@ risks_given_causes <- c(0.8, 0.6)
 risks_given_not_causes <- c(0.2, 0.4)
 risk_prob_value <- risk_prob(cause_probs, risks_given_causes, risks_given_not_causes)
 print(risk_prob_value)
+
 }

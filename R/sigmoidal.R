@@ -295,6 +295,16 @@ plot_sigmoidal <- function(fit, data, x_col, y_col, model_type,
 #' @param x An object of class "nls" containing the fitted sigmoidal
 #' model results.
 #' @param ... Additional arguments (not used).
+#' @return No return value, called for side effects.
+#' @examples
+#' # Set up a data frame of time and completion percentage data
+#' data <- data.frame(time = 1:10, completion = c(5, 15, 40, 60, 70, 75, 80, 85
+#' , 90, 95))
+#'
+#' # Fit a logistic model to the data.
+#' fit <- fit_sigmoidal(data, "time", "completion", "logistic")
+#' # Print the model summary
+#' print(fit)
 #' @export
 #' @method print nls
 print.nls <- function(x, ...) {

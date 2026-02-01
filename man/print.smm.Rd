@@ -11,6 +11,9 @@
 
 \item{...}{Additional arguments (not used).}
 }
+\value{
+None. The function prints the SMM results to the console.
+}
 \description{
 This function defines how to print the results of the Second Moment Method
 (SMM) analysis. It formats the output to display the total mean, variance,

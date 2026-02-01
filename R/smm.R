@@ -112,8 +112,7 @@ smm <- function(mean, var, cor_mat = NULL) {
 #' and standard deviation in a readable manner.
 #' @param x An object of class "smm" containing the SMM results.
 #' @param ... Additional arguments (not used).
-#' @export
-#' @method print smm
+#' @return None. The function prints the SMM results to the console.
 #' @examples
 #' mean <- c(10, 15, 20)
 #' var <- c(4, 9, 16)
@@ -129,6 +128,8 @@ smm <- function(mean, var, cor_mat = NULL) {
 #' result <- smm(mean, var)
 #' print(result)
 #'
+#' @export
+#' @method print smm
 print.smm <- function(x, ...) {
   cat("Second Moment Method Results:\n")
   cat("------------------------------\n")
