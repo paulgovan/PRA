@@ -33,7 +33,6 @@
 #'
 #' # Calculate the sensitivity of each task and print the results
 #' sensitivity_results <- sensitivity(task_dists, cor_mat)
-#' cat("Sensitivity of the variance in total cost with respect to the variance in each task cost:\n")
 #' print(sensitivity_results)
 #'
 #' # Build a vertical barchart and display the results.
@@ -49,8 +48,6 @@
 #'
 #' # Without correlation matrix
 #' sensitivity_results_indep <- sensitivity(task_dists)
-#' cat("Sensitivity of the variance in total cost with respect to the variance in each task
-#' cost (independent tasks):\n")
 #' print(sensitivity_results_indep)
 #'
 #' # Build a vertical barchart and display the results.
@@ -64,8 +61,8 @@
 #'  horiz = TRUE, xlab = "Sensitivity", ylab = "Tasks"
 #'  )
 #'  title("Sensitivity Analysis of Project Tasks (Independent)")
+#'
 #' @export
-
 # Define the sensitivity analysis function
 sensitivity <- function(task_dists, cor_mat = NULL) {
   num_tasks <- length(task_dists)

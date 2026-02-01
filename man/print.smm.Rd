@@ -31,6 +31,4 @@ cor_mat <- matrix(c(
  result <- smm(mean, var)
  print(result)
 
- @export
- @method print smm
 }

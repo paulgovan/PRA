@@ -68,4 +68,5 @@ contingency_data <- data.frame(
  ylab = "Scenario"
  )
  title("Contingency Calculation for Project Scenarios")
+
 }

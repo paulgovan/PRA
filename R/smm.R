@@ -113,8 +113,6 @@ smm <- function(mean, var, cor_mat = NULL) {
 #'  result <- smm(mean, var)
 #'  print(result)
 #'
-#'  @export
-#'  @method print smm
 print.smm <- function(x, ...) {
   cat("Second Moment Method Results:\n")
   cat("------------------------------\n")

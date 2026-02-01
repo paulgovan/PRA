@@ -55,6 +55,7 @@
 #'  ylab = "Scenario"
 #'  )
 #'  title("Contingency Calculation for Project Scenarios")
+#'
 #' @export
 contingency <- function(sims, phigh = 0.95, pbase = 0.50) {
   # Check for valid p-values

@@ -47,6 +47,7 @@
 #'   xlab = "Total Duration", col = "skyblue", border = "white"
 #' )
 #' legend("topright", legend = c("Total Duration Distribution"), fill = c("skyblue"))
+#'
 #' @importFrom mc2d rtriang
 #' @importFrom stats rnorm runif var sd quantile
 #' @export
