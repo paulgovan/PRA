@@ -100,6 +100,9 @@ First, load the package:
 
 ``` r
 library(PRA)
+#> Registered S3 method overwritten by 'PRA':
+#>   method    from 
+#>   print.nls stats
 ```
 
 Set the mean vector, variance vector, and correlation matrix for a toy

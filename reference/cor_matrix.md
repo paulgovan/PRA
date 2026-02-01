@@ -1,6 +1,8 @@
-# Generate Correlation Matrix.
+# Generate Correlation Matrix from Random Samples.
 
-Generate Correlation Matrix.
+This function generates random samples from specified probability
+distributions and computes the correlation matrix for the generated
+samples.
 
 ## Usage
 
@@ -20,7 +22,9 @@ cor_matrix(num_samples = 100, num_vars = 5, dists = dists)
 
 - dists:
 
-  A list describing each distribution.
+  A list describing each distribution. Each element should be a function
+  that generates random samples. The names of the list elements will be
+  used to identify the distributions.
 
 ## Value
 
@@ -44,9 +48,9 @@ cor_matrix <- cor_matrix(num_samples = 100, num_vars = 5, dists = dists)
 # Print correlation matrix
 print(cor_matrix)
 #>             [,1]        [,2]        [,3]        [,4]        [,5]
-#> [1,]  1.00000000 -0.07276640  0.02422814 -0.06408570  0.00010258
-#> [2,] -0.07276640  1.00000000 -0.11840276  0.03606379  0.08075921
-#> [3,]  0.02422814 -0.11840276  1.00000000  0.11331743  0.01882768
-#> [4,] -0.06408570  0.03606379  0.11331743  1.00000000 -0.02843640
-#> [5,]  0.00010258  0.08075921  0.01882768 -0.02843640  1.00000000
+#> [1,]  1.00000000 -0.03690034 -0.07459820  0.16084884 -0.06662177
+#> [2,] -0.03690034  1.00000000 -0.01642801 -0.10972562 -0.02762785
+#> [3,] -0.07459820 -0.01642801  1.00000000 -0.09137076 -0.14507929
+#> [4,]  0.16084884 -0.10972562 -0.09137076  1.00000000 -0.11794046
+#> [5,] -0.06662177 -0.02762785 -0.14507929 -0.11794046  1.00000000
 ```

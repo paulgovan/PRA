@@ -73,6 +73,9 @@ First, load the package:
 
 ``` r
 library(PRA)
+#> Registered S3 method overwritten by 'PRA':
+#>   method    from 
+#>   print.nls stats
 ```
 
 Then, set up a data frame of time and completion percentage data:

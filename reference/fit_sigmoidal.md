@@ -1,6 +1,7 @@
-# Fit a Sigmoidal Model.
+# Fit a Sigmoidal Model to Data.
 
-Fit a Sigmoidal Model.
+This function fits a sigmoidal model (Pearl, Gompertz, or Logistic) to
+the provided data.
 
 ## Usage
 
@@ -42,16 +43,11 @@ fit <- fit_sigmoidal(data, "time", "completion", "logistic")
 
 # Use the model to predict future completion times.
 predictions <- predict_sigmoidal(fit, seq(min(data$time), max(data$time),
-  length.out = 100), "logistic")
+  length.out = 100
+), "logistic")
 
-# Plot the results.
-p <- ggplot2::ggplot(data, ggplot2::aes_string(x = "time", y = "completion")) +
-  ggplot2::geom_point() +
-  ggplot2::geom_line(data = predictions, ggplot2::aes(x = x, y = pred), color = "red") +
-  ggplot2::labs(title = "Fitted Logistic Model", x = "time", y = "completion %") +
-  ggplot2::theme_minimal()
-#> Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
-#> ℹ Please use tidy evaluation idioms with `aes()`.
-#> ℹ See also `vignette("ggplot2-in-packages")` for more information.
-p
+# Predict with 95% confidence bounds
+predictions_ci <- predict_sigmoidal(fit, seq(min(data$time), max(data$time),
+  length.out = 100
+), "logistic", conf_level = 0.95)
 ```

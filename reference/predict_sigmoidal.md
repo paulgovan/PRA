@@ -1,11 +1,12 @@
-# Predict a Sigmoidal Function.
+# Predict a Sigmoidal Function Using Fitted Model.
 
-Predict a Sigmoidal Function.
+This function predicts values using a fitted sigmoidal model (Pearl,
+Gompertz, or Logistic) over a specified range of time values.
 
 ## Usage
 
 ``` r
-predict_sigmoidal(fit, x_range, model_type)
+predict_sigmoidal(fit, x_range, model_type, conf_level = NULL)
 ```
 
 ## Arguments
@@ -22,10 +23,16 @@ predict_sigmoidal(fit, x_range, model_type)
 
   The type of model (Pearl, Gompertz, or Logistic) for the prediction.
 
+- conf_level:
+
+  Optional confidence level for confidence bounds (e.g., 0.95 for 95 If
+  NULL (default), no confidence bounds are computed.
+
 ## Value
 
-The function returns a table of results containing the time and
-predicted values.
+The function returns a data frame containing the time (x), predicted
+values (pred), and optionally lower (lwr) and upper (upr) confidence
+bounds.
 
 ## Examples
 
@@ -38,13 +45,11 @@ fit <- fit_sigmoidal(data, "time", "completion", "logistic")
 
 # Use the model to predict future completion times.
 predictions <- predict_sigmoidal(fit, seq(min(data$time), max(data$time),
-  length.out = 100), "logistic")
+  length.out = 100
+), "logistic")
 
-# Plot the results.
-p <- ggplot2::ggplot(data, ggplot2::aes_string(x = "time", y = "completion")) +
-  ggplot2::geom_point() +
-  ggplot2::geom_line(data = predictions, ggplot2::aes(x = x, y = pred), color = "red") +
-  ggplot2::labs(title = "Fitted Logistic Model", x = "time", y = "completion %") +
-  ggplot2::theme_minimal()
-p
+# Predict with 95% confidence bounds
+predictions_ci <- predict_sigmoidal(fit, seq(min(data$time), max(data$time),
+  length.out = 100
+), "logistic", conf_level = 0.95)
 ```

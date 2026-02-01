@@ -1,6 +1,9 @@
 # Risk-based 'Grandparent' Design Structure Matrix (DSM).
 
-Risk-based 'Grandparent' Design Structure Matrix (DSM).
+This function computes the Risk-based 'Grandparent' Design Structure
+Matrix (DSM) from given Resource-Task Matrix 'S' and Risk-Resource
+Matrix 'R'. The 'Grandparent' DSM indicates the number of risks shared
+between each pair of tasks in a project.
 
 ## Usage
 

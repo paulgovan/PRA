@@ -58,6 +58,9 @@ First, load the package:
 
 ``` r
 library(PRA)
+#> Registered S3 method overwritten by 'PRA':
+#>   method    from 
+#>   print.nls stats
 ```
 
 Next, set the number of simulations and describe probability

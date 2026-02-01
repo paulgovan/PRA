@@ -52,6 +52,9 @@ First, load the package:
 
 ``` r
 library(PRA)
+#> Registered S3 method overwritten by 'PRA':
+#>   method    from 
+#>   print.nls stats
 ```
 
 Suppose there are two root causes with probabilities

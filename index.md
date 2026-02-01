@@ -22,8 +22,6 @@ simulation, sensitivity analysis, and earned value management.
   Curves](https://paulgovan.github.io/PRA/articles/sigmoidal.html)
 - [Bayesian
   Methods](https://paulgovan.github.io/PRA/articles/Bayes.html)
-- [Bayesian
-  Networks](https://paulgovan.github.io/PRA/articles/network.html)
 
 ## Installation
 
@@ -84,7 +82,7 @@ To calculate the mean of the total duration:
 cat("Mean Total Duration is ", round(results$total_mean, 2))
 ```
 
-Mean Total Duration is 38.72
+Mean Total Duration is 38.67
 
 To calculate the variance of the total duration:
 
@@ -92,7 +90,7 @@ To calculate the variance of the total duration:
 cat("Variance around the Total Duration is ", round(results$total_variance, 2))
 ```
 
-Variance around the Total Duration is 19.62
+Variance around the Total Duration is 19.47
 
 To build a histogram of the total duration:
 

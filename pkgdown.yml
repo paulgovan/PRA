@@ -5,11 +5,9 @@ articles:
   Bayes: Bayes.html
   evm: evm.html
   MCS: MCS.html
-  network: network.html
-  network2: network2.html
   sigmoidal: sigmoidal.html
   SMM: SMM.html
-last_built: 2026-01-31T18:53Z
+last_built: 2026-02-01T17:25Z
 urls:
   reference: https://paulgovan.github.io/PRA/reference
   article: https://paulgovan.github.io/PRA/articles

@@ -7,7 +7,7 @@
 - [`contingency()`](https://paulgovan.github.io/PRA/reference/contingency.md)
   : Contingency Calculation.
 - [`cor_matrix()`](https://paulgovan.github.io/PRA/reference/cor_matrix.md)
-  : Generate Correlation Matrix.
+  : Generate Correlation Matrix from Random Samples.
 - [`cost_pdf()`](https://paulgovan.github.io/PRA/reference/cost_pdf.md)
   : Cost Probability Density.
 - [`cost_post_pdf()`](https://paulgovan.github.io/PRA/reference/cost_post_pdf.md)
@@ -21,24 +21,23 @@
 - [`ev()`](https://paulgovan.github.io/PRA/reference/ev.md) : Earned
   Value (EV).
 - [`fit_sigmoidal()`](https://paulgovan.github.io/PRA/reference/fit_sigmoidal.md)
-  : Fit a Sigmoidal Model.
+  : Fit a Sigmoidal Model to Data.
 - [`grandparent_dsm()`](https://paulgovan.github.io/PRA/reference/grandparent_dsm.md)
   : Risk-based 'Grandparent' Design Structure Matrix (DSM).
 - [`mcs()`](https://paulgovan.github.io/PRA/reference/mcs.md) : Monte
   Carlo Simulation.
 - [`parent_dsm()`](https://paulgovan.github.io/PRA/reference/parent_dsm.md)
   : Resource-based 'Parent' Design Structure Matrix (DSM).
+- [`plot_sigmoidal()`](https://paulgovan.github.io/PRA/reference/plot_sigmoidal.md)
+  : Plot a Fitted Sigmoidal Model.
 - [`predict_sigmoidal()`](https://paulgovan.github.io/PRA/reference/predict_sigmoidal.md)
-  : Predict a Sigmoidal Function.
-- [`prob_net()`](https://paulgovan.github.io/PRA/reference/prob_net.md)
-  : Probabilistic Network of Project Risks.
-- [`prob_net_learn()`](https://paulgovan.github.io/PRA/reference/prob_net_learn.md)
-  : Perform Bayesian Learning on a Probabilistic Network of Project
-  Risks.
-- [`prob_net_sim()`](https://paulgovan.github.io/PRA/reference/prob_net_sim.md)
-  : Perform Inference on a Probabilistic Network of Project Risks.
-- [`prob_net_update()`](https://paulgovan.github.io/PRA/reference/prob_net_update.md)
-  : Update a Probabilistic Network of Project Risks.
+  : Predict a Sigmoidal Function Using Fitted Model.
+- [`print(`*`<mcs>`*`)`](https://paulgovan.github.io/PRA/reference/print.mcs.md)
+  : Print method for Monte Carlo Simulation results.
+- [`print(`*`<nls>`*`)`](https://paulgovan.github.io/PRA/reference/print.nls.md)
+  : Print method for Sigmoidal Model
+- [`print(`*`<smm>`*`)`](https://paulgovan.github.io/PRA/reference/print.smm.md)
+  : Print method for SMM results.
 - [`pv()`](https://paulgovan.github.io/PRA/reference/pv.md) : Planned
   Value (PV).
 - [`risk_post_prob()`](https://paulgovan.github.io/PRA/reference/risk_post_prob.md)
@@ -48,7 +47,7 @@
 - [`sensitivity()`](https://paulgovan.github.io/PRA/reference/sensitivity.md)
   : Sensitivity Analysis.
 - [`smm()`](https://paulgovan.github.io/PRA/reference/smm.md) : Second
-  Moment Analysis.
+  Moment Method Analysis.
 - [`spi()`](https://paulgovan.github.io/PRA/reference/spi.md) : Schedule
   Performance Index (SPI).
 - [`sv()`](https://paulgovan.github.io/PRA/reference/sv.md) : Schedule

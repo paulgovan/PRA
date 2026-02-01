@@ -1,6 +1,9 @@
 # Resource-based 'Parent' Design Structure Matrix (DSM).
 
-Resource-based 'Parent' Design Structure Matrix (DSM).
+This function computes the Resource-based 'Parent' Design Structure
+Matrix (DSM) from a given Resource-Task Matrix 'S'. The 'Parent' DSM
+indicates the number of resources shared between each pair of tasks in a
+project.
 
 ## Usage
 

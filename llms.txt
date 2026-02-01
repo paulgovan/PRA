@@ -22,8 +22,6 @@ simulation, sensitivity analysis, and earned value management.
   Curves](https://paulgovan.github.io/PRA/articles/sigmoidal.html)
 - [Bayesian
   Methods](https://paulgovan.github.io/PRA/articles/Bayes.html)
-- [Bayesian
-  Networks](https://paulgovan.github.io/PRA/articles/network.html)
 
 ## Installation
 
@@ -84,7 +82,7 @@ To calculate the mean of the total duration:
 cat("Mean Total Duration is ", round(results$total_mean, 2))
 ```
 
-Mean Total Duration is 38.72
+Mean Total Duration is 38.67
 
 To calculate the variance of the total duration:
 
@@ -92,7 +90,7 @@ To calculate the variance of the total duration:
 cat("Variance around the Total Duration is ", round(results$total_variance, 2))
 ```
 
-Variance around the Total Duration is 19.62
+Variance around the Total Duration is 19.47
 
 To build a histogram of the total duration:
 
@@ -126,7 +124,7 @@ By contributing to this project, you agree to abide by its terms.
 - [`contingency()`](https://paulgovan.github.io/PRA/reference/contingency.md)
   : Contingency Calculation.
 - [`cor_matrix()`](https://paulgovan.github.io/PRA/reference/cor_matrix.md)
-  : Generate Correlation Matrix.
+  : Generate Correlation Matrix from Random Samples.
 - [`cost_pdf()`](https://paulgovan.github.io/PRA/reference/cost_pdf.md)
   : Cost Probability Density.
 - [`cost_post_pdf()`](https://paulgovan.github.io/PRA/reference/cost_post_pdf.md)
@@ -140,24 +138,23 @@ By contributing to this project, you agree to abide by its terms.
 - [`ev()`](https://paulgovan.github.io/PRA/reference/ev.md) : Earned
   Value (EV).
 - [`fit_sigmoidal()`](https://paulgovan.github.io/PRA/reference/fit_sigmoidal.md)
-  : Fit a Sigmoidal Model.
+  : Fit a Sigmoidal Model to Data.
 - [`grandparent_dsm()`](https://paulgovan.github.io/PRA/reference/grandparent_dsm.md)
   : Risk-based 'Grandparent' Design Structure Matrix (DSM).
 - [`mcs()`](https://paulgovan.github.io/PRA/reference/mcs.md) : Monte
   Carlo Simulation.
 - [`parent_dsm()`](https://paulgovan.github.io/PRA/reference/parent_dsm.md)
   : Resource-based 'Parent' Design Structure Matrix (DSM).
+- [`plot_sigmoidal()`](https://paulgovan.github.io/PRA/reference/plot_sigmoidal.md)
+  : Plot a Fitted Sigmoidal Model.
 - [`predict_sigmoidal()`](https://paulgovan.github.io/PRA/reference/predict_sigmoidal.md)
-  : Predict a Sigmoidal Function.
-- [`prob_net()`](https://paulgovan.github.io/PRA/reference/prob_net.md)
-  : Probabilistic Network of Project Risks.
-- [`prob_net_learn()`](https://paulgovan.github.io/PRA/reference/prob_net_learn.md)
-  : Perform Bayesian Learning on a Probabilistic Network of Project
-  Risks.
-- [`prob_net_sim()`](https://paulgovan.github.io/PRA/reference/prob_net_sim.md)
-  : Perform Inference on a Probabilistic Network of Project Risks.
-- [`prob_net_update()`](https://paulgovan.github.io/PRA/reference/prob_net_update.md)
-  : Update a Probabilistic Network of Project Risks.
+  : Predict a Sigmoidal Function Using Fitted Model.
+- [`print(`*`<mcs>`*`)`](https://paulgovan.github.io/PRA/reference/print.mcs.md)
+  : Print method for Monte Carlo Simulation results.
+- [`print(`*`<nls>`*`)`](https://paulgovan.github.io/PRA/reference/print.nls.md)
+  : Print method for Sigmoidal Model
+- [`print(`*`<smm>`*`)`](https://paulgovan.github.io/PRA/reference/print.smm.md)
+  : Print method for SMM results.
 - [`pv()`](https://paulgovan.github.io/PRA/reference/pv.md) : Planned
   Value (PV).
 - [`risk_post_prob()`](https://paulgovan.github.io/PRA/reference/risk_post_prob.md)
@@ -167,7 +164,7 @@ By contributing to this project, you agree to abide by its terms.
 - [`sensitivity()`](https://paulgovan.github.io/PRA/reference/sensitivity.md)
   : Sensitivity Analysis.
 - [`smm()`](https://paulgovan.github.io/PRA/reference/smm.md) : Second
-  Moment Analysis.
+  Moment Method Analysis.
 - [`spi()`](https://paulgovan.github.io/PRA/reference/spi.md) : Schedule
   Performance Index (SPI).
 - [`sv()`](https://paulgovan.github.io/PRA/reference/sv.md) : Schedule
@@ -175,7 +172,7 @@ By contributing to this project, you agree to abide by its terms.
 
 # Articles
 
-### Second Moment Method
+### Second Moment Analysis
 
 - [Second Moment
   Method](https://paulgovan.github.io/PRA/articles/SMM.md):
@@ -198,13 +195,3 @@ By contributing to this project, you agree to abide by its terms.
 ### Bayesian Methods
 
 - [Bayesian Methods](https://paulgovan.github.io/PRA/articles/Bayes.md):
-
-### Bayesian Networks
-
-- [Bayesian
-  Networks](https://paulgovan.github.io/PRA/articles/network.md):
-
-### Bayesian Networks Expanded
-
-- [Bayesian Networks
-  Expanded](https://paulgovan.github.io/PRA/articles/network2.md):
