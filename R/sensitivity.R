@@ -64,7 +64,6 @@
 #'  horiz = TRUE, xlab = "Sensitivity", ylab = "Tasks"
 #'  )
 #'  title("Sensitivity Analysis of Project Tasks (Independent)")
-#'
 #' @export
 
 # Define the sensitivity analysis function

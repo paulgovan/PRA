@@ -31,7 +31,9 @@ cause_probs <- c(0.3, 0.2)
 risks_given_causes <- c(0.8, 0.6)
 risks_given_not_causes <- c(0.2, 0.4)
 observed_causes <- c(1, NA)
-risk_post_prob <- risk_post_prob(cause_probs, risks_given_causes,
-  risks_given_not_causes, observed_causes)
+risk_post_prob <- risk_post_prob(
+  cause_probs, risks_given_causes,
+  risks_given_not_causes, observed_causes
+)
 print(risk_post_prob)
 }

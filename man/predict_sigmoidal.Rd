@@ -28,7 +28,8 @@ fit <- fit_sigmoidal(data, "time", "completion", "logistic")
 
 # Use the model to predict future completion times.
 predictions <- predict_sigmoidal(fit, seq(min(data$time), max(data$time),
-  length.out = 100), "logistic")
+  length.out = 100
+), "logistic")
 
 # Plot the results.
 p <- ggplot2::ggplot(data, ggplot2::aes_string(x = "time", y = "completion")) +

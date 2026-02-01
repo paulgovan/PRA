@@ -122,7 +122,3 @@ print.smm <- function(x, ...) {
   cat("Total Variance: ", x$total_var, "\n")
   cat("Total Standard Deviation: ", x$total_std, "\n")
 }
-
-
-
-

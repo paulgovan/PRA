@@ -47,7 +47,6 @@
 #'   xlab = "Total Duration", col = "skyblue", border = "white"
 #' )
 #' legend("topright", legend = c("Total Duration Distribution"), fill = c("skyblue"))
-#'
 #' @importFrom mc2d rtriang
 #' @importFrom stats rnorm runif var sd quantile
 #' @export
@@ -111,7 +110,6 @@ mcs <- function(num_sims, task_dists, cor_mat = NULL) {
 #' @param x An object of class "mcs".
 #' @param ... Additional arguments (not used).
 #' @export
-#'
 print.mcs <- function(x, ...) {
   cat("Monte Carlo Simulation Results:\n")
   cat("Total Mean:", x$total_mean, "\n")
