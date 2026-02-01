@@ -30,7 +30,6 @@
 
 # Fit a Sigmoidal Model
 fit_sigmoidal <- function(data, x_col, y_col, model_type) {
-
   # Error handling
   if (!x_col %in% names(data)) {
     stop(paste("Column", x_col, "not found in data frame."))
@@ -103,7 +102,6 @@ fit_sigmoidal <- function(data, x_col, y_col, model_type) {
 #' @export
 # Predict a Sigmoidal Function
 predict_sigmoidal <- function(fit, x_range, model_type, conf_level = NULL) {
-
   # Error handling
   if (is.null(fit)) {
     stop("Fitted model is NULL.")
@@ -303,5 +301,3 @@ print.nls <- function(x, ...) {
   cat("Sigmoidal Model Fit Summary:\n")
   print(summary(x))
 }
-
-

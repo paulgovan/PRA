@@ -4,7 +4,7 @@
 \alias{cor_matrix}
 \title{Generate Correlation Matrix from Random Samples.}
 \usage{
-cor_matrix(num_samples = 100, num_vars = 5, dists = dists)
+cor_matrix(num_samples = 100, num_vars = 5, dists)
 }
 \arguments{
 \item{num_samples}{The number of samples to generate.}

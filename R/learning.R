@@ -83,6 +83,7 @@ risk_post_prob <- function(cause_probs, risks_given_causes, risks_given_not_caus
 #'   base_cost = base_cost
 #' )
 #' hist(posterior_samples, breaks = 30, col = "skyblue", main = "Posterior Cost PDF", xlab = "Cost")
+#' @importFrom stats rnorm
 #' @export
 cost_post_pdf <- function(num_sims, observed_risks, means_given_risks, sds_given_risks, base_cost = 0) {
   # Validate inputs

@@ -21,8 +21,16 @@
 #' @export
 # Parent DSM function
 parent_dsm <- function(S) {
-
   # Error handling
+  if (is.null(S)) {
+    stop("S must not be NULL")
+  }
+  if (!is.matrix(S) && !is.data.frame(S)) {
+    stop("S must be a matrix or data frame")
+  }
+  if (!is.numeric(as.matrix(S))) {
+    stop("S must contain numeric values")
+  }
   # Check if the matrix is square
   if (ncol(S) != nrow(S)) {
     stop("The Resource-Task Matrix must be square.")
@@ -63,6 +71,19 @@ parent_dsm <- function(S) {
 
 # Grandparent DSM function
 grandparent_dsm <- function(S, R) {
+  # Error handling
+  if (is.null(S) || is.null(R)) {
+    stop("S and R must not be NULL")
+  }
+  if (!is.matrix(S) && !is.data.frame(S)) {
+    stop("S must be a matrix or data frame")
+  }
+  if (!is.matrix(R) && !is.data.frame(R)) {
+    stop("R must be a matrix or data frame")
+  }
+  if (!is.numeric(as.matrix(S)) || !is.numeric(as.matrix(R))) {
+    stop("S and R must contain numeric values")
+  }
   # Check if matrix S is square
   if (ncol(S) != nrow(S)) {
     stop("Matrix S must be square.")
@@ -70,8 +91,7 @@ grandparent_dsm <- function(S, R) {
 
   # Check if the matrices can be multiplied
   if (ncol(S) != ncol(R)) {
-    stop("Number of columns in the Matrix S must be equal to the number
-         of columns in Matrix R.")
+    stop("Number of columns in the Matrix S must be equal to the number of columns in Matrix R.")
   }
 
   # Multiply matrix S by the transpose of R

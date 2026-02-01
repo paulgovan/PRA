@@ -54,6 +54,20 @@
 
 # Monte Carlo Simulation
 mcs <- function(num_sims, task_dists, cor_mat = NULL) {
+  # Error handling
+  if (is.null(num_sims) || is.null(task_dists)) {
+    stop("num_sims and task_dists must not be NULL")
+  }
+  if (!is.numeric(num_sims) || length(num_sims) != 1 || is.na(num_sims)) {
+    stop("num_sims must be a single positive integer")
+  }
+  if (num_sims <= 0 || num_sims != as.integer(num_sims)) {
+    stop("num_sims must be a positive integer")
+  }
+  if (!is.list(task_dists) || length(task_dists) == 0) {
+    stop("task_dists must be a non-empty list")
+  }
+
   num_tasks <- length(task_dists)
 
   # Generate uncorrelated random samples for each task based on the specified distributions

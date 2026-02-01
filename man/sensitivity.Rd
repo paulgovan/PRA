@@ -63,14 +63,14 @@ print(sensitivity_results_indep)
 
 # Build a vertical barchart and display the results.
 data_indep <- data.frame(
- Tasks = c("A", "B", "C"),
- Sensitivity = sensitivity_results_indep
- )
- barplot(
- height = data_indep$Sensitivity, names = data_indep$Tasks,
- col = "lightgreen",
- horiz = TRUE, xlab = "Sensitivity", ylab = "Tasks"
- )
- title("Sensitivity Analysis of Project Tasks (Independent)")
+  Tasks = c("A", "B", "C"),
+  Sensitivity = sensitivity_results_indep
+)
+barplot(
+  height = data_indep$Sensitivity, names = data_indep$Tasks,
+  col = "lightgreen",
+  horiz = TRUE, xlab = "Sensitivity", ylab = "Tasks"
+)
+title("Sensitivity Analysis of Project Tasks (Independent)")
 
 }

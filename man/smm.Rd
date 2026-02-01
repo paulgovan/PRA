@@ -50,13 +50,13 @@ continuous_var <- c(4, 5)
 mean <- c(discrete_mean, continuous_mean)
 var <- c(discrete_var, continuous_var)
 cor_mat <- matrix(c(
- 1, 0, 0.2, 0.3,
- 0, 1, 0.1, 0.2,
- 0.2, 0.1, 1, 0.4,
- 0.3, 0.2, 0.4,
- 1
- ), nrow = 4, byrow = TRUE)
- result <- smm(mean, var, cor_mat)
- print(result)
+  1, 0, 0.2, 0.3,
+  0, 1, 0.1, 0.2,
+  0.2, 0.1, 1, 0.4,
+  0.3, 0.2, 0.4,
+  1
+), nrow = 4, byrow = TRUE)
+result <- smm(mean, var, cor_mat)
+print(result)
 
 }

@@ -52,19 +52,27 @@
 #'
 #' # Build a vertical barchart and display the results.
 #' data_indep <- data.frame(
-#'  Tasks = c("A", "B", "C"),
-#'  Sensitivity = sensitivity_results_indep
-#'  )
-#'  barplot(
-#'  height = data_indep$Sensitivity, names = data_indep$Tasks,
-#'  col = "lightgreen",
-#'  horiz = TRUE, xlab = "Sensitivity", ylab = "Tasks"
-#'  )
-#'  title("Sensitivity Analysis of Project Tasks (Independent)")
+#'   Tasks = c("A", "B", "C"),
+#'   Sensitivity = sensitivity_results_indep
+#' )
+#' barplot(
+#'   height = data_indep$Sensitivity, names = data_indep$Tasks,
+#'   col = "lightgreen",
+#'   horiz = TRUE, xlab = "Sensitivity", ylab = "Tasks"
+#' )
+#' title("Sensitivity Analysis of Project Tasks (Independent)")
 #'
 #' @export
 # Define the sensitivity analysis function
 sensitivity <- function(task_dists, cor_mat = NULL) {
+  # Error handling
+  if (is.null(task_dists)) {
+    stop("task_dists must not be NULL")
+  }
+  if (!is.list(task_dists) || length(task_dists) == 0) {
+    stop("task_dists must be a non-empty list")
+  }
+
   num_tasks <- length(task_dists)
 
   # Extract variances from task distributions
@@ -87,8 +95,8 @@ sensitivity <- function(task_dists, cor_mat = NULL) {
     }
 
     cov_matrix <- matrix(0, nrow = num_tasks, ncol = num_tasks)
-    for (i in 1:num_tasks) {
-      for (j in 1:num_tasks) {
+    for (i in seq_len(num_tasks)) {
+      for (j in seq_len(num_tasks)) {
         cov_matrix[i, j] <- cor_mat[i, j] * sqrt(task_variances[i] * task_variances[j])
       }
     }
@@ -103,12 +111,10 @@ sensitivity <- function(task_dists, cor_mat = NULL) {
   sensitivity <- numeric(num_tasks)
 
   # Calculate the sensitivity of the total variance with respect to each task's variance
-  for (i in 1:num_tasks) {
+  for (i in seq_len(num_tasks)) {
     sensitivity[i] <- 1 + 2 * sum(cov_matrix[i, -i] / sqrt(task_variances[i] * task_variances[-i]))
   }
 
   # Return the sensitivity vector
   return(sensitivity)
 }
-
-

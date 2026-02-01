@@ -36,33 +36,36 @@
 #'
 #' # Without correlation matrix
 #' results_indep <- mcs(num_sims, task_dists)
-#' contingency_indep <- contingency(results_indep, phigh = 0.95,
-#' pbase = 0.50)
+#' contingency_indep <- contingency(results_indep,
+#'   phigh = 0.95,
+#'   pbase = 0.50
+#' )
 #' cat("Contingency based on 95th percentile and 50th percentile (
 #' independent tasks):", contingency_indep)
 #'
 #' # Build a barplot to visualize the contingency results.
 #' contingency_data <- data.frame(
-#'  Scenario = c("With Correlation", "Independent Tasks"),
-#'  Contingency = c(contingency, contingency_indep)
-#'  )
-#'  barplot(
-#'  height = contingency_data$Contingency,
-#'  names = contingency_data$Scenario,
-#'  col = c("orange", "purple"),
-#'  horiz = TRUE,
-#'  xlab = "Contingency",
-#'  ylab = "Scenario"
-#'  )
-#'  title("Contingency Calculation for Project Scenarios")
+#'   Scenario = c("With Correlation", "Independent Tasks"),
+#'   Contingency = c(contingency, contingency_indep)
+#' )
+#' barplot(
+#'   height = contingency_data$Contingency,
+#'   names = contingency_data$Scenario,
+#'   col = c("orange", "purple"),
+#'   horiz = TRUE,
+#'   xlab = "Contingency",
+#'   ylab = "Scenario"
+#' )
+#' title("Contingency Calculation for Project Scenarios")
 #'
+#' @importFrom stats quantile
 #' @export
 contingency <- function(sims, phigh = 0.95, pbase = 0.50) {
   # Check for valid p-values
   if (!is.numeric(phigh) || phigh < 0 || phigh > 1) {
     stop("phigh must be between 0 and 1")
   }
-  if (!is.numeric(pbase) || pbase < 0 || phigh > 1) {
+  if (!is.numeric(pbase) || pbase < 0 || pbase > 1) {
     stop("pbase must be between 0 and 1")
   }
   if (phigh < pbase) {

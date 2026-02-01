@@ -23,7 +23,6 @@
 #'
 #' @export
 pv <- function(bac, schedule, time_period) {
-
   # Error handling
   if (is.null(bac) || is.null(schedule) || is.null(time_period)) {
     stop("bac, schedule, and time_period must not be NULL")
@@ -78,7 +77,6 @@ pv <- function(bac, schedule, time_period) {
 #'
 #' @export
 ev <- function(bac, actual_per_complete) {
-
   # Error handling
   if (is.null(bac) || is.null(actual_per_complete)) {
     stop("bac and actual_per_complete must not be NULL")
@@ -135,7 +133,6 @@ ev <- function(bac, actual_per_complete) {
 #'
 #' @export
 ac <- function(actual_costs, time_period, cumulative = TRUE) {
-
   # Error handling
   if (is.null(actual_costs) || is.null(time_period)) {
     stop("actual_costs and time_period must not be NULL")
@@ -200,7 +197,6 @@ ac <- function(actual_costs, time_period, cumulative = TRUE) {
 #'
 #' @export
 sv <- function(ev, pv) {
-
   # Error handling
   if (is.null(ev) || is.null(pv)) {
     stop("ev and pv must not be NULL")
@@ -254,7 +250,6 @@ sv <- function(ev, pv) {
 #'
 #' @export
 cv <- function(ev, ac) {
-
   # Error handling
   if (is.null(ev) || is.null(ac)) {
     stop("ev and ac must not be NULL")
@@ -308,7 +303,6 @@ cv <- function(ev, ac) {
 #'
 #' @export
 spi <- function(ev, pv) {
-
   # Error handling
   if (is.null(ev) || is.null(pv)) {
     stop("ev and pv must not be NULL")
@@ -363,7 +357,6 @@ spi <- function(ev, pv) {
 #'
 #' @export
 cpi <- function(ev, ac) {
-
   # Error handling
   if (is.null(ev) || is.null(ac)) {
     stop("ev and ac must not be NULL")
@@ -429,7 +422,6 @@ cpi <- function(ev, ac) {
 #'
 #' @export
 eac <- function(bac, method = "typical", cpi = NULL, ac = NULL, ev = NULL, spi = NULL) {
-
   # Validate method
 
   valid_methods <- c("typical", "atypical", "combined")
@@ -461,7 +453,6 @@ eac <- function(bac, method = "typical", cpi = NULL, ac = NULL, ev = NULL, spi =
       stop("cpi must be greater than zero")
     }
     eac <- bac / cpi
-
   } else if (method == "atypical") {
     # EAC = AC + (BAC - EV)
     if (is.null(ac) || is.null(ev)) {
@@ -477,7 +468,6 @@ eac <- function(bac, method = "typical", cpi = NULL, ac = NULL, ev = NULL, spi =
       stop("ac and ev must be non-negative")
     }
     eac <- ac + (bac - ev)
-
   } else if (method == "combined") {
     # EAC = AC + (BAC - EV) / (CPI * SPI)
     if (is.null(cpi) || is.null(ac) || is.null(ev) || is.null(spi)) {
@@ -535,7 +525,6 @@ eac <- function(bac, method = "typical", cpi = NULL, ac = NULL, ev = NULL, spi =
 #'
 #' @export
 etc <- function(bac, ev, cpi = NULL) {
-
   # Error handling
   if (is.null(bac) || is.null(ev)) {
     stop("bac and ev must not be NULL")
@@ -581,7 +570,7 @@ etc <- function(bac, ev, cpi = NULL) {
 #' @return The function returns the Variance at Completion (VAC).
 #' @examples
 #' bac <- 100000
-#' eac <- 120482  # From EAC calculation
+#' eac <- 120482 # From EAC calculation
 #'
 #' vac <- vac(bac, eac)
 #' cat("Variance at Completion (VAC):", round(vac, 2), "\n")
@@ -591,7 +580,6 @@ etc <- function(bac, ev, cpi = NULL) {
 #'
 #' @export
 vac <- function(bac, eac) {
-
   # Error handling
   if (is.null(bac) || is.null(eac)) {
     stop("bac and eac must not be NULL")
@@ -645,7 +633,6 @@ vac <- function(bac, eac) {
 #'
 #' @export
 tcpi <- function(bac, ev, ac, target = "bac", eac = NULL) {
-
   # Error handling
   if (is.null(bac) || is.null(ev) || is.null(ac)) {
     stop("bac, ev, and ac must not be NULL")

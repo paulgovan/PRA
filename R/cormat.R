@@ -29,7 +29,7 @@
 #' @importFrom stats cor
 #' @export
 # Function to generate random samples and calculate correlation matrix
-cor_matrix <- function(num_samples = 100, num_vars = 5, dists = dists) {
+cor_matrix <- function(num_samples = 100, num_vars = 5, dists) {
   # Error handling
   if (!is.list(dists) || length(dists) == 0) {
     stop("dists must be a non-empty list.")
@@ -55,7 +55,7 @@ cor_matrix <- function(num_samples = 100, num_vars = 5, dists = dists) {
   samples <- matrix(0, nrow = num_samples, ncol = num_vars)
 
   # Randomly select distributions and generate samples
-  for (i in 1:num_vars) {
+  for (i in seq_len(num_vars)) {
     dist_name <- sample(names(dists), 1)
     samples[, i] <- dists[[dist_name]](num_samples)
   }

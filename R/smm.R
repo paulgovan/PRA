@@ -37,18 +37,34 @@
 #' mean <- c(discrete_mean, continuous_mean)
 #' var <- c(discrete_var, continuous_var)
 #' cor_mat <- matrix(c(
-#'  1, 0, 0.2, 0.3,
-#'  0, 1, 0.1, 0.2,
-#'  0.2, 0.1, 1, 0.4,
-#'  0.3, 0.2, 0.4,
-#'  1
-#'  ), nrow = 4, byrow = TRUE)
-#'  result <- smm(mean, var, cor_mat)
-#'  print(result)
+#'   1, 0, 0.2, 0.3,
+#'   0, 1, 0.1, 0.2,
+#'   0.2, 0.1, 1, 0.4,
+#'   0.3, 0.2, 0.4,
+#'   1
+#' ), nrow = 4, byrow = TRUE)
+#' result <- smm(mean, var, cor_mat)
+#' print(result)
 #'
 #' @export
 # Second Moment Method
 smm <- function(mean, var, cor_mat = NULL) {
+  # Error handling
+  if (is.null(mean) || is.null(var)) {
+    stop("mean and var must not be NULL")
+  }
+  if (!is.numeric(mean) || !is.numeric(var)) {
+    stop("mean and var must be numeric vectors")
+  }
+  if (length(mean) == 0 || length(var) == 0) {
+    stop("mean and var must not be empty")
+  }
+  if (anyNA(mean) || anyNA(var)) {
+    stop("mean and var must not contain NA values")
+  }
+  if (any(var < 0)) {
+    stop("var values must be non-negative")
+  }
   # Check if the mean and variance vectors have the same length
   if (length(mean) != length(var)) {
     stop("The mean and variance vectors must have the same length.")
@@ -63,8 +79,8 @@ smm <- function(mean, var, cor_mat = NULL) {
     }
 
     cov_matrix <- matrix(0, nrow = num_tasks, ncol = num_tasks)
-    for (i in 1:num_tasks) {
-      for (j in 1:num_tasks) {
+    for (i in seq_len(num_tasks)) {
+      for (j in seq_len(num_tasks)) {
         cov_matrix[i, j] <- cor_mat[i, j] * sqrt(var[i] * var[j])
       }
     }
@@ -102,16 +118,16 @@ smm <- function(mean, var, cor_mat = NULL) {
 #' mean <- c(10, 15, 20)
 #' var <- c(4, 9, 16)
 #' cor_mat <- matrix(c(
-#'  1, 0.5, 0.3,
-#'  0.5, 1, 0.4,
-#'  0.3, 0.4, 1
-#'  ), nrow = 3, byrow = TRUE)
-#'  result <- smm(mean, var, cor_mat)
-#'  print(result)
+#'   1, 0.5, 0.3,
+#'   0.5, 1, 0.4,
+#'   0.3, 0.4, 1
+#' ), nrow = 3, byrow = TRUE)
+#' result <- smm(mean, var, cor_mat)
+#' print(result)
 #'
-#'  # Without correlation matrix (independent tasks)
-#'  result <- smm(mean, var)
-#'  print(result)
+#' # Without correlation matrix (independent tasks)
+#' result <- smm(mean, var)
+#' print(result)
 #'
 print.smm <- function(x, ...) {
   cat("Second Moment Method Results:\n")

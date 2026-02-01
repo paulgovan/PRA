@@ -53,8 +53,7 @@ test_that("grandparent_dsm function handles incompatible dimensions", {
   sm <- matrix(c(1, 0, 0, 1), nrow = 2, ncol = 2)
   rm <- matrix(c(1, 2, 3), nrow = 1, ncol = 3)
 
-  expect_error(grandparent_dsm(sm, rm), "Number of columns in the Matrix S must be equal to the number
-         of columns in Matrix R.")
+  expect_error(grandparent_dsm(sm, rm), "Number of columns in the Matrix S must be equal to the number of columns in Matrix R.")
 })
 
 test_that("grandparent_dsm function handles larger matrices", {
@@ -71,6 +70,5 @@ test_that("grandparent_dsm function handles non-square R matrix", {
   sm <- matrix(c(1, 0, 0, 1), nrow = 2, ncol = 2)
   rm <- matrix(c(1, 2, 3, 4, 5, 6), nrow = 2, ncol = 3)
 
-  expect_error(grandparent_dsm(sm, rm), "Number of columns in the Matrix S must be equal to the number
-         of columns in Matrix R.")
+  expect_error(grandparent_dsm(sm, rm), "Number of columns in the Matrix S must be equal to the number of columns in Matrix R.")
 })
