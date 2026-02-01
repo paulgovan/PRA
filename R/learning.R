@@ -1,6 +1,8 @@
 #' Posterior Risk Probability.
 #'
-#' Calculates the posterior probability of the risk event given observations of the root causes.
+#' This function calculates the posterior probability of a risk event 'R' occurring
+#' based on observations of multiple root causes and their associated conditional probabilities.
+#'
 #' @param cause_probs A vector of prior probabilities for each root cause 'C_i'.
 #' @param risks_given_causes A vector of conditional probabilities of the risk event 'R' given each cause 'C_i'.
 #' @param risks_given_not_causes A vector of conditional probabilities of the risk event 'R' given not each cause 'C_i'.
@@ -61,7 +63,11 @@ risk_post_prob <- function(cause_probs, risks_given_causes, risks_given_not_caus
 
 #' Posterior Cost Probability Density.
 #'
-#' Calculates the posterior probability density function for costs given observations of risk events.
+#' This function generates random samples from the posterior distribution of the cost 'A'
+#' given observations of multiple risk events 'R_i'. Each risk event has its own mean
+#' and standard deviation for the cost distribution. The function also accounts for a baseline cost
+#' when no risk event occurs.
+#'
 #' @param num_sims Number of random samples to draw from the posterior distribution.
 #' @param observed_risks A vector of observed values for each risk event 'R_i' (1 if observed, 0 if not observed, NA if unobserved).
 #' @param means_given_risks A vector of means of the normal distribution for cost 'A' given each risk event 'R_i'.

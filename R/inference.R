@@ -1,6 +1,8 @@
 #' Bayesian Inference for Risk Probability.
 #'
-#' Bayesian inference for calculating the risk probability given root cause(s).
+#' This function calculates the overall probability of a risk event 'R' occurring
+#' based on the probabilities of multiple root causes and their associated conditional probabilities.
+#'
 #' @param cause_probs A vector of probabilities for each root cause 'C_i'.
 #' @param risks_given_causes A vector of conditional probabilities of the risk event 'R' given each cause 'C_i'.
 #' @param risks_given_not_causes A vector of conditional probabilities of the risk event 'R' given not each cause 'C_i'.
@@ -11,6 +13,7 @@
 #' risks_given_not_causes <- c(0.2, 0.4)
 #' risk_prob_value <- risk_prob(cause_probs, risks_given_causes, risks_given_not_causes)
 #' print(risk_prob_value)
+#'
 #' @export
 risk_prob <- function(cause_probs, risks_given_causes, risks_given_not_causes) {
   # Validate inputs
@@ -41,7 +44,11 @@ risk_prob <- function(cause_probs, risks_given_causes, risks_given_not_causes) {
 
 #' Cost Probability Density.
 #'
-#' Bayesian inference for calculating random samples of a cost given risk event(s).
+#' This function generates random samples from a mixture model representing the cost 'A'
+#' associated with multiple risk events 'R_i'. Each risk event has its own probability,
+#' mean, and standard deviation for the cost distribution. The function also accounts for a baseline cost
+#' when no risk event occurs.
+#'
 #' @param num_sims Number of random samples to draw from the mixture model.
 #' @param risk_probs A vector of probabilities for each risk event 'R_i'.
 #' @param means_given_risks A vector of means of the normal distribution for cost 'A' given each risk event 'R_i'.
