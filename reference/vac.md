@@ -34,7 +34,7 @@ The function returns the Variance at Completion (VAC).
 
 ``` r
 bac <- 100000
-eac <- 120482  # From EAC calculation
+eac <- 120482 # From EAC calculation
 
 vac <- vac(bac, eac)
 cat("Variance at Completion (VAC):", round(vac, 2), "\n")

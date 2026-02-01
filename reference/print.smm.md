@@ -27,21 +27,21 @@ print(x, ...)
 mean <- c(10, 15, 20)
 var <- c(4, 9, 16)
 cor_mat <- matrix(c(
- 1, 0.5, 0.3,
- 0.5, 1, 0.4,
- 0.3, 0.4, 1
- ), nrow = 3, byrow = TRUE)
- result <- smm(mean, var, cor_mat)
- print(result)
+  1, 0.5, 0.3,
+  0.5, 1, 0.4,
+  0.3, 0.4, 1
+), nrow = 3, byrow = TRUE)
+result <- smm(mean, var, cor_mat)
+print(result)
 #> Second Moment Method Results:
 #> ------------------------------
 #> Total Mean:  45 
 #> Total Variance:  49.4 
 #> Total Standard Deviation:  7.028513 
 
- # Without correlation matrix (independent tasks)
- result <- smm(mean, var)
- print(result)
+# Without correlation matrix (independent tasks)
+result <- smm(mean, var)
+print(result)
 #> Second Moment Method Results:
 #> ------------------------------
 #> Total Mean:  45 

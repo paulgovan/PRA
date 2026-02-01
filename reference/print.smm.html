@@ -67,21 +67,21 @@ and standard deviation in a readable manner.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">9</span>, <span class="fl">16</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">cor_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span> <span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.3</span>,</span></span>
-<span class="r-in"><span> <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">0.4</span>,</span></span>
-<span class="r-in"><span> <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">1</span></span></span>
-<span class="r-in"><span> <span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">3</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span> <span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="smm.html">smm</a></span><span class="op">(</span><span class="va">mean</span>, <span class="va">var</span>, <span class="va">cor_mat</span><span class="op">)</span></span></span>
-<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.3</span>,</span></span>
+<span class="r-in"><span>  <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">0.4</span>,</span></span>
+<span class="r-in"><span>  <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">1</span></span></span>
+<span class="r-in"><span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">3</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="smm.html">smm</a></span><span class="op">(</span><span class="va">mean</span>, <span class="va">var</span>, <span class="va">cor_mat</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Second Moment Method Results:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Total Mean:  45 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Total Variance:  49.4 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Total Standard Deviation:  7.028513 </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span> <span class="co"># Without correlation matrix (independent tasks)</span></span></span>
-<span class="r-in"><span> <span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="smm.html">smm</a></span><span class="op">(</span><span class="va">mean</span>, <span class="va">var</span><span class="op">)</span></span></span>
-<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Without correlation matrix (independent tasks)</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="smm.html">smm</a></span><span class="op">(</span><span class="va">mean</span>, <span class="va">var</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Second Moment Method Results:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Total Mean:  45 </span>

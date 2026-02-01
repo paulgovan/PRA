@@ -7,7 +7,7 @@ samples.
 ## Usage
 
 ``` r
-cor_matrix(num_samples = 100, num_vars = 5, dists = dists)
+cor_matrix(num_samples = 100, num_vars = 5, dists)
 ```
 
 ## Arguments
