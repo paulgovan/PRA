@@ -15,7 +15,8 @@ spi(ev, pv)
 The function returns the Schedule Performance Index (SPI) of work completed.
 }
 \description{
-Schedule Performance Index (SPI).
+Calculates the Schedule Performance Index (SPI) of work completed based on the Earned Value (EV)
+and Planned Value (PV).
 }
 \examples{
 # Set the BAC, schedule, and current time period for an example project.
@@ -33,4 +34,8 @@ ev <- ev(bac, actual_per_complete)
 # Calculate the SPI and print the results.
 spi <- spi(ev, pv)
 cat("Schedule Performance Index (SPI):", spi, "\n")
+}
+\seealso{
+\code{\link{pv}}, \code{\link{ev}}, \code{\link{ac}}, \code{\link{sv}},
+\code{\link{cv}}, \code{\link{cpi}}, \code{\link{eac}}
 }

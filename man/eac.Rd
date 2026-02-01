@@ -4,25 +4,54 @@
 \alias{eac}
 \title{Estimate at Completion (EAC).}
 \usage{
-eac(bac, cpi)
+eac(bac, method = "typical", cpi = NULL, ac = NULL, ev = NULL, spi = NULL)
 }
 \arguments{
 \item{bac}{Budget at Completion (BAC) (total planned budget).}
 
-\item{cpi}{Cost Performance Index (CPI), the efficiency of cost utilization.}
+\item{method}{The EAC calculation method. One of:
+\itemize{
+  \item "typical" (default): EAC = BAC / CPI. Assumes future work performed at current cost efficiency.
+  \item "atypical": EAC = AC + (BAC - EV). Assumes future work performed at planned rate.
+  \item "combined": EAC = AC + (BAC - EV) / (CPI * SPI). Considers both cost and schedule performance.
+}}
+
+\item{cpi}{Cost Performance Index (CPI). Required for "typical" and "combined" methods.}
+
+\item{ac}{Actual Cost. Required for "atypical" and "combined" methods.}
+
+\item{ev}{Earned Value. Required for "atypical" and "combined" methods.}
+
+\item{spi}{Schedule Performance Index. Required for "combined" method.}
 }
 \value{
 The function returns the Estimate at Completion (EAC).
 }
 \description{
-Estimate at Completion (EAC).
+Calculates the Estimate at Completion (EAC) using various methods based on
+project performance assumptions.
 }
 \examples{
-# Set the BAC and CPI for a toy project.
+# Method 1: Typical - assumes current CPI continues
 bac <- 100000
 cpi <- 0.83
+eac <- eac(bac, cpi = cpi)
+cat("EAC (typical):", round(eac, 2), "\n")
 
-# Calculate the EAC
-eac <- eac(bac, cpi)
-print(eac)
+# Method 2: Atypical - assumes future work at planned rate
+ac <- 63000
+ev <- 35000
+eac <- eac(bac, method = "atypical", ac = ac, ev = ev)
+cat("EAC (atypical):", round(eac, 2), "\n")
+
+# Method 3: Combined - considers both CPI and SPI
+spi <- 0.875
+eac <- eac(bac, method = "combined", cpi = cpi, ac = ac, ev = ev, spi = spi)
+cat("EAC (combined):", round(eac, 2), "\n")
+
+}
+\seealso{
+\code{\link{pv}}, \code{\link{ev}}, \code{\link{ac}}, \code{\link{sv}},
+\code{\link{cv}}, \code{\link{spi}}, \code{\link{cpi}}, \code{\link{etc}},
+\code{\link{vac}}, \code{\link{tcpi}}
 }

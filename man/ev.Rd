@@ -15,7 +15,8 @@ ev(bac, actual_per_complete)
 The function returns the Earned Value (EV) of work completed.
 }
 \description{
-Earned Value (EV).
+Calculates the Earned Value (EV) of work completed based on the Budget at Completion
+(BAC) and the actual work completion percentage.
 }
 \examples{
 # Set the BAC and actual \% complete for a toy project.
@@ -25,4 +26,8 @@ actual_per_complete <- 0.35
 # Calculate the EV and print the results.
 ev <- ev(bac, actual_per_complete)
 cat("Earned Value (EV):", ev, "\n")
+}
+\seealso{
+\code{\link{pv}}, \code{\link{ac}}, \code{\link{sv}}, \code{\link{cv}},
+\code{\link{spi}}, \code{\link{cpi}}, \code{\link{eac}}
 }

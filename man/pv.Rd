@@ -9,7 +9,8 @@ pv(bac, schedule, time_period)
 \arguments{
 \item{bac}{Budget at Completion (BAC) (total planned budget).}
 
-\item{schedule}{Vector of planned work completion (in terms of percentage) at each time period.}
+\item{schedule}{Vector of planned work completion (in terms of percentage) at each
+time period.}
 
 \item{time_period}{Current time period.}
 }
@@ -17,7 +18,8 @@ pv(bac, schedule, time_period)
 The function returns the Planned Value (PV) of work completed.
 }
 \description{
-Planned Value (PV).
+Calculates the Planned Value (PV) of work completed based on the Budget at Completion
+(BAC) and the planned schedule.
 }
 \examples{
 # Set the BAC, schedule, and current time period for a toy project.
@@ -28,4 +30,9 @@ time_period <- 3
 # Calculate the PV and print the results.
 pv <- pv(bac, schedule, time_period)
 cat("Planned Value (PV):", pv, "\n")
+
+}
+\seealso{
+\code{\link{ev}}, \code{\link{ac}}, \code{\link{sv}}, \code{\link{cv}},
+\code{\link{spi}}, \code{\link{cpi}}, \code{\link{eac}}
 }

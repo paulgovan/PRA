@@ -15,7 +15,8 @@ sv(ev, pv)
 The function returns the Schedule Variance (SV) of work completed.
 }
 \description{
-Schedule Variance (SV).
+Calculates the Schedule Variance (SV) of work completed based on the Earned Value (EV)
+and Planned Value (PV).
 }
 \examples{
 # Set the BAC, schedule, and current time period for an example project.
@@ -33,4 +34,9 @@ ev <- ev(bac, actual_per_complete)
 # Calculate the SV and print the results.
 sv <- sv(ev, pv)
 cat("Schedule Variance (SV):", sv, "\n")
+
+}
+\seealso{
+\code{\link{pv}}, \code{\link{ev}}, \code{\link{ac}}, \code{\link{cv}},
+\code{\link{spi}}, \code{\link{cpi}}, \code{\link{eac}}
 }

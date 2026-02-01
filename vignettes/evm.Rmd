@@ -22,7 +22,7 @@ Earned Value Management (EVM) is a project management technique used to measure 
 ## Key Components
 
 1. **Budget at Completion (BAC):** The total budget for the project.
-2. **Actual Cost (AC):** The actual cost incurred for the work performed on an activity during a specific time period.
+2. **Actual Cost (AC):** The cumulative actual cost incurred for the work performed to date.
 3. **Planned Value (PV):** The authorized budget assigned to scheduled work.
 
 \[PV = BAC * PlannedPercentComplete\]
@@ -34,24 +34,37 @@ Earned Value Management (EVM) is a project management technique used to measure 
 ## Common EVM Equations
 
 1. **Cost Variance (CV):** Positive CV indicates under budget and negative CV indicates over budget.
-   
+
    \[CV = EV - AC\]
-   
+
 2. **Schedule Variance (SV):** Positive SV indicates ahead of schedule and negative SV indicates behind schedule.
-   
+
    \[SV = EV - PV\]
-   
+
 3. **Cost Performance Index (CPI):** CPI > 1 indicates cost efficiency and CPI < 1 indicates cost inefficiency.
 
    \[CPI = \frac{EV}{AC}\]
-  
+
 4. **Schedule Performance Index (SPI):** SPI > 1 indicates schedule efficiency and SPI < 1 indicates schedule inefficiency.
-   
+
    \[SPI = \frac{EV}{PV}\]
-   
-5. **Estimate at Completion (EAC):**
-   
-   \[EAC = \frac{BAC}{CPI}\]
+
+5. **Estimate at Completion (EAC):** Multiple methods available:
+   - Typical: \[EAC = \frac{BAC}{CPI}\] (assumes current performance continues)
+   - Atypical: \[EAC = AC + (BAC - EV)\] (assumes future work at planned rate)
+   - Combined: \[EAC = AC + \frac{BAC - EV}{CPI \times SPI}\] (considers both cost and schedule)
+
+6. **Estimate to Complete (ETC):** Expected cost to finish remaining work.
+
+   \[ETC = \frac{BAC - EV}{CPI}\]
+
+7. **Variance at Completion (VAC):** Expected budget variance at project end.
+
+   \[VAC = BAC - EAC\]
+
+8. **To-Complete Performance Index (TCPI):** Required efficiency on remaining work.
+
+   \[TCPI = \frac{BAC - EV}{BAC - AC}\]
 
 ## Examples
 
@@ -80,11 +93,14 @@ ev <- ev(bac, actual_per_complete)
 cat("Earned Value (EV):", ev, "\n")
 ```
 
-Set the actual costs and current time period and calculate the AC to date:
+Set the actual period costs and calculate the cumulative AC to date:
 
 ```{r results='asis'}
-actual_costs <- c(9000, 18000, 36000)
-ac <- ac(actual_costs, time_period)
+# Period costs (cost incurred each period)
+period_costs <- c(9000, 18000, 36000)
+
+# Calculate cumulative AC using cumulative = FALSE
+ac <- ac(period_costs, time_period, cumulative = FALSE)
 cat("Actual Cost (AC):", ac, "\n")
 ```
 
@@ -106,41 +122,75 @@ cpi <- cpi(ev, ac)
 cat("The project is over budget because the Cost Performance Index (CPI) is", round(cpi, 2), "\n")
 ```
 
-Calculate the EAC and print the results:
+Calculate the EAC using different methods:
 ```{r results='asis'}
-eac <- eac(bac, cpi)
-cat("The Estimate at Completion (EAC) is", round(eac, 2), "\n")
+# Method 1: Typical - assumes current CPI continues
+eac_typical <- eac(bac, method = "typical", cpi = cpi)
+cat("EAC (typical method):", round(eac_typical, 2), "\n")
+
+# Method 2: Atypical - assumes future work at planned rate
+eac_atypical <- eac(bac, method = "atypical", ac = ac, ev = ev)
+cat("EAC (atypical method):", round(eac_atypical, 2), "\n")
+
+# Method 3: Combined - considers both CPI and SPI
+eac_combined <- eac(bac, method = "combined", cpi = cpi, ac = ac, ev = ev, spi = spi)
+cat("EAC (combined method):", round(eac_combined, 2), "\n")
+```
+
+Calculate additional forecasting metrics:
+```{r results='asis'}
+# Estimate to Complete (remaining cost at current CPI)
+etc_val <- etc(bac, ev, cpi)
+cat("Estimate to Complete (ETC):", round(etc_val, 2), "\n")
+
+# Variance at Completion (expected budget variance)
+vac_val <- vac(bac, eac_typical)
+cat("Variance at Completion (VAC):", round(vac_val, 2), "\n")
+cat("Project is expected to be", abs(round(vac_val, 2)), "over budget\n")
+
+# To-Complete Performance Index (required efficiency to meet BAC)
+tcpi_val <- tcpi(bac, ev, ac)
+cat("TCPI (to meet BAC):", round(tcpi_val, 2), "\n")
+cat("Must achieve", round(tcpi_val * 100, 1), "% efficiency on remaining work to meet budget\n")
 ```
 
 Finally, create a performance trend and plot the results:
 
 ```{r warning=FALSE}
-# Calculate PV, AC, and EV for time periods 1 to 3
-time_period <- c(1, 2, 3)
+# Calculate cumulative values for time periods 1 to 3
+time_periods <- c(1, 2, 3)
 actual_per_complete <- c(0.05, 0.15, 0.35)
-pv <- sapply(1:3, function(t) pv(bac, schedule, t))
-ac <- actual_costs
-ev <- ev(bac, actual_per_complete)
+
+# Calculate PV for each time period
+pv_vals <- sapply(time_periods, function(t) pv(bac, schedule, t))
+
+# Calculate cumulative AC for each time period
+ac_vals <- cumsum(period_costs)
+
+# Calculate EV for each time period
+ev_vals <- sapply(actual_per_complete, function(a) ev(bac, a))
 
 # Create a data frame for easier plotting
 data <- data.frame(
-  time_period,
-  PV = pv,
-  AC = ac,
-  EV = ev
+  time_period = time_periods,
+  PV = pv_vals,
+  AC = ac_vals,
+  EV = ev_vals
 )
 
 # Plot PV, AC, and EV over time
 p <- ggplot2::ggplot(data, ggplot2::aes(x = time_period)) +
-  ggplot2::geom_line(ggplot2::aes(y = PV, color = "PV"), size = 1) +
-  ggplot2::geom_line(ggplot2::aes(y = AC, color = "AC"), size = 1) +
-  ggplot2::geom_line(ggplot2::aes(y = EV, color = "EV"), size = 1) +
-  ggplot2::geom_hline(yintercept = bac, linetype = "dashed", color = "blue", size = 1, show.legend = TRUE) +
-  ggplot2::geom_hline(yintercept = eac, linetype = "dotted", color = "red", size = 1, show.legend = TRUE) +
+  ggplot2::geom_line(ggplot2::aes(y = PV, color = "PV"), linewidth = 1) +
+  ggplot2::geom_line(ggplot2::aes(y = AC, color = "AC"), linewidth = 1) +
+  ggplot2::geom_line(ggplot2::aes(y = EV, color = "EV"), linewidth = 1) +
+  ggplot2::geom_hline(yintercept = bac, linetype = "dashed", color = "blue", linewidth = 1) +
+  ggplot2::geom_hline(yintercept = eac_typical, linetype = "dotted", color = "red", linewidth = 1) +
+  ggplot2::annotate("text", x = 4.5, y = bac + 3000, label = "BAC", color = "blue") +
+  ggplot2::annotate("text", x = 4.5, y = eac_typical + 3000, label = "EAC", color = "red") +
   ggplot2::labs(
-    title = "Earned Value",
+    title = "Earned Value Management",
     x = "Time Period",
-    y = "Value",
+    y = "Value ($)",
     color = "Metric"
   ) +
   ggplot2::xlim(1, 5) +

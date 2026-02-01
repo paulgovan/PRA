@@ -15,7 +15,8 @@ cv(ev, ac)
 The function returns the Cost Variance (CV) of work completed.
 }
 \description{
-Cost Variance (CV).
+Calculates the Cost Variance (CV) of work completed based on the Earned Value (EV)
+and Actual Cost (AC).
 }
 \examples{
 # Set the BAC and actual \% complete for an example project.
@@ -33,4 +34,8 @@ ac <- ac(actual_costs, time_period)
 # Calculate the CV and print the results.
 cv <- cv(ev, ac)
 cat("Cost Variance (CV):", cv, "\n")
+}
+\seealso{
+\code{\link{pv}}, \code{\link{ev}}, \code{\link{ac}}, \code{\link{sv}},
+\code{\link{spi}}, \code{\link{cpi}}, \code{\link{eac}}
 }
