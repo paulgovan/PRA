@@ -16,7 +16,10 @@ The function returns the Risk-based 'Grandparent' DSM 'G' giving the number
 of risks shared between each task.
 }
 \description{
-Risk-based 'Grandparent' Design Structure Matrix (DSM).
+This function computes the Risk-based 'Grandparent' Design Structure Matrix (DSM)
+from given Resource-Task Matrix 'S' and Risk-Resource Matrix 'R'.
+The 'Grandparent' DSM indicates the number of risks shared between each pair of
+tasks in a project.
 }
 \examples{
 # Set the S and R matrices and print the results.
@@ -30,4 +33,5 @@ print(R)
 risk_dsm <- grandparent_dsm(S, R)
 cat("\nRisk-based 'Grandparent' DSM:\n")
 print(risk_dsm)
+
 }

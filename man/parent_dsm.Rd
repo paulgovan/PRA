@@ -14,7 +14,9 @@ The function returns the Resource-based 'Parent' DSM 'P' giving the number
 of resources shared between each task.
 }
 \description{
-Resource-based 'Parent' Design Structure Matrix (DSM).
+This function computes the Resource-based 'Parent' Design Structure Matrix (DSM)
+from a given Resource-Task Matrix 'S'. The 'Parent' DSM indicates the number of resources
+shared between each pair of tasks in a project.
 }
 \examples{
 # Set the S matrix for a toy project and print the results.
@@ -26,4 +28,5 @@ print(s)
 resource_dsm <- parent_dsm(s)
 cat("\nResource-based 'Parent' DSM:\n")
 print(resource_dsm)
+
 }

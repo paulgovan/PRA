@@ -38,7 +38,6 @@ Welcome to **PRA**! This package provides a set of functions for performing vari
 * [Earned Value Management](https://paulgovan.github.io/PRA/articles/evm.html)
 * [Learning Curves](https://paulgovan.github.io/PRA/articles/sigmoidal.html)
 * [Bayesian Methods](https://paulgovan.github.io/PRA/articles/Bayes.html)
-* [Bayesian Networks](https://paulgovan.github.io/PRA/articles/network.html)
 
 ## Installation
 

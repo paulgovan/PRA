@@ -1,5 +1,9 @@
 #' Resource-based 'Parent' Design Structure Matrix (DSM).
 #'
+#' This function computes the Resource-based 'Parent' Design Structure Matrix (DSM)
+#' from a given Resource-Task Matrix 'S'. The 'Parent' DSM indicates the number of resources
+#' shared between each pair of tasks in a project.
+#'
 #' @param S Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.
 #' @return The function returns the Resource-based 'Parent' DSM 'P' giving the number
 #' of resources shared between each task.
@@ -13,10 +17,12 @@
 #' resource_dsm <- parent_dsm(s)
 #' cat("\nResource-based 'Parent' DSM:\n")
 #' print(resource_dsm)
+#'
 #' @export
-
 # Parent DSM function
 parent_dsm <- function(S) {
+
+  # Error handling
   # Check if the matrix is square
   if (ncol(S) != nrow(S)) {
     stop("The Resource-Task Matrix must be square.")
@@ -30,6 +36,11 @@ parent_dsm <- function(S) {
 
 
 #' Risk-based 'Grandparent' Design Structure Matrix (DSM).
+#'
+#' This function computes the Risk-based 'Grandparent' Design Structure Matrix (DSM)
+#' from given Resource-Task Matrix 'S' and Risk-Resource Matrix 'R'.
+#' The 'Grandparent' DSM indicates the number of risks shared between each pair of
+#' tasks in a project.
 #'
 #' @param S Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.
 #' @param R Risk-Resource Matrix 'R' giving the links (arcs) between risks and resources.
@@ -47,6 +58,7 @@ parent_dsm <- function(S) {
 #' risk_dsm <- grandparent_dsm(S, R)
 #' cat("\nRisk-based 'Grandparent' DSM:\n")
 #' print(risk_dsm)
+#'
 #' @export
 
 # Grandparent DSM function
