@@ -1,8 +1,14 @@
-#' Generate Correlation Matrix.
+#' Generate Correlation Matrix from Random Samples.
+#'
+#' This function generates random samples from specified probability distributions
+#' and computes the correlation matrix for the generated samples.
 #'
 #' @param num_samples The number of samples to generate.
 #' @param num_vars The number of distributions to sample.
-#' @param dists A list describing each distribution.
+#' @param dists A list describing each distribution. Each element should be a function
+#' that generates random samples. The names of the list elements will be used to
+#' identify the distributions.
+#'
 #' @return The function returns the correlation matrix for the distributions.
 #' @examples
 #' # List of probability distributions
@@ -19,11 +25,12 @@
 #'
 #' # Print correlation matrix
 #' print(cor_matrix)
+#'
 #' @importFrom stats cor
 #' @export
 # Function to generate random samples and calculate correlation matrix
 cor_matrix <- function(num_samples = 100, num_vars = 5, dists = dists) {
-  # Error checks for dists
+  # Error handling
   if (!is.list(dists) || length(dists) == 0) {
     stop("dists must be a non-empty list.")
   }
