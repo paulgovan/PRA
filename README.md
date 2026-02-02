@@ -20,9 +20,10 @@ coverage](https://codecov.io/gh/paulgovan/PRA/graph/badge.svg)](https://app.code
 
 ## Introduction
 
-Welcome to **PRA**! This package provides a set of functions for
-performing various types of project risk analysis, including Monte Carlo
-simulation, sensitivity analysis, and earned value management.
+Welcome to **PRA**! This project provides a set of tools for performing
+Project Risk Analysis (PRA) using various quantitative methods. It is
+designed to help project analysts assess and manage risks associated
+with project schedules, costs, and performance.
 
 ## Key features:
 
@@ -100,7 +101,7 @@ To calculate the mean of the total duration:
 cat("Mean Total Duration is ", round(results$total_mean, 2))
 ```
 
-Mean Total Duration is 38.67
+Mean Total Duration is 38.55
 
 To calculate the variance of the total duration:
 
@@ -108,7 +109,7 @@ To calculate the variance of the total duration:
 cat("Variance around the Total Duration is ", round(results$total_variance, 2))
 ```
 
-Variance around the Total Duration is 19.47
+Variance around the Total Duration is 19.16
 
 To build a histogram of the total duration:
 
