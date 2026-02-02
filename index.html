@@ -59,7 +59,7 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>Welcome to <strong>PRA</strong>! This package provides a set of functions for performing various types of project risk analysis, including Monte Carlo simulation, sensitivity analysis, and earned value management.</p>
+<p>Welcome to <strong>PRA</strong>! This project provides a set of tools for performing Project Risk Analysis (PRA) using various quantitative methods. It is designed to help project analysts assess and manage risks associated with project schedules, costs, and performance.</p>
 </div>
 <div class="section level2">
 <h2 id="key-features">Key features:<a class="anchor" aria-label="anchor" href="#key-features"></a>
@@ -112,11 +112,11 @@
 <p>To calculate the mean of the total duration:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Mean Total Duration is "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_mean</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Mean Total Duration is 38.67</p>
+<p>Mean Total Duration is 38.55</p>
 <p>To calculate the variance of the total duration:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Variance around the Total Duration is "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_variance</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Variance around the Total Duration is 19.47</p>
+<p>Variance around the Total Duration is 19.16</p>
 <p>To build a histogram of the total duration:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_distribution</span>,</span>
