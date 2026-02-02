@@ -56,7 +56,40 @@ model results.</p></dd>
 <dd><p>Additional arguments (not used).</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>No return value, called for side effects.</p>
+    </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Set up a data frame of time and completion percentage data</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, completion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">15</span>, <span class="fl">40</span>, <span class="fl">60</span>, <span class="fl">70</span>, <span class="fl">75</span>, <span class="fl">80</span>, <span class="fl">85</span></span></span>
+<span class="r-in"><span>, <span class="fl">90</span>, <span class="fl">95</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Fit a logistic model to the data.</span></span></span>
+<span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="fit_sigmoidal.html">fit_sigmoidal</a></span><span class="op">(</span><span class="va">data</span>, <span class="st">"time"</span>, <span class="st">"completion"</span>, <span class="st">"logistic"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Print the model summary</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sigmoidal Model Fit Summary:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Formula: y ~ logistic(x, K, r, t0)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Parameters:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Estimate Std. Error t value Pr(&gt;|t|)    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> K   87.9159     2.8935  30.384 1.08e-08 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> r    0.9189     0.1379   6.664 0.000287 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> t0   3.3911     0.1824  18.592 3.23e-07 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ---</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residual standard error: 5.108 on 7 degrees of freedom</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of iterations to convergence: 12 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Achieved convergence tolerance: 1.49e-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

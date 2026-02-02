@@ -1,7 +1,8 @@
 # Bayesian Inference for Risk Probability.
 
-Bayesian inference for calculating the risk probability given root
-cause(s).
+This function calculates the overall probability of a risk event 'R'
+occurring based on the probabilities of multiple root causes and their
+associated conditional probabilities.
 
 ## Usage
 

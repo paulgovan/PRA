@@ -21,6 +21,10 @@ print(x, ...)
 
   Additional arguments (not used).
 
+## Value
+
+None. The function prints the SMM results to the console.
+
 ## Examples
 
 ``` r

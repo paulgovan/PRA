@@ -1,7 +1,10 @@
 # Cost Probability Density.
 
-Bayesian inference for calculating random samples of a cost given risk
-event(s).
+This function generates random samples from a mixture model representing
+the cost 'A' associated with multiple risk events 'R_i'. Each risk event
+has its own probability, mean, and standard deviation for the cost
+distribution. The function also accounts for a baseline cost when no
+risk event occurs.
 
 ## Usage
 

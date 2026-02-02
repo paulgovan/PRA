@@ -1,7 +1,10 @@
 # Posterior Cost Probability Density.
 
-Calculates the posterior probability density function for costs given
-observations of risk events.
+This function generates random samples from the posterior distribution
+of the cost 'A' given observations of multiple risk events 'R_i'. Each
+risk event has its own mean and standard deviation for the cost
+distribution. The function also accounts for a baseline cost when no
+risk event occurs.
 
 ## Usage
 
