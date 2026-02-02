@@ -46,3 +46,59 @@ test_that("cost_pdf generates realistic samples", {
   expect_true(all(samples >= base_cost))
   expect_gt(mean(samples), base_cost)
 })
+
+# Additional risk_prob tests
+test_that("risk_prob handles single cause correctly", {
+  cause_probs <- c(0.5)
+  risks_given_causes <- c(0.8)
+  risks_given_not_causes <- c(0.2)
+
+  result <- risk_prob(cause_probs, risks_given_causes, risks_given_not_causes)
+  expected <- (0.5 * 0.8) + (0.5 * 0.2)
+  expect_equal(result, expected)
+})
+
+test_that("risk_prob handles extreme probabilities correctly", {
+  # All causes certain
+  cause_probs <- c(1.0, 1.0)
+  risks_given_causes <- c(0.8, 0.6)
+  risks_given_not_causes <- c(0.2, 0.4)
+
+  result <- risk_prob(cause_probs, risks_given_causes, risks_given_not_causes)
+  expect_true(is.numeric(result))
+
+  # No causes
+  cause_probs <- c(0.0, 0.0)
+  result <- risk_prob(cause_probs, risks_given_causes, risks_given_not_causes)
+  expect_true(is.numeric(result))
+})
+
+# Additional cost_pdf tests
+test_that("cost_pdf handles zero risk probabilities correctly", {
+  num_sims <- 1000
+  risk_probs <- c(0, 0)
+  means_given_risks <- c(10000, 15000)
+  sds_given_risks <- c(2000, 1000)
+  base_cost <- 2000
+
+  samples <- cost_pdf(num_sims, risk_probs, means_given_risks, sds_given_risks, base_cost)
+  expect_equal(length(samples), num_sims)
+  expect_true(all(samples == base_cost))
+})
+
+test_that("cost_pdf validates sum of risk_probs", {
+  expect_error(
+    cost_pdf(1000, c(0.6, 0.6), c(10000, 15000), c(2000, 1000), 2000),
+    "Sum of risk_probs must not exceed 1."
+  )
+})
+
+test_that("cost_pdf handles default base_cost correctly", {
+  num_sims <- 100
+  risk_probs <- c(0)
+  means_given_risks <- c(10000)
+  sds_given_risks <- c(2000)
+
+  samples <- cost_pdf(num_sims, risk_probs, means_given_risks, sds_given_risks)
+  expect_true(all(samples == 0))
+})

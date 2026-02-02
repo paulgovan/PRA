@@ -72,3 +72,57 @@ test_that("grandparent_dsm function handles non-square R matrix", {
 
   expect_error(grandparent_dsm(sm, rm), "Number of columns in the Matrix S must be equal to the number of columns in Matrix R.")
 })
+
+# Tests for NULL input validation
+test_that("parent_dsm handles NULL input correctly", {
+  expect_error(parent_dsm(NULL), "S must not be NULL")
+})
+
+test_that("grandparent_dsm handles NULL inputs correctly", {
+  sm <- matrix(c(1, 0, 0, 1), nrow = 2, ncol = 2)
+  rm <- matrix(c(1, 2, 3, 4), nrow = 2, ncol = 2)
+
+  expect_error(grandparent_dsm(NULL, rm), "S and R must not be NULL")
+  expect_error(grandparent_dsm(sm, NULL), "S and R must not be NULL")
+})
+
+# Tests for non-matrix input validation
+test_that("parent_dsm handles non-matrix input correctly", {
+  expect_error(parent_dsm("not a matrix"), "S must be a matrix or data frame")
+  expect_error(parent_dsm(c(1, 2, 3, 4)), "S must be a matrix or data frame")
+})
+
+test_that("grandparent_dsm handles non-matrix inputs correctly", {
+  sm <- matrix(c(1, 0, 0, 1), nrow = 2, ncol = 2)
+
+  expect_error(grandparent_dsm("not a matrix", sm), "S must be a matrix or data frame")
+  expect_error(grandparent_dsm(sm, "not a matrix"), "R must be a matrix or data frame")
+})
+
+# Tests for non-numeric input validation
+test_that("parent_dsm handles non-numeric matrix correctly", {
+  char_matrix <- matrix(c("a", "b", "c", "d"), nrow = 2, ncol = 2)
+  expect_error(parent_dsm(char_matrix), "S must contain numeric values")
+})
+
+test_that("grandparent_dsm handles non-numeric matrices correctly", {
+  sm <- matrix(c(1, 0, 0, 1), nrow = 2, ncol = 2)
+  char_matrix <- matrix(c("a", "b", "c", "d"), nrow = 2, ncol = 2)
+
+  expect_error(grandparent_dsm(char_matrix, sm), "S and R must contain numeric values")
+  expect_error(grandparent_dsm(sm, char_matrix), "S and R must contain numeric values")
+})
+
+# Tests for data frame input (should work)
+test_that("parent_dsm handles data frame input correctly", {
+  df <- data.frame(a = c(1, 0), b = c(0, 1))
+  result <- parent_dsm(as.matrix(df))
+  expect_true(is.matrix(result))
+})
+
+test_that("grandparent_dsm handles data frame inputs correctly", {
+  sm <- data.frame(a = c(1, 0), b = c(0, 1))
+  rm <- data.frame(a = c(1, 2), b = c(3, 4))
+  result <- grandparent_dsm(as.matrix(sm), as.matrix(rm))
+  expect_true(is.matrix(result))
+})

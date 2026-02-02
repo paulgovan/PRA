@@ -24,7 +24,7 @@
 #'   length.out = 100
 #' ), "logistic", conf_level = 0.95)
 #'
-#' @import minpack.lm
+#' @importFrom minpack.lm nlsLM
 #' @importFrom stats median
 #' @export
 
@@ -298,8 +298,10 @@ plot_sigmoidal <- function(fit, data, x_col, y_col, model_type,
 #' @return No return value, called for side effects.
 #' @examples
 #' # Set up a data frame of time and completion percentage data
-#' data <- data.frame(time = 1:10, completion = c(5, 15, 40, 60, 70, 75, 80, 85
-#' , 90, 95))
+#' data <- data.frame(time = 1:10, completion = c(
+#'   5, 15, 40, 60, 70, 75, 80, 85,
+#'   90, 95
+#' ))
 #'
 #' # Fit a logistic model to the data.
 #' fit <- fit_sigmoidal(data, "time", "completion", "logistic")

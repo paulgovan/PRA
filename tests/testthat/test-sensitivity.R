@@ -60,3 +60,34 @@ test_that("sensitivity function handles errors correctly", {
   incorrect_cor_mat <- matrix(c(1, 0.8), nrow = 1)
   expect_error(sensitivity(normal_dists, incorrect_cor_mat), "The correlation matrix must be square and match the number of tasks.")
 })
+
+test_that("sensitivity function validates NULL input correctly", {
+  expect_error(sensitivity(NULL), "task_dists must not be NULL")
+})
+
+test_that("sensitivity function validates empty list correctly", {
+  expect_error(sensitivity(list()), "task_dists must be a non-empty list")
+})
+
+test_that("sensitivity function validates non-list input correctly", {
+  expect_error(sensitivity("not a list"), "task_dists must be a non-empty list")
+})
+
+test_that("sensitivity function handles mixed distribution types", {
+  mixed_dists <- list(
+    list(type = "normal", mean = 10, sd = 2),
+    list(type = "triangular", a = 5, b = 10, c = 15),
+    list(type = "uniform", min = 8, max = 12)
+  )
+  result <- sensitivity(mixed_dists)
+  expect_true(is.numeric(result))
+  expect_length(result, 3)
+})
+
+test_that("sensitivity function handles single task correctly", {
+  single_dist <- list(list(type = "normal", mean = 10, sd = 2))
+  result <- sensitivity(single_dist)
+  expect_true(is.numeric(result))
+  expect_length(result, 1)
+  expect_equal(result[1], 1) # No correlation, sensitivity should be 1
+})
