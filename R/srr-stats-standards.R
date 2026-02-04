@@ -33,7 +33,7 @@ NULL
 #'
 #' @srrstatsNA {G1.5} *Not applicable - package does not make performance claims requiring reproducible results from publications.*
 #' @srrstatsNA {G1.6} *Not applicable - this is the first R implementation; no alternative R packages exist for comparison.*
-#' @srrstatsNA {G2.3} *Consider updatin* *Not applicable - package does not use univariate character input requiring case handling.*
+#' @srrstatsNA {G2.3} *Consider updating`- * *Not applicable - package does not use univariate character input requiring case handling.*
 #' @srrstatsNA {G2.3b} *Consider updating* *Not applicable - character parameters are strictly validated against specific options (case-sensitive by design).*
 #' @srrstatsNA {G2.4} *Not applicable - package works with numeric inputs directly; conversion between types not required.*
 #' @srrstatsNA {G2.4b} *Not applicable - inputs are already numeric; no conversion to continuous needed.*
@@ -48,8 +48,8 @@ NULL
 #' @srrstatsNA {G2.11} *Not applicable - package does not process data.frame columns with non-standard class attributes.*
 #' @srrstatsNA {G2.12} *Not applicable - package does not process data.frames with list columns.*
 #' @srrstatsNA {G2.14c} *Not applicable - imputation is not appropriate for this package's statistical methods.*
-#' @srrstatsNA {G2.15} *Not applicable - functions that could pass data to routines with na.rm=FALSE implement explicit NA checks before processing.*
-#' @srrstatsNA {G2.16} *Not applicable - undefined values (NaN, Inf) are handled appropriately by underlying statistical functions.*
+#' @srrstatsNA {G2.15} *Consider updating* *Not applicable - functions that could pass data to routines with na.rm=FALSE implement explicit NA checks before processing.*
+#' @srrstatsNA {G2.16} *Consider upating* *Not applicable - undefined values (NaN, Inf) are handled appropriately by underlying statistical functions.*
 #' @srrstatsNA {G3.0} *Not applicable - package does not compare floating point numbers for equality.*
 #' @srrstatsNA {G4.0} *Not applicable - package does not write outputs to local files.*
 #' @srrstatsNA {G5.0} *Consider updating* *Not applicable - package algorithms are validated through documented examples rather than standard reference datasets.*
