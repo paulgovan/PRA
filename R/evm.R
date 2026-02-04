@@ -3,11 +3,26 @@
 #' Calculates the Planned Value (PV) of work completed based on the Budget at Completion
 #' (BAC) and the planned schedule.
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values and non-empty vectors.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure.*
+#' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
+#' @srrstats {G2.2} *Prohibits multivariate input for bac and time_period which must be single values.*
+#' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
+#' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param bac Budget at Completion (BAC) (total planned budget).
 #' @param schedule Vector of planned work completion (in terms of percentage) at each
 #' time period.
 #' @param time_period Current time period.
 #' @return The function returns the Planned Value (PV) of work completed.
+#' @references
+#' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+#' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 #' @examples
 #' # Set the BAC, schedule, and current time period for a toy project.
 #' bac <- 100000
@@ -61,9 +76,22 @@ pv <- function(bac, schedule, time_period) {
 #' Calculates the Earned Value (EV) of work completed based on the Budget at Completion
 #' (BAC) and the actual work completion percentage.
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values.*
+#' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.2} *Prohibits multivariate input for bac and actual_per_complete which must be single values.*
+#' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
+#' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param bac Budget at Completion (BAC) (total planned budget).
 #' @param actual_per_complete Actual work completion percentage.
 #' @return The function returns the Earned Value (EV) of work completed.
+#' @references
+#' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+#' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 #' @examples
 #' # Set the BAC and actual % complete for a toy project.
 #' bac <- 100000
@@ -109,6 +137,16 @@ ev <- function(bac, actual_per_complete) {
 #' Calculates the Actual Cost (AC) of work completed based on the actual costs incurred
 #' at each time period.
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values and non-empty vectors.*
+#' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() and is.logical() checks.*
+#' @srrstats {G2.2} *Prohibits multivariate input for time_period and cumulative which must be single values.*
+#' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
+#' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param actual_costs Vector of actual costs incurred at each time period. Can be either
 #'   period costs (cost per period) or cumulative costs depending on the cumulative parameter.
 #' @param time_period Current time period.
@@ -116,6 +154,9 @@ ev <- function(bac, actual_per_complete) {
 #'   the value at time_period is returned directly. If FALSE, actual_costs are period costs
 #'   and will be summed up to time_period.
 #' @return The function returns the Actual Cost (AC) of work completed to date.
+#' @references
+#' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+#' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 #' @examples
 #' # Using cumulative costs (default)
 #' cumulative_costs <- c(9000, 27000, 63000, 133000, 233000)
@@ -172,9 +213,22 @@ ac <- function(actual_costs, time_period, cumulative = TRUE) {
 #' Calculates the Schedule Variance (SV) of work completed based on the Earned Value (EV)
 #' and Planned Value (PV).
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values.*
+#' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.2} *Prohibits multivariate input for ev and pv which must be single values.*
+#' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
+#' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param ev Earned Value.
 #' @param pv Planned Value.
 #' @return The function returns the Schedule Variance (SV) of work completed.
+#' @references
+#' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+#' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 #' @examples
 #' # Set the BAC, schedule, and current time period for an example project.
 #' bac <- 100000
@@ -226,9 +280,22 @@ sv <- function(ev, pv) {
 #' Calculates the Cost Variance (CV) of work completed based on the Earned Value (EV)
 #' and Actual Cost (AC).
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values.*
+#' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.2} *Prohibits multivariate input for ev and ac which must be single values.*
+#' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
+#' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param ev Earned Value.
 #' @param ac Actual Cost.
 #' @return The function returns the Cost Variance (CV) of work completed.
+#' @references
+#' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+#' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 #' @examples
 #' # Set the BAC and actual % complete for an example project.
 #' bac <- 100000
@@ -279,9 +346,22 @@ cv <- function(ev, ac) {
 #' Calculates the Schedule Performance Index (SPI) of work completed based on the Earned Value (EV)
 #' and Planned Value (PV).
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values.*
+#' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.2} *Prohibits multivariate input for ev and pv which must be single values.*
+#' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
+#' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param ev Earned Value.
 #' @param pv Planned Value.
 #' @return The function returns the Schedule Performance Index (SPI) of work completed.
+#' @references
+#' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+#' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 #' @examples
 #' # Set the BAC, schedule, and current time period for an example project.
 #' bac <- 100000
@@ -332,9 +412,22 @@ spi <- function(ev, pv) {
 #' Calculates the Cost Performance Index (CPI) of work completed based on the Earned Value (EV)
 #' and Actual Cost (AC).
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values.*
+#' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.2} *Prohibits multivariate input for ev and ac which must be single values.*
+#' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
+#' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param ev Earned Value.
 #' @param ac Actual Cost.
 #' @return The function returns the Cost Performance Index (CPI) of work completed.
+#' @references
+#' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+#' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 #' @examples
 #' # Set the BAC and actual % complete for an example project.
 #' bac <- 100000
@@ -386,6 +479,17 @@ cpi <- function(ev, ac) {
 #' Calculates the Estimate at Completion (EAC) using various methods based on
 #' project performance assumptions.
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values.*
+#' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.2} *Prohibits multivariate input for all parameters which must be single values.*
+#' @srrstats {G2.3a} *Uses explicit validation against valid_methods vector for method parameter.*
+#' @srrstats {G2.13} *Implements checks for missing data via is.na() prior to processing.*
+#' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param bac Budget at Completion (BAC) (total planned budget).
 #' @param method The EAC calculation method. One of:
 #'   \itemize{
@@ -398,6 +502,9 @@ cpi <- function(ev, ac) {
 #' @param ev Earned Value. Required for "atypical" and "combined" methods.
 #' @param spi Schedule Performance Index. Required for "combined" method.
 #' @return The function returns the Estimate at Completion (EAC).
+#' @references
+#' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+#' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 #' @examples
 #' # Method 1: Typical - assumes current CPI continues
 #' bac <- 100000
@@ -502,12 +609,25 @@ eac <- function(bac, method = "typical", cpi = NULL, ac = NULL, ev = NULL, spi =
 #' Calculates the Estimate to Complete (ETC), which is the expected cost to finish
 #' the remaining work.
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values.*
+#' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.2} *Prohibits multivariate input for bac, ev, and cpi which must be single values.*
+#' @srrstats {G2.13} *Implements checks for missing data via anyNA() and is.na() prior to processing.*
+#' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param bac Budget at Completion (BAC) (total planned budget).
 #' @param ev Earned Value.
 #' @param cpi Cost Performance Index. If NULL, assumes remaining work will be completed
 #'   at planned cost (ETC = BAC - EV). If provided, adjusts for current performance
 #'   (ETC = (BAC - EV) / CPI).
 #' @return The function returns the Estimate to Complete (ETC).
+#' @references
+#' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+#' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 #' @examples
 #' bac <- 100000
 #' ev <- 35000
@@ -565,9 +685,22 @@ etc <- function(bac, ev, cpi = NULL) {
 #' the budget and the expected final cost. Positive VAC indicates under budget,
 #' negative indicates over budget.
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values.*
+#' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.2} *Prohibits multivariate input for bac and eac which must be single values.*
+#' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
+#' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param bac Budget at Completion (BAC) (total planned budget).
 #' @param eac Estimate at Completion.
 #' @return The function returns the Variance at Completion (VAC).
+#' @references
+#' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+#' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 #' @examples
 #' bac <- 100000
 #' eac <- 120482 # From EAC calculation
@@ -607,6 +740,17 @@ vac <- function(bac, eac) {
 #' performance required on remaining work to meet a target (BAC or EAC).
 #' TCPI > 1 means efficiency must improve; TCPI < 1 means efficiency can decrease.
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values.*
+#' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.2} *Prohibits multivariate input for all parameters which must be single values.*
+#' @srrstats {G2.3a} *Uses explicit validation for target parameter to only permit expected values.*
+#' @srrstats {G2.13} *Implements checks for missing data via anyNA() and is.na() prior to processing.*
+#' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param bac Budget at Completion (BAC) (total planned budget).
 #' @param ev Earned Value.
 #' @param ac Actual Cost.
@@ -615,6 +759,9 @@ vac <- function(bac, eac) {
 #'   must be provided.
 #' @param eac Estimate at Completion. Required when target = "eac".
 #' @return The function returns the To-Complete Performance Index (TCPI).
+#' @references
+#' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+#' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 #' @examples
 #' bac <- 100000
 #' ev <- 35000

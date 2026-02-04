@@ -6,6 +6,17 @@
 #' It can also account for correlations between task costs if a correlation matrix
 #' is provided.
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on dimensions - validates cor_mat dimensions match number of tasks.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure.*
+#' @srrstats {G2.1} *Implements assertions on types of inputs via is.list() and is.matrix() checks.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
+#' @srrstats {G3.1} *Correlation handling is user-controlled via optional cor_mat parameter.*
+#' @srrstats {G3.1a} *Documentation describes usage of correlation matrix in examples.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param task_dists A list of lists describing each task distribution. Each inner
 #' list should contain the type of distribution and its parameters. Supported distributions
 #' are "normal", "triangular", and "uniform".
@@ -15,7 +26,9 @@
 #' @return The function returns a vector of sensitivity results with respect to
 #' each task. Each element in the vector corresponds to the sensitivity of the variance
 #' in total project cost with respect to the variance in the respective task's cost.
-#'
+#' @references
+#' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+#' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 #' @examples
 #' # Set the task distributions for a toy project.
 #' task_dists <- list(

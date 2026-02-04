@@ -2,11 +2,23 @@
 #'
 #' This function fits a sigmoidal model (Pearl, Gompertz, or Logistic) to the provided data.
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of these sigmoidal models for project risk management.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.1} *Implements assertions on column existence in data frame.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
+#' @srrstats {G2.3a} *Uses explicit validation of model_type against valid options.*
+#' @srrstats {G2.7} *Accepts data.frame as standard tabular input.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param data A data frame containing the time (x_col) and completion (y_col) vectors.
 #' @param x_col The name of the time vector.
 #' @param y_col The name of the completion vector.
 #' @param model_type The name of the sigmoidal model (Pearl, Gompertz, or Logistic).
 #' @return The function returns a list of results for the sigmoidal model.
+#' @references
+#' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+#' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 #' @examples
 #' # Set up a data frame of time and completion percentage data
 #' data <- data.frame(time = 1:10, completion = c(5, 15, 40, 60, 70, 75, 80, 85, 90, 95))
@@ -74,6 +86,13 @@ fit_sigmoidal <- function(data, x_col, y_col, model_type) {
 #' This function predicts values using a fitted sigmoidal model (Pearl, Gompertz,
 #' or Logistic) over a specified range of time values.
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
+#' @srrstats {G2.3a} *Uses explicit validation of model_type against valid options.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param fit A list containing the results of a sigmoidal model.
 #' @param x_range A vector of time values for the prediction.
 #' @param model_type The type of model (Pearl, Gompertz, or Logistic) for the prediction.
@@ -81,6 +100,9 @@ fit_sigmoidal <- function(data, x_col, y_col, model_type) {
 #'   If NULL (default), no confidence bounds are computed.
 #' @return The function returns a data frame containing the time (x), predicted values (pred),
 #'   and optionally lower (lwr) and upper (upr) confidence bounds.
+#' @references
+#' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+#' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 #' @examples
 #' # Set up a data frame of time and completion percentage data
 #' data <- data.frame(time = 1:10, completion = c(5, 15, 40, 60, 70, 75, 80, 85, 90, 95))
@@ -180,6 +202,13 @@ predict_sigmoidal <- function(fit, x_range, model_type, conf_level = NULL) {
 #' This function creates a base R plot of a fitted sigmoidal model with the
 #' original data points, fitted curve, and optional confidence bounds.
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.1} *Implements assertions on column existence in data frame.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
+#' @srrstats {G2.7} *Accepts data.frame as standard tabular input.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param fit A fitted sigmoidal model object from fit_sigmoidal.
 #' @param data The original data frame used to fit the model.
 #' @param x_col The name of the x (time) column in the data.
@@ -196,6 +225,9 @@ predict_sigmoidal <- function(fit, x_range, model_type, conf_level = NULL) {
 #' @param pch Point character for data points (default 16).
 #' @param ... Additional arguments passed to plot().
 #' @return Invisibly returns the predictions data frame.
+#' @references
+#' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+#' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 #'
 #' @examples
 #' # Set up a data frame of time and completion percentage data

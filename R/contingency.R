@@ -5,12 +5,25 @@
 #' the specified high percentile (phigh) and the base percentile (pbase) of the total
 #' project duration distribution.
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on lengths of inputs - phigh and pbase are validated as single values.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input types (single numeric values between 0 and 1).*
+#' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
+#' @srrstats {G2.2} *Prohibits multivariate input for phigh and pbase parameters which are expected to be univariate.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param sims List of results from a Monte Carlo simulation containing the total
 #' project duration distribution.
 #' @param phigh Percentile level for contingency calculation. Default is 0.95 (95th percentile).
 #' @param pbase Base level for contingency calculation. Default is 0.5 (50th percentile).
 #' @return The function returns the value of calculated contingency based on the
 #' specified percentiles.
+#' @references
+#' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+#' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 #' @examples
 #' # Set the number os simulations and the task distributions for a toy project.
 #' num_sims <- 10000

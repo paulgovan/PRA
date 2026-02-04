@@ -4,10 +4,26 @@
 #' total mean, variance, and standard deviation of a project based on individual
 #' task means, variances, and an optional correlation matrix.
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on lengths of inputs - mean and var vectors must have same length.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure.*
+#' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() and is.matrix() checks.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
+#' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
+#' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G3.1} *Correlation handling is user-controlled via optional cor_mat parameter.*
+#' @srrstats {G3.1a} *Documentation describes usage of correlation matrix in examples.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param mean  The mean vector.
 #' @param var The variance vector.
 #' @param cor_mat The correlation matrix (optional). If not provided, tasks are assumed to be independent.
 #' @return The function returns a list of the total mean, variance, and standard deviation for the project.
+#' @references
+#' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+#' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 #' @examples
 #'
 #' # Set the mean vector, variance vector, and correlation matrix for a toy project.

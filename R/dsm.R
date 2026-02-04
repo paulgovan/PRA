@@ -4,9 +4,21 @@
 #' from a given Resource-Task Matrix 'S'. The 'Parent' DSM indicates the number of resources
 #' shared between each pair of tasks in a project.
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on dimensions of matrix input - validates square matrix.*
+#' @srrstats {G2.1} *Implements assertions on types of inputs via is.matrix(), is.data.frame(), and is.numeric() checks.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected (matrix or data frame).*
+#' @srrstats {G2.7} *Accepts both matrix and data.frame as input.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param S Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.
 #' @return The function returns the Resource-based 'Parent' DSM 'P' giving the number
 #' of resources shared between each task.
+#' @references
+#' Govan, Paul, and Ivan Damnjanovic. "The resource-based view on project risk management."
+#' Journal of construction engineering and management 142.9 (2016): 04016034.
 #' @examples
 #' # Set the S matrix for a toy project and print the results.
 #' s <- matrix(c(1, 1, 0, 0, 1, 0, 0, 1, 1), nrow = 3, ncol = 3)
@@ -50,10 +62,22 @@ parent_dsm <- function(S) {
 #' The 'Grandparent' DSM indicates the number of risks shared between each pair of
 #' tasks in a project.
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on dimensions of matrix inputs - validates square matrix S and compatible dimensions.*
+#' @srrstats {G2.1} *Implements assertions on types of inputs via is.matrix(), is.data.frame(), and is.numeric() checks.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected (matrix or data frame).*
+#' @srrstats {G2.7} *Accepts both matrix and data.frame as input.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param S Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.
 #' @param R Risk-Resource Matrix 'R' giving the links (arcs) between risks and resources.
 #' @return The function returns the Risk-based 'Grandparent' DSM 'G' giving the number
 #' of risks shared between each task.
+#' @references
+#' Govan, Paul, and Ivan Damnjanovic. "The resource-based view on project risk management."
+#' Journal of construction engineering and management 142.9 (2016): 04016034.
 #' @examples
 #' # Set the S and R matrices and print the results.
 #' S <- matrix(c(1, 1, 0, 0, 1, 0, 0, 1, 1), nrow = 3, ncol = 3)

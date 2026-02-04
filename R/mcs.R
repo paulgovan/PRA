@@ -3,6 +3,21 @@
 #' This function performs a Monte Carlo simulation to estimate the total duration of a project
 #' based on individual task distributions and an optional correlation matrix.
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates num_sims is single value and cor_mat dimensions match tasks.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure.*
+#' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric(), is.list(), and is.matrix() checks.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
+#' @srrstats {G2.2} *Prohibits multivariate input for num_sims which must be a single positive integer.*
+#' @srrstats {G2.4a} *Uses as.integer() for integer comparison of num_sims.*
+#' @srrstats {G2.13} *Implements checks for NA values in num_sims.*
+#' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G3.1} *Correlation handling is user-controlled via optional cor_mat parameter.*
+#' @srrstats {G3.1a} *Documentation describes usage of correlation matrix in examples.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param num_sims The number of simulations to run.
 #' @param task_dists A list of lists describing each task distribution with its parameters.
 #' Each task distribution should be specified as a list with a "type" field (indicating
@@ -18,6 +33,9 @@
 #' tasks are assumed to be independent.
 #' @return The function returns a list of the total mean, variance, standard deviation,
 #' and percentiles for the project.
+#' @references
+#' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+#' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 #' @examples
 #' # Set the number of simulations and task distributions for a toy project.
 #' num_sims <- 10000

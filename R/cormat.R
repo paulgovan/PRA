@@ -3,6 +3,16 @@
 #' This function generates random samples from specified probability distributions
 #' and computes the correlation matrix for the generated samples.
 #'
+#' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
+#' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates num_vars does not exceed length of dists.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input types.*
+#' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() and is.list() checks.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected (positive integers, list of functions).*
+#' @srrstats {G2.4a} *Uses as.integer() for integer comparison of num_samples and num_vars.*
+#' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
+#'
 #' @param num_samples The number of samples to generate.
 #' @param num_vars The number of distributions to sample.
 #' @param dists A list describing each distribution. Each element should be a function
@@ -10,6 +20,9 @@
 #' identify the distributions.
 #'
 #' @return The function returns the correlation matrix for the distributions.
+#' @references
+#' Govan, Paul, and Ivan Damnjanovic. "The resource-based view on project risk management."
+#' Journal of construction engineering and management 142.9 (2016): 04016034.
 #' @examples
 #' # List of probability distributions
 #' dists <- list(
