@@ -40,8 +40,8 @@ devtools::install_github('paulgovan/PRA')
 
 ## Usage
 
-Here is a simple example of how to use the package for Monte Carlo
-simulation.
+Here is a simple example of how to use the package for a common PRA
+task.
 
 First, load the package:
 
@@ -49,8 +49,14 @@ First, load the package:
 library(PRA)
 ```
 
-Next, set the number of simulations and describe probability
-distributions for 3 work packages:
+Suppose you have a simple project with 3 tasks (A, B, and C), but the
+duration of each task is uncertain. You can describe the uncertainty of
+each task using probability distributions and then run a Monte Carlo
+Simulation to estimate the overall project duration.
+
+To do so, set the number of simulations and describe probability
+distributions for each work package. In this case, run 10,000
+simulations with the following distributions:
 
 ``` r
 num_simulations <- 10000
@@ -61,48 +67,28 @@ task_distributions <- list(
 )
 ```
 
-Then, set the correlation matrix between the 3 work packages:
+Then run the simulation using the `mcs` function and store the results:
 
 ``` r
-correlation_matrix <- matrix(c(
-  1, 0.5, 0.3,
-  0.5, 1, 0.4,
-  0.3, 0.4, 1
-), nrow = 3, byrow = TRUE)
+results <- mcs(num_simulations, task_distributions)
 ```
 
-Finally, run the simulation using the `mcs` function:
-
-``` r
-results <- mcs(num_simulations, task_distributions, correlation_matrix)
-```
-
-To calculate the mean of the total duration:
-
-``` r
-cat("Mean Total Duration is ", round(results$total_mean, 2))
-```
-
-Mean Total Duration is 38.55
-
-To calculate the variance of the total duration:
-
-``` r
-cat("Variance around the Total Duration is ", round(results$total_variance, 2))
-```
-
-Variance around the Total Duration is 19.16
-
-To build a histogram of the total duration:
+To visualize the results, you can create a histogram of the total
+project duration. You can also overlay a normal distribution curve based
+on the mean and standard deviation of the results:
 
 ``` r
 hist(results$total_distribution,
-  breaks = 50, main = "Distribution of Total Project Duration",
+  freq = FALSE, breaks = 50, main = "Distribution of Total Project Duration",
   xlab = "Total Duration", col = "skyblue", border = "white"
 )
+curve(dnorm(x, mean = results$total_mean, sd = results$total_sd), add = TRUE, col = "darkblue")
 ```
 
-![](reference/figures/README-unnamed-chunk-8-1.png)
+![](reference/figures/README-unnamed-chunk-5-1.png)
+
+This will give you a visual representation of the uncertainty in the
+total project duration based on the individual task distributions.
 
 ## More Resources
 
