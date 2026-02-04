@@ -17,6 +17,7 @@
 #' @srrstats {G2.4a} *Uses as.integer() for integer comparisons where applicable - documented in cor_matrix() and mcs().*
 #' @srrstats {G2.7} *Accepts standard tabular forms (matrix, data.frame) where applicable - documented in dsm.R and sigmoidal.R.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() and is.na() - documented in applicable function files.*
+#' @srrstats {G2.14} *All functions provide options for users to specify how to handle missing (NA) data - documented in each function file.*
 #' @srrstats {G2.14a} *Errors on missing data with informative messages - documented in applicable function files.*
 #' @srrstats {G2.14b} *Ignores missing data where appropriate with proper handling - documented in learning.R for observed causes/risks.*
 #' @srrstats {G3.1} *Covariance calculations allow user-specified correlation matrices - documented in mcs.R, sensitivity.R, and smm.R.*
