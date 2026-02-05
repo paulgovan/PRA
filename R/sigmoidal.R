@@ -5,6 +5,8 @@
 #' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
 #' @srrstats {G1.1} *Software is the first implementation within **R** of these sigmoidal models for project risk management.*
 #' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on input structure - validates column existence in data frame.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure (data frame with named columns).*
 #' @srrstats {G2.1} *Implements assertions on column existence in data frame.*
 #' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.3a} *Uses explicit validation of model_type against valid options.*
@@ -87,7 +89,10 @@ fit_sigmoidal <- function(data, x_col, y_col, model_type) {
 #' or Logistic) over a specified range of time values.
 #'
 #' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of these sigmoidal prediction methods for project risk management.*
 #' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on input structure - validates fitted model is not NULL.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure.*
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
 #' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.3a} *Uses explicit validation of model_type against valid options.*
@@ -203,7 +208,10 @@ predict_sigmoidal <- function(fit, x_range, model_type, conf_level = NULL) {
 #' original data points, fitted curve, and optional confidence bounds.
 #'
 #' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
+#' @srrstats {G1.1} *Software is the first implementation within **R** of this sigmoidal plotting method for project risk management.*
 #' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
+#' @srrstats {G2.0} *Implements assertions on input structure - validates fitted model and column existence.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure.*
 #' @srrstats {G2.1} *Implements assertions on column existence in data frame.*
 #' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.7} *Accepts data.frame as standard tabular input.*

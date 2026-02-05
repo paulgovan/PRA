@@ -70,7 +70,7 @@ library(PRA)
 Suppose you have a simple project with 3 tasks (A, B, and C), but the
 duration of each task is uncertain. You can describe the uncertainty of
 each task using probability distributions and then run a Monte Carlo
-Simulation to estimate the overall project duration.
+Simulation (MCS) to estimate the overall project duration.
 
 To do so, set the number of simulations and describe probability
 distributions for each work package. In this case, run 10,000
@@ -106,7 +106,9 @@ curve(dnorm(x, mean = results$total_mean, sd = results$total_sd), add = TRUE, co
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 This will give you a visual representation of the uncertainty in the
-total project duration based on the individual task distributions.
+total project duration based on the individual task distributions. On
+average, the project is expected to take around 30 time units, but could
+take as little as 20 or as much as 40 time units.
 
 ## More Resources
 

@@ -8,6 +8,7 @@
 #' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
 #' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
 #' @srrstats {G2.0} *Implements assertions on dimensions of matrix input - validates square matrix.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure (square matrix).*
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.matrix(), is.data.frame(), and is.numeric() checks.*
 #' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected (matrix or data frame).*
 #' @srrstats {G2.7} *Accepts both matrix and data.frame as input.*
@@ -66,6 +67,7 @@ parent_dsm <- function(S) {
 #' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
 #' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
 #' @srrstats {G2.0} *Implements assertions on dimensions of matrix inputs - validates square matrix S and compatible dimensions.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure (square matrix S, compatible R).*
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.matrix(), is.data.frame(), and is.numeric() checks.*
 #' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected (matrix or data frame).*
 #' @srrstats {G2.7} *Accepts both matrix and data.frame as input.*

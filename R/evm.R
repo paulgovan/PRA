@@ -80,7 +80,9 @@ pv <- function(bac, schedule, time_period) {
 #' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
 #' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
 #' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure (single numeric values).*
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.2} *Prohibits multivariate input for bac and actual_per_complete which must be single values.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
@@ -141,7 +143,9 @@ ev <- function(bac, actual_per_complete) {
 #' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
 #' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
 #' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values and non-empty vectors.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure.*
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() and is.logical() checks.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.2} *Prohibits multivariate input for time_period and cumulative which must be single values.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
@@ -217,7 +221,9 @@ ac <- function(actual_costs, time_period, cumulative = TRUE) {
 #' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
 #' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
 #' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure (single numeric values).*
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.2} *Prohibits multivariate input for ev and pv which must be single values.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
@@ -284,7 +290,9 @@ sv <- function(ev, pv) {
 #' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
 #' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
 #' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure (single numeric values).*
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.2} *Prohibits multivariate input for ev and ac which must be single values.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
@@ -350,7 +358,9 @@ cv <- function(ev, ac) {
 #' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
 #' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
 #' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure (single numeric values).*
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.2} *Prohibits multivariate input for ev and pv which must be single values.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
@@ -416,7 +426,9 @@ spi <- function(ev, pv) {
 #' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
 #' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
 #' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure (single numeric values).*
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.2} *Prohibits multivariate input for ev and ac which must be single values.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
@@ -483,7 +495,9 @@ cpi <- function(ev, ac) {
 #' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
 #' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
 #' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure (single numeric values).*
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.2} *Prohibits multivariate input for all parameters which must be single values.*
 #' @srrstats {G2.3a} *Uses explicit validation against valid_methods vector for method parameter.*
 #' @srrstats {G2.13} *Implements checks for missing data via is.na() prior to processing.*
@@ -613,7 +627,9 @@ eac <- function(bac, method = "typical", cpi = NULL, ac = NULL, ev = NULL, spi =
 #' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
 #' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
 #' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure (single numeric values).*
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.2} *Prohibits multivariate input for bac, ev, and cpi which must be single values.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() and is.na() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
@@ -689,7 +705,9 @@ etc <- function(bac, ev, cpi = NULL) {
 #' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
 #' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
 #' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure (single numeric values).*
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.2} *Prohibits multivariate input for bac and eac which must be single values.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
@@ -744,7 +762,9 @@ vac <- function(bac, eac) {
 #' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
 #' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
 #' @srrstats {G2.0} *Implements assertions on lengths of inputs - validates single values.*
+#' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure (single numeric values).*
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
+#' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.2} *Prohibits multivariate input for all parameters which must be single values.*
 #' @srrstats {G2.3a} *Uses explicit validation for target parameter to only permit expected values.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() and is.na() prior to processing.*
