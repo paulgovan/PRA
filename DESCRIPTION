@@ -13,7 +13,7 @@ Imports:
 License: CC BY 4.0 + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Roxygen:list (markdown = TRUE, roclets = c ("namespace", "rd", "srr::srr_stats_roclet"))
+Roxygen: list (markdown = TRUE, roclets = c ("namespace", "rd", "srr::srr_stats_roclet"))
 URL: https://paulgovan.github.io/PRA/, https://github.com/paulgovan/PRA
 BugReports: https://github.com/paulgovan/PRA/issues
 Suggests: 
@@ -25,3 +25,4 @@ Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Config/testthat/edition: 3
+RoxygenNote: 7.3.3

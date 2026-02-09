@@ -42,6 +42,10 @@ tcpi_eac <- tcpi(bac, ev, ac, target = "eac", eac = eac)
 cat("TCPI (to meet EAC):", round(tcpi_eac, 2), "\n")
 
 }
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
+}
 \seealso{
 \code{\link{eac}}, \code{\link{etc}}, \code{\link{vac}}, \code{\link{cpi}}
 }

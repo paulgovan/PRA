@@ -38,3 +38,7 @@ risk_post_prob <- risk_post_prob(
 )
 print(risk_post_prob)
 }
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
+}

@@ -48,3 +48,7 @@ posterior_samples <- cost_post_pdf(
 )
 hist(posterior_samples, breaks = 30, col = "skyblue", main = "Posterior Cost PDF", xlab = "Cost")
 }
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
+}

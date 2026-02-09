@@ -28,6 +28,10 @@ cat("Variance at Completion (VAC):", round(vac, 2), "\n")
 cat("Project is expected to be", abs(round(vac, 2)), ifelse(vac < 0, "over", "under"), "budget\n")
 
 }
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
+}
 \seealso{
 \code{\link{eac}}, \code{\link{etc}}, \code{\link{tcpi}}
 }

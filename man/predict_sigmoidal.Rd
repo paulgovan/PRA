@@ -13,12 +13,12 @@ predict_sigmoidal(fit, x_range, model_type, conf_level = NULL)
 
 \item{model_type}{The type of model (Pearl, Gompertz, or Logistic) for the prediction.}
 
-\item{conf_level}{Optional confidence level for confidence bounds (e.g., 0.95 for 95%).
+\item{conf_level}{Optional confidence level for confidence bounds (e.g., 0.95 for 95\%).
 If NULL (default), no confidence bounds are computed.}
 }
 \value{
 The function returns a data frame containing the time (x), predicted values (pred),
-  and optionally lower (lwr) and upper (upr) confidence bounds.
+and optionally lower (lwr) and upper (upr) confidence bounds.
 }
 \description{
 This function predicts values using a fitted sigmoidal model (Pearl, Gompertz,
@@ -41,4 +41,8 @@ predictions_ci <- predict_sigmoidal(fit, seq(min(data$time), max(data$time),
   length.out = 100
 ), "logistic", conf_level = 0.95)
 
+}
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 }

@@ -30,3 +30,7 @@ cat("\nResource-based 'Parent' DSM:\n")
 print(resource_dsm)
 
 }
+\references{
+Govan, Paul, and Ivan Damnjanovic. "The resource-based view on project risk management."
+Journal of construction engineering and management 142.9 (2016): 04016034.
+}

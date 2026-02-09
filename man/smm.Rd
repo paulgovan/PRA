@@ -60,3 +60,7 @@ result <- smm(mean, var, cor_mat)
 print(result)
 
 }
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
+}

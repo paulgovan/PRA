@@ -39,3 +39,7 @@ predictions_ci <- predict_sigmoidal(fit, seq(min(data$time), max(data$time),
 ), "logistic", conf_level = 0.95)
 
 }
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
+}

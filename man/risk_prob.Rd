@@ -28,3 +28,7 @@ risk_prob_value <- risk_prob(cause_probs, risks_given_causes, risks_given_not_ca
 print(risk_prob_value)
 
 }
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
+}

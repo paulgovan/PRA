@@ -10,6 +10,8 @@
 #' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure.*
 #' @srrstats {G2.1} *Implements assertions on types of inputs - probability values must be numeric between 0 and 1.*
 #' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected (vectors of probabilities).*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param cause_probs A vector of probabilities for each root cause 'C_i'.
@@ -29,6 +31,15 @@
 #' @export
 risk_prob <- function(cause_probs, risks_given_causes, risks_given_not_causes) {
   # Validate inputs
+  if (any(is.nan(cause_probs)) || any(is.nan(risks_given_causes)) || any(is.nan(risks_given_not_causes))) {
+    stop("Input vectors must not contain NaN values.")
+  }
+  if (anyNA(cause_probs) || anyNA(risks_given_causes) || anyNA(risks_given_not_causes)) {
+    stop("Input vectors must not contain NA values.")
+  }
+  if (any(is.infinite(cause_probs)) || any(is.infinite(risks_given_causes)) || any(is.infinite(risks_given_not_causes))) {
+    stop("Input vectors must not contain infinite values.")
+  }
   if (length(cause_probs) != length(risks_given_causes) || length(cause_probs) != length(risks_given_not_causes)) {
     stop("All input vectors must have the same length.")
   }
@@ -69,6 +80,8 @@ risk_prob <- function(cause_probs, risks_given_causes, risks_given_not_causes) {
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
 #' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.2} *Prohibits multivariate input for num_sims which must be a positive integer.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param num_sims Number of random samples to draw from the mixture model.
@@ -100,6 +113,18 @@ risk_prob <- function(cause_probs, risks_given_causes, risks_given_not_causes) {
 cost_pdf <- function(num_sims, risk_probs, means_given_risks, sds_given_risks, base_cost = 0) {
   # Validate inputs
   if (num_sims <= 0 || !is.numeric(num_sims)) stop("num_sims must be a positive integer.")
+  if (any(is.nan(risk_probs)) || any(is.nan(means_given_risks)) || any(is.nan(sds_given_risks))) {
+    stop("risk_probs, means_given_risks, and sds_given_risks must not contain NaN values.")
+  }
+  if (anyNA(risk_probs) || anyNA(means_given_risks) || anyNA(sds_given_risks)) {
+    stop("risk_probs, means_given_risks, and sds_given_risks must not contain NA values.")
+  }
+  if (any(is.infinite(risk_probs)) || any(is.infinite(means_given_risks)) || any(is.infinite(sds_given_risks))) {
+    stop("risk_probs, means_given_risks, and sds_given_risks must not contain infinite values.")
+  }
+  if (is.nan(base_cost)) stop("base_cost must not be NaN.")
+  if (is.na(base_cost)) stop("base_cost must not be NA.")
+  if (is.infinite(base_cost)) stop("base_cost must not be infinite.")
   if (any(risk_probs < 0 | risk_probs > 1)) stop("All risk_probs must be between 0 and 1.")
   if (sum(risk_probs) > 1) stop("Sum of risk_probs must not exceed 1.")
   if (length(risk_probs) != length(means_given_risks) || length(risk_probs) != length(sds_given_risks)) {

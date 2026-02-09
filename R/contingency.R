@@ -13,6 +13,8 @@
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
 #' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.2} *Prohibits multivariate input for phigh and pbase parameters which are expected to be univariate.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param sims List of results from a Monte Carlo simulation containing the total
@@ -74,6 +76,25 @@
 #' @importFrom stats quantile
 #' @export
 contingency <- function(sims, phigh = 0.95, pbase = 0.50) {
+  # Check for NaN, NA, and Inf values
+  if (is.numeric(phigh) && is.nan(phigh)) {
+    stop("phigh must not be NaN")
+  }
+  if (is.numeric(pbase) && is.nan(pbase)) {
+    stop("pbase must not be NaN")
+  }
+  if (is.numeric(phigh) && is.na(phigh)) {
+    stop("phigh must not be NA")
+  }
+  if (is.numeric(pbase) && is.na(pbase)) {
+    stop("pbase must not be NA")
+  }
+  if (is.numeric(phigh) && is.infinite(phigh)) {
+    stop("phigh must not be infinite")
+  }
+  if (is.numeric(pbase) && is.infinite(pbase)) {
+    stop("pbase must not be infinite")
+  }
   # Check for valid p-values
   if (!is.numeric(phigh) || phigh < 0 || phigh > 1) {
     stop("phigh must be between 0 and 1")

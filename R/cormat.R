@@ -11,6 +11,8 @@
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() and is.list() checks.*
 #' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected (positive integers, list of functions).*
 #' @srrstats {G2.4a} *Uses as.integer() for integer comparison of num_samples and num_vars.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param num_samples The number of samples to generate.
@@ -52,11 +54,29 @@ cor_matrix <- function(num_samples = 100, num_vars = 5, dists) {
   }
 
   # Error checks for num_samples
+  if (is.numeric(num_samples) && length(num_samples) == 1 && is.nan(num_samples)) {
+    stop("num_samples must not be NaN.")
+  }
+  if (is.numeric(num_samples) && length(num_samples) == 1 && !is.nan(num_samples) && is.na(num_samples)) {
+    stop("num_samples must not be NA.")
+  }
+  if (is.numeric(num_samples) && length(num_samples) == 1 && is.infinite(num_samples)) {
+    stop("num_samples must not be infinite.")
+  }
   if (!is.numeric(num_samples) || num_samples <= 0 || num_samples != as.integer(num_samples)) {
     stop("num_samples must be a positive integer.")
   }
 
   # Error checks for num_vars
+  if (is.numeric(num_vars) && length(num_vars) == 1 && is.nan(num_vars)) {
+    stop("num_vars must not be NaN.")
+  }
+  if (is.numeric(num_vars) && length(num_vars) == 1 && !is.nan(num_vars) && is.na(num_vars)) {
+    stop("num_vars must not be NA.")
+  }
+  if (is.numeric(num_vars) && length(num_vars) == 1 && is.infinite(num_vars)) {
+    stop("num_vars must not be infinite.")
+  }
   if (!is.numeric(num_vars) || num_vars <= 0 || num_vars != as.integer(num_vars)) {
     stop("num_vars must be a positive integer.")
   }

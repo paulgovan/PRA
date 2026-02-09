@@ -32,7 +32,7 @@ plot_sigmoidal(
 
 \item{model_type}{The type of model (pearl, gompertz, or logistic).}
 
-\item{conf_level}{Optional confidence level for confidence bounds (e.g., 0.95 for 95%).
+\item{conf_level}{Optional confidence level for confidence bounds (e.g., 0.95 for 95\%).
 If NULL (default), no confidence bounds are plotted.}
 
 \item{n_points}{Number of points to use for the fitted curve (default 100).}
@@ -81,4 +81,8 @@ plot_sigmoidal(fit, data, "time", "completion", "logistic",
   ci_col = "lightgray"
 )
 
+}
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 }

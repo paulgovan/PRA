@@ -10,7 +10,10 @@
 #' @srrstats {G2.1} *Implements assertions on column existence in data frame.*
 #' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.3a} *Uses explicit validation of model_type against valid options.*
+#' @srrstats {G2.3b} *Uses tolower() to ensure model_type parameter is not case sensitive.*
 #' @srrstats {G2.7} *Accepts data.frame as standard tabular input.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param data A data frame containing the time (x_col) and completion (y_col) vectors.
@@ -44,6 +47,9 @@
 
 # Fit a Sigmoidal Model
 fit_sigmoidal <- function(data, x_col, y_col, model_type) {
+  # Convert model_type to lowercase for case-insensitive matching
+  model_type <- tolower(model_type)
+
   # Error handling
   if (!x_col %in% names(data)) {
     stop(paste("Column", x_col, "not found in data frame."))
@@ -54,6 +60,16 @@ fit_sigmoidal <- function(data, x_col, y_col, model_type) {
 
   x <- data[[x_col]]
   y <- data[[y_col]]
+
+  if (any(is.nan(x)) || any(is.nan(y))) {
+    stop("Data columns must not contain NaN values.")
+  }
+  if (anyNA(x) || anyNA(y)) {
+    stop("Data columns must not contain NA values.")
+  }
+  if (any(is.infinite(x)) || any(is.infinite(y))) {
+    stop("Data columns must not contain infinite values.")
+  }
 
   # Pearl Sigmoidal Model
   pearl <- function(x, K, r, t0) {
@@ -96,6 +112,9 @@ fit_sigmoidal <- function(data, x_col, y_col, model_type) {
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
 #' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.3a} *Uses explicit validation of model_type against valid options.*
+#' @srrstats {G2.3b} *Uses tolower() to ensure model_type parameter is not case sensitive.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param fit A list containing the results of a sigmoidal model.
@@ -129,12 +148,24 @@ fit_sigmoidal <- function(data, x_col, y_col, model_type) {
 #' @export
 # Predict a Sigmoidal Function
 predict_sigmoidal <- function(fit, x_range, model_type, conf_level = NULL) {
+  # Convert model_type to lowercase for case-insensitive matching
+  model_type <- tolower(model_type)
+
   # Error handling
   if (is.null(fit)) {
     stop("Fitted model is NULL.")
   }
   if (!is.numeric(x_range)) {
     stop("x_range must be a numeric vector.")
+  }
+  if (any(is.nan(x_range))) {
+    stop("x_range must not contain NaN values.")
+  }
+  if (anyNA(x_range)) {
+    stop("x_range must not contain NA values.")
+  }
+  if (any(is.infinite(x_range))) {
+    stop("x_range must not contain infinite values.")
   }
 
   new_data <- data.frame(x = x_range)
@@ -214,7 +245,10 @@ predict_sigmoidal <- function(fit, x_range, model_type, conf_level = NULL) {
 #' @srrstats {G2.0a} *Parameter documentation explicitly states expected input structure.*
 #' @srrstats {G2.1} *Implements assertions on column existence in data frame.*
 #' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
+#' @srrstats {G2.3b} *Uses tolower() to ensure model_type parameter is not case sensitive.*
 #' @srrstats {G2.7} *Accepts data.frame as standard tabular input.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param fit A fitted sigmoidal model object from fit_sigmoidal.
@@ -267,6 +301,9 @@ plot_sigmoidal <- function(fit, data, x_col, y_col, model_type,
                            main = NULL, xlab = NULL, ylab = NULL,
                            line_col = "red", ci_col = "lightblue",
                            pch = 16, ...) {
+  # Convert model_type to lowercase for case-insensitive matching
+  model_type <- tolower(model_type)
+
   # Error handling
   if (is.null(fit)) {
     stop("Fitted model is NULL.")
@@ -281,6 +318,16 @@ plot_sigmoidal <- function(fit, data, x_col, y_col, model_type,
   # Extract data
   x <- data[[x_col]]
   y <- data[[y_col]]
+
+  if (any(is.nan(x)) || any(is.nan(y))) {
+    stop("Data columns must not contain NaN values for plotting.")
+  }
+  if (anyNA(x) || anyNA(y)) {
+    stop("Data columns must not contain NA values for plotting.")
+  }
+  if (any(is.infinite(x)) || any(is.infinite(y))) {
+    stop("Data columns must not contain infinite values for plotting.")
+  }
 
   # Generate prediction range
   x_range <- seq(min(x), max(x), length.out = n_points)

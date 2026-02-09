@@ -36,6 +36,10 @@ etc <- etc(bac, ev, cpi)
 cat("ETC (current CPI):", round(etc, 2), "\n")
 
 }
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
+}
 \seealso{
 \code{\link{eac}}, \code{\link{vac}}, \code{\link{tcpi}}
 }

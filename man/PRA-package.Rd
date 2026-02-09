@@ -6,9 +6,10 @@
 \alias{PRA-package}
 \title{PRA: Project Risk Analysis}
 \description{
-\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
-
-Data analysis for Project Risk Management via the Second Moment Method, Monte Carlo Simulation, Contingency Analysis, Sensitivity Analysis, Earned Value Management, Learning Curves, Bayesian Methods, Bayesian Networks, and more.
+Project Risk Analysis (PRA) provides functions for quantitative risk analysis
+of engineering and construction projects. The package includes methods for
+Monte Carlo simulation, earned value management, Bayesian inference, sensitivity
+analysis, and sigmoidal growth curve fitting.
 }
 \seealso{
 Useful links:

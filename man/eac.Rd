@@ -11,9 +11,9 @@ eac(bac, method = "typical", cpi = NULL, ac = NULL, ev = NULL, spi = NULL)
 
 \item{method}{The EAC calculation method. One of:
 \itemize{
-  \item "typical" (default): EAC = BAC / CPI. Assumes future work performed at current cost efficiency.
-  \item "atypical": EAC = AC + (BAC - EV). Assumes future work performed at planned rate.
-  \item "combined": EAC = AC + (BAC - EV) / (CPI * SPI). Considers both cost and schedule performance.
+\item "typical" (default): EAC = BAC / CPI. Assumes future work performed at current cost efficiency.
+\item "atypical": EAC = AC + (BAC - EV). Assumes future work performed at planned rate.
+\item "combined": EAC = AC + (BAC - EV) / (CPI * SPI). Considers both cost and schedule performance.
 }}
 
 \item{cpi}{Cost Performance Index (CPI). Required for "typical" and "combined" methods.}
@@ -49,6 +49,10 @@ spi <- 0.875
 eac <- eac(bac, method = "combined", cpi = cpi, ac = ac, ev = ev, spi = spi)
 cat("EAC (combined):", round(eac, 2), "\n")
 
+}
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 }
 \seealso{
 \code{\link{pv}}, \code{\link{ev}}, \code{\link{ac}}, \code{\link{sv}},

@@ -27,6 +27,10 @@ actual_per_complete <- 0.35
 ev <- ev(bac, actual_per_complete)
 cat("Earned Value (EV):", ev, "\n")
 }
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
+}
 \seealso{
 \code{\link{pv}}, \code{\link{ac}}, \code{\link{sv}}, \code{\link{cv}},
 \code{\link{spi}}, \code{\link{cpi}}, \code{\link{eac}}

@@ -32,6 +32,10 @@ pv <- pv(bac, schedule, time_period)
 cat("Planned Value (PV):", pv, "\n")
 
 }
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
+}
 \seealso{
 \code{\link{ev}}, \code{\link{ac}}, \code{\link{sv}}, \code{\link{cv}},
 \code{\link{spi}}, \code{\link{cpi}}, \code{\link{eac}}

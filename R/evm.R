@@ -13,6 +13,8 @@
 #' @srrstats {G2.2} *Prohibits multivariate input for bac and time_period which must be single values.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param bac Budget at Completion (BAC) (total planned budget).
@@ -51,8 +53,14 @@ pv <- function(bac, schedule, time_period) {
   if (length(time_period) != 1) {
     stop("time_period must be a single numeric value")
   }
+  if (any(is.nan(bac)) || any(is.nan(schedule)) || any(is.nan(time_period))) {
+    stop("bac, schedule, and time_period must not contain NaN values")
+  }
   if (anyNA(bac) || anyNA(schedule) || anyNA(time_period)) {
     stop("bac, schedule, and time_period must not contain NA values")
+  }
+  if (any(is.infinite(bac)) || any(is.infinite(schedule)) || any(is.infinite(time_period))) {
+    stop("bac, schedule, and time_period must not contain infinite values")
   }
   if (length(schedule) == 0) {
     stop("schedule must not be empty")
@@ -86,6 +94,8 @@ pv <- function(bac, schedule, time_period) {
 #' @srrstats {G2.2} *Prohibits multivariate input for bac and actual_per_complete which must be single values.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param bac Budget at Completion (BAC) (total planned budget).
@@ -120,8 +130,14 @@ ev <- function(bac, actual_per_complete) {
   if (length(actual_per_complete) != 1) {
     stop("actual_per_complete must be a single numeric value")
   }
+  if (is.nan(bac) || is.nan(actual_per_complete)) {
+    stop("bac and actual_per_complete must not be NaN")
+  }
   if (anyNA(bac) || anyNA(actual_per_complete)) {
     stop("bac and actual_per_complete must not be NA")
+  }
+  if (is.infinite(bac) || is.infinite(actual_per_complete)) {
+    stop("bac and actual_per_complete must not be infinite")
   }
   if (actual_per_complete < 0 || actual_per_complete > 1) {
     stop("actual_per_complete must be between 0 and 1")
@@ -149,6 +165,8 @@ ev <- function(bac, actual_per_complete) {
 #' @srrstats {G2.2} *Prohibits multivariate input for time_period and cumulative which must be single values.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param actual_costs Vector of actual costs incurred at each time period. Can be either
@@ -191,8 +209,14 @@ ac <- function(actual_costs, time_period, cumulative = TRUE) {
   if (!is.logical(cumulative) || length(cumulative) != 1) {
     stop("cumulative must be a single logical value")
   }
+  if (any(is.nan(actual_costs)) || any(is.nan(time_period))) {
+    stop("actual_costs and time_period must not contain NaN values")
+  }
   if (anyNA(actual_costs) || anyNA(time_period)) {
     stop("actual_costs and time_period must not contain NA values")
+  }
+  if (any(is.infinite(actual_costs)) || any(is.infinite(time_period))) {
+    stop("actual_costs and time_period must not contain infinite values")
   }
   if (length(actual_costs) == 0) {
     stop("actual_costs must not be empty")
@@ -227,6 +251,8 @@ ac <- function(actual_costs, time_period, cumulative = TRUE) {
 #' @srrstats {G2.2} *Prohibits multivariate input for ev and pv which must be single values.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param ev Earned Value.
@@ -267,8 +293,14 @@ sv <- function(ev, pv) {
   if (length(ev) != 1 || length(pv) != 1) {
     stop("ev and pv must be single numeric values")
   }
+  if (is.nan(ev) || is.nan(pv)) {
+    stop("ev and pv must not be NaN")
+  }
   if (anyNA(ev) || anyNA(pv)) {
     stop("ev and pv must not be NA")
+  }
+  if (is.infinite(ev) || is.infinite(pv)) {
+    stop("ev and pv must not be infinite")
   }
   if (ev < 0) {
     stop("ev must be non-negative")
@@ -296,6 +328,8 @@ sv <- function(ev, pv) {
 #' @srrstats {G2.2} *Prohibits multivariate input for ev and ac which must be single values.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param ev Earned Value.
@@ -335,8 +369,14 @@ cv <- function(ev, ac) {
   if (length(ev) != 1 || length(ac) != 1) {
     stop("ev and ac must be single numeric values")
   }
+  if (is.nan(ev) || is.nan(ac)) {
+    stop("ev and ac must not be NaN")
+  }
   if (anyNA(ev) || anyNA(ac)) {
     stop("ev and ac must not be NA")
+  }
+  if (is.infinite(ev) || is.infinite(ac)) {
+    stop("ev and ac must not be infinite")
   }
   if (ev < 0) {
     stop("ev must be non-negative")
@@ -364,6 +404,8 @@ cv <- function(ev, ac) {
 #' @srrstats {G2.2} *Prohibits multivariate input for ev and pv which must be single values.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param ev Earned Value.
@@ -403,8 +445,14 @@ spi <- function(ev, pv) {
   if (length(ev) != 1 || length(pv) != 1) {
     stop("ev and pv must be single numeric values")
   }
+  if (is.nan(ev) || is.nan(pv)) {
+    stop("ev and pv must not be NaN")
+  }
   if (anyNA(ev) || anyNA(pv)) {
     stop("ev and pv must not be NA")
+  }
+  if (is.infinite(ev) || is.infinite(pv)) {
+    stop("ev and pv must not be infinite")
   }
   if (ev < 0) {
     stop("ev must be non-negative")
@@ -432,6 +480,8 @@ spi <- function(ev, pv) {
 #' @srrstats {G2.2} *Prohibits multivariate input for ev and ac which must be single values.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param ev Earned Value.
@@ -472,8 +522,14 @@ cpi <- function(ev, ac) {
   if (length(ev) != 1 || length(ac) != 1) {
     stop("ev and ac must be single numeric values")
   }
+  if (is.nan(ev) || is.nan(ac)) {
+    stop("ev and ac must not be NaN")
+  }
   if (anyNA(ev) || anyNA(ac)) {
     stop("ev and ac must not be NA")
+  }
+  if (is.infinite(ev) || is.infinite(ac)) {
+    stop("ev and ac must not be infinite")
   }
   if (ev < 0) {
     stop("ev must be non-negative")
@@ -500,8 +556,11 @@ cpi <- function(ev, ac) {
 #' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.2} *Prohibits multivariate input for all parameters which must be single values.*
 #' @srrstats {G2.3a} *Uses explicit validation against valid_methods vector for method parameter.*
+#' @srrstats {G2.3b} *Uses tolower() to ensure method parameter is not case sensitive.*
 #' @srrstats {G2.13} *Implements checks for missing data via is.na() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param bac Budget at Completion (BAC) (total planned budget).
@@ -544,7 +603,7 @@ cpi <- function(ev, ac) {
 #' @export
 eac <- function(bac, method = "typical", cpi = NULL, ac = NULL, ev = NULL, spi = NULL) {
   # Validate method
-
+  method <- tolower(method)
   valid_methods <- c("typical", "atypical", "combined")
   if (!method %in% valid_methods) {
     stop("method must be one of: ", paste(valid_methods, collapse = ", "))
@@ -554,8 +613,14 @@ eac <- function(bac, method = "typical", cpi = NULL, ac = NULL, ev = NULL, spi =
   if (is.null(bac)) {
     stop("bac must not be NULL")
   }
-  if (!is.numeric(bac) || length(bac) != 1 || is.na(bac)) {
+  if (!is.numeric(bac) || length(bac) != 1 || is.nan(bac)) {
+    stop("bac must be a single non-NaN numeric value")
+  }
+  if (is.na(bac)) {
     stop("bac must be a single numeric value")
+  }
+  if (is.infinite(bac)) {
+    stop("bac must not be infinite")
   }
   if (bac < 0) {
     stop("bac must be non-negative")
@@ -567,8 +632,14 @@ eac <- function(bac, method = "typical", cpi = NULL, ac = NULL, ev = NULL, spi =
     if (is.null(cpi)) {
       stop("cpi is required for the 'typical' method")
     }
-    if (!is.numeric(cpi) || length(cpi) != 1 || is.na(cpi)) {
+    if (!is.numeric(cpi) || length(cpi) != 1 || is.nan(cpi)) {
+      stop("cpi must be a single non-NaN numeric value")
+    }
+    if (is.na(cpi)) {
       stop("cpi must be a single numeric value")
+    }
+    if (is.infinite(cpi)) {
+      stop("cpi must not be infinite")
     }
     if (cpi <= 0) {
       stop("cpi must be greater than zero")
@@ -579,11 +650,23 @@ eac <- function(bac, method = "typical", cpi = NULL, ac = NULL, ev = NULL, spi =
     if (is.null(ac) || is.null(ev)) {
       stop("ac and ev are required for the 'atypical' method")
     }
-    if (!is.numeric(ac) || length(ac) != 1 || is.na(ac)) {
+    if (!is.numeric(ac) || length(ac) != 1 || is.nan(ac)) {
+      stop("ac must be a single non-NaN numeric value")
+    }
+    if (is.na(ac)) {
       stop("ac must be a single numeric value")
     }
-    if (!is.numeric(ev) || length(ev) != 1 || is.na(ev)) {
+    if (is.infinite(ac)) {
+      stop("ac must not be infinite")
+    }
+    if (!is.numeric(ev) || length(ev) != 1 || is.nan(ev)) {
+      stop("ev must be a single non-NaN numeric value")
+    }
+    if (is.na(ev)) {
       stop("ev must be a single numeric value")
+    }
+    if (is.infinite(ev)) {
+      stop("ev must not be infinite")
     }
     if (ac < 0 || ev < 0) {
       stop("ac and ev must be non-negative")
@@ -594,17 +677,41 @@ eac <- function(bac, method = "typical", cpi = NULL, ac = NULL, ev = NULL, spi =
     if (is.null(cpi) || is.null(ac) || is.null(ev) || is.null(spi)) {
       stop("cpi, ac, ev, and spi are required for the 'combined' method")
     }
-    if (!is.numeric(cpi) || length(cpi) != 1 || is.na(cpi)) {
+    if (!is.numeric(cpi) || length(cpi) != 1 || is.nan(cpi)) {
+      stop("cpi must be a single non-NaN numeric value for 'combined' method")
+    }
+    if (is.na(cpi)) {
       stop("cpi must be a single numeric value")
     }
-    if (!is.numeric(spi) || length(spi) != 1 || is.na(spi)) {
+    if (is.infinite(cpi)) {
+      stop("cpi must not be infinite for 'combined' method")
+    }
+    if (!is.numeric(spi) || length(spi) != 1 || is.nan(spi)) {
+      stop("spi must be a single non-NaN numeric value")
+    }
+    if (is.na(spi)) {
       stop("spi must be a single numeric value")
     }
-    if (!is.numeric(ac) || length(ac) != 1 || is.na(ac)) {
+    if (is.infinite(spi)) {
+      stop("spi must not be infinite")
+    }
+    if (!is.numeric(ac) || length(ac) != 1 || is.nan(ac)) {
+      stop("ac must be a single non-NaN numeric value for 'combined' method")
+    }
+    if (is.na(ac)) {
       stop("ac must be a single numeric value")
     }
-    if (!is.numeric(ev) || length(ev) != 1 || is.na(ev)) {
+    if (is.infinite(ac)) {
+      stop("ac must not be infinite for 'combined' method")
+    }
+    if (!is.numeric(ev) || length(ev) != 1 || is.nan(ev)) {
+      stop("ev must be a single non-NaN numeric value for 'combined' method")
+    }
+    if (is.na(ev)) {
       stop("ev must be a single numeric value")
+    }
+    if (is.infinite(ev)) {
+      stop("ev must not be infinite for 'combined' method")
     }
     if (cpi <= 0 || spi <= 0) {
       stop("cpi and spi must be greater than zero")
@@ -633,6 +740,8 @@ eac <- function(bac, method = "typical", cpi = NULL, ac = NULL, ev = NULL, spi =
 #' @srrstats {G2.2} *Prohibits multivariate input for bac, ev, and cpi which must be single values.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() and is.na() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param bac Budget at Completion (BAC) (total planned budget).
@@ -671,8 +780,14 @@ etc <- function(bac, ev, cpi = NULL) {
   if (length(bac) != 1 || length(ev) != 1) {
     stop("bac and ev must be single numeric values")
   }
+  if (is.nan(bac) || is.nan(ev)) {
+    stop("bac and ev must not be NaN")
+  }
   if (anyNA(bac) || anyNA(ev)) {
     stop("bac and ev must not be NA")
+  }
+  if (is.infinite(bac) || is.infinite(ev)) {
+    stop("bac and ev must not be infinite")
   }
   if (bac < 0 || ev < 0) {
     stop("bac and ev must be non-negative")
@@ -682,8 +797,14 @@ etc <- function(bac, ev, cpi = NULL) {
     # Remaining work at planned rate
     etc <- bac - ev
   } else {
-    if (!is.numeric(cpi) || length(cpi) != 1 || is.na(cpi)) {
+    if (!is.numeric(cpi) || length(cpi) != 1 || is.nan(cpi)) {
+      stop("cpi must be a single non-NaN numeric value")
+    }
+    if (is.na(cpi)) {
       stop("cpi must be a single numeric value")
+    }
+    if (is.infinite(cpi)) {
+      stop("cpi must not be infinite")
     }
     if (cpi <= 0) {
       stop("cpi must be greater than zero")
@@ -711,6 +832,8 @@ etc <- function(bac, ev, cpi = NULL) {
 #' @srrstats {G2.2} *Prohibits multivariate input for bac and eac which must be single values.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param bac Budget at Completion (BAC) (total planned budget).
@@ -741,8 +864,14 @@ vac <- function(bac, eac) {
   if (length(bac) != 1 || length(eac) != 1) {
     stop("bac and eac must be single numeric values")
   }
+  if (is.nan(bac) || is.nan(eac)) {
+    stop("bac and eac must not be NaN")
+  }
   if (anyNA(bac) || anyNA(eac)) {
     stop("bac and eac must not be NA")
+  }
+  if (is.infinite(bac) || is.infinite(eac)) {
+    stop("bac and eac must not be infinite")
   }
   if (bac < 0 || eac < 0) {
     stop("bac and eac must be non-negative")
@@ -766,9 +895,12 @@ vac <- function(bac, eac) {
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.numeric() checks.*
 #' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.2} *Prohibits multivariate input for all parameters which must be single values.*
+#' @srrstats {G2.3} *Uses tolower() to ensure target parameter is not case sensitive.*
 #' @srrstats {G2.3a} *Uses explicit validation for target parameter to only permit expected values.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() and is.na() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param bac Budget at Completion (BAC) (total planned budget).
@@ -800,6 +932,9 @@ vac <- function(bac, eac) {
 #'
 #' @export
 tcpi <- function(bac, ev, ac, target = "bac", eac = NULL) {
+  # Convert target to lowercase for case-insensitive matching
+  target <- tolower(target)
+
   # Error handling
   if (is.null(bac) || is.null(ev) || is.null(ac)) {
     stop("bac, ev, and ac must not be NULL")
@@ -810,8 +945,14 @@ tcpi <- function(bac, ev, ac, target = "bac", eac = NULL) {
   if (length(bac) != 1 || length(ev) != 1 || length(ac) != 1) {
     stop("bac, ev, and ac must be single numeric values")
   }
+  if (is.nan(bac) || is.nan(ev) || is.nan(ac)) {
+    stop("bac, ev, and ac must not be NaN")
+  }
   if (anyNA(bac) || anyNA(ev) || anyNA(ac)) {
     stop("bac, ev, and ac must not be NA")
+  }
+  if (is.infinite(bac) || is.infinite(ev) || is.infinite(ac)) {
+    stop("bac, ev, and ac must not be infinite")
   }
   if (bac < 0 || ev < 0 || ac < 0) {
     stop("bac, ev, and ac must be non-negative")
@@ -833,8 +974,14 @@ tcpi <- function(bac, ev, ac, target = "bac", eac = NULL) {
     if (is.null(eac)) {
       stop("eac is required when target = 'eac'")
     }
-    if (!is.numeric(eac) || length(eac) != 1 || is.na(eac)) {
+    if (!is.numeric(eac) || length(eac) != 1 || is.nan(eac)) {
+      stop("eac must be a single non-NaN numeric value")
+    }
+    if (is.na(eac)) {
       stop("eac must be a single numeric value")
+    }
+    if (is.infinite(eac)) {
+      stop("eac must not be infinite")
     }
     if (eac < 0) {
       stop("eac must be non-negative")

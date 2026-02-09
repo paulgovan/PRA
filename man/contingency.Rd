@@ -72,3 +72,7 @@ barplot(
 title("Contingency Calculation for Project Scenarios")
 
 }
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
+}

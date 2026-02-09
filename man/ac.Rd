@@ -36,6 +36,10 @@ ac <- ac(period_costs, time_period, cumulative = FALSE)
 cat("Actual Cost (AC):", ac, "\n")
 
 }
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
+}
 \seealso{
 \code{\link{pv}}, \code{\link{ev}}, \code{\link{sv}}, \code{\link{cv}},
 \code{\link{spi}}, \code{\link{cpi}}, \code{\link{eac}}

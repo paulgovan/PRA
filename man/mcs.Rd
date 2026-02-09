@@ -15,10 +15,10 @@ the distribution type: "normal", "triangular", or "uniform") and the correspondi
 parameters: for "normal" (mean, sd), for "triangular" (a, b, c), and for "uniform"
 (min, max). For example:
 list(
- list(type = "normal", mean = 10, sd = 2),
- list(type = "triangular", a = 5, b = 10, c = 15),
- list(type = "uniform", min = 8, max = 12)
- )}
+list(type = "normal", mean = 10, sd = 2),
+list(type = "triangular", a = 5, b = 10, c = 15),
+list(type = "uniform", min = 8, max = 12)
+)}
 
 \item{cor_mat}{The correlation matrix for the tasks (Optional). If not provided,
 tasks are assumed to be independent.}
@@ -61,4 +61,8 @@ hist(results$total_distribution,
 )
 legend("topright", legend = c("Total Duration Distribution"), fill = c("skyblue"))
 
+}
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 }

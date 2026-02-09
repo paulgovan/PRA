@@ -13,6 +13,8 @@
 #' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() prior to processing.*
 #' @srrstats {G2.14a} *Errors on missing data with informative message.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G3.1} *Correlation handling is user-controlled via optional cor_mat parameter.*
 #' @srrstats {G3.1a} *Documentation describes usage of correlation matrix in examples.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
@@ -75,8 +77,14 @@ smm <- function(mean, var, cor_mat = NULL) {
   if (length(mean) == 0 || length(var) == 0) {
     stop("mean and var must not be empty")
   }
+  if (any(is.nan(mean)) || any(is.nan(var))) {
+    stop("mean and var must not contain NaN values")
+  }
   if (anyNA(mean) || anyNA(var)) {
     stop("mean and var must not contain NA values")
+  }
+  if (any(is.infinite(mean)) || any(is.infinite(var))) {
+    stop("mean and var must not contain infinite values")
   }
   if (any(var < 0)) {
     stop("var values must be non-negative")
@@ -92,6 +100,15 @@ smm <- function(mean, var, cor_mat = NULL) {
   if (!is.null(cor_mat)) {
     if (!is.matrix(cor_mat) || nrow(cor_mat) != num_tasks || ncol(cor_mat) != num_tasks) {
       stop("The correlation matrix must be square and match the number of tasks.")
+    }
+    if (any(is.nan(cor_mat))) {
+      stop("cor_mat must not contain NaN values")
+    }
+    if (anyNA(cor_mat)) {
+      stop("cor_mat must not contain NA values")
+    }
+    if (any(is.infinite(cor_mat))) {
+      stop("cor_mat must not contain infinite values")
     }
 
     cov_matrix <- matrix(0, nrow = num_tasks, ncol = num_tasks)

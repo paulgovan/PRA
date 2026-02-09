@@ -12,6 +12,8 @@
 #' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected.*
 #' @srrstats {G2.13} *Implements checks for NA values in observed_causes - NA is permitted to indicate unobserved causes.*
 #' @srrstats {G2.14b} *Ignores NA values in observed_causes with appropriate handling for unobserved causes.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param cause_probs A vector of prior probabilities for each root cause 'C_i'.
@@ -35,6 +37,18 @@
 #' @export
 risk_post_prob <- function(cause_probs, risks_given_causes, risks_given_not_causes, observed_causes) {
   # Validate inputs
+  if (any(is.nan(cause_probs)) || any(is.nan(risks_given_causes)) || any(is.nan(risks_given_not_causes))) {
+    stop("cause_probs, risks_given_causes, and risks_given_not_causes must not contain NaN values.")
+  }
+  if (anyNA(cause_probs) || anyNA(risks_given_causes) || anyNA(risks_given_not_causes)) {
+    stop("cause_probs, risks_given_causes, and risks_given_not_causes must not contain NA values.")
+  }
+  if (any(is.infinite(cause_probs)) || any(is.infinite(risks_given_causes)) || any(is.infinite(risks_given_not_causes))) {
+    stop("cause_probs, risks_given_causes, and risks_given_not_causes must not contain infinite values.")
+  }
+  if (any(is.infinite(observed_causes[!is.na(observed_causes)]))) {
+    stop("observed_causes must not contain infinite values.")
+  }
   if (length(cause_probs) != length(risks_given_causes) ||
     length(cause_probs) != length(risks_given_not_causes) ||
     length(cause_probs) != length(observed_causes)) {
@@ -92,6 +106,8 @@ risk_post_prob <- function(cause_probs, risks_given_causes, risks_given_not_caus
 #' @srrstats {G2.2} *Prohibits multivariate input for num_sims which must be a positive integer.*
 #' @srrstats {G2.13} *Implements checks for NA values in observed_risks - NA permitted to indicate unobserved risks.*
 #' @srrstats {G2.14b} *Ignores NA values in observed_risks with appropriate handling for unobserved risks.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param num_sims Number of random samples to draw from the posterior distribution.
@@ -123,6 +139,21 @@ risk_post_prob <- function(cause_probs, risks_given_causes, risks_given_not_caus
 cost_post_pdf <- function(num_sims, observed_risks, means_given_risks, sds_given_risks, base_cost = 0) {
   # Validate inputs
   if (num_sims <= 0 || !is.numeric(num_sims)) stop("num_sims must be a positive integer.")
+  if (any(is.nan(means_given_risks)) || any(is.nan(sds_given_risks))) {
+    stop("means_given_risks and sds_given_risks must not contain NaN values.")
+  }
+  if (anyNA(means_given_risks) || anyNA(sds_given_risks)) {
+    stop("means_given_risks and sds_given_risks must not contain NA values.")
+  }
+  if (any(is.infinite(means_given_risks)) || any(is.infinite(sds_given_risks))) {
+    stop("means_given_risks and sds_given_risks must not contain infinite values.")
+  }
+  if (any(is.infinite(observed_risks[!is.na(observed_risks)]))) {
+    stop("observed_risks must not contain infinite values.")
+  }
+  if (is.nan(base_cost)) stop("base_cost must not be NaN.")
+  if (is.na(base_cost)) stop("base_cost must not be NA.")
+  if (is.infinite(base_cost)) stop("base_cost must not be infinite.")
   if (!all(is.na(observed_risks) | observed_risks %in% c(0, 1))) stop("All values in observed_risks must be 0, 1, or NA.")
   if (length(observed_risks) != length(means_given_risks) || length(observed_risks) != length(sds_given_risks)) {
     stop("observed_risks, means_given_risks, and sds_given_risks must have the same length.")

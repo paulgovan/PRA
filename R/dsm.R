@@ -12,6 +12,8 @@
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.matrix(), is.data.frame(), and is.numeric() checks.*
 #' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected (matrix or data frame).*
 #' @srrstats {G2.7} *Accepts both matrix and data.frame as input.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param S Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.
@@ -44,6 +46,15 @@ parent_dsm <- function(S) {
   if (!is.numeric(as.matrix(S))) {
     stop("S must contain numeric values")
   }
+  if (any(is.nan(as.matrix(S)))) {
+    stop("S must not contain NaN values")
+  }
+  if (anyNA(as.matrix(S))) {
+    stop("S must not contain NA values")
+  }
+  if (any(is.infinite(as.matrix(S)))) {
+    stop("S must not contain infinite values")
+  }
   # Check if the matrix is square
   if (ncol(S) != nrow(S)) {
     stop("The Resource-Task Matrix must be square.")
@@ -71,6 +82,8 @@ parent_dsm <- function(S) {
 #' @srrstats {G2.1} *Implements assertions on types of inputs via is.matrix(), is.data.frame(), and is.numeric() checks.*
 #' @srrstats {G2.1a} *Parameter documentation explicitly states data types expected (matrix or data frame).*
 #' @srrstats {G2.7} *Accepts both matrix and data.frame as input.*
+#' @srrstats {G2.15} *Implements checks for NaN values via is.nan() prior to processing.*
+#' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param S Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.
@@ -109,6 +122,15 @@ grandparent_dsm <- function(S, R) {
   }
   if (!is.numeric(as.matrix(S)) || !is.numeric(as.matrix(R))) {
     stop("S and R must contain numeric values")
+  }
+  if (any(is.nan(as.matrix(S))) || any(is.nan(as.matrix(R)))) {
+    stop("S and R must not contain NaN values")
+  }
+  if (anyNA(as.matrix(S)) || anyNA(as.matrix(R))) {
+    stop("S and R must not contain NA values")
+  }
+  if (any(is.infinite(as.matrix(S))) || any(is.infinite(as.matrix(R)))) {
+    stop("S and R must not contain infinite values")
   }
   # Check if matrix S is square
   if (ncol(S) != nrow(S)) {

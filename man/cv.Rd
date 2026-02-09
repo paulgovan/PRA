@@ -35,6 +35,10 @@ ac <- ac(actual_costs, time_period)
 cv <- cv(ev, ac)
 cat("Cost Variance (CV):", cv, "\n")
 }
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
+}
 \seealso{
 \code{\link{pv}}, \code{\link{ev}}, \code{\link{ac}}, \code{\link{sv}},
 \code{\link{spi}}, \code{\link{cpi}}, \code{\link{eac}}

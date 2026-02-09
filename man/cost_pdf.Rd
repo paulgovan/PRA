@@ -48,3 +48,7 @@ samples <- cost_pdf(
 )
 hist(samples, breaks = 30, col = "skyblue", main = "Histogram of Cost", xlab = "Cost")
 }
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
+}
