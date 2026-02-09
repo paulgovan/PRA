@@ -32,6 +32,12 @@ fit_sigmoidal(data, x_col, y_col, model_type)
 
 The function returns a list of results for the sigmoidal model.
 
+## References
+
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for
+engineering and construction project risk management. No. 172534. Cham,
+Switzerland: Springer, 2020.
+
 ## Examples
 
 ``` r

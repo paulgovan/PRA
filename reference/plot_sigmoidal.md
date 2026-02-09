@@ -48,8 +48,8 @@ plot_sigmoidal(
 
 - conf_level:
 
-  Optional confidence level for confidence bounds (e.g., 0.95 for 95 If
-  NULL (default), no confidence bounds are plotted.
+  Optional confidence level for confidence bounds (e.g., 0.95 for 95%).
+  If NULL (default), no confidence bounds are plotted.
 
 - n_points:
 
@@ -86,6 +86,12 @@ plot_sigmoidal(
 ## Value
 
 Invisibly returns the predictions data frame.
+
+## References
+
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for
+engineering and construction project risk management. No. 172534. Cham,
+Switzerland: Springer, 2020.
 
 ## Examples
 

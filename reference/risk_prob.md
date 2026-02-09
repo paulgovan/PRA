@@ -31,6 +31,12 @@ risk_prob(cause_probs, risks_given_causes, risks_given_not_causes)
 The function returns a numeric value for the probability of risk event
 'R'.
 
+## References
+
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for
+engineering and construction project risk management. No. 172534. Cham,
+Switzerland: Springer, 2020.
+
 ## Examples
 
 ``` r

@@ -28,8 +28,10 @@ No return value, called for side effects.
 
 ``` r
 # Set up a data frame of time and completion percentage data
-data <- data.frame(time = 1:10, completion = c(5, 15, 40, 60, 70, 75, 80, 85
-, 90, 95))
+data <- data.frame(time = 1:10, completion = c(
+  5, 15, 40, 60, 70, 75, 80, 85,
+  90, 95
+))
 
 # Fit a logistic model to the data.
 fit <- fit_sigmoidal(data, "time", "completion", "logistic")

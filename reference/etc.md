@@ -29,6 +29,12 @@ etc(bac, ev, cpi = NULL)
 
 The function returns the Estimate to Complete (ETC).
 
+## References
+
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for
+engineering and construction project risk management. No. 172534. Cham,
+Switzerland: Springer, 2020.
+
 ## See also
 
 [`eac`](https://paulgovan.github.io/PRA/reference/eac.md),

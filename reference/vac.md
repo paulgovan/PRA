@@ -24,6 +24,12 @@ vac(bac, eac)
 
 The function returns the Variance at Completion (VAC).
 
+## References
+
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for
+engineering and construction project risk management. No. 172534. Cham,
+Switzerland: Springer, 2020.
+
 ## See also
 
 [`eac`](https://paulgovan.github.io/PRA/reference/eac.md),

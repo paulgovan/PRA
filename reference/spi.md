@@ -24,6 +24,12 @@ spi(ev, pv)
 The function returns the Schedule Performance Index (SPI) of work
 completed.
 
+## References
+
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for
+engineering and construction project risk management. No. 172534. Cham,
+Switzerland: Springer, 2020.
+
 ## See also
 
 [`pv`](https://paulgovan.github.io/PRA/reference/pv.md),

@@ -30,6 +30,12 @@ cor_matrix(num_samples = 100, num_vars = 5, dists)
 
 The function returns the correlation matrix for the distributions.
 
+## References
+
+Govan, Paul, and Ivan Damnjanovic. "The resource-based view on project
+risk management." Journal of construction engineering and management
+142.9 (2016): 04016034.
+
 ## Examples
 
 ``` r

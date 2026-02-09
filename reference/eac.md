@@ -49,6 +49,12 @@ eac(bac, method = "typical", cpi = NULL, ac = NULL, ev = NULL, spi = NULL)
 
 The function returns the Estimate at Completion (EAC).
 
+## References
+
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for
+engineering and construction project risk management. No. 172534. Cham,
+Switzerland: Springer, 2020.
+
 ## See also
 
 [`pv`](https://paulgovan.github.io/PRA/reference/pv.md),

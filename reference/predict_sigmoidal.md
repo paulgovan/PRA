@@ -25,14 +25,20 @@ predict_sigmoidal(fit, x_range, model_type, conf_level = NULL)
 
 - conf_level:
 
-  Optional confidence level for confidence bounds (e.g., 0.95 for 95 If
-  NULL (default), no confidence bounds are computed.
+  Optional confidence level for confidence bounds (e.g., 0.95 for 95%).
+  If NULL (default), no confidence bounds are computed.
 
 ## Value
 
 The function returns a data frame containing the time (x), predicted
 values (pred), and optionally lower (lwr) and upper (upr) confidence
 bounds.
+
+## References
+
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for
+engineering and construction project risk management. No. 172534. Cham,
+Switzerland: Springer, 2020.
 
 ## Examples
 

@@ -28,6 +28,12 @@ pv(bac, schedule, time_period)
 
 The function returns the Planned Value (PV) of work completed.
 
+## References
+
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for
+engineering and construction project risk management. No. 172534. Cham,
+Switzerland: Springer, 2020.
+
 ## See also
 
 [`ev`](https://paulgovan.github.io/PRA/reference/ev.md),

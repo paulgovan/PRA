@@ -37,6 +37,12 @@ mcs(num_sims, task_dists, cor_mat = NULL)
 The function returns a list of the total mean, variance, standard
 deviation, and percentiles for the project.
 
+## References
+
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for
+engineering and construction project risk management. No. 172534. Cham,
+Switzerland: Springer, 2020.
+
 ## Examples
 
 ``` r

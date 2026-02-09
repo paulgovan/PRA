@@ -33,6 +33,12 @@ contingency(sims, phigh = 0.95, pbase = 0.5)
 The function returns the value of calculated contingency based on the
 specified percentiles.
 
+## References
+
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for
+engineering and construction project risk management. No. 172534. Cham,
+Switzerland: Springer, 2020.
+
 ## Examples
 
 ``` r

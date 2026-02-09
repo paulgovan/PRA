@@ -46,6 +46,12 @@ cost_pdf(
 
 A numeric vector of random samples from the mixture model.
 
+## References
+
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for
+engineering and construction project risk management. No. 172534. Cham,
+Switzerland: Springer, 2020.
+
 ## Examples
 
 ``` r

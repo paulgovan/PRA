@@ -33,6 +33,12 @@ each task. Each element in the vector corresponds to the sensitivity of
 the variance in total project cost with respect to the variance in the
 respective task's cost.
 
+## References
+
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for
+engineering and construction project risk management. No. 172534. Cham,
+Switzerland: Springer, 2020.
+
 ## Examples
 
 ``` r

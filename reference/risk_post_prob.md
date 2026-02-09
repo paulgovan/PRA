@@ -41,6 +41,12 @@ risk_post_prob(
 A numeric value for the posterior probability of the risk event given
 the observed causes.
 
+## References
+
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for
+engineering and construction project risk management. No. 172534. Cham,
+Switzerland: Springer, 2020.
+
 ## Examples
 
 ``` r

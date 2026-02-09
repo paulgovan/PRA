@@ -31,6 +31,12 @@ ac(actual_costs, time_period, cumulative = TRUE)
 
 The function returns the Actual Cost (AC) of work completed to date.
 
+## References
+
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for
+engineering and construction project risk management. No. 172534. Cham,
+Switzerland: Springer, 2020.
+
 ## See also
 
 [`pv`](https://paulgovan.github.io/PRA/reference/pv.md),
