@@ -1,3 +1,8 @@
+#' @srrstats {G5.2} *Error and warning behaviour is explicitly demonstrated through tests.*
+#' @srrstats {G5.2a} *Every error message is unique and tested.*
+#' @srrstats {G5.2b} *Tests trigger every error message and compare with expected values.*
+#' @srrstats {G5.3} *Return objects tested for absence of NA, NaN, Inf.*
+
 test_that("sensitivity function calculates correctly for normal distributions", {
   normal_dists <- list(
     list(type = "normal", mean = 10, sd = 2),
@@ -90,4 +95,48 @@ test_that("sensitivity function handles single task correctly", {
   expect_true(is.numeric(result))
   expect_length(result, 1)
   expect_equal(result[1], 1) # No correlation, sensitivity should be 1
+})
+
+# ============================================================================
+# NaN/NA/Inf Error Tests (G5.2, G5.2b)
+# ============================================================================
+test_that("sensitivity rejects NaN in cor_mat", {
+  normal_dists <- list(
+    list(type = "normal", mean = 10, sd = 2),
+    list(type = "normal", mean = 20, sd = 3)
+  )
+  cor_mat <- matrix(c(1, NaN, NaN, 1), nrow = 2)
+  expect_error(sensitivity(normal_dists, cor_mat), "cor_mat must not contain NaN values")
+})
+
+test_that("sensitivity rejects NA in cor_mat", {
+  normal_dists <- list(
+    list(type = "normal", mean = 10, sd = 2),
+    list(type = "normal", mean = 20, sd = 3)
+  )
+  cor_mat <- matrix(c(1, NA, NA, 1), nrow = 2)
+  expect_error(sensitivity(normal_dists, cor_mat), "cor_mat must not contain NA values")
+})
+
+test_that("sensitivity rejects Inf in cor_mat", {
+  normal_dists <- list(
+    list(type = "normal", mean = 10, sd = 2),
+    list(type = "normal", mean = 20, sd = 3)
+  )
+  cor_mat <- matrix(c(1, Inf, Inf, 1), nrow = 2)
+  expect_error(sensitivity(normal_dists, cor_mat), "cor_mat must not contain infinite values")
+})
+
+# ============================================================================
+# G5.3: Return value tests
+# ============================================================================
+test_that("sensitivity result contains no NA, NaN, or Inf", {
+  normal_dists <- list(
+    list(type = "normal", mean = 10, sd = 2),
+    list(type = "normal", mean = 20, sd = 3)
+  )
+  result <- sensitivity(normal_dists)
+  expect_false(anyNA(result))
+  expect_false(any(is.nan(result)))
+  expect_false(any(is.infinite(result)))
 })

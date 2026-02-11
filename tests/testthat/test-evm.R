@@ -1,3 +1,8 @@
+#' @srrstats {G5.2} *Error and warning behaviour is explicitly demonstrated through tests.*
+#' @srrstats {G5.2a} *Every error message is unique and tested.*
+#' @srrstats {G5.2b} *Tests trigger every error message and compare with expected values.*
+#' @srrstats {G5.3} *Return objects tested for absence of NA, NaN, Inf.*
+
 test_that("Planned Value (PV) calculation is correct", {
   bac <- 100000
   schedule <- c(0.1, 0.2, 0.4, 0.7, 1.0)
@@ -82,6 +87,18 @@ test_that("pv validates NA inputs", {
   expect_error(pv(100000, c(0.1, 0.2), NA_real_), "bac, schedule, and time_period must not contain NA values")
 })
 
+test_that("pv rejects NaN inputs", {
+  expect_error(pv(NaN, c(0.1, 0.2), 1), "bac, schedule, and time_period must not contain NaN values")
+  expect_error(pv(100000, c(0.1, NaN), 1), "bac, schedule, and time_period must not contain NaN values")
+  expect_error(pv(100000, c(0.1, 0.2), NaN), "bac, schedule, and time_period must not contain NaN values")
+})
+
+test_that("pv rejects Inf inputs", {
+  expect_error(pv(Inf, c(0.1, 0.2), 1), "bac, schedule, and time_period must not contain infinite values")
+  expect_error(pv(100000, c(0.1, Inf), 1), "bac, schedule, and time_period must not contain infinite values")
+  expect_error(pv(100000, c(0.1, 0.2), Inf), "bac, schedule, and time_period must not contain infinite values")
+})
+
 test_that("pv validates schedule range", {
   expect_error(pv(100000, c(0.1, 1.5), 1), "schedule values must be between 0 and 1")
   expect_error(pv(100000, c(-0.1, 0.5), 1), "schedule values must be between 0 and 1")
@@ -118,6 +135,21 @@ test_that("ev validates single value inputs", {
   expect_error(ev(100000, c(0.3, 0.5)), "actual_per_complete must be a single numeric value")
 })
 
+test_that("ev rejects NaN inputs", {
+  expect_error(ev(NaN, 0.5), "bac and actual_per_complete must not be NaN")
+  expect_error(ev(100000, NaN), "bac and actual_per_complete must not be NaN")
+})
+
+test_that("ev rejects NA inputs", {
+  expect_error(ev(NA_real_, 0.5), "bac and actual_per_complete must not be NA")
+  expect_error(ev(100000, NA_real_), "bac and actual_per_complete must not be NA")
+})
+
+test_that("ev rejects Inf inputs", {
+  expect_error(ev(Inf, 0.5), "bac and actual_per_complete must not be infinite")
+  expect_error(ev(100000, Inf), "bac and actual_per_complete must not be infinite")
+})
+
 test_that("ev validates percentage range", {
   expect_error(ev(100000, 1.5), "actual_per_complete must be between 0 and 1")
   expect_error(ev(100000, -0.1), "actual_per_complete must be between 0 and 1")
@@ -152,6 +184,39 @@ test_that("ac validates cumulative parameter", {
   expect_error(ac(c(1000, 2000), 1, cumulative = c(TRUE, FALSE)), "cumulative must be a single logical value")
 })
 
+test_that("ac validates numeric inputs", {
+  expect_error(ac("not numeric", 1), "actual_costs and time_period must be numeric")
+  expect_error(ac(c(1000, 2000), "1"), "actual_costs and time_period must be numeric")
+})
+
+test_that("ac validates single value time_period", {
+  expect_error(ac(c(1000, 2000), c(1, 2)), "time_period must be a single numeric value")
+})
+
+test_that("ac rejects NaN inputs", {
+  expect_error(ac(c(NaN, 2000), 1), "actual_costs and time_period must not contain NaN values")
+  expect_error(ac(c(1000, 2000), NaN), "actual_costs and time_period must not contain NaN values")
+})
+
+test_that("ac rejects NA inputs", {
+  expect_error(ac(c(NA_real_, 2000), 1), "actual_costs and time_period must not contain NA values")
+  expect_error(ac(c(1000, 2000), NA_real_), "actual_costs and time_period must not contain NA values")
+})
+
+test_that("ac rejects Inf inputs", {
+  expect_error(ac(c(Inf, 2000), 1), "actual_costs and time_period must not contain infinite values")
+  expect_error(ac(c(1000, 2000), Inf), "actual_costs and time_period must not contain infinite values")
+})
+
+test_that("ac validates non-empty costs", {
+  expect_error(ac(numeric(0), 1), "actual_costs must not be empty")
+})
+
+test_that("ac validates time_period range", {
+  expect_error(ac(c(1000, 2000), 0), "time_period must be within the range of the actual_costs vector")
+  expect_error(ac(c(1000, 2000), 5), "time_period must be within the range of the actual_costs vector")
+})
+
 test_that("ac validates non-negative costs", {
   expect_error(ac(c(1000, -2000), 1), "actual_costs must be non-negative")
 })
@@ -162,6 +227,31 @@ test_that("ac validates non-negative costs", {
 test_that("sv validates NULL inputs", {
   expect_error(sv(NULL, 40000), "ev and pv must not be NULL")
   expect_error(sv(35000, NULL), "ev and pv must not be NULL")
+})
+
+test_that("sv validates numeric inputs", {
+  expect_error(sv("35000", 40000), "ev and pv must be numeric")
+  expect_error(sv(35000, "40000"), "ev and pv must be numeric")
+})
+
+test_that("sv validates single value inputs", {
+  expect_error(sv(c(35000, 36000), 40000), "ev and pv must be single numeric values")
+  expect_error(sv(35000, c(40000, 41000)), "ev and pv must be single numeric values")
+})
+
+test_that("sv rejects NaN inputs", {
+  expect_error(sv(NaN, 40000), "ev and pv must not be NaN")
+  expect_error(sv(35000, NaN), "ev and pv must not be NaN")
+})
+
+test_that("sv rejects NA inputs", {
+  expect_error(sv(NA_real_, 40000), "ev and pv must not be NA")
+  expect_error(sv(35000, NA_real_), "ev and pv must not be NA")
+})
+
+test_that("sv rejects Inf inputs", {
+  expect_error(sv(Inf, 40000), "ev and pv must not be infinite")
+  expect_error(sv(35000, Inf), "ev and pv must not be infinite")
 })
 
 test_that("sv validates non-negative inputs", {
@@ -177,6 +267,31 @@ test_that("cv validates NULL inputs", {
   expect_error(cv(35000, NULL), "ev and ac must not be NULL")
 })
 
+test_that("cv validates numeric inputs", {
+  expect_error(cv("35000", 36000), "ev and ac must be numeric")
+  expect_error(cv(35000, "36000"), "ev and ac must be numeric")
+})
+
+test_that("cv validates single value inputs", {
+  expect_error(cv(c(35000, 36000), 36000), "ev and ac must be single numeric values")
+  expect_error(cv(35000, c(36000, 37000)), "ev and ac must be single numeric values")
+})
+
+test_that("cv rejects NaN inputs", {
+  expect_error(cv(NaN, 36000), "ev and ac must not be NaN")
+  expect_error(cv(35000, NaN), "ev and ac must not be NaN")
+})
+
+test_that("cv rejects NA inputs", {
+  expect_error(cv(NA_real_, 36000), "ev and ac must not be NA")
+  expect_error(cv(35000, NA_real_), "ev and ac must not be NA")
+})
+
+test_that("cv rejects Inf inputs", {
+  expect_error(cv(Inf, 36000), "ev and ac must not be infinite")
+  expect_error(cv(35000, Inf), "ev and ac must not be infinite")
+})
+
 test_that("cv validates non-negative inputs", {
   expect_error(cv(-35000, 36000), "ev must be non-negative")
   expect_error(cv(35000, -36000), "ac must be non-negative")
@@ -190,6 +305,35 @@ test_that("spi validates NULL inputs", {
   expect_error(spi(35000, NULL), "ev and pv must not be NULL")
 })
 
+test_that("spi validates numeric inputs", {
+  expect_error(spi("35000", 40000), "ev and pv must be numeric")
+  expect_error(spi(35000, "40000"), "ev and pv must be numeric")
+})
+
+test_that("spi validates single value inputs", {
+  expect_error(spi(c(35000, 36000), 40000), "ev and pv must be single numeric values")
+  expect_error(spi(35000, c(40000, 41000)), "ev and pv must be single numeric values")
+})
+
+test_that("spi rejects NaN inputs", {
+  expect_error(spi(NaN, 40000), "ev and pv must not be NaN")
+  expect_error(spi(35000, NaN), "ev and pv must not be NaN")
+})
+
+test_that("spi rejects NA inputs", {
+  expect_error(spi(NA_real_, 40000), "ev and pv must not be NA")
+  expect_error(spi(35000, NA_real_), "ev and pv must not be NA")
+})
+
+test_that("spi rejects Inf inputs", {
+  expect_error(spi(Inf, 40000), "ev and pv must not be infinite")
+  expect_error(spi(35000, Inf), "ev and pv must not be infinite")
+})
+
+test_that("spi validates ev non-negative", {
+  expect_error(spi(-35000, 40000), "ev must be non-negative")
+})
+
 test_that("spi validates pv greater than zero", {
   expect_error(spi(35000, 0), "pv must be greater than zero")
   expect_error(spi(35000, -40000), "pv must be greater than zero")
@@ -201,6 +345,35 @@ test_that("spi validates pv greater than zero", {
 test_that("cpi validates NULL inputs", {
   expect_error(cpi(NULL, 36000), "ev and ac must not be NULL")
   expect_error(cpi(35000, NULL), "ev and ac must not be NULL")
+})
+
+test_that("cpi validates numeric inputs", {
+  expect_error(cpi("35000", 36000), "ev and ac must be numeric")
+  expect_error(cpi(35000, "36000"), "ev and ac must be numeric")
+})
+
+test_that("cpi validates single value inputs", {
+  expect_error(cpi(c(35000, 36000), 36000), "ev and ac must be single numeric values")
+  expect_error(cpi(35000, c(36000, 37000)), "ev and ac must be single numeric values")
+})
+
+test_that("cpi rejects NaN inputs", {
+  expect_error(cpi(NaN, 36000), "ev and ac must not be NaN")
+  expect_error(cpi(35000, NaN), "ev and ac must not be NaN")
+})
+
+test_that("cpi rejects NA inputs", {
+  expect_error(cpi(NA_real_, 36000), "ev and ac must not be NA")
+  expect_error(cpi(35000, NA_real_), "ev and ac must not be NA")
+})
+
+test_that("cpi rejects Inf inputs", {
+  expect_error(cpi(Inf, 36000), "ev and ac must not be infinite")
+  expect_error(cpi(35000, Inf), "ev and ac must not be infinite")
+})
+
+test_that("cpi validates ev non-negative", {
+  expect_error(cpi(-35000, 36000), "ev must be non-negative")
 })
 
 test_that("cpi validates ac greater than zero", {
@@ -262,6 +435,129 @@ test_that("eac validates bac", {
   expect_error(eac(-100000, cpi = 0.8), "bac must be non-negative")
 })
 
+test_that("eac rejects NaN bac", {
+  expect_error(eac(NaN, cpi = 0.8), "bac must be a single non-NaN numeric value")
+})
+
+test_that("eac rejects NA bac", {
+  expect_error(eac(NA_real_, cpi = 0.8), "bac must be a single numeric value")
+})
+
+test_that("eac rejects Inf bac", {
+  expect_error(eac(Inf, cpi = 0.8), "bac must not be infinite")
+})
+
+# Typical method NaN/NA/Inf for cpi
+test_that("eac typical rejects NaN cpi", {
+  expect_error(eac(100000, method = "typical", cpi = NaN), "cpi must be a single non-NaN numeric value")
+})
+
+test_that("eac typical rejects NA cpi", {
+  expect_error(eac(100000, method = "typical", cpi = NA_real_), "cpi must be a single numeric value")
+})
+
+test_that("eac typical rejects Inf cpi", {
+  expect_error(eac(100000, method = "typical", cpi = Inf), "cpi must not be infinite")
+})
+
+# Atypical method NaN/NA/Inf for ac, ev
+test_that("eac atypical rejects NaN ac", {
+  expect_error(eac(100000, method = "atypical", ac = NaN, ev = 35000), "ac must be a single non-NaN numeric value")
+})
+
+test_that("eac atypical rejects NA ac", {
+  expect_error(eac(100000, method = "atypical", ac = NA_real_, ev = 35000), "ac must be a single numeric value")
+})
+
+test_that("eac atypical rejects Inf ac", {
+  expect_error(eac(100000, method = "atypical", ac = Inf, ev = 35000), "ac must not be infinite")
+})
+
+test_that("eac atypical rejects NaN ev", {
+  expect_error(eac(100000, method = "atypical", ac = 63000, ev = NaN), "ev must be a single non-NaN numeric value")
+})
+
+test_that("eac atypical rejects NA ev", {
+  expect_error(eac(100000, method = "atypical", ac = 63000, ev = NA_real_), "ev must be a single numeric value")
+})
+
+test_that("eac atypical rejects Inf ev", {
+  expect_error(eac(100000, method = "atypical", ac = 63000, ev = Inf), "ev must not be infinite")
+})
+
+test_that("eac atypical rejects negative ac/ev", {
+  expect_error(eac(100000, method = "atypical", ac = -1, ev = 35000), "ac and ev must be non-negative")
+  expect_error(eac(100000, method = "atypical", ac = 63000, ev = -1), "ac and ev must be non-negative")
+})
+
+# Combined method NaN/NA/Inf for cpi, spi, ac, ev
+test_that("eac combined rejects NaN cpi", {
+  expect_error(eac(100000, method = "combined", cpi = NaN, ac = 63000, ev = 35000, spi = 0.9),
+               "cpi must be a single non-NaN numeric value for 'combined' method")
+})
+
+test_that("eac combined rejects NA cpi", {
+  expect_error(eac(100000, method = "combined", cpi = NA_real_, ac = 63000, ev = 35000, spi = 0.9),
+               "cpi must be a single numeric value")
+})
+
+test_that("eac combined rejects Inf cpi", {
+  expect_error(eac(100000, method = "combined", cpi = Inf, ac = 63000, ev = 35000, spi = 0.9),
+               "cpi must not be infinite for 'combined' method")
+})
+
+test_that("eac combined rejects NaN spi", {
+  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = 35000, spi = NaN),
+               "spi must be a single non-NaN numeric value")
+})
+
+test_that("eac combined rejects NA spi", {
+  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = 35000, spi = NA_real_),
+               "spi must be a single numeric value")
+})
+
+test_that("eac combined rejects Inf spi", {
+  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = 35000, spi = Inf),
+               "spi must not be infinite")
+})
+
+test_that("eac combined rejects NaN ac", {
+  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = NaN, ev = 35000, spi = 0.9),
+               "ac must be a single non-NaN numeric value for 'combined' method")
+})
+
+test_that("eac combined rejects NA ac", {
+  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = NA_real_, ev = 35000, spi = 0.9),
+               "ac must be a single numeric value")
+})
+
+test_that("eac combined rejects Inf ac", {
+  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = Inf, ev = 35000, spi = 0.9),
+               "ac must not be infinite for 'combined' method")
+})
+
+test_that("eac combined rejects NaN ev", {
+  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = NaN, spi = 0.9),
+               "ev must be a single non-NaN numeric value for 'combined' method")
+})
+
+test_that("eac combined rejects NA ev", {
+  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = NA_real_, spi = 0.9),
+               "ev must be a single numeric value")
+})
+
+test_that("eac combined rejects Inf ev", {
+  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = Inf, spi = 0.9),
+               "ev must not be infinite for 'combined' method")
+})
+
+test_that("eac combined rejects negative ac/ev", {
+  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = -1, ev = 35000, spi = 0.9),
+               "ac and ev must be non-negative")
+  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = -1, spi = 0.9),
+               "ac and ev must be non-negative")
+})
+
 # ============================================================================
 # ETC Tests
 # ============================================================================
@@ -290,6 +586,43 @@ test_that("etc validates cpi greater than zero", {
   expect_error(etc(100000, 35000, -0.5), "cpi must be greater than zero")
 })
 
+test_that("etc validates numeric inputs", {
+  expect_error(etc("100000", 35000), "bac and ev must be numeric")
+  expect_error(etc(100000, "35000"), "bac and ev must be numeric")
+})
+
+test_that("etc validates single value inputs", {
+  expect_error(etc(c(100000, 200000), 35000), "bac and ev must be single numeric values")
+  expect_error(etc(100000, c(35000, 36000)), "bac and ev must be single numeric values")
+})
+
+test_that("etc rejects NaN inputs", {
+  expect_error(etc(NaN, 35000), "bac and ev must not be NaN")
+  expect_error(etc(100000, NaN), "bac and ev must not be NaN")
+})
+
+test_that("etc rejects NA inputs", {
+  expect_error(etc(NA_real_, 35000), "bac and ev must not be NA")
+  expect_error(etc(100000, NA_real_), "bac and ev must not be NA")
+})
+
+test_that("etc rejects Inf inputs", {
+  expect_error(etc(Inf, 35000), "bac and ev must not be infinite")
+  expect_error(etc(100000, Inf), "bac and ev must not be infinite")
+})
+
+test_that("etc rejects NaN cpi", {
+  expect_error(etc(100000, 35000, NaN), "cpi must be a single non-NaN numeric value")
+})
+
+test_that("etc rejects NA cpi", {
+  expect_error(etc(100000, 35000, NA_real_), "cpi must be a single numeric value")
+})
+
+test_that("etc rejects Inf cpi", {
+  expect_error(etc(100000, 35000, Inf), "cpi must not be infinite")
+})
+
 test_that("etc validates non-negative inputs", {
   expect_error(etc(-100000, 35000), "bac and ev must be non-negative")
   expect_error(etc(100000, -35000), "bac and ev must be non-negative")
@@ -308,6 +641,31 @@ test_that("vac calculation is correct", {
 test_that("vac validates NULL inputs", {
   expect_error(vac(NULL, 120000), "bac and eac must not be NULL")
   expect_error(vac(100000, NULL), "bac and eac must not be NULL")
+})
+
+test_that("vac validates numeric inputs", {
+  expect_error(vac("100000", 120000), "bac and eac must be numeric")
+  expect_error(vac(100000, "120000"), "bac and eac must be numeric")
+})
+
+test_that("vac validates single value inputs", {
+  expect_error(vac(c(100000, 200000), 120000), "bac and eac must be single numeric values")
+  expect_error(vac(100000, c(120000, 130000)), "bac and eac must be single numeric values")
+})
+
+test_that("vac rejects NaN inputs", {
+  expect_error(vac(NaN, 120000), "bac and eac must not be NaN")
+  expect_error(vac(100000, NaN), "bac and eac must not be NaN")
+})
+
+test_that("vac rejects NA inputs", {
+  expect_error(vac(NA_real_, 120000), "bac and eac must not be NA")
+  expect_error(vac(100000, NA_real_), "bac and eac must not be NA")
+})
+
+test_that("vac rejects Inf inputs", {
+  expect_error(vac(Inf, 120000), "bac and eac must not be infinite")
+  expect_error(vac(100000, Inf), "bac and eac must not be infinite")
 })
 
 test_that("vac validates non-negative inputs", {
@@ -353,7 +711,143 @@ test_that("tcpi validates denominator not zero for BAC target", {
   expect_error(tcpi(100000, 35000, 100000), "Cannot calculate TCPI: actual cost already meets or exceeds budget")
 })
 
+test_that("tcpi validates numeric inputs", {
+  expect_error(tcpi("100000", 35000, 40000), "bac, ev, and ac must be numeric")
+  expect_error(tcpi(100000, "35000", 40000), "bac, ev, and ac must be numeric")
+  expect_error(tcpi(100000, 35000, "40000"), "bac, ev, and ac must be numeric")
+})
+
+test_that("tcpi validates single value inputs", {
+  expect_error(tcpi(c(100000, 200000), 35000, 40000), "bac, ev, and ac must be single numeric values")
+  expect_error(tcpi(100000, c(35000, 36000), 40000), "bac, ev, and ac must be single numeric values")
+  expect_error(tcpi(100000, 35000, c(40000, 41000)), "bac, ev, and ac must be single numeric values")
+})
+
+test_that("tcpi rejects NaN inputs", {
+  expect_error(tcpi(NaN, 35000, 40000), "bac, ev, and ac must not be NaN")
+  expect_error(tcpi(100000, NaN, 40000), "bac, ev, and ac must not be NaN")
+  expect_error(tcpi(100000, 35000, NaN), "bac, ev, and ac must not be NaN")
+})
+
+test_that("tcpi rejects NA inputs", {
+  expect_error(tcpi(NA_real_, 35000, 40000), "bac, ev, and ac must not be NA")
+  expect_error(tcpi(100000, NA_real_, 40000), "bac, ev, and ac must not be NA")
+  expect_error(tcpi(100000, 35000, NA_real_), "bac, ev, and ac must not be NA")
+})
+
+test_that("tcpi rejects Inf inputs", {
+  expect_error(tcpi(Inf, 35000, 40000), "bac, ev, and ac must not be infinite")
+  expect_error(tcpi(100000, Inf, 40000), "bac, ev, and ac must not be infinite")
+  expect_error(tcpi(100000, 35000, Inf), "bac, ev, and ac must not be infinite")
+})
+
+test_that("tcpi validates non-negative inputs", {
+  expect_error(tcpi(-100000, 35000, 40000), "bac, ev, and ac must be non-negative")
+  expect_error(tcpi(100000, -35000, 40000), "bac, ev, and ac must be non-negative")
+  expect_error(tcpi(100000, 35000, -40000), "bac, ev, and ac must be non-negative")
+})
+
+test_that("tcpi eac target rejects NaN eac", {
+  expect_error(tcpi(100000, 35000, 40000, target = "eac", eac = NaN),
+               "eac must be a single non-NaN numeric value")
+})
+
+test_that("tcpi eac target rejects NA eac", {
+  expect_error(tcpi(100000, 35000, 40000, target = "eac", eac = NA_real_),
+               "eac must be a single numeric value")
+})
+
+test_that("tcpi eac target rejects Inf eac", {
+  expect_error(tcpi(100000, 35000, 40000, target = "eac", eac = Inf),
+               "eac must not be infinite")
+})
+
+test_that("tcpi eac target rejects negative eac", {
+  expect_error(tcpi(100000, 35000, 40000, target = "eac", eac = -1),
+               "eac must be non-negative")
+})
+
 test_that("tcpi validates denominator not zero for EAC target", {
   expect_error(tcpi(100000, 35000, 120000, target = "eac", eac = 120000),
                "Cannot calculate TCPI: actual cost already meets or exceeds EAC")
+})
+
+# ============================================================================
+# G5.3: EVM Return Value Tests
+# ============================================================================
+test_that("pv result contains no NA, NaN, or Inf", {
+  result <- pv(100000, c(0.1, 0.2, 0.4, 0.7, 1.0), 3)
+  expect_false(is.na(result))
+  expect_false(is.nan(result))
+  expect_false(is.infinite(result))
+})
+
+test_that("ev result contains no NA, NaN, or Inf", {
+  result <- ev(100000, 0.35)
+  expect_false(is.na(result))
+  expect_false(is.nan(result))
+  expect_false(is.infinite(result))
+})
+
+test_that("ac result contains no NA, NaN, or Inf", {
+  result <- ac(c(9000, 18000, 36000), 2)
+  expect_false(is.na(result))
+  expect_false(is.nan(result))
+  expect_false(is.infinite(result))
+})
+
+test_that("sv result contains no NA, NaN, or Inf", {
+  result <- sv(35000, 40000)
+  expect_false(is.na(result))
+  expect_false(is.nan(result))
+  expect_false(is.infinite(result))
+})
+
+test_that("cv result contains no NA, NaN, or Inf", {
+  result <- cv(35000, 36000)
+  expect_false(is.na(result))
+  expect_false(is.nan(result))
+  expect_false(is.infinite(result))
+})
+
+test_that("spi result contains no NA, NaN, or Inf", {
+  result <- spi(35000, 40000)
+  expect_false(is.na(result))
+  expect_false(is.nan(result))
+  expect_false(is.infinite(result))
+})
+
+test_that("cpi result contains no NA, NaN, or Inf", {
+  result <- cpi(35000, 36000)
+  expect_false(is.na(result))
+  expect_false(is.nan(result))
+  expect_false(is.infinite(result))
+})
+
+test_that("eac result contains no NA, NaN, or Inf", {
+  result <- eac(100000, cpi = 0.8)
+  expect_false(is.na(result))
+  expect_false(is.nan(result))
+  expect_false(is.infinite(result))
+})
+
+test_that("etc result contains no NA, NaN, or Inf", {
+  result <- etc(100000, 35000)
+  expect_false(is.na(result))
+  expect_false(is.nan(result))
+  expect_false(is.infinite(result))
+})
+
+test_that("vac result contains no NA, NaN, or Inf", {
+  result <- vac(100000, 120000)
+  expect_false(is.na(result))
+  expect_false(is.nan(result))
+  expect_false(is.infinite(result))
+})
+
+test_that("tcpi result contains no NA, NaN, or Inf", {
+  result <- tcpi(100000, 35000, 40000)
+  expect_false(is.na(result))
+  expect_false(is.nan(result))
+  expect_false(is.infinite(result))
 })

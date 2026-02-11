@@ -1,3 +1,8 @@
+#' @srrstats {G5.2} *Error and warning behaviour is explicitly demonstrated through tests.*
+#' @srrstats {G5.2a} *Every error message is unique and tested.*
+#' @srrstats {G5.2b} *Tests trigger every error message and compare with expected values.*
+#' @srrstats {G5.3} *Return objects tested for absence of NA, NaN, Inf.*
+
 test_that("mcs function works correctly with different distribution types", {
   set.seed(123) # Set seed for reproducibility
 
@@ -89,6 +94,80 @@ test_that("mcs function validates task_dists correctly", {
 
   # Test non-list task_dists
   expect_error(mcs(1000, "not a list"), "task_dists must be a non-empty list")
+})
+
+# ============================================================================
+# NaN/NA/Inf Error Tests (G5.2, G5.2b)
+# ============================================================================
+test_that("mcs rejects NaN num_sims", {
+  normal_dist <- list(list(type = "normal", mean = 10, sd = 2))
+  expect_error(mcs(NaN, normal_dist), "num_sims must not be NaN")
+})
+
+test_that("mcs rejects NA_real_ num_sims", {
+  normal_dist <- list(list(type = "normal", mean = 10, sd = 2))
+  expect_error(mcs(NA_real_, normal_dist), "num_sims must not be NA")
+})
+
+test_that("mcs rejects Inf num_sims", {
+  normal_dist <- list(list(type = "normal", mean = 10, sd = 2))
+  expect_error(mcs(Inf, normal_dist), "num_sims must not be infinite")
+})
+
+test_that("mcs rejects NaN in cor_mat", {
+  normal_dist <- list(
+    list(type = "normal", mean = 10, sd = 2),
+    list(type = "normal", mean = 20, sd = 3)
+  )
+  cor_mat <- matrix(c(1, NaN, NaN, 1), nrow = 2)
+  expect_error(mcs(100, normal_dist, cor_mat), "cor_mat must not contain NaN values")
+})
+
+test_that("mcs rejects NA in cor_mat", {
+  normal_dist <- list(
+    list(type = "normal", mean = 10, sd = 2),
+    list(type = "normal", mean = 20, sd = 3)
+  )
+  cor_mat <- matrix(c(1, NA, NA, 1), nrow = 2)
+  expect_error(mcs(100, normal_dist, cor_mat), "cor_mat must not contain NA values")
+})
+
+test_that("mcs rejects Inf in cor_mat", {
+  normal_dist <- list(
+    list(type = "normal", mean = 10, sd = 2),
+    list(type = "normal", mean = 20, sd = 3)
+  )
+  cor_mat <- matrix(c(1, Inf, Inf, 1), nrow = 2)
+  expect_error(mcs(100, normal_dist, cor_mat), "cor_mat must not contain infinite values")
+})
+
+# ============================================================================
+# G5.3: Return value tests
+# ============================================================================
+test_that("mcs result components contain no NA, NaN, or Inf", {
+  set.seed(42)
+  normal_dist <- list(list(type = "normal", mean = 10, sd = 2))
+  result <- mcs(100, normal_dist)
+
+  expect_false(is.na(result$total_mean))
+  expect_false(is.nan(result$total_mean))
+  expect_false(is.infinite(result$total_mean))
+
+  expect_false(is.na(result$total_variance))
+  expect_false(is.nan(result$total_variance))
+  expect_false(is.infinite(result$total_variance))
+
+  expect_false(is.na(result$total_sd))
+  expect_false(is.nan(result$total_sd))
+  expect_false(is.infinite(result$total_sd))
+
+  expect_false(anyNA(result$percentiles))
+  expect_false(any(is.nan(result$percentiles)))
+  expect_false(any(is.infinite(result$percentiles)))
+
+  expect_false(anyNA(result$total_distribution))
+  expect_false(any(is.nan(result$total_distribution)))
+  expect_false(any(is.infinite(result$total_distribution)))
 })
 
 test_that("mcs print method works correctly", {

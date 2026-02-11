@@ -1,3 +1,8 @@
+#' @srrstats {G5.2} *Error and warning behaviour is explicitly demonstrated through tests.*
+#' @srrstats {G5.2a} *Every error message is unique and tested.*
+#' @srrstats {G5.2b} *Tests trigger every error message and compare with expected values.*
+#' @srrstats {G5.3} *Return objects tested for absence of NA, NaN, Inf.*
+
 test_that("risk_post_prob handles fully observed causes", {
   cause_probs <- c(0.3, 0.2)
   risks_given_causes <- c(0.8, 0.6)
@@ -128,4 +133,86 @@ test_that("cost_post_pdf handles zero observed risks correctly", {
   samples <- cost_post_pdf(num_sims, observed_risks, means_given_risks, sds_given_risks, base_cost)
   expect_equal(length(samples), num_sims)
   expect_true(all(samples == base_cost))
+})
+
+# ============================================================================
+# NaN/NA/Inf Error Tests (G5.2, G5.2b)
+# ============================================================================
+test_that("risk_post_prob rejects NaN in cause params", {
+  expect_error(risk_post_prob(c(NaN, 0.2), c(0.8, 0.6), c(0.2, 0.4), c(1, 0)),
+               "cause_probs, risks_given_causes, and risks_given_not_causes must not contain NaN values.")
+  expect_error(risk_post_prob(c(0.3, 0.2), c(NaN, 0.6), c(0.2, 0.4), c(1, 0)),
+               "cause_probs, risks_given_causes, and risks_given_not_causes must not contain NaN values.")
+  expect_error(risk_post_prob(c(0.3, 0.2), c(0.8, 0.6), c(NaN, 0.4), c(1, 0)),
+               "cause_probs, risks_given_causes, and risks_given_not_causes must not contain NaN values.")
+})
+
+test_that("risk_post_prob rejects NA in cause params", {
+  expect_error(risk_post_prob(c(NA_real_, 0.2), c(0.8, 0.6), c(0.2, 0.4), c(1, 0)),
+               "cause_probs, risks_given_causes, and risks_given_not_causes must not contain NA values.")
+})
+
+test_that("risk_post_prob rejects Inf in cause params", {
+  expect_error(risk_post_prob(c(Inf, 0.2), c(0.8, 0.6), c(0.2, 0.4), c(1, 0)),
+               "cause_probs, risks_given_causes, and risks_given_not_causes must not contain infinite values.")
+})
+
+test_that("risk_post_prob rejects Inf in observed_causes", {
+  expect_error(risk_post_prob(c(0.3, 0.2), c(0.8, 0.6), c(0.2, 0.4), c(Inf, 0)),
+               "observed_causes must not contain infinite values.")
+})
+
+test_that("cost_post_pdf rejects NaN in means/sds", {
+  expect_error(cost_post_pdf(1000, c(1, 0), c(NaN, 15000), c(2000, 1000), 2000),
+               "means_given_risks and sds_given_risks must not contain NaN values.")
+  expect_error(cost_post_pdf(1000, c(1, 0), c(10000, 15000), c(NaN, 1000), 2000),
+               "means_given_risks and sds_given_risks must not contain NaN values.")
+})
+
+test_that("cost_post_pdf rejects NA in means/sds", {
+  expect_error(cost_post_pdf(1000, c(1, 0), c(NA_real_, 15000), c(2000, 1000), 2000),
+               "means_given_risks and sds_given_risks must not contain NA values.")
+})
+
+test_that("cost_post_pdf rejects Inf in means/sds", {
+  expect_error(cost_post_pdf(1000, c(1, 0), c(Inf, 15000), c(2000, 1000), 2000),
+               "means_given_risks and sds_given_risks must not contain infinite values.")
+})
+
+test_that("cost_post_pdf rejects Inf in observed_risks", {
+  expect_error(cost_post_pdf(1000, c(Inf, 0), c(10000, 15000), c(2000, 1000), 2000),
+               "observed_risks must not contain infinite values.")
+})
+
+test_that("cost_post_pdf rejects NaN base_cost", {
+  expect_error(cost_post_pdf(1000, c(1, 0), c(10000, 15000), c(2000, 1000), NaN),
+               "base_cost must not be NaN.")
+})
+
+test_that("cost_post_pdf rejects NA base_cost", {
+  expect_error(cost_post_pdf(1000, c(1, 0), c(10000, 15000), c(2000, 1000), NA_real_),
+               "base_cost must not be NA.")
+})
+
+test_that("cost_post_pdf rejects Inf base_cost", {
+  expect_error(cost_post_pdf(1000, c(1, 0), c(10000, 15000), c(2000, 1000), Inf),
+               "base_cost must not be infinite.")
+})
+
+# ============================================================================
+# G5.3: Return value tests
+# ============================================================================
+test_that("risk_post_prob result contains no NA, NaN, or Inf", {
+  result <- risk_post_prob(c(0.3, 0.2), c(0.8, 0.6), c(0.2, 0.4), c(1, 0))
+  expect_false(is.na(result))
+  expect_false(is.nan(result))
+  expect_false(is.infinite(result))
+})
+
+test_that("cost_post_pdf result contains no NA, NaN, or Inf", {
+  set.seed(42)
+  samples <- cost_post_pdf(100, c(1, 0), c(10000, 15000), c(2000, 1000), 2000)
+  expect_false(anyNA(samples))
+  expect_false(any(is.nan(samples)))
+  expect_false(any(is.infinite(samples)))
 })

@@ -11,3 +11,4 @@
 ^codecov\.yml$
 ^CRAN-SUBMISSION$
 ^codemeta\.json$
+^CLAUDE\.md$

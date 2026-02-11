@@ -1,3 +1,8 @@
+#' @srrstats {G5.2} *Error and warning behaviour is explicitly demonstrated through tests.*
+#' @srrstats {G5.2a} *Every error message is unique and tested.*
+#' @srrstats {G5.2b} *Tests trigger every error message and compare with expected values.*
+#' @srrstats {G5.3} *Return objects tested for absence of NA, NaN, Inf.*
+
 test_that("second moment analysis works without correlation matrix", {
   mean <- c(10, 15, 20)
   var <- c(4, 9, 16)
@@ -103,4 +108,59 @@ test_that("smm returns correct class", {
   result <- smm(mean, var)
 
   expect_s3_class(result, "smm")
+})
+
+# ============================================================================
+# NaN/NA/Inf Error Tests (G5.2, G5.2b)
+# ============================================================================
+test_that("smm rejects NaN in mean/var", {
+  expect_error(smm(c(10, NaN, 20), c(4, 9, 16)), "mean and var must not contain NaN values")
+  expect_error(smm(c(10, 15, 20), c(4, NaN, 16)), "mean and var must not contain NaN values")
+})
+
+test_that("smm rejects Inf in mean/var", {
+  expect_error(smm(c(10, Inf, 20), c(4, 9, 16)), "mean and var must not contain infinite values")
+  expect_error(smm(c(10, 15, 20), c(4, Inf, 16)), "mean and var must not contain infinite values")
+})
+
+test_that("smm rejects NaN in cor_mat", {
+  mean <- c(10, 15, 20)
+  var <- c(4, 9, 16)
+  cor_mat <- matrix(c(1, NaN, 0.3, NaN, 1, 0.4, 0.3, 0.4, 1), nrow = 3)
+  expect_error(smm(mean, var, cor_mat), "cor_mat must not contain NaN values")
+})
+
+test_that("smm rejects NA in cor_mat", {
+  mean <- c(10, 15, 20)
+  var <- c(4, 9, 16)
+  cor_mat <- matrix(c(1, NA, 0.3, NA, 1, 0.4, 0.3, 0.4, 1), nrow = 3)
+  expect_error(smm(mean, var, cor_mat), "cor_mat must not contain NA values")
+})
+
+test_that("smm rejects Inf in cor_mat", {
+  mean <- c(10, 15, 20)
+  var <- c(4, 9, 16)
+  cor_mat <- matrix(c(1, Inf, 0.3, Inf, 1, 0.4, 0.3, 0.4, 1), nrow = 3)
+  expect_error(smm(mean, var, cor_mat), "cor_mat must not contain infinite values")
+})
+
+# ============================================================================
+# G5.3: Return value tests
+# ============================================================================
+test_that("smm result components contain no NA, NaN, or Inf", {
+  mean <- c(10, 15, 20)
+  var <- c(4, 9, 16)
+  result <- smm(mean, var)
+
+  expect_false(is.na(result$total_mean))
+  expect_false(is.nan(result$total_mean))
+  expect_false(is.infinite(result$total_mean))
+
+  expect_false(is.na(result$total_var))
+  expect_false(is.nan(result$total_var))
+  expect_false(is.infinite(result$total_var))
+
+  expect_false(is.na(result$total_std))
+  expect_false(is.nan(result$total_std))
+  expect_false(is.infinite(result$total_std))
 })

@@ -1,3 +1,8 @@
+#' @srrstats {G5.2} *Error and warning behaviour is explicitly demonstrated through tests.*
+#' @srrstats {G5.2a} *Every error message is unique and tested.*
+#' @srrstats {G5.2b} *Tests trigger every error message and compare with expected values.*
+#' @srrstats {G5.3} *Return objects tested for absence of NA, NaN, Inf.*
+
 # Unit tests for the parent_dsm function
 test_that("parent_dsm function works correctly with valid input", {
   sm <- matrix(c(1, 0, 0, 1), nrow = 2, ncol = 2)
@@ -125,4 +130,60 @@ test_that("grandparent_dsm handles data frame inputs correctly", {
   rm <- data.frame(a = c(1, 2), b = c(3, 4))
   result <- grandparent_dsm(as.matrix(sm), as.matrix(rm))
   expect_true(is.matrix(result))
+})
+
+# ============================================================================
+# NaN/NA/Inf Error Tests (G5.2, G5.2b)
+# ============================================================================
+test_that("parent_dsm rejects NaN values in S", {
+  sm <- matrix(c(1, NaN, 0, 1), nrow = 2, ncol = 2)
+  expect_error(parent_dsm(sm), "S must not contain NaN values")
+})
+
+test_that("parent_dsm rejects NA values in S", {
+  sm <- matrix(c(1, NA, 0, 1), nrow = 2, ncol = 2)
+  expect_error(parent_dsm(sm), "S must not contain NA values")
+})
+
+test_that("parent_dsm rejects Inf values in S", {
+  sm <- matrix(c(1, Inf, 0, 1), nrow = 2, ncol = 2)
+  expect_error(parent_dsm(sm), "S must not contain infinite values")
+})
+
+test_that("grandparent_dsm rejects NaN values in S or R", {
+  sm <- matrix(c(1, NaN, 0, 1), nrow = 2, ncol = 2)
+  rm <- matrix(c(1, 2, 3, 4), nrow = 2, ncol = 2)
+  expect_error(grandparent_dsm(sm, rm), "S and R must not contain NaN values")
+})
+
+test_that("grandparent_dsm rejects NA values in S or R", {
+  sm <- matrix(c(1, NA, 0, 1), nrow = 2, ncol = 2)
+  rm <- matrix(c(1, 2, 3, 4), nrow = 2, ncol = 2)
+  expect_error(grandparent_dsm(sm, rm), "S and R must not contain NA values")
+})
+
+test_that("grandparent_dsm rejects Inf values in S or R", {
+  sm <- matrix(c(1, Inf, 0, 1), nrow = 2, ncol = 2)
+  rm <- matrix(c(1, 2, 3, 4), nrow = 2, ncol = 2)
+  expect_error(grandparent_dsm(sm, rm), "S and R must not contain infinite values")
+})
+
+# ============================================================================
+# G5.3: Return value tests
+# ============================================================================
+test_that("parent_dsm result contains no NA, NaN, or Inf", {
+  sm <- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9), nrow = 3, ncol = 3)
+  result <- parent_dsm(sm)
+  expect_false(anyNA(result))
+  expect_false(any(is.nan(result)))
+  expect_false(any(is.infinite(result)))
+})
+
+test_that("grandparent_dsm result contains no NA, NaN, or Inf", {
+  sm <- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9), nrow = 3, ncol = 3)
+  rm <- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9), nrow = 3, ncol = 3)
+  result <- grandparent_dsm(sm, rm)
+  expect_false(anyNA(result))
+  expect_false(any(is.nan(result)))
+  expect_false(any(is.infinite(result)))
 })

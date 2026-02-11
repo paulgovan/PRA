@@ -25,7 +25,10 @@
 #' @srrstats {G3.1a} *Documentation describes usage of correlation matrices in examples.*
 #' @srrstats {G2.15} *All functions implement explicit checks for NaN values via is.nan() with informative error messages - documented in each function file.*
 #' @srrstats {G2.16} *All functions implement explicit checks for undefined (Inf, -Inf) values via is.infinite() with informative error messages - documented in each function file.*
+#' @srrstats {G5.2} *Error and warning behaviour is explicitly demonstrated through tests using expect_error() for every stop() message in each function.*
 #' @srrstats {G5.2a} *Every error message produced by stop() is unique - documented in applicable function files.*
+#' @srrstats {G5.2b} *Tests trigger every error message produced by stop() and compare against expected values using expect_error().*
+#' @srrstats {G5.3} *Return objects from all functions are tested for absence of NA, NaN, and Inf values.*
 #' @noRd
 NULL
 
@@ -53,9 +56,6 @@ NULL
 #' @srrstatsNA {G4.0} *Not applicable - package does not write outputs to local files.*
 #' @srrstatsNA {G5.0} *Consider updating* *Not applicable - package algorithms are validated through documented examples rather than standard reference datasets.*
 #' @srrstatsNA {G5.1} *Consider updating* *Not applicable - package uses inline examples rather than separate test datasets.*
-#' @srrstatsNA {G5.2} *Consider updating* *Error and warning behavior is tested through package examples and documented in function files.*
-#' @srrstatsNA {G5.2b} *Consider updating* *Tests for error conditions are demonstrated in package examples.*
-#' @srrstatsNA {G5.3} *Consider updating* *Not applicable - return objects appropriately may contain NA when input allows it.*
 #' @srrstatsNA {G5.4} *Consider updating* *Correctness is validated through documented examples with known inputs and expected outputs.*
 #' @srrstatsNA {G5.4a} *Not applicable - methods are implementations of established algorithms.*
 #' @srrstatsNA {G5.4b} *Not applicable - this is the first R implementation of these methods.*

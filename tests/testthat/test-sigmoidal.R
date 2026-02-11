@@ -1,3 +1,8 @@
+#' @srrstats {G5.2} *Error and warning behaviour is explicitly demonstrated through tests.*
+#' @srrstats {G5.2a} *Every error message is unique and tested.*
+#' @srrstats {G5.2b} *Tests trigger every error message and compare with expected values.*
+#' @srrstats {G5.3} *Return objects tested for absence of NA, NaN, Inf.*
+
 # Sample data for testing
 data <- data.frame(time = 1:10, completion = c(5, 15, 40, 60, 70, 75, 80, 85, 90, 95))
 
@@ -257,4 +262,78 @@ test_that("fitted values are close to original data", {
   # Predictions should be reasonably close to actual values
   residuals <- abs(predictions$pred - data$completion)
   expect_true(mean(residuals) < 10)  # Average error < 10
+})
+
+# ============================================================================
+# NaN/NA/Inf Error Tests (G5.2, G5.2b)
+# ============================================================================
+test_that("fit_sigmoidal rejects NaN in data columns", {
+  bad_data <- data.frame(time = c(1, NaN, 3), completion = c(5, 15, 40))
+  expect_error(fit_sigmoidal(bad_data, "time", "completion", "logistic"),
+               "Data columns must not contain NaN values.")
+})
+
+test_that("fit_sigmoidal rejects NA in data columns", {
+  bad_data <- data.frame(time = c(1, NA, 3), completion = c(5, 15, 40))
+  expect_error(fit_sigmoidal(bad_data, "time", "completion", "logistic"),
+               "Data columns must not contain NA values.")
+})
+
+test_that("fit_sigmoidal rejects Inf in data columns", {
+  bad_data <- data.frame(time = c(1, Inf, 3), completion = c(5, 15, 40))
+  expect_error(fit_sigmoidal(bad_data, "time", "completion", "logistic"),
+               "Data columns must not contain infinite values.")
+})
+
+test_that("predict_sigmoidal rejects NaN in x_range", {
+  fit <- fit_sigmoidal(data, "time", "completion", "logistic")
+  expect_error(predict_sigmoidal(fit, c(1, NaN, 3), "logistic"),
+               "x_range must not contain NaN values.")
+})
+
+test_that("predict_sigmoidal rejects NA in x_range", {
+  fit <- fit_sigmoidal(data, "time", "completion", "logistic")
+  expect_error(predict_sigmoidal(fit, c(1, NA, 3), "logistic"),
+               "x_range must not contain NA values.")
+})
+
+test_that("predict_sigmoidal rejects Inf in x_range", {
+  fit <- fit_sigmoidal(data, "time", "completion", "logistic")
+  expect_error(predict_sigmoidal(fit, c(1, Inf, 3), "logistic"),
+               "x_range must not contain infinite values.")
+})
+
+test_that("plot_sigmoidal rejects NaN in data columns for plotting", {
+  fit <- fit_sigmoidal(data, "time", "completion", "logistic")
+  bad_data <- data.frame(time = c(1, NaN, 3), completion = c(5, 15, 40))
+  expect_error(plot_sigmoidal(fit, bad_data, "time", "completion", "logistic"),
+               "Data columns must not contain NaN values for plotting.")
+})
+
+test_that("plot_sigmoidal rejects NA in data columns for plotting", {
+  fit <- fit_sigmoidal(data, "time", "completion", "logistic")
+  bad_data <- data.frame(time = c(1, NA, 3), completion = c(5, 15, 40))
+  expect_error(plot_sigmoidal(fit, bad_data, "time", "completion", "logistic"),
+               "Data columns must not contain NA values for plotting.")
+})
+
+test_that("plot_sigmoidal rejects Inf in data columns for plotting", {
+  fit <- fit_sigmoidal(data, "time", "completion", "logistic")
+  bad_data <- data.frame(time = c(1, Inf, 3), completion = c(5, 15, 40))
+  expect_error(plot_sigmoidal(fit, bad_data, "time", "completion", "logistic"),
+               "Data columns must not contain infinite values for plotting.")
+})
+
+# ============================================================================
+# G5.3: Return value tests
+# ============================================================================
+test_that("predict_sigmoidal result contains no NA, NaN, or Inf", {
+  fit <- fit_sigmoidal(data, "time", "completion", "logistic")
+  predictions <- predict_sigmoidal(fit, seq(1, 10, length.out = 50), "logistic")
+  expect_false(anyNA(predictions$x))
+  expect_false(any(is.nan(predictions$x)))
+  expect_false(any(is.infinite(predictions$x)))
+  expect_false(anyNA(predictions$pred))
+  expect_false(any(is.nan(predictions$pred)))
+  expect_false(any(is.infinite(predictions$pred)))
 })
