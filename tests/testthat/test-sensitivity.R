@@ -5,6 +5,15 @@
 #' @srrstats {G5.6} *Parameter recovery tests verify implementations produce expected results given data with known properties.*
 #' @srrstats {G5.6a} *Parameter recovery tests succeed within defined tolerance rather than exact values.*
 #' @srrstats {G5.6b} *Parameter recovery tests run with multiple random seeds when randomness is involved.*
+#' @srrstats {G5.7} *Algorithm performance tests verify implementations perform correctly as data properties change.*
+#' @srrstats {G5.8} *Edge condition tests verify appropriate behavior with extreme data properties.*
+#' @srrstats {G5.8a} *Zero-length data tests trigger clear errors.*
+#' @srrstats {G5.8b} *Unsupported data type tests trigger clear errors.*
+#' @srrstats {G5.8c} *All-NA and all-identical data tests trigger clear errors or warnings.*
+#' @srrstats {G5.8d} *Out-of-scope data tests verify appropriate behavior.*
+#' @srrstats {G5.9} *Noise susceptibility tests verify stochastic behavior stability.*
+#' @srrstats {G5.9a} *Trivial noise tests show results are stable at machine epsilon scale.*
+#' @srrstats {G5.9b} *Random seed stability tests show consistent behavior across different seeds.*
 
 test_that("sensitivity function calculates correctly for normal distributions", {
   normal_dists <- list(
@@ -159,4 +168,23 @@ test_that("sensitivity recovers known values for independent tasks", {
 
   # For independent tasks, sensitivity should be 1.0 for all tasks
   expect_equal(result, c(1, 1), tolerance = 1e-10)
+})
+
+# ============================================================================
+# Edge Condition Tests (G5.8c) - All-Identical Distributions
+# ============================================================================
+
+test_that("sensitivity handles all identical distributions", {
+  # All tasks with same distribution
+  task_dists <- list(
+    list(type = "normal", mean = 10, sd = 2),
+    list(type = "normal", mean = 10, sd = 2),
+    list(type = "normal", mean = 10, sd = 2)
+  )
+
+  result <- sensitivity(task_dists)
+
+  # All should have same sensitivity
+  expect_equal(result[1], result[2], tolerance = 1e-10)
+  expect_equal(result[2], result[3], tolerance = 1e-10)
 })

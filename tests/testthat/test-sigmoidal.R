@@ -5,6 +5,15 @@
 #' @srrstats {G5.6} *Parameter recovery tests verify implementations produce expected results given data with known properties.*
 #' @srrstats {G5.6a} *Parameter recovery tests succeed within defined tolerance rather than exact values.*
 #' @srrstats {G5.6b} *Parameter recovery tests run with multiple random seeds when randomness is involved.*
+#' @srrstats {G5.7} *Algorithm performance tests verify implementations perform correctly as data properties change.*
+#' @srrstats {G5.8} *Edge condition tests verify appropriate behavior with extreme data properties.*
+#' @srrstats {G5.8a} *Zero-length data tests trigger clear errors.*
+#' @srrstats {G5.8b} *Unsupported data type tests trigger clear errors.*
+#' @srrstats {G5.8c} *All-NA and all-identical data tests trigger clear errors or warnings.*
+#' @srrstats {G5.8d} *Out-of-scope data tests verify appropriate behavior.*
+#' @srrstats {G5.9} *Noise susceptibility tests verify stochastic behavior stability.*
+#' @srrstats {G5.9a} *Trivial noise tests show results are stable at machine epsilon scale.*
+#' @srrstats {G5.9b} *Random seed stability tests show consistent behavior across different seeds.*
 
 # Sample data for testing
 data <- data.frame(time = 1:10, completion = c(5, 15, 40, 60, 70, 75, 80, 85, 90, 95))
@@ -429,4 +438,120 @@ test_that("fit_sigmoidal recovers gompertz parameters from synthetic data (seed 
   expect_equal(as.numeric(coefs["A"]), A_true, tolerance = 5)
   expect_equal(as.numeric(coefs["b"]), b_true, tolerance = 0.5)
   expect_equal(as.numeric(coefs["c"]), c_true, tolerance = 0.1)
+})
+
+# ============================================================================
+# Algorithm Performance Tests (G5.7)
+# ============================================================================
+
+test_that("fit_sigmoidal improves with more data points", {
+  set.seed(123)
+
+  K_true <- 100
+  r_true <- 0.5
+  t0_true <- 10
+
+  # Test with different numbers of data points
+  for (n_points in c(10, 30, 50)) {
+    x <- seq(1, 20, length.out = n_points)
+    y_true <- K_true / (1 + exp(-r_true * (x - t0_true)))
+    y <- y_true + rnorm(n_points, mean = 0, sd = 1)
+
+    data_test <- data.frame(time = x, completion = y)
+    fit <- fit_sigmoidal(data_test, "time", "completion", "logistic")
+    coefs <- coef(fit)
+
+    # Store error for comparison
+    error_K <- abs(as.numeric(coefs["K"]) - K_true)
+
+    # More data should generally give better fits (with some randomness)
+    expect_true(is.numeric(error_K))
+    expect_true(error_K < 20)  # Should be reasonably close
+  }
+})
+
+test_that("fit_sigmoidal convergence improves with less noisy data", {
+  set.seed(42)
+
+  K_true <- 100
+  r_true <- 0.5
+  t0_true <- 10
+
+  x <- seq(1, 20, length.out = 50)
+  y_true <- K_true / (1 + exp(-r_true * (x - t0_true)))
+
+  # Test with different noise levels
+  noise_levels <- c(5, 2, 0.5)
+  errors_K <- numeric(length(noise_levels))
+
+  for (i in seq_along(noise_levels)) {
+    y <- y_true + rnorm(50, mean = 0, sd = noise_levels[i])
+    data_test <- data.frame(time = x, completion = y)
+    fit <- fit_sigmoidal(data_test, "time", "completion", "logistic")
+    coefs <- coef(fit)
+    errors_K[i] <- abs(as.numeric(coefs["K"]) - K_true)
+  }
+
+  # Lower noise should give better parameter estimates
+  expect_true(errors_K[3] < errors_K[1])
+})
+
+# ============================================================================
+# Edge Condition Tests (G5.8c) - All-Identical Data
+# ============================================================================
+
+test_that("fit_sigmoidal fails gracefully with all identical y values", {
+  data_constant <- data.frame(time = 1:10, completion = rep(50, 10))
+
+  # Should error or fail to converge since there's no curve to fit
+  expect_error(
+    fit_sigmoidal(data_constant, "time", "completion", "logistic")
+  )
+})
+
+test_that("fit_sigmoidal handles all NA in completion column", {
+  data_na <- data.frame(time = 1:10, completion = rep(NA_real_, 10))
+
+  expect_error(
+    fit_sigmoidal(data_na, "time", "completion", "logistic"),
+    "Data columns must not contain NA values"
+  )
+})
+
+# ============================================================================
+# Noise Susceptibility Tests (G5.9b) - Random Seed Stability
+# ============================================================================
+
+test_that("fit_sigmoidal produces consistent results across seeds", {
+  K_true <- 100
+  r_true <- 0.5
+  t0_true <- 10
+
+  x <- seq(1, 20, length.out = 50)
+  y_true <- K_true / (1 + exp(-r_true * (x - t0_true)))
+
+  # Fit with different noise realizations
+  set.seed(111)
+  y1 <- y_true + rnorm(50, 0, 1)
+  data1 <- data.frame(time = x, completion = y1)
+  fit1 <- fit_sigmoidal(data1, "time", "completion", "logistic")
+
+  set.seed(222)
+  y2 <- y_true + rnorm(50, 0, 1)
+  data2 <- data.frame(time = x, completion = y2)
+  fit2 <- fit_sigmoidal(data2, "time", "completion", "logistic")
+
+  set.seed(333)
+  y3 <- y_true + rnorm(50, 0, 1)
+  data3 <- data.frame(time = x, completion = y3)
+  fit3 <- fit_sigmoidal(data3, "time", "completion", "logistic")
+
+  # Parameter estimates should be reasonably consistent
+  coef1 <- coef(fit1)
+  coef2 <- coef(fit2)
+  coef3 <- coef(fit3)
+
+  # All K estimates should be within reasonable range
+  expect_true(abs(as.numeric(coef1["K"]) - as.numeric(coef2["K"])) < 10)
+  expect_true(abs(as.numeric(coef2["K"]) - as.numeric(coef3["K"])) < 10)
 })

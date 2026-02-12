@@ -32,6 +32,15 @@
 #' @srrstats {G5.6} *Parameter recovery tests verify implementations produce expected results given data with known properties - documented in all test files.*
 #' @srrstats {G5.6a} *Parameter recovery tests succeed within defined tolerance rather than exact values - documented in all test files.*
 #' @srrstats {G5.6b} *Parameter recovery tests run with multiple random seeds when randomness is involved - documented in test-mcs.R, test-sigmoidal.R, test-inference.R.*
+#' @srrstats {G5.7} *Algorithm performance tests verify implementations perform correctly as data properties change - documented in test-mcs.R, test-sigmoidal.R, test-inference.R, test-cormat.R.*
+#' @srrstats {G5.8} *Edge condition tests verify appropriate behavior with extreme data properties - documented in all test files.*
+#' @srrstats {G5.8a} *Zero-length data tests trigger clear errors - documented in all test files.*
+#' @srrstats {G5.8b} *Unsupported data type tests trigger clear errors - documented in all test files.*
+#' @srrstats {G5.8c} *All-NA and all-identical data tests trigger clear errors or warnings - documented in all test files.*
+#' @srrstats {G5.8d} *Out-of-scope data tests verify appropriate behavior - documented in test-dsm.R, test-evm.R, test-sigmoidal.R.*
+#' @srrstats {G5.9} *Noise susceptibility tests verify stochastic behavior stability - documented in test-mcs.R, test-sigmoidal.R, test-inference.R, test-cormat.R, test-smm.R.*
+#' @srrstats {G5.9a} *Trivial noise tests show results are stable at machine epsilon scale - documented in applicable test files.*
+#' @srrstats {G5.9b} *Random seed stability tests show consistent behavior across different seeds - documented in test-mcs.R, test-sigmoidal.R, test-inference.R, test-cormat.R.*
 #' @noRd
 NULL
 
@@ -64,15 +73,6 @@ NULL
 #' @srrstatsNA {G5.4b} *Not applicable - this is the first R implementation of these methods.*
 #' @srrstatsNA {G5.4c} *Consider updating* *Correctness is validated against formulas from referenced academic publications.*
 #' @srrstatsNA {G5.5} *Consider updating* *Examples use deterministic inputs; stochastic functions use consistent parameters.*
-#' @srrstatsNA {G5.7} *Consider updating* *Algorithm performance is demonstrated through comprehensive examples.*
-#' @srrstatsNA {G5.8} *Consider updating* *Edge condition behavior is documented through error handling in each function.*
-#' @srrstatsNA {G5.8a} *Consider updating* *Zero-length data is handled by explicit length checks.*
-#' @srrstatsNA {G5.8b} *Consider updating* *Unsupported data types produce clear error messages.*
-#' @srrstatsNA {G5.8c} *Consider updating* *All-NA fields are handled appropriately with error messages.*
-#' @srrstatsNA {G5.8d} *Consider updating* *Data dimension validation is performed where applicable.*
-#' @srrstatsNA {G5.9} *Consider updating* *Not applicable - deterministic algorithms produce consistent results.*
-#' @srrstatsNA {G5.9a} *Consider updating* *Not applicable - algorithms are not susceptible to trivial noise.*
-#' @srrstatsNA {G5.9b} *Consider updating* *Not applicable - deterministic algorithms do not use random seeds.*
 #' @srrstatsNA {G5.10} *Not applicable - no extended tests requiring special environment variables.*
 #' @srrstatsNA {G5.11} *Not applicable - no large datasets required for testing.*
 #' @srrstatsNA {G5.11a} *Not applicable - no external downloads required for tests.*

@@ -5,6 +5,15 @@
 #' @srrstats {G5.6} *Parameter recovery tests verify implementations produce expected results given data with known properties.*
 #' @srrstats {G5.6a} *Parameter recovery tests succeed within defined tolerance rather than exact values.*
 #' @srrstats {G5.6b} *Parameter recovery tests run with multiple random seeds when randomness is involved.*
+#' @srrstats {G5.7} *Algorithm performance tests verify implementations perform correctly as data properties change.*
+#' @srrstats {G5.8} *Edge condition tests verify appropriate behavior with extreme data properties.*
+#' @srrstats {G5.8a} *Zero-length data tests trigger clear errors.*
+#' @srrstats {G5.8b} *Unsupported data type tests trigger clear errors.*
+#' @srrstats {G5.8c} *All-NA and all-identical data tests trigger clear errors or warnings.*
+#' @srrstats {G5.8d} *Out-of-scope data tests verify appropriate behavior.*
+#' @srrstats {G5.9} *Noise susceptibility tests verify stochastic behavior stability.*
+#' @srrstats {G5.9a} *Trivial noise tests show results are stable at machine epsilon scale.*
+#' @srrstats {G5.9b} *Random seed stability tests show consistent behavior across different seeds.*
 
 test_that("Planned Value (PV) calculation is correct", {
   bac <- 100000
@@ -930,4 +939,51 @@ test_that("cpi recovers known cost performance index", {
   expected <- 35000 / 36000
 
   expect_equal(result, expected, tolerance = 1e-6)
+})
+
+# ============================================================================
+# Edge Condition Tests (G5.8a) - Zero-Length Data
+# ============================================================================
+
+test_that("pv rejects zero-length schedule", {
+  expect_error(pv(100000, numeric(0), 1), "schedule must not be empty")
+})
+
+test_that("ac rejects zero-length actual_costs", {
+  expect_error(ac(numeric(0), 1), "actual_costs must not be empty")
+})
+
+# ============================================================================
+# Edge Condition Tests (G5.8d) - Out-of-Scope Data
+# ============================================================================
+
+test_that("pv rejects time_period beyond schedule length", {
+  bac <- 100000
+  schedule <- c(0.1, 0.2, 0.4, 0.7, 1.0)
+
+  expect_error(pv(bac, schedule, 10), "time_period must be within the range of the schedule vector")
+})
+
+test_that("ac rejects time_period beyond actual_costs length", {
+  actual_costs <- c(10000, 20000, 30000)
+
+  expect_error(ac(actual_costs, 10), "time_period must be within the range of the actual_costs vector")
+})
+
+# ============================================================================
+# Noise Susceptibility Tests (G5.9a) - Trivial Noise
+# ============================================================================
+
+test_that("pv is stable to trivial noise in inputs", {
+  bac <- 100000
+  schedule <- c(0.1, 0.2, 0.4, 0.7, 1.0)
+  time_period <- 3
+
+  result_clean <- pv(bac, schedule, time_period)
+
+  # Add trivial noise
+  bac_noisy <- bac + runif(1, -.Machine$double.eps, .Machine$double.eps)
+  result_noisy <- pv(bac_noisy, schedule, time_period)
+
+  expect_equal(result_clean, result_noisy, tolerance = 10*.Machine$double.eps)
 })

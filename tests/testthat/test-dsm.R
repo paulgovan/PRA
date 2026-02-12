@@ -5,6 +5,15 @@
 #' @srrstats {G5.6} *Parameter recovery tests verify implementations produce expected results given data with known properties.*
 #' @srrstats {G5.6a} *Parameter recovery tests succeed within defined tolerance rather than exact values.*
 #' @srrstats {G5.6b} *Parameter recovery tests run with multiple random seeds when randomness is involved.*
+#' @srrstats {G5.7} *Algorithm performance tests verify implementations perform correctly as data properties change.*
+#' @srrstats {G5.8} *Edge condition tests verify appropriate behavior with extreme data properties.*
+#' @srrstats {G5.8a} *Zero-length data tests trigger clear errors.*
+#' @srrstats {G5.8b} *Unsupported data type tests trigger clear errors.*
+#' @srrstats {G5.8c} *All-NA and all-identical data tests trigger clear errors or warnings.*
+#' @srrstats {G5.8d} *Out-of-scope data tests verify appropriate behavior.*
+#' @srrstats {G5.9} *Noise susceptibility tests verify stochastic behavior stability.*
+#' @srrstats {G5.9a} *Trivial noise tests show results are stable at machine epsilon scale.*
+#' @srrstats {G5.9b} *Random seed stability tests show consistent behavior across different seeds.*
 
 # Unit tests for the parent_dsm function
 test_that("parent_dsm function works correctly with valid input", {
@@ -244,4 +253,76 @@ test_that("grandparent_dsm is symmetric", {
 
   # Result must be symmetric
   expect_equal(result, t(result), tolerance = 1e-10)
+})
+
+# ============================================================================
+# Edge Condition Tests (G5.8a) - Zero-Length Data
+# ============================================================================
+
+test_that("parent_dsm handles zero-dimension matrix", {
+  empty_matrix <- matrix(numeric(0), nrow = 0, ncol = 0)
+  result <- parent_dsm(empty_matrix)
+
+  # Should return an empty matrix (0x0)
+  expect_true(is.matrix(result))
+  expect_equal(nrow(result), 0)
+  expect_equal(ncol(result), 0)
+})
+
+# ============================================================================
+# Edge Condition Tests (G5.8c) - All-Zero/All-One Matrices
+# ============================================================================
+
+test_that("parent_dsm handles all-zero matrix", {
+  S <- matrix(0, nrow = 3, ncol = 3)
+  result <- parent_dsm(S)
+
+  # Should return all-zero matrix
+  expect_true(all(result == 0))
+})
+
+test_that("parent_dsm handles all-one matrix", {
+  S <- matrix(1, nrow = 3, ncol = 3)
+  result <- parent_dsm(S)
+
+  # Should return valid result (all tasks share all resources)
+  expect_true(is.matrix(result))
+  expect_equal(nrow(result), 3)
+  expect_equal(ncol(result), 3)
+})
+
+# ============================================================================
+# Edge Condition Tests (G5.8d) - Out-of-Scope Data
+# ============================================================================
+
+test_that("parent_dsm requires square matrix", {
+  # Non-square matrix (already tested but documenting for G5.8d)
+  S_rect <- matrix(c(1, 0, 1, 0, 1, 0), nrow = 2, ncol = 3)
+  expect_error(parent_dsm(S_rect), "The Resource-Task Matrix must be square")
+})
+
+test_that("grandparent_dsm requires compatible dimensions", {
+  S <- matrix(c(1, 0, 0, 1), nrow = 2, ncol = 2)
+  R_wrong <- matrix(c(1, 0, 1), nrow = 1, ncol = 3)
+
+  expect_error(
+    grandparent_dsm(S, R_wrong),
+    "Number of columns in the Matrix S must be equal to the number of columns in Matrix R"
+  )
+})
+
+# ============================================================================
+# Noise Susceptibility Tests (G5.9a) - Trivial Noise
+# ============================================================================
+
+test_that("parent_dsm is stable to trivial noise in matrix values", {
+  S <- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9), nrow = 3, ncol = 3)
+  result_clean <- parent_dsm(S)
+
+  # Add trivial noise
+  S_noisy <- S + matrix(runif(9, -.Machine$double.eps, .Machine$double.eps), nrow = 3)
+  result_noisy <- parent_dsm(S_noisy)
+
+  # Results should be essentially identical
+  expect_equal(result_clean, result_noisy, tolerance = 100*.Machine$double.eps)
 })

@@ -5,6 +5,15 @@
 #' @srrstats {G5.6} *Parameter recovery tests verify implementations produce expected results given data with known properties.*
 #' @srrstats {G5.6a} *Parameter recovery tests succeed within defined tolerance rather than exact values.*
 #' @srrstats {G5.6b} *Parameter recovery tests run with multiple random seeds when randomness is involved.*
+#' @srrstats {G5.7} *Algorithm performance tests verify implementations perform correctly as data properties change.*
+#' @srrstats {G5.8} *Edge condition tests verify appropriate behavior with extreme data properties.*
+#' @srrstats {G5.8a} *Zero-length data tests trigger clear errors.*
+#' @srrstats {G5.8b} *Unsupported data type tests trigger clear errors.*
+#' @srrstats {G5.8c} *All-NA and all-identical data tests trigger clear errors or warnings.*
+#' @srrstats {G5.8d} *Out-of-scope data tests verify appropriate behavior.*
+#' @srrstats {G5.9} *Noise susceptibility tests verify stochastic behavior stability.*
+#' @srrstats {G5.9a} *Trivial noise tests show results are stable at machine epsilon scale.*
+#' @srrstats {G5.9b} *Random seed stability tests show consistent behavior across different seeds.*
 
 test_that("risk_post_prob handles fully observed causes", {
   cause_probs <- c(0.3, 0.2)

@@ -5,6 +5,15 @@
 #' @srrstats {G5.6} *Parameter recovery tests verify implementations produce expected results given data with known properties.*
 #' @srrstats {G5.6a} *Parameter recovery tests succeed within defined tolerance rather than exact values.*
 #' @srrstats {G5.6b} *Parameter recovery tests run with multiple random seeds when randomness is involved.*
+#' @srrstats {G5.7} *Algorithm performance tests verify implementations perform correctly as data properties change.*
+#' @srrstats {G5.8} *Edge condition tests verify appropriate behavior with extreme data properties.*
+#' @srrstats {G5.8a} *Zero-length data tests trigger clear errors.*
+#' @srrstats {G5.8b} *Unsupported data type tests trigger clear errors.*
+#' @srrstats {G5.8c} *All-NA and all-identical data tests trigger clear errors or warnings.*
+#' @srrstats {G5.8d} *Out-of-scope data tests verify appropriate behavior.*
+#' @srrstats {G5.9} *Noise susceptibility tests verify stochastic behavior stability.*
+#' @srrstats {G5.9a} *Trivial noise tests show results are stable at machine epsilon scale.*
+#' @srrstats {G5.9b} *Random seed stability tests show consistent behavior across different seeds.*
 
 # Define a helper function to generate simulation results for testing
 generate_simulation_results <- function() {
@@ -109,4 +118,23 @@ test_that("contingency recovers known percentile difference", {
   expected <- mcs_result$percentiles[3] - mcs_result$percentiles[2]
 
   expect_equal(result, expected, tolerance = 1e-10)
+})
+
+# ============================================================================
+# Edge Condition Tests (G5.8c) - All-Identical Data
+# ============================================================================
+
+test_that("contingency handles all identical values in distribution", {
+  set.seed(123)
+
+  # Create MCS result with constant values
+  num_sims <- 1000
+  constant_dist <- rep(100, num_sims)
+  sims <- list(total_distribution = constant_dist)
+  class(sims) <- "mcs"
+
+  result <- contingency(sims, phigh = 0.95, pbase = 0.50)
+
+  # Contingency should be 0 since all values are identical
+  expect_equal(as.numeric(result), 0, tolerance = 1e-10)
 })
