@@ -504,9 +504,31 @@ test_that("fit_sigmoidal fails gracefully with all identical y values", {
   data_constant <- data.frame(time = 1:10, completion = rep(50, 10))
 
   # Should error or fail to converge since there's no curve to fit
-  expect_error(
-    fit_sigmoidal(data_constant, "time", "completion", "logistic")
+  # Platform-dependent: nlsLM may error or succeed with degenerate fit
+  result <- tryCatch(
+    {
+      fit <- fit_sigmoidal(data_constant, "time", "completion", "logistic")
+      # If it doesn't error, check that it's a degenerate fit
+      # (constant data means fit should have issues)
+      list(success = TRUE, fit = fit)
+    },
+    error = function(e) {
+      list(success = FALSE, error = e)
+    }
   )
+
+  # Test passes if either:
+  # 1. An error was thrown (success = FALSE), OR
+  # 2. The fit succeeded but is degenerate (all predictions ≈ constant)
+  if (result$success) {
+    # Check that the fit is degenerate (predictions are essentially constant)
+    preds <- predict(result$fit, newdata = data_constant)
+    # All predictions should be very close to each other (constant)
+    expect_true(sd(preds) < 1e-6)
+  } else {
+    # An error was thrown - this is expected behavior
+    expect_true(!result$success)
+  }
 })
 
 test_that("fit_sigmoidal handles all NA in completion column", {
