@@ -2,6 +2,9 @@
 #' @srrstats {G5.2a} *Every error message is unique and tested.*
 #' @srrstats {G5.2b} *Tests trigger every error message and compare with expected values.*
 #' @srrstats {G5.3} *Return objects tested for absence of NA, NaN, Inf.*
+#' @srrstats {G5.6} *Parameter recovery tests verify implementations produce expected results given data with known properties.*
+#' @srrstats {G5.6a} *Parameter recovery tests succeed within defined tolerance rather than exact values.*
+#' @srrstats {G5.6b} *Parameter recovery tests run with multiple random seeds when randomness is involved.*
 
 test_that("sensitivity function calculates correctly for normal distributions", {
   normal_dists <- list(
@@ -139,4 +142,21 @@ test_that("sensitivity result contains no NA, NaN, or Inf", {
   expect_false(anyNA(result))
   expect_false(any(is.nan(result)))
   expect_false(any(is.infinite(result)))
+})
+
+# ============================================================================
+# Parameter Recovery Tests (G5.6, G5.6a)
+# ============================================================================
+
+test_that("sensitivity recovers known values for independent tasks", {
+  task_dists <- list(
+    list(type = "normal", mean = 10, sd = 2),
+    list(type = "normal", mean = 15, sd = 3)
+  )
+  # No correlation matrix = independent
+
+  result <- sensitivity(task_dists)
+
+  # For independent tasks, sensitivity should be 1.0 for all tasks
+  expect_equal(result, c(1, 1), tolerance = 1e-10)
 })

@@ -2,6 +2,9 @@
 #' @srrstats {G5.2a} *Every error message is unique and tested.*
 #' @srrstats {G5.2b} *Tests trigger every error message and compare with expected values.*
 #' @srrstats {G5.3} *Return objects tested for absence of NA, NaN, Inf.*
+#' @srrstats {G5.6} *Parameter recovery tests verify implementations produce expected results given data with known properties.*
+#' @srrstats {G5.6a} *Parameter recovery tests succeed within defined tolerance rather than exact values.*
+#' @srrstats {G5.6b} *Parameter recovery tests run with multiple random seeds when randomness is involved.*
 
 # Sample data for testing
 data <- data.frame(time = 1:10, completion = c(5, 15, 40, 60, 70, 75, 80, 85, 90, 95))
@@ -336,4 +339,94 @@ test_that("predict_sigmoidal result contains no NA, NaN, or Inf", {
   expect_false(anyNA(predictions$pred))
   expect_false(any(is.nan(predictions$pred)))
   expect_false(any(is.infinite(predictions$pred)))
+})
+
+# ============================================================================
+# Parameter Recovery Tests (G5.6, G5.6a, G5.6b)
+# ============================================================================
+
+test_that("fit_sigmoidal recovers logistic parameters from synthetic data (seed 123)", {
+  set.seed(123)
+
+  # Generate synthetic data from known logistic curve
+  K_true <- 100
+  r_true <- 0.5
+  t0_true <- 10
+
+  x <- seq(1, 20, length.out = 50)
+  y_true <- K_true / (1 + exp(-r_true * (x - t0_true)))
+  # Add small noise
+  y <- y_true + rnorm(50, mean = 0, sd = 1)
+
+  synthetic_data <- data.frame(time = x, completion = y)
+  fit <- fit_sigmoidal(synthetic_data, "time", "completion", "logistic")
+  coefs <- coef(fit)
+
+  # Recovered parameters should be close to true values
+  expect_equal(as.numeric(coefs["K"]), K_true, tolerance = 5)
+  expect_equal(as.numeric(coefs["r"]), r_true, tolerance = 0.1)
+  expect_equal(as.numeric(coefs["t0"]), t0_true, tolerance = 2)
+})
+
+test_that("fit_sigmoidal recovers logistic parameters from synthetic data (seed 42)", {
+  set.seed(42)
+
+  # Same test with different seed to verify robustness (G5.6b)
+  K_true <- 100
+  r_true <- 0.5
+  t0_true <- 10
+
+  x <- seq(1, 20, length.out = 50)
+  y_true <- K_true / (1 + exp(-r_true * (x - t0_true)))
+  y <- y_true + rnorm(50, mean = 0, sd = 1)
+
+  synthetic_data <- data.frame(time = x, completion = y)
+  fit <- fit_sigmoidal(synthetic_data, "time", "completion", "logistic")
+  coefs <- coef(fit)
+
+  expect_equal(as.numeric(coefs["K"]), K_true, tolerance = 5)
+  expect_equal(as.numeric(coefs["r"]), r_true, tolerance = 0.1)
+  expect_equal(as.numeric(coefs["t0"]), t0_true, tolerance = 2)
+})
+
+test_that("fit_sigmoidal recovers gompertz parameters from synthetic data (seed 123)", {
+  set.seed(123)
+
+  # Generate synthetic Gompertz data
+  A_true <- 100
+  b_true <- 2
+  c_true <- 0.3
+
+  x <- seq(1, 20, length.out = 50)
+  y_true <- A_true * exp(-b_true * exp(-c_true * x))
+  y <- y_true + rnorm(50, mean = 0, sd = 1)
+
+  synthetic_data <- data.frame(time = x, completion = y)
+  fit <- fit_sigmoidal(synthetic_data, "time", "completion", "gompertz")
+  coefs <- coef(fit)
+
+  expect_equal(as.numeric(coefs["A"]), A_true, tolerance = 5)
+  expect_equal(as.numeric(coefs["b"]), b_true, tolerance = 0.5)
+  expect_equal(as.numeric(coefs["c"]), c_true, tolerance = 0.1)
+})
+
+test_that("fit_sigmoidal recovers gompertz parameters from synthetic data (seed 42)", {
+  set.seed(42)
+
+  # Same test with different seed (G5.6b)
+  A_true <- 100
+  b_true <- 2
+  c_true <- 0.3
+
+  x <- seq(1, 20, length.out = 50)
+  y_true <- A_true * exp(-b_true * exp(-c_true * x))
+  y <- y_true + rnorm(50, mean = 0, sd = 1)
+
+  synthetic_data <- data.frame(time = x, completion = y)
+  fit <- fit_sigmoidal(synthetic_data, "time", "completion", "gompertz")
+  coefs <- coef(fit)
+
+  expect_equal(as.numeric(coefs["A"]), A_true, tolerance = 5)
+  expect_equal(as.numeric(coefs["b"]), b_true, tolerance = 0.5)
+  expect_equal(as.numeric(coefs["c"]), c_true, tolerance = 0.1)
 })

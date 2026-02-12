@@ -2,6 +2,9 @@
 #' @srrstats {G5.2a} *Every error message is unique and tested.*
 #' @srrstats {G5.2b} *Tests trigger every error message and compare with expected values.*
 #' @srrstats {G5.3} *Return objects tested for absence of NA, NaN, Inf.*
+#' @srrstats {G5.6} *Parameter recovery tests verify implementations produce expected results given data with known properties.*
+#' @srrstats {G5.6a} *Parameter recovery tests succeed within defined tolerance rather than exact values.*
+#' @srrstats {G5.6b} *Parameter recovery tests run with multiple random seeds when randomness is involved.*
 
 # Define a set of distributions
 dists <- list(
@@ -81,4 +84,39 @@ test_that("cor_matrix result contains no NA, NaN, or Inf", {
   expect_false(anyNA(result))
   expect_false(any(is.nan(result)))
   expect_false(any(is.infinite(result)))
+})
+
+# ============================================================================
+# Parameter Recovery Tests (G5.6, G5.6a)
+# ============================================================================
+
+test_that("cor_matrix has unit diagonal", {
+  set.seed(123)
+
+  # cor_matrix expects named list of distributions
+  dist_list <- list(
+    norm1 = function(n) rnorm(n, 10, 2),
+    norm2 = function(n) rnorm(n, 15, 3)
+  )
+
+  result <- cor_matrix(num_samples = 10000, num_vars = 2, dists = dist_list)
+
+  # Diagonal elements must be 1 (correlation with self)
+  expect_equal(diag(result), c(1, 1), tolerance = 1e-10)
+})
+
+test_that("cor_matrix is symmetric", {
+  set.seed(42)
+
+  # cor_matrix expects named list of distributions
+  dist_list <- list(
+    norm1 = function(n) rnorm(n, 10, 2),
+    unif1 = function(n) runif(n, 5, 15),
+    norm2 = function(n) rnorm(n, 20, 5)
+  )
+
+  result <- cor_matrix(num_samples = 10000, num_vars = 3, dists = dist_list)
+
+  # Correlation matrix must be symmetric
+  expect_equal(result, t(result), tolerance = 1e-10)
 })

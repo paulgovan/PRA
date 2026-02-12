@@ -2,6 +2,9 @@
 #' @srrstats {G5.2a} *Every error message is unique and tested.*
 #' @srrstats {G5.2b} *Tests trigger every error message and compare with expected values.*
 #' @srrstats {G5.3} *Return objects tested for absence of NA, NaN, Inf.*
+#' @srrstats {G5.6} *Parameter recovery tests verify implementations produce expected results given data with known properties.*
+#' @srrstats {G5.6a} *Parameter recovery tests succeed within defined tolerance rather than exact values.*
+#' @srrstats {G5.6b} *Parameter recovery tests run with multiple random seeds when randomness is involved.*
 
 test_that("second moment analysis works without correlation matrix", {
   mean <- c(10, 15, 20)
@@ -163,4 +166,53 @@ test_that("smm result components contain no NA, NaN, or Inf", {
   expect_false(is.na(result$total_std))
   expect_false(is.nan(result$total_std))
   expect_false(is.infinite(result$total_std))
+})
+
+# ============================================================================
+# Parameter Recovery Tests (G5.6, G5.6a)
+# ============================================================================
+
+test_that("smm recovers known variance for independent tasks", {
+  mean <- c(10, 15, 20)
+  var <- c(4, 9, 16)
+  # No correlation matrix = independent tasks
+  result <- smm(mean, var)
+
+  # Expected: total_mean = sum of means, total_var = sum of variances
+  expected_mean <- 10 + 15 + 20
+  expected_var <- 4 + 9 + 16
+
+  expect_equal(result$total_mean, expected_mean, tolerance = 1e-10)
+  expect_equal(result$total_var, expected_var, tolerance = 1e-10)
+  expect_equal(result$total_std, sqrt(expected_var), tolerance = 1e-10)
+})
+
+test_that("smm recovers known variance with perfect correlation", {
+  mean <- c(10, 15, 20)
+  var <- c(4, 9, 16)
+  cor_mat <- matrix(1, nrow = 3, ncol = 3) # Perfect correlation
+  result <- smm(mean, var, cor_mat)
+
+  # Expected: total_var = (sum of standard deviations)^2
+  expected_mean <- 10 + 15 + 20
+  expected_var <- (2 + 3 + 4)^2  # (sqrt(4) + sqrt(9) + sqrt(16))^2 = 81
+
+  expect_equal(result$total_mean, expected_mean, tolerance = 1e-10)
+  expect_equal(result$total_var, expected_var, tolerance = 1e-10)
+})
+
+test_that("smm recovers known variance with partial correlation", {
+  mean <- c(10, 20)
+  var <- c(4, 9)
+  cor_mat <- matrix(c(1, 0.5, 0.5, 1), nrow = 2)
+  result <- smm(mean, var, cor_mat)
+
+  # Manual calculation:
+  # total_var = var[1] + var[2] + 2*cov[1,2]
+  # cov[1,2] = cor[1,2] * sqrt(var[1]) * sqrt(var[2]) = 0.5 * 2 * 3 = 3
+  expected_mean <- 10 + 20
+  expected_var <- 4 + 9 + 2*3  # = 19
+
+  expect_equal(result$total_mean, expected_mean, tolerance = 1e-10)
+  expect_equal(result$total_var, expected_var, tolerance = 1e-10)
 })

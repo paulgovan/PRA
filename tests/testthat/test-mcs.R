@@ -2,6 +2,9 @@
 #' @srrstats {G5.2a} *Every error message is unique and tested.*
 #' @srrstats {G5.2b} *Tests trigger every error message and compare with expected values.*
 #' @srrstats {G5.3} *Return objects tested for absence of NA, NaN, Inf.*
+#' @srrstats {G5.6} *Parameter recovery tests verify implementations produce expected results given data with known properties.*
+#' @srrstats {G5.6a} *Parameter recovery tests succeed within defined tolerance rather than exact values.*
+#' @srrstats {G5.6b} *Parameter recovery tests run with multiple random seeds when randomness is involved.*
 
 test_that("mcs function works correctly with different distribution types", {
   set.seed(123) # Set seed for reproducibility
@@ -178,4 +181,97 @@ test_that("mcs print method works correctly", {
   expect_output(print(result), "Monte Carlo Simulation Results:")
   expect_output(print(result), "Total Mean:")
   expect_output(print(result), "Total Variance:")
+})
+
+# ============================================================================
+# Parameter Recovery Tests (G5.6, G5.6a, G5.6b)
+# ============================================================================
+
+test_that("mcs converges to theoretical mean for normal distribution (seed 123)", {
+  set.seed(123)
+
+  # Large sample size for convergence
+  num_sims <- 100000
+  task_dists <- list(
+    list(type = "normal", mean = 10, sd = 2),
+    list(type = "normal", mean = 15, sd = 3)
+  )
+
+  result <- mcs(num_sims, task_dists)
+
+  # Expected mean = sum of individual means (no correlation)
+  expected_mean <- 10 + 15
+
+  # With large N, sample mean should converge to theoretical mean
+  expect_equal(result$total_mean, expected_mean, tolerance = 0.1)
+})
+
+test_that("mcs converges to theoretical mean for normal distribution (seed 42)", {
+  set.seed(42)
+
+  # Same test with different seed (G5.6b)
+  num_sims <- 100000
+  task_dists <- list(
+    list(type = "normal", mean = 10, sd = 2),
+    list(type = "normal", mean = 15, sd = 3)
+  )
+
+  result <- mcs(num_sims, task_dists)
+  expected_mean <- 10 + 15
+
+  expect_equal(result$total_mean, expected_mean, tolerance = 0.1)
+})
+
+test_that("mcs converges to theoretical variance for independent tasks (seed 123)", {
+  set.seed(123)
+
+  num_sims <- 100000
+  task_dists <- list(
+    list(type = "normal", mean = 10, sd = 2),
+    list(type = "normal", mean = 15, sd = 3)
+  )
+
+  result <- mcs(num_sims, task_dists)
+
+  # Expected variance = sum of individual variances (independent)
+  expected_var <- 2^2 + 3^2  # 4 + 9 = 13
+
+  expect_equal(result$total_variance, expected_var, tolerance = 0.2)
+})
+
+test_that("mcs converges to theoretical variance for independent tasks (seed 789)", {
+  set.seed(789)
+
+  # Third seed for G5.6b coverage
+  num_sims <- 100000
+  task_dists <- list(
+    list(type = "normal", mean = 10, sd = 2),
+    list(type = "normal", mean = 15, sd = 3)
+  )
+
+  result <- mcs(num_sims, task_dists)
+  expected_var <- 2^2 + 3^2
+
+  expect_equal(result$total_variance, expected_var, tolerance = 0.2)
+})
+
+test_that("mcs with high correlation produces higher variance", {
+  set.seed(123)
+
+  num_sims <- 10000
+  task_dists <- list(
+    list(type = "normal", mean = 10, sd = 2),
+    list(type = "normal", mean = 15, sd = 3)
+  )
+  # High correlation (0.99 instead of 1.0 to avoid singularity)
+  cor_mat <- matrix(c(1, 0.99, 0.99, 1), nrow = 2)
+
+  result <- mcs(num_sims, task_dists, cor_mat)
+
+  # With high correlation, variance should be larger than independent case
+  # Var(X + Y) = Var(X) + Var(Y) + 2*Cov(X,Y)
+  # When cor=0.99: Cov(X,Y) ≈ SD(X)*SD(Y)*0.99 = 2*3*0.99 = 5.94
+  expected_var_approx <- 4 + 9 + 2*5.94  # ≈ 24.88
+
+  expect_equal(result$total_variance, expected_var_approx, tolerance = 0.5)
 })

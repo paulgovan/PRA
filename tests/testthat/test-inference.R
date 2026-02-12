@@ -2,6 +2,9 @@
 #' @srrstats {G5.2a} *Every error message is unique and tested.*
 #' @srrstats {G5.2b} *Tests trigger every error message and compare with expected values.*
 #' @srrstats {G5.3} *Return objects tested for absence of NA, NaN, Inf.*
+#' @srrstats {G5.6} *Parameter recovery tests verify implementations produce expected results given data with known properties.*
+#' @srrstats {G5.6a} *Parameter recovery tests succeed within defined tolerance rather than exact values.*
+#' @srrstats {G5.6b} *Parameter recovery tests run with multiple random seeds when randomness is involved.*
 
 # Unit tests for risk_prob function
 test_that("risk_prob calculates correct risk probabilities", {
@@ -179,4 +182,97 @@ test_that("cost_pdf result contains no NA, NaN, or Inf", {
   expect_false(anyNA(samples))
   expect_false(any(is.nan(samples)))
   expect_false(any(is.infinite(samples)))
+})
+
+# ============================================================================
+# Parameter Recovery Tests (G5.6, G5.6a, G5.6b)
+# ============================================================================
+
+test_that("risk_prob recovers known probability with certain cause", {
+  # If cause is certain (prob=1) and risk given cause is certain (prob=1)
+  cause_probs <- c(1.0)
+  risks_given_causes <- c(1.0)
+  risks_given_not_causes <- c(0.0)
+
+  result <- risk_prob(cause_probs, risks_given_causes, risks_given_not_causes)
+
+  # Expected: P(R) = 1.0 * 1.0 + 0.0 * 0.0 = 1.0
+  expect_equal(result, 1.0, tolerance = 1e-10)
+})
+
+test_that("risk_prob recovers known probability with no risk", {
+  # If all conditional probabilities are zero
+  cause_probs <- c(0.5, 0.3)
+  risks_given_causes <- c(0.0, 0.0)
+  risks_given_not_causes <- c(0.0, 0.0)
+
+  result <- risk_prob(cause_probs, risks_given_causes, risks_given_not_causes)
+
+  # Expected: P(R) = 0
+  expect_equal(result, 0.0, tolerance = 1e-10)
+})
+
+test_that("risk_prob recovers known probability from manual calculation", {
+  cause_probs <- c(0.3, 0.2)
+  risks_given_causes <- c(0.8, 0.6)
+  risks_given_not_causes <- c(0.2, 0.4)
+
+  result <- risk_prob(cause_probs, risks_given_causes, risks_given_not_causes)
+
+  # Manual calculation using law of total probability:
+  # P(R) = P(R|C1)*P(C1) + P(R|¬C1)*P(¬C1) + P(R|C2)*P(C2) + P(R|¬C2)*P(¬C2)
+  #      = 0.8*0.3 + 0.2*0.7 + 0.6*0.2 + 0.4*0.8
+  #      = 0.24 + 0.14 + 0.12 + 0.32 = 0.82
+  expected <- 0.8*0.3 + 0.2*0.7 + 0.6*0.2 + 0.4*0.8
+
+  expect_equal(result, expected, tolerance = 1e-10)
+})
+
+test_that("cost_pdf converges to theoretical mean with single certain risk (seed 123)", {
+  set.seed(123)
+
+  num_sims <- 100000
+  risk_probs <- c(1.0)  # Certain risk
+  means_given_risks <- c(10000)
+  sds_given_risks <- c(0)  # No variance
+  base_cost <- 5000
+
+  samples <- cost_pdf(num_sims, risk_probs, means_given_risks, sds_given_risks, base_cost)
+
+  # Expected: all samples = base_cost + mean_risk = 15000
+  expected_mean <- 5000 + 10000
+
+  expect_equal(mean(samples), expected_mean, tolerance = 1)
+})
+
+test_that("cost_pdf converges to theoretical mean with uncertain risk (seed 42)", {
+  set.seed(42)
+
+  num_sims <- 100000
+  risk_probs <- c(0.5)
+  means_given_risks <- c(10000)
+  sds_given_risks <- c(1000)
+  base_cost <- 5000
+
+  samples <- cost_pdf(num_sims, risk_probs, means_given_risks, sds_given_risks, base_cost)
+
+  # Expected mean: base_cost + risk_prob * mean_risk
+  expected_mean <- 5000 + 0.5 * 10000  # 10000
+
+  expect_equal(mean(samples), expected_mean, tolerance = 100)
+})
+
+test_that("cost_pdf with zero risk probability equals base cost (seed 123)", {
+  set.seed(123)
+
+  num_sims <- 1000
+  risk_probs <- c(0.0)
+  means_given_risks <- c(10000)
+  sds_given_risks <- c(1000)
+  base_cost <- 5000
+
+  samples <- cost_pdf(num_sims, risk_probs, means_given_risks, sds_given_risks, base_cost)
+
+  # All samples should equal base_cost
+  expect_true(all(samples == base_cost))
 })

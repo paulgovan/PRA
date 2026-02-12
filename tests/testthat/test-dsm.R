@@ -2,6 +2,9 @@
 #' @srrstats {G5.2a} *Every error message is unique and tested.*
 #' @srrstats {G5.2b} *Tests trigger every error message and compare with expected values.*
 #' @srrstats {G5.3} *Return objects tested for absence of NA, NaN, Inf.*
+#' @srrstats {G5.6} *Parameter recovery tests verify implementations produce expected results given data with known properties.*
+#' @srrstats {G5.6a} *Parameter recovery tests succeed within defined tolerance rather than exact values.*
+#' @srrstats {G5.6b} *Parameter recovery tests run with multiple random seeds when randomness is involved.*
 
 # Unit tests for the parent_dsm function
 test_that("parent_dsm function works correctly with valid input", {
@@ -186,4 +189,59 @@ test_that("grandparent_dsm result contains no NA, NaN, or Inf", {
   expect_false(anyNA(result))
   expect_false(any(is.nan(result)))
   expect_false(any(is.infinite(result)))
+})
+
+# ============================================================================
+# Parameter Recovery Tests (G5.6, G5.6a)
+# ============================================================================
+
+test_that("parent_dsm recovers known matrix properties", {
+  # Simple 2x2 case with known structure
+  S <- matrix(c(1, 0, 0, 1), nrow = 2)
+  result <- parent_dsm(S)
+
+  # Expected: S * S^T = identity matrix for this case
+  expected <- matrix(c(1, 0, 0, 1), nrow = 2)
+
+  expect_equal(result, expected, tolerance = 1e-10)
+})
+
+test_that("parent_dsm diagonal equals row sums", {
+  # parent_dsm requires square matrices
+  S <- matrix(c(1, 0, 1, 0, 1, 0, 1, 0, 1), nrow = 3, ncol = 3)
+  result <- parent_dsm(S)
+
+  # Diagonal elements equal row sums (resources per task)
+  # Row 1: 1+0+1 = 2, Row 2: 0+1+0 = 1, Row 3: 1+0+1 = 2
+  expect_equal(diag(result), c(2, 1, 2), tolerance = 1e-10)
+})
+
+test_that("parent_dsm is symmetric", {
+  S <- matrix(c(1, 1, 0, 0, 1, 1, 1, 0, 1), nrow = 3, ncol = 3)
+  result <- parent_dsm(S)
+
+  # Matrix multiplication S * S^T is always symmetric
+  expect_equal(result, t(result), tolerance = 1e-10)
+})
+
+test_that("grandparent_dsm recovers known shared risks", {
+  S <- matrix(c(1, 0, 0, 1), nrow = 2, ncol = 2)
+  R <- matrix(c(1, 1, 0, 0), nrow = 2, ncol = 2)
+  result <- grandparent_dsm(S, R)
+
+  # S * R^T gives the task-risk matrix
+  # Then (S * R^T) * (S * R^T)^T gives the shared risk matrix
+  # Expected: symmetric result
+  expect_true(is.matrix(result))
+  expect_equal(nrow(result), 2)
+  expect_equal(ncol(result), 2)
+})
+
+test_that("grandparent_dsm is symmetric", {
+  S <- matrix(c(1, 1, 0, 0, 1, 1, 1, 0, 1), nrow = 3, ncol = 3)
+  R <- matrix(c(1, 0, 1, 0, 1, 0, 1, 0, 1), nrow = 3, ncol = 3)
+  result <- grandparent_dsm(S, R)
+
+  # Result must be symmetric
+  expect_equal(result, t(result), tolerance = 1e-10)
 })

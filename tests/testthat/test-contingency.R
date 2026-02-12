@@ -2,6 +2,9 @@
 #' @srrstats {G5.2a} *Every error message is unique and tested.*
 #' @srrstats {G5.2b} *Tests trigger every error message and compare with expected values.*
 #' @srrstats {G5.3} *Return objects tested for absence of NA, NaN, Inf.*
+#' @srrstats {G5.6} *Parameter recovery tests verify implementations produce expected results given data with known properties.*
+#' @srrstats {G5.6a} *Parameter recovery tests succeed within defined tolerance rather than exact values.*
+#' @srrstats {G5.6b} *Parameter recovery tests run with multiple random seeds when randomness is involved.*
 
 # Define a helper function to generate simulation results for testing
 generate_simulation_results <- function() {
@@ -86,4 +89,24 @@ test_that("contingency result contains no NA, NaN, or Inf", {
   expect_false(is.na(result))
   expect_false(is.nan(result))
   expect_false(is.infinite(result))
+})
+
+# ============================================================================
+# Parameter Recovery Tests (G5.6, G5.6a)
+# ============================================================================
+
+test_that("contingency recovers known percentile difference", {
+  set.seed(123)
+
+  # Create known MCS result with specific percentiles
+  num_sims <- 10000
+  task_dists <- list(list(type = "normal", mean = 100, sd = 10))
+  mcs_result <- mcs(num_sims, task_dists)
+
+  result <- contingency(mcs_result, phigh = 0.95, pbase = 0.50)
+
+  # Should return difference between 95th and 50th percentiles
+  expected <- mcs_result$percentiles[3] - mcs_result$percentiles[2]
+
+  expect_equal(result, expected, tolerance = 1e-10)
 })

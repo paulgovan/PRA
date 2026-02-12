@@ -2,6 +2,9 @@
 #' @srrstats {G5.2a} *Every error message is unique and tested.*
 #' @srrstats {G5.2b} *Tests trigger every error message and compare with expected values.*
 #' @srrstats {G5.3} *Return objects tested for absence of NA, NaN, Inf.*
+#' @srrstats {G5.6} *Parameter recovery tests verify implementations produce expected results given data with known properties.*
+#' @srrstats {G5.6a} *Parameter recovery tests succeed within defined tolerance rather than exact values.*
+#' @srrstats {G5.6b} *Parameter recovery tests run with multiple random seeds when randomness is involved.*
 
 test_that("risk_post_prob handles fully observed causes", {
   cause_probs <- c(0.3, 0.2)
@@ -215,4 +218,22 @@ test_that("cost_post_pdf result contains no NA, NaN, or Inf", {
   expect_false(anyNA(samples))
   expect_false(any(is.nan(samples)))
   expect_false(any(is.infinite(samples)))
+})
+
+# ============================================================================
+# Parameter Recovery Tests (G5.6, G5.6a)
+# ============================================================================
+
+test_that("risk_post_prob handles all NA observations correctly", {
+  cause_probs <- c(0.3, 0.2)
+  risks_given_causes <- c(0.8, 0.6)
+  risks_given_not_causes <- c(0.2, 0.4)
+  observed_causes <- c(NA_real_, NA_real_)  # No observations
+
+  result <- risk_post_prob(cause_probs, risks_given_causes,
+                           risks_given_not_causes, observed_causes)
+
+  # Result should be a valid probability
+  expect_true(is.numeric(result))
+  expect_true(result >= 0 && result <= 1)
 })

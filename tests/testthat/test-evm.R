@@ -2,6 +2,9 @@
 #' @srrstats {G5.2a} *Every error message is unique and tested.*
 #' @srrstats {G5.2b} *Tests trigger every error message and compare with expected values.*
 #' @srrstats {G5.3} *Return objects tested for absence of NA, NaN, Inf.*
+#' @srrstats {G5.6} *Parameter recovery tests verify implementations produce expected results given data with known properties.*
+#' @srrstats {G5.6a} *Parameter recovery tests succeed within defined tolerance rather than exact values.*
+#' @srrstats {G5.6b} *Parameter recovery tests run with multiple random seeds when randomness is involved.*
 
 test_that("Planned Value (PV) calculation is correct", {
   bac <- 100000
@@ -850,4 +853,81 @@ test_that("tcpi result contains no NA, NaN, or Inf", {
   expect_false(is.na(result))
   expect_false(is.nan(result))
   expect_false(is.infinite(result))
+})
+
+# ============================================================================
+# Parameter Recovery Tests (G5.6, G5.6a)
+# ============================================================================
+
+test_that("pv recovers known planned value from schedule", {
+  bac <- 100000
+  schedule <- c(0.1, 0.2, 0.4, 0.7, 1.0)
+  time_period <- 3
+
+  result <- pv(bac, schedule, time_period)
+
+  # Expected: BAC * schedule[time_period] = 100000 * 0.4 = 40000
+  expected <- 100000 * 0.4
+
+  expect_equal(result, expected, tolerance = 1e-6)
+})
+
+test_that("ev recovers known earned value from completion", {
+  bac <- 100000
+  actual_per_complete <- 0.35
+
+  result <- ev(bac, actual_per_complete)
+
+  # Expected: BAC * actual_per_complete = 100000 * 0.35 = 35000
+  expected <- 100000 * 0.35
+
+  expect_equal(result, expected, tolerance = 1e-6)
+})
+
+test_that("sv recovers known schedule variance", {
+  ev_val <- 35000
+  pv_val <- 40000
+
+  result <- sv(ev_val, pv_val)
+
+  # Expected: EV - PV = 35000 - 40000 = -5000
+  expected <- 35000 - 40000
+
+  expect_equal(result, expected, tolerance = 1e-6)
+})
+
+test_that("cv recovers known cost variance", {
+  ev_val <- 35000
+  ac_val <- 36000
+
+  result <- cv(ev_val, ac_val)
+
+  # Expected: EV - AC = 35000 - 36000 = -1000
+  expected <- 35000 - 36000
+
+  expect_equal(result, expected, tolerance = 1e-6)
+})
+
+test_that("spi recovers known schedule performance index", {
+  ev_val <- 35000
+  pv_val <- 40000
+
+  result <- spi(ev_val, pv_val)
+
+  # Expected: EV / PV = 35000 / 40000 = 0.875
+  expected <- 35000 / 40000
+
+  expect_equal(result, expected, tolerance = 1e-6)
+})
+
+test_that("cpi recovers known cost performance index", {
+  ev_val <- 35000
+  ac_val <- 36000
+
+  result <- cpi(ev_val, ac_val)
+
+  # Expected: EV / AC = 35000 / 36000 = 0.9722...
+  expected <- 35000 / 36000
+
+  expect_equal(result, expected, tolerance = 1e-6)
 })

@@ -29,6 +29,9 @@
 #' @srrstats {G5.2a} *Every error message produced by stop() is unique - documented in applicable function files.*
 #' @srrstats {G5.2b} *Tests trigger every error message produced by stop() and compare against expected values using expect_error().*
 #' @srrstats {G5.3} *Return objects from all functions are tested for absence of NA, NaN, and Inf values.*
+#' @srrstats {G5.6} *Parameter recovery tests verify implementations produce expected results given data with known properties - documented in all test files.*
+#' @srrstats {G5.6a} *Parameter recovery tests succeed within defined tolerance rather than exact values - documented in all test files.*
+#' @srrstats {G5.6b} *Parameter recovery tests run with multiple random seeds when randomness is involved - documented in test-mcs.R, test-sigmoidal.R, test-inference.R.*
 #' @noRd
 NULL
 
@@ -61,9 +64,6 @@ NULL
 #' @srrstatsNA {G5.4b} *Not applicable - this is the first R implementation of these methods.*
 #' @srrstatsNA {G5.4c} *Consider updating* *Correctness is validated against formulas from referenced academic publications.*
 #' @srrstatsNA {G5.5} *Consider updating* *Examples use deterministic inputs; stochastic functions use consistent parameters.*
-#' @srrstatsNA {G5.6} *Consider updating* *Parameter recovery is demonstrated through examples with known parameters.*
-#' @srrstatsNA {G5.6a} *Consider updating**Not applicable - deterministic algorithms produce exact results.*
-#' @srrstatsNA {G5.6b} *Consider updating**Not applicable - stochastic components are optional (correlation matrices).*
 #' @srrstatsNA {G5.7} *Consider updating* *Algorithm performance is demonstrated through comprehensive examples.*
 #' @srrstatsNA {G5.8} *Consider updating* *Edge condition behavior is documented through error handling in each function.*
 #' @srrstatsNA {G5.8a} *Consider updating* *Zero-length data is handled by explicit length checks.*

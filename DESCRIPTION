@@ -18,9 +18,7 @@ URL: https://paulgovan.github.io/PRA/, https://github.com/paulgovan/PRA
 BugReports: https://github.com/paulgovan/PRA/issues
 Suggests: 
     ggplot2,
-    igraph,
     knitr,
-    networkD3,
     rmarkdown,
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
