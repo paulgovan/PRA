@@ -67,10 +67,14 @@ test_that("predict_sigmoidal stops with an invalid model type", {
 # fit_sigmoidal Error Handling Tests
 # ============================================================================
 test_that("fit_sigmoidal validates column existence", {
-  expect_error(fit_sigmoidal(data, "nonexistent", "completion", "logistic"),
-               "Column nonexistent not found in data frame.")
-  expect_error(fit_sigmoidal(data, "time", "nonexistent", "logistic"),
-               "Column nonexistent not found in data frame.")
+  expect_error(
+    fit_sigmoidal(data, "nonexistent", "completion", "logistic"),
+    "Column nonexistent not found in data frame."
+  )
+  expect_error(
+    fit_sigmoidal(data, "time", "nonexistent", "logistic"),
+    "Column nonexistent not found in data frame."
+  )
 })
 
 test_that("fit_sigmoidal returns correct coefficients for logistic", {
@@ -137,14 +141,22 @@ test_that("predict_sigmoidal validates conf_level range", {
   fit <- fit_sigmoidal(data, "time", "completion", "logistic")
   x_range <- seq(1, 10, length.out = 50)
 
-  expect_error(predict_sigmoidal(fit, x_range, "logistic", conf_level = 0),
-               "conf_level must be between 0 and 1")
-  expect_error(predict_sigmoidal(fit, x_range, "logistic", conf_level = 1),
-               "conf_level must be between 0 and 1")
-  expect_error(predict_sigmoidal(fit, x_range, "logistic", conf_level = 1.5),
-               "conf_level must be between 0 and 1")
-  expect_error(predict_sigmoidal(fit, x_range, "logistic", conf_level = -0.5),
-               "conf_level must be between 0 and 1")
+  expect_error(
+    predict_sigmoidal(fit, x_range, "logistic", conf_level = 0),
+    "conf_level must be between 0 and 1"
+  )
+  expect_error(
+    predict_sigmoidal(fit, x_range, "logistic", conf_level = 1),
+    "conf_level must be between 0 and 1"
+  )
+  expect_error(
+    predict_sigmoidal(fit, x_range, "logistic", conf_level = 1.5),
+    "conf_level must be between 0 and 1"
+  )
+  expect_error(
+    predict_sigmoidal(fit, x_range, "logistic", conf_level = -0.5),
+    "conf_level must be between 0 and 1"
+  )
 })
 
 test_that("predict_sigmoidal confidence bounds work for pearl model", {
@@ -182,16 +194,22 @@ test_that("predict_sigmoidal different confidence levels produce different bound
 # plot_sigmoidal Tests
 # ============================================================================
 test_that("plot_sigmoidal validates NULL fit", {
-  expect_error(plot_sigmoidal(NULL, data, "time", "completion", "logistic"),
-               "Fitted model is NULL.")
+  expect_error(
+    plot_sigmoidal(NULL, data, "time", "completion", "logistic"),
+    "Fitted model is NULL."
+  )
 })
 
 test_that("plot_sigmoidal validates column existence", {
   fit <- fit_sigmoidal(data, "time", "completion", "logistic")
-  expect_error(plot_sigmoidal(fit, data, "nonexistent", "completion", "logistic"),
-               "Column nonexistent not found in data frame.")
-  expect_error(plot_sigmoidal(fit, data, "time", "nonexistent", "logistic"),
-               "Column nonexistent not found in data frame.")
+  expect_error(
+    plot_sigmoidal(fit, data, "nonexistent", "completion", "logistic"),
+    "Column nonexistent not found in data frame."
+  )
+  expect_error(
+    plot_sigmoidal(fit, data, "time", "nonexistent", "logistic"),
+    "Column nonexistent not found in data frame."
+  )
 })
 
 test_that("plot_sigmoidal returns predictions invisibly", {
@@ -216,12 +234,13 @@ test_that("plot_sigmoidal works with custom parameters", {
 
   # Should not error with custom parameters
   result <- plot_sigmoidal(fit, data, "time", "completion", "logistic",
-                           n_points = 50,
-                           main = "Test Plot",
-                           xlab = "X Label",
-                           ylab = "Y Label",
-                           line_col = "blue",
-                           ci_col = "gray")
+    n_points = 50,
+    main = "Test Plot",
+    xlab = "X Label",
+    ylab = "Y Label",
+    line_col = "blue",
+    ci_col = "gray"
+  )
 
   expect_s3_class(result, "data.frame")
   expect_equal(nrow(result), 50)
@@ -273,7 +292,7 @@ test_that("fitted values are close to original data", {
 
   # Predictions should be reasonably close to actual values
   residuals <- abs(predictions$pred - data$completion)
-  expect_true(mean(residuals) < 10)  # Average error < 10
+  expect_true(mean(residuals) < 10) # Average error < 10
 })
 
 # ============================================================================
@@ -281,59 +300,77 @@ test_that("fitted values are close to original data", {
 # ============================================================================
 test_that("fit_sigmoidal rejects NaN in data columns", {
   bad_data <- data.frame(time = c(1, NaN, 3), completion = c(5, 15, 40))
-  expect_error(fit_sigmoidal(bad_data, "time", "completion", "logistic"),
-               "Data columns must not contain NaN values.")
+  expect_error(
+    fit_sigmoidal(bad_data, "time", "completion", "logistic"),
+    "Data columns must not contain NaN values."
+  )
 })
 
 test_that("fit_sigmoidal rejects NA in data columns", {
   bad_data <- data.frame(time = c(1, NA, 3), completion = c(5, 15, 40))
-  expect_error(fit_sigmoidal(bad_data, "time", "completion", "logistic"),
-               "Data columns must not contain NA values.")
+  expect_error(
+    fit_sigmoidal(bad_data, "time", "completion", "logistic"),
+    "Data columns must not contain NA values."
+  )
 })
 
 test_that("fit_sigmoidal rejects Inf in data columns", {
   bad_data <- data.frame(time = c(1, Inf, 3), completion = c(5, 15, 40))
-  expect_error(fit_sigmoidal(bad_data, "time", "completion", "logistic"),
-               "Data columns must not contain infinite values.")
+  expect_error(
+    fit_sigmoidal(bad_data, "time", "completion", "logistic"),
+    "Data columns must not contain infinite values."
+  )
 })
 
 test_that("predict_sigmoidal rejects NaN in x_range", {
   fit <- fit_sigmoidal(data, "time", "completion", "logistic")
-  expect_error(predict_sigmoidal(fit, c(1, NaN, 3), "logistic"),
-               "x_range must not contain NaN values.")
+  expect_error(
+    predict_sigmoidal(fit, c(1, NaN, 3), "logistic"),
+    "x_range must not contain NaN values."
+  )
 })
 
 test_that("predict_sigmoidal rejects NA in x_range", {
   fit <- fit_sigmoidal(data, "time", "completion", "logistic")
-  expect_error(predict_sigmoidal(fit, c(1, NA, 3), "logistic"),
-               "x_range must not contain NA values.")
+  expect_error(
+    predict_sigmoidal(fit, c(1, NA, 3), "logistic"),
+    "x_range must not contain NA values."
+  )
 })
 
 test_that("predict_sigmoidal rejects Inf in x_range", {
   fit <- fit_sigmoidal(data, "time", "completion", "logistic")
-  expect_error(predict_sigmoidal(fit, c(1, Inf, 3), "logistic"),
-               "x_range must not contain infinite values.")
+  expect_error(
+    predict_sigmoidal(fit, c(1, Inf, 3), "logistic"),
+    "x_range must not contain infinite values."
+  )
 })
 
 test_that("plot_sigmoidal rejects NaN in data columns for plotting", {
   fit <- fit_sigmoidal(data, "time", "completion", "logistic")
   bad_data <- data.frame(time = c(1, NaN, 3), completion = c(5, 15, 40))
-  expect_error(plot_sigmoidal(fit, bad_data, "time", "completion", "logistic"),
-               "Data columns must not contain NaN values for plotting.")
+  expect_error(
+    plot_sigmoidal(fit, bad_data, "time", "completion", "logistic"),
+    "Data columns must not contain NaN values for plotting."
+  )
 })
 
 test_that("plot_sigmoidal rejects NA in data columns for plotting", {
   fit <- fit_sigmoidal(data, "time", "completion", "logistic")
   bad_data <- data.frame(time = c(1, NA, 3), completion = c(5, 15, 40))
-  expect_error(plot_sigmoidal(fit, bad_data, "time", "completion", "logistic"),
-               "Data columns must not contain NA values for plotting.")
+  expect_error(
+    plot_sigmoidal(fit, bad_data, "time", "completion", "logistic"),
+    "Data columns must not contain NA values for plotting."
+  )
 })
 
 test_that("plot_sigmoidal rejects Inf in data columns for plotting", {
   fit <- fit_sigmoidal(data, "time", "completion", "logistic")
   bad_data <- data.frame(time = c(1, Inf, 3), completion = c(5, 15, 40))
-  expect_error(plot_sigmoidal(fit, bad_data, "time", "completion", "logistic"),
-               "Data columns must not contain infinite values for plotting.")
+  expect_error(
+    plot_sigmoidal(fit, bad_data, "time", "completion", "logistic"),
+    "Data columns must not contain infinite values for plotting."
+  )
 })
 
 # ============================================================================
@@ -466,7 +503,7 @@ test_that("fit_sigmoidal improves with more data points", {
 
     # More data should generally give better fits (with some randomness)
     expect_true(is.numeric(error_K))
-    expect_true(error_K < 20)  # Should be reasonably close
+    expect_true(error_K < 20) # Should be reasonably close
   }
 })
 

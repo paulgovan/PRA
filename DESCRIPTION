@@ -16,11 +16,21 @@ LazyData: true
 Roxygen: list (markdown = TRUE, roclets = c ("namespace", "rd", "srr::srr_stats_roclet"))
 URL: https://paulgovan.github.io/PRA/, https://github.com/paulgovan/PRA
 BugReports: https://github.com/paulgovan/PRA/issues
-Suggests: 
+Suggests:
+    base64enc,
+    bslib,
+    ellmer,
     ggplot2,
+    htmltools,
+    jsonlite,
     knitr,
+    ragnar,
     rmarkdown,
-    testthat (>= 3.0.0)
+    scales,
+    shiny,
+    shinychat,
+    testthat (>= 3.0.0),
+    vitals
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 RoxygenNote: 7.3.3

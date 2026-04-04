@@ -70,7 +70,7 @@ NULL
 #' @srrstatsNA {G5.1} *Consider updating* *Not applicable - package uses inline examples rather than separate test datasets.*
 #' @srrstatsNA {G5.4} *Consider updating* *Correctness is validated through documented examples with known inputs and expected outputs.*
 #' @srrstatsNA {G5.4a} *Not applicable - methods are implementations of established algorithms.*
-#' @srrstatsNA {G5.4b} *Not applicable - this is the first R implementation of these methods.*
+#' @srrstatsNA {G5.4b} *Consider updating* *Not applicable - this is the first R implementation of these methods.*
 #' @srrstatsNA {G5.4c} *Consider updating* *Correctness is validated against formulas from referenced academic publications.*
 #' @srrstatsNA {G5.5} *Consider updating* *Examples use deterministic inputs; stochastic functions use consistent parameters.*
 #' @srrstatsNA {G5.10} *Not applicable - no extended tests requiring special environment variables.*

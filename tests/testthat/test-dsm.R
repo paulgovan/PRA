@@ -324,5 +324,5 @@ test_that("parent_dsm is stable to trivial noise in matrix values", {
   result_noisy <- parent_dsm(S_noisy)
 
   # Results should be essentially identical
-  expect_equal(result_clean, result_noisy, tolerance = 100*.Machine$double.eps)
+  expect_equal(result_clean, result_noisy, tolerance = 100 * .Machine$double.eps)
 })

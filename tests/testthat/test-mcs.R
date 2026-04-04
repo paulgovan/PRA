@@ -243,7 +243,7 @@ test_that("mcs converges to theoretical variance for independent tasks (seed 123
   result <- mcs(num_sims, task_dists)
 
   # Expected variance = sum of individual variances (independent)
-  expected_var <- 2^2 + 3^2  # 4 + 9 = 13
+  expected_var <- 2^2 + 3^2 # 4 + 9 = 13
 
   expect_equal(result$total_variance, expected_var, tolerance = 0.2)
 })
@@ -280,7 +280,7 @@ test_that("mcs with high correlation produces higher variance", {
   # With high correlation, variance should be larger than independent case
   # Var(X + Y) = Var(X) + Var(Y) + 2*Cov(X,Y)
   # When cor=0.99: Cov(X,Y) ≈ SD(X)*SD(Y)*0.99 = 2*3*0.99 = 5.94
-  expected_var_approx <- 4 + 9 + 2*5.94  # ≈ 24.88
+  expected_var_approx <- 4 + 9 + 2 * 5.94 # ≈ 24.88
 
   expect_equal(result$total_variance, expected_var_approx, tolerance = 0.5)
 })

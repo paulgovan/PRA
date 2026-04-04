@@ -436,10 +436,14 @@ test_that("eac atypical method validates required parameters", {
 })
 
 test_that("eac combined method validates required parameters", {
-  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = 35000),
-               "cpi, ac, ev, and spi are required for the 'combined' method")
-  expect_error(eac(100000, method = "combined", cpi = 0, ac = 63000, ev = 35000, spi = 0.9),
-               "cpi and spi must be greater than zero")
+  expect_error(
+    eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = 35000),
+    "cpi, ac, ev, and spi are required for the 'combined' method"
+  )
+  expect_error(
+    eac(100000, method = "combined", cpi = 0, ac = 63000, ev = 35000, spi = 0.9),
+    "cpi and spi must be greater than zero"
+  )
 })
 
 test_that("eac validates bac", {
@@ -504,70 +508,98 @@ test_that("eac atypical rejects negative ac/ev", {
 
 # Combined method NaN/NA/Inf for cpi, spi, ac, ev
 test_that("eac combined rejects NaN cpi", {
-  expect_error(eac(100000, method = "combined", cpi = NaN, ac = 63000, ev = 35000, spi = 0.9),
-               "cpi must be a single non-NaN numeric value for 'combined' method")
+  expect_error(
+    eac(100000, method = "combined", cpi = NaN, ac = 63000, ev = 35000, spi = 0.9),
+    "cpi must be a single non-NaN numeric value for 'combined' method"
+  )
 })
 
 test_that("eac combined rejects NA cpi", {
-  expect_error(eac(100000, method = "combined", cpi = NA_real_, ac = 63000, ev = 35000, spi = 0.9),
-               "cpi must be a single numeric value")
+  expect_error(
+    eac(100000, method = "combined", cpi = NA_real_, ac = 63000, ev = 35000, spi = 0.9),
+    "cpi must be a single numeric value"
+  )
 })
 
 test_that("eac combined rejects Inf cpi", {
-  expect_error(eac(100000, method = "combined", cpi = Inf, ac = 63000, ev = 35000, spi = 0.9),
-               "cpi must not be infinite for 'combined' method")
+  expect_error(
+    eac(100000, method = "combined", cpi = Inf, ac = 63000, ev = 35000, spi = 0.9),
+    "cpi must not be infinite for 'combined' method"
+  )
 })
 
 test_that("eac combined rejects NaN spi", {
-  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = 35000, spi = NaN),
-               "spi must be a single non-NaN numeric value")
+  expect_error(
+    eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = 35000, spi = NaN),
+    "spi must be a single non-NaN numeric value"
+  )
 })
 
 test_that("eac combined rejects NA spi", {
-  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = 35000, spi = NA_real_),
-               "spi must be a single numeric value")
+  expect_error(
+    eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = 35000, spi = NA_real_),
+    "spi must be a single numeric value"
+  )
 })
 
 test_that("eac combined rejects Inf spi", {
-  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = 35000, spi = Inf),
-               "spi must not be infinite")
+  expect_error(
+    eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = 35000, spi = Inf),
+    "spi must not be infinite"
+  )
 })
 
 test_that("eac combined rejects NaN ac", {
-  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = NaN, ev = 35000, spi = 0.9),
-               "ac must be a single non-NaN numeric value for 'combined' method")
+  expect_error(
+    eac(100000, method = "combined", cpi = 0.8, ac = NaN, ev = 35000, spi = 0.9),
+    "ac must be a single non-NaN numeric value for 'combined' method"
+  )
 })
 
 test_that("eac combined rejects NA ac", {
-  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = NA_real_, ev = 35000, spi = 0.9),
-               "ac must be a single numeric value")
+  expect_error(
+    eac(100000, method = "combined", cpi = 0.8, ac = NA_real_, ev = 35000, spi = 0.9),
+    "ac must be a single numeric value"
+  )
 })
 
 test_that("eac combined rejects Inf ac", {
-  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = Inf, ev = 35000, spi = 0.9),
-               "ac must not be infinite for 'combined' method")
+  expect_error(
+    eac(100000, method = "combined", cpi = 0.8, ac = Inf, ev = 35000, spi = 0.9),
+    "ac must not be infinite for 'combined' method"
+  )
 })
 
 test_that("eac combined rejects NaN ev", {
-  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = NaN, spi = 0.9),
-               "ev must be a single non-NaN numeric value for 'combined' method")
+  expect_error(
+    eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = NaN, spi = 0.9),
+    "ev must be a single non-NaN numeric value for 'combined' method"
+  )
 })
 
 test_that("eac combined rejects NA ev", {
-  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = NA_real_, spi = 0.9),
-               "ev must be a single numeric value")
+  expect_error(
+    eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = NA_real_, spi = 0.9),
+    "ev must be a single numeric value"
+  )
 })
 
 test_that("eac combined rejects Inf ev", {
-  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = Inf, spi = 0.9),
-               "ev must not be infinite for 'combined' method")
+  expect_error(
+    eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = Inf, spi = 0.9),
+    "ev must not be infinite for 'combined' method"
+  )
 })
 
 test_that("eac combined rejects negative ac/ev", {
-  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = -1, ev = 35000, spi = 0.9),
-               "ac and ev must be non-negative")
-  expect_error(eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = -1, spi = 0.9),
-               "ac and ev must be non-negative")
+  expect_error(
+    eac(100000, method = "combined", cpi = 0.8, ac = -1, ev = 35000, spi = 0.9),
+    "ac and ev must be non-negative"
+  )
+  expect_error(
+    eac(100000, method = "combined", cpi = 0.8, ac = 63000, ev = -1, spi = 0.9),
+    "ac and ev must be non-negative"
+  )
 })
 
 # ============================================================================
@@ -760,28 +792,38 @@ test_that("tcpi validates non-negative inputs", {
 })
 
 test_that("tcpi eac target rejects NaN eac", {
-  expect_error(tcpi(100000, 35000, 40000, target = "eac", eac = NaN),
-               "eac must be a single non-NaN numeric value")
+  expect_error(
+    tcpi(100000, 35000, 40000, target = "eac", eac = NaN),
+    "eac must be a single non-NaN numeric value"
+  )
 })
 
 test_that("tcpi eac target rejects NA eac", {
-  expect_error(tcpi(100000, 35000, 40000, target = "eac", eac = NA_real_),
-               "eac must be a single numeric value")
+  expect_error(
+    tcpi(100000, 35000, 40000, target = "eac", eac = NA_real_),
+    "eac must be a single numeric value"
+  )
 })
 
 test_that("tcpi eac target rejects Inf eac", {
-  expect_error(tcpi(100000, 35000, 40000, target = "eac", eac = Inf),
-               "eac must not be infinite")
+  expect_error(
+    tcpi(100000, 35000, 40000, target = "eac", eac = Inf),
+    "eac must not be infinite"
+  )
 })
 
 test_that("tcpi eac target rejects negative eac", {
-  expect_error(tcpi(100000, 35000, 40000, target = "eac", eac = -1),
-               "eac must be non-negative")
+  expect_error(
+    tcpi(100000, 35000, 40000, target = "eac", eac = -1),
+    "eac must be non-negative"
+  )
 })
 
 test_that("tcpi validates denominator not zero for EAC target", {
-  expect_error(tcpi(100000, 35000, 120000, target = "eac", eac = 120000),
-               "Cannot calculate TCPI: actual cost already meets or exceeds EAC")
+  expect_error(
+    tcpi(100000, 35000, 120000, target = "eac", eac = 120000),
+    "Cannot calculate TCPI: actual cost already meets or exceeds EAC"
+  )
 })
 
 # ============================================================================
@@ -985,5 +1027,5 @@ test_that("pv is stable to trivial noise in inputs", {
   bac_noisy <- bac + runif(1, -.Machine$double.eps, .Machine$double.eps)
   result_noisy <- pv(bac_noisy, schedule, time_period)
 
-  expect_equal(result_clean, result_noisy, tolerance = 10*.Machine$double.eps)
+  expect_equal(result_clean, result_noisy, tolerance = 10 * .Machine$double.eps)
 })

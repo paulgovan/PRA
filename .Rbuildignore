@@ -12,3 +12,4 @@
 ^CRAN-SUBMISSION$
 ^codemeta\.json$
 ^CLAUDE\.md$
+^\.claude$

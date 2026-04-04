@@ -17,84 +17,144 @@ knitr::opts_chunk$set(
 )
 ```
 
-Learning curves are a useful way to represent how a team or individual improves efficiency and performance over time as they gain experience. These curves aid in comprehending and forecasting the time and resources required for future tasks. The primary insights from learning curves include:
+Learning curves model how efficiency or completion rate evolves over time as a team gains experience. In project management they are used to:
 
-- **Performance Improvement**: As a team or individual performs a task repeatedly, they typically become more efficient, leading to a reduction in the time and cost required.
+- **Forecast completion**: Predict when a task or deliverable will reach 100% based on past progress.
+- **Identify acceleration**: Detect when a project is in its rapid-improvement phase versus plateauing.
+- **Set realistic milestones**: Calibrate schedule targets against demonstrated learning rates.
 
-- **Forecasting**: By analyzing past performance, project managers can predict future performance, set realistic deadlines, and allocate resources more effectively.
+## Sigmoidal Models
 
-- **Benchmarking**: Learning curves help in setting benchmarks and evaluating performance against industry standards or past projects.
+Sigmoidal (S-shaped) functions capture the three phases of learning: slow start, rapid improvement, and plateau. The PRA package provides three model types:
 
-## Sigmoidal Functions for Modeling Learning Curves
+| Model | Formula | Parameters |
+|-------|---------|------------|
+| **Logistic** | K / (1 + exp(−r(t − t₀))) | K = ceiling; r = growth rate; t₀ = inflection time |
+| **Pearl** | K / (1 + exp(−r(t − t₀))) | Same as logistic (identical functional form) |
+| **Gompertz** | A · exp(−b · exp(−c · t)) | A = ceiling; c = growth rate; b = initial suppression |
 
-Sigmoidal functions, such as the logistic function, are often used to model learning curves due to their characteristic S-shaped curve. This shape captures the three main phases of learning:
+**Parameter interpretation (Logistic / Pearl):**
+- **K** — the maximum achievable value (e.g., 100% completion)
+- **r** — how fast the S-curve rises; larger r = steeper transition
+- **t₀** — the time at which the outcome is at its midpoint (inflection point)
 
-- **Initial Slow Improvement**: At the beginning, the rate of improvement is slow as individuals or teams are just starting to learn and adapt.
+## Example: Fitting a Logistic Model
 
-- **Rapid Improvement**: Once the basics are understood, the rate of improvement accelerates significantly as efficiency and proficiency increase.
-
-- **Plateau**: Eventually, the rate of improvement slows down again as the maximum potential or efficiency is approached.
-
-The general form of a sigmoidal function (logistic function) is:
-
-\[ L(t) = \frac{L_{\max}}{1 + e^{-k(t - t_0)}} \]
-
-where:
-
-- L(t) is the learning outcome (e.g., efficiency, proficiency) at time t
-
-- L<sub>max</sub> is the maximum learning outcome (the plateau).
-
-- k is the growth rate, determining how quickly the learning improves.
-
-- t<sub>o</sub> is the time at which the learning outcome is at its midpoint (the point of inflection).
-
-## Applications in Project Management
-
-- **Task Estimation**: Using learning curves to estimate the time required for future tasks based on the performance of similar past tasks.
-
-- **Resource Allocation**: Allocating resources efficiently by understanding the learning curve and optimizing the workforce deployment over time.
-
-- **Training Programs**: Designing training programs to maximize the rate of learning and minimize the time to reach optimal performance levels.
-
-- **Performance Monitoring**: Continuously monitoring performance and adjusting strategies to ensure that the learning curve progresses as expected.
-
-## Example
-
-First, load the package:
 ```{r setup}
 library(PRA)
 ```
 
-Then, set up a data frame of time and completion percentage data:
+We have weekly completion percentage data for a construction deliverable over 9 weeks.
+
 ```{r}
-data <- data.frame(time = 1:9, completion = c(5, 15, 40, 60, 70, 75, 80, 85, 90))
+data <- data.frame(
+  time       = 1:9,
+  completion = c(5, 15, 40, 60, 70, 75, 80, 85, 90)
+)
 ```
 
-Fit a logistic model to the data:
+### Fit the Model
+
 ```{r}
 fit <- fit_sigmoidal(data, "time", "completion", "logistic")
 ```
 
-Use the model to predict future completion times:
+### Assess Fit Quality
+
+Use `summary()` to examine the fitted coefficients, their standard errors, and the residual standard error — a measure of how closely the model matches the observed data.
+
 ```{r}
-predictions <- predict_sigmoidal(fit, seq(min(data$time), max(data$time) + 1,
-  length.out = 100
-), "logistic")
+summary(fit)
 ```
 
-Plot the results:
-```{r, warning=FALSE}
-p <- ggplot2::ggplot(data, ggplot2::aes_string(x = "time", y = "completion")) +
-  ggplot2::geom_point() +
-  ggplot2::geom_line(data = predictions, ggplot2::aes(x = x, y = pred), color = "red") +
-  ggplot2::labs(title = "Fitted Logistic Model", x = "time", y = "completion %") +
-  ggplot2::theme_minimal()
-p
+A small residual standard error (relative to the response scale) indicates a good fit. Coefficient `t values` with |t| > 2 are statistically meaningful.
+
+### Plot with Confidence Bands
+
+`plot_sigmoidal()` plots the data, fitted curve, and optional confidence bounds in a single call.
+
+```{r}
+plot_sigmoidal(
+  fit, data, "time", "completion", "logistic",
+  conf_level = 0.95,
+  main = "Logistic Learning Curve - Completion Forecast",
+  xlab = "Week",
+  ylab = "Completion (%)"
+)
 ```
+
+The shaded region is the 95% confidence band — the range within which the true fitted curve is likely to lie. Wider bands at the tails reflect greater uncertainty in extrapolated predictions.
+
+### Predict Future Completion
+
+Use `predict_sigmoidal()` to generate numeric forecasts, including confidence bounds for specific future time points.
+
+```{r}
+future_times <- seq(1, 12, length.out = 100)
+predictions <- predict_sigmoidal(fit, future_times, "logistic", conf_level = 0.95)
+
+knitr::kable(
+  tail(round(predictions, 1), 5),
+  caption = "Predicted completion (final 5 points)",
+  row.names = FALSE
+)
+```
+
+## Comparing All Three Model Types
+
+Different model types can produce different forecasts, especially in the tails. It is good practice to fit multiple models and compare their goodness-of-fit.
+
+```{r warning=FALSE}
+fit_logistic <- fit_sigmoidal(data, "time", "completion", "logistic")
+fit_pearl <- fit_sigmoidal(data, "time", "completion", "pearl")
+fit_gompertz <- fit_sigmoidal(data, "time", "completion", "gompertz")
+```
+
+```{r}
+# Residual standard errors for comparison
+rse <- function(fit) summary(fit)$sigma
+
+comparison <- data.frame(
+  Model = c("Logistic", "Pearl", "Gompertz"),
+  Residual_StdError = round(c(rse(fit_logistic), rse(fit_pearl), rse(fit_gompertz)), 3)
+)
+knitr::kable(comparison, caption = "Model Fit Comparison (lower RSE = better fit)")
+```
+
+Now plot all three fits side by side:
+
+```{r}
+x_seq <- seq(1, 12, length.out = 200)
+
+pred_log <- predict_sigmoidal(fit_logistic, x_seq, "logistic")
+pred_prl <- predict_sigmoidal(fit_pearl, x_seq, "pearl")
+pred_gom <- predict_sigmoidal(fit_gompertz, x_seq, "gompertz")
+
+# Base plot with observed data
+plot(data$time, data$completion,
+  pch = 16, xlim = c(1, 12), ylim = c(0, 105),
+  main = "Learning Curve: Model Comparison",
+  xlab = "Week", ylab = "Completion (%)"
+)
+lines(pred_log$x, pred_log$pred, col = "steelblue", lwd = 2)
+lines(pred_prl$x, pred_prl$pred, col = "tomato", lwd = 2, lty = 2)
+lines(pred_gom$x, pred_gom$pred, col = "darkgreen", lwd = 2, lty = 3)
+legend("bottomright",
+  legend = c("Logistic", "Pearl", "Gompertz"),
+  col = c("steelblue", "tomato", "darkgreen"),
+  lty = c(1, 2, 3), lwd = 2, bty = "n"
+)
+```
+
+**Note:** Logistic and Pearl share the same functional form and will produce identical fits on the same data. Gompertz has a different shape — its inflection point occurs earlier and the curve is asymmetric — making it better suited for processes that accelerate quickly early on.
 
 ## Summary
 
-Learning curves provide valuable insights into how performance improves with experience, and sigmoidal functions offer a mathematical model to describe and predict these improvements in project management.
+The sigmoidal workflow in PRA:
 
+1. `fit_sigmoidal()` — fit a model to observed time-completion data
+2. `summary(fit)` — inspect coefficient estimates and goodness-of-fit
+3. `predict_sigmoidal()` — generate numeric forecasts with optional confidence bounds
+4. `plot_sigmoidal()` — visualize the fit and confidence band
 
+Choose the model type based on the shape of your data and theoretical expectations about the learning process.

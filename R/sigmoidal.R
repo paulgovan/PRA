@@ -96,6 +96,7 @@ fit_sigmoidal <- function(data, x_col, y_col, model_type) {
     stop("Invalid model type. Choose 'pearl', 'gompertz', or 'logistic'.")
   }
 
+  class(fit) <- c("pra_sigmoidal_fit", class(fit))
   return(fit)
 }
 
@@ -379,8 +380,8 @@ plot_sigmoidal <- function(fit, data, x_col, y_col, model_type,
 #' Print method for Sigmoidal Model
 #'
 #' Displays the summary of the fitted sigmoidal model in a readable format.
-#' @param x An object of class "nls" containing the fitted sigmoidal
-#' model results.
+#' @param x An object of class \code{"pra_sigmoidal_fit"} as returned by
+#'   \code{\link{fit_sigmoidal}}.
 #' @param ... Additional arguments (not used).
 #' @return No return value, called for side effects.
 #' @examples
@@ -395,8 +396,10 @@ plot_sigmoidal <- function(fit, data, x_col, y_col, model_type,
 #' # Print the model summary
 #' print(fit)
 #' @export
-#' @method print nls
-print.nls <- function(x, ...) {
+#' @method print pra_sigmoidal_fit
+print.pra_sigmoidal_fit <- function(x, ...) {
   cat("Sigmoidal Model Fit Summary:\n")
+  # Temporarily strip custom class so stats:::print.nls handles the nls part
+  class(x) <- setdiff(class(x), "pra_sigmoidal_fit")
   print(summary(x))
 }

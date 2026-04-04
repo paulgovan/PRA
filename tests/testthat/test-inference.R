@@ -142,37 +142,53 @@ test_that("risk_prob rejects Inf inputs", {
 })
 
 test_that("cost_pdf rejects NaN in risk params", {
-  expect_error(cost_pdf(1000, c(NaN, 0.5), c(10000, 15000), c(2000, 1000), 2000),
-               "risk_probs, means_given_risks, and sds_given_risks must not contain NaN values.")
-  expect_error(cost_pdf(1000, c(0.3, 0.5), c(NaN, 15000), c(2000, 1000), 2000),
-               "risk_probs, means_given_risks, and sds_given_risks must not contain NaN values.")
-  expect_error(cost_pdf(1000, c(0.3, 0.5), c(10000, 15000), c(NaN, 1000), 2000),
-               "risk_probs, means_given_risks, and sds_given_risks must not contain NaN values.")
+  expect_error(
+    cost_pdf(1000, c(NaN, 0.5), c(10000, 15000), c(2000, 1000), 2000),
+    "risk_probs, means_given_risks, and sds_given_risks must not contain NaN values."
+  )
+  expect_error(
+    cost_pdf(1000, c(0.3, 0.5), c(NaN, 15000), c(2000, 1000), 2000),
+    "risk_probs, means_given_risks, and sds_given_risks must not contain NaN values."
+  )
+  expect_error(
+    cost_pdf(1000, c(0.3, 0.5), c(10000, 15000), c(NaN, 1000), 2000),
+    "risk_probs, means_given_risks, and sds_given_risks must not contain NaN values."
+  )
 })
 
 test_that("cost_pdf rejects NA in risk params", {
-  expect_error(cost_pdf(1000, c(NA_real_, 0.5), c(10000, 15000), c(2000, 1000), 2000),
-               "risk_probs, means_given_risks, and sds_given_risks must not contain NA values.")
+  expect_error(
+    cost_pdf(1000, c(NA_real_, 0.5), c(10000, 15000), c(2000, 1000), 2000),
+    "risk_probs, means_given_risks, and sds_given_risks must not contain NA values."
+  )
 })
 
 test_that("cost_pdf rejects Inf in risk params", {
-  expect_error(cost_pdf(1000, c(Inf, 0.5), c(10000, 15000), c(2000, 1000), 2000),
-               "risk_probs, means_given_risks, and sds_given_risks must not contain infinite values.")
+  expect_error(
+    cost_pdf(1000, c(Inf, 0.5), c(10000, 15000), c(2000, 1000), 2000),
+    "risk_probs, means_given_risks, and sds_given_risks must not contain infinite values."
+  )
 })
 
 test_that("cost_pdf rejects NaN base_cost", {
-  expect_error(cost_pdf(1000, c(0.3, 0.5), c(10000, 15000), c(2000, 1000), NaN),
-               "base_cost must not be NaN.")
+  expect_error(
+    cost_pdf(1000, c(0.3, 0.5), c(10000, 15000), c(2000, 1000), NaN),
+    "base_cost must not be NaN."
+  )
 })
 
 test_that("cost_pdf rejects NA base_cost", {
-  expect_error(cost_pdf(1000, c(0.3, 0.5), c(10000, 15000), c(2000, 1000), NA_real_),
-               "base_cost must not be NA.")
+  expect_error(
+    cost_pdf(1000, c(0.3, 0.5), c(10000, 15000), c(2000, 1000), NA_real_),
+    "base_cost must not be NA."
+  )
 })
 
 test_that("cost_pdf rejects Inf base_cost", {
-  expect_error(cost_pdf(1000, c(0.3, 0.5), c(10000, 15000), c(2000, 1000), Inf),
-               "base_cost must not be infinite.")
+  expect_error(
+    cost_pdf(1000, c(0.3, 0.5), c(10000, 15000), c(2000, 1000), Inf),
+    "base_cost must not be infinite."
+  )
 })
 
 # ============================================================================
@@ -232,7 +248,7 @@ test_that("risk_prob recovers known probability from manual calculation", {
   # P(R) = P(R|C1)*P(C1) + P(R|¬C1)*P(¬C1) + P(R|C2)*P(C2) + P(R|¬C2)*P(¬C2)
   #      = 0.8*0.3 + 0.2*0.7 + 0.6*0.2 + 0.4*0.8
   #      = 0.24 + 0.14 + 0.12 + 0.32 = 0.82
-  expected <- 0.8*0.3 + 0.2*0.7 + 0.6*0.2 + 0.4*0.8
+  expected <- 0.8 * 0.3 + 0.2 * 0.7 + 0.6 * 0.2 + 0.4 * 0.8
 
   expect_equal(result, expected, tolerance = 1e-10)
 })
@@ -241,9 +257,9 @@ test_that("cost_pdf converges to theoretical mean with single certain risk (seed
   set.seed(123)
 
   num_sims <- 100000
-  risk_probs <- c(1.0)  # Certain risk
+  risk_probs <- c(1.0) # Certain risk
   means_given_risks <- c(10000)
-  sds_given_risks <- c(0)  # No variance
+  sds_given_risks <- c(0) # No variance
   base_cost <- 5000
 
   samples <- cost_pdf(num_sims, risk_probs, means_given_risks, sds_given_risks, base_cost)
@@ -266,7 +282,7 @@ test_that("cost_pdf converges to theoretical mean with uncertain risk (seed 42)"
   samples <- cost_pdf(num_sims, risk_probs, means_given_risks, sds_given_risks, base_cost)
 
   # Expected mean: base_cost + risk_prob * mean_risk
-  expected_mean <- 5000 + 0.5 * 10000  # 10000
+  expected_mean <- 5000 + 0.5 * 10000 # 10000
 
   expect_equal(mean(samples), expected_mean, tolerance = 100)
 })
@@ -335,7 +351,7 @@ test_that("risk_prob is stable to trivial noise in probabilities", {
   result_noisy <- risk_prob(cause_probs_noisy, risks_given_causes, risks_given_not_causes)
 
   # Results should be essentially identical
-  expect_equal(result_clean, result_noisy, tolerance = 10*.Machine$double.eps)
+  expect_equal(result_clean, result_noisy, tolerance = 10 * .Machine$double.eps)
 })
 
 # ============================================================================

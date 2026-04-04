@@ -157,7 +157,7 @@ test_that("cor_matrix estimates improve with sample size", {
 
   # Off-diagonal correlation should stabilize (be more consistent)
   # For independent normals, correlation should be near 0
-  expect_true(abs(result_10000[1,2]) < abs(result_100[1,2]) + 0.1)
+  expect_true(abs(result_10000[1, 2]) < abs(result_100[1, 2]) + 0.1)
 })
 
 # ============================================================================
@@ -194,6 +194,6 @@ test_that("cor_matrix produces consistent estimates across seeds", {
 
   # Correlation estimates should be similar
   # For independent normals, should all be near 0
-  expect_equal(result_1[1,2], result_2[1,2], tolerance = 0.1)
-  expect_equal(result_2[1,2], result_3[1,2], tolerance = 0.1)
+  expect_equal(result_1[1, 2], result_2[1, 2], tolerance = 0.1)
+  expect_equal(result_2[1, 2], result_3[1, 2], tolerance = 0.1)
 })

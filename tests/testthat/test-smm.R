@@ -204,7 +204,7 @@ test_that("smm recovers known variance with perfect correlation", {
 
   # Expected: total_var = (sum of standard deviations)^2
   expected_mean <- 10 + 15 + 20
-  expected_var <- (2 + 3 + 4)^2  # (sqrt(4) + sqrt(9) + sqrt(16))^2 = 81
+  expected_var <- (2 + 3 + 4)^2 # (sqrt(4) + sqrt(9) + sqrt(16))^2 = 81
 
   expect_equal(result$total_mean, expected_mean, tolerance = 1e-10)
   expect_equal(result$total_var, expected_var, tolerance = 1e-10)
@@ -220,7 +220,7 @@ test_that("smm recovers known variance with partial correlation", {
   # total_var = var[1] + var[2] + 2*cov[1,2]
   # cov[1,2] = cor[1,2] * sqrt(var[1]) * sqrt(var[2]) = 0.5 * 2 * 3 = 3
   expected_mean <- 10 + 20
-  expected_var <- 4 + 9 + 2*3  # = 19
+  expected_var <- 4 + 9 + 2 * 3 # = 19
 
   expect_equal(result$total_mean, expected_mean, tolerance = 1e-10)
   expect_equal(result$total_var, expected_var, tolerance = 1e-10)
@@ -254,7 +254,7 @@ test_that("smm handles all identical means and variances", {
 
 test_that("smm handles zero variance case", {
   mean <- c(10, 15, 20)
-  var <- c(0, 0, 0)  # All zero variance
+  var <- c(0, 0, 0) # All zero variance
 
   result <- smm(mean, var)
 
@@ -283,7 +283,9 @@ test_that("smm is stable to machine epsilon noise in inputs", {
 
   # Results should be essentially identical
   expect_equal(result_clean$total_mean, result_noisy$total_mean,
-               tolerance = 10*.Machine$double.eps)
+    tolerance = 10 * .Machine$double.eps
+  )
   expect_equal(result_clean$total_var, result_noisy$total_var,
-               tolerance = 10*.Machine$double.eps)
+    tolerance = 10 * .Machine$double.eps
+  )
 })
