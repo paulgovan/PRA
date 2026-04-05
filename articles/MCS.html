@@ -60,195 +60,215 @@
     
     
 <p>Monte Carlo (MC) simulation is a quantitative risk analysis technique
-used to understand the impact of risk and uncertainty in project
-management. It involves running multiple simulations to predict the
-possible outcomes of a project by varying the inputs randomly within
-specified ranges.</p>
+that models uncertainty by running thousands of simulated project
+outcomes. Instead of using single-point estimates for task durations or
+costs, each task is described by a probability distribution. The
+simulation draws random samples from these distributions, sums them to
+get a total outcome, and repeats this thousands of times to build a full
+picture of possible project results.</p>
 <div class="section level2">
 <h2 id="steps-in-mc-simulation">Steps in MC Simulation<a class="anchor" aria-label="anchor" href="#steps-in-mc-simulation"></a>
 </h2>
 <ol style="list-style-type: decimal">
-<li><p><em>Model Definition</em>: Define the project model, including
-the objectives, timeline, and the variables that affect the project
-(e.g., costs, durations, resource availability).</p></li>
-<li><p><em>Identify Uncertainties</em>: Identify the uncertainties in
-the project. These could be the variability in task durations, costs,
-and other critical factors.</p></li>
-<li><p><em>Assign Probability Distributions</em>: For each uncertain
-variable, assign a probability distribution. Common distributions
-include normal, triangular, and uniform distributions, which represent
-the range of possible values and their likelihood.</p></li>
-<li><p><em>Execute Simulation</em>: Using random sampling, the
-simulation runs numerous iterations (typically thousands). In each
-iteration, random values are selected from the probability distributions
-for each uncertain variable, and the project’s outcomes are
-calculated.</p></li>
-<li><p><em>Analyze Results</em>: After running the simulation, analyze
-the results to understand the range of possible project outcomes. This
-analysis includes statistical summaries like mean, median, standard
-deviation, and percentiles, which help in understanding the probability
-of meeting project objectives under uncertainty.</p></li>
+<li>
+<strong>Model Definition</strong> — Define project tasks and the
+variables that drive uncertainty (durations, costs).</li>
+<li>
+<strong>Assign Distributions</strong> — Choose a probability
+distribution for each uncertain variable (e.g., triangular for tasks
+with optimistic/likely/pessimistic estimates).</li>
+<li>
+<strong>Specify Correlations</strong> — If tasks are related (e.g.,
+both affected by a shared risk), set a correlation coefficient between
+them.</li>
+<li>
+<strong>Run Simulation</strong> — Draw random samples and compute
+the total outcome for each iteration (typically 10,000+).</li>
+<li>
+<strong>Analyze Results</strong> — Summarize the distribution of
+totals using percentiles, mean, and variance.</li>
 </ol>
 </div>
 <div class="section level2">
-<h2 id="applications-in-project-risk-analysis">Applications in Project Risk Analysis:<a class="anchor" aria-label="anchor" href="#applications-in-project-risk-analysis"></a>
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p><em>Schedule Risk Analysis</em>: Assessing the likelihood of
-completing the project on time.</p>
-<p><em>Cost Risk Analysis</em>: Evaluating the probability of staying
-within budget.</p>
-<p><em>Performance Risk Analysis</em>: Understanding the likelihood of
-achieving project performance goals.</p>
-</div>
-<div class="section level2">
-<h2 id="advantages">Advantages:<a class="anchor" aria-label="anchor" href="#advantages"></a>
-</h2>
-<p>Provides a comprehensive view of project risks and their impacts.
-Helps in making informed decisions by quantifying uncertainties.
-Enhances the ability to prepare for various risk scenarios and develop
-mitigation strategies. Monte Carlo simulation is a powerful tool in
-project management, enabling project managers to foresee potential
-issues and plan accordingly to improve the chances of project
-success.</p>
-</div>
-<div class="section level2">
-<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
-</h2>
-<p>First, load the package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulgovan.github.io/PRA/">PRA</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Registered S3 method overwritten by 'PRA':</span></span>
-<span><span class="co">#&gt;   method    from </span></span>
-<span><span class="co">#&gt;   print.nls stats</span></span></code></pre></div>
-<p>Next, set the number of simulations and describe probability
-distributions for 3 work packages:</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulgovan.github.io/PRA/">PRA</a></span><span class="op">)</span></span></code></pre></div>
+<p>We model a 3-task project (in weeks). Task A follows a normal
+distribution, Task B has a triangular distribution
+(optimistic/most-likely/pessimistic), and Task C is uniformly
+distributed.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">num_simulations</span> <span class="op">&lt;-</span> <span class="fl">10000</span></span>
 <span><span class="va">task_distributions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">10</span>, sd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>, <span class="co"># Task A: Normal distribution</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"triangular"</span>, a <span class="op">=</span> <span class="fl">5</span>, b <span class="op">=</span> <span class="fl">10</span>, c <span class="op">=</span> <span class="fl">15</span><span class="op">)</span>, <span class="co"># Task B: Triangular distribution</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"uniform"</span>, min <span class="op">=</span> <span class="fl">8</span>, max <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> <span class="co"># Task C: Uniform distribution</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">10</span>, sd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>, <span class="co"># Task A</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"triangular"</span>, a <span class="op">=</span> <span class="fl">5</span>, b <span class="op">=</span> <span class="fl">10</span>, c <span class="op">=</span> <span class="fl">15</span><span class="op">)</span>, <span class="co"># Task B</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"uniform"</span>, min <span class="op">=</span> <span class="fl">8</span>, max <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> <span class="co"># Task C</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>Then, set the correlation matrix between the 3 work packages:</p>
+<div class="section level3">
+<h3 id="correlation-matrix">Correlation Matrix<a class="anchor" aria-label="anchor" href="#correlation-matrix"></a>
+</h3>
+<p>Tasks often move together due to shared resources or external risks.
+The correlation matrix captures this. Values range from −1 (perfectly
+opposed) to +1 (perfectly aligned); 0 means independent. Here Tasks A
+and B have moderate positive correlation (0.5), meaning delays in one
+tend to coincide with delays in the other.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">correlation_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.3</span>,</span>
-<span>  <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">0.4</span>,</span>
-<span>  <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">1</span></span>
+<span>  <span class="fl">1.0</span>, <span class="fl">0.5</span>, <span class="fl">0.3</span>,</span>
+<span>  <span class="fl">0.5</span>, <span class="fl">1.0</span>, <span class="fl">0.4</span>,</span>
+<span>  <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">1.0</span></span>
 <span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">3</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>Finally, run the simulation using the <code>mcs</code> function:</p>
+</div>
+<div class="section level3">
+<h3 id="run-the-simulation">Run the Simulation<a class="anchor" aria-label="anchor" href="#run-the-simulation"></a>
+</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mcs.html">mcs</a></span><span class="op">(</span><span class="va">num_simulations</span>, <span class="va">task_distributions</span>, <span class="va">correlation_matrix</span><span class="op">)</span></span></code></pre></div>
-<p>To calculate the mean of the total duration:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Mean Total Duration:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_mean</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
-<p>Mean Total Duration: 38.62</p>
-<p>To calculate the variance of the total duration:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Mean Total Duration:     "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_mean</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"weeks\n"</span><span class="op">)</span></span></code></pre></div>
+<p>Mean Total Duration: 38.6 weeks</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Variance of Total Duration:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_variance</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
-<p>Variance of Total Duration: 19.43</p>
-<p>To build a histogram of the total duration:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Variance of Duration:    "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_variance</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<p>Variance of Duration: 20.01</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_distribution</span>,</span>
-<span>  breaks <span class="op">=</span> <span class="fl">50</span>, main <span class="op">=</span> <span class="st">"Total Project Duration"</span>,</span>
-<span>  xlab <span class="op">=</span> <span class="st">"Total Duration"</span>, col <span class="op">=</span> <span class="st">"skyblue"</span>, border <span class="op">=</span> <span class="st">"white"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><img src="MCS_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="700"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Std Dev of Duration:     "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_sd</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"weeks\n"</span><span class="op">)</span></span></code></pre></div>
+<p>Std Dev of Duration: 4.47 weeks</p>
 </div>
-<div class="section level2">
-<h2 id="contingency">Contingency<a class="anchor" aria-label="anchor" href="#contingency"></a>
-</h2>
-<ul>
-<li><p><em>Cost Contingency</em>: Identify the cost associated with a
-specific confidence level. For instance, if you want a 90% confidence
-level that the project will not exceed the budget, find the cost at the
-90th percentile of the cost distribution.</p></li>
-<li><p><em>Schedule Contingency</em>: Similarly, identify the duration
-at a desired confidence level. For example, if you want a 95% confidence
-level that the project will be completed on time, find the project
-duration at the 95th percentile of the schedule distribution.</p></li>
-</ul>
 <div class="section level3">
-<h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+<h3 id="distribution-of-outcomes">Distribution of Outcomes<a class="anchor" aria-label="anchor" href="#distribution-of-outcomes"></a>
 </h3>
-<p>For the previous example, calculate the contingency with a confidence
-level of 95%:</p>
+<p>The histogram below shows all 10,000 simulated total durations. The
+overlaid density curve reveals the shape of the distribution.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">contingency</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/contingency.html">contingency</a></span><span class="op">(</span><span class="va">results</span>, phigh <span class="op">=</span> <span class="fl">0.95</span>, pbase <span class="op">=</span> <span class="fl">0.50</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Contingency based on 95th percentile:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">contingency</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Contingency based on 95th percentile: 7.21</p>
-</div>
-<div class="section level3">
-<h3 id="key-considerations">Key Considerations<a class="anchor" aria-label="anchor" href="#key-considerations"></a>
-</h3>
-<ul>
-<li><p><em>Confidence Levels</em>: Higher confidence levels result in
-larger contingencies but reduce the risk of overruns.</p></li>
-<li><p><em>Risk Appetite</em>: The organization’s risk tolerance will
-influence the chosen confidence level.</p></li>
-<li><p><em>Data Quality</em>: The accuracy of the probability
-distributions and input data significantly impacts the reliability of
-the contingency estimate.</p></li>
-</ul>
+<code class="sourceCode R"><span><span class="va">hist_data</span> <span class="op">&lt;-</span> <span class="va">results</span><span class="op">$</span><span class="va">total_distribution</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">hist_data</span>,</span>
+<span>  breaks <span class="op">=</span> <span class="fl">50</span>, freq <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  main <span class="op">=</span> <span class="st">"Monte Carlo Simulation - Total Project Duration"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"Total Duration (weeks)"</span>, col <span class="op">=</span> <span class="st">"steelblue"</span>, border <span class="op">=</span> <span class="st">"white"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">hist_data</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"tomato"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="va">results</span><span class="op">$</span><span class="va">total_mean</span>, col <span class="op">=</span> <span class="st">"black"</span>, lty <span class="op">=</span> <span class="fl">2</span>, lwd <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topright"</span>,</span>
+<span>  legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Density"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Mean = "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">total_mean</span>, <span class="fl">1</span><span class="op">)</span>, <span class="st">" wks"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tomato"</span>, <span class="st">"black"</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, lwd <span class="op">=</span> <span class="fl">2</span>, bty <span class="op">=</span> <span class="st">"n"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="MCS_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="sensitivity">Sensitivity<a class="anchor" aria-label="anchor" href="#sensitivity"></a>
+<h2 id="interpreting-percentiles">Interpreting Percentiles<a class="anchor" aria-label="anchor" href="#interpreting-percentiles"></a>
 </h2>
-<p>Estimating sensitivity involves determining how changes in input
-variables impact the output variables of interest, such as project cost
-or duration. Sensitivity analysis identifies the most critical factors
-influencing the project’s outcomes, helping project managers focus on
-managing these key risks.</p>
-<div class="section level3">
-<h3 id="types-of-sensitivity-analysis">Types of Sensitivity Analysis<a class="anchor" aria-label="anchor" href="#types-of-sensitivity-analysis"></a>
-</h3>
-<ul>
-<li><p><em>Correlation Coefficients</em>: Calculate the correlation
-coefficients between each input variable and the output variable. This
-measures the strength and direction of the linear relationship between
-the input and the output.</p></li>
-<li><p><em>Regression Analysis</em>: Perform a regression analysis to
-quantify the impact of each input variable on the output. This provides
-coefficients that indicate how much change in the output is expected for
-a unit change in each input.</p></li>
-<li><p><em>Tornado Diagrams</em>: Create tornado diagrams to visually
-represent the sensitivity of the output variable to changes in each
-input variable. The longer the bar, the greater the impact of the input
-on the output.</p></li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="example-1">Example<a class="anchor" aria-label="anchor" href="#example-1"></a>
-</h3>
-<p>For the previous example, calculate the sensitivity of each task:</p>
+<p>The <code><a href="../reference/mcs.html">mcs()</a></code> function returns key percentiles of the total
+distribution. These answer the question: <em>“What duration has X%
+probability of not being exceeded?”</em></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sensitivity_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sensitivity.html">sensitivity</a></span><span class="op">(</span><span class="va">task_distributions</span>, <span class="va">correlation_matrix</span><span class="op">)</span></span></code></pre></div>
-<p>Build a vertical barchart and display the results:</p>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>    Percentile <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"P5"</span>, <span class="st">"P50 (Median)"</span>, <span class="st">"P95"</span><span class="op">)</span>,</span>
+<span>    Duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">percentiles</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>    Meaning <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>      <span class="st">"5% chance of finishing this fast or faster"</span>,</span>
+<span>      <span class="st">"Equal chance of finishing above or below this"</span>,</span>
+<span>      <span class="st">"95% chance of finishing by this date"</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  caption <span class="op">=</span> <span class="st">"Simulation Percentiles"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<caption>Simulation Percentiles</caption>
+<colgroup>
+<col width="5%">
+<col width="18%">
+<col width="12%">
+<col width="63%">
+</colgroup>
+<thead><tr class="header">
+<th align="left"></th>
+<th align="left">Percentile</th>
+<th align="right">Duration</th>
+<th align="left">Meaning</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">5%</td>
+<td align="left">P5</td>
+<td align="right">31.2</td>
+<td align="left">5% chance of finishing this fast or faster</td>
+</tr>
+<tr class="even">
+<td align="left">50%</td>
+<td align="left">P50 (Median)</td>
+<td align="right">38.6</td>
+<td align="left">Equal chance of finishing above or below this</td>
+</tr>
+<tr class="odd">
+<td align="left">95%</td>
+<td align="left">P95</td>
+<td align="right">46.0</td>
+<td align="left">95% chance of finishing by this date</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="contingency-analysis">Contingency Analysis<a class="anchor" aria-label="anchor" href="#contingency-analysis"></a>
+</h2>
+<p>Contingency is the buffer added above the base estimate to cover
+uncertainty. A common approach is to use the difference between the P95
+(or chosen confidence level) outcome and the P50 (base estimate).</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  Tasks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span>,</span>
+<code class="sourceCode R"><span><span class="va">contingency_val</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/contingency.html">contingency</a></span><span class="op">(</span><span class="va">results</span>, phigh <span class="op">=</span> <span class="fl">0.95</span>, pbase <span class="op">=</span> <span class="fl">0.50</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Schedule contingency (P95 − P50):"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">contingency_val</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"weeks\n"</span><span class="op">)</span></span></code></pre></div>
+<p>Schedule contingency (P95 − P50): 7.4 weeks</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span></span>
+<span>  <span class="st">"There is a 95% chance the project will finish within"</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">percentiles</span><span class="op">[</span><span class="st">"95%"</span><span class="op">]</span>, <span class="fl">1</span><span class="op">)</span>, <span class="st">"weeks.\n"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>There is a 95% chance the project will finish within 46 weeks.</p>
+<p><strong>Interpretation:</strong> Adding 7.4 weeks of schedule
+contingency to the P50 estimate gives a 95% confidence of on-time
+delivery. Teams with low risk tolerance should use P95; those with
+higher tolerance might use P80.</p>
+</div>
+<div class="section level2">
+<h2 id="sensitivity-analysis">Sensitivity Analysis<a class="anchor" aria-label="anchor" href="#sensitivity-analysis"></a>
+</h2>
+<p>Sensitivity analysis identifies which tasks drive the most
+variability in the total outcome — the tasks that deserve the most
+management attention.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sensitivity_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sensitivity.html">sensitivity</a></span><span class="op">(</span><span class="va">task_distributions</span>, <span class="va">correlation_matrix</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sens_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  Task        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Task A (Normal)"</span>, <span class="st">"Task B (Triangular)"</span>, <span class="st">"Task C (Uniform)"</span><span class="op">)</span>,</span>
 <span>  Sensitivity <span class="op">=</span> <span class="va">sensitivity_results</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html" class="external-link">barplot</a></span><span class="op">(</span></span>
-<span>  height <span class="op">=</span> <span class="va">data</span><span class="op">$</span><span class="va">Sensitivity</span>, names <span class="op">=</span> <span class="va">data</span><span class="op">$</span><span class="va">Tasks</span>, col <span class="op">=</span> <span class="st">"skyblue"</span>,</span>
-<span>  horiz <span class="op">=</span> <span class="cn">TRUE</span>, main <span class="op">=</span> <span class="st">"Sensitivity Analysis"</span>, xlab <span class="op">=</span> <span class="st">"Sensitivity"</span>, ylab <span class="op">=</span> <span class="st">"Tasks"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><img src="MCS_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" alt="" width="700"></p>
-</div>
-<div class="section level3">
-<h3 id="interpretation-and-action">Interpretation and Action<a class="anchor" aria-label="anchor" href="#interpretation-and-action"></a>
-</h3>
-<p><em>Focus on High-Impact Variables</em>: Based on the sensitivity
-analysis, prioritize monitoring and managing the inputs with the highest
-impact (e.g., Task B in this example).</p>
-<p><em>Develop Mitigation Strategies</em>: Implement risk mitigation
-strategies for the most sensitive inputs to reduce their potential
-negative impact on the project.</p>
-<p><em>Inform Stakeholders</em>: Communicate the sensitivity findings to
-stakeholders to provide a clear understanding of where project risks are
-concentrated.</p>
-</div>
+<span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span></span>
+<span>  <span class="va">sens_data</span>,</span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Sensitivity</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder</a></span><span class="op">(</span><span class="va">Task</span>, <span class="va">Sensitivity</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"steelblue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_text</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">Sensitivity</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    hjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.1</span>, size <span class="op">=</span> <span class="fl">3.5</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Tornado Chart - Task Sensitivity"</span>,</span>
+<span>    x     <span class="op">=</span> <span class="st">"Sensitivity Coefficient"</span>,</span>
+<span>    y     <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">sensitivity_results</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span></code></pre></div>
+<p><img src="MCS_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" alt="" width="700"></p>
+<p><strong>Interpretation:</strong> Tasks with larger bars contribute
+more variance to the total. Prioritize risk mitigation efforts on the
+highest-sensitivity task. Even a small reduction in its uncertainty can
+meaningfully reduce overall project risk.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

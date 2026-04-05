@@ -62,285 +62,235 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>Bayesian inference is a statistical approach based on Bayes’ theorem,
-which describes how to update beliefs based on new evidence. This
-approach provides a framework for reasoning about probabilities in the
-presence of uncertainty.</p>
-<p>Bayes’ theorem states that:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>H</mi><mo stretchy="false" form="prefix">|</mo><mi>E</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>E</mi><mo stretchy="false" form="prefix">|</mo><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>E</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex">
-P(H | E) = \frac{P(E | H) P(H)}{P(E)}
+<p>Bayesian inference provides a principled framework for updating
+beliefs as new evidence arrives. In project risk management, this means
+starting with prior estimates of risk probability (based on historical
+data or expert judgment), then refining those estimates as on-site
+observations accumulate.</p>
+<p>Bayes’ theorem states:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>H</mi><mo>∣</mo><mi>E</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>E</mi><mo>∣</mo><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>⋅</mo><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>E</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)}
 </annotation></semantics></math></p>
-<p>where:</p>
-<ul>
-<li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>H</mi><mo stretchy="false" form="prefix">|</mo><mi>E</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(H | E)</annotation></semantics></math>
-is the posterior probability of hypothesis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math>
-given evidence
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>.</li>
-<li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>E</mi><mo stretchy="false" form="prefix">|</mo><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(E | H)</annotation></semantics></math>
-is the likelihood of observing evidence
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>
-given that hypothesis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math>
-is true.</li>
-<li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(H)</annotation></semantics></math>
-is the prior probability of hypothesis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math>
-before observing evidence
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>.</li>
-<li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>E</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(E)</annotation></semantics></math>
-is the probability of evidence
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>
-occurring.</li>
-</ul>
-<p>This document explores Bayesian methods for risk probability and cost
-probability density estimation.</p>
-</div>
-<div class="section level2">
-<h2 id="inference-for-risk-probability">Inference for Risk Probability<a class="anchor" aria-label="anchor" href="#inference-for-risk-probability"></a>
-</h2>
-<p>Consider a risk event
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>
-that may be caused by multiple root causes
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mn>1</mn></msub><mo>,</mo><msub><mi>C</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>C</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">C_1, C_2, \dots, C_n</annotation></semantics></math>.
-The probability of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>
-occurring can be computed as:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>R</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>R</mi><mo stretchy="false" form="prefix">|</mo><msub><mi>C</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>C</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>R</mi><mo stretchy="false" form="prefix">|</mo><mo>¬</mo><msub><mi>C</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mo>¬</mo><msub><mi>C</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
-P(R) = \sum_{i=1}^{n} P(R | C_i) P(C_i) + P(R | \neg C_i) P(\neg C_i)
-</annotation></semantics></math></p>
-<p>where:</p>
-<ul>
-<li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>R</mi><mo stretchy="false" form="prefix">|</mo><msub><mi>C</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(R | C_i)</annotation></semantics></math>
-represents the probability of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>
-occurring given that
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>i</mi></msub><annotation encoding="application/x-tex">C_i</annotation></semantics></math>
-is present.</li>
-<li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>C</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(C_i)</annotation></semantics></math>
-is the prior probability of the root cause
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>i</mi></msub><annotation encoding="application/x-tex">C_i</annotation></semantics></math>.</li>
-<li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>R</mi><mo stretchy="false" form="prefix">|</mo><mo>¬</mo><msub><mi>C</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(R | \neg C_i)</annotation></semantics></math>
-is the probability of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>
-occurring when
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>i</mi></msub><annotation encoding="application/x-tex">C_i</annotation></semantics></math>
-is absent.</li>
-<li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mo>¬</mo><msub><mi>C</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1</mn><mo>−</mo><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>C</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(\neg C_i) = 1 - P(C_i)</annotation></semantics></math>
-is the probability that
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>i</mi></msub><annotation encoding="application/x-tex">C_i</annotation></semantics></math>
-does not occur.</li>
-</ul>
-<p>The function <code>risk_prob</code> calculates the probability of the
-risk event given the root causes and their conditional
-probabilities.</p>
-<div class="section level3">
-<h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
-</h3>
-<p>First, load the package:</p>
+<p>The PRA package provides four Bayesian functions organized into two
+stages:</p>
+<table class="table">
+<colgroup>
+<col width="28%">
+<col width="36%">
+<col width="36%">
+</colgroup>
+<thead><tr class="header">
+<th>Stage</th>
+<th>Function</th>
+<th>Purpose</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>Prior</strong></td>
+<td><code><a href="../reference/risk_prob.html">risk_prob()</a></code></td>
+<td>Compute risk probability from root causes (no observations yet)</td>
+</tr>
+<tr class="even">
+<td><strong>Prior</strong></td>
+<td><code><a href="../reference/cost_pdf.html">cost_pdf()</a></code></td>
+<td>Sample prior cost distribution based on risk probabilities</td>
+</tr>
+<tr class="odd">
+<td><strong>Posterior</strong></td>
+<td><code><a href="../reference/risk_post_prob.html">risk_post_prob()</a></code></td>
+<td>Update risk probability after observing cause status</td>
+</tr>
+<tr class="even">
+<td><strong>Posterior</strong></td>
+<td><code><a href="../reference/cost_post_pdf.html">cost_post_pdf()</a></code></td>
+<td>Sample posterior cost distribution based on observed risks</td>
+</tr>
+</tbody>
+</table>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulgovan.github.io/PRA/">PRA</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Registered S3 method overwritten by 'PRA':</span></span>
-<span><span class="co">#&gt;   method    from </span></span>
-<span><span class="co">#&gt;   print.nls stats</span></span></code></pre></div>
-<p>Suppose there are two root causes with probabilities
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>C</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.3</mn></mrow><annotation encoding="application/x-tex">P(C_1) = 0.3</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>C</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.2</mn></mrow><annotation encoding="application/x-tex">P(C_2) = 0.2</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cause_probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
-<p>The conditional probabilities of the risk event given each cause are
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>R</mi><mo stretchy="false" form="prefix">|</mo><msub><mi>C</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.8</mn></mrow><annotation encoding="application/x-tex">P(R | C_1) = 0.8</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>R</mi><mo stretchy="false" form="prefix">|</mo><msub><mi>C</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.6</mn></mrow><annotation encoding="application/x-tex">P(R | C_2) = 0.6</annotation></semantics></math>,
-respectively. The conditional probabilities of the risk event given not
-each cause are
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>R</mi><mo stretchy="false" form="prefix">|</mo><mo>¬</mo><msub><mi>C</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.2</mn></mrow><annotation encoding="application/x-tex">P(R | \neg C_1) = 0.2</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>R</mi><mo stretchy="false" form="prefix">|</mo><mo>¬</mo><msub><mi>C</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.4</mn></mrow><annotation encoding="application/x-tex">P(R | \neg C_2) = 0.4</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">risks_given_causes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">0.6</span><span class="op">)</span></span>
-<span><span class="va">risks_given_not_causes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.4</span><span class="op">)</span></span></code></pre></div>
-<p>To calculate the probability of the risk event, use the
-<code>risk_prob</code> function:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">risk_prob_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/risk_prob.html">risk_prob</a></span><span class="op">(</span><span class="va">cause_probs</span>, <span class="va">risks_given_causes</span>, <span class="va">risks_given_not_causes</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">risk_prob_value</span><span class="op">)</span></span></code></pre></div>
-<p>0.82</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulgovan.github.io/PRA/">PRA</a></span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="inference-for-cost-probability-density">Inference for Cost Probability Density<a class="anchor" aria-label="anchor" href="#inference-for-cost-probability-density"></a>
-</h3>
-<p>The <code>cost_pdf</code> function uses Bayesian inference to model
-the probability distribution of cost outcomes based on the occurrence of
-risk events. It assumes that each risk event contributes to the total
-cost according to a normal distribution, leading to a mixture model
-representation:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>A</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>R</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>⋅</mo><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>A</mi><mo stretchy="false" form="prefix">|</mo><msub><mi>μ</mi><mi>i</mi></msub><mo>,</mo><msub><mi>σ</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mo>¬</mo><msub><mi>R</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>⋅</mo><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>A</mi><mo stretchy="false" form="prefix">|</mo><mtext mathvariant="normal">base_cost</mtext><mo>,</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
-P(A) = \sum_{i=1}^{n} P(R_i) \cdot N(A | \mu_i, \sigma_i) + P(\neg R_i) \cdot N(A | \text{base_cost}, 0)
-</annotation></semantics></math></p>
-<p>where:</p>
+<div class="section level2">
+<h2 id="step-1-prior-risk-probability">Step 1: Prior Risk Probability<a class="anchor" aria-label="anchor" href="#step-1-prior-risk-probability"></a>
+</h2>
+<p>Before any observations are made, <code><a href="../reference/risk_prob.html">risk_prob()</a></code> computes
+the probability of a risk event R occurring given two potential root
+causes. For each cause, we supply:</p>
 <ul>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>R</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(R_i)</annotation></semantics></math>
-is the probability of risk event
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>R</mi><mi>i</mi></msub><annotation encoding="application/x-tex">R_i</annotation></semantics></math>.</li>
+<code>cause_probs</code> — prior probability that the cause is
+present</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>A</mi><mo stretchy="false" form="prefix">|</mo><msub><mi>μ</mi><mi>i</mi></msub><mo>,</mo><msub><mi>σ</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">N(A | \mu_i, \sigma_i)</annotation></semantics></math>
-is the normal distribution with mean
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>μ</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\mu_i</annotation></semantics></math>
-and standard deviation
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\sigma_i</annotation></semantics></math>.</li>
+<code>risks_given_causes</code> — P(R | cause present)</li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mo>¬</mo><msub><mi>R</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1</mn><mo>−</mo><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>R</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(\neg R_i) = 1 - P(R_i)</annotation></semantics></math>
-is the probability that risk event
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>R</mi><mi>i</mi></msub><annotation encoding="application/x-tex">R_i</annotation></semantics></math>
-does not occur.</li>
-<li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>A</mi><mo stretchy="false" form="prefix">|</mo><mtext mathvariant="normal">base_cost</mtext><mo>,</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">N(A | \text{base_cost}, 0)</annotation></semantics></math>
-is a point mass at the baseline cost
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtext mathvariant="normal">base_cost</mtext><annotation encoding="application/x-tex">\text{base_cost}</annotation></semantics></math>.</li>
+<code>risks_given_not_causes</code> — P(R | cause absent)</li>
 </ul>
-<p>The function <code>cost_pdf</code> generates random samples from the
-mixture model to estimate the cost distribution.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="example-1">Example<a class="anchor" aria-label="anchor" href="#example-1"></a>
-</h2>
-<p>Suppose there are three risk events with probabilities
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>R</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.3</mn></mrow><annotation encoding="application/x-tex">P(R_1) = 0.3</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>R</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">P(R_2) = 0.5</annotation></semantics></math>,
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>R</mi><mn>3</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.2</mn></mrow><annotation encoding="application/x-tex">P(R_3) = 0.2</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">risk_probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
-<p>The means and standard deviations of the normal distributions for
-cost given each risk event are:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">means_given_risks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10000</span>, <span class="fl">15000</span>, <span class="fl">5000</span><span class="op">)</span></span>
-<span><span class="va">sds_given_risks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1000</span>, <span class="fl">1000</span><span class="op">)</span></span></code></pre></div>
-<p>The baseline cost is
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">base_cost</mtext><mo>=</mo><mn>2000</mn></mrow><annotation encoding="application/x-tex">\text{base_cost} = 2000</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">base_cost</span> <span class="op">&lt;-</span> <span class="fl">2000</span></span></code></pre></div>
-<p>To generate random samples from the cost distribution, use the
-<code>cost_pdf</code> function:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">num_sims</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
-<span><span class="va">samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cost_pdf.html">cost_pdf</a></span><span class="op">(</span><span class="va">num_sims</span>, <span class="va">risk_probs</span>, <span class="va">means_given_risks</span>, <span class="va">sds_given_risks</span>, <span class="va">base_cost</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">samples</span>, breaks <span class="op">=</span> <span class="fl">30</span>, col <span class="op">=</span> <span class="st">"skyblue"</span>, main <span class="op">=</span> <span class="st">"Histogram of Cost"</span>, xlab <span class="op">=</span> <span class="st">"Cost"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Bayes_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="700"></p>
-<p>The histogram above shows the distribution of cost outcomes based on
-the risk events and their associated costs.</p>
-</div>
-<div class="section level2">
-<h2 id="posterior-risk-probability">Posterior Risk Probability<a class="anchor" aria-label="anchor" href="#posterior-risk-probability"></a>
-</h2>
-<p>Bayesian updating is the process of updating prior beliefs given new
-evidence. The risk_post_prob function calculates the posterior
-probability of a risk event given observations of its root causes. This
-is achieved by applying Bayes’ theorem to update the prior probabilities
-of root causes based on the observed data.</p>
-<div class="section level3">
-<h3 id="example-2">Example<a class="anchor" aria-label="anchor" href="#example-2"></a>
-</h3>
-<p>Suppose there are two root causes with prior probabilities
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>C</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.3</mn></mrow><annotation encoding="application/x-tex">P(C_1) = 0.3</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>C</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.2</mn></mrow><annotation encoding="application/x-tex">P(C_2) = 0.2</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cause_probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
-<p>The conditional probabilities of the risk event given each cause are
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>R</mi><mo stretchy="false" form="prefix">|</mo><msub><mi>C</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.8</mn></mrow><annotation encoding="application/x-tex">P(R | C_1) = 0.8</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>R</mi><mo stretchy="false" form="prefix">|</mo><msub><mi>C</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.6</mn></mrow><annotation encoding="application/x-tex">P(R | C_2) = 0.6</annotation></semantics></math>,
-respectively. The conditional probabilities of the risk event given not
-each cause are
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>R</mi><mo stretchy="false" form="prefix">|</mo><mo>¬</mo><msub><mi>C</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.2</mn></mrow><annotation encoding="application/x-tex">P(R | \neg C_1) = 0.2</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>R</mi><mo stretchy="false" form="prefix">|</mo><mo>¬</mo><msub><mi>C</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.4</mn></mrow><annotation encoding="application/x-tex">P(R | \neg C_2) = 0.4</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">risks_given_causes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">0.6</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cause_probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.2</span><span class="op">)</span></span>
+<span><span class="va">risks_given_causes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">0.6</span><span class="op">)</span></span>
 <span><span class="va">risks_given_not_causes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.4</span><span class="op">)</span></span></code></pre></div>
-<p>Suppose the observed root causes are
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mn>1</mn></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">C_1 = 1</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mn>2</mn></msub><mo>=</mo><mtext mathvariant="normal">NA</mtext></mrow><annotation encoding="application/x-tex">C_2 = \text{NA}</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">observed_causes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
-<p>To calculate the posterior probability of the risk event, use the
-<code>risk_post_prob</code> function:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">risk_post_prob</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/risk_post_prob.html">risk_post_prob</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">prior_risk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/risk_prob.html">risk_prob</a></span><span class="op">(</span><span class="va">cause_probs</span>, <span class="va">risks_given_causes</span>, <span class="va">risks_given_not_causes</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Prior probability of risk event R:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">prior_risk</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<p>Prior probability of risk event R: 0.82</p>
+</div>
+<div class="section level2">
+<h2 id="step-2-prior-cost-distribution">Step 2: Prior Cost Distribution<a class="anchor" aria-label="anchor" href="#step-2-prior-cost-distribution"></a>
+</h2>
+<p>Given the prior risk probabilities, <code><a href="../reference/cost_pdf.html">cost_pdf()</a></code> samples
+the cost distribution before any field observations. Three independent
+risk events can each contribute cost if they occur.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">risk_probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.2</span><span class="op">)</span></span>
+<span><span class="va">means_given_risks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10000</span>, <span class="fl">15000</span>, <span class="fl">5000</span><span class="op">)</span></span>
+<span><span class="va">sds_given_risks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1000</span>, <span class="fl">1000</span><span class="op">)</span></span>
+<span><span class="va">base_cost</span> <span class="op">&lt;-</span> <span class="fl">2000</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">prior_samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cost_pdf.html">cost_pdf</a></span><span class="op">(</span></span>
+<span>  num_sims          <span class="op">=</span> <span class="fl">5000</span>,</span>
+<span>  risk_probs        <span class="op">=</span> <span class="va">risk_probs</span>,</span>
+<span>  means_given_risks <span class="op">=</span> <span class="va">means_given_risks</span>,</span>
+<span>  sds_given_risks   <span class="op">=</span> <span class="va">sds_given_risks</span>,</span>
+<span>  base_cost         <span class="op">=</span> <span class="va">base_cost</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>We will compare this to the posterior distribution in Step 4.</p>
+</div>
+<div class="section level2">
+<h2 id="step-3-posterior-risk-probability-bayesian-update">Step 3: Posterior Risk Probability (Bayesian Update)<a class="anchor" aria-label="anchor" href="#step-3-posterior-risk-probability-bayesian-update"></a>
+</h2>
+<p>After inspecting the project site, we observe that Cause 1 is present
+(= 1). Cause 2 has not yet been assessed (= NA).
+<code><a href="../reference/risk_post_prob.html">risk_post_prob()</a></code> updates the risk probability using only
+the available evidence — NA causes are treated as unobserved and do not
+contribute to the update.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># C1 observed as present; C2 not yet assessed</span></span>
+<span><span class="va">observed_causes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">posterior_risk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/risk_post_prob.html">risk_post_prob</a></span><span class="op">(</span></span>
 <span>  <span class="va">cause_probs</span>, <span class="va">risks_given_causes</span>,</span>
 <span>  <span class="va">risks_given_not_causes</span>, <span class="va">observed_causes</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">risk_post_prob</span><span class="op">)</span></span></code></pre></div>
-<p>0.6315789</p>
-<p>The posterior probability of the risk event is updated based on the
-observed root causes.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="posterior-cost-probability-density">Posterior Cost Probability Density<a class="anchor" aria-label="anchor" href="#posterior-cost-probability-density"></a>
-</h2>
-<p>The <code>cost_post_pdf</code> function generates a posterior
-probability density function (PDF) for costs, given observed risk
-events. This function simulates random samples from a mixture model
-based on Bayesian updating principles.</p>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Posterior probability of risk event R:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">posterior_risk</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<p>Posterior probability of risk event R: 0.632</p>
+<p>Observing Cause 1 (which has a strong link to R) raises the risk
+probability substantially. The NA for Cause 2 is simply ignored — only
+confirmed observations drive the update.</p>
 <div class="section level3">
-<h3 id="example-3">Example<a class="anchor" aria-label="anchor" href="#example-3"></a>
+<h3 id="prior-vs--posterior-probability">Prior vs. Posterior Probability<a class="anchor" aria-label="anchor" href="#prior-vs--posterior-probability"></a>
 </h3>
-<p>Suppose there are three risk events with observed values
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mn>1</mn></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">R_1 = 1</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mn>2</mn></msub><mo>=</mo><mtext mathvariant="normal">NA</mtext></mrow><annotation encoding="application/x-tex">R_2 = \text{NA}</annotation></semantics></math>,
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mn>3</mn></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">R_3 = 1</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">observed_risks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="cn">NA</span>, <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p>The means and standard deviations of the normal distributions for
-cost given each risk event are:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">means_given_risks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10000</span>, <span class="fl">15000</span>, <span class="fl">5000</span><span class="op">)</span></span>
-<span><span class="va">sds_given_risks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1000</span>, <span class="fl">1000</span><span class="op">)</span></span></code></pre></div>
-<p>The baseline cost is
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">base_cost</mtext><mo>=</mo><mn>2000</mn></mrow><annotation encoding="application/x-tex">\text{base_cost} = 2000</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">base_cost</span> <span class="op">&lt;-</span> <span class="fl">2000</span></span></code></pre></div>
-<p>To generate random samples from the posterior cost distribution, use
-the <code>cost_post_pdf</code> function:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">num_sims</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
-<span><span class="va">posterior_samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cost_post_pdf.html">cost_post_pdf</a></span><span class="op">(</span></span>
-<span>  num_sims <span class="op">=</span> <span class="va">num_sims</span>,</span>
-<span>  observed_risks <span class="op">=</span> <span class="va">observed_risks</span>,</span>
-<span>  means_given_risks <span class="op">=</span> <span class="va">means_given_risks</span>,</span>
-<span>  sds_given_risks <span class="op">=</span> <span class="va">sds_given_risks</span>,</span>
-<span>  base_cost <span class="op">=</span> <span class="va">base_cost</span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">prob_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  Stage       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Prior"</span>, <span class="st">"Posterior"</span><span class="op">)</span>,</span>
+<span>  Probability <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">prior_risk</span>, <span class="va">posterior_risk</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">posterior_samples</span>, breaks <span class="op">=</span> <span class="fl">30</span>, col <span class="op">=</span> <span class="st">"skyblue"</span>, main <span class="op">=</span> <span class="st">"Posterior Cost PDF"</span>, xlab <span class="op">=</span> <span class="st">"Cost"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Bayes_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" alt="" width="700"></p>
-<p>The histogram above shows the posterior probability density function
-of costs based on the observed risk events.</p>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">prob_data</span>, <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Stage</span>, y <span class="op">=</span> <span class="va">Probability</span>, fill <span class="op">=</span> <span class="va">Stage</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.5</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_text</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">Probability</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    vjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.4</span>, size <span class="op">=</span> <span class="fl">4.5</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Prior"</span> <span class="op">=</span> <span class="st">"steelblue"</span>, <span class="st">"Posterior"</span> <span class="op">=</span> <span class="st">"tomato"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/percent_format.html" class="external-link">percent</a></span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Bayesian Update: Risk Probability"</span>,</span>
+<span>    x     <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    y     <span class="op">=</span> <span class="st">"P(Risk Event R)"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">13</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Bayes_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="700"></p>
+<p>The bar chart makes the Bayesian update tangible: observing Cause 1
+nearly doubles the estimated probability of the risk event.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
+<h2 id="step-4-posterior-cost-distribution">Step 4: Posterior Cost Distribution<a class="anchor" aria-label="anchor" href="#step-4-posterior-cost-distribution"></a>
 </h2>
-<p>Bayesian methods provide a powerful framework for updating beliefs
-and making inferences based on observed data. By incorporating prior
-knowledge and new evidence, these methods can help quantify uncertainty
-and make informed decisions in a wide range of applications.</p>
+<p>Now that we know Cause 1 is present (Risk 1 occurs), and one risk
+remains unobserved (Risk 2 = NA), <code><a href="../reference/cost_post_pdf.html">cost_post_pdf()</a></code> samples
+the posterior cost distribution. Observed risks that occurred (= 1) add
+their cost; unobserved risks (= NA) are excluded from the
+simulation.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">observed_risks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="cn">NA</span>, <span class="fl">1</span><span class="op">)</span> <span class="co"># Risk 1 and 3 confirmed; Risk 2 not yet assessed</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">posterior_samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cost_post_pdf.html">cost_post_pdf</a></span><span class="op">(</span></span>
+<span>  num_sims          <span class="op">=</span> <span class="fl">5000</span>,</span>
+<span>  observed_risks    <span class="op">=</span> <span class="va">observed_risks</span>,</span>
+<span>  means_given_risks <span class="op">=</span> <span class="va">means_given_risks</span>,</span>
+<span>  sds_given_risks   <span class="op">=</span> <span class="va">sds_given_risks</span>,</span>
+<span>  base_cost         <span class="op">=</span> <span class="va">base_cost</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="prior-vs--posterior-cost-distribution">Prior vs. Posterior Cost Distribution<a class="anchor" aria-label="anchor" href="#prior-vs--posterior-cost-distribution"></a>
+</h3>
+<p>Plotting both distributions on the same axes shows how the evidence
+shifts the cost estimate:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">xlim_range</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">prior_samples</span>, <span class="va">posterior_samples</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Prior cost histogram</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">prior_samples</span>,</span>
+<span>  breaks <span class="op">=</span> <span class="fl">40</span>, freq <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">0.27</span>, <span class="fl">0.51</span>, <span class="fl">0.71</span>, <span class="fl">0.5</span><span class="op">)</span>, <span class="co"># steelblue, semi-transparent</span></span>
+<span>  border <span class="op">=</span> <span class="st">"white"</span>,</span>
+<span>  xlim <span class="op">=</span> <span class="va">xlim_range</span>,</span>
+<span>  main <span class="op">=</span> <span class="st">"Prior vs. Posterior Cost Distribution"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"Total Cost ($)"</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="st">"Density"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Posterior cost histogram (overlaid)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">posterior_samples</span>,</span>
+<span>  breaks <span class="op">=</span> <span class="fl">40</span>, freq <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">0.84</span>, <span class="fl">0.24</span>, <span class="fl">0.31</span>, <span class="fl">0.5</span><span class="op">)</span>, <span class="co"># tomato, semi-transparent</span></span>
+<span>  border <span class="op">=</span> <span class="st">"white"</span>,</span>
+<span>  add <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">prior_samples</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"steelblue"</span>, lty <span class="op">=</span> <span class="fl">2</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">posterior_samples</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"tomato"</span>, lty <span class="op">=</span> <span class="fl">2</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topright"</span>,</span>
+<span>  legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Prior  (mean = $"</span>, <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">prior_samples</span><span class="op">)</span><span class="op">)</span>, big.mark <span class="op">=</span> <span class="st">","</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Posterior (mean = $"</span>, <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">posterior_samples</span><span class="op">)</span><span class="op">)</span>, big.mark <span class="op">=</span> <span class="st">","</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">0.27</span>, <span class="fl">0.51</span>, <span class="fl">0.71</span>, <span class="fl">0.5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">0.84</span>, <span class="fl">0.24</span>, <span class="fl">0.31</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  bty <span class="op">=</span> <span class="st">"n"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="Bayes_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" alt="" width="700"></p>
+<p><strong>Interpretation:</strong> The posterior distribution is
+narrower and shifted — observing which risks materialized eliminates
+uncertainty about some cost components. The remaining spread reflects
+uncertainty from unobserved risks and cost variability in the confirmed
+risks.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
+</h2>
+<p>The Bayesian workflow in PRA follows a natural before-and-after
+structure:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Before observations</strong> — use <code><a href="../reference/risk_prob.html">risk_prob()</a></code>
+and <code><a href="../reference/cost_pdf.html">cost_pdf()</a></code> to characterize the risk landscape.</li>
+<li>
+<strong>As evidence arrives</strong> — use
+<code><a href="../reference/risk_post_prob.html">risk_post_prob()</a></code> and <code><a href="../reference/cost_post_pdf.html">cost_post_pdf()</a></code> to update
+estimates.</li>
+<li>
+<strong>NA values</strong> in <code>observed_causes</code> and
+<code>observed_risks</code> represent causes/risks that have not yet
+been assessed; they are correctly excluded from the Bayesian
+update.</li>
+</ol>
+<p>This approach is particularly powerful in phased projects where
+information about risk drivers becomes available progressively, allowing
+cost forecasts to be refined at each stage.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

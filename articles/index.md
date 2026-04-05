@@ -23,3 +23,8 @@
 ### Bayesian Methods
 
 - [Bayesian Methods](https://paulgovan.github.io/PRA/articles/Bayes.md):
+
+### Agentic Risk Analysis
+
+- [Agentic Risk
+  Analysis](https://paulgovan.github.io/PRA/articles/agent.md):

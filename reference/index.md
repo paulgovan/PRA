@@ -4,6 +4,10 @@
 
 - [`ac()`](https://paulgovan.github.io/PRA/reference/ac.md) : Actual
   Cost (AC).
+- [`add_documents()`](https://paulgovan.github.io/PRA/reference/add_documents.md)
+  : Add Custom Documents to the PRA Knowledge Base
+- [`build_knowledge_base()`](https://paulgovan.github.io/PRA/reference/build_knowledge_base.md)
+  : Build the PRA Knowledge Base for RAG Retrieval
 - [`contingency()`](https://paulgovan.github.io/PRA/reference/contingency.md)
   : Contingency Calculation.
 - [`cor_matrix()`](https://paulgovan.github.io/PRA/reference/cor_matrix.md)
@@ -32,16 +36,24 @@
   : Resource-based 'Parent' Design Structure Matrix (DSM).
 - [`plot_sigmoidal()`](https://paulgovan.github.io/PRA/reference/plot_sigmoidal.md)
   : Plot a Fitted Sigmoidal Model.
+- [`pra_app()`](https://paulgovan.github.io/PRA/reference/pra_app.md) :
+  Launch the PRA Risk Analysis Agent App
+- [`pra_chat()`](https://paulgovan.github.io/PRA/reference/pra_chat.md)
+  : Create a PRA Risk Analysis Chat Agent
+- [`pra_tools()`](https://paulgovan.github.io/PRA/reference/pra_tools.md)
+  : Create PRA Tool Definitions for LLM Agent
 - [`predict_sigmoidal()`](https://paulgovan.github.io/PRA/reference/predict_sigmoidal.md)
   : Predict a Sigmoidal Function Using Fitted Model.
 - [`print(`*`<mcs>`*`)`](https://paulgovan.github.io/PRA/reference/print.mcs.md)
   : Print method for Monte Carlo Simulation results.
-- [`print(`*`<nls>`*`)`](https://paulgovan.github.io/PRA/reference/print.nls.md)
+- [`print(`*`<pra_sigmoidal_fit>`*`)`](https://paulgovan.github.io/PRA/reference/print.pra_sigmoidal_fit.md)
   : Print method for Sigmoidal Model
 - [`print(`*`<smm>`*`)`](https://paulgovan.github.io/PRA/reference/print.smm.md)
   : Print method for SMM results.
 - [`pv()`](https://paulgovan.github.io/PRA/reference/pv.md) : Planned
   Value (PV).
+- [`retrieve_context()`](https://paulgovan.github.io/PRA/reference/retrieve_context.md)
+  : Retrieve Relevant Context for a Query
 - [`risk_post_prob()`](https://paulgovan.github.io/PRA/reference/risk_post_prob.md)
   : Posterior Risk Probability.
 - [`risk_prob()`](https://paulgovan.github.io/PRA/reference/risk_prob.md)

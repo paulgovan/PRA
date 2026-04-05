@@ -1,216 +1,201 @@
 # Monte Carlo Simulation
 
 Monte Carlo (MC) simulation is a quantitative risk analysis technique
-used to understand the impact of risk and uncertainty in project
-management. It involves running multiple simulations to predict the
-possible outcomes of a project by varying the inputs randomly within
-specified ranges.
+that models uncertainty by running thousands of simulated project
+outcomes. Instead of using single-point estimates for task durations or
+costs, each task is described by a probability distribution. The
+simulation draws random samples from these distributions, sums them to
+get a total outcome, and repeats this thousands of times to build a full
+picture of possible project results.
 
 ## Steps in MC Simulation
 
-1.  *Model Definition*: Define the project model, including the
-    objectives, timeline, and the variables that affect the project
-    (e.g., costs, durations, resource availability).
+1.  **Model Definition** — Define project tasks and the variables that
+    drive uncertainty (durations, costs).
+2.  **Assign Distributions** — Choose a probability distribution for
+    each uncertain variable (e.g., triangular for tasks with
+    optimistic/likely/pessimistic estimates).
+3.  **Specify Correlations** — If tasks are related (e.g., both affected
+    by a shared risk), set a correlation coefficient between them.
+4.  **Run Simulation** — Draw random samples and compute the total
+    outcome for each iteration (typically 10,000+).
+5.  **Analyze Results** — Summarize the distribution of totals using
+    percentiles, mean, and variance.
 
-2.  *Identify Uncertainties*: Identify the uncertainties in the project.
-    These could be the variability in task durations, costs, and other
-    critical factors.
-
-3.  *Assign Probability Distributions*: For each uncertain variable,
-    assign a probability distribution. Common distributions include
-    normal, triangular, and uniform distributions, which represent the
-    range of possible values and their likelihood.
-
-4.  *Execute Simulation*: Using random sampling, the simulation runs
-    numerous iterations (typically thousands). In each iteration, random
-    values are selected from the probability distributions for each
-    uncertain variable, and the project’s outcomes are calculated.
-
-5.  *Analyze Results*: After running the simulation, analyze the results
-    to understand the range of possible project outcomes. This analysis
-    includes statistical summaries like mean, median, standard
-    deviation, and percentiles, which help in understanding the
-    probability of meeting project objectives under uncertainty.
-
-## Applications in Project Risk Analysis:
-
-*Schedule Risk Analysis*: Assessing the likelihood of completing the
-project on time.
-
-*Cost Risk Analysis*: Evaluating the probability of staying within
-budget.
-
-*Performance Risk Analysis*: Understanding the likelihood of achieving
-project performance goals.
-
-## Advantages:
-
-Provides a comprehensive view of project risks and their impacts. Helps
-in making informed decisions by quantifying uncertainties. Enhances the
-ability to prepare for various risk scenarios and develop mitigation
-strategies. Monte Carlo simulation is a powerful tool in project
-management, enabling project managers to foresee potential issues and
-plan accordingly to improve the chances of project success.
-
-## Examples
-
-First, load the package:
+## Example
 
 ``` r
 library(PRA)
-#> Registered S3 method overwritten by 'PRA':
-#>   method    from 
-#>   print.nls stats
 ```
 
-Next, set the number of simulations and describe probability
-distributions for 3 work packages:
+We model a 3-task project (in weeks). Task A follows a normal
+distribution, Task B has a triangular distribution
+(optimistic/most-likely/pessimistic), and Task C is uniformly
+distributed.
 
 ``` r
 num_simulations <- 10000
 task_distributions <- list(
-  list(type = "normal", mean = 10, sd = 2), # Task A: Normal distribution
-  list(type = "triangular", a = 5, b = 10, c = 15), # Task B: Triangular distribution
-  list(type = "uniform", min = 8, max = 12) # Task C: Uniform distribution
+  list(type = "normal", mean = 10, sd = 2), # Task A
+  list(type = "triangular", a = 5, b = 10, c = 15), # Task B
+  list(type = "uniform", min = 8, max = 12) # Task C
 )
 ```
 
-Then, set the correlation matrix between the 3 work packages:
+### Correlation Matrix
+
+Tasks often move together due to shared resources or external risks. The
+correlation matrix captures this. Values range from −1 (perfectly
+opposed) to +1 (perfectly aligned); 0 means independent. Here Tasks A
+and B have moderate positive correlation (0.5), meaning delays in one
+tend to coincide with delays in the other.
 
 ``` r
 correlation_matrix <- matrix(c(
-  1, 0.5, 0.3,
-  0.5, 1, 0.4,
-  0.3, 0.4, 1
+  1.0, 0.5, 0.3,
+  0.5, 1.0, 0.4,
+  0.3, 0.4, 1.0
 ), nrow = 3, byrow = TRUE)
 ```
 
-Finally, run the simulation using the `mcs` function:
+### Run the Simulation
 
 ``` r
 results <- mcs(num_simulations, task_distributions, correlation_matrix)
 ```
 
-To calculate the mean of the total duration:
-
 ``` r
-cat("Mean Total Duration:", round(results$total_mean, 2), "\n")
+cat("Mean Total Duration:     ", round(results$total_mean, 2), "weeks\n")
 ```
 
-Mean Total Duration: 38.62
-
-To calculate the variance of the total duration:
+Mean Total Duration: 38.6 weeks
 
 ``` r
-cat("Variance of Total Duration:", round(results$total_variance, 2), "\n")
+cat("Variance of Duration:    ", round(results$total_variance, 2), "\n")
 ```
 
-Variance of Total Duration: 19.43
-
-To build a histogram of the total duration:
+Variance of Duration: 20.01
 
 ``` r
-hist(results$total_distribution,
-  breaks = 50, main = "Total Project Duration",
-  xlab = "Total Duration", col = "skyblue", border = "white"
+cat("Std Dev of Duration:     ", round(results$total_sd, 2), "weeks\n")
+```
+
+Std Dev of Duration: 4.47 weeks
+
+### Distribution of Outcomes
+
+The histogram below shows all 10,000 simulated total durations. The
+overlaid density curve reveals the shape of the distribution.
+
+``` r
+hist_data <- results$total_distribution
+
+hist(hist_data,
+  breaks = 50, freq = FALSE,
+  main = "Monte Carlo Simulation - Total Project Duration",
+  xlab = "Total Duration (weeks)", col = "steelblue", border = "white"
+)
+lines(density(hist_data), col = "tomato", lwd = 2)
+abline(v = results$total_mean, col = "black", lty = 2, lwd = 1.5)
+legend("topright",
+  legend = c("Density", paste0("Mean = ", round(results$total_mean, 1), " wks")),
+  col = c("tomato", "black"), lty = c(1, 2), lwd = 2, bty = "n"
 )
 ```
 
-![](MCS_files/figure-html/unnamed-chunk-8-1.png)
+![](MCS_files/figure-html/unnamed-chunk-6-1.png)
 
-## Contingency
+## Interpreting Percentiles
 
-- *Cost Contingency*: Identify the cost associated with a specific
-  confidence level. For instance, if you want a 90% confidence level
-  that the project will not exceed the budget, find the cost at the 90th
-  percentile of the cost distribution.
-
-- *Schedule Contingency*: Similarly, identify the duration at a desired
-  confidence level. For example, if you want a 95% confidence level that
-  the project will be completed on time, find the project duration at
-  the 95th percentile of the schedule distribution.
-
-### Example
-
-For the previous example, calculate the contingency with a confidence
-level of 95%:
+The [`mcs()`](https://paulgovan.github.io/PRA/reference/mcs.md) function
+returns key percentiles of the total distribution. These answer the
+question: *“What duration has X% probability of not being exceeded?”*
 
 ``` r
-contingency <- contingency(results, phigh = 0.95, pbase = 0.50)
-cat("Contingency based on 95th percentile:", round(contingency, 2))
+knitr::kable(
+  data.frame(
+    Percentile = c("P5", "P50 (Median)", "P95"),
+    Duration = round(results$percentiles, 1),
+    Meaning = c(
+      "5% chance of finishing this fast or faster",
+      "Equal chance of finishing above or below this",
+      "95% chance of finishing by this date"
+    )
+  ),
+  caption = "Simulation Percentiles"
+)
 ```
 
-Contingency based on 95th percentile: 7.21
+|     | Percentile   | Duration | Meaning                                       |
+|:----|:-------------|---------:|:----------------------------------------------|
+| 5%  | P5           |     31.2 | 5% chance of finishing this fast or faster    |
+| 50% | P50 (Median) |     38.6 | Equal chance of finishing above or below this |
+| 95% | P95          |     46.0 | 95% chance of finishing by this date          |
 
-### Key Considerations
+Simulation Percentiles
 
-- *Confidence Levels*: Higher confidence levels result in larger
-  contingencies but reduce the risk of overruns.
+## Contingency Analysis
 
-- *Risk Appetite*: The organization’s risk tolerance will influence the
-  chosen confidence level.
+Contingency is the buffer added above the base estimate to cover
+uncertainty. A common approach is to use the difference between the P95
+(or chosen confidence level) outcome and the P50 (base estimate).
 
-- *Data Quality*: The accuracy of the probability distributions and
-  input data significantly impacts the reliability of the contingency
-  estimate.
+``` r
+contingency_val <- contingency(results, phigh = 0.95, pbase = 0.50)
+cat("Schedule contingency (P95 − P50):", round(contingency_val, 2), "weeks\n")
+```
 
-## Sensitivity
+Schedule contingency (P95 − P50): 7.4 weeks
 
-Estimating sensitivity involves determining how changes in input
-variables impact the output variables of interest, such as project cost
-or duration. Sensitivity analysis identifies the most critical factors
-influencing the project’s outcomes, helping project managers focus on
-managing these key risks.
+``` r
+cat(
+  "There is a 95% chance the project will finish within",
+  round(results$percentiles["95%"], 1), "weeks.\n"
+)
+```
 
-### Types of Sensitivity Analysis
+There is a 95% chance the project will finish within 46 weeks.
 
-- *Correlation Coefficients*: Calculate the correlation coefficients
-  between each input variable and the output variable. This measures the
-  strength and direction of the linear relationship between the input
-  and the output.
+**Interpretation:** Adding 7.4 weeks of schedule contingency to the P50
+estimate gives a 95% confidence of on-time delivery. Teams with low risk
+tolerance should use P95; those with higher tolerance might use P80.
 
-- *Regression Analysis*: Perform a regression analysis to quantify the
-  impact of each input variable on the output. This provides
-  coefficients that indicate how much change in the output is expected
-  for a unit change in each input.
+## Sensitivity Analysis
 
-- *Tornado Diagrams*: Create tornado diagrams to visually represent the
-  sensitivity of the output variable to changes in each input variable.
-  The longer the bar, the greater the impact of the input on the output.
-
-### Example
-
-For the previous example, calculate the sensitivity of each task:
+Sensitivity analysis identifies which tasks drive the most variability
+in the total outcome — the tasks that deserve the most management
+attention.
 
 ``` r
 sensitivity_results <- sensitivity(task_distributions, correlation_matrix)
-```
 
-Build a vertical barchart and display the results:
-
-``` r
-data <- data.frame(
-  Tasks = c("A", "B", "C"),
+sens_data <- data.frame(
+  Task        = c("Task A (Normal)", "Task B (Triangular)", "Task C (Uniform)"),
   Sensitivity = sensitivity_results
 )
-barplot(
-  height = data$Sensitivity, names = data$Tasks, col = "skyblue",
-  horiz = TRUE, main = "Sensitivity Analysis", xlab = "Sensitivity", ylab = "Tasks"
-)
+
+p <- ggplot2::ggplot(
+  sens_data,
+  ggplot2::aes(x = Sensitivity, y = reorder(Task, Sensitivity))
+) +
+  ggplot2::geom_col(fill = "steelblue") +
+  ggplot2::geom_text(ggplot2::aes(label = round(Sensitivity, 3)),
+    hjust = -0.1, size = 3.5
+  ) +
+  ggplot2::labs(
+    title = "Tornado Chart - Task Sensitivity",
+    x     = "Sensitivity Coefficient",
+    y     = NULL
+  ) +
+  ggplot2::xlim(0, max(sensitivity_results) * 1.2) +
+  ggplot2::theme_minimal()
+
+print(p)
 ```
 
-![](MCS_files/figure-html/unnamed-chunk-11-1.png)
+![](MCS_files/figure-html/unnamed-chunk-9-1.png)
 
-### Interpretation and Action
-
-*Focus on High-Impact Variables*: Based on the sensitivity analysis,
-prioritize monitoring and managing the inputs with the highest impact
-(e.g., Task B in this example).
-
-*Develop Mitigation Strategies*: Implement risk mitigation strategies
-for the most sensitive inputs to reduce their potential negative impact
-on the project.
-
-*Inform Stakeholders*: Communicate the sensitivity findings to
-stakeholders to provide a clear understanding of where project risks are
-concentrated.
+**Interpretation:** Tasks with larger bars contribute more variance to
+the total. Prioritize risk mitigation efforts on the highest-sensitivity
+task. Even a small reduction in its uncertainty can meaningfully reduce
+overall project risk.

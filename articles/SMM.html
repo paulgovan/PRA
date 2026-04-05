@@ -59,173 +59,220 @@
 
     
     
-<p>The second moment method for project risk analysis is a quantitative
-technique used to estimate and manage the uncertainty in project
-outcomes. This method focuses on the first two moments of the
-probability distribution of project outcomes: the mean (or expected
-value) and the variance.</p>
+<p>The Second Moment Method (SMM) is a fast, analytical alternative to
+Monte Carlo simulation for estimating project cost or schedule
+uncertainty. Rather than running thousands of iterations, SMM propagates
+uncertainty through a project mathematically using only the mean and
+variance of each task — the “first two moments” of the probability
+distribution.</p>
 <div class="section level2">
-<h2 id="steps-in-the-second-moment-method">Steps in the Second Moment Method<a class="anchor" aria-label="anchor" href="#steps-in-the-second-moment-method"></a>
+<h2 id="when-to-use-smm">When to Use SMM<a class="anchor" aria-label="anchor" href="#when-to-use-smm"></a>
 </h2>
-<div class="section level3">
-<h3 id="identify-project-activities-and-risks">1. Identify Project Activities and Risks<a class="anchor" aria-label="anchor" href="#identify-project-activities-and-risks"></a>
-</h3>
-<p>List all the activities involved in the project; Identify the risks
-associated with each activity; Estimate the mean (expected value) for
-each activity.</p>
-</div>
-<div class="section level3">
-<h3 id="determine-the-expected-duration-cost-or-other-metrics-for-each-activity-considering-the-identified-risks">2. Determine the expected duration, cost, or other metrics for each
-activity considering the identified risks<a class="anchor" aria-label="anchor" href="#determine-the-expected-duration-cost-or-other-metrics-for-each-activity-considering-the-identified-risks"></a>
-</h3>
-<p>The expected value is the average outcome, calculated as the weighted
-sum of all possible outcomes, where the weights are the probabilities of
-those outcomes.</p>
-</div>
-<div class="section level3">
-<h3 id="estimate-variance-and-standard-deviation">3. Estimate Variance and Standard Deviation<a class="anchor" aria-label="anchor" href="#estimate-variance-and-standard-deviation"></a>
-</h3>
-<p>Calculate the variance of each activity’s duration, cost, or other
-metrics. Variance measures the spread of possible outcomes around the
-mean.</p>
-<p>The standard deviation is the square root of the variance, providing
-a measure of uncertainty in the same units as the original metric.</p>
-</div>
-<div class="section level3">
-<h3 id="aggregate-mean-and-variance">4. Aggregate Mean and Variance<a class="anchor" aria-label="anchor" href="#aggregate-mean-and-variance"></a>
-</h3>
-<p>For the entire project, aggregate the means of all activities to get
-the project’s overall expected duration, cost, etc.</p>
-<p>Aggregate the variances to get the project’s overall variance. If
-activities are independent, the total variance is the sum of the
-individual variances.</p>
-</div>
-<div class="section level3">
-<h3 id="assess-project-risk">5. Assess Project Risk<a class="anchor" aria-label="anchor" href="#assess-project-risk"></a>
-</h3>
-<p>Use the overall mean and variance to assess the project’s risk. A
-larger variance indicates greater uncertainty and risk.</p>
-<p>Calculate confidence intervals to understand the range within which
-the project outcomes are likely to fall. For example, assuming a normal
-distribution, approximately 95% of outcomes will fall within two
-standard deviations of the mean.</p>
-</div>
+<p>SMM is best suited for early-stage estimates when:</p>
+<ul>
+<li>Speed matters and simulation run-time is a concern</li>
+<li>You have credible mean and variance estimates for each task</li>
+<li>Tasks are approximately independent or have well-characterized
+correlations</li>
+<li>You need a quick sensitivity check before committing to a full Monte
+Carlo run</li>
+</ul>
 </div>
 <div class="section level2">
-<h2 id="correlation">Correlation<a class="anchor" aria-label="anchor" href="#correlation"></a>
+<h2 id="method-overview">Method Overview<a class="anchor" aria-label="anchor" href="#method-overview"></a>
 </h2>
-<p>When accounting for correlation between tasks, the total variance of
-the project is calculated using both the individual variances and the
-covariances between each pair of activities.</p>
-</div>
-<div class="section level2">
-<h2 id="formulation">Formulation<a class="anchor" aria-label="anchor" href="#formulation"></a>
-</h2>
-<div class="section level3">
-<h3 id="expected-value-mean">Expected Value (Mean):<a class="anchor" aria-label="anchor" href="#expected-value-mean"></a>
-</h3>
-<p>For a given project activity
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>,
-the expected value (mean) of the duration, cost, or any other metric
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>X</mi><mi>i</mi></msub><annotation encoding="application/x-tex">X_i</annotation></semantics></math>
-is:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>P</mi><mi>j</mi></msub><mo>⋅</mo><msub><mi>X</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex"> E(X_i) = \sum_{j} P_j \cdot X_{ij} </annotation></semantics></math></p>
-<p>For the entire project, if there are
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
-activities, the total expected value
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">E(X)</annotation></semantics></math>
-is:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex"> E(X) = \sum_{i=1}^{n} E(X_i) </annotation></semantics></math></p>
-</div>
-<div class="section level3">
-<h3 id="variance">Variance:<a class="anchor" aria-label="anchor" href="#variance"></a>
-</h3>
-<p>The variance of a project activity
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
-is:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>P</mi><mi>j</mi></msub><mo>⋅</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>−</mo><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex"> Var(X_i) = \sum_{j} P_j \cdot (X_{ij} - E(X_i))^2 </annotation></semantics></math></p>
-</div>
-<div class="section level3">
-<h3 id="covariance">Covariance:<a class="anchor" aria-label="anchor" href="#covariance"></a>
-</h3>
-<p>The covariance between two activities
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>X</mi><mi>i</mi></msub><annotation encoding="application/x-tex">X_i</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>X</mi><mi>j</mi></msub><annotation encoding="application/x-tex">X_j</annotation></semantics></math>
-is:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>o</mi><mi>v</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo>,</mo><msub><mi>X</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munder><mo>∑</mo><mi>k</mi></munder><msub><mi>P</mi><mi>k</mi></msub><mo>⋅</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><mo>−</mo><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo>⋅</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mrow><mi>j</mi><mi>k</mi></mrow></msub><mo>−</mo><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex"> Cov(X_i, X_j) = \sum_{k} P_k \cdot (X_{ik} - E(X_i)) \cdot (X_{jk} - E(X_j)) </annotation></semantics></math></p>
-</div>
-<div class="section level3">
-<h3 id="variance-with-correlation">Variance with Correlation:<a class="anchor" aria-label="anchor" href="#variance-with-correlation"></a>
-</h3>
-<p>When considering the correlation between activities, the total
-variance
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Var(X)</annotation></semantics></math>
-of the project is:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mi>V</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mn>2</mn><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></munderover><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mi>i</mi><mo>+</mo><mn>1</mn></mrow><mi>n</mi></munderover><mi>C</mi><mi>o</mi><mi>v</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo>,</mo><msub><mi>X</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex"> Var(X) = \sum_{i=1}^{n} Var(X_i) + 2 \sum_{i=1}^{n-1} \sum_{j=i+1}^{n} Cov(X_i, X_j) </annotation></semantics></math></p>
-</div>
-<div class="section level3">
-<h3 id="correlation-coefficient">Correlation Coefficient:<a class="anchor" aria-label="anchor" href="#correlation-coefficient"></a>
-</h3>
-<p>The correlation coefficient
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ρ</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">\rho_{ij}</annotation></semantics></math>
-between activities
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>
-is:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ρ</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mfrac><mrow><mi>C</mi><mi>o</mi><mi>v</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo>,</mo><msub><mi>X</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>σ</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>⋅</mo><mi>σ</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex"> \rho_{ij} = \frac{Cov(X_i, X_j)}{\sigma(X_i) \cdot \sigma(X_j)} </annotation></semantics></math></p>
-</div>
+<p>For a project with <em>n</em> tasks, SMM computes:</p>
+<ul>
+<li>
+<strong>Total mean:</strong> Sum of individual task means:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>X</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></msubsup><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>X</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">E[X] = \sum_{i=1}^{n} E[X_i]</annotation></semantics></math>
+</li>
+<li>
+<strong>Total variance:</strong> Sum of variances plus twice the sum
+of all pairwise covariances:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mi>V</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mn>2</mn><munder><mo>∑</mo><mrow><mi>i</mi><mo>&lt;</mo><mi>j</mi></mrow></munder><mi>C</mi><mi>o</mi><mi>v</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo>,</mo><msub><mi>X</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Var(X) = \sum_{i=1}^{n} Var(X_i) + 2 \sum_{i&lt;j} Cov(X_i, X_j)</annotation></semantics></math>
+</li>
+<li>
+<strong>Covariance:</strong> Derived from the correlation matrix:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>o</mi><mi>v</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>X</mi><mi>i</mi></msub><mo>,</mo><msub><mi>X</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>ρ</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>⋅</mo><msub><mi>σ</mi><mi>i</mi></msub><mo>⋅</mo><msub><mi>σ</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">Cov(X_i, X_j) = \rho_{ij} \cdot \sigma_i \cdot \sigma_j</annotation></semantics></math>
+</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>First, load the package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulgovan.github.io/PRA/">PRA</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Registered S3 method overwritten by 'PRA':</span></span>
-<span><span class="co">#&gt;   method    from </span></span>
-<span><span class="co">#&gt;   print.nls stats</span></span></code></pre></div>
-<p>Set the mean vector, variance vector, and correlation matrix for a
-toy project:</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulgovan.github.io/PRA/">PRA</a></span><span class="op">)</span></span></code></pre></div>
+<p>We analyze a 3-task project with task durations in weeks. Each task
+has a known mean and variance, and correlations between tasks are
+provided.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span><span class="op">)</span></span>
-<span><span class="va">var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">9</span>, <span class="fl">16</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">task_means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span><span class="op">)</span> <span class="co"># Expected duration for each task (weeks)</span></span>
+<span><span class="va">task_vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">9</span>, <span class="fl">16</span><span class="op">)</span> <span class="co"># Variance of each task duration</span></span>
 <span><span class="va">cor_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.3</span>,</span>
-<span>  <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">0.4</span>,</span>
-<span>  <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">1</span></span>
+<span>  <span class="fl">1.0</span>, <span class="fl">0.5</span>, <span class="fl">0.3</span>,</span>
+<span>  <span class="fl">0.5</span>, <span class="fl">1.0</span>, <span class="fl">0.4</span>,</span>
+<span>  <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">1.0</span></span>
 <span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">3</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>Use the Second Moment Method to estimate the results for the project
-and print the results:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smm.html">smm</a></span><span class="op">(</span><span class="va">mean</span>, <span class="va">var</span>, <span class="va">cor_mat</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Mean Total Cost is "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">total_mean</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Mean Total Cost is 45</p>
+<code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smm.html">smm</a></span><span class="op">(</span><span class="va">task_means</span>, <span class="va">task_vars</span>, <span class="va">cor_mat</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Total Mean Duration:    "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">total_mean</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"weeks\n"</span><span class="op">)</span></span></code></pre></div>
+<p>Total Mean Duration: 45 weeks</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Variance around the Total Cost is "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">total_var</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Variance around the Total Cost is 49.4</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Total Variance:         "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">total_var</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<p>Total Variance: 49.4</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Total Std Deviation:    "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">total_std</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"weeks\n"</span><span class="op">)</span></span></code></pre></div>
+<p>Total Std Deviation: 7.03 weeks</p>
+</div>
+<div class="section level2">
+<h2 id="implied-distribution-and-confidence-interval">Implied Distribution and Confidence Interval<a class="anchor" aria-label="anchor" href="#implied-distribution-and-confidence-interval"></a>
+</h2>
+<p>SMM assumes the total project duration is approximately normally
+distributed. This allows us to construct a confidence interval directly
+from the mean and standard deviation.</p>
+<p>A 95% confidence interval for total project duration is
+approximately:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>X</mi><mo accent="true">‾</mo></mover><mo>±</mo><mn>1.96</mn><mo>⋅</mo><mi>σ</mi></mrow><annotation encoding="application/x-tex"> \bar{X} \pm 1.96 \cdot \sigma </annotation></semantics></math></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">total_mean</span> <span class="op">&lt;-</span> <span class="va">result</span><span class="op">$</span><span class="va">total_mean</span></span>
+<span><span class="va">total_sd</span> <span class="op">&lt;-</span> <span class="va">result</span><span class="op">$</span><span class="va">total_std</span></span>
+<span><span class="va">ci_lower</span> <span class="op">&lt;-</span> <span class="va">total_mean</span> <span class="op">-</span> <span class="fl">1.96</span> <span class="op">*</span> <span class="va">total_sd</span></span>
+<span><span class="va">ci_upper</span> <span class="op">&lt;-</span> <span class="va">total_mean</span> <span class="op">+</span> <span class="fl">1.96</span> <span class="op">*</span> <span class="va">total_sd</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"95% CI: ["</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">ci_lower</span>, <span class="fl">1</span><span class="op">)</span>, <span class="st">","</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">ci_upper</span>, <span class="fl">1</span><span class="op">)</span>, <span class="st">"] weeks\n"</span><span class="op">)</span></span></code></pre></div>
+<p>95% CI: [ 31.2 , 58.8 ] weeks</p>
+<p>The plot below shows the implied normal distribution of total project
+duration:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x_range</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">total_mean</span> <span class="op">-</span> <span class="fl">4</span> <span class="op">*</span> <span class="va">total_sd</span>, <span class="va">total_mean</span> <span class="op">+</span> <span class="fl">4</span> <span class="op">*</span> <span class="va">total_sd</span>, length.out <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span>
+<span><span class="va">y_range</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">dnorm</a></span><span class="op">(</span><span class="va">x_range</span>, mean <span class="op">=</span> <span class="va">total_mean</span>, sd <span class="op">=</span> <span class="va">total_sd</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x_range</span>, <span class="va">y_range</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"l"</span>, lwd <span class="op">=</span> <span class="fl">2</span>, col <span class="op">=</span> <span class="st">"steelblue"</span>,</span>
+<span>  main <span class="op">=</span> <span class="st">"SMM - Implied Project Duration Distribution"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"Total Duration (weeks)"</span>, ylab <span class="op">=</span> <span class="st">"Density"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Shade 95% CI region</span></span>
+<span><span class="va">x_ci</span> <span class="op">&lt;-</span> <span class="va">x_range</span><span class="op">[</span><span class="va">x_range</span> <span class="op">&gt;=</span> <span class="va">ci_lower</span> <span class="op">&amp;</span> <span class="va">x_range</span> <span class="op">&lt;=</span> <span class="va">ci_upper</span><span class="op">]</span></span>
+<span><span class="va">y_ci</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">dnorm</a></span><span class="op">(</span><span class="va">x_ci</span>, mean <span class="op">=</span> <span class="va">total_mean</span>, sd <span class="op">=</span> <span class="va">total_sd</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/polygon.html" class="external-link">polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">ci_lower</span>, <span class="va">x_ci</span>, <span class="va">ci_upper</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">y_ci</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>  col <span class="op">=</span> <span class="st">"lightblue"</span>, border <span class="op">=</span> <span class="cn">NA</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="va">total_mean</span>, col <span class="op">=</span> <span class="st">"black"</span>, lty <span class="op">=</span> <span class="fl">2</span>, lwd <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topright"</span>,</span>
+<span>  legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Normal density"</span>, <span class="st">"95% CI"</span>, <span class="st">"Mean"</span><span class="op">)</span>,</span>
+<span>  col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"steelblue"</span>, <span class="st">"lightblue"</span>, <span class="st">"black"</span><span class="op">)</span>,</span>
+<span>  lty <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="cn">NA</span>, <span class="fl">2</span><span class="op">)</span>, lwd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="cn">NA</span>, <span class="fl">1.5</span><span class="op">)</span>,</span>
+<span>  pch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">15</span>, <span class="cn">NA</span><span class="op">)</span>, pt.cex <span class="op">=</span> <span class="fl">1.5</span>,</span>
+<span>  bty <span class="op">=</span> <span class="st">"n"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="SMM_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="700"></p>
+</div>
+<div class="section level2">
+<h2 id="comparison-with-monte-carlo-simulation">Comparison with Monte Carlo Simulation<a class="anchor" aria-label="anchor" href="#comparison-with-monte-carlo-simulation"></a>
+</h2>
+<p>Running Monte Carlo simulation with the same task distributions (and
+no correlation, for a clean comparison) validates the SMM mean. The two
+methods should yield very similar total means; differences in variance
+arise because SMM and MCS handle correlated sampling differently.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Represent each task as a normal distribution for MCS comparison (independent case)</span></span>
+<span><span class="va">task_dists_for_mcs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="va">task_means</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">task_vars</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="va">task_means</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">task_vars</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="va">task_means</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">task_vars</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Run MCS without correlation (identity = fully independent)</span></span>
+<span><span class="va">mcs_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mcs.html">mcs</a></span><span class="op">(</span><span class="fl">10000</span>, <span class="va">task_dists_for_mcs</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># SMM variance without correlation = sum of individual variances</span></span>
+<span><span class="va">smm_var_nocor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">task_vars</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">comparison</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  Method          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SMM (independent)"</span>, <span class="st">"Monte Carlo (10,000 runs)"</span><span class="op">)</span>,</span>
+<span>  Total_Mean      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">total_mean</span>, <span class="va">mcs_result</span><span class="op">$</span><span class="va">total_mean</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  Total_Variance  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">smm_var_nocor</span>, <span class="va">mcs_result</span><span class="op">$</span><span class="va">total_variance</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  Total_StdDev    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">smm_var_nocor</span><span class="op">)</span>, <span class="va">mcs_result</span><span class="op">$</span><span class="va">total_sd</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">comparison</span>, caption <span class="op">=</span> <span class="st">"SMM vs. Monte Carlo Comparison (independent tasks)"</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<caption>SMM vs. Monte Carlo Comparison (independent tasks)</caption>
+<thead><tr class="header">
+<th align="left">Method</th>
+<th align="right">Total_Mean</th>
+<th align="right">Total_Variance</th>
+<th align="right">Total_StdDev</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">SMM (independent)</td>
+<td align="right">45.00</td>
+<td align="right">29.00</td>
+<td align="right">5.39</td>
+</tr>
+<tr class="even">
+<td align="left">Monte Carlo (10,000 runs)</td>
+<td align="right">45.01</td>
+<td align="right">29.83</td>
+<td align="right">5.46</td>
+</tr>
+</tbody>
+</table>
+<p>The two methods agree closely on the mean and variance. SMM is faster
+but assumes normality; Monte Carlo is more flexible and can use any
+distribution type. When tasks are correlated, SMM adds covariance terms
+analytically while MCS uses a correlation-based sampling scheme.</p>
 </div>
 <div class="section level2">
 <h2 id="benefits-and-limitations">Benefits and Limitations<a class="anchor" aria-label="anchor" href="#benefits-and-limitations"></a>
 </h2>
-<div class="section level3">
-<h3 id="benefits">Benefits<a class="anchor" aria-label="anchor" href="#benefits"></a>
-</h3>
-<p>Simplicity: The method is relatively straightforward and easy to
-understand.</p>
-<p>Quantitative Insight: Provides a numerical estimate of uncertainty
-and risk.</p>
-</div>
-<div class="section level3">
-<h3 id="limitations">Limitations<a class="anchor" aria-label="anchor" href="#limitations"></a>
-</h3>
-<p>Normal Distribution Assumption: Often assumes that outcomes are
-normally distributed, which may not accurately represent all real-world
-scenarios.</p>
-<p>Limited to First Two Moments: Ignores higher-order moments such as
-skewness and kurtosis, which can also be important in risk analysis.</p>
-</div>
+<table class="table">
+<colgroup>
+<col width="10%">
+<col width="25%">
+<col width="65%">
+</colgroup>
+<thead><tr class="header">
+<th></th>
+<th>SMM</th>
+<th>Monte Carlo</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>Speed</strong></td>
+<td>Instant (analytical)</td>
+<td>Slow (thousands of iterations)</td>
+</tr>
+<tr class="even">
+<td><strong>Inputs needed</strong></td>
+<td>Mean + variance per task</td>
+<td>Full distribution per task</td>
+</tr>
+<tr class="odd">
+<td><strong>Distribution assumption</strong></td>
+<td>Normal (by Central Limit Theorem)</td>
+<td>Any distribution</td>
+</tr>
+<tr class="even">
+<td><strong>Correlation handling</strong></td>
+<td>Explicit covariance formula</td>
+<td>Cholesky decomposition</td>
+</tr>
+<tr class="odd">
+<td><strong>Skewness / tails</strong></td>
+<td>Ignored</td>
+<td>Captured accurately</td>
+</tr>
+<tr class="even">
+<td><strong>Best for</strong></td>
+<td>Early estimates, quick checks</td>
+<td>Detailed risk analysis, non-normal tasks</td>
+</tr>
+</tbody>
+</table>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

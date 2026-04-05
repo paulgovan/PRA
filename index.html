@@ -60,10 +60,43 @@
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <p>Welcome to <strong>PRA</strong>! This project provides a set of tools for performing Project Risk Analysis (PRA) using various quantitative methods. It is designed to help project analysts assess and manage risks associated with project schedules, costs, and performance.</p>
+<p>PRA can be used as a traditional R package with direct function calls, or as an <strong>AI-powered risk analysis agent</strong> with three input modes:</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Input</th>
+<th>Route</th>
+<th>When to use</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>/command</code></td>
+<td>Deterministic tool execution</td>
+<td>Reliable, instant results</td>
+</tr>
+<tr class="even">
+<td>Natural language with data</td>
+<td>LLM selects and calls tools</td>
+<td>Exploratory analysis</td>
+</tr>
+<tr class="odd">
+<td>Conceptual question</td>
+<td>RAG knowledge base</td>
+<td>“What is CPI?”, “How does MCS work?”</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section level2">
-<h2 id="key-features">Key features:<a class="anchor" aria-label="anchor" href="#key-features"></a>
+<h2 id="key-features">Key Features<a class="anchor" aria-label="anchor" href="#key-features"></a>
 </h2>
+<div class="section level3">
+<h3 id="analytical-methods">Analytical Methods<a class="anchor" aria-label="anchor" href="#analytical-methods"></a>
+</h3>
 <ul>
 <li><a href="https://paulgovan.github.io/PRA/articles/SMM.html">Second Moment Analysis</a></li>
 <li><a href="https://paulgovan.github.io/PRA/articles/MCS.html">Monte Carlo Simulation</a></li>
@@ -74,12 +107,33 @@
 <li><a href="https://paulgovan.github.io/PRA/articles/Bayes.html">Bayesian Methods</a></li>
 </ul>
 </div>
+<div class="section level3">
+<h3 id="ai-agent-framework">AI Agent Framework<a class="anchor" aria-label="anchor" href="#ai-agent-framework"></a>
+</h3>
+<ul>
+<li>
+<strong>Slash commands</strong> (<code>/mcs</code>, <code>/evm</code>, <code>/risk</code>, …) — deterministic tool calls that bypass the LLM for instant, reliable results</li>
+<li>
+<strong>Natural language interface</strong> — ask risk analysis questions in plain English; the agent calls the right tools when you provide numerical data</li>
+<li>
+<strong>RAG-enhanced reasoning</strong> — conceptual questions answered from domain knowledge with source citations</li>
+<li>
+<strong>Fully local</strong> — runs on your machine via <a href="https://ollama.com" class="external-link">Ollama</a>, no API keys or cloud services</li>
+<li>
+<strong>Interactive Shiny app</strong> — chat UI with <code>/commands</code>, data upload, inline plots, and model settings</li>
+<li>
+<strong>Evaluation framework</strong> — measure tool-calling accuracy with <a href="https://vitals.tidyverse.org" class="external-link">vitals</a>
+</li>
+</ul>
+<p>See the <a href="https://paulgovan.github.io/PRA/articles/agent.html">Agentic Risk Analysis</a> vignette for details.</p>
+</div>
+</div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>To install the release verion of PRA, use:</p>
+<p>To install the release version of PRA, use:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">install_packages</span><span class="op">(</span><span class="st">'PRA'</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'PRA'</span><span class="op">)</span></span></code></pre></div>
 <p>You can install the development version of PRA like so:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'paulgovan/PRA'</span><span class="op">)</span></span></code></pre></div>
@@ -87,6 +141,9 @@
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
+<div class="section level3">
+<h3 id="traditional-r-interface">Traditional R Interface<a class="anchor" aria-label="anchor" href="#traditional-r-interface"></a>
+</h3>
 <p>Here is a simple example of how to use the package for a common PRA task.</p>
 <p>First, load the package:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -112,6 +169,61 @@
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">dnorm</a></span><span class="op">(</span><span class="va">x</span>, mean <span class="op">=</span> <span class="va">results</span><span class="op">$</span><span class="va">total_mean</span>, sd <span class="op">=</span> <span class="va">results</span><span class="op">$</span><span class="va">total_sd</span><span class="op">)</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, col <span class="op">=</span> <span class="st">"darkblue"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
 <p>This will give you a visual representation of the uncertainty in the total project duration based on the individual task distributions. On average, the project is expected to take around 30 time units, but could take as little as 20 or as much as 40 time units.</p>
+</div>
+<div class="section level3">
+<h3 id="ai-agent-interface">AI Agent Interface<a class="anchor" aria-label="anchor" href="#ai-agent-interface"></a>
+</h3>
+<p>PRA provides three ways to run risk analyses through its agent framework.</p>
+<p><strong>Slash commands</strong> (deterministic, no LLM required):</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Monte Carlo simulation</span></span>
+<span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu">PRA</span><span class="fu">:::</span><span class="fu"><a href="reference/execute_command.html">execute_command</a></span><span class="op">(</span></span>
+<span>  <span class="st">'/mcs tasks=[{"type":"normal","mean":10,"sd":2},{"type":"triangular","a":5,"b":10,"c":15}]'</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">r</span><span class="op">$</span><span class="va">result</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Chain: contingency reserve from the MCS result above</span></span>
+<span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu">PRA</span><span class="fu">:::</span><span class="fu"><a href="reference/execute_command.html">execute_command</a></span><span class="op">(</span><span class="st">"/contingency phigh=0.95 pbase=0.50"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">r</span><span class="op">$</span><span class="va">result</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Full EVM analysis</span></span>
+<span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu">PRA</span><span class="fu">:::</span><span class="fu"><a href="reference/execute_command.html">execute_command</a></span><span class="op">(</span></span>
+<span>  <span class="st">"/evm bac=500000 schedule=[0.2,0.4,0.6,0.8,1.0] period=3 complete=0.35 costs=[90000,195000,310000]"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">r</span><span class="op">$</span><span class="va">result</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Bayesian risk probability</span></span>
+<span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu">PRA</span><span class="fu">:::</span><span class="fu"><a href="reference/execute_command.html">execute_command</a></span><span class="op">(</span><span class="st">"/risk causes=[0.3,0.2] given=[0.8,0.6] not_given=[0.2,0.4]"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">r</span><span class="op">$</span><span class="va">result</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># List all commands</span></span>
+<span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu">PRA</span><span class="fu">:::</span><span class="fu"><a href="reference/execute_command.html">execute_command</a></span><span class="op">(</span><span class="st">"/help"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">r</span><span class="op">$</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Chat interface</strong> (natural language, requires Ollama):</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">chat</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/pra_chat.html">pra_chat</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"llama3.2"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Numerical data → LLM calls the appropriate tool</span></span>
+<span><span class="va">chat</span><span class="op">$</span><span class="fu">chat</span><span class="op">(</span><span class="st">"Run a Monte Carlo simulation for a 3-task project with</span></span>
+<span><span class="st">  Task A ~ Normal(10, 2), Task B ~ Triangular(5, 10, 15),</span></span>
+<span><span class="st">  Task C ~ Uniform(8, 12). Use 10,000 simulations."</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Conceptual question → answered from RAG knowledge base</span></span>
+<span><span class="va">chat</span><span class="op">$</span><span class="fu">chat</span><span class="op">(</span><span class="st">"What is the difference between SPI and CPI?"</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Interactive Shiny app:</strong></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/pra_app.html">pra_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>The app supports all three input modes — <code>/commands</code> for instant results, natural language for LLM tool calls, and conceptual questions for RAG-powered answers:</p>
+<p><img src="reference/figures/pra-app-welcome.png" width="100%"></p>
+</div>
+<div class="section level3">
+<h3 id="custom-knowledge-base">Custom Knowledge Base<a class="anchor" aria-label="anchor" href="#custom-knowledge-base"></a>
+</h3>
+<p>Extend the agent’s domain knowledge with your own documents:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">store</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/build_knowledge_base.html">build_knowledge_base</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/add_documents.html">add_documents</a></span><span class="op">(</span><span class="va">store</span>, <span class="st">"path/to/project_docs/"</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="more-resources">More Resources<a class="anchor" aria-label="anchor" href="#more-resources"></a>

@@ -59,108 +59,270 @@
 
     
     
-<p>Learning curves are a useful way to represent how a team or
-individual improves efficiency and performance over time as they gain
-experience. These curves aid in comprehending and forecasting the time
-and resources required for future tasks. The primary insights from
-learning curves include:</p>
+<p>Learning curves model how efficiency or completion rate evolves over
+time as a team gains experience. In project management they are used
+to:</p>
 <ul>
-<li><p><strong>Performance Improvement</strong>: As a team or individual
-performs a task repeatedly, they typically become more efficient,
-leading to a reduction in the time and cost required.</p></li>
-<li><p><strong>Forecasting</strong>: By analyzing past performance,
-project managers can predict future performance, set realistic
-deadlines, and allocate resources more effectively.</p></li>
-<li><p><strong>Benchmarking</strong>: Learning curves help in setting
-benchmarks and evaluating performance against industry standards or past
-projects.</p></li>
+<li>
+<strong>Forecast completion</strong>: Predict when a task or
+deliverable will reach 100% based on past progress.</li>
+<li>
+<strong>Identify acceleration</strong>: Detect when a project is in
+its rapid-improvement phase versus plateauing.</li>
+<li>
+<strong>Set realistic milestones</strong>: Calibrate schedule
+targets against demonstrated learning rates.</li>
 </ul>
 <div class="section level2">
-<h2 id="sigmoidal-functions-for-modeling-learning-curves">Sigmoidal Functions for Modeling Learning Curves<a class="anchor" aria-label="anchor" href="#sigmoidal-functions-for-modeling-learning-curves"></a>
+<h2 id="sigmoidal-models">Sigmoidal Models<a class="anchor" aria-label="anchor" href="#sigmoidal-models"></a>
 </h2>
-<p>Sigmoidal functions, such as the logistic function, are often used to
-model learning curves due to their characteristic S-shaped curve. This
-shape captures the three main phases of learning:</p>
-<ul>
-<li><p><strong>Initial Slow Improvement</strong>: At the beginning, the
-rate of improvement is slow as individuals or teams are just starting to
-learn and adapt.</p></li>
-<li><p><strong>Rapid Improvement</strong>: Once the basics are
-understood, the rate of improvement accelerates significantly as
-efficiency and proficiency increase.</p></li>
-<li><p><strong>Plateau</strong>: Eventually, the rate of improvement
-slows down again as the maximum potential or efficiency is
-approached.</p></li>
-</ul>
-<p>The general form of a sigmoidal function (logistic function) is:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><msub><mi>L</mi><mo>max</mo></msub><mrow><mn>1</mn><mo>+</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>k</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>−</mo><msub><mi>t</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex"> L(t) = \frac{L_{\max}}{1 + e^{-k(t - t_0)}} </annotation></semantics></math></p>
-<p>where:</p>
-<ul>
-<li><p>L(t) is the learning outcome (e.g., efficiency, proficiency) at
-time t</p></li>
-<li><p>L<sub>max</sub> is the maximum learning outcome (the
-plateau).</p></li>
-<li><p>k is the growth rate, determining how quickly the learning
-improves.</p></li>
-<li><p>t<sub>o</sub> is the time at which the learning outcome is at its
-midpoint (the point of inflection).</p></li>
-</ul>
+<p>Sigmoidal (S-shaped) functions capture the three phases of learning:
+slow start, rapid improvement, and plateau. The PRA package provides
+three model types:</p>
+<table class="table">
+<colgroup>
+<col width="25%">
+<col width="32%">
+<col width="42%">
+</colgroup>
+<thead><tr class="header">
+<th>Model</th>
+<th>Formula</th>
+<th>Parameters</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>Logistic</strong></td>
+<td>K / (1 + exp(−r(t − t₀)))</td>
+<td>K = ceiling; r = growth rate; t₀ = inflection time</td>
+</tr>
+<tr class="even">
+<td><strong>Pearl</strong></td>
+<td>K / (1 + exp(−r(t − t₀)))</td>
+<td>Same as logistic (identical functional form)</td>
+</tr>
+<tr class="odd">
+<td><strong>Gompertz</strong></td>
+<td>A · exp(−b · exp(−c · t))</td>
+<td>A = ceiling; c = growth rate; b = initial suppression</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Parameter interpretation (Logistic / Pearl):</strong> -
+<strong>K</strong> — the maximum achievable value (e.g., 100%
+completion) - <strong>r</strong> — how fast the S-curve rises; larger r
+= steeper transition - <strong>t₀</strong> — the time at which the
+outcome is at its midpoint (inflection point)</p>
 </div>
 <div class="section level2">
-<h2 id="applications-in-project-management">Applications in Project Management<a class="anchor" aria-label="anchor" href="#applications-in-project-management"></a>
+<h2 id="example-fitting-a-logistic-model">Example: Fitting a Logistic Model<a class="anchor" aria-label="anchor" href="#example-fitting-a-logistic-model"></a>
 </h2>
-<ul>
-<li><p><strong>Task Estimation</strong>: Using learning curves to
-estimate the time required for future tasks based on the performance of
-similar past tasks.</p></li>
-<li><p><strong>Resource Allocation</strong>: Allocating resources
-efficiently by understanding the learning curve and optimizing the
-workforce deployment over time.</p></li>
-<li><p><strong>Training Programs</strong>: Designing training programs
-to maximize the rate of learning and minimize the time to reach optimal
-performance levels.</p></li>
-<li><p><strong>Performance Monitoring</strong>: Continuously monitoring
-performance and adjusting strategies to ensure that the learning curve
-progresses as expected.</p></li>
-</ul>
-</div>
-<div class="section level2">
-<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
-</h2>
-<p>First, load the package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulgovan.github.io/PRA/">PRA</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Registered S3 method overwritten by 'PRA':</span></span>
-<span><span class="co">#&gt;   method    from </span></span>
-<span><span class="co">#&gt;   print.nls stats</span></span></code></pre></div>
-<p>Then, set up a data frame of time and completion percentage data:</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulgovan.github.io/PRA/">PRA</a></span><span class="op">)</span></span></code></pre></div>
+<p>We have weekly completion percentage data for a construction
+deliverable over 9 weeks.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">9</span>, completion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">15</span>, <span class="fl">40</span>, <span class="fl">60</span>, <span class="fl">70</span>, <span class="fl">75</span>, <span class="fl">80</span>, <span class="fl">85</span>, <span class="fl">90</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Fit a logistic model to the data:</p>
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  time       <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">9</span>,</span>
+<span>  completion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">15</span>, <span class="fl">40</span>, <span class="fl">60</span>, <span class="fl">70</span>, <span class="fl">75</span>, <span class="fl">80</span>, <span class="fl">85</span>, <span class="fl">90</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="fit-the-model">Fit the Model<a class="anchor" aria-label="anchor" href="#fit-the-model"></a>
+</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_sigmoidal.html">fit_sigmoidal</a></span><span class="op">(</span><span class="va">data</span>, <span class="st">"time"</span>, <span class="st">"completion"</span>, <span class="st">"logistic"</span><span class="op">)</span></span></code></pre></div>
-<p>Use the model to predict future completion times:</p>
+</div>
+<div class="section level3">
+<h3 id="assess-fit-quality">Assess Fit Quality<a class="anchor" aria-label="anchor" href="#assess-fit-quality"></a>
+</h3>
+<p>Use <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> to examine the fitted coefficients, their
+standard errors, and the residual standard error — a measure of how
+closely the model matches the observed data.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">predictions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_sigmoidal.html">predict_sigmoidal</a></span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">time</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">time</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span>,</span>
-<span>  length.out <span class="op">=</span> <span class="fl">100</span></span>
-<span><span class="op">)</span>, <span class="st">"logistic"</span><span class="op">)</span></span></code></pre></div>
-<p>Plot the results:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Formula: y ~ logistic(x, K, r, t0)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Parameters:</span></span>
+<span><span class="co">#&gt;    Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; K   84.3515     2.5142  33.550 4.67e-08 ***</span></span>
+<span><span class="co">#&gt; r    1.0356     0.1380   7.505 0.000289 ***</span></span>
+<span><span class="co">#&gt; t0   3.2520     0.1459  22.284 5.34e-07 ***</span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 4.148 on 6 degrees of freedom</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of iterations to convergence: 10 </span></span>
+<span><span class="co">#&gt; Achieved convergence tolerance: 1.49e-08</span></span></code></pre></div>
+<p>A small residual standard error (relative to the response scale)
+indicates a good fit. Coefficient <code>t values</code> with |t| &gt; 2
+are statistically meaningful.</p>
+</div>
+<div class="section level3">
+<h3 id="plot-with-confidence-bands">Plot with Confidence Bands<a class="anchor" aria-label="anchor" href="#plot-with-confidence-bands"></a>
+</h3>
+<p><code><a href="../reference/plot_sigmoidal.html">plot_sigmoidal()</a></code> plots the data, fitted curve, and
+optional confidence bounds in a single call.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_.html" class="external-link">aes_string</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"time"</span>, y <span class="op">=</span> <span class="st">"completion"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">predictions</span>, <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">pred</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Fitted Logistic Model"</span>, x <span class="op">=</span> <span class="st">"time"</span>, y <span class="op">=</span> <span class="st">"completion %"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">p</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_sigmoidal.html">plot_sigmoidal</a></span><span class="op">(</span></span>
+<span>  <span class="va">fit</span>, <span class="va">data</span>, <span class="st">"time"</span>, <span class="st">"completion"</span>, <span class="st">"logistic"</span>,</span>
+<span>  conf_level <span class="op">=</span> <span class="fl">0.95</span>,</span>
+<span>  main <span class="op">=</span> <span class="st">"Logistic Learning Curve - Completion Forecast"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"Week"</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="st">"Completion (%)"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="sigmoidal_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="700"></p>
+<p>The shaded region is the 95% confidence band — the range within which
+the true fitted curve is likely to lie. Wider bands at the tails reflect
+greater uncertainty in extrapolated predictions.</p>
+</div>
+<div class="section level3">
+<h3 id="predict-future-completion">Predict Future Completion<a class="anchor" aria-label="anchor" href="#predict-future-completion"></a>
+</h3>
+<p>Use <code><a href="../reference/predict_sigmoidal.html">predict_sigmoidal()</a></code> to generate numeric forecasts,
+including confidence bounds for specific future time points.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">future_times</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">12</span>, length.out <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span><span class="va">predictions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_sigmoidal.html">predict_sigmoidal</a></span><span class="op">(</span><span class="va">fit</span>, <span class="va">future_times</span>, <span class="st">"logistic"</span>, conf_level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">predictions</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span>,</span>
+<span>  caption <span class="op">=</span> <span class="st">"Predicted completion (final 5 points)"</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<caption>Predicted completion (final 5 points)</caption>
+<thead><tr class="header">
+<th align="right">x</th>
+<th align="right">pred</th>
+<th align="right">lwr</th>
+<th align="right">upr</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">11.6</td>
+<td align="right">84.3</td>
+<td align="right">78.2</td>
+<td align="right">90.5</td>
+</tr>
+<tr class="even">
+<td align="right">11.7</td>
+<td align="right">84.3</td>
+<td align="right">78.2</td>
+<td align="right">90.5</td>
+</tr>
+<tr class="odd">
+<td align="right">11.8</td>
+<td align="right">84.3</td>
+<td align="right">78.2</td>
+<td align="right">90.5</td>
+</tr>
+<tr class="even">
+<td align="right">11.9</td>
+<td align="right">84.3</td>
+<td align="right">78.2</td>
+<td align="right">90.5</td>
+</tr>
+<tr class="odd">
+<td align="right">12.0</td>
+<td align="right">84.3</td>
+<td align="right">78.2</td>
+<td align="right">90.5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section level2">
+<h2 id="comparing-all-three-model-types">Comparing All Three Model Types<a class="anchor" aria-label="anchor" href="#comparing-all-three-model-types"></a>
+</h2>
+<p>Different model types can produce different forecasts, especially in
+the tails. It is good practice to fit multiple models and compare their
+goodness-of-fit.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fit_logistic</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_sigmoidal.html">fit_sigmoidal</a></span><span class="op">(</span><span class="va">data</span>, <span class="st">"time"</span>, <span class="st">"completion"</span>, <span class="st">"logistic"</span><span class="op">)</span></span>
+<span><span class="va">fit_pearl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_sigmoidal.html">fit_sigmoidal</a></span><span class="op">(</span><span class="va">data</span>, <span class="st">"time"</span>, <span class="st">"completion"</span>, <span class="st">"pearl"</span><span class="op">)</span></span>
+<span><span class="va">fit_gompertz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_sigmoidal.html">fit_sigmoidal</a></span><span class="op">(</span><span class="va">data</span>, <span class="st">"time"</span>, <span class="st">"completion"</span>, <span class="st">"gompertz"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Residual standard errors for comparison</span></span>
+<span><span class="va">rse</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span><span class="op">$</span><span class="va">sigma</span></span>
+<span></span>
+<span><span class="va">comparison</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  Model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Logistic"</span>, <span class="st">"Pearl"</span>, <span class="st">"Gompertz"</span><span class="op">)</span>,</span>
+<span>  Residual_StdError <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">rse</span><span class="op">(</span><span class="va">fit_logistic</span><span class="op">)</span>, <span class="fu">rse</span><span class="op">(</span><span class="va">fit_pearl</span><span class="op">)</span>, <span class="fu">rse</span><span class="op">(</span><span class="va">fit_gompertz</span><span class="op">)</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">comparison</span>, caption <span class="op">=</span> <span class="st">"Model Fit Comparison (lower RSE = better fit)"</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<caption>Model Fit Comparison (lower RSE = better fit)</caption>
+<thead><tr class="header">
+<th align="left">Model</th>
+<th align="right">Residual_StdError</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Logistic</td>
+<td align="right">4.148</td>
+</tr>
+<tr class="even">
+<td align="left">Pearl</td>
+<td align="right">4.148</td>
+</tr>
+<tr class="odd">
+<td align="left">Gompertz</td>
+<td align="right">2.887</td>
+</tr>
+</tbody>
+</table>
+<p>Now plot all three fits side by side:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x_seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">12</span>, length.out <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pred_log</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_sigmoidal.html">predict_sigmoidal</a></span><span class="op">(</span><span class="va">fit_logistic</span>, <span class="va">x_seq</span>, <span class="st">"logistic"</span><span class="op">)</span></span>
+<span><span class="va">pred_prl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_sigmoidal.html">predict_sigmoidal</a></span><span class="op">(</span><span class="va">fit_pearl</span>, <span class="va">x_seq</span>, <span class="st">"pearl"</span><span class="op">)</span></span>
+<span><span class="va">pred_gom</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_sigmoidal.html">predict_sigmoidal</a></span><span class="op">(</span><span class="va">fit_gompertz</span>, <span class="va">x_seq</span>, <span class="st">"gompertz"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Base plot with observed data</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">time</span>, <span class="va">data</span><span class="op">$</span><span class="va">completion</span>,</span>
+<span>  pch <span class="op">=</span> <span class="fl">16</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">12</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">105</span><span class="op">)</span>,</span>
+<span>  main <span class="op">=</span> <span class="st">"Learning Curve: Model Comparison"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"Week"</span>, ylab <span class="op">=</span> <span class="st">"Completion (%)"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">pred_log</span><span class="op">$</span><span class="va">x</span>, <span class="va">pred_log</span><span class="op">$</span><span class="va">pred</span>, col <span class="op">=</span> <span class="st">"steelblue"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">pred_prl</span><span class="op">$</span><span class="va">x</span>, <span class="va">pred_prl</span><span class="op">$</span><span class="va">pred</span>, col <span class="op">=</span> <span class="st">"tomato"</span>, lwd <span class="op">=</span> <span class="fl">2</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">pred_gom</span><span class="op">$</span><span class="va">x</span>, <span class="va">pred_gom</span><span class="op">$</span><span class="va">pred</span>, col <span class="op">=</span> <span class="st">"darkgreen"</span>, lwd <span class="op">=</span> <span class="fl">2</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"bottomright"</span>,</span>
+<span>  legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Logistic"</span>, <span class="st">"Pearl"</span>, <span class="st">"Gompertz"</span><span class="op">)</span>,</span>
+<span>  col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"steelblue"</span>, <span class="st">"tomato"</span>, <span class="st">"darkgreen"</span><span class="op">)</span>,</span>
+<span>  lty <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, lwd <span class="op">=</span> <span class="fl">2</span>, bty <span class="op">=</span> <span class="st">"n"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="sigmoidal_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" alt="" width="700"></p>
+<p><strong>Note:</strong> Logistic and Pearl share the same functional
+form and will produce identical fits on the same data. Gompertz has a
+different shape — its inflection point occurs earlier and the curve is
+asymmetric — making it better suited for processes that accelerate
+quickly early on.</p>
 </div>
 <div class="section level2">
 <h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
 </h2>
-<p>Learning curves provide valuable insights into how performance
-improves with experience, and sigmoidal functions offer a mathematical
-model to describe and predict these improvements in project
-management.</p>
+<p>The sigmoidal workflow in PRA:</p>
+<ol style="list-style-type: decimal">
+<li>
+<code><a href="../reference/fit_sigmoidal.html">fit_sigmoidal()</a></code> — fit a model to observed
+time-completion data</li>
+<li>
+<code>summary(fit)</code> — inspect coefficient estimates and
+goodness-of-fit</li>
+<li>
+<code><a href="../reference/predict_sigmoidal.html">predict_sigmoidal()</a></code> — generate numeric forecasts with
+optional confidence bounds</li>
+<li>
+<code><a href="../reference/plot_sigmoidal.html">plot_sigmoidal()</a></code> — visualize the fit and confidence
+band</li>
+</ol>
+<p>Choose the model type based on the shape of your data and theoretical
+expectations about the learning process.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

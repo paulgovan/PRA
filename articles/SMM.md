@@ -1,154 +1,176 @@
 # Second Moment Method
 
-The second moment method for project risk analysis is a quantitative
-technique used to estimate and manage the uncertainty in project
-outcomes. This method focuses on the first two moments of the
-probability distribution of project outcomes: the mean (or expected
-value) and the variance.
+The Second Moment Method (SMM) is a fast, analytical alternative to
+Monte Carlo simulation for estimating project cost or schedule
+uncertainty. Rather than running thousands of iterations, SMM propagates
+uncertainty through a project mathematically using only the mean and
+variance of each task — the “first two moments” of the probability
+distribution.
 
-## Steps in the Second Moment Method
+## When to Use SMM
 
-### 1. Identify Project Activities and Risks
+SMM is best suited for early-stage estimates when:
 
-List all the activities involved in the project; Identify the risks
-associated with each activity; Estimate the mean (expected value) for
-each activity.
+- Speed matters and simulation run-time is a concern
+- You have credible mean and variance estimates for each task
+- Tasks are approximately independent or have well-characterized
+  correlations
+- You need a quick sensitivity check before committing to a full Monte
+  Carlo run
 
-### 2. Determine the expected duration, cost, or other metrics for each activity considering the identified risks
+## Method Overview
 
-The expected value is the average outcome, calculated as the weighted
-sum of all possible outcomes, where the weights are the probabilities of
-those outcomes.
+For a project with *n* tasks, SMM computes:
 
-### 3. Estimate Variance and Standard Deviation
-
-Calculate the variance of each activity’s duration, cost, or other
-metrics. Variance measures the spread of possible outcomes around the
-mean.
-
-The standard deviation is the square root of the variance, providing a
-measure of uncertainty in the same units as the original metric.
-
-### 4. Aggregate Mean and Variance
-
-For the entire project, aggregate the means of all activities to get the
-project’s overall expected duration, cost, etc.
-
-Aggregate the variances to get the project’s overall variance. If
-activities are independent, the total variance is the sum of the
-individual variances.
-
-### 5. Assess Project Risk
-
-Use the overall mean and variance to assess the project’s risk. A larger
-variance indicates greater uncertainty and risk.
-
-Calculate confidence intervals to understand the range within which the
-project outcomes are likely to fall. For example, assuming a normal
-distribution, approximately 95% of outcomes will fall within two
-standard deviations of the mean.
-
-## Correlation
-
-When accounting for correlation between tasks, the total variance of the
-project is calculated using both the individual variances and the
-covariances between each pair of activities.
-
-## Formulation
-
-### Expected Value (Mean):
-
-For a given project activity $i$, the expected value (mean) of the
-duration, cost, or any other metric $X_{i}$ is:
-
-$$E\left( X_{i} \right) = \sum\limits_{j}P_{j} \cdot X_{ij}$$
-
-For the entire project, if there are $n$ activities, the total expected
-value $E(X)$ is:
-
-$$E(X) = \sum\limits_{i = 1}^{n}E\left( X_{i} \right)$$
-
-### Variance:
-
-The variance of a project activity $i$ is:
-
-$$Var\left( X_{i} \right) = \sum\limits_{j}P_{j} \cdot \left( X_{ij} - E\left( X_{i} \right) \right)^{2}$$
-
-### Covariance:
-
-The covariance between two activities $X_{i}$ and $X_{j}$ is:
-
-$$Cov\left( X_{i},X_{j} \right) = \sum\limits_{k}P_{k} \cdot \left( X_{ik} - E\left( X_{i} \right) \right) \cdot \left( X_{jk} - E\left( X_{j} \right) \right)$$
-
-### Variance with Correlation:
-
-When considering the correlation between activities, the total variance
-$Var(X)$ of the project is:
-
-$$Var(X) = \sum\limits_{i = 1}^{n}Var\left( X_{i} \right) + 2\sum\limits_{i = 1}^{n - 1}\sum\limits_{j = i + 1}^{n}Cov\left( X_{i},X_{j} \right)$$
-
-### Correlation Coefficient:
-
-The correlation coefficient $\rho_{ij}$ between activities $i$ and $j$
-is:
-
-$$\rho_{ij} = \frac{Cov\left( X_{i},X_{j} \right)}{\sigma\left( X_{i} \right) \cdot \sigma\left( X_{j} \right)}$$
+- **Total mean:** Sum of individual task means:
+  $E\lbrack X\rbrack = \sum_{i = 1}^{n}E\left\lbrack X_{i} \right\rbrack$
+- **Total variance:** Sum of variances plus twice the sum of all
+  pairwise covariances:
+  $$Var(X) = \sum\limits_{i = 1}^{n}Var\left( X_{i} \right) + 2\sum\limits_{i < j}Cov\left( X_{i},X_{j} \right)$$
+- **Covariance:** Derived from the correlation matrix:
+  $Cov\left( X_{i},X_{j} \right) = \rho_{ij} \cdot \sigma_{i} \cdot \sigma_{j}$
 
 ## Example
 
-First, load the package:
-
 ``` r
 library(PRA)
-#> Registered S3 method overwritten by 'PRA':
-#>   method    from 
-#>   print.nls stats
 ```
 
-Set the mean vector, variance vector, and correlation matrix for a toy
-project:
+We analyze a 3-task project with task durations in weeks. Each task has
+a known mean and variance, and correlations between tasks are provided.
 
 ``` r
-mean <- c(10, 15, 20)
-var <- c(4, 9, 16)
+task_means <- c(10, 15, 20) # Expected duration for each task (weeks)
+task_vars <- c(4, 9, 16) # Variance of each task duration
 cor_mat <- matrix(c(
-  1, 0.5, 0.3,
-  0.5, 1, 0.4,
-  0.3, 0.4, 1
+  1.0, 0.5, 0.3,
+  0.5, 1.0, 0.4,
+  0.3, 0.4, 1.0
 ), nrow = 3, byrow = TRUE)
 ```
 
-Use the Second Moment Method to estimate the results for the project and
-print the results:
-
 ``` r
-result <- smm(mean, var, cor_mat)
-cat("Mean Total Cost is ", round(result$total_mean, 2))
+result <- smm(task_means, task_vars, cor_mat)
+cat("Total Mean Duration:    ", round(result$total_mean, 2), "weeks\n")
 ```
 
-Mean Total Cost is 45
+Total Mean Duration: 45 weeks
 
 ``` r
-cat("Variance around the Total Cost is ", round(result$total_var, 2))
+cat("Total Variance:         ", round(result$total_var, 2), "\n")
 ```
 
-Variance around the Total Cost is 49.4
+Total Variance: 49.4
+
+``` r
+cat("Total Std Deviation:    ", round(result$total_std, 2), "weeks\n")
+```
+
+Total Std Deviation: 7.03 weeks
+
+## Implied Distribution and Confidence Interval
+
+SMM assumes the total project duration is approximately normally
+distributed. This allows us to construct a confidence interval directly
+from the mean and standard deviation.
+
+A 95% confidence interval for total project duration is approximately:
+
+$$\bar{X} \pm 1.96 \cdot \sigma$$
+
+``` r
+total_mean <- result$total_mean
+total_sd <- result$total_std
+ci_lower <- total_mean - 1.96 * total_sd
+ci_upper <- total_mean + 1.96 * total_sd
+cat("95% CI: [", round(ci_lower, 1), ",", round(ci_upper, 1), "] weeks\n")
+```
+
+95% CI: \[ 31.2 , 58.8 \] weeks
+
+The plot below shows the implied normal distribution of total project
+duration:
+
+``` r
+x_range <- seq(total_mean - 4 * total_sd, total_mean + 4 * total_sd, length.out = 300)
+y_range <- dnorm(x_range, mean = total_mean, sd = total_sd)
+
+plot(x_range, y_range,
+  type = "l", lwd = 2, col = "steelblue",
+  main = "SMM - Implied Project Duration Distribution",
+  xlab = "Total Duration (weeks)", ylab = "Density"
+)
+
+# Shade 95% CI region
+x_ci <- x_range[x_range >= ci_lower & x_range <= ci_upper]
+y_ci <- dnorm(x_ci, mean = total_mean, sd = total_sd)
+polygon(c(ci_lower, x_ci, ci_upper), c(0, y_ci, 0),
+  col = "lightblue", border = NA
+)
+
+abline(v = total_mean, col = "black", lty = 2, lwd = 1.5)
+legend("topright",
+  legend = c("Normal density", "95% CI", "Mean"),
+  col = c("steelblue", "lightblue", "black"),
+  lty = c(1, NA, 2), lwd = c(2, NA, 1.5),
+  pch = c(NA, 15, NA), pt.cex = 1.5,
+  bty = "n"
+)
+```
+
+![](SMM_files/figure-html/unnamed-chunk-5-1.png)
+
+## Comparison with Monte Carlo Simulation
+
+Running Monte Carlo simulation with the same task distributions (and no
+correlation, for a clean comparison) validates the SMM mean. The two
+methods should yield very similar total means; differences in variance
+arise because SMM and MCS handle correlated sampling differently.
+
+``` r
+# Represent each task as a normal distribution for MCS comparison (independent case)
+task_dists_for_mcs <- list(
+  list(type = "normal", mean = task_means[1], sd = sqrt(task_vars[1])),
+  list(type = "normal", mean = task_means[2], sd = sqrt(task_vars[2])),
+  list(type = "normal", mean = task_means[3], sd = sqrt(task_vars[3]))
+)
+
+# Run MCS without correlation (identity = fully independent)
+mcs_result <- mcs(10000, task_dists_for_mcs)
+```
+
+``` r
+# SMM variance without correlation = sum of individual variances
+smm_var_nocor <- sum(task_vars)
+
+comparison <- data.frame(
+  Method          = c("SMM (independent)", "Monte Carlo (10,000 runs)"),
+  Total_Mean      = round(c(result$total_mean, mcs_result$total_mean), 2),
+  Total_Variance  = round(c(smm_var_nocor, mcs_result$total_variance), 2),
+  Total_StdDev    = round(c(sqrt(smm_var_nocor), mcs_result$total_sd), 2)
+)
+knitr::kable(comparison, caption = "SMM vs. Monte Carlo Comparison (independent tasks)")
+```
+
+| Method                    | Total_Mean | Total_Variance | Total_StdDev |
+|:--------------------------|-----------:|---------------:|-------------:|
+| SMM (independent)         |      45.00 |          29.00 |         5.39 |
+| Monte Carlo (10,000 runs) |      45.01 |          29.83 |         5.46 |
+
+SMM vs. Monte Carlo Comparison (independent tasks)
+
+The two methods agree closely on the mean and variance. SMM is faster
+but assumes normality; Monte Carlo is more flexible and can use any
+distribution type. When tasks are correlated, SMM adds covariance terms
+analytically while MCS uses a correlation-based sampling scheme.
 
 ## Benefits and Limitations
 
-### Benefits
-
-Simplicity: The method is relatively straightforward and easy to
-understand.
-
-Quantitative Insight: Provides a numerical estimate of uncertainty and
-risk.
-
-### Limitations
-
-Normal Distribution Assumption: Often assumes that outcomes are normally
-distributed, which may not accurately represent all real-world
-scenarios.
-
-Limited to First Two Moments: Ignores higher-order moments such as
-skewness and kurtosis, which can also be important in risk analysis.
+|                             | SMM                               | Monte Carlo                              |
+|-----------------------------|-----------------------------------|------------------------------------------|
+| **Speed**                   | Instant (analytical)              | Slow (thousands of iterations)           |
+| **Inputs needed**           | Mean + variance per task          | Full distribution per task               |
+| **Distribution assumption** | Normal (by Central Limit Theorem) | Any distribution                         |
+| **Correlation handling**    | Explicit covariance formula       | Cholesky decomposition                   |
+| **Skewness / tails**        | Ignored                           | Captured accurately                      |
+| **Best for**                | Early estimates, quick checks     | Detailed risk analysis, non-normal tasks |

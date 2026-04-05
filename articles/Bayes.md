@@ -2,254 +2,226 @@
 
 ## Introduction
 
-Bayesian inference is a statistical approach based on Bayes’ theorem,
-which describes how to update beliefs based on new evidence. This
-approach provides a framework for reasoning about probabilities in the
-presence of uncertainty.
+Bayesian inference provides a principled framework for updating beliefs
+as new evidence arrives. In project risk management, this means starting
+with prior estimates of risk probability (based on historical data or
+expert judgment), then refining those estimates as on-site observations
+accumulate.
 
-Bayes’ theorem states that:
+Bayes’ theorem states:
 
-$$P\left( H|E \right) = \frac{P\left( E|H \right)P(H)}{P(E)}$$
+$$P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)}$$
 
-where:
+The PRA package provides four Bayesian functions organized into two
+stages:
 
-- $P\left( H|E \right)$ is the posterior probability of hypothesis $H$
-  given evidence $E$.
-- $P\left( E|H \right)$ is the likelihood of observing evidence $E$
-  given that hypothesis $H$ is true.
-- $P(H)$ is the prior probability of hypothesis $H$ before observing
-  evidence $E$.
-- $P(E)$ is the probability of evidence $E$ occurring.
-
-This document explores Bayesian methods for risk probability and cost
-probability density estimation.
-
-## Inference for Risk Probability
-
-Consider a risk event $R$ that may be caused by multiple root causes
-$C_{1},C_{2},\ldots,C_{n}$. The probability of $R$ occurring can be
-computed as:
-
-$$P(R) = \sum\limits_{i = 1}^{n}P\left( R|C_{i} \right)P\left( C_{i} \right) + P\left( R|\neg C_{i} \right)P\left( \neg C_{i} \right)$$
-
-where:
-
-- $P\left( R|C_{i} \right)$ represents the probability of $R$ occurring
-  given that $C_{i}$ is present.
-- $P\left( C_{i} \right)$ is the prior probability of the root cause
-  $C_{i}$.
-- $P\left( R|\neg C_{i} \right)$ is the probability of $R$ occurring
-  when $C_{i}$ is absent.
-- $P\left( \neg C_{i} \right) = 1 - P\left( C_{i} \right)$ is the
-  probability that $C_{i}$ does not occur.
-
-The function `risk_prob` calculates the probability of the risk event
-given the root causes and their conditional probabilities.
-
-### Example
-
-First, load the package:
+| Stage         | Function                                                                          | Purpose                                                         |
+|---------------|-----------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| **Prior**     | [`risk_prob()`](https://paulgovan.github.io/PRA/reference/risk_prob.md)           | Compute risk probability from root causes (no observations yet) |
+| **Prior**     | [`cost_pdf()`](https://paulgovan.github.io/PRA/reference/cost_pdf.md)             | Sample prior cost distribution based on risk probabilities      |
+| **Posterior** | [`risk_post_prob()`](https://paulgovan.github.io/PRA/reference/risk_post_prob.md) | Update risk probability after observing cause status            |
+| **Posterior** | [`cost_post_pdf()`](https://paulgovan.github.io/PRA/reference/cost_post_pdf.md)   | Sample posterior cost distribution based on observed risks      |
 
 ``` r
 library(PRA)
-#> Registered S3 method overwritten by 'PRA':
-#>   method    from 
-#>   print.nls stats
 ```
 
-Suppose there are two root causes with probabilities
-$P\left( C_{1} \right) = 0.3$ and $P\left( C_{2} \right) = 0.2$.
+## Step 1: Prior Risk Probability
+
+Before any observations are made,
+[`risk_prob()`](https://paulgovan.github.io/PRA/reference/risk_prob.md)
+computes the probability of a risk event R occurring given two potential
+root causes. For each cause, we supply:
+
+- `cause_probs` — prior probability that the cause is present
+- `risks_given_causes` — P(R \| cause present)
+- `risks_given_not_causes` — P(R \| cause absent)
 
 ``` r
 cause_probs <- c(0.3, 0.2)
-```
-
-The conditional probabilities of the risk event given each cause are
-$P\left( R|C_{1} \right) = 0.8$ and $P\left( R|C_{2} \right) = 0.6$,
-respectively. The conditional probabilities of the risk event given not
-each cause are $P\left( R|\neg C_{1} \right) = 0.2$ and
-$P\left( R|\neg C_{2} \right) = 0.4$.
-
-``` r
 risks_given_causes <- c(0.8, 0.6)
 risks_given_not_causes <- c(0.2, 0.4)
 ```
 
-To calculate the probability of the risk event, use the `risk_prob`
-function:
-
 ``` r
-risk_prob_value <- risk_prob(cause_probs, risks_given_causes, risks_given_not_causes)
-cat(risk_prob_value)
+prior_risk <- risk_prob(cause_probs, risks_given_causes, risks_given_not_causes)
+cat("Prior probability of risk event R:", round(prior_risk, 3), "\n")
 ```
 
-0.82
+Prior probability of risk event R: 0.82
 
-### Inference for Cost Probability Density
+## Step 2: Prior Cost Distribution
 
-The `cost_pdf` function uses Bayesian inference to model the probability
-distribution of cost outcomes based on the occurrence of risk events. It
-assumes that each risk event contributes to the total cost according to
-a normal distribution, leading to a mixture model representation:
-
-$$P(A) = \sum\limits_{i = 1}^{n}P\left( R_{i} \right) \cdot N\left( A|\mu_{i},\sigma_{i} \right) + P\left( \neg R_{i} \right) \cdot N\left( A|\text{base\_cost},0 \right)$$
-
-where:
-
-- $P\left( R_{i} \right)$ is the probability of risk event $R_{i}$.
-- $N\left( A|\mu_{i},\sigma_{i} \right)$ is the normal distribution with
-  mean $\mu_{i}$ and standard deviation $\sigma_{i}$.
-- $P\left( \neg R_{i} \right) = 1 - P\left( R_{i} \right)$ is the
-  probability that risk event $R_{i}$ does not occur.
-- $N\left( A|\text{base\_cost},0 \right)$ is a point mass at the
-  baseline cost $\text{base\_cost}$.
-
-The function `cost_pdf` generates random samples from the mixture model
-to estimate the cost distribution.
-
-## Example
-
-Suppose there are three risk events with probabilities
-$P\left( R_{1} \right) = 0.3$, $P\left( R_{2} \right) = 0.5$, and
-$P\left( R_{3} \right) = 0.2$.
+Given the prior risk probabilities,
+[`cost_pdf()`](https://paulgovan.github.io/PRA/reference/cost_pdf.md)
+samples the cost distribution before any field observations. Three
+independent risk events can each contribute cost if they occur.
 
 ``` r
 risk_probs <- c(0.3, 0.5, 0.2)
-```
-
-The means and standard deviations of the normal distributions for cost
-given each risk event are:
-
-``` r
 means_given_risks <- c(10000, 15000, 5000)
 sds_given_risks <- c(2000, 1000, 1000)
-```
-
-The baseline cost is $\text{base\_cost} = 2000$.
-
-``` r
 base_cost <- 2000
 ```
 
-To generate random samples from the cost distribution, use the
-`cost_pdf` function:
+``` r
+prior_samples <- cost_pdf(
+  num_sims          = 5000,
+  risk_probs        = risk_probs,
+  means_given_risks = means_given_risks,
+  sds_given_risks   = sds_given_risks,
+  base_cost         = base_cost
+)
+```
+
+We will compare this to the posterior distribution in Step 4.
+
+## Step 3: Posterior Risk Probability (Bayesian Update)
+
+After inspecting the project site, we observe that Cause 1 is present (=
+1). Cause 2 has not yet been assessed (= NA).
+[`risk_post_prob()`](https://paulgovan.github.io/PRA/reference/risk_post_prob.md)
+updates the risk probability using only the available evidence — NA
+causes are treated as unobserved and do not contribute to the update.
 
 ``` r
-num_sims <- 1000
-samples <- cost_pdf(num_sims, risk_probs, means_given_risks, sds_given_risks, base_cost)
-hist(samples, breaks = 30, col = "skyblue", main = "Histogram of Cost", xlab = "Cost")
+# C1 observed as present; C2 not yet assessed
+observed_causes <- c(1, NA)
+```
+
+``` r
+posterior_risk <- risk_post_prob(
+  cause_probs, risks_given_causes,
+  risks_given_not_causes, observed_causes
+)
+cat("Posterior probability of risk event R:", round(posterior_risk, 3), "\n")
+```
+
+Posterior probability of risk event R: 0.632
+
+Observing Cause 1 (which has a strong link to R) raises the risk
+probability substantially. The NA for Cause 2 is simply ignored — only
+confirmed observations drive the update.
+
+### Prior vs. Posterior Probability
+
+``` r
+prob_data <- data.frame(
+  Stage       = c("Prior", "Posterior"),
+  Probability = c(prior_risk, posterior_risk)
+)
+
+p <- ggplot2::ggplot(prob_data, ggplot2::aes(x = Stage, y = Probability, fill = Stage)) +
+  ggplot2::geom_col(width = 0.5, show.legend = FALSE) +
+  ggplot2::geom_text(ggplot2::aes(label = round(Probability, 3)),
+    vjust = -0.4, size = 4.5
+  ) +
+  ggplot2::scale_fill_manual(values = c("Prior" = "steelblue", "Posterior" = "tomato")) +
+  ggplot2::scale_y_continuous(limits = c(0, 1), labels = scales::percent) +
+  ggplot2::labs(
+    title = "Bayesian Update: Risk Probability",
+    x     = NULL,
+    y     = "P(Risk Event R)"
+  ) +
+  ggplot2::theme_minimal(base_size = 13)
+
+print(p)
 ```
 
 ![](Bayes_files/figure-html/unnamed-chunk-8-1.png)
 
-The histogram above shows the distribution of cost outcomes based on the
-risk events and their associated costs.
+The bar chart makes the Bayesian update tangible: observing Cause 1
+nearly doubles the estimated probability of the risk event.
 
-## Posterior Risk Probability
+## Step 4: Posterior Cost Distribution
 
-Bayesian updating is the process of updating prior beliefs given new
-evidence. The risk_post_prob function calculates the posterior
-probability of a risk event given observations of its root causes. This
-is achieved by applying Bayes’ theorem to update the prior probabilities
-of root causes based on the observed data.
-
-### Example
-
-Suppose there are two root causes with prior probabilities
-$P\left( C_{1} \right) = 0.3$ and $P\left( C_{2} \right) = 0.2$.
+Now that we know Cause 1 is present (Risk 1 occurs), and one risk
+remains unobserved (Risk 2 = NA),
+[`cost_post_pdf()`](https://paulgovan.github.io/PRA/reference/cost_post_pdf.md)
+samples the posterior cost distribution. Observed risks that occurred
+(= 1) add their cost; unobserved risks (= NA) are excluded from the
+simulation.
 
 ``` r
-cause_probs <- c(0.3, 0.2)
+observed_risks <- c(1, NA, 1) # Risk 1 and 3 confirmed; Risk 2 not yet assessed
 ```
 
-The conditional probabilities of the risk event given each cause are
-$P\left( R|C_{1} \right) = 0.8$ and $P\left( R|C_{2} \right) = 0.6$,
-respectively. The conditional probabilities of the risk event given not
-each cause are $P\left( R|\neg C_{1} \right) = 0.2$ and
-$P\left( R|\neg C_{2} \right) = 0.4$.
-
 ``` r
-risks_given_causes <- c(0.8, 0.6)
-risks_given_not_causes <- c(0.2, 0.4)
-```
-
-Suppose the observed root causes are $C_{1} = 1$ and
-$C_{2} = \text{NA}$.
-
-``` r
-observed_causes <- c(1, NA)
-```
-
-To calculate the posterior probability of the risk event, use the
-`risk_post_prob` function:
-
-``` r
-risk_post_prob <- risk_post_prob(
-  cause_probs, risks_given_causes,
-  risks_given_not_causes, observed_causes
-)
-cat(risk_post_prob)
-```
-
-0.6315789
-
-The posterior probability of the risk event is updated based on the
-observed root causes.
-
-## Posterior Cost Probability Density
-
-The `cost_post_pdf` function generates a posterior probability density
-function (PDF) for costs, given observed risk events. This function
-simulates random samples from a mixture model based on Bayesian updating
-principles.
-
-### Example
-
-Suppose there are three risk events with observed values $R_{1} = 1$,
-$R_{2} = \text{NA}$, and $R_{3} = 1$.
-
-``` r
-observed_risks <- c(1, NA, 1)
-```
-
-The means and standard deviations of the normal distributions for cost
-given each risk event are:
-
-``` r
-means_given_risks <- c(10000, 15000, 5000)
-sds_given_risks <- c(2000, 1000, 1000)
-```
-
-The baseline cost is $\text{base\_cost} = 2000$.
-
-``` r
-base_cost <- 2000
-```
-
-To generate random samples from the posterior cost distribution, use the
-`cost_post_pdf` function:
-
-``` r
-num_sims <- 1000
 posterior_samples <- cost_post_pdf(
-  num_sims = num_sims,
-  observed_risks = observed_risks,
+  num_sims          = 5000,
+  observed_risks    = observed_risks,
   means_given_risks = means_given_risks,
-  sds_given_risks = sds_given_risks,
-  base_cost = base_cost
+  sds_given_risks   = sds_given_risks,
+  base_cost         = base_cost
 )
-
-hist(posterior_samples, breaks = 30, col = "skyblue", main = "Posterior Cost PDF", xlab = "Cost")
 ```
 
-![](Bayes_files/figure-html/unnamed-chunk-16-1.png)
+### Prior vs. Posterior Cost Distribution
 
-The histogram above shows the posterior probability density function of
-costs based on the observed risk events.
+Plotting both distributions on the same axes shows how the evidence
+shifts the cost estimate:
 
-## Conclusion
+``` r
+xlim_range <- range(c(prior_samples, posterior_samples))
 
-Bayesian methods provide a powerful framework for updating beliefs and
-making inferences based on observed data. By incorporating prior
-knowledge and new evidence, these methods can help quantify uncertainty
-and make informed decisions in a wide range of applications.
+# Prior cost histogram
+hist(prior_samples,
+  breaks = 40, freq = FALSE,
+  col = rgb(0.27, 0.51, 0.71, 0.5), # steelblue, semi-transparent
+  border = "white",
+  xlim = xlim_range,
+  main = "Prior vs. Posterior Cost Distribution",
+  xlab = "Total Cost ($)",
+  ylab = "Density"
+)
+
+# Posterior cost histogram (overlaid)
+hist(posterior_samples,
+  breaks = 40, freq = FALSE,
+  col = rgb(0.84, 0.24, 0.31, 0.5), # tomato, semi-transparent
+  border = "white",
+  add = TRUE
+)
+
+abline(v = mean(prior_samples), col = "steelblue", lty = 2, lwd = 2)
+abline(v = mean(posterior_samples), col = "tomato", lty = 2, lwd = 2)
+
+legend("topright",
+  legend = c(
+    paste0("Prior  (mean = $", format(round(mean(prior_samples)), big.mark = ",")),
+    paste0("Posterior (mean = $", format(round(mean(posterior_samples)), big.mark = ","))
+  ),
+  fill = c(rgb(0.27, 0.51, 0.71, 0.5), rgb(0.84, 0.24, 0.31, 0.5)),
+  bty = "n"
+)
+```
+
+![](Bayes_files/figure-html/unnamed-chunk-11-1.png)
+
+**Interpretation:** The posterior distribution is narrower and shifted —
+observing which risks materialized eliminates uncertainty about some
+cost components. The remaining spread reflects uncertainty from
+unobserved risks and cost variability in the confirmed risks.
+
+## Summary
+
+The Bayesian workflow in PRA follows a natural before-and-after
+structure:
+
+1.  **Before observations** — use
+    [`risk_prob()`](https://paulgovan.github.io/PRA/reference/risk_prob.md)
+    and
+    [`cost_pdf()`](https://paulgovan.github.io/PRA/reference/cost_pdf.md)
+    to characterize the risk landscape.
+2.  **As evidence arrives** — use
+    [`risk_post_prob()`](https://paulgovan.github.io/PRA/reference/risk_post_prob.md)
+    and
+    [`cost_post_pdf()`](https://paulgovan.github.io/PRA/reference/cost_post_pdf.md)
+    to update estimates.
+3.  **NA values** in `observed_causes` and `observed_risks` represent
+    causes/risks that have not yet been assessed; they are correctly
+    excluded from the Bayesian update.
+
+This approach is particularly powerful in phased projects where
+information about risk drivers becomes available progressively, allowing
+cost forecasts to be refined at each stage.
