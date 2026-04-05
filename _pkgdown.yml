@@ -12,4 +12,6 @@ articles:
     contents: evm
   - title: "Bayesian Methods"
     contents: Bayes
+  - title: "Agentic Risk Analysis"
+    contents: agent
 
