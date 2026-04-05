@@ -371,8 +371,9 @@ pra_shiny_app <- function(model = "llama3.2", rag = TRUE, embed_model = "nomic-e
       # Show the prompt as a user message
       shinychat::chat_append("chat", prompt, role = "user")
 
-      # /commands run deterministically
-      if (grepl("^/", trimws(prompt))) {
+      # Route input
+      routing <- route_input(prompt)
+      if (routing$mode == "command") {
         result <- execute_command(prompt)
         if (!is.null(result$rich_result) && any(grepl("ContentToolResult", class(result$rich_result), fixed = TRUE))) {
           display <- result$rich_result@extra$display
@@ -406,13 +407,15 @@ pra_shiny_app <- function(model = "llama3.2", rag = TRUE, embed_model = "nomic-e
       shinychat::chat_append("chat", result$result, role = "assistant")
     }
 
-    # Handle user messages — /commands run deterministically, everything else goes to LLM
+    # Handle user messages — three-mode routing via route_input()
     shiny::observeEvent(input$chat_user_input, {
       user_msg <- input$chat_user_input
       shiny::req(nchar(trimws(user_msg)) > 0)
 
-      # Intercept /commands
-      if (grepl("^/", trimws(user_msg))) {
+      routing <- route_input(user_msg)
+      message("[PRA routing] mode=", routing$mode, " | ", routing$reason)
+
+      if (routing$mode == "command") {
         handle_slash_command(user_msg)
         return()
       }

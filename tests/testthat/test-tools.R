@@ -877,3 +877,332 @@ test_that("format_help_overview lists all commands", {
     )
   }
 })
+
+# ============================================================================
+# Parser Edge Cases: bracket-aware argument parsing
+# ============================================================================
+
+test_that("parse_command_args handles JSON with spaces", {
+  skip_if_not_installed("jsonlite")
+  parsed <- PRA:::parse_command_args(
+    'tasks=[{"type": "normal", "mean": 10, "sd": 2}]',
+    "tasks"
+  )
+  expect_equal(names(parsed), "tasks")
+  # Value should contain the full JSON including spaces
+  expect_true(grepl("normal", parsed$tasks))
+  expect_true(grepl("mean", parsed$tasks))
+  # Should parse as valid JSON
+  obj <- jsonlite::fromJSON(parsed$tasks)
+  expect_equal(obj$type, "normal")
+  expect_equal(obj$mean, 10)
+})
+
+test_that("parse_command_args handles multiple args with JSON spaces", {
+  parsed <- PRA:::parse_command_args(
+    'n=5000 tasks=[{"type": "normal", "mean": 10, "sd": 2}]',
+    c("n", "tasks")
+  )
+  expect_equal(parsed$n, "5000")
+  expect_true(grepl("normal", parsed$tasks))
+})
+
+test_that("parse_command_args handles nested brackets", {
+  parsed <- PRA:::parse_command_args(
+    'matrix=[[1, 0, 1], [0, 1, 0], [1, 0, 1]]',
+    "matrix"
+  )
+  expect_true(grepl("\\[\\[1", parsed$matrix))
+})
+
+test_that("parse_command_args handles multiple JSON args with spaces", {
+  parsed <- PRA:::parse_command_args(
+    'causes=[0.3, 0.2] given=[0.8, 0.6] not_given=[0.2, 0.4]',
+    c("causes", "given", "not_given")
+  )
+  expect_equal(length(parsed), 3)
+  expect_true(grepl("0.3", parsed$causes))
+  expect_true(grepl("0.8", parsed$given))
+  expect_true(grepl("0.2", parsed$not_given))
+})
+
+test_that("parse_command_args handles empty string", {
+  parsed <- PRA:::parse_command_args("", c("x", "y"))
+  expect_equal(length(parsed), 0)
+})
+
+test_that("parse_command_args handles NULL", {
+  parsed <- PRA:::parse_command_args(NULL, c("x"))
+  expect_equal(length(parsed), 0)
+})
+
+test_that("parse_command_args handles quoted strings in JSON", {
+  parsed <- PRA:::parse_command_args(
+    'tasks=[{"type": "normal", "mean": 10}] n=500',
+    c("tasks", "n")
+  )
+  expect_equal(parsed$n, "500")
+  expect_true(grepl('"type"', parsed$tasks))
+})
+
+test_that("parse_command_args handles args appearing after JSON", {
+  # n comes after the JSON arg
+  parsed <- PRA:::parse_command_args(
+    'tasks=[{"type": "uniform", "min": 5, "max": 15}] n=1000',
+    c("n", "tasks")
+  )
+  expect_equal(parsed$n, "1000")
+  expect_true(grepl("uniform", parsed$tasks))
+})
+
+# ============================================================================
+# /command execution with spaces in JSON (integration)
+# ============================================================================
+
+test_that("/mcs works with spaces in JSON values", {
+  skip_if_not_installed("jsonlite")
+  r <- PRA:::execute_command(
+    '/mcs tasks=[{"type": "normal", "mean": 10, "sd": 2}]'
+  )
+  expect_true(r$ok)
+  expect_true(grepl("Monte Carlo", r$result))
+})
+
+test_that("/mcs works with multiple tasks and spaces", {
+  skip_if_not_installed("jsonlite")
+  r <- PRA:::execute_command(
+    '/mcs n=1000 tasks=[{"type": "normal", "mean": 10, "sd": 2}, {"type": "uniform", "min": 5, "max": 15}]'
+  )
+  expect_true(r$ok)
+  expect_true(grepl("Monte Carlo", r$result))
+})
+
+test_that("/evm works with spaces in JSON arrays", {
+  skip_if_not_installed("jsonlite")
+  r <- PRA:::execute_command(
+    "/evm bac=500000 schedule=[0.2, 0.4, 0.6, 0.8, 1.0] period=3 complete=0.35 costs=[90000, 195000, 310000]"
+  )
+  expect_true(r$ok)
+  expect_true(grepl("300,000", r$result))
+})
+
+test_that("/risk works with spaces in arrays", {
+  skip_if_not_installed("jsonlite")
+  r <- PRA:::execute_command(
+    "/risk causes=[0.3, 0.2] given=[0.8, 0.6] not_given=[0.2, 0.4]"
+  )
+  expect_true(r$ok)
+  expect_true(grepl("0\\.82", r$result))
+})
+
+test_that("/smm works with spaces in arrays", {
+  skip_if_not_installed("jsonlite")
+  r <- PRA:::execute_command("/smm means=[10, 12, 8] vars=[4, 9, 2]")
+  expect_true(r$ok)
+  expect_true(grepl("30", r$result))
+})
+
+test_that("/dsm works with nested brackets and spaces", {
+  skip_if_not_installed("jsonlite")
+  r <- PRA:::execute_command("/dsm matrix=[[1, 1, 0], [0, 1, 1], [1, 0, 1]]")
+  expect_true(r$ok)
+  expect_true(grepl("Parent DSM", r$result))
+})
+
+test_that("/sensitivity works with spaces in task JSON", {
+  skip_if_not_installed("jsonlite")
+  r <- PRA:::execute_command(
+    '/sensitivity tasks=[{"type": "normal", "mean": 10, "sd": 2}, {"type": "triangular", "a": 5, "b": 10, "c": 15}]'
+  )
+  expect_true(r$ok)
+  expect_true(grepl("Sensitivity", r$result))
+})
+
+# ============================================================================
+# Multi-turn state / chaining tests
+# ============================================================================
+
+test_that("contingency chains correctly after mcs via /commands", {
+  skip_if_not_installed("jsonlite")
+  env <- PRA:::.pra_agent_env
+  old_mcs <- env$last_mcs
+  env$last_mcs <- NULL
+
+  # Run MCS
+  r1 <- PRA:::execute_command('/mcs n=1000 tasks=[{"type": "normal", "mean": 20, "sd": 3}]')
+  expect_true(r1$ok)
+  expect_false(is.null(env$last_mcs))
+
+  # Chain to contingency
+  r2 <- PRA:::execute_command("/contingency phigh=0.90 pbase=0.50")
+  expect_true(r2$ok)
+  expect_true(grepl("Contingency", r2$result))
+  expect_true(grepl("P90", r2$result))
+  expect_true(grepl("P50", r2$result))
+
+  env$last_mcs <- old_mcs
+})
+
+test_that("contingency returns guidance without prior mcs", {
+  skip_if_not_installed("jsonlite")
+  env <- PRA:::.pra_agent_env
+  old_mcs <- env$last_mcs
+  env$last_mcs <- NULL
+
+  r <- PRA:::execute_command("/contingency")
+  # Tool returns a friendly error message (not a crash)
+  expect_true(grepl("mcs_tool", r$result, ignore.case = TRUE))
+
+  env$last_mcs <- old_mcs
+})
+
+test_that("cost_pdf chains to cost_post_pdf via tool wrappers", {
+  skip_if_not_installed("jsonlite")
+  env <- PRA:::.pra_agent_env
+  old_cost <- env$last_cost_pdf
+  env$last_cost_pdf <- NULL
+
+  # Prior cost distribution
+  PRA:::cost_pdf_tool(1000, "[0.3, 0.2]", "[50000, 30000]", "[10000, 5000]", 100000)
+  expect_false(is.null(env$last_cost_pdf))
+
+  # Posterior cost distribution
+  result <- PRA:::cost_post_pdf_tool(1000, "[1, 0]", "[50000, 30000]", "[10000, 5000]", 100000)
+  text <- tool_text(result)
+  expect_true(grepl("Posterior", text))
+
+  env$last_cost_pdf <- old_cost
+})
+
+# ============================================================================
+# Routing logic tests
+# ============================================================================
+
+test_that("execute_command routes /help correctly", {
+  r <- PRA:::execute_command("/help")
+  expect_true(r$ok)
+  expect_true(grepl("PRA Commands", r$result))
+})
+
+test_that("execute_command routes /help <cmd> correctly", {
+  r <- PRA:::execute_command("/help evm")
+  expect_true(r$ok)
+  expect_true(grepl("Earned Value", r$result))
+  expect_true(grepl("bac", r$result))
+})
+
+test_that("execute_command routes /help <unknown> correctly", {
+  r <- PRA:::execute_command("/help foobar")
+  expect_false(r$ok)
+  expect_true(grepl("Unknown command", r$result))
+  expect_true(grepl("PRA Commands", r$result))
+})
+
+test_that("execute_command handles leading/trailing whitespace", {
+  r <- PRA:::execute_command("  /smm means=[10,20] vars=[4,9]  ")
+  expect_true(r$ok)
+  expect_true(grepl("30", r$result))
+})
+
+test_that("execute_command is case-insensitive for command names", {
+  r <- PRA:::execute_command("/SMM means=[10,20] vars=[4,9]")
+  expect_true(r$ok)
+  expect_true(grepl("30", r$result))
+})
+
+test_that("all 9 commands have consistent registry structure", {
+  registry <- PRA:::pra_command_registry()
+  for (nm in names(registry)) {
+    cmd <- registry[[nm]]
+    # Each arg must have all required fields
+    for (a in cmd$args) {
+      expect_true(!is.null(a$name), info = paste(nm, "arg missing name"))
+      expect_true(!is.null(a$type), info = paste(nm, a$name, "missing type"))
+      expect_true(!is.null(a$required), info = paste(nm, a$name, "missing required"))
+      expect_true(!is.null(a$help), info = paste(nm, a$name, "missing help"))
+      expect_true(a$type %in% c("integer", "number", "string", "json"),
+        info = paste(nm, a$name, "invalid type:", a$type))
+    }
+    # Examples must be non-empty and start with /
+    expect_true(length(cmd$examples) > 0, info = paste(nm, "missing examples"))
+    for (ex in cmd$examples) {
+      expect_true(grepl("^/", ex), info = paste(nm, "example doesn't start with /:", ex))
+    }
+  }
+})
+
+# ============================================================================
+# Three-Mode Routing Tests
+# ============================================================================
+
+test_that("route_input classifies /commands as 'command' mode", {
+  r <- PRA:::route_input("/mcs tasks=[...]")
+  expect_equal(r$mode, "command")
+  expect_equal(r$command, "mcs")
+
+  r <- PRA:::route_input("/help")
+  expect_equal(r$mode, "command")
+  expect_equal(r$command, "help")
+
+  r <- PRA:::route_input("/evm bac=500000")
+  expect_equal(r$mode, "command")
+  expect_equal(r$command, "evm")
+})
+
+test_that("route_input classifies numerical data as 'tool' mode", {
+  # Distribution specifications
+  r <- PRA:::route_input("Run a simulation with Normal(10, 2) and Triangular(5, 10, 15)")
+  expect_equal(r$mode, "tool")
+
+  # Numeric arrays
+  r <- PRA:::route_input("Means are [10, 15, 20] and variances are [4, 9, 16]")
+  expect_equal(r$mode, "tool")
+
+  # Dollar amounts with BAC
+  r <- PRA:::route_input("My project has BAC = $500,000 with schedule [0.2, 0.4]")
+  expect_equal(r$mode, "tool")
+
+  # Simulation count
+  r <- PRA:::route_input("Run 10000 simulations for a 3-task project")
+  expect_equal(r$mode, "tool")
+
+  # Probabilities
+  r <- PRA:::route_input("P(C1) = 0.3, P(Risk|C1) = 0.8")
+  expect_equal(r$mode, "tool")
+
+  # Schedule/costs arrays
+  r <- PRA:::route_input("Actual costs [90000, 195000, 310000]")
+  expect_equal(r$mode, "tool")
+})
+
+test_that("route_input classifies conceptual questions as 'rag' mode", {
+  r <- PRA:::route_input("What is earned value management?")
+  expect_equal(r$mode, "rag")
+
+  r <- PRA:::route_input("Explain the difference between SPI and CPI")
+  expect_equal(r$mode, "rag")
+
+  r <- PRA:::route_input("How does Monte Carlo simulation work?")
+  expect_equal(r$mode, "rag")
+
+  r <- PRA:::route_input("What are the benefits of Bayesian risk analysis?")
+  expect_equal(r$mode, "rag")
+
+  r <- PRA:::route_input("Tell me about contingency reserves")
+  expect_equal(r$mode, "rag")
+})
+
+test_that("route_input returns required fields", {
+  for (input in c("/help", "Normal(10,2)", "What is EVM?")) {
+    r <- PRA:::route_input(input)
+    expect_true("mode" %in% names(r))
+    expect_true("reason" %in% names(r))
+    expect_true(r$mode %in% c("command", "tool", "rag"))
+    expect_true(nchar(r$reason) > 0)
+  }
+})
+
+test_that("route_input handles whitespace", {
+  r <- PRA:::route_input("  /mcs tasks=[]  ")
+  expect_equal(r$mode, "command")
+})

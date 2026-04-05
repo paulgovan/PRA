@@ -40,11 +40,21 @@ build_knowledge_base <- function(store_path = NULL,
     store_path <- file.path(cache_dir, "pra_knowledge.duckdb")
   }
 
-  # Return cached store if it exists and overwrite is FALSE
+  # Return cached store if it exists, is valid, and overwrite is FALSE
   if (file.exists(store_path) && !overwrite) {
     message("Loading cached knowledge base from: ", store_path)
-    store <- ragnar::ragnar_store_connect(store_path)
-    return(store)
+    store <- tryCatch({
+      s <- ragnar::ragnar_store_connect(store_path)
+      # Validate the store works with current duckdb version
+      ragnar::ragnar_retrieve(s, "test", top_k = 1L)
+      s
+    }, error = function(e) {
+      message("Cached knowledge base is incompatible (", conditionMessage(e),
+              "). Rebuilding...")
+      if (file.exists(store_path)) unlink(store_path)
+      NULL
+    })
+    if (!is.null(store)) return(store)
   }
 
   # Read knowledge files
@@ -60,30 +70,30 @@ build_knowledge_base <- function(store_path = NULL,
 
   message("Building PRA knowledge base from ", length(md_files), " files...")
 
-  # Read and chunk all files
-  all_chunks <- list()
-  for (f in md_files) {
-    text <- paste(readLines(f, warn = FALSE), collapse = "\n")
-    chunks <- ragnar::markdown_chunk(text)
-    # Tag chunks with source file
-    chunks$source <- basename(f)
-    all_chunks <- c(all_chunks, list(chunks))
-  }
-  chunks_df <- do.call(rbind, all_chunks)
-
-  message("Created ", nrow(chunks_df), " chunks from knowledge files.")
-
-
-  # Create store with Ollama embeddings
+  # Create store with Ollama embeddings and a source column for attribution
   embed_fn <- ragnar::embed_ollama(model = embed_model)
   store <- ragnar::ragnar_store_create(
     store_path,
     embed = embed_fn,
-    overwrite = overwrite
+    overwrite = overwrite,
+    extra_cols = data.frame(source = character(0))
   )
 
-  # Insert chunks and build index
-  ragnar::ragnar_store_insert(store, chunks_df)
+  # Read, chunk, and insert each file individually (ragnar v2 requires
+
+  # MarkdownDocumentChunks objects, not plain data frames)
+  total_chunks <- 0L
+  for (f in md_files) {
+    text <- paste(readLines(f, warn = FALSE), collapse = "\n")
+    chunks <- ragnar::markdown_chunk(text)
+    chunks$source <- basename(f)
+    ragnar::ragnar_store_insert(store, chunks)
+    total_chunks <- total_chunks + nrow(chunks)
+  }
+
+  message("Inserted ", total_chunks, " chunks from ", length(md_files), " knowledge files.")
+
+  # Build retrieval index (BM25 + VSS)
   ragnar::ragnar_store_build_index(store)
 
   message("Knowledge base built and saved to: ", store_path)
@@ -138,19 +148,18 @@ add_documents <- function(store, path, embed_model = "nomic-embed-text") {
 
   message("Adding ", length(files), " document(s) to knowledge base...")
 
-  all_chunks <- list()
+  total_chunks <- 0L
   for (f in files) {
     text <- paste(readLines(f, warn = FALSE), collapse = "\n")
     chunks <- ragnar::markdown_chunk(text)
     chunks$source <- basename(f)
-    all_chunks <- c(all_chunks, list(chunks))
+    ragnar::ragnar_store_insert(store, chunks)
+    total_chunks <- total_chunks + nrow(chunks)
   }
-  chunks_df <- do.call(rbind, all_chunks)
 
-  ragnar::ragnar_store_insert(store, chunks_df)
   ragnar::ragnar_store_build_index(store)
 
-  message("Added ", nrow(chunks_df), " chunks from ", length(files), " file(s).")
+  message("Added ", total_chunks, " chunks from ", length(files), " file(s).")
   invisible(store)
 }
 
@@ -185,7 +194,13 @@ retrieve_context <- function(store, query, top_k = 3) {
     return(character(0))
   }
 
+
   # Append source attribution to each chunk so LLM can cite references
-  sources <- if ("source" %in% names(results)) results$source else rep("PRA knowledge base", nrow(results))
+  if ("source" %in% names(results)) {
+    # ragnar v2 may return list columns; unlist for safety
+    sources <- unlist(results$source)
+  } else {
+    sources <- rep("PRA knowledge base", nrow(results))
+  }
   paste0(results$text, "\n[Source: ", sources, "]")
 }

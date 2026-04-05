@@ -1743,6 +1743,192 @@ format_help_overview <- function() {
   )
 }
 
+#' Route User Input to the Appropriate Handler
+#'
+#' Classifies user input into one of three modes and returns a structured
+#' routing decision. This function encapsulates the three-mode routing
+#' architecture used by both the Shiny app and programmatic interfaces.
+#'
+#' @param input Character string of user input.
+#' @return A list with:
+#'   \describe{
+#'     \item{mode}{Character: `"command"`, `"tool"`, or `"rag"`}
+#'     \item{reason}{Character: brief explanation of the routing decision}
+#'   }
+#'   For `"command"` mode, also includes `command` (the command name).
+#'
+#' @details
+#' Routing logic:
+#' \enumerate{
+#'   \item Input starting with `/` is routed to the **command** handler
+#'         for deterministic execution (no LLM involved).
+#'   \item Input containing numerical data patterns (distributions, arrays,
+#'         dollar amounts, percentages with surrounding context) is routed
+#'         to the **tool** handler where the LLM selects and calls tools.
+#'   \item All other input (conceptual questions, explanations) is routed
+#'         to the **rag** handler where the LLM answers from the knowledge
+#'         base context.
+#' }
+#'
+#' Note: modes `"tool"` and `"rag"` both go through the LLM, but the
+#' distinction affects how the query is framed (tool-calling emphasis vs.
+#' RAG-context emphasis). The LLM ultimately decides whether to call a
+#' tool, but the routing hint improves reliability with smaller models.
+#'
+#' @examples
+#' \dontrun{
+#' route_input("/mcs tasks=[...]")
+#' # list(mode = "command", reason = "...", command = "mcs")
+#'
+#' route_input("Simulate 3 tasks: Normal(10,2)...")
+#' # list(mode = "tool", reason = "...")
+#'
+#' route_input("What is earned value?")
+#' # list(mode = "rag", reason = "...")
+#' }
+#'
+#' @keywords internal
+route_input <- function(input) {
+  input <- trimws(input)
+
+  # Mode 1: Slash commands — deterministic
+  if (grepl("^/", input)) {
+    cmd_name <- sub("^/(\\S+).*", "\\1", input)
+    return(list(
+      mode = "command",
+      reason = paste0("Input starts with /", cmd_name),
+      command = tolower(cmd_name)
+    ))
+  }
+
+  # Heuristic patterns for numerical/computational data
+  numerical_patterns <- c(
+    "\\b(normal|triangular|uniform)\\s*\\(",          # distribution specs
+    "\\[\\s*[\\d.,\\s]+\\]",                          # numeric arrays [1, 2, 3]
+    "\\$[\\d,]+",                                      # dollar amounts $500,000
+    "\\bBAC\\b.*\\d",                                  # BAC with numbers
+    "\\bP\\([A-Z]",                                    # P(C1), P(Risk|...)
+    "\\bmean\\s*[=:]\\s*\\d",                          # mean=10 or mean: 10
+    "\\bsd\\s*[=:]\\s*\\d",                            # sd=2
+    "\\bvariance[s]?\\s*\\[",                          # variances [...]
+    "\\bschedule\\s*\\[",                              # schedule [...]
+    "\\bcosts?\\s*\\[",                                # costs [...]
+    "\\bmatrix\\s*\\[",                                # matrix [...]
+    "\\d+\\s*(simulations|iterations)"                 # 10000 simulations
+  )
+
+  for (pat in numerical_patterns) {
+    if (grepl(pat, input, ignore.case = TRUE, perl = TRUE)) {
+      return(list(
+        mode = "tool",
+        reason = paste0("Numerical data detected (pattern: ", pat, ")")
+      ))
+    }
+  }
+
+  # Mode 3: RAG — conceptual/explanatory
+  list(
+    mode = "rag",
+    reason = "No numerical data or /command detected; routing to RAG"
+  )
+}
+
+#' Parse key=value argument string with bracket-aware splitting
+#'
+#' Splits a string like `n=5000 tasks=[{"type": "normal", "mean": 10}]` into
+#' a named list `list(n = "5000", tasks = '[{"type": "normal", "mean": 10}]')`.
+#' Tracks bracket/brace/quote nesting so that spaces inside `[]`, `{}`, or `""`
+#' are not treated as argument separators.
+#'
+#' @param arg_string Character string of arguments (without the command name).
+#' @param known_args Character vector of recognized argument names.
+#' @return A named list of parsed argument values (all character strings).
+#' @keywords internal
+parse_command_args <- function(arg_string, known_args) {
+  if (is.null(arg_string) || nchar(trimws(arg_string)) == 0) return(list())
+
+  chars <- strsplit(arg_string, "")[[1]]
+  n <- length(chars)
+
+  # State machine: find top-level `key=value` boundaries
+  # A key= boundary is a known arg name followed by = at bracket depth 0, outside quotes
+  depth_sq <- 0L  # [ ] nesting
+  depth_cb <- 0L  # { } nesting
+  in_quote <- FALSE
+
+  # First pass: mark each character position with its nesting depth and quote state
+  top_level <- logical(n)  # TRUE if character is at depth 0 and not in quotes
+  for (i in seq_len(n)) {
+    ch <- chars[i]
+    if (in_quote) {
+      if (ch == '"' && (i == 1L || chars[i - 1L] != "\\")) in_quote <- FALSE
+    } else {
+      if (ch == '"') {
+        in_quote <- TRUE
+      } else if (ch == '[') {
+        depth_sq <- depth_sq + 1L
+      } else if (ch == ']') {
+        depth_sq <- max(0L, depth_sq - 1L)
+      } else if (ch == '{') {
+        depth_cb <- depth_cb + 1L
+      } else if (ch == '}') {
+        depth_cb <- max(0L, depth_cb - 1L)
+      }
+    }
+    top_level[i] <- !in_quote && depth_sq == 0L && depth_cb == 0L
+  }
+
+  # Second pass: find `key=` patterns at top level
+  # Sort known_args by length descending to match longest first
+  known_args <- known_args[order(nchar(known_args), decreasing = TRUE)]
+  boundaries <- list()  # list of list(name, value_start)
+
+  for (nm in known_args) {
+    nm_len <- nchar(nm)
+    # Search for `nm=` at top level, preceded by start-of-string or whitespace
+    for (pos in seq_len(n - nm_len)) {
+      if (!top_level[pos]) next
+      candidate <- paste0(chars[pos:(pos + nm_len - 1L)], collapse = "")
+      if (candidate != nm) next
+      eq_pos <- pos + nm_len
+      if (eq_pos > n || chars[eq_pos] != "=") next
+      # Check preceding character: must be start of string or whitespace
+      if (pos > 1 && !grepl("\\s", chars[pos - 1L])) next
+      boundaries[[length(boundaries) + 1L]] <- list(
+        name = nm, key_start = pos, value_start = eq_pos + 1L
+      )
+    }
+  }
+
+  if (length(boundaries) == 0) return(list())
+
+  # Sort boundaries by position
+  starts <- vapply(boundaries, function(b) b$key_start, integer(1))
+  boundaries <- boundaries[order(starts)]
+
+  # Extract values: from value_start to just before the next boundary's key_start (or end)
+  parsed <- list()
+  for (i in seq_along(boundaries)) {
+    b <- boundaries[[i]]
+    val_start <- b$value_start
+    if (i < length(boundaries)) {
+      # Value ends just before the whitespace preceding the next key
+      val_end <- boundaries[[i + 1L]]$key_start - 1L
+      # Trim trailing whitespace
+      while (val_end >= val_start && grepl("\\s", chars[val_end])) val_end <- val_end - 1L
+    } else {
+      val_end <- n
+    }
+    if (val_start <= val_end) {
+      parsed[[b$name]] <- paste0(chars[val_start:val_end], collapse = "")
+    } else {
+      parsed[[b$name]] <- ""
+    }
+  }
+
+  parsed
+}
+
 #' Parse and Execute a /command
 #'
 #' Parses user input starting with `/`, validates arguments, and executes
@@ -1800,35 +1986,9 @@ execute_command <- function(input) {
     return(list(ok = TRUE, result = format_command_help(cmd_name, cmd)))
   }
 
-  # Parse key=value pairs. We split on key= boundaries to handle JSON with spaces.
-  # Pattern: find positions of `key=` tokens (word chars followed by =, not inside brackets)
-  arg_names <- vapply(cmd$args, function(a) a$name, character(1))
-  parsed <- list()
-  remaining <- arg_string
-
-  for (i in seq_along(arg_names)) {
-    nm <- arg_names[i]
-    pattern <- paste0("(^|\\s)", nm, "=")
-    m <- regexpr(pattern, remaining)
-    if (m > 0) {
-      # Find start of value (after "name=")
-      eq_pos <- m + attr(m, "match.length") - 1
-      val_start <- eq_pos + 1
-      rest <- substring(remaining, val_start)
-
-      # Determine end of value: next `key=` boundary or end of string
-      next_patterns <- paste0("\\s", arg_names[arg_names != nm], "=")
-      next_pos <- nchar(rest) + 1
-      for (np in next_patterns) {
-        np_match <- regexpr(np, rest)
-        if (np_match > 0 && np_match < next_pos) {
-          next_pos <- np_match
-        }
-      }
-      val <- trimws(substring(rest, 1, next_pos - 1))
-      parsed[[nm]] <- val
-    }
-  }
+  # Parse key=value pairs with bracket-aware splitting.
+  # Handles JSON values containing spaces, e.g. tasks=[{"type": "normal", "mean": 10}]
+  parsed <- parse_command_args(arg_string, vapply(cmd$args, function(a) a$name, character(1)))
 
   # Check required arguments
   missing_args <- character(0)
