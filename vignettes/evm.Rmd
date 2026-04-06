@@ -215,4 +215,4 @@ p <- ggplot2::ggplot(trend_data, ggplot2::aes(x = Period)) +
 print(p)
 ```
 
-**Reading the chart:** The gap between PV and EV (both measured on the same vertical axis) shows the schedule gap — EV is below PV, confirming we are behind. The gap between AC and EV shows the cost overrun — we have spent more than the value we have earned.
+**Reading the chart:** The gap between PV and EV (both measured on the same vertical axis) shows the schedule gap, EV is below PV, confirming we are behind. The gap between AC and EV shows the cost overrun, we have spent more than the value we have earned.

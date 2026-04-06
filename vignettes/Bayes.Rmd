@@ -186,7 +186,7 @@ legend("topright",
 )
 ```
 
-**Interpretation:** The posterior distribution is narrower and shifted — observing which risks materialized eliminates uncertainty about some cost components. The remaining spread reflects uncertainty from unobserved risks and cost variability in the confirmed risks.
+**Interpretation:** The posterior distribution is narrower and shifted, observing which risks materialized eliminates uncertainty about some cost components. The remaining spread reflects uncertainty from unobserved risks and cost variability in the confirmed risks.
 
 ## Summary
 
