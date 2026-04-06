@@ -4,7 +4,7 @@ The Second Moment Method (SMM) is a fast, analytical alternative to
 Monte Carlo simulation for estimating project cost or schedule
 uncertainty. Rather than running thousands of iterations, SMM propagates
 uncertainty through a project mathematically using only the mean and
-variance of each task — the “first two moments” of the probability
+variance of each task, the “first two moments” of the probability
 distribution.
 
 ## When to Use SMM

@@ -198,7 +198,7 @@ legend("topright",
 
 ![](Bayes_files/figure-html/unnamed-chunk-11-1.png)
 
-**Interpretation:** The posterior distribution is narrower and shifted —
+**Interpretation:** The posterior distribution is narrower and shifted,
 observing which risks materialized eliminates uncertainty about some
 cost components. The remaining spread reflects uncertainty from
 unobserved risks and cost variability in the confirmed risks.

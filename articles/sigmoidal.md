@@ -187,9 +187,9 @@ legend("bottomright",
 ![](sigmoidal_files/figure-html/unnamed-chunk-9-1.png)
 
 **Note:** Logistic and Pearl share the same functional form and will
-produce identical fits on the same data. Gompertz has a different shape
-— its inflection point occurs earlier and the curve is asymmetric —
-making it better suited for processes that accelerate quickly early on.
+produce identical fits on the same data. Gompertz has a different shape,
+its inflection point occurs earlier and the curve is asymmetric, making
+it better suited for processes that accelerate quickly early on.
 
 ## Summary
 

@@ -279,6 +279,6 @@ print(p)
 ![](evm_files/figure-html/unnamed-chunk-10-1.png)
 
 **Reading the chart:** The gap between PV and EV (both measured on the
-same vertical axis) shows the schedule gap — EV is below PV, confirming
-we are behind. The gap between AC and EV shows the cost overrun — we
-have spent more than the value we have earned.
+same vertical axis) shows the schedule gap, EV is below PV, confirming
+we are behind. The gap between AC and EV shows the cost overrun, we have
+spent more than the value we have earned.
