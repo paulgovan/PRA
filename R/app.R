@@ -387,7 +387,14 @@ pra_shiny_app <- function(model = "llama3.2", rag = TRUE, embed_model = "nomic-e
       }
 
       shiny::req(chat_obj())
-      query <- build_query(prompt, shiny::isolate(input$rag_enabled))
+
+      if (routing$mode == "rag") {
+        handle_rag_query(prompt)
+        return()
+      }
+
+      # Tool mode: LLM with tools, no RAG context
+      query <- build_query(prompt, rag_enabled = FALSE)
       stream <- chat_obj()$stream_async(query, stream = "content")
       shinychat::chat_append("chat", stream)
     })
@@ -407,6 +414,70 @@ pra_shiny_app <- function(model = "llama3.2", rag = TRUE, embed_model = "nomic-e
       shinychat::chat_append("chat", result$result, role = "assistant")
     }
 
+    # Handle RAG queries — conceptual questions answered from knowledge base
+    # Uses a separate chat WITHOUT tools to prevent the LLM from calling
+    # analysis functions on questions like "what is earned value?"
+    handle_rag_query <- function(user_msg) {
+      rag_enabled <- shiny::isolate(input$rag_enabled)
+
+      # Retrieve RAG context
+      context_chunks <- character(0)
+      sources <- character(0)
+      if (rag_enabled && !is.null(.pra_agent_env$rag_store)) {
+        tryCatch({
+          context_chunks <- retrieve_context(.pra_agent_env$rag_store, user_msg, top_k = 3)
+          if (length(context_chunks) > 0) {
+            sources <- unique(gsub(
+              ".*\\[Source: (.+?)\\]$", "\\1",
+              context_chunks[grepl("\\[Source:", context_chunks)]
+            ))
+          }
+        }, error = function(e) NULL)
+      }
+
+      if (length(context_chunks) > 0) {
+        # Build query with RAG context for a tool-free chat
+        context_text <- paste(context_chunks, collapse = "\n\n---\n\n")
+        source_label <- paste(unique(sources), collapse = ", ")
+        query <- paste0(
+          "Use the following reference material to answer the question. ",
+          "Be concise and cite sources at the end.\n\n",
+          "Reference material:\n\n", context_text,
+          "\n\n---\n\nQuestion: ", user_msg
+        )
+
+        # Create a lightweight chat WITHOUT tools for RAG answers
+        rag_chat <- tryCatch({
+          ellmer::chat_ollama(
+            model = shiny::isolate(input$model),
+            system_prompt = paste0(
+              "You are a Project Risk Analysis expert. ",
+              "Answer the user's question using ONLY the reference material provided. ",
+              "Do NOT attempt to run any computations or call any tools. ",
+              "Be concise. At the end, cite sources like: Sources: filename.md"
+            ),
+            api_args = list(options = list(num_ctx = 16384L))
+          )
+        }, error = function(e) NULL)
+
+        if (!is.null(rag_chat)) {
+          stream <- rag_chat$stream_async(query, stream = "content")
+          shinychat::chat_append("chat", stream)
+        } else {
+          # Fallback: display raw RAG context
+          shinychat::chat_append("chat", paste0(
+            paste(context_chunks, collapse = "\n\n---\n\n"),
+            "\n\n*Sources: ", paste(unique(sources), collapse = ", "), "*"
+          ), role = "assistant")
+        }
+      } else {
+        # No RAG context available — fall back to LLM with tools
+        query <- build_query(user_msg, rag_enabled = FALSE)
+        stream <- chat_obj()$stream_async(query, stream = "content")
+        shinychat::chat_append("chat", stream)
+      }
+    }
+
     # Handle user messages — three-mode routing via route_input()
     shiny::observeEvent(input$chat_user_input, {
       user_msg <- input$chat_user_input
@@ -421,7 +492,16 @@ pra_shiny_app <- function(model = "llama3.2", rag = TRUE, embed_model = "nomic-e
       }
 
       shiny::req(chat_obj())
-      query <- build_query(user_msg, shiny::isolate(input$rag_enabled))
+
+      if (routing$mode == "rag") {
+        # RAG mode: answer conceptual questions using a dedicated chat without
+        # tools, so the LLM cannot accidentally call analysis functions.
+        handle_rag_query(user_msg)
+        return()
+      }
+
+      # Tool mode: LLM has full tool access for numerical computation
+      query <- build_query(user_msg, rag_enabled = FALSE)
 
       # Stream response — shinychat handles progressive display + tool cards
       stream <- chat_obj()$stream_async(query, stream = "content")
