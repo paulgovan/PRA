@@ -41,6 +41,10 @@ pra_app(
 
   Logical. Whether to open a browser (default `TRUE`).
 
+## Value
+
+None. This function is called to launch the shiny app.
+
 ## Details
 
 Requires Ollama to be running locally with the specified model
