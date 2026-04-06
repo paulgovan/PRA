@@ -14,6 +14,7 @@
 #'   `"nomic-embed-text"`).
 #' @param port Integer. Port for the Shiny app (default `NULL` lets Shiny choose).
 #' @param launch.browser Logical. Whether to open a browser (default `TRUE`).
+#' @return None. This function is called to launch the shiny app.
 #'
 #' @examples
 #' \dontrun{

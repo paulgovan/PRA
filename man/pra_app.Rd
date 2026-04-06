@@ -24,6 +24,9 @@ pra_app(
 
 \item{launch.browser}{Logical. Whether to open a browser (default \code{TRUE}).}
 }
+\value{
+None. This function is called to launch the shiny app.
+}
 \description{
 Starts a Shiny app that provides an interactive chat interface to the PRA
 risk analysis agent. The agent can select and execute PRA tools (Monte Carlo
