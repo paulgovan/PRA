@@ -24,6 +24,11 @@
 
 - [Bayesian Methods](https://paulgovan.github.io/PRA/articles/Bayes.md):
 
+### Design Structure Matrices
+
+- [Design Structure
+  Matrices](https://paulgovan.github.io/PRA/articles/DSM.md):
+
 ### Agentic Risk Analysis
 
 - [Agentic Risk

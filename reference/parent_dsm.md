@@ -16,12 +16,28 @@ parent_dsm(S)
 - S:
 
   Resource-Task Matrix 'S' giving the links (arcs) between resources and
-  tasks.
+  tasks. Rows represent resources and columns represent tasks.
 
 ## Value
 
-The function returns the Resource-based 'Parent' DSM 'P' giving the
-number of resources shared between each task.
+An S3 object of class `"dsm"` with the following components:
+
+- matrix:
+
+  The Resource-based 'Parent' DSM giving the number of resources shared
+  between each task.
+
+- type:
+
+  Character string `"parent"`.
+
+- n_tasks:
+
+  Number of tasks (columns in S).
+
+- n_resources:
+
+  Number of resources (rows in S).
 
 ## References
 
@@ -32,24 +48,25 @@ risk management." Journal of construction engineering and management
 ## Examples
 
 ``` r
-# Set the S matrix for a toy project and print the results.
-s <- matrix(c(1, 1, 0, 0, 1, 0, 0, 1, 1), nrow = 3, ncol = 3)
+# Set the S matrix for a toy project (3 resources x 4 tasks).
+s <- matrix(c(1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1), nrow = 3, ncol = 4)
 cat("Resource-Task Matrix:\n")
 #> Resource-Task Matrix:
 print(s)
-#>      [,1] [,2] [,3]
-#> [1,]    1    0    0
-#> [2,]    1    1    1
-#> [3,]    0    0    1
+#>      [,1] [,2] [,3] [,4]
+#> [1,]    1    0    1    0
+#> [2,]    1    1    0    1
+#> [3,]    0    0    0    1
 
 # Calculate the Resource-based Parent DSM and print the results.
 resource_dsm <- parent_dsm(s)
-cat("\nResource-based 'Parent' DSM:\n")
-#> 
-#> Resource-based 'Parent' DSM:
 print(resource_dsm)
-#>      [,1] [,2] [,3]
-#> [1,]    1    1    0
-#> [2,]    1    3    1
-#> [3,]    0    1    1
+#> Resource-based 'Parent' Design Structure Matrix
+#> Tasks: 4  Resources: 3
+#> 
+#>      [,1] [,2] [,3] [,4]
+#> [1,]    2    1    1    1
+#> [2,]    1    1    0    1
+#> [3,]    1    0    1    0
+#> [4,]    1    1    0    2
 ```

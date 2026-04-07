@@ -6,6 +6,7 @@
 <url><loc>https://paulgovan.github.io/PRA/LICENSE-text.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/LICENSE.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/articles/Bayes.html</loc></url>
+<url><loc>https://paulgovan.github.io/PRA/articles/DSM.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/articles/MCS.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/articles/SMM.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/articles/agent.html</loc></url>
@@ -41,6 +42,7 @@
 <url><loc>https://paulgovan.github.io/PRA/reference/mcs.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/parent_dsm.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/parse_command_args.html</loc></url>
+<url><loc>https://paulgovan.github.io/PRA/reference/plot.dsm.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/plot_sigmoidal.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/plot_to_html.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/pra_app.html</loc></url>
@@ -50,6 +52,7 @@
 <url><loc>https://paulgovan.github.io/PRA/reference/pra_system_prompt.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/pra_tools.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/predict_sigmoidal.html</loc></url>
+<url><loc>https://paulgovan.github.io/PRA/reference/print.dsm.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/print.mcs.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/print.pra_sigmoidal_fit.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/print.smm.html</loc></url>

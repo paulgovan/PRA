@@ -34,6 +34,8 @@
   Carlo Simulation.
 - [`parent_dsm()`](https://paulgovan.github.io/PRA/reference/parent_dsm.md)
   : Resource-based 'Parent' Design Structure Matrix (DSM).
+- [`plot(`*`<dsm>`*`)`](https://paulgovan.github.io/PRA/reference/plot.dsm.md)
+  : Plot a DSM heatmap.
 - [`plot_sigmoidal()`](https://paulgovan.github.io/PRA/reference/plot_sigmoidal.md)
   : Plot a Fitted Sigmoidal Model.
 - [`pra_app()`](https://paulgovan.github.io/PRA/reference/pra_app.md) :
@@ -44,6 +46,8 @@
   : Create PRA Tool Definitions for LLM Agent
 - [`predict_sigmoidal()`](https://paulgovan.github.io/PRA/reference/predict_sigmoidal.md)
   : Predict a Sigmoidal Function Using Fitted Model.
+- [`print(`*`<dsm>`*`)`](https://paulgovan.github.io/PRA/reference/print.dsm.md)
+  : Print a DSM object.
 - [`print(`*`<mcs>`*`)`](https://paulgovan.github.io/PRA/reference/print.mcs.md)
   : Print method for Monte Carlo Simulation results.
 - [`print(`*`<pra_sigmoidal_fit>`*`)`](https://paulgovan.github.io/PRA/reference/print.pra_sigmoidal_fit.md)
