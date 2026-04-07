@@ -171,9 +171,9 @@ pra_tools <- function() {
     # ---- DSM: Parent ----
     ellmer::tool(
       parent_dsm_tool,
-      "Compute the resource-task dependency structure matrix (DSM). Shows which tasks share resources and are therefore coupled. Input is a square matrix.",
+      "Compute the resource-task dependency structure matrix (DSM). Shows which tasks share resources and are therefore coupled. Input is a resources x tasks matrix.",
       arguments = list(
-        matrix_json = ellmer::type_string("JSON 2D array for a square matrix. Example: [[1,0,1],[0,1,0],[1,0,1]]")
+        matrix_json = ellmer::type_string("JSON 2D array for a resources x tasks matrix. Example: [[1,0,1,0],[0,1,0,1],[1,0,1,1]]")
       ),
       annotations = ellmer::tool_annotations(title = "Parent DSM")
     ),
@@ -183,8 +183,8 @@ pra_tools <- function() {
       grandparent_dsm_tool,
       "Compute the risk-based task dependency structure matrix. Shows how tasks are coupled through shared risk-resource pathways. Requires both a resource-task matrix (S) and a risk-resource matrix (R).",
       arguments = list(
-        s_matrix_json = ellmer::type_string("JSON 2D array for the square resource-task matrix (S)."),
-        r_matrix_json = ellmer::type_string("JSON 2D array for the square risk-resource matrix (R).")
+        s_matrix_json = ellmer::type_string("JSON 2D array for the resource-task matrix S (resources x tasks)."),
+        r_matrix_json = ellmer::type_string("JSON 2D array for the risk-resource matrix R (risks x resources).")
       ),
       annotations = ellmer::tool_annotations(title = "Grandparent DSM")
     )
@@ -414,7 +414,7 @@ pra_command_registry <- function() {
       args = list(
         list(
           name = "matrix", type = "json", required = TRUE,
-          description = "Square matrix as JSON 2D array",
+          description = "Resource-task matrix as JSON 2D array",
           example = "[[1,0,1],[0,1,0],[1,0,1]]"
         )
       ),
@@ -1407,7 +1407,7 @@ parent_dsm_tool <- function(matrix_json) {
   mat <- as_r_input(matrix_json)
   if (!is.matrix(mat)) mat <- as.matrix(as.data.frame(mat))
   result <- parent_dsm(mat)
-  result_mat <- as.matrix(result)
+  result_mat <- result$matrix
   lines <- paste(utils::capture.output(print(result_mat)), collapse = "\n")
 
   text <- paste0("Parent DSM (Resource-Task Dependencies):\n\n", lines)
@@ -1432,7 +1432,7 @@ grandparent_dsm_tool <- function(s_matrix_json, r_matrix_json) {
   r_mat <- as_r_input(r_matrix_json)
   if (!is.matrix(r_mat)) r_mat <- as.matrix(as.data.frame(r_mat))
   result <- grandparent_dsm(s_mat, r_mat)
-  result_mat <- as.matrix(result)
+  result_mat <- result$matrix
   lines <- paste(utils::capture.output(print(result_mat)), collapse = "\n")
 
   text <- paste0("Grandparent DSM (Risk-Resource-Task Dependencies):\n\n", lines)

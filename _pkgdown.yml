@@ -12,6 +12,8 @@ articles:
     contents: evm
   - title: "Bayesian Methods"
     contents: Bayes
+  - title: "Design Structure Matrices"
+    contents: DSM
   - title: "Agentic Risk Analysis"
     contents: agent
 

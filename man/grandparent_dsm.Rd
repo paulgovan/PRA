@@ -7,13 +7,21 @@
 grandparent_dsm(S, R)
 }
 \arguments{
-\item{S}{Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.}
+\item{S}{Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.
+Rows represent resources and columns represent tasks.}
 
-\item{R}{Risk-Resource Matrix 'R' giving the links (arcs) between risks and resources.}
+\item{R}{Risk-Resource Matrix 'R' giving the links (arcs) between risks and resources.
+Rows represent risks and columns represent resources.}
 }
 \value{
-The function returns the Risk-based 'Grandparent' DSM 'G' giving the number
-of risks shared between each task.
+An S3 object of class \code{"dsm"} with the following components:
+\describe{
+\item{matrix}{The Risk-based 'Grandparent' DSM giving the number of risks shared between each task.}
+\item{type}{Character string \code{"grandparent"}.}
+\item{n_tasks}{Number of tasks (columns in S).}
+\item{n_resources}{Number of resources (rows in S).}
+\item{n_risks}{Number of risks (rows in R).}
+}
 }
 \description{
 This function computes the Risk-based 'Grandparent' Design Structure Matrix (DSM)
@@ -23,15 +31,14 @@ tasks in a project.
 }
 \examples{
 # Set the S and R matrices and print the results.
-S <- matrix(c(1, 1, 0, 0, 1, 0, 0, 1, 1), nrow = 3, ncol = 3)
-R <- matrix(c(1, 1, 1, 1, 0, 0), nrow = 2, ncol = 3)
-cat("Resource-Task Matrix:\n")
+S <- matrix(c(1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1), nrow = 3, ncol = 4)
+R <- matrix(c(1, 1, 0, 1, 0, 0), nrow = 2, ncol = 3)
+cat("Resource-Task Matrix (3 resources x 4 tasks):\n")
 print(S)
-cat("\nRisk-Resource Matrix:\n")
+cat("\nRisk-Resource Matrix (2 risks x 3 resources):\n")
 print(R)
 # Calculate the Risk-based Grandparent Matrix and print the results.
 risk_dsm <- grandparent_dsm(S, R)
-cat("\nRisk-based 'Grandparent' DSM:\n")
 print(risk_dsm)
 
 }
