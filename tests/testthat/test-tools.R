@@ -1206,3 +1206,171 @@ test_that("route_input handles whitespace", {
   r <- PRA:::route_input("  /mcs tasks=[]  ")
   expect_equal(r$mode, "command")
 })
+
+# ============================================================================
+# Utility functions: check_package, save_pra_plot, tool_result, html helpers
+# ============================================================================
+
+test_that("check_package errors with purpose message", {
+  expect_error(
+    PRA:::check_package("nonexistent_fake_pkg", purpose = "testing"),
+    "required.*testing"
+  )
+  expect_error(
+    PRA:::check_package("nonexistent_fake_pkg"),
+    "required"
+  )
+})
+
+test_that("save_pra_plot creates a PNG file", {
+  plot_fn <- function() plot(1:5, 1:5, main = "test")
+  path <- PRA:::save_pra_plot(plot_fn, "test_coverage")
+  expect_true(file.exists(path))
+  expect_true(grepl("\\.png$", path))
+  expect_true(file.info(path)$size > 0)
+  unlink(path)
+})
+
+test_that("plot_to_html returns base64 img tag", {
+  skip_if_not_installed("base64enc")
+  plot_fn <- function() plot(1:5, 1:5, main = "test")
+  html <- PRA:::plot_to_html(plot_fn)
+  expect_true(grepl("^<img src=\"data:image/png;base64,", html))
+  expect_true(grepl("max-width", html))
+})
+
+test_that("html_result_table builds valid HTML table", {
+  tbl <- PRA:::html_result_table(Mean = 42.5, SD = 3.2, N = 100L)
+  expect_true(grepl("<table", tbl))
+  expect_true(grepl("Mean", tbl))
+  expect_true(grepl("42.5", tbl))
+  expect_true(grepl("3.2", tbl))
+})
+
+test_that("tool_result returns ContentToolResult when html provided", {
+  skip_if_not_installed("ellmer")
+  result <- PRA:::tool_result("plain text", title = "Test", html = "<p>Hello</p>")
+  # Should return a ContentToolResult (S7 object)
+  expect_true(any(grepl("ContentToolResult", class(result), fixed = TRUE)))
+})
+
+test_that("tool_result returns plain text when html is NULL", {
+  result <- PRA:::tool_result("plain text", title = "Test", html = NULL)
+  expect_equal(result, "plain text")
+})
+
+# ============================================================================
+# Tool functions: HTML output branches
+# ============================================================================
+
+test_that("mcs_tool returns rich result with HTML", {
+  skip_if_not_installed("ellmer")
+  result <- PRA:::mcs_tool(
+    num_sims = 1000L,
+    task_dists_json = '[{"type":"normal","mean":10,"sd":2},{"type":"uniform","min":5,"max":15}]'
+  )
+  expect_true(any(grepl("ContentToolResult", class(result), fixed = TRUE)))
+})
+
+test_that("smm_tool returns rich result with HTML", {
+  skip_if_not_installed("ellmer")
+  result <- PRA:::smm_tool(
+    mean_json = "[10, 15, 20]",
+    var_json = "[4, 9, 16]"
+  )
+  expect_true(any(grepl("ContentToolResult", class(result), fixed = TRUE)))
+})
+
+test_that("sensitivity_tool returns rich result with HTML", {
+  skip_if_not_installed("ellmer")
+  # Need to run MCS first
+  PRA:::mcs_tool(
+    num_sims = 1000L,
+    task_dists_json = '[{"type":"normal","mean":10,"sd":2},{"type":"triangular","a":5,"b":10,"c":15}]'
+  )
+  result <- PRA:::sensitivity_tool(
+    task_dists_json = '[{"type":"normal","mean":10,"sd":2},{"type":"triangular","a":5,"b":10,"c":15}]'
+  )
+  expect_true(any(grepl("ContentToolResult", class(result), fixed = TRUE)))
+})
+
+test_that("contingency_tool returns rich result with HTML", {
+  skip_if_not_installed("ellmer")
+  # Need to run MCS first
+  PRA:::mcs_tool(
+    num_sims = 1000L,
+    task_dists_json = '[{"type":"normal","mean":10,"sd":2},{"type":"uniform","min":5,"max":15}]'
+  )
+  result <- PRA:::contingency_tool(phigh = 0.95, pbase = 0.50)
+  expect_true(any(grepl("ContentToolResult", class(result), fixed = TRUE)))
+})
+
+test_that("parent_dsm_tool returns rich result with HTML", {
+  skip_if_not_installed("ellmer")
+  result <- PRA:::parent_dsm_tool(matrix_json = "[[1,1,0],[0,1,1],[1,0,1]]")
+  expect_true(any(grepl("ContentToolResult", class(result), fixed = TRUE)))
+})
+
+test_that("grandparent_dsm_tool returns rich result with HTML", {
+  skip_if_not_installed("ellmer")
+  # grandparent_dsm_tool needs square S matrix and R matrix where ncol(S) == ncol(R)
+  result <- PRA:::grandparent_dsm_tool(
+    s_matrix_json = "[[1,0],[0,1]]",
+    r_matrix_json = "[[1,2],[3,4]]"
+  )
+  expect_true(any(grepl("ContentToolResult", class(result), fixed = TRUE)))
+})
+
+test_that("fit_and_predict_sigmoidal_tool returns result with predictions", {
+  result <- PRA:::fit_and_predict_sigmoidal_tool(
+    x_json = "[1,2,3,4,5,6,7,8,9,10]",
+    y_json = "[5,15,40,60,70,75,80,85,90,95]",
+    model_type = "logistic",
+    predict_x_json = "[11,12]"
+  )
+  # May return ContentToolResult or plain text depending on plot rendering
+  result_text <- if (is.character(result)) result else result@value
+  expect_true(grepl("Learning Curve|logistic|Coefficients", result_text, ignore.case = TRUE))
+  expect_true(grepl("K", result_text))
+})
+
+# ============================================================================
+# Command registry fn wrappers: risk_post, learning, dsm
+# ============================================================================
+
+test_that("/risk_post command executes via registry fn", {
+  registry <- PRA:::pra_command_registry()
+  result <- registry$risk_post$fn(list(
+    causes = "[0.3,0.2]",
+    given = "[0.8,0.6]",
+    not_given = "[0.2,0.4]",
+    observed = "[1,null]"
+  ))
+  # Should return text or ContentToolResult
+  result_text <- if (is.character(result)) result else result@value
+  expect_true(grepl("posterior|Posterior|updated|Updated", result_text, ignore.case = TRUE))
+})
+
+test_that("/learning command executes via registry fn", {
+  registry <- PRA:::pra_command_registry()
+  result <- registry$learning$fn(list(
+    x = "[1,2,3,4,5,6,7,8,9,10]",
+    y = "[5,15,40,60,70,75,80,85,90,95]",
+    model = "logistic",
+    predict = "[11,12]"
+  ))
+  result_text <- if (is.character(result)) result else result@value
+  expect_true(grepl("K|logistic|Learning|predict", result_text, ignore.case = TRUE))
+})
+
+test_that("parse_command_args handles empty boundaries", {
+  # Test with a simple key=value with no complex nesting
+  result <- PRA:::parse_command_args("", list("key"))
+  expect_equal(result, list())
+})
+
+test_that("parse_command_args handles value with trailing whitespace", {
+  result <- PRA:::parse_command_args("key=value  ", list("key"))
+  # Values are trimmed by execute_command, not parse_command_args
+  expect_equal(trimws(result$key), "value")
+})

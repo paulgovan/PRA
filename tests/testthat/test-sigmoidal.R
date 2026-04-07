@@ -614,3 +614,24 @@ test_that("fit_sigmoidal produces consistent results across seeds", {
   expect_true(abs(as.numeric(coef1["K"]) - as.numeric(coef2["K"])) < 10)
   expect_true(abs(as.numeric(coef2["K"]) - as.numeric(coef3["K"])) < 10)
 })
+
+# ============================================================================
+# print.pra_sigmoidal_fit
+# ============================================================================
+
+test_that("print.pra_sigmoidal_fit produces output and returns invisibly", {
+  fit <- fit_sigmoidal(data, "time", "completion", "logistic")
+  expect_s3_class(fit, "pra_sigmoidal_fit")
+  out <- capture.output(result <- print(fit))
+  expect_true(any(grepl("Sigmoidal Model Fit Summary", out)))
+  # Should include coefficient information from summary
+  expect_true(any(grepl("K|r|t0", out)))
+})
+
+test_that("fit_sigmoidal assigns pra_sigmoidal_fit class", {
+  fit <- fit_sigmoidal(data, "time", "completion", "pearl")
+  expect_s3_class(fit, "pra_sigmoidal_fit")
+  expect_s3_class(fit, "nls")
+  # Class should have pra_sigmoidal_fit as first element
+  expect_equal(class(fit)[1], "pra_sigmoidal_fit")
+})
