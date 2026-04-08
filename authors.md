@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/paulgovan/PRA/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/paulgovan/PRA/blob/v0.4.0/inst/CITATION)
 
 Govan P (2024). *PRA: Project Risk Analysis*.
 [doi:10.32614/CRAN.package.PRA](https://doi.org/10.32614/CRAN.package.PRA),
