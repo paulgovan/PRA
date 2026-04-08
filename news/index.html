@@ -35,7 +35,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.0" id="pra-040">PRA 0.4.0<a class="anchor" aria-label="anchor" href="#pra-040"></a></h2>
 <ul><li>
-<strong>Breaking change</strong>: <code><a href="../reference/parent_dsm.html">parent_dsm()</a></code> and <code><a href="../reference/grandparent_dsm.html">grandparent_dsm()</a></code> now return S3 objects of class <code>"dsm"</code> instead of raw matrices. Access the matrix via <code>result$matrix</code>.</li>
+<strong>Breaking change</strong>: <code><a href="../reference/parent_dsm.html">parent_dsm()</a></code> and <code><a href="../reference/grandparent_dsm.html">grandparent_dsm()</a></code> now return S3 objects of class “dsm” instead of raw matrices. Access the matrix via <code>result$matrix</code>.</li>
 <li>
 <strong>Bug fix</strong>: Corrected the DSM formula to use <code>t(S) %*% S</code> (was <code>S %*% t(S)</code>). The Resource-Task Matrix S has rows = resources and columns = tasks, so the correct tasks-by-tasks DSM is <code>t(S) %*% S</code>.</li>
 <li>
@@ -44,6 +44,11 @@
 <strong>Bug fix</strong>: Fixed dimension compatibility check in <code><a href="../reference/grandparent_dsm.html">grandparent_dsm()</a></code> to validate <code>nrow(S) == ncol(R)</code>.</li>
 <li>New <code><a href="../reference/print.dsm.html">print.dsm()</a></code> and <code><a href="../reference/plot.dsm.html">plot.dsm()</a></code> S3 methods for DSM objects.</li>
 <li>New vignette: “Design Structure Matrices”.</li>
+<li>Enhanced the sigmoidal model with additional features and improved parameter recovery tests.</li>
+<li>Updated Bayesian methods with improved documentation and error handling.</li>
+<li>Added comprehensive test suite with platform-dependent compatibility fixes for CRAN.</li>
+<li>Improved error handling across all functions with robust validations for NA, NaN, and Inf values.</li>
+<li>Enhanced overall documentation for better user guidance.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="pra-030">PRA 0.3.0<a class="anchor" aria-label="anchor" href="#pra-030"></a></h2><p class="text-muted">CRAN release: 2024-08-20</p>

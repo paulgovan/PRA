@@ -6,7 +6,7 @@
   [`parent_dsm()`](https://paulgovan.github.io/PRA/reference/parent_dsm.md)
   and
   [`grandparent_dsm()`](https://paulgovan.github.io/PRA/reference/grandparent_dsm.md)
-  now return S3 objects of class `"dsm"` instead of raw matrices. Access
+  now return S3 objects of class “dsm” instead of raw matrices. Access
   the matrix via `result$matrix`.
 - **Bug fix**: Corrected the DSM formula to use `t(S) %*% S` (was
   `S %*% t(S)`). The Resource-Task Matrix S has rows = resources and
@@ -22,6 +22,15 @@
   [`plot.dsm()`](https://paulgovan.github.io/PRA/reference/plot.dsm.md)
   S3 methods for DSM objects.
 - New vignette: “Design Structure Matrices”.
+- Enhanced the sigmoidal model with additional features and improved
+  parameter recovery tests.
+- Updated Bayesian methods with improved documentation and error
+  handling.
+- Added comprehensive test suite with platform-dependent compatibility
+  fixes for CRAN.
+- Improved error handling across all functions with robust validations
+  for NA, NaN, and Inf values.
+- Enhanced overall documentation for better user guidance.
 
 ## PRA 0.3.0
 
