@@ -64,22 +64,35 @@ pra_app <- function(model = "llama3.2", rag = TRUE, embed_model = "nomic-embed-t
 #' @return A character vector of model names.
 #' @keywords internal
 get_ollama_models <- function() {
-  tryCatch(
-    {
-      con <- url("http://localhost:11434/api/tags", open = "rb")
-      on.exit(close(con))
-      raw <- readLines(con, warn = FALSE)
-      parsed <- jsonlite::fromJSON(paste(raw, collapse = ""))
-      models <- sort(parsed$models$name)
-      if (length(models) == 0) {
-        return(c("llama3.2", "llama3.1", "qwen2.5"))
-      }
-      models
-    },
-    error = function(e) {
-      c("llama3.2", "llama3.1", "qwen2.5")
-    }
-  )
+  # 1. Try the Ollama HTTP API
+  models <- tryCatch({
+    con <- url("http://localhost:11434/api/tags", open = "rb")
+    on.exit(close(con))
+    raw <- readLines(con, warn = FALSE)
+    parsed <- jsonlite::fromJSON(paste(raw, collapse = ""))
+    m <- sort(parsed$models$name)
+    if (length(m) > 0) m else NULL
+  }, error = function(e) NULL)
+
+  if (!is.null(models)) return(models)
+
+  # 2. Fall back to the ollama CLI (more reliable on some systems)
+  models <- tryCatch({
+    out <- system2("ollama", "list", stdout = TRUE, stderr = FALSE)
+    if (length(out) > 1) {
+      # Skip the header row; first whitespace-delimited token is the model name
+      lines <- out[-1]
+      lines <- lines[nchar(trimws(lines)) > 0]
+      m <- trimws(sub("\\s+.*", "", lines))
+      m <- sort(m[nchar(m) > 0])
+      if (length(m) > 0) m else NULL
+    } else NULL
+  }, error = function(e) NULL)
+
+  if (!is.null(models)) return(models)
+
+  # 3. Hard-coded fallback
+  c("llama3.2", "llama3.1", "qwen2.5")
 }
 
 #' Create the PRA Shiny App Object
@@ -214,12 +227,20 @@ pra_shiny_app <- function(model = "llama3.2", rag = TRUE, embed_model = "nomic-e
         # Model
         shiny::div(
           class = "sidebar-section",
-          shiny::div(class = "sidebar-section-label", "Model"),
-          shiny::selectInput(
+          shiny::div(
+            class = "sidebar-section-label",
+            style = "display: flex; justify-content: space-between; align-items: center;",
+            "Model",
+            shiny::actionLink("refresh_models", shiny::icon("arrows-rotate"),
+              style = "font-size: 0.85em; color: #95a5a6;"
+            )
+          ),
+          shiny::selectizeInput(
             "model", NULL,
             choices = available_models,
             selected = model,
-            width = "100%"
+            width = "100%",
+            options = list(create = TRUE, placeholder = "Select or type model...")
           )
         ),
 
@@ -353,6 +374,17 @@ pra_shiny_app <- function(model = "llama3.2", rag = TRUE, embed_model = "nomic-e
       },
       ignoreInit = TRUE
     )
+
+    # Refresh model list
+    shiny::observeEvent(input$refresh_models, {
+      models <- get_ollama_models()
+      cur <- input$model
+      if (!is.null(cur) && nchar(cur) > 0 && !cur %in% models) {
+        models <- c(cur, models)
+      }
+      shiny::updateSelectizeInput(session, "model", choices = models,
+                                  selected = cur, server = TRUE)
+    })
 
     # New chat button
     shiny::observeEvent(input$new_chat_btn, {
