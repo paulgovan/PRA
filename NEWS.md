@@ -1,23 +1,21 @@
-# Release Notes
+# NEWS
 
 ## v0.4.0
+- DSM Improvements
+- Bayesian Improvements
+- **Agentic AI Framework**  
+  - Slash Commands  
+  - Natural Language Interface  
+  - RAG-enhanced Reasoning  
+  - Local Execution via Ollama  
+  - Shiny App  
+  - Evaluation Framework
 
-### Agentic AI Framework Additions
-- Slash commands
-- Natural language interface
-- RAG-enhanced reasoning
-- Shiny app
-- Evaluation framework
+## v0.3.0
+- Previous changes and improvements...
 
-## Previous Releases
+## v0.2.0
+- Previous changes and improvements...
 
-### v0.3.0
-- Feature A
-- Feature B
-
-### v0.2.0
-- Feature C
-- Feature D
-
-### v0.1.0
-- Initial release
+## v0.1.0
+- Previous changes and improvements...
