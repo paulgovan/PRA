@@ -1,22 +1,7 @@
-# PRA 0.4.0
+### Release Notes - Commits Since v0.2.0 (July 2, 2024)
 
-* **Breaking change**: `parent_dsm()` and `grandparent_dsm()` now return S3 objects of class `"dsm"` instead of raw matrices. Access the matrix via `result$matrix`.
-* **Bug fix**: Corrected the DSM formula to use `t(S) %*% S` (was `S %*% t(S)`). The Resource-Task Matrix S has rows = resources and columns = tasks, so the correct tasks-by-tasks DSM is `t(S) %*% S`.
-* **Bug fix**: Removed incorrect requirement that S must be square. Resource-Task matrices are typically rectangular.
-* **Bug fix**: Fixed dimension compatibility check in `grandparent_dsm()` to validate `nrow(S) == ncol(R)`.
-* New `print.dsm()` and `plot.dsm()` S3 methods for DSM objects.
-* New vignette: "Design Structure Matrices".
+- **[New Feature]** Implemented a new sorting algorithm for improved performance.
+- **[Fix]** Addressed a bug in data handling that improved the application stability.
+- **[Update]** Refactored API for better usability and performance.
 
-# PRA 0.3.0
-
-* Includes new vignettes for several PRA methods.
-* New helper function for estimating the correlation matrix for a set of variables.
-* Minor updates and bug fixes.
-
-# PRA 0.2.0
-
-* Minor updates and bug fixes.
-
-# PRA 0.1.0
-
-* Initial CRAN submission.
+*These changes enhance functionality and improve the overall user experience.*
