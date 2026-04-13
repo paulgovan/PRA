@@ -50,6 +50,8 @@ or as an **AI-powered risk analysis agent** with three input modes:
   Management](https://paulgovan.github.io/PRA/articles/evm.html)
 - [Learning
   Curves](https://paulgovan.github.io/PRA/articles/sigmoidal.html)
+- [Design Structure
+  Matrices](https://paulgovan.github.io/PRA/articles/DSM.html)
 - [Bayesian
   Methods](https://paulgovan.github.io/PRA/articles/Bayes.html)
 

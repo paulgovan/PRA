@@ -47,6 +47,7 @@ PRA can be used as a traditional R package with direct function calls, or as an 
 * [Sensitivity Analysis](https://paulgovan.github.io/PRA/articles/MCS.html#sensitivity)
 * [Earned Value Management](https://paulgovan.github.io/PRA/articles/evm.html)
 * [Learning Curves](https://paulgovan.github.io/PRA/articles/sigmoidal.html)
+* [Design Structure Matrices](https://paulgovan.github.io/PRA/articles/DSM.html)
 * [Bayesian Methods](https://paulgovan.github.io/PRA/articles/Bayes.html)
 
 ### AI Agent Framework
