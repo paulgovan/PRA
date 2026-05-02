@@ -13,7 +13,7 @@
 #'   - "normal": Specifies `mean` and `sd`.
 #'   - "lognormal": Specifies `meanlog` and `sdlog`.
 #'   - "uniform": Specifies `min` and `max`.
-#'   - "conditional": Specifies a `condition` (a discrete node) and two distributions (`true_dist`, `false_dist`).
+#'   - "conditional": Specifies a `condition` (a discrete or conditional node) and two distributions (`true_dist`, `false_dist`).
 #'     The conditional distributions can themselves be discrete or continuous.
 #'   - "aggregate": Specifies `nodes` (a list of continuous node IDs to sum).
 #'
@@ -78,8 +78,9 @@ prob_net <- function(nodes, links, distributions = NULL) {
         if (!all(c("condition", "true_dist", "false_dist") %in% names(dist))) {
           stop("Conditional distributions must specify 'condition', 'true_dist', and 'false_dist'.")
         }
-        if (!dist$condition %in% names(distributions) || distributions[[dist$condition]]$type != "discrete") {
-          stop("The 'condition' must be a discrete node defined in the distributions.")
+        if (!dist$condition %in% names(distributions) ||
+            !distributions[[dist$condition]]$type %in% c("discrete", "conditional")) {
+          stop("The 'condition' must be a discrete or conditional node defined in the distributions.")
         }
         if (dist$true_dist$type == "discrete" && dist$false_dist$type == "discrete") {
           # Check discrete conditional structure
@@ -440,8 +441,9 @@ prob_net_update <- function(graph, add_links = NULL, remove_links = NULL, update
         if (!all(c("condition", "true_dist", "false_dist") %in% names(dist))) {
           stop("Conditional distributions must specify 'condition', 'true_dist', and 'false_dist'.")
         }
-        if (!dist$condition %in% names(distributions) || distributions[[dist$condition]]$type != "discrete") {
-          stop("The 'condition' must be a discrete node defined in the distributions.")
+        if (!dist$condition %in% names(distributions) ||
+            !distributions[[dist$condition]]$type %in% c("discrete", "conditional")) {
+          stop("The 'condition' must be a discrete or conditional node defined in the distributions.")
         }
       }
       # Update or insert distribution
