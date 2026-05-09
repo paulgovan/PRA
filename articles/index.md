@@ -31,7 +31,7 @@
 
 ### Probabilistic Networks
 
-- [Bayesian
+- [Probabilistic
   Networks](https://paulgovan.github.io/PRA/articles/network.md):
 
 ### Probabilistic Networks Expanded

@@ -1,4 +1,4 @@
-# Bayesian Networks
+# Probabilistic Networks
 
 ## Introduction
 
