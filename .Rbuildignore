@@ -11,5 +11,6 @@
 ^codecov\.yml$
 ^CRAN-SUBMISSION$
 ^codemeta\.json$
+^\.positai$
 ^CLAUDE\.md$
 ^\.claude$
