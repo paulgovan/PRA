@@ -1,5 +1,5 @@
 ---
-title: "Bayesian Networks"
+title: "Probabilistic Networks"
 output:
   html_vignette:
     fig_width: 7
