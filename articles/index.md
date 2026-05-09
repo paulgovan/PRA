@@ -29,6 +29,16 @@
 - [Design Structure
   Matrices](https://paulgovan.github.io/PRA/articles/DSM.md):
 
+### Probabilistic Networks
+
+- [Bayesian
+  Networks](https://paulgovan.github.io/PRA/articles/network.md):
+
+### Probabilistic Networks Expanded
+
+- [Probabilistic Networks for Project Portfolio Risk
+  Analysis](https://paulgovan.github.io/PRA/articles/network2.md):
+
 ### Agentic Risk Analysis
 
 - [Agentic Risk

@@ -13,7 +13,7 @@ and aggregate (summation) node types."><meta property="og:image" content="https:
 
     <a class="navbar-brand me-2" href="../index.html">PRA</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,7 @@ and aggregate (summation) node types.</p>
 
 
 <dl><dt id="arg-network">network<a class="anchor" aria-label="anchor" href="#arg-network"></a></dt>
-<dd><p>A prob_net object created by `prob_net()`.</p></dd>
+<dd><p>A prob_net object created by <code><a href="prob_net.html">prob_net()</a></code>.</p></dd>
 
 
 <dt id="arg-observations">observations<a class="anchor" aria-label="anchor" href="#arg-observations"></a></dt>
@@ -69,7 +69,7 @@ and aggregate (summation) node types.</p>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame with `num_samples` rows and one column per node containing the simulated posterior samples.</p>
+    <p>A data frame with <code>num_samples</code> rows and one column per node containing the simulated posterior samples.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -77,8 +77,8 @@ and aggregate (summation) node types.</p>
 Uniform nodes are sampled from a uniform distribution between the specified min and max values.
 Lognormal nodes are sampled from a lognormal distribution with specified meanlog and sdlog.
 Conditional nodes depend on a discrete conditional node; if the condition is TRUE (value = 1), the node follows
-the `true_dist`, otherwise it follows the `false_dist` (value = 0). Conditional distributions can be normal, lognormal, uniform, or discrete.
-Discrete nodes are sampled using `sample()`, and aggregate nodes are computed as the sum of values from the specified nodes.
+the <code>true_dist</code>, otherwise it follows the <code>false_dist</code> (value = 0). Conditional distributions can be normal, lognormal, uniform, or discrete.
+Discrete nodes are sampled using <code><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample()</a></code>, and aggregate nodes are computed as the sum of values from the specified nodes.
 Observed nodes are fixed at their given values.</p>
     </div>
 
@@ -103,9 +103,11 @@ Observed nodes are fixed at their given values.</p>
 <span class="r-in"><span><span class="va">distributions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  A <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"discrete"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  B <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">2</span>, sd <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  C <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"conditional"</span>, condition <span class="op">=</span> <span class="st">"A"</span>,</span></span>
-<span class="r-in"><span>           true_dist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">1</span>, sd <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>           false_dist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"discrete"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.4</span>, <span class="fl">0.6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  C <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    type <span class="op">=</span> <span class="st">"conditional"</span>, condition <span class="op">=</span> <span class="st">"A"</span>,</span></span>
+<span class="r-in"><span>    true_dist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">1</span>, sd <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    false_dist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"discrete"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.4</span>, <span class="fl">0.6</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
 <span class="r-in"><span>  D <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"aggregate"</span>, nodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -117,12 +119,12 @@ Observed nodes are fixed at their given values.</p>
 <span class="r-in"><span><span class="va">updated_results</span> <span class="op">&lt;-</span> <span class="fu">prob_net_learn</span><span class="op">(</span><span class="va">graph</span>, <span class="va">observations</span>, num_samples <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">updated_results</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A        B         C        D</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1 1.957772 0.4210529 2.378824</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1 2.017685 0.7016152 2.719300</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 1 2.796837 0.6181802 3.415017</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 1 2.800354 0.9521132 3.752467</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 1 2.110299 1.3386718 3.448971</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 1 2.573886 0.8767631 3.450649</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1 2.129639 1.7865548 3.916194</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1 2.345738 1.1611199 3.506858</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 1 1.817078 0.8336464 2.650725</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 1 2.601603 0.2117512 2.813354</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 1 1.503451 0.4629828 1.966434</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 1 2.595935 1.1311792 3.727114</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

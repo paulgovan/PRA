@@ -54,6 +54,15 @@
   : Print method for Sigmoidal Model
 - [`print(`*`<smm>`*`)`](https://paulgovan.github.io/PRA/reference/print.smm.md)
   : Print method for SMM results.
+- [`prob_net()`](https://paulgovan.github.io/PRA/reference/prob_net.md)
+  : Probabilistic Network of Project Risks.
+- [`prob_net_learn()`](https://paulgovan.github.io/PRA/reference/prob_net_learn.md)
+  : Perform Bayesian Learning on a Probabilistic Network of Project
+  Risks.
+- [`prob_net_sim()`](https://paulgovan.github.io/PRA/reference/prob_net_sim.md)
+  : Perform Inference on a Probabilistic Network of Project Risks.
+- [`prob_net_update()`](https://paulgovan.github.io/PRA/reference/prob_net_update.md)
+  : Update a Probabilistic Network of Project Risks.
 - [`pv()`](https://paulgovan.github.io/PRA/reference/pv.md) : Planned
   Value (PV).
 - [`retrieve_context()`](https://paulgovan.github.io/PRA/reference/retrieve_context.md)

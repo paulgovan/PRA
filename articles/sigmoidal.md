@@ -16,10 +16,10 @@ Sigmoidal (S-shaped) functions capture the three phases of learning:
 slow start, rapid improvement, and plateau. The PRA package provides
 three model types:
 
-| Model        | Formula                   | Parameters                                            |
-|--------------|---------------------------|-------------------------------------------------------|
-| **Logistic** | K / (1 + exp(−r(t − t₀))) | K = ceiling; r = growth rate; t₀ = inflection time    |
-| **Pearl**    | K / (1 + exp(−r(t − t₀))) | Same as logistic (identical functional form)          |
+| Model | Formula | Parameters |
+|----|----|----|
+| **Logistic** | K / (1 + exp(−r(t − t₀))) | K = ceiling; r = growth rate; t₀ = inflection time |
+| **Pearl** | K / (1 + exp(−r(t − t₀))) | Same as logistic (identical functional form) |
 | **Gompertz** | A · exp(−b · exp(−c · t)) | A = ceiling; c = growth rate; b = initial suppression |
 
 **Parameter interpretation (Logistic / Pearl):** - **K** — the maximum
@@ -30,6 +30,7 @@ outcome is at its midpoint (inflection point)
 ## Example: Fitting a Logistic Model
 
 ``` r
+
 library(PRA)
 ```
 
@@ -37,6 +38,7 @@ We have weekly completion percentage data for a construction deliverable
 over 9 weeks.
 
 ``` r
+
 data <- data.frame(
   time       = 1:9,
   completion = c(5, 15, 40, 60, 70, 75, 80, 85, 90)
@@ -46,6 +48,7 @@ data <- data.frame(
 ### Fit the Model
 
 ``` r
+
 fit <- fit_sigmoidal(data, "time", "completion", "logistic")
 ```
 
@@ -56,6 +59,7 @@ fitted coefficients, their standard errors, and the residual standard
 error — a measure of how closely the model matches the observed data.
 
 ``` r
+
 summary(fit)
 #> 
 #> Formula: y ~ logistic(x, K, r, t0)
@@ -85,6 +89,7 @@ plots the data, fitted curve, and optional confidence bounds in a single
 call.
 
 ``` r
+
 plot_sigmoidal(
   fit, data, "time", "completion", "logistic",
   conf_level = 0.95,
@@ -108,6 +113,7 @@ to generate numeric forecasts, including confidence bounds for specific
 future time points.
 
 ``` r
+
 future_times <- seq(1, 12, length.out = 100)
 predictions <- predict_sigmoidal(fit, future_times, "logistic", conf_level = 0.95)
 
@@ -126,7 +132,7 @@ knitr::kable(
 | 11.9 | 84.3 | 78.2 | 90.5 |
 | 12.0 | 84.3 | 78.2 | 90.5 |
 
-Predicted completion (final 5 points)
+Predicted completion (final 5 points) {.table}
 
 ## Comparing All Three Model Types
 
@@ -135,12 +141,14 @@ tails. It is good practice to fit multiple models and compare their
 goodness-of-fit.
 
 ``` r
+
 fit_logistic <- fit_sigmoidal(data, "time", "completion", "logistic")
 fit_pearl <- fit_sigmoidal(data, "time", "completion", "pearl")
 fit_gompertz <- fit_sigmoidal(data, "time", "completion", "gompertz")
 ```
 
 ``` r
+
 # Residual standard errors for comparison
 rse <- function(fit) summary(fit)$sigma
 
@@ -157,11 +165,12 @@ knitr::kable(comparison, caption = "Model Fit Comparison (lower RSE = better fit
 | Pearl    |             4.148 |
 | Gompertz |             2.887 |
 
-Model Fit Comparison (lower RSE = better fit)
+Model Fit Comparison (lower RSE = better fit) {.table}
 
 Now plot all three fits side by side:
 
 ``` r
+
 x_seq <- seq(1, 12, length.out = 200)
 
 pred_log <- predict_sigmoidal(fit_logistic, x_seq, "logistic")

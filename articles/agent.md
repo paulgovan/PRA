@@ -5,11 +5,11 @@
 PRA includes an AI agent framework with three routing modes for user
 input:
 
-| Input type                        | Route                                                          | Example                           |
-|-----------------------------------|----------------------------------------------------------------|-----------------------------------|
-| `/command`                        | **Deterministic** — executes the tool directly, no LLM         | `/mcs tasks=[...]`                |
-| Numerical data for computation    | **LLM tool call** — the model selects and calls the right tool | “Simulate 3 tasks: Normal(10,2)…” |
-| Conceptual / explanatory question | **RAG** — answered from the knowledge base, no tool call       | “What is earned value?”           |
+| Input type | Route | Example |
+|----|----|----|
+| `/command` | **Deterministic** — executes the tool directly, no LLM | `/mcs tasks=[...]` |
+| Numerical data for computation | **LLM tool call** — the model selects and calls the right tool | “Simulate 3 tasks: Normal(10,2)…” |
+| Conceptual / explanatory question | **RAG** — answered from the knowledge base, no tool call | “What is earned value?” |
 
 Three interfaces are available:
 
@@ -39,6 +39,7 @@ ollama pull nomic-embed-text  # for RAG embeddings
 ### Install R dependencies
 
 ``` r
+
 install.packages(c("ellmer", "ragnar", "shiny", "bslib", "shinychat", "jsonlite"))
 ```
 
@@ -51,6 +52,7 @@ detailed usage with argument descriptions and examples.
 ### Available commands
 
 ``` r
+
 library(PRA)
 cat(PRA:::format_help_overview())
 ```
@@ -60,6 +62,7 @@ cat(PRA:::format_help_overview())
 Each command includes argument specifications, defaults, and examples:
 
 ``` r
+
 cat(PRA:::format_command_help("mcs", PRA:::pra_command_registry()$mcs))
 ```
 
@@ -68,6 +71,7 @@ cat(PRA:::format_command_help("mcs", PRA:::pra_command_registry()$mcs))
 Run a simulation for a 3-task project directly:
 
 ``` r
+
 set.seed(42)
 r <- PRA:::execute_command(
   '/mcs n=10000 tasks=[{"type":"normal","mean":10,"sd":2},{"type":"triangular","a":5,"b":10,"c":15},{"type":"uniform","min":8,"max":12}]'
@@ -92,6 +96,7 @@ cat(r$result)
 ```
 
 ``` r
+
 # The /mcs command stores results for chaining — visualize them:
 result <- PRA:::.pra_agent_env$last_mcs
 hist(result$total_distribution,
@@ -122,6 +127,7 @@ legend("topright",
 After running `/mcs`, chain to `/contingency` for the reserve estimate:
 
 ``` r
+
 r <- PRA:::execute_command("/contingency phigh=0.95 pbase=0.50")
 cat(r$result)
 #> Contingency Analysis:
@@ -136,6 +142,7 @@ cat(r$result)
 Identify which tasks drive the most variance:
 
 ``` r
+
 r <- PRA:::execute_command(
   '/sensitivity tasks=[{"type":"normal","mean":10,"sd":2},{"type":"triangular","a":5,"b":10,"c":15},{"type":"uniform","min":8,"max":12}]'
 )
@@ -152,6 +159,7 @@ cat(r$result)
 Full EVM analysis with a single command:
 
 ``` r
+
 r <- PRA:::execute_command(
   "/evm bac=500000 schedule=[0.2,0.4,0.6,0.8,1.0] period=3 complete=0.35 costs=[90000,195000,310000]"
 )
@@ -185,6 +193,7 @@ cat(r$result)
 Calculate prior risk from two root causes:
 
 ``` r
+
 r <- PRA:::execute_command(
   "/risk causes=[0.3,0.2] given=[0.8,0.6] not_given=[0.2,0.4]"
 )
@@ -199,6 +208,7 @@ cat(r$result)
 Then update with observations — Cause 1 occurred, Cause 2 unknown:
 
 ``` r
+
 r <- PRA:::execute_command(
   "/risk_post causes=[0.3,0.2] given=[0.8,0.6] not_given=[0.2,0.4] observed=[1,null]"
 )
@@ -218,6 +228,7 @@ cat(r$result)
 Quick analytical estimate without simulation:
 
 ``` r
+
 r <- PRA:::execute_command("/smm means=[10,12,8] vars=[4,9,2]")
 cat(r$result)
 #> Second Moment Method Results:
@@ -232,6 +243,7 @@ cat(r$result)
 Missing or invalid arguments produce helpful error messages:
 
 ``` r
+
 # Missing required arguments
 r <- PRA:::execute_command("/risk causes=[0.3]")
 cat(r$result)
@@ -251,6 +263,7 @@ cat(r$result)
 ```
 
 ``` r
+
 # Unknown command
 r <- PRA:::execute_command("/simulate")
 cat(r$result)
@@ -283,6 +296,7 @@ to call a tool or answer from RAG context:
   present
 
 ``` r
+
 library(PRA)
 chat <- pra_chat(model = "llama3.2")
 
@@ -305,6 +319,7 @@ For better accuracy with complex queries, supply a pre-configured ellmer
 chat object:
 
 ``` r
+
 # OpenAI
 chat <- pra_chat(chat = ellmer::chat_openai(model = "gpt-4o"))
 
@@ -329,6 +344,7 @@ For a browser-based experience with streaming responses and inline
 visualizations:
 
 ``` r
+
 pra_app()
 ```
 
@@ -362,6 +378,7 @@ displays rich results with tables and plots:
 ### Configuration options
 
 ``` r
+
 # Custom model and port
 pra_app(model = "qwen2.5", port = 3838)
 
@@ -377,14 +394,14 @@ source files in its response.
 
 ### Built-in knowledge files
 
-| File                         | Topics                                                        |
-|------------------------------|---------------------------------------------------------------|
-| `mcs_methods.md`             | Distribution selection, correlation, interpreting percentiles |
-| `evm_standards.md`           | EVM metrics, performance indices, forecasting methods         |
-| `bayesian_risk.md`           | Prior/posterior risk, Bayes’ theorem for root cause analysis  |
-| `learning_curves.md`         | Sigmoidal models (logistic, Gompertz, Pearl), curve fitting   |
-| `sensitivity_contingency.md` | Variance decomposition, contingency reserves                  |
-| `pra_functions.md`           | PRA package function reference                                |
+| File | Topics |
+|----|----|
+| `mcs_methods.md` | Distribution selection, correlation, interpreting percentiles |
+| `evm_standards.md` | EVM metrics, performance indices, forecasting methods |
+| `bayesian_risk.md` | Prior/posterior risk, Bayes’ theorem for root cause analysis |
+| `learning_curves.md` | Sigmoidal models (logistic, Gompertz, Pearl), curve fitting |
+| `sensitivity_contingency.md` | Variance decomposition, contingency reserves |
+| `pra_functions.md` | PRA package function reference |
 
 ### How RAG context flows
 
@@ -400,6 +417,7 @@ source files in its response.
 ### Adding your own documents
 
 ``` r
+
 store <- build_knowledge_base()
 
 # Add a single file
@@ -412,6 +430,7 @@ add_documents(store, "path/to/project_docs/")
 ### Disabling RAG
 
 ``` r
+
 # Chat without RAG
 chat <- pra_chat(model = "llama3.2", rag = FALSE)
 
@@ -438,20 +457,20 @@ pra_app(rag = FALSE)
 
 ### LLM tools (via chat)
 
-| Module     | Tool                             | Use case                            |
-|------------|----------------------------------|-------------------------------------|
-| Simulation | `mcs_tool`                       | Full Monte Carlo with distributions |
-| Analytical | `smm_tool`                       | Quick mean/variance estimate        |
-| Post-MCS   | `contingency_tool`               | Reserve at confidence level         |
-| Post-MCS   | `sensitivity_tool`               | Variance contribution per task      |
-| EVM        | `evm_analysis_tool`              | All 12 EVM metrics in one call      |
-| Bayesian   | `risk_prob_tool`                 | Prior risk from root causes         |
-| Bayesian   | `risk_post_prob_tool`            | Posterior risk after observations   |
-| Bayesian   | `cost_pdf_tool`                  | Prior cost distribution             |
-| Bayesian   | `cost_post_pdf_tool`             | Posterior cost distribution         |
-| Learning   | `fit_and_predict_sigmoidal_tool` | Pearl/Gompertz/Logistic             |
-| DSM        | `parent_dsm_tool`                | Resource-task dependencies          |
-| DSM        | `grandparent_dsm_tool`           | Risk-resource-task dependencies     |
+| Module | Tool | Use case |
+|----|----|----|
+| Simulation | `mcs_tool` | Full Monte Carlo with distributions |
+| Analytical | `smm_tool` | Quick mean/variance estimate |
+| Post-MCS | `contingency_tool` | Reserve at confidence level |
+| Post-MCS | `sensitivity_tool` | Variance contribution per task |
+| EVM | `evm_analysis_tool` | All 12 EVM metrics in one call |
+| Bayesian | `risk_prob_tool` | Prior risk from root causes |
+| Bayesian | `risk_post_prob_tool` | Posterior risk after observations |
+| Bayesian | `cost_pdf_tool` | Prior cost distribution |
+| Bayesian | `cost_post_pdf_tool` | Posterior cost distribution |
+| Learning | `fit_and_predict_sigmoidal_tool` | Pearl/Gompertz/Logistic |
+| DSM | `parent_dsm_tool` | Resource-task dependencies |
+| DSM | `grandparent_dsm_tool` | Risk-resource-task dependencies |
 
 ## Evaluation with vitals
 
@@ -460,13 +479,14 @@ accuracy using the [vitals](https://vitals.tidyverse.org) package. The
 evaluation suite in `inst/eval/pra_eval.R` tests 15 scenarios across
 three tiers:
 
-| Tier             | Description             | Example                                           |
-|------------------|-------------------------|---------------------------------------------------|
-| Single-tool      | One tool call           | “Simulate 3 tasks with distributions…”            |
-| Multi-tool chain | Sequential tool calls   | “Run MCS then calculate contingency at 95%”       |
-| Open-ended       | Requires interpretation | “My project is behind schedule, here’s EVM data…” |
+| Tier | Description | Example |
+|----|----|----|
+| Single-tool | One tool call | “Simulate 3 tasks with distributions…” |
+| Multi-tool chain | Sequential tool calls | “Run MCS then calculate contingency at 95%” |
+| Open-ended | Requires interpretation | “My project is behind schedule, here’s EVM data…” |
 
 ``` r
+
 # Run evaluation
 source(system.file("eval/pra_eval.R", package = "PRA"))
 results <- run_pra_eval(model = "llama3.2")
@@ -486,6 +506,7 @@ Small models sometimes describe what they would do rather than actually
 calling tools. Use `/commands` for reliable deterministic execution:
 
 ``` r
+
 # Instead of asking the LLM:
 chat$chat("Run a Monte Carlo simulation...")
 
@@ -510,6 +531,7 @@ Other workarounds for LLM chat:
 ### RAG build fails
 
 ``` r
+
 install.packages("ragnar")
 ```
 

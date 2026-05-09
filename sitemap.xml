@@ -11,6 +11,8 @@
 <url><loc>https://paulgovan.github.io/PRA/articles/agent.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/articles/evm.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/articles/index.html</loc></url>
+<url><loc>https://paulgovan.github.io/PRA/articles/network.html</loc></url>
+<url><loc>https://paulgovan.github.io/PRA/articles/network2.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/articles/sigmoidal.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/authors.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/index.html</loc></url>
@@ -55,6 +57,10 @@
 <url><loc>https://paulgovan.github.io/PRA/reference/print.mcs.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/print.pra_sigmoidal_fit.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/print.smm.html</loc></url>
+<url><loc>https://paulgovan.github.io/PRA/reference/prob_net.html</loc></url>
+<url><loc>https://paulgovan.github.io/PRA/reference/prob_net_learn.html</loc></url>
+<url><loc>https://paulgovan.github.io/PRA/reference/prob_net_sim.html</loc></url>
+<url><loc>https://paulgovan.github.io/PRA/reference/prob_net_update.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/pv.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/retrieve_context.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/risk_post_prob.html</loc></url>

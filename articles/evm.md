@@ -8,23 +8,24 @@ and schedule delays.
 
 ## Key Metrics
 
-| Metric                                   | Formula             | Interpretation                                           |
-|------------------------------------------|---------------------|----------------------------------------------------------|
-| **PV** – Planned Value                   | BAC × Planned%      | Budget authorized for scheduled work                     |
-| **EV** – Earned Value                    | BAC × Actual%       | Budget for work actually completed                       |
-| **AC** – Actual Cost                     | Σ period costs      | Total cost incurred to date                              |
-| **CV** – Cost Variance                   | EV − AC             | \> 0: under budget; \< 0: over budget                    |
-| **SV** – Schedule Variance               | EV − PV             | \> 0: ahead of schedule; \< 0: behind schedule           |
-| **CPI** – Cost Performance Index         | EV / AC             | \> 1: efficient; = 1: on target; \< 1: inefficient       |
-| **SPI** – Schedule Performance Index     | EV / PV             | \> 1: ahead; = 1: on target; \< 1: behind                |
-| **EAC** – Estimate at Completion         | See below           | Forecast of total project cost                           |
-| **ETC** – Estimate to Complete           | EAC − AC            | Remaining cost to finish the project                     |
-| **VAC** – Variance at Completion         | BAC − EAC           | Expected budget surplus (positive) or overrun (negative) |
-| **TCPI** – To-Complete Performance Index | (BAC−EV) / (BAC−AC) | Efficiency required on remaining work                    |
+| Metric | Formula | Interpretation |
+|----|----|----|
+| **PV** – Planned Value | BAC × Planned% | Budget authorized for scheduled work |
+| **EV** – Earned Value | BAC × Actual% | Budget for work actually completed |
+| **AC** – Actual Cost | Σ period costs | Total cost incurred to date |
+| **CV** – Cost Variance | EV − AC | \> 0: under budget; \< 0: over budget |
+| **SV** – Schedule Variance | EV − PV | \> 0: ahead of schedule; \< 0: behind schedule |
+| **CPI** – Cost Performance Index | EV / AC | \> 1: efficient; = 1: on target; \< 1: inefficient |
+| **SPI** – Schedule Performance Index | EV / PV | \> 1: ahead; = 1: on target; \< 1: behind |
+| **EAC** – Estimate at Completion | See below | Forecast of total project cost |
+| **ETC** – Estimate to Complete | EAC − AC | Remaining cost to finish the project |
+| **VAC** – Variance at Completion | BAC − EAC | Expected budget surplus (positive) or overrun (negative) |
+| **TCPI** – To-Complete Performance Index | (BAC−EV) / (BAC−AC) | Efficiency required on remaining work |
 
 ## Example Setup
 
 ``` r
+
 library(PRA)
 ```
 
@@ -32,6 +33,7 @@ We will track a project with a total budget of \$500,000 over a 5-period
 schedule.
 
 ``` r
+
 bac <- 500000
 schedule <- c(0.10, 0.25, 0.50, 0.75, 1.00)
 time_period <- 3
@@ -42,6 +44,7 @@ time_period <- 3
 PV is the authorized budget for work planned through the current period.
 
 ``` r
+
 pv_val <- pv(bac, schedule, time_period)
 cat("Planned Value (PV): $", format(pv_val, big.mark = ","), "\n")
 ```
@@ -56,6 +59,7 @@ The project was planned to be 50% complete by period 3, so PV =
 EV reflects the budget value of work actually completed.
 
 ``` r
+
 actual_per_complete <- 0.40
 ev_val <- ev(bac, actual_per_complete)
 cat("Earned Value (EV): $", format(ev_val, big.mark = ","), "\n")
@@ -72,6 +76,7 @@ AC is the cumulative cost incurred. Use `cumulative = FALSE` when
 passing individual period costs.
 
 ``` r
+
 period_costs <- c(45000, 110000, 135000)
 ac_val <- ac(period_costs, time_period, cumulative = FALSE)
 cat("Actual Cost (AC): $", format(ac_val, big.mark = ","), "\n")
@@ -82,6 +87,7 @@ Actual Cost (AC): \$ 290,000
 ### Performance Indicators
 
 ``` r
+
 sv_val <- sv(ev_val, pv_val)
 cv_val <- cv(ev_val, ac_val)
 spi_val <- spi(ev_val, pv_val)
@@ -93,18 +99,21 @@ cat("Schedule Variance (SV):          $", format(sv_val, big.mark = ","), "\n")
 Schedule Variance (SV): \$ -50,000
 
 ``` r
+
 cat("Cost Variance (CV):              $", format(cv_val, big.mark = ","), "\n")
 ```
 
 Cost Variance (CV): \$ -90,000
 
 ``` r
+
 cat("Schedule Performance Index (SPI):", round(spi_val, 3), "\n")
 ```
 
 Schedule Performance Index (SPI): 0.8
 
 ``` r
+
 cat("Cost Performance Index (CPI):    ", round(cpi_val, 3), "\n")
 ```
 
@@ -119,13 +128,14 @@ over budget (earning only 69 cents of value per dollar spent).
 EAC forecasts the total cost at project completion. Three methods are
 available, each making a different assumption about future performance:
 
-| Method       | Formula                       | When to use                                                                 |
-|--------------|-------------------------------|-----------------------------------------------------------------------------|
-| **Typical**  | BAC / CPI                     | Current cost inefficiency is expected to continue                           |
-| **Atypical** | AC + (BAC − EV)               | Cost overrun was a one-time event; future work will proceed at planned rate |
-| **Combined** | AC + (BAC − EV) / (CPI × SPI) | Both cost and schedule performance will influence future costs              |
+| Method | Formula | When to use |
+|----|----|----|
+| **Typical** | BAC / CPI | Current cost inefficiency is expected to continue |
+| **Atypical** | AC + (BAC − EV) | Cost overrun was a one-time event; future work will proceed at planned rate |
+| **Combined** | AC + (BAC − EV) / (CPI × SPI) | Both cost and schedule performance will influence future costs |
 
 ``` r
+
 eac_typical <- eac(bac, method = "typical", cpi = cpi_val)
 eac_atypical <- eac(bac, method = "atypical", ac = ac_val, ev = ev_val)
 eac_combined <- eac(bac,
@@ -139,12 +149,14 @@ cat("EAC (typical):  $", format(round(eac_typical), big.mark = ","), "\n")
 EAC (typical): \$ 725,000
 
 ``` r
+
 cat("EAC (atypical): $", format(round(eac_atypical), big.mark = ","), "\n")
 ```
 
 EAC (atypical): \$ 590,000
 
 ``` r
+
 cat("EAC (combined): $", format(round(eac_combined), big.mark = ","), "\n")
 ```
 
@@ -157,6 +169,7 @@ most optimistic, assuming past overruns won’t recur.
 ### EAC Comparison Table
 
 ``` r
+
 eac_table <- data.frame(
   Method = c("Typical", "Atypical", "Combined"),
   EAC = c(round(eac_typical), round(eac_atypical), round(eac_combined)),
@@ -183,11 +196,12 @@ knitr::kable(eac_table,
 | Atypical | 590,000 |  90,000 | Future work at planned rate |
 | Combined | 833,750 | 333,750 | CPI and SPI both factor in  |
 
-EAC Comparison by Method
+EAC Comparison by Method {.table}
 
 ## Additional Metrics
 
 ``` r
+
 etc_val <- etc(bac, ev_val, cpi_val)
 vac_val <- vac(bac, eac_typical)
 
@@ -203,18 +217,21 @@ cat("Estimate to Complete (ETC):         $", format(round(etc_val), big.mark = "
 Estimate to Complete (ETC): \$ 435,000
 
 ``` r
+
 cat("Variance at Completion (VAC):       $", format(round(vac_val), big.mark = ","), "\n")
 ```
 
 Variance at Completion (VAC): \$ -225,000
 
 ``` r
+
 cat("TCPI (to meet BAC):                ", round(tcpi_bac, 3), "\n")
 ```
 
 TCPI (to meet BAC): 1.429
 
 ``` r
+
 cat("TCPI (to meet EAC):                ", round(tcpi_eac, 3), "\n")
 ```
 
@@ -232,6 +249,7 @@ The chart below shows cumulative PV, AC, and EV over time, with
 horizontal reference lines for BAC and EAC.
 
 ``` r
+
 time_periods <- c(1, 2, 3)
 actual_pct <- c(0.08, 0.22, 0.40)
 p_costs <- c(45000, 110000, 135000)

@@ -9,7 +9,7 @@ that supports discrete and continuous probability distributions."><meta property
 
     <a class="navbar-brand me-2" href="../index.html">PRA</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,35 +50,34 @@ that supports discrete and continuous probability distributions.</p>
 
 
 <dl><dt id="arg-nodes">nodes<a class="anchor" aria-label="anchor" href="#arg-nodes"></a></dt>
-<dd><p>A data frame containing the nodes of the graph. Must include a column `id`
+<dd><p>A data frame containing the nodes of the graph. Must include a column <code>id</code>
 with unique identifiers for each node.</p></dd>
 
 
 <dt id="arg-links">links<a class="anchor" aria-label="anchor" href="#arg-links"></a></dt>
-<dd><p>A data frame containing the links of the graph. Must include columns `source`
-and `target` specifying the nodes that form each edge.</p></dd>
+<dd><p>A data frame containing the links of the graph. Must include columns <code>source</code>
+and <code>target</code> specifying the nodes that form each edge.</p></dd>
 
 
 <dt id="arg-distributions">distributions<a class="anchor" aria-label="anchor" href="#arg-distributions"></a></dt>
 <dd><p>A named list where names correspond to node IDs and values specify
-discrete probabilities, continuous probability distributions, conditional distributions, or aggregate distributions.
-- "discrete": Specifies `values` and `probs`.
-- "normal": Specifies `mean` and `sd`.
-- "lognormal": Specifies `meanlog` and `sdlog`.
-- "uniform": Specifies `min` and `max`.
-- "conditional": Specifies a `condition` (a discrete node) and two distributions (`true_dist`, `false_dist`).
-  The conditional distributions can themselves be discrete or continuous.
-- "aggregate": Specifies `nodes` (a list of continuous node IDs to sum).</p></dd>
+discrete probabilities, continuous probability distributions, conditional distributions, or aggregate distributions.</p><ul><li><p>"discrete": Specifies <code>values</code> and <code>probs</code>.</p></li>
+<li><p>"normal": Specifies <code>mean</code> and <code>sd</code>.</p></li>
+<li><p>"lognormal": Specifies <code>meanlog</code> and <code>sdlog</code>.</p></li>
+<li><p>"uniform": Specifies <code>min</code> and <code>max</code>.</p></li>
+<li><p>"conditional": Specifies a <code>condition</code> (a discrete or conditional node) and two distributions (<code>true_dist</code>, <code>false_dist</code>).
+The conditional distributions can themselves be discrete or continuous.</p></li>
+<li><p>"aggregate": Specifies <code>nodes</code> (a list of continuous node IDs to sum).</p></li>
+</ul></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list with:
-- `nodes`: The input `nodes` data frame.
-- `links`: The input `links` data frame.
-- `adjacency_matrix`: A matrix representing connections between nodes.
-- `distributions`: The input `distributions` list.</p>
-    </div>
+    <p>A list with:</p><ul><li><p><code>nodes</code>: The input <code>nodes</code> data frame.</p></li>
+<li><p><code>links</code>: The input <code>links</code> data frame.</p></li>
+<li><p><code>adjacency_matrix</code>: A matrix representing connections between nodes.</p></li>
+<li><p><code>distributions</code>: The input <code>distributions</code> list.</p></li>
+</ul></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -89,9 +88,11 @@ discrete probabilities, continuous probability distributions, conditional distri
 <span class="r-in"><span>  B <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  C <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"lognormal"</span>, meanlog <span class="op">=</span> <span class="fl">0</span>, sdlog <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  D <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"uniform"</span>, min <span class="op">=</span> <span class="fl">1</span>, max <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  E <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"conditional"</span>, condition <span class="op">=</span> <span class="st">"A"</span>,</span></span>
-<span class="r-in"><span>           true_dist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">1</span>, sd <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>           false_dist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"lognormal"</span>, meanlog <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, sdlog <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  E <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    type <span class="op">=</span> <span class="st">"conditional"</span>, condition <span class="op">=</span> <span class="st">"A"</span>,</span></span>
+<span class="r-in"><span>    true_dist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">1</span>, sd <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    false_dist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"lognormal"</span>, meanlog <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, sdlog <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">graph</span> <span class="op">&lt;-</span> <span class="fu">prob_net</span><span class="op">(</span><span class="va">nodes</span>, <span class="va">links</span>, distributions <span class="op">=</span> <span class="va">distributions</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>

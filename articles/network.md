@@ -2,258 +2,128 @@
 
 ## Introduction
 
-Bayesian networks are a type of mathematical model that represent
-dependencies and uncertainties using probability theory and graph
-structures. A Bayesian network is a directed acyclic graph (DAG) where
-nodes represent random variables and edges represent dependencies
-between the variables.
+Bayesian networks are probabilistic graphical models that represent
+variables and their conditional dependencies via a directed acyclic
+graph (DAG). Nodes represent random variables and edges represent
+dependencies between them. Bayesian networks are well-suited to project
+risk analysis because they can model how risk events propagate through
+resources and tasks to affect total project cost.
 
-This document explores Bayesian networks for project risk analysis and
-decision making.
+This vignette walks through a simple toy project to illustrate how to
+build, simulate, update, and learn from a Bayesian network using the
+`PRA` package. For a more advanced example covering causal inference,
+graph surgery, and the see-versus-do distinction across a full project
+portfolio, see the [Probabilistic Networks for Project Portfolio Risk
+Analysis](https://paulgovan.github.io/PRA/articles/network2.md)
+vignette.
 
 ## Project
 
 ### Tasks
 
-Suppose there is a simple roadway project. The project consists of 8
-tasks, each with a specific duration and cost. The tasks are as follows:
+Consider a small software development project with three tasks.
 
 ``` r
-roadway_tasks <- data.frame(
-  ID = c("L", "M", "N", "O", "P", "Q", "R", "S"),
-  Label = c(
-    "Task-1",
-    "Task-2",
-    "Task-3",
-    "Task-4",
-    "Task-5",
-    "Task-6",
-    "Task-7",
-    "Task-8"
-  ),
-  Task = c(
-    "Survey and Site Assessment",
-    "Design and Planning",
-    "Permitting and Approvals",
-    "Excavation and Grading",
-    "Pavement Installation",
-    "Drainage and Utilities Installation",
-    "Signage and Markings",
-    "Final Inspection and Handover"
-  ),
-  Project_ID = rep("P", 8)
-)
 
-knitr::kable(roadway_tasks, caption = "Roadway Tasks")
+tasks <- data.frame(
+  ID    = c("F", "G", "H"),
+  Label = c("Task-1", "Task-2", "Task-3"),
+  Task  = c("Requirements and Design", "Development", "Testing and Handover")
+)
+knitr::kable(tasks, caption = "Project Tasks")
 ```
 
-| ID  | Label  | Task                                | Project_ID |
-|:----|:-------|:------------------------------------|:-----------|
-| L   | Task-1 | Survey and Site Assessment          | P          |
-| M   | Task-2 | Design and Planning                 | P          |
-| N   | Task-3 | Permitting and Approvals            | P          |
-| O   | Task-4 | Excavation and Grading              | P          |
-| P   | Task-5 | Pavement Installation               | P          |
-| Q   | Task-6 | Drainage and Utilities Installation | P          |
-| R   | Task-7 | Signage and Markings                | P          |
-| S   | Task-8 | Final Inspection and Handover       | P          |
+| ID  | Label  | Task                    |
+|:----|:-------|:------------------------|
+| F   | Task-1 | Requirements and Design |
+| G   | Task-2 | Development             |
+| H   | Task-3 | Testing and Handover    |
 
-Roadway Tasks
+Project Tasks {.table}
 
 ### Resources
 
-The project requires various resources to complete the tasks. The
-resources include surveyors, engineers, regulatory support, heavy
-machinery, pavement and related machinery, drainage material and
-equipment, painters, traffic signs, road markers, inspectors, and
-quality control support. The resources are allocated to specific tasks
-based on their need and availability.
+Each task draws on one primary resource. The table below shows the
+baseline cost estimate (mean and standard deviation) for each resource.
 
 ``` r
-roadway_resources <- data.frame(
-  ID = c("D", "E", "F", "G", "H", "I", "J", "K"),
-  Label = c(
-    "Resource-1",
-    "Resource-2",
-    "Resource-3",
-    "Resource-4",
-    "Resource-5",
-    "Resource-6",
-    "Resource-7",
-    "Resource-8"
-  ),
-  Resource = c(
-    "Surveyer",
-    "Engineer",
-    "Regulatory Support",
-    "Heavy Machinery",
-    "Pavement and Related Machinery",
-    "Drainage Material and Equipment",
-    "Painters, Traffic Signs, Road Markers",
-    "Inspectors and Quality Control Support"
-  ),
-  Task_ID = c("L", "M", "N", "O", "P", "Q", "R", "S"),
-  Task = c(
-    "Survey and Site Assessment",
-    "Design and Planning",
-    "Permitting and Approvals",
-    "Excavation and Grading",
-    "Pavement Installation",
-    "Drainage and Utilities Installation",
-    "Signage and Markings",
-    "Final Inspection and Handover"
-  ),
-  Mean = c(
-    10000,
-    20000,
-    3500,
-    35000,
-    100000,
-    25000,
-    6500,
-    2000
-  ),
-  SD = c(
-    2000,
-    5000,
-    1000,
-    10000,
-    20000,
-    5000,
-    1500,
-    500
-  )
-)
 
-knitr::kable(roadway_resources, caption = "Roadway Resources")
+resources <- data.frame(
+  ID       = c("C", "D", "E"),
+  Label    = c("Resource-1", "Resource-2", "Resource-3"),
+  Resource = c("Business Analyst", "Developer", "QA Engineer"),
+  Task_ID  = c("F", "G", "H"),
+  Task     = c("Requirements and Design", "Development", "Testing and Handover"),
+  Mean     = c(15000, 50000, 20000),
+  SD       = c(3000, 10000, 4000)
+)
+knitr::kable(resources, caption = "Project Resources")
 ```
 
-| ID  | Label      | Resource                               | Task_ID | Task                                |   Mean |    SD |
-|:----|:-----------|:---------------------------------------|:--------|:------------------------------------|-------:|------:|
-| D   | Resource-1 | Surveyer                               | L       | Survey and Site Assessment          |  10000 |  2000 |
-| E   | Resource-2 | Engineer                               | M       | Design and Planning                 |  20000 |  5000 |
-| F   | Resource-3 | Regulatory Support                     | N       | Permitting and Approvals            |   3500 |  1000 |
-| G   | Resource-4 | Heavy Machinery                        | O       | Excavation and Grading              |  35000 | 10000 |
-| H   | Resource-5 | Pavement and Related Machinery         | P       | Pavement Installation               | 100000 | 20000 |
-| I   | Resource-6 | Drainage Material and Equipment        | Q       | Drainage and Utilities Installation |  25000 |  5000 |
-| J   | Resource-7 | Painters, Traffic Signs, Road Markers  | R       | Signage and Markings                |   6500 |  1500 |
-| K   | Resource-8 | Inspectors and Quality Control Support | S       | Final Inspection and Handover       |   2000 |   500 |
+| ID  | Label      | Resource         | Task_ID | Task                    |  Mean |    SD |
+|:----|:-----------|:-----------------|:--------|:------------------------|------:|------:|
+| C   | Resource-1 | Business Analyst | F       | Requirements and Design | 15000 |  3000 |
+| D   | Resource-2 | Developer        | G       | Development             | 50000 | 10000 |
+| E   | Resource-3 | QA Engineer      | H       | Testing and Handover    | 20000 |  4000 |
 
-Roadway Resources
+Project Resources {.table}
 
 ### Risks
 
-The project is subject to various risks that may impact the cost,
-duration, and quality of the project. The risks include delays in
-permitting and approvals, unforeseen site conditions, material price
-fluctuations, labor shortages, weather disruptions, equipment
-breakdowns, design changes, and regulatory changes. Each risk event has
-a probability of occurrence and an impact on the project.
+Two risk events can escalate resource costs if they occur.
 
 ``` r
-roadway_risks <- data.frame(
-  Risk_ID = c("A", "B", "C"),
-  Name = c(
-    "Risk-1",
-    "Risk-2",
-    "Risk-3"
-  ),
-  Risk = c(
-    "Delays in Permitting and Approvals",
-    "Unforeseen Site Conditions",
-    "Material Price Fluctuations"
-  ),
-  Probability = c(
-    0.9,
-    0.95,
-    0.8
-  ),
-  Resource_ID = c("F", "G", "H"),
-  Resource_Impacted = c(
-    "Regulatory Support",
-    "Heavy Machinery",
-    "Pavement and Related Machinery"
-  ),
-  Mean = c(
-    7000,
-    70000,
-    200000
-  ),
-  SD = c(
-    2000,
-    20000,
-    40000
-  )
-)
 
-knitr::kable(roadway_risks, caption = "Roadway Risks")
+risks <- data.frame(
+  Risk_ID           = c("A", "B"),
+  Name              = c("Risk-1", "Risk-2"),
+  Risk              = c("Requirements Scope Creep", "Technical Complexity"),
+  Probability       = c(0.70, 0.60),
+  Resource_ID       = c("C", "D"),
+  Resource_Impacted = c("Business Analyst", "Developer"),
+  Mean_if_occurs    = c(30000, 80000),
+  SD_if_occurs      = c(8000, 20000)
+)
+knitr::kable(risks, caption = "Project Risks")
 ```
 
-| Risk_ID | Name   | Risk                               | Probability | Resource_ID | Resource_Impacted              |  Mean |    SD |
-|:--------|:-------|:-----------------------------------|------------:|:------------|:-------------------------------|------:|------:|
-| A       | Risk-1 | Delays in Permitting and Approvals |        0.90 | F           | Regulatory Support             | 7e+03 |  2000 |
-| B       | Risk-2 | Unforeseen Site Conditions         |        0.95 | G           | Heavy Machinery                | 7e+04 | 20000 |
-| C       | Risk-3 | Material Price Fluctuations        |        0.80 | H           | Pavement and Related Machinery | 2e+05 | 40000 |
+| Risk_ID | Name | Risk | Probability | Resource_ID | Resource_Impacted | Mean_if_occurs | SD_if_occurs |
+|:---|:---|:---|---:|:---|:---|---:|---:|
+| A | Risk-1 | Requirements Scope Creep | 0.7 | C | Business Analyst | 30000 | 8000 |
+| B | Risk-2 | Technical Complexity | 0.6 | D | Developer | 80000 | 20000 |
 
-Roadway Risks
+Project Risks {.table style="width:100%;"}
+
+If Risk-1 (Requirements Scope Creep) occurs, the Business Analyst cost
+rises from a baseline of \$15,000 to a risk-adjusted mean of \$30,000.
+If Risk-2 (Technical Complexity) occurs, the Developer cost rises from
+\$50,000 to \$80,000. The QA Engineer cost is not directly affected by
+either risk.
 
 ## Bayesian Network
 
-A Bayesian network can be used to model the relationships between tasks,
-resources, and risks in the project. The network can help in analyzing
-the impact of risks on the project outcomes and in making informed
-decisions.
+A Bayesian network models the full dependency chain from risks through
+resources to total project cost.
 
 ### Nodes
 
-First, define the nodes and edges of the Bayesian network. The nodes
-represent the tasks, resources, and risks in the project.
+Nodes represent all variables in the network: risk events, resources,
+tasks, and the project total.
 
 ``` r
+
 nodes <- data.frame(
-  id = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T"),
+  id = c("A", "B", "C", "D", "E", "F", "G", "H", "I"),
   label = c(
-    "Risk-1",
-    "Risk-2",
-    "Risk-3",
-    "Resource-1",
-    "Resource-2",
-    "Resource-3",
-    "Resource-4",
-    "Resource-5",
-    "Resource-6",
-    "Resource-7",
-    "Resource-8",
-    "Task-1",
-    "Task-2",
-    "Task-3",
-    "Task-4",
-    "Task-5",
-    "Task-6",
-    "Task-7",
-    "Task-8",
+    "Risk-1", "Risk-2",
+    "Resource-1", "Resource-2", "Resource-3",
+    "Task-1", "Task-2", "Task-3",
     "Project"
   ),
   group = c(
-    "Risk",
-    "Risk",
-    "Risk",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
+    "Risk", "Risk",
+    "Resource", "Resource", "Resource",
+    "Task", "Task", "Task",
     "Project"
   ),
   stringsAsFactors = FALSE
@@ -262,281 +132,211 @@ nodes <- data.frame(
 
 ### Edges
 
-Next, define the edges between the nodes in the Bayesian network. The
-edges represent the dependencies between the nodes.
+Edges encode the causal dependencies: risks affect resources, resources
+drive tasks, and tasks roll up to the project total.
 
 ``` r
+
 links <- data.frame(
-  source = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S"),
-  target = c("F", "G", "H", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "T", "T", "T", "T", "T", "T", "T"),
-  value = rep(1, 19),
+  source = c("A", "B", "C", "D", "E", "F", "G", "H"),
+  target = c("C", "D", "F", "G", "H", "I", "I", "I"),
+  value  = rep(1, 8),
   stringsAsFactors = FALSE
 )
 ```
 
-Then, define the distributions for the nodes in the Bayesian network.
-The distributions represent the probabilities of the outcomes for each
-node.
+### Distributions
+
+Each risk is a binary discrete node (1 = occurs, 0 = does not occur).
+Each resource is a conditional node that follows a higher-cost
+distribution if its associated risk occurs, and a lower-cost baseline
+otherwise. Tasks and the project total are aggregate nodes that sum
+their inputs.
 
 ``` r
+
 distributions <- list(
-  A = list(
-    type = "discrete",
-    values = c(1, 0),
-    probs = c(0.9, 0.1)
-  ),
-  B = list(
-    type = "discrete",
-    values = c(1, 0),
-    probs = c(0.95, 0.05)
-  ),
+  A = list(type = "discrete", values = c(1, 0), probs = c(0.70, 0.30)),
+  B = list(type = "discrete", values = c(1, 0), probs = c(0.60, 0.40)),
   C = list(
-    type = "discrete",
-    values = c(1, 0),
-    probs = c(0.8, 0.2)
+    type = "conditional", condition = "A",
+    true_dist  = list(type = "normal", mean = 30000, sd = 8000),
+    false_dist = list(type = "normal", mean = 15000, sd = 3000)
   ),
   D = list(
-    type = "normal",
-    mean = 10000,
-    sd = 2000
-  ),
-  E = list(
-    type = "normal",
-    mean = 20000,
-    sd = 5000
-  ),
-  F = list(
-    type = "conditional", condition = "A",
-    true_dist = list(
-      type = "normal",
-      mean = 7000,
-      sd = 2000
-    ),
-    false_dist = list(
-      type = "normal",
-      mean = 3500,
-      sd = 1000
-    )
-  ),
-  G = list(
     type = "conditional", condition = "B",
-    true_dist = list(
-      type = "normal",
-      mean = 70000,
-      sd = 20000
-    ),
-    false_dist = list(
-      type = "normal",
-      mean = 35000,
-      sd = 10000
-    )
+    true_dist  = list(type = "normal", mean = 80000, sd = 20000),
+    false_dist = list(type = "normal", mean = 50000, sd = 10000)
   ),
-  H = list(
-    type = "conditional", condition = "C",
-    true_dist = list(
-      type = "normal",
-      mean = 200000,
-      sd = 40000
-    ),
-    false_dist = list(
-      type = "normal",
-      mean = 100000,
-      sd = 20000
-    )
-  ),
-  I = list(
-    type = "normal",
-    mean = 100000,
-    sd = 20000
-  ),
-  J = list(
-    type = "normal",
-    mean = 25000,
-    sd = 5000
-  ),
-  K = list(
-    type = "normal",
-    mean = 6500,
-    sd = 1500
-  ),
-  L = list(
-    type = "aggregate",
-    nodes = c("D")
-  ),
-  M = list(
-    type = "aggregate",
-    nodes = c("E")
-  ),
-  N = list(
-    type = "aggregate",
-    nodes = c("F")
-  ),
-  O = list(
-    type = "aggregate",
-    nodes = c("G")
-  ),
-  P = list(
-    type = "aggregate",
-    nodes = c("H")
-  ),
-  Q = list(
-    type = "aggregate",
-    nodes = c("I")
-  ),
-  R = list(
-    type = "aggregate",
-    nodes = c("J")
-  ),
-  S = list(
-    type = "aggregate",
-    nodes = c("K")
-  ),
-  T = list(
-    type = "aggregate",
-    nodes = c("L", "M", "N", "O", "P", "Q", "R", "S")
-  )
+  E = list(type = "normal", mean = 20000, sd = 4000),
+  F = list(type = "aggregate", nodes = c("C")),
+  G = list(type = "aggregate", nodes = c("D")),
+  H = list(type = "aggregate", nodes = c("E")),
+  I = list(type = "aggregate", nodes = c("F", "G", "H"))
 )
-```
-
-Finally, create the Bayesian network using the nodes, edges, and
-distributions defined above.
-
-``` r
-library(PRA)
-graph <- prob_net(nodes, links, distributions = distributions)
 ```
 
 ### Graph
 
-The Bayesian network can be visualized using the igraph and networkD3
-packages. The igraph package provides functions for creating and
-analyzing graph structures, and the networkD3 package provides functions
-for creating interactive network visualizations.
+``` r
+
+library(PRA)
+graph <- prob_net(nodes, links, distributions = distributions)
+```
+
+The network can be visualized with the `igraph` and `networkD3`
+packages.
 
 ``` r
+
 library(igraph)
 library(networkD3)
-g <- graph_from_data_frame(graph$links, vertices = graph$nodes, directed = TRUE)
+g   <- graph_from_data_frame(graph$links, vertices = graph$nodes, directed = TRUE)
 d3g <- igraph_to_networkD3(g, group = graph$nodes$group)
 forceNetwork(
-  Links = d3g$links, Nodes = d3g$nodes, NodeID = "name", Group = "group", Value = "value",
-  zoom = TRUE, legend = TRUE, arrows = TRUE, opacity = 0.8, fontSize = 14
+  Links = d3g$links, Nodes = d3g$nodes, NodeID = "name", Group = "group",
+  Value = "value", zoom = TRUE, legend = TRUE, arrows = TRUE,
+  opacity = 0.8, fontSize = 14
 )
 ```
 
 ## Inference
 
-To analyze the Bayesian network, use probabilistic inference to
-calculate the probabilities of different outcomes. The probabilities can
-help in assessing the impact of risks on the project outcomes and in
-making informed decisions.
+Use
+[`prob_net_sim()`](https://paulgovan.github.io/PRA/reference/prob_net_sim.md)
+to forward-simulate the network and estimate the total project cost
+distribution.
 
 ``` r
-simulation_results <- prob_net_sim(graph, num_samples = 1000)
+
+sim_results <- prob_net_sim(graph, num_samples = 10000)
 ```
 
-The simulation results can provide estimates of the total project cost,
-duration, and other outcomes based on the probabilities of the risk
-events.
-
 ``` r
-hist <- hist(simulation_results$T, breaks = 50, plot = FALSE)
-plot(hist, main = "Total Project Cost", xlab = "Project Cost", col = "skyblue", border = "white")
+
+hist(sim_results$I, breaks = 60,
+     main = "Total Project Cost", xlab = "Cost ($)",
+     col = "skyblue", border = "white")
 ```
 
 ![](network_files/figure-html/unnamed-chunk-11-1.png)
 
+The spread of the distribution reflects compounded uncertainty from both
+risk events. The right tail represents scenarios where both risks occur
+simultaneously.
+
 ## Learning
 
-The
+Use
 [`prob_net_learn()`](https://paulgovan.github.io/PRA/reference/prob_net_learn.md)
-function can be used to update the probabilities of the risk events
-based on new information or expert judgment. The updated probabilities
-can help in refining the project risk analysis and in making better
-decisions.
-
-For example, if Risk 3 (material price fluctuations) did not occur, the
-Bayesian network can be updated with the new probability.
+to clamp one or more nodes to observed values and re-simulate. This
+shows the downstream effect of new information — for example, learning
+that Technical Complexity (Risk-2) did not materialise.
 
 ``` r
-updated_results <- prob_net_learn(graph,
-  observations = list(C = "No"),
-  num_samples = 1000
+
+# Numeric 0 or the string "No" can both be used for binary discrete nodes.
+learn_results <- prob_net_learn(
+  graph,
+  observations = list(B = "No"),
+  num_samples  = 10000
 )
 ```
 
-The updated results can be compared with the original results to see how
-the changes in the risk probabilities affect the project outcomes.
+Comparing the Developer cost before and after the observation makes the
+shift clear.
 
 ``` r
-hist <- hist(simulation_results$H, breaks = 50, plot = FALSE)
-hist2 <- hist(updated_results$H, breaks = 50, plot = FALSE)
-plot(hist,
-  main = "Pavement Cost", xlab = "Resource Cost", col = "skyblue",
-  border = "white", ylim = c(0, max(hist$counts, hist2$counts))
+
+hist_before <- hist(sim_results$D,   breaks = 60, plot = FALSE)
+hist_after  <- hist(learn_results$D, breaks = 60, plot = FALSE)
+
+plot(
+  hist_before,
+  main   = "Developer Cost: Before vs. After Observing Risk-2 = No",
+  xlab   = "Cost ($)",
+  col    = "skyblue",
+  border = "white",
+  ylim   = c(0, max(hist_before$counts, hist_after$counts))
 )
-plot(hist2, col = "blue", border = "white", add = TRUE)
-legend("topright", legend = c("Original", "Updated"), fill = c("skyblue", "blue"))
+plot(hist_after, col = rgb(0, 0, 1, 0.5), border = "white", add = TRUE)
+legend(
+  "topright",
+  legend = c("Before (Risk-2 uncertain)", "After (Risk-2 = No)"),
+  fill   = c("skyblue", rgb(0, 0, 1, 0.5)),
+  bty    = "n"
+)
 ```
 
 ![](network_files/figure-html/unnamed-chunk-13-1.png)
 
+With Risk-2 ruled out, the Developer cost collapses to the lower
+baseline distribution.
+
 ## Updating
 
-Similarly, the
+Use
 [`prob_net_update()`](https://paulgovan.github.io/PRA/reference/prob_net_update.md)
-function can be used to update the structure of the Bayesian network by
-adding or removing arcs between nodes. This can help in refining the
-project risk analysis and in making better decisions.
-
-For example, if Risk 1 (delays in permitting and approvals) is no longer
-a concern, the arc between Risk 1 and Resource 3 (Regulatory Support)
-can be removed.
+to modify the network structure or distributions. Suppose a design
+review eliminates Requirements Scope Creep as a concern: remove the arc
+from Risk-1 to Resource-1 and replace the conditional distribution with
+a fixed normal.
 
 ``` r
-remove_links <- data.frame(
-  source = c("A"),
-  target = c("F"),
-  stringsAsFactors = FALSE
-)
-update_distributions <- list(
-  F = list(
-    type = "normal",
-    mean = 3500,
-    sd = 1000
+
+updated_graph <- prob_net_update(
+  graph,
+  remove_links = data.frame(source = "A", target = "C", stringsAsFactors = FALSE),
+  update_distributions = list(
+    C = list(type = "normal", mean = 15000, sd = 3000)
   )
 )
-updated_graph <- prob_net_update(graph,
-  remove_links = remove_links,
-  update_distributions = update_distributions
-)
-updated_results <- prob_net_sim(updated_graph, num_samples = 1000)
+updated_results <- prob_net_sim(updated_graph, num_samples = 10000)
 ```
 
-Just as before the updated results can be compared with the original
-results to see how the changes in the network structure affect the
-project outcomes.
-
 ``` r
-hist <- hist(simulation_results$F, breaks = 50, plot = FALSE)
-hist2 <- hist(updated_results$F, breaks = 50, plot = FALSE)
-plot(hist,
-  main = "Regulatory Support Cost", xlab = "Resource Cost",
-  col = "skyblue", border = "white", ylim = c(0, max(hist$counts, hist2$counts))
+
+hist_before <- hist(sim_results$C,      breaks = 60, plot = FALSE)
+hist_after  <- hist(updated_results$C,  breaks = 60, plot = FALSE)
+
+plot(
+  hist_before,
+  main   = "Business Analyst Cost: Before vs. After Removing Risk-1",
+  xlab   = "Cost ($)",
+  col    = "skyblue",
+  border = "white",
+  ylim   = c(0, max(hist_before$counts, hist_after$counts))
 )
-plot(hist2, col = "blue", border = "white", add = TRUE)
-legend("topright", legend = c("Original", "Updated"), fill = c("skyblue", "blue"))
+plot(hist_after, col = rgb(0, 0, 1, 0.5), border = "white", add = TRUE)
+legend(
+  "topright",
+  legend = c("Before (Risk-1 possible)", "After (Risk-1 removed)"),
+  fill   = c("skyblue", rgb(0, 0, 1, 0.5)),
+  bty    = "n"
+)
 ```
 
 ![](network_files/figure-html/unnamed-chunk-15-1.png)
 
+With the risk arc removed, the Business Analyst cost tightens around the
+baseline mean and the heavy right tail disappears.
+
 ## Conclusion
 
-Bayesian networks are powerful tools for project risk analysis and
-decision making. By modeling the dependencies and uncertainties in a
-project, Bayesian networks can help project managers assess the impact
-of risks on project outcomes and make informed decisions. The Bayesian
-network created in this document represents the relationships between
-tasks, resources, and risks in a roadway project. The network can be
-used to analyze the impact of risks on the project outcomes and refine
-the risk analysis based on new information or expert judgment.
+This vignette demonstrated the core `PRA` Bayesian network workflow on a
+minimal toy project:
+
+- [`prob_net()`](https://paulgovan.github.io/PRA/reference/prob_net.md)
+  constructs the network from nodes, edges, and distributions.
+- [`prob_net_sim()`](https://paulgovan.github.io/PRA/reference/prob_net_sim.md)
+  forward-simulates to estimate cost distributions.
+- [`prob_net_learn()`](https://paulgovan.github.io/PRA/reference/prob_net_learn.md)
+  clamps observed nodes and re-simulates to propagate new evidence.
+- [`prob_net_update()`](https://paulgovan.github.io/PRA/reference/prob_net_update.md)
+  modifies network structure and distributions as the project evolves.
+
+For a more advanced example covering a full project portfolio with
+shared enterprise risks, causal graph surgery, and the see-versus-do
+distinction, see the [Probabilistic Networks for Project Portfolio Risk
+Analysis](https://paulgovan.github.io/PRA/articles/network2.md)
+vignette.

@@ -22,6 +22,7 @@ represent resources and columns represent tasks. An entry `S[i, j] = 1`
 means resource *i* is used by task *j*.
 
 ``` r
+
 library(PRA)
 
 # 4 resources x 5 tasks
@@ -50,6 +51,7 @@ The off-diagonal entry `P[j, k]` counts how many resources tasks *j* and
 *k* share — a measure of coupling.
 
 ``` r
+
 p <- parent_dsm(S)
 print(p)
 #> Resource-based 'Parent' Design Structure Matrix
@@ -64,6 +66,7 @@ print(p)
 ```
 
 ``` r
+
 plot(p)
 ```
 
@@ -80,6 +83,7 @@ and columns represent resources. An entry `R[i, j] = 1` means risk *i*
 affects resource *j*.
 
 ``` r
+
 # 3 risks x 4 resources
 R <- matrix(c(
   1, 0, 1,
@@ -105,6 +109,7 @@ t(**T**) %*% **T**. The off-diagonal entries count how many risks are
 shared between each pair of tasks.
 
 ``` r
+
 g <- grandparent_dsm(S, R)
 print(g)
 #> Risk-based 'Grandparent' Design Structure Matrix
@@ -119,6 +124,7 @@ print(g)
 ```
 
 ``` r
+
 plot(g)
 ```
 

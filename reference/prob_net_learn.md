@@ -16,7 +16,8 @@ prob_net_learn(network, observations = list(), num_samples = 1000)
 
 - network:
 
-  A prob_net object created by \`prob_net()\`.
+  A prob_net object created by
+  [`prob_net()`](https://paulgovan.github.io/PRA/reference/prob_net.md).
 
 - observations:
 
@@ -28,8 +29,8 @@ prob_net_learn(network, observations = list(), num_samples = 1000)
 
 ## Value
 
-A data frame with \`num_samples\` rows and one column per node
-containing the simulated posterior samples.
+A data frame with `num_samples` rows and one column per node containing
+the simulated posterior samples.
 
 ## Details
 
@@ -38,12 +39,13 @@ mean and sd. Uniform nodes are sampled from a uniform distribution
 between the specified min and max values. Lognormal nodes are sampled
 from a lognormal distribution with specified meanlog and sdlog.
 Conditional nodes depend on a discrete conditional node; if the
-condition is TRUE (value = 1), the node follows the \`true_dist\`,
-otherwise it follows the \`false_dist\` (value = 0). Conditional
+condition is TRUE (value = 1), the node follows the `true_dist`,
+otherwise it follows the `false_dist` (value = 0). Conditional
 distributions can be normal, lognormal, uniform, or discrete. Discrete
-nodes are sampled using \`sample()\`, and aggregate nodes are computed
-as the sum of values from the specified nodes. Observed nodes are fixed
-at their given values.
+nodes are sampled using
+[`sample()`](https://rdrr.io/r/base/sample.html), and aggregate nodes
+are computed as the sum of values from the specified nodes. Observed
+nodes are fixed at their given values.
 
 ## Examples
 
@@ -67,9 +69,11 @@ links <- data.frame(
 distributions <- list(
   A = list(type = "discrete", values = c(0, 1), probs = c(0.5, 0.5)),
   B = list(type = "normal", mean = 2, sd = 0.5),
-  C = list(type = "conditional", condition = "A",
-           true_dist = list(type = "normal", mean = 1, sd = 0.5),
-           false_dist = list(type = "discrete", values = c(0, 1), probs = c(0.4, 0.6))),
+  C = list(
+    type = "conditional", condition = "A",
+    true_dist = list(type = "normal", mean = 1, sd = 0.5),
+    false_dist = list(type = "discrete", values = c(0, 1), probs = c(0.4, 0.6))
+  ),
   D = list(type = "aggregate", nodes = c("B", "C"))
 )
 
@@ -81,10 +85,10 @@ observations <- list(A = 1)
 updated_results <- prob_net_learn(graph, observations, num_samples = 1000)
 head(updated_results)
 #>   A        B         C        D
-#> 1 1 1.957772 0.4210529 2.378824
-#> 2 1 2.017685 0.7016152 2.719300
-#> 3 1 2.796837 0.6181802 3.415017
-#> 4 1 2.800354 0.9521132 3.752467
-#> 5 1 2.110299 1.3386718 3.448971
-#> 6 1 2.573886 0.8767631 3.450649
+#> 1 1 2.129639 1.7865548 3.916194
+#> 2 1 2.345738 1.1611199 3.506858
+#> 3 1 1.817078 0.8336464 2.650725
+#> 4 1 2.601603 0.2117512 2.813354
+#> 5 1 1.503451 0.4629828 1.966434
+#> 6 1 2.595935 1.1311792 3.727114
 ```
