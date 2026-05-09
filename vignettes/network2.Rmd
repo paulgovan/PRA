@@ -16,10 +16,10 @@ knitr::opts_chunk$set(
   comment = "#>",
   echo = FALSE
 )
+set.seed(42)
 ```
 
 ```{r network-setup, include = FALSE}
-devtools::install_github("paulgovan/PRA@Dev")
 library(PRA)
 library(igraph)
 library(networkD3)
@@ -405,7 +405,7 @@ Following Pearl (2009), a causal network supports three qualitatively distinct q
 The observational query $P(Y)$ is computed by Monte Carlo simulation over the joint distribution $P(\mathbf{r}, \mathbf{a}, \mathbf{t}, \mathbf{p}, Y)$ implied by the DAG's factorisation. Each sample draws a realization of every risk event, propagates costs through the conditional resource distributions, and sums to a portfolio total.
 
 ```{r}
-sim_results <- prob_net_sim(graph, num_samples = 1000)
+sim_results <- prob_net_sim(graph, num_samples = 5000)
 
 hist(sim_results$Y, breaks = 50,
      main = expression("Observational distribution " * italic(P) * "(Y)"),
@@ -483,7 +483,7 @@ do_A1_graph <- prob_net_update(graph,
     A = list(type = "discrete", values = c(1, 0), probs = c(1, 0))
   )
 )
-do_A1_results <- prob_net_sim(do_A1_graph, num_samples = 1000)
+do_A1_results <- prob_net_sim(do_A1_graph, num_samples = 5000)
 
 h1 <- hist(sim_results$Y,    breaks = 50, plot = FALSE)
 h2 <- hist(seeing_results$Y, breaks = 50, plot = FALSE)
@@ -532,7 +532,7 @@ do_graph   <- prob_net_update(graph,
   remove_links         = remove_links,
   update_distributions = do_distributions
 )
-do_results <- prob_net_sim(do_graph, num_samples = 1000)
+do_results <- prob_net_sim(do_graph, num_samples = 5000)
 
 # Compare observational P(Y) to interventional P(Y | do(J → baseline))
 h3 <- hist(do_results$Y, breaks = 50, plot = FALSE)
@@ -572,7 +572,7 @@ do_graph_A0 <- prob_net_update(graph,
     A = list(type = "discrete", values = c(1, 0), probs = c(0, 1))
   )
 )
-do_results_A0 <- prob_net_sim(do_graph_A0, num_samples = 1000)
+do_results_A0 <- prob_net_sim(do_graph_A0, num_samples = 5000)
 
 # Compare: observational vs. project-scoped insulation vs. enterprise prevention
 h4 <- hist(do_results_A0$Y, breaks = 50, plot = FALSE)
@@ -654,9 +654,9 @@ g_B0 <- prevent_risk(graph, "SC", "B")
 # do(C = 0): C has no parent; just set C = 0
 g_C0 <- prevent_risk(graph, NULL, "C")
 
-r_A0 <- prob_net_sim(g_A0, num_samples = 1000)
-r_B0 <- prob_net_sim(g_B0, num_samples = 1000)
-r_C0 <- prob_net_sim(g_C0, num_samples = 1000)
+r_A0 <- prob_net_sim(g_A0, num_samples = 5000)
+r_B0 <- prob_net_sim(g_B0, num_samples = 5000)
+r_C0 <- prob_net_sim(g_C0, num_samples = 5000)
 
 var_base <- var(sim_results$Y)
 importance <- c(

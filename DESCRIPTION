@@ -16,7 +16,8 @@ LazyData: true
 RoxygenNote: 7.3.2
 URL: https://paulgovan.github.io/PRA/, https://github.com/paulgovan/PRA
 BugReports: https://github.com/paulgovan/PRA/issues
-Suggests: 
+Suggests:
+    corrplot,
     ggplot2,
     igraph,
     knitr,
