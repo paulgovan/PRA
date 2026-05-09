@@ -16,10 +16,10 @@ knitr::opts_chunk$set(
   comment = "#>",
   echo = FALSE
 )
-set.seed(42)
 ```
 
 ```{r network-setup, include = FALSE}
+devtools::install_github("paulgovan/PRA@Dev")
 library(PRA)
 library(igraph)
 library(networkD3)
@@ -30,9 +30,9 @@ library(corrplot)
 
 Consider an enterprise running three projects at the same time: a **Road Repair**, a **Park Construction**, and a **Building Renovation**. Each project has three tasks driven by three resources, labor, materials, and equipment. Critically, these resources are shared at the enterprise level: the same labor pool, the same material suppliers, and the same equipment fleet serve all three projects.
 
-This sharing creates direct portfolio-level risk. Three enterprise-wide risk events — a **Labor Shortage**, a **Material Price Spike**, and a **Weather Delay** — each propagate through the corresponding shared resource to impact all three projects simultaneously. A single risk event therefore inflates costs across the entire portfolio, not just one project.
+This sharing creates direct portfolio-level risk. Three enterprise-wide risk events, a **Labor Shortage**, a **Material Price Spike**, and a **Weather Delay**, each propagate through the corresponding shared resource to impact all three projects simultaneously. A single risk event therefore inflates costs across the entire portfolio, not just one project.
 
-Critically, two of these risks — the Labor Shortage and the Material Price Spike — share a common upstream driver: a **Supply Chain Disruption** that simultaneously tightens the labor market and raises commodity prices. This upstream dependence means that observing a Labor Shortage is Bayesian evidence that a Supply Chain Disruption is underway, which in turn raises the probability of a Material Price Spike. It is precisely this structure — a root cause fanning out to multiple risks, which fan out to shared resources — that makes the distinction between *seeing* and *doing* empirically consequential at the portfolio level.
+Critically, two of these risks, the Labor Shortage and the Material Price Spike, share a common upstream driver: a **Supply Chain Disruption** that simultaneously tightens the labor market and raises commodity prices. This upstream dependence means that observing a Labor Shortage is Bayesian evidence that a Supply Chain Disruption is underway, which in turn raises the probability of a Material Price Spike. It is precisely this structure, a root cause fanning out to multiple risks, which fan out to shared resources, that makes the distinction between *seeing* and *doing* empirically consequential at the portfolio level.
 
 ## Tasks
 
@@ -392,7 +392,7 @@ d3g <- igraph_to_networkD3(g, group = graph$nodes$group)
 forceNetwork(
   Links = d3g$links, Nodes = d3g$nodes, NodeID = "name", Group = "group",
   Value = "value", zoom = TRUE, legend = TRUE, arrows = TRUE,
-  opacity = 0.8, fontSize = 14
+  opacity = 0.8, fontSize = 14, opacityNoHover = 1
 )
 ```
 
@@ -405,7 +405,7 @@ Following Pearl (2009), a causal network supports three qualitatively distinct q
 The observational query $P(Y)$ is computed by Monte Carlo simulation over the joint distribution $P(\mathbf{r}, \mathbf{a}, \mathbf{t}, \mathbf{p}, Y)$ implied by the DAG's factorisation. Each sample draws a realization of every risk event, propagates costs through the conditional resource distributions, and sums to a portfolio total.
 
 ```{r}
-sim_results <- prob_net_sim(graph, num_samples = 5000)
+sim_results <- prob_net_sim(graph, num_samples = 1000)
 
 hist(sim_results$Y, breaks = 50,
      main = expression("Observational distribution " * italic(P) * "(Y)"),
@@ -483,7 +483,17 @@ do_A1_graph <- prob_net_update(graph,
     A = list(type = "discrete", values = c(1, 0), probs = c(1, 0))
   )
 )
-do_A1_results <- prob_net_sim(do_A1_graph, num_samples = 5000)
+do_A1_results <- prob_net_sim(do_A1_graph, num_samples = 1000)
+
+mut_nodes_doA1 <- graph$nodes
+mut_nodes_doA1$group[mut_nodes_doA1$id == "A"] <- "Intervened"
+g_doA1 <- graph_from_data_frame(do_A1_graph$links, vertices = mut_nodes_doA1, directed = TRUE)
+d3g_doA1 <- igraph_to_networkD3(g_doA1, group = mut_nodes_doA1$group)
+forceNetwork(
+  Links = d3g_doA1$links, Nodes = d3g_doA1$nodes, NodeID = "name", Group = "group",
+  Value = "value", zoom = TRUE, legend = TRUE, arrows = TRUE,
+  opacity = 0.8, fontSize = 14, opacityNoHover = 1
+)
 
 h1 <- hist(sim_results$Y,    breaks = 50, plot = FALSE)
 h2 <- hist(seeing_results$Y, breaks = 50, plot = FALSE)
@@ -532,7 +542,17 @@ do_graph   <- prob_net_update(graph,
   remove_links         = remove_links,
   update_distributions = do_distributions
 )
-do_results <- prob_net_sim(do_graph, num_samples = 5000)
+do_results <- prob_net_sim(do_graph, num_samples = 1000)
+
+mut_nodes_doJ <- graph$nodes
+mut_nodes_doJ$group[mut_nodes_doJ$id == "J"] <- "Intervened"
+g_doJ <- graph_from_data_frame(do_graph$links, vertices = mut_nodes_doJ, directed = TRUE)
+d3g_doJ <- igraph_to_networkD3(g_doJ, group = mut_nodes_doJ$group)
+forceNetwork(
+  Links = d3g_doJ$links, Nodes = d3g_doJ$nodes, NodeID = "name", Group = "group",
+  Value = "value", zoom = TRUE, legend = TRUE, arrows = TRUE,
+  opacity = 0.8, fontSize = 14, opacityNoHover = 1
+)
 
 # Compare observational P(Y) to interventional P(Y | do(J → baseline))
 h3 <- hist(do_results$Y, breaks = 50, plot = FALSE)
@@ -572,7 +592,17 @@ do_graph_A0 <- prob_net_update(graph,
     A = list(type = "discrete", values = c(1, 0), probs = c(0, 1))
   )
 )
-do_results_A0 <- prob_net_sim(do_graph_A0, num_samples = 5000)
+do_results_A0 <- prob_net_sim(do_graph_A0, num_samples = 1000)
+
+mut_nodes_doA0 <- graph$nodes
+mut_nodes_doA0$group[mut_nodes_doA0$id == "A"] <- "Intervened"
+g_doA0 <- graph_from_data_frame(do_graph_A0$links, vertices = mut_nodes_doA0, directed = TRUE)
+d3g_doA0 <- igraph_to_networkD3(g_doA0, group = mut_nodes_doA0$group)
+forceNetwork(
+  Links = d3g_doA0$links, Nodes = d3g_doA0$nodes, NodeID = "name", Group = "group",
+  Value = "value", zoom = TRUE, legend = TRUE, arrows = TRUE,
+  opacity = 0.8, fontSize = 14, opacityNoHover = 1
+)
 
 # Compare: observational vs. project-scoped insulation vs. enterprise prevention
 h4 <- hist(do_results_A0$Y, breaks = 50, plot = FALSE)
@@ -654,9 +684,9 @@ g_B0 <- prevent_risk(graph, "SC", "B")
 # do(C = 0): C has no parent; just set C = 0
 g_C0 <- prevent_risk(graph, NULL, "C")
 
-r_A0 <- prob_net_sim(g_A0, num_samples = 5000)
-r_B0 <- prob_net_sim(g_B0, num_samples = 5000)
-r_C0 <- prob_net_sim(g_C0, num_samples = 5000)
+r_A0 <- prob_net_sim(g_A0, num_samples = 1000)
+r_B0 <- prob_net_sim(g_B0, num_samples = 1000)
+r_C0 <- prob_net_sim(g_C0, num_samples = 1000)
 
 var_base <- var(sim_results$Y)
 importance <- c(
