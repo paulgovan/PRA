@@ -1,5 +1,8 @@
 #' Probabilistic Network of Project Risks.
 #'
+#' **Experimental.** This function is part of the experimental probabilistic
+#' network module and the API may change in future versions.
+#'
 #' This function creates a probabilistic network graph representation of project risks
 #' that supports discrete and continuous probability distributions.
 #'
@@ -122,6 +125,9 @@ prob_net <- function(nodes, links, distributions = NULL) {
 
 #' Perform Inference on a Probabilistic Network of Project Risks.
 #'
+#' **Experimental.** This function is part of the experimental probabilistic
+#' network module and the API may change in future versions.
+#'
 #' This function performs inference on a probabilistic network of project risks by simulating random samples
 #' from the distribution of each node. The function supports normal, uniform, lognormal, discrete, conditional distributions,
 #' and aggregate nodes that sum the values of specified continuous nodes.
@@ -233,6 +239,9 @@ prob_net_sim <- function(network, num_samples = 1000) {
 }
 
 #' Perform Bayesian Learning on a Probabilistic Network of Project Risks.
+#'
+#' **Experimental.** This function is part of the experimental probabilistic
+#' network module and the API may change in future versions.
 #'
 #' This function updates a probabilistic network of project risks with observed values for certain nodes
 #' and then performs inference to generate posterior distributions for unobserved nodes.
@@ -354,6 +363,9 @@ prob_net_learn <- function(network, observations = list(), num_samples = 1000) {
 }
 
 #' Update a Probabilistic Network of Project Risks.
+#'
+#' **Experimental.** This function is part of the experimental probabilistic
+#' network module and the API may change in future versions.
 #'
 #' This function updates an existing probabilistic network by adding or removing dependencies (edges)
 #' and updating probability distributions for nodes.
