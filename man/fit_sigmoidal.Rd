@@ -2,7 +2,7 @@
 % Please edit documentation in R/sigmoidal.R
 \name{fit_sigmoidal}
 \alias{fit_sigmoidal}
-\title{Fit a Sigmoidal Model.}
+\title{Fit a Sigmoidal Model to Data.}
 \usage{
 fit_sigmoidal(data, x_col, y_col, model_type)
 }
@@ -19,7 +19,7 @@ fit_sigmoidal(data, x_col, y_col, model_type)
 The function returns a list of results for the sigmoidal model.
 }
 \description{
-Fit a Sigmoidal Model.
+This function fits a sigmoidal model (Pearl, Gompertz, or Logistic) to the provided data.
 }
 \examples{
 # Set up a data frame of time and completion percentage data
@@ -30,13 +30,16 @@ fit <- fit_sigmoidal(data, "time", "completion", "logistic")
 
 # Use the model to predict future completion times.
 predictions <- predict_sigmoidal(fit, seq(min(data$time), max(data$time),
-  length.out = 100), "logistic")
+  length.out = 100
+), "logistic")
 
-# Plot the results.
-p <- ggplot2::ggplot(data, ggplot2::aes_string(x = "time", y = "completion")) +
-  ggplot2::geom_point() +
-  ggplot2::geom_line(data = predictions, ggplot2::aes(x = x, y = pred), color = "red") +
-  ggplot2::labs(title = "Fitted Logistic Model", x = "time", y = "completion \%") +
-  ggplot2::theme_minimal()
-p
+# Predict with 95\% confidence bounds
+predictions_ci <- predict_sigmoidal(fit, seq(min(data$time), max(data$time),
+  length.out = 100
+), "logistic", conf_level = 0.95)
+
+}
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 }

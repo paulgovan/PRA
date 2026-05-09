@@ -24,14 +24,21 @@ risk_post_prob(
 A numeric value for the posterior probability of the risk event given the observed causes.
 }
 \description{
-Calculates the posterior probability of the risk event given observations of the root causes.
+This function calculates the posterior probability of a risk event 'R' occurring
+based on observations of multiple root causes and their associated conditional probabilities.
 }
 \examples{
 cause_probs <- c(0.3, 0.2)
 risks_given_causes <- c(0.8, 0.6)
 risks_given_not_causes <- c(0.2, 0.4)
 observed_causes <- c(1, NA)
-risk_post_prob <- risk_post_prob(cause_probs, risks_given_causes,
-  risks_given_not_causes, observed_causes)
+risk_post_prob <- risk_post_prob(
+  cause_probs, risks_given_causes,
+  risks_given_not_causes, observed_causes
+)
 print(risk_post_prob)
+}
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 }

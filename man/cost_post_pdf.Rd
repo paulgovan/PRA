@@ -27,7 +27,10 @@ cost_post_pdf(
 A numeric vector of random samples from the posterior distribution of costs.
 }
 \description{
-Calculates the posterior probability density function for costs given observations of risk events.
+This function generates random samples from the posterior distribution of the cost 'A'
+given observations of multiple risk events 'R_i'. Each risk event has its own mean
+and standard deviation for the cost distribution. The function also accounts for a baseline cost
+when no risk event occurs.
 }
 \examples{
 # Example with three risk events
@@ -44,4 +47,8 @@ posterior_samples <- cost_post_pdf(
   base_cost = base_cost
 )
 hist(posterior_samples, breaks = 30, col = "skyblue", main = "Posterior Cost PDF", xlab = "Cost")
+}
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 }

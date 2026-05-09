@@ -27,7 +27,10 @@ cost_pdf(
 A numeric vector of random samples from the mixture model.
 }
 \description{
-Bayesian inference for calculating random samples of a cost given risk event(s).
+This function generates random samples from a mixture model representing the cost 'A'
+associated with multiple risk events 'R_i'. Each risk event has its own probability,
+mean, and standard deviation for the cost distribution. The function also accounts for a baseline cost
+when no risk event occurs.
 }
 \examples{
 # Example with three risk events
@@ -44,4 +47,8 @@ samples <- cost_pdf(
   base_cost = base_cost
 )
 hist(samples, breaks = 30, col = "skyblue", main = "Histogram of Cost", xlab = "Cost")
+}
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
 }

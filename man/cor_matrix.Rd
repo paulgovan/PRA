@@ -2,22 +2,25 @@
 % Please edit documentation in R/cormat.R
 \name{cor_matrix}
 \alias{cor_matrix}
-\title{Generate Correlation Matrix.}
+\title{Generate Correlation Matrix from Random Samples.}
 \usage{
-cor_matrix(num_samples = 100, num_vars = 5, dists = dists)
+cor_matrix(num_samples = 100, num_vars = 5, dists)
 }
 \arguments{
 \item{num_samples}{The number of samples to generate.}
 
 \item{num_vars}{The number of distributions to sample.}
 
-\item{dists}{A list describing each distribution.}
+\item{dists}{A list describing each distribution. Each element should be a function
+that generates random samples. The names of the list elements will be used to
+identify the distributions.}
 }
 \value{
 The function returns the correlation matrix for the distributions.
 }
 \description{
-Generate Correlation Matrix.
+This function generates random samples from specified probability distributions
+and computes the correlation matrix for the generated samples.
 }
 \examples{
 # List of probability distributions
@@ -34,4 +37,9 @@ cor_matrix <- cor_matrix(num_samples = 100, num_vars = 5, dists = dists)
 
 # Print correlation matrix
 print(cor_matrix)
+
+}
+\references{
+Govan, Paul, and Ivan Damnjanovic. "The resource-based view on project risk management."
+Journal of construction engineering and management 142.9 (2016): 04016034.
 }

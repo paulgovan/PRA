@@ -15,7 +15,8 @@ cpi(ev, ac)
 The function returns the Cost Performance Index (CPI) of work completed.
 }
 \description{
-Cost Performance Index (CPI).
+Calculates the Cost Performance Index (CPI) of work completed based on the Earned Value (EV)
+and Actual Cost (AC).
 }
 \examples{
 # Set the BAC and actual \% complete for an example project.
@@ -33,4 +34,13 @@ ac <- ac(actual_costs, time_period)
 # Calculate the CPI and print the results.
 cpi <- cpi(ev, ac)
 cat("Cost Performance Index (CPI):", cpi, "\n")
+
+}
+\references{
+Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
+construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
+}
+\seealso{
+\code{\link{pv}}, \code{\link{ev}}, \code{\link{ac}}, \code{\link{sv}},
+\code{\link{cv}}, \code{\link{spi}}, \code{\link{eac}}
 }

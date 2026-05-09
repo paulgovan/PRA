@@ -1,28 +1,41 @@
 Package: PRA
 Type: Package
 Title: Project Risk Analysis
-Version: 0.3.0
+Version: 0.4.0
 Authors@R: person("Paul", "Govan", email = "paul.govan2@gmail.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-1821-8492"))
 Description: Data analysis for Project Risk Management via the Second Moment Method, 
   Monte Carlo Simulation, Contingency Analysis, Sensitivity Analysis, Earned Value Management, 
-  Learning Curves, Bayesian Methods, Bayesian Networks, and more.
+  Learning Curves, Bayesian Methods, and more.
+Depends:
+  R (>= 4.1.0)
 Imports:
   mc2d,
   minpack.lm,
   stats
-License: CC BY 4.0 + file LICENSE
+License: CC BY 4.0
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2
+Roxygen: list (markdown = TRUE, roclets = c ("namespace", "rd", "srr::srr_stats_roclet"))
 URL: https://paulgovan.github.io/PRA/, https://github.com/paulgovan/PRA
 BugReports: https://github.com/paulgovan/PRA/issues
 Suggests:
+    base64enc,
+    bslib,
     corrplot,
+    ellmer,
     ggplot2,
-    igraph,
+    htmltools,
+    jsonlite,
     knitr,
-    networkD3,
+    ragnar,
     rmarkdown,
-    testthat (>= 3.0.0)
+    scales,
+    shiny,
+    shinychat,
+    mockr,
+    testthat (>= 3.0.0),
+    vitals,
+    withr
 VignetteBuilder: knitr
 Config/testthat/edition: 3
+RoxygenNote: 7.3.3

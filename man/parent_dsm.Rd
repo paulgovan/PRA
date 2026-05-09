@@ -7,23 +7,35 @@
 parent_dsm(S)
 }
 \arguments{
-\item{S}{Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.}
+\item{S}{Resource-Task Matrix 'S' giving the links (arcs) between resources and tasks.
+Rows represent resources and columns represent tasks.}
 }
 \value{
-The function returns the Resource-based 'Parent' DSM 'P' giving the number
-of resources shared between each task.
+An S3 object of class \code{"dsm"} with the following components:
+\describe{
+\item{matrix}{The Resource-based 'Parent' DSM giving the number of resources shared between each task.}
+\item{type}{Character string \code{"parent"}.}
+\item{n_tasks}{Number of tasks (columns in S).}
+\item{n_resources}{Number of resources (rows in S).}
+}
 }
 \description{
-Resource-based 'Parent' Design Structure Matrix (DSM).
+This function computes the Resource-based 'Parent' Design Structure Matrix (DSM)
+from a given Resource-Task Matrix 'S'. The 'Parent' DSM indicates the number of resources
+shared between each pair of tasks in a project.
 }
 \examples{
-# Set the S matrix for a toy project and print the results.
-s <- matrix(c(1, 1, 0, 0, 1, 0, 0, 1, 1), nrow = 3, ncol = 3)
+# Set the S matrix for a toy project (3 resources x 4 tasks).
+s <- matrix(c(1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1), nrow = 3, ncol = 4)
 cat("Resource-Task Matrix:\n")
 print(s)
 
 # Calculate the Resource-based Parent DSM and print the results.
 resource_dsm <- parent_dsm(s)
-cat("\nResource-based 'Parent' DSM:\n")
 print(resource_dsm)
+
+}
+\references{
+Govan, Paul, and Ivan Damnjanovic. "The resource-based view on project risk management."
+Journal of construction engineering and management 142.9 (2016): 04016034.
 }

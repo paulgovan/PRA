@@ -1,13 +1,21 @@
-# PRA 0.3.0
+# NEWS
 
-* Includes new vignettes for several PRA methods.
-* New helper function for estimating the correlation matrix for a set of variables.
-* Minor updates and bug fixes.
+## v0.4.0
+- DSM Improvements
+- Bayesian Improvements
+- **Agentic AI Framework**  
+  - Slash Commands  
+  - Natural Language Interface  
+  - RAG-enhanced Reasoning  
+  - Local Execution via Ollama  
+  - Shiny App  
+  - Evaluation Framework
 
-# PRA 0.2.0
+## v0.3.0
+- Previous changes and improvements...
 
-* Minor updates and bug fixes.
+## v0.2.0
+- Previous changes and improvements...
 
-# PRA 0.1.0
-
-* Initial CRAN submission.
+## v0.1.0
+- Previous changes and improvements...
