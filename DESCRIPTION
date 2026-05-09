@@ -24,6 +24,7 @@ Suggests:
     ellmer,
     ggplot2,
     htmltools,
+    igraph,
     jsonlite,
     knitr,
     ragnar,
