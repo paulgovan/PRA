@@ -14,6 +14,10 @@ articles:
     contents: Bayes
   - title: "Design Structure Matrices"
     contents: DSM
+  - title: "Probabilistic Networks"
+    contents: network
+  - title: "Probabilistic Networks Expanded"
+    contents: network2
   - title: "Agentic Risk Analysis"
     contents: agent
 
