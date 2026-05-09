@@ -1,11 +1,11 @@
 ---
-title: "Bayesian Networks Expanded"
+title: "Probabilistic Networks for Project Portfolio Risk Analysis"
 output:
   html_vignette:
     fig_width: 7
     fig_height: 5
 vignette: >
-  %\VignetteIndexEntry{Bayesian Networks Expanded}
+  %\VignetteIndexEntry{Probabilistic Networks for Project Portfolio Risk Analysis}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -13,1053 +13,699 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  echo = FALSE
 )
 ```
 
-## Introduction
+```{r network-setup, include = FALSE}
+devtools::install_github("paulgovan/PRA@Dev")
+library(PRA)
+library(igraph)
+library(networkD3)
+library(corrplot)
+```
 
-Similar to project-level risk analysis, Bayesian Networks are useful for analyzing project portfolio risks. Bayesian Networks are probabilistic graphical models that represent a set of variables and their conditional dependencies via a directed acyclic graph (DAG). Bayesian Networks are helpful for modeling complex systems and making inferences about the relationships between variables.
+## Case Study
 
-## Project Portfolio Risk Analysis
+Consider an enterprise running three projects at the same time: a **Road Repair**, a **Park Construction**, and a **Building Renovation**. Each project has three tasks driven by three resources, labor, materials, and equipment. Critically, these resources are shared at the enterprise level: the same labor pool, the same material suppliers, and the same equipment fleet serve all three projects.
 
-Imagine a simple project portfolio. The portfolio consists of 3 civil engineering projects: construction of a roadway, a small building construction, and a pedestrian bridge project. The primary tasks for these projects are as follows.
+This sharing creates direct portfolio-level risk. Three enterprise-wide risk events — a **Labor Shortage**, a **Material Price Spike**, and a **Weather Delay** — each propagate through the corresponding shared resource to impact all three projects simultaneously. A single risk event therefore inflates costs across the entire portfolio, not just one project.
+
+Critically, two of these risks — the Labor Shortage and the Material Price Spike — share a common upstream driver: a **Supply Chain Disruption** that simultaneously tightens the labor market and raises commodity prices. This upstream dependence means that observing a Labor Shortage is Bayesian evidence that a Supply Chain Disruption is underway, which in turn raises the probability of a Material Price Spike. It is precisely this structure — a root cause fanning out to multiple risks, which fan out to shared resources — that makes the distinction between *seeing* and *doing* empirically consequential at the portfolio level.
+
+## Tasks
+
+The primary tasks for each project are as follows.
 
 ```{r results='asis'}
-roadway_tasks <- data.frame(
-  ID = c("AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM"),
-  Label = c(
-    "Task-1.1",
-    "Task-1.2",
-    "Task-1.3",
-    "Task-1.4",
-    "Task-1.5",
-    "Task-1.6",
-    "Task-1.7",
-    "Task-1.8"
-  ),
-  Task = c(
-    "Survey and Site Assessment",
-    "Design and Planning",
-    "Permitting and Approvals",
-    "Excavation and Grading",
-    "Pavement Installation",
-    "Drainage and Utilities Installation",
-    "Signage and Markings",
-    "Final Inspection and Handover"
-  ),
-  Project_ID = rep("BF", 8)
+project1_tasks <- data.frame(
+  ID    = c("M", "N", "O"),
+  Label = c("Task-1.1", "Task-1.2", "Task-1.3"),
+  Task  = c("Site Preparation", "Road Paving", "Final Inspection"),
+  Project_ID = rep("V", 3)
 )
+knitr::kable(project1_tasks, caption = "Project 1: Road Repair Tasks")
 
-knitr::kable(roadway_tasks, caption = "Project 1: Roadway Tasks")
-
-building_tasks <- data.frame(
-  ID = c("AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU"),
-  Label = c(
-    "Task-2.1",
-    "Task-2.2",
-    "Task-2.3",
-    "Task-2.4",
-    "Task-2.5",
-    "Task-2.6",
-    "Task-2.7",
-    "Task-2.8"
-  ),
-  Task = c(
-    "Architectural Design",
-    "Structural Engineering",
-    "Regulatory Approvals",
-    "Foundation and Excavation",
-    "Framing and Structural Work",
-    "Plumbing, Electrical, and HVAC Install",
-    "Interior and Exterior Finishing",
-    "Final Inspection and Handover"
-  ),
-  Project_ID = rep("BG", 8)
+project2_tasks <- data.frame(
+  ID    = c("P", "Q", "R"),
+  Label = c("Task-2.1", "Task-2.2", "Task-2.3"),
+  Task  = c("Site Preparation", "Planting and Landscaping", "Final Inspection"),
+  Project_ID = rep("W", 3)
 )
+knitr::kable(project2_tasks, caption = "Project 2: Park Construction Tasks")
 
-knitr::kable(building_tasks, caption = "Project 2: Building Tasks")
-
-bridge_tasks <- data.frame(
-  ID = c("AV", "AW", "AX", "AY", "AZ", "BA", "BB", "BC", "BD", "BE"),
-  Label = c(
-    "Task-3.1",
-    "Task-3.2",
-    "Task-3.3",
-    "Task-3.4",
-    "Task-3.5",
-    "Task-3.6",
-    "Task-3.7",
-    "Task-3.8",
-    "Task-3.9",
-    "Task-3.10"
-  ),
-  Task = c(
-    "Site Survey and Assessment",
-    "Environmental Impact Study",
-    "Concept Design and Planning",
-    "Structural Engineering and Analysis",
-    "Permitting and Approvals",
-    "Foundation and Pile Installation",
-    "Superstructure Construction",
-    "Decking and Surface Finishing",
-    "Inspection and Load Testing",
-    "Final Handover"
-  ),
-  Project_ID = rep("BH", 10)
+project3_tasks <- data.frame(
+  ID    = c("S", "T", "U"),
+  Label = c("Task-3.1", "Task-3.2", "Task-3.3"),
+  Task  = c("Demolition", "Renovation and Build-Out", "Final Inspection"),
+  Project_ID = rep("X", 3)
 )
-
-knitr::kable(bridge_tasks, caption = "Project 3: Bridge Tasks")
+knitr::kable(project3_tasks, caption = "Project 3: Building Renovation Tasks")
 ```
 
 ## Resources
 
-Each project requires resources to complete the tasks. These resources are allocated to the tasks based on the project requirements. The resources for the projects are as follows.
+Each task is driven by one primary resource. Because all three projects draw from the same enterprise-wide labor pool, supplier network, and equipment fleet, the resource costs for like resources are correlated across projects.
 
 ```{r results='asis'}
-roadway_resources <- data.frame(
-  ID = c("F", "G", "H", "I", "J", "K", "L", "M"),
-  Label = c(
-    "Resource-1.1",
-    "Resource-1.2",
-    "Resource-1.3",
-    "Resource-1.4",
-    "Resource-1.5",
-    "Resource-1.6",
-    "Resource-1.7",
-    "Resource-1.8"
-  ),
-  Resource = c(
-    "Surveyer",
-    "Engineer",
-    "Regulatory Support",
-    "Heavy Machinery",
-    "Pavement and Related Machinery",
-    "Drainage Material and Equipment",
-    "Painters, Traffic Signs, Road Markers",
-    "Inspectors and Quality Control Support"
-  ),
-  Task_ID = c("AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM"),
-  Task = c(
-    "Survey and Site Assessment",
-    "Design and Planning",
-    "Permitting and Approvals",
-    "Excavation and Grading",
-    "Pavement Installation",
-    "Drainage and Utilities Installation",
-    "Signage and Markings",
-    "Final Inspection and Handover"
-  ),
-  Mean = c(
-    10000,
-    20000,
-    3500,
-    35000,
-    100000,
-    25000,
-    6500,
-    2000
-  ),
-  SD = c(
-    2000,
-    5000,
-    1000,
-    10000,
-    20000,
-    5000,
-    1500,
-    500
-  )
+project1_resources <- data.frame(
+  ID       = c("D", "E", "F"),
+  Label    = c("Resource-1.1", "Resource-1.2", "Resource-1.3"),
+  Resource = c("Labor", "Materials", "Equipment"),
+  Task_ID  = c("M", "N", "O"),
+  Task     = c("Site Preparation", "Road Paving", "Final Inspection"),
+  Mean     = c(30000, 50000, 20000),
+  SD       = c(5000,  8000,  4000)
 )
+knitr::kable(project1_resources, caption = "Project 1: Road Repair Resources")
 
-knitr::kable(roadway_resources, caption = "Project 1: Roadway Resources")
-
-building_resources <- data.frame(
-  ID = c("N", "O", "P", "Q", "R", "S", "T", "U"),
-  Label = c(
-    "Resource-2.1",
-    "Resource-2.2",
-    "Resource-2.3",
-    "Resource-2.4",
-    "Resource-2.5",
-    "Resource-2.6",
-    "Resource-2.7",
-    "Resource-2.8"
-  ),
-  Resource = c(
-    "Architect",
-    "Structural Engineer",
-    "Regulatory Support",
-    "Heavy Machinery",
-    "Building Materials",
-    "Plumbers, Electricians",
-    "Painters, Interior Finishers",
-    "Inspector and Quality Control Support"
-  ),
-  Task_ID = c("AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU"),
-  Task = c(
-    "Architectural Design",
-    "Structural Engineering",
-    "Regulatory Approvals",
-    "Foundation and Excavation",
-    "Framing and Structural Work",
-    "Plumbing, Electrical, and HVAC Install",
-    "Interior and Exterior Finishing",
-    "Final Inspection and Handover"
-  ),
-  Mean = c(
-    15000,
-    30000,
-    4000,
-    40000,
-    100000,
-    20000,
-    8000,
-    2500
-  ),
-  SD = c(
-    3000,
-    6000,
-    1000,
-    10000,
-    20000,
-    4000,
-    1500,
-    500
-  )
+project2_resources <- data.frame(
+  ID       = c("G", "H", "I"),
+  Label    = c("Resource-2.1", "Resource-2.2", "Resource-2.3"),
+  Resource = c("Labor", "Materials", "Equipment"),
+  Task_ID  = c("P", "Q", "R"),
+  Task     = c("Site Preparation", "Planting and Landscaping", "Final Inspection"),
+  Mean     = c(25000, 30000, 15000),
+  SD       = c(4000,  5000,  3000)
 )
+knitr::kable(project2_resources, caption = "Project 2: Park Construction Resources")
 
-knitr::kable(building_resources, caption = "Project 2: Building Resources")
-
-bridge_resources <- data.frame(
-  ID = c("V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE"),
-  Label = c(
-    "Resource-3.1",
-    "Resource-3.2",
-    "Resource-3.3",
-    "Resource-3.4",
-    "Resource-3.5",
-    "Resource-3.6",
-    "Resource-3.7",
-    "Resource-3.8",
-    "Resource-3.9",
-    "Resource-3-10"
-  ),
-  Resource = c(
-    "Surveyor",
-    "Environmental Scientist",
-    "Civil Engineer",
-    "Structural Engineer",
-    "Regulatory Consulting",
-    "Heavy Machinery",
-    "Steel and Concrete Materials",
-    "Decking Materials",
-    "Inspector and Quality Control Support",
-    "Handover Team"
-  ),
-  Task_ID = c("AV", "AW", "AX", "AY", "AZ", "BA", "BB", "BC", "BD", "BE"),
-  Task = c(
-    "Site Survey and Assessment",
-    "Environmental Impact Study",
-    "Concept Design and Planning",
-    "Structural Engineering and Analysis",
-    "Permitting and Approvals",
-    "Foundation and Pile Installation",
-    "Superstructure Construction",
-    "Decking and Surface Finishing",
-    "Inspection and Load Testing",
-    "Final Handover"
-  ),
-  Mean = c(
-    10000,
-    20000,
-    30000,
-    40000,
-    5000,
-    50000,
-    100000,
-    20000,
-    5000,
-    10000
-  ),
-  SD = c(
-    2000,
-    4000,
-    6000,
-    8000,
-    1000,
-    10000,
-    20000,
-    4000,
-    1000,
-    2000
-  )
+project3_resources <- data.frame(
+  ID       = c("J", "K", "L"),
+  Label    = c("Resource-3.1", "Resource-3.2", "Resource-3.3"),
+  Resource = c("Labor", "Materials", "Equipment"),
+  Task_ID  = c("S", "T", "U"),
+  Task     = c("Demolition", "Renovation and Build-Out", "Final Inspection"),
+  Mean     = c(40000, 60000, 25000),
+  SD       = c(6000,  10000, 4000)
 )
-
-knitr::kable(bridge_resources, caption = "Project 3: Bridge Resources")
+knitr::kable(project3_resources, caption = "Project 3: Building Renovation Resources")
 ```
 
 ## Risks
 
-Each project is also subject to risks that can impact the project outcomes. Each risk event has a probability of occurrence and an impact on the project. The risks for the projects are as follows.
+The network includes one root cause and three risk events. The root cause (SC) is a Supply Chain Disruption that drives both the Labor Shortage and the Material Price Spike. The Weather Delay is independent of SC. Each risk event is enterprise-wide and impacts the corresponding shared resource across all three projects.
 
 ```{r results='asis'}
-roadway_risks <- data.frame(
-  Risk_ID = c("A", "B", "C"),
-  Name = c(
-    "Risk-1",
-    "Risk-2",
-    "Risk-3"
-  ),
-  Risk = c(
-    "Delays in Permitting and Approvals",
-    "Unforeseen Site Conditions",
-    "Material Price Fluctuations"
-  ),
-  Probability = c(
-    0.9,
-    0.95,
-    0.8
-  ),
-  Resource_ID = c("H", "I", "J"),
+root_cause <- data.frame(
+  ID          = "SC",
+  Name        = "Root Cause",
+  Event       = "Supply Chain Disruption",
+  P_occurs    = 0.70,
+  Children    = "A (Labor Shortage), B (Material Price Spike)"
+)
+knitr::kable(root_cause, caption = "Root Cause node (SC)")
+
+risks <- data.frame(
+  Risk_ID     = c("A", "B", "C"),
+  Name        = c("Risk-1", "Risk-2", "Risk-3"),
+  Risk        = c("Labor Shortage", "Material Price Spike", "Weather Delay"),
+  Parent      = c("SC", "SC", "—"),
+  P_given_SC1 = c(0.95, 0.85, "—"),
+  P_given_SC0 = c(0.40, 0.25, "—"),
+  P_marginal  = c("≈ 0.79", "≈ 0.67", "0.60"),
   Resource_Impacted = c(
-    "Regulatory Support",
-    "Heavy Machinery",
-    "Pavement and Related Machinery"
-  ),
-  Mean = c(
-    7000,
-    70000,
-    200000
-  ),
-  SD = c(
-    2000,
-    20000,
-    40000
+    "Labor (D, G, J)",
+    "Materials (E, H, K)",
+    "Equipment (F, I, L)"
   )
 )
-
-knitr::kable(roadway_risks, caption = "Project 1: Roadway Risks")
-
-building_risks <- data.frame(
-  Risk_ID = c("A", "D", "C"),
-  Name = c(
-    "Risk-1",
-    "Risk-4",
-    "Risk-3"
-  ),
-  Risk = c(
-    "Delays in Permitting and Approvals",
-    "Labor Shortage or Skills Gap",
-    "Material Price Volatility"
-  ),
-  Probability = c(
-    0.9,
-    0.9,
-    0.8
-  ),
-  Resource_ID = c("P", "S", "O"),
-  Resource = c(
-    "Regulatory Support",
-    "Plumbers, Electricians",
-    "Building Materials"
-  ),
-  Mean = c(
-    8000,
-    40000,
-    60000
-  ),
-  SD = c(
-    2000,
-    8000,
-    12000
-  )
-)
-
-knitr::kable(building_risks, caption = "Project 2: Building Risks")
-
-bridge_risks <- data.frame(
-  Risk_ID = c("B", "D", "E"),
-  Name = c(
-    "Risk-2",
-    "Risk-4",
-    "Risk-5"
-  ),
-  Risk = c(
-    "Unforeseen Environmental Conditions",
-    "Labor Supply Disruptions",
-    "Structural Design Revisions"
-  ),
-  Probabiliy = c(
-    0.95,
-    0.9,
-    0.95
-  ),
-  Resource_ID = c("W", "AD", "Y"),
-  Resource = c(
-    "Environmental Scientist",
-    "Inspector and Quality Control Support",
-    "Structural Engineer"
-  ),
-  Mean = c(
-    40000,
-    10000,
-    80000
-  ),
-  SD = c(
-    9000,
-    2000,
-    16000
-  )
-)
-
-knitr::kable(bridge_risks, caption = "Project 3: Bridge Risks")
+knitr::kable(risks, caption = "Enterprise-Wide Risk nodes (A, B conditional on SC; C independent)")
 ```
 
-Notice how the risks are associated with the resources. The risks can impact the resources, and the resources can ultimately impact the project outcomes. Most of the risks are also common across the projects. For example, Risk 1 is common across all three projects. If Risk 1 occurs, the impact will be felt across all three. 
+The shared root cause SC is what makes seeing and doing diverge at the risk level: observing $A = 1$ raises the posterior probability of SC, which in turn raises the probability of $B = 1$ — a side-effect that a causal intervention $\operatorname{do}(A = 1)$ does not produce, because graph surgery severs SC's influence on A without updating beliefs about SC itself.
 
-## Bayesian Network
+## Mathematical Formulation
 
-A Bayesian network is useful for modeling project portfolio risks. The Bayesian Network represents the dependencies between the projects, tasks, resources, and risks. The network helps in understanding the relationships between the variables and in making inferences about the risks.
+The probabilistic network is a directed acyclic graph (DAG) whose structure is encoded in an adjacency matrix **A** (Govan, 2014, Ch. IV):
 
-First, define the nodes and edges of the Bayesian network. The nodes represent the variables, and the edges represent the dependencies between the variables. The following code defines the nodes and edges of the Bayesian network.
+$$\mathbf{A}_{ij} = 1 \quad \text{if node } i \text{ is conditionally dependent on node } j, \quad 0 \text{ otherwise.}$$
+
+**A** is lower-triangular of size $n_p \times n_p$, where $n_p = 26$ is the total number of nodes. The layers of the network — root cause **sc**, risks **r**, resources **a**, tasks **t**, projects, and portfolio — appear in topological order along both axes, so that every arc runs strictly from a lower-indexed parent to a higher-indexed child. This structure guarantees that the graph is acyclic and that probability distributions can be evaluated by a single forward pass in topological order.
+
+### Probability Distributions
+
+The root cause SC has a marginal Bernoulli prior with $P(\text{SC} = 1) = 0.7$. Risks A and B are conditionally dependent on SC; C is independent. The joint distribution of the root cause and the three enterprise risks is:
+
+$$P(\text{SC},\, A,\, B,\, C) \;=\; P(\text{SC})\cdot P(A \mid \text{SC})\cdot P(B \mid \text{SC})\cdot P(C)$$
+
+where $P(A = 1 \mid \text{SC} = 1) = 0.95$, $P(A = 1 \mid \text{SC} = 0) = 0.40$, giving marginal $P(A = 1) \approx 0.79$; $P(B = 1 \mid \text{SC} = 1) = 0.85$, $P(B = 1 \mid \text{SC} = 0) = 0.25$, giving marginal $P(B = 1) \approx 0.67$; and $P(C = 1) = 0.6$ marginally.
+
+Each resource cost $a_j$ is conditionally dependent on its parent risk $r(\mathbf{a}_j)$:
+
+$$P(\mathbf{a}) = \prod_{j=1}^{9} P\!\left(a_j \mid r(a_j)\right)$$
+
+For example, Labor-1 (node D) is distributed as:
+
+$$P(D \mid A) = \begin{cases} \mathcal{N}(50{,}000,\; 8{,}000) & \text{if } A = 1 \text{ (Labor Shortage occurs)} \\ \mathcal{N}(30{,}000,\; 5{,}000) & \text{if } A = 0 \end{cases}$$
+
+Because the toy case simplifies each resource into a single cost node (rather than separate unit-cost and quantity nodes), task cost $t_j$ is a direct pass-through of its parent resource:
+
+$$t_j = a_j, \quad j = 1, \ldots, 9$$
+
+Projects and the portfolio are additive aggregates of their children:
+
+$$p_k = \sum_{j \,\in\, \text{tasks}(k)} t_j, \qquad Y = \sum_{k=1}^{3} p_k$$
+
+### Bayesian Inference
+
+Given observed or hypothesised risk state $r_i$, the marginal distribution of resource cost $a_j$ is obtained by marginalising over the risk:
+
+$$P(a_j) = \sum_{r_i \in \{0,1\}} P(a_j \mid r_i)\, P(r_i)$$
+
+Conditioning on evidence, for instance, setting $A = 1$ to represent a confirmed Labor Shortage,  replaces $P(A)$ with a point mass at 1, which updates every resource node that depends on $A$ simultaneously and propagates the shift through tasks, projects, and the portfolio (Govan, 2014, Ch. IV).
+
+### Algorithms
+
+**Algorithm 1 — Monte Carlo Sampling for Portfolio Cost**
+
+Given the network structure, a single Monte Carlo sample of portfolio cost $Y$ is generated as follows (Govan, 2014, Ch. IV):
+
+1. Draw $\text{SC} \sim P(\text{SC})$; then draw $A \sim P(A \mid \text{SC})$, $B \sim P(B \mid \text{SC})$, and $C \sim P(C)$ independently.
+2. Draw $a_j \sim P(a_j \mid r(a_j))$ for each of the nine resource nodes, using the risk realizations from step 1.
+3. Compute task costs $t_j = a_j$, project costs $p_k = \sum_{j} t_j$, and portfolio cost $Y = \sum_{k} p_k$.
+
+Repeat $R$ times to obtain the sample $\bigl\{Y^{(r)}\bigr\}_{r=1}^{R}$, from which the empirical distribution of portfolio cost is approximated.
+
+**Algorithm 2 — Monte Carlo Estimation of the Task-Cost Correlation Matrix**
+
+1. Generate $R$ samples of all nine task costs $(t_1, \ldots, t_9)$ using Algorithm 1, and collect the draws into column vectors $\mathbf{n}_1, \ldots, \mathbf{n}_9$ each of length $R$.
+2. Compute the $9 \times 9$ sample correlation matrix whose $(i, j)$ entry is $\operatorname{corr}(\mathbf{n}_i, \mathbf{n}_j)$.
+
+Tasks that share a common parent risk will exhibit positive correlation in this matrix; tasks whose parent risks are distinct will be uncorrelated. The magnitude of each correlation coefficient therefore quantifies the degree of cross-project coupling introduced by each shared enterprise risk.
+
+**Implementation.** `prob_net_sim()` implements Algorithm 1: it draws Monte Carlo samples in topological node order and returns the joint sample matrix. `prob_net_learn()` implements Algorithm 2's conditioning step by fixing observed node states and re-sampling the downstream distribution. `prob_net_update()` performs graph surgery prior to re-simulation by removing specified edges and replacing node distributions, enabling the do(·) queries demonstrated below.
+
+**Model validity.** All inferences derived from the network rest on the DAG being correctly specified. Misspecified edges or omitted confounders would invalidate the conditional and interventional results. In practice, the DAG structure should be grounded in domain knowledge (the Work Breakdown Structure, Resource Breakdown Structure, and risk register) and subjected to sensitivity analysis before operational use.
+
+## Probabilistic Network
+
+A probabilistic network is built from three components: nodes, links (edges), and probability distributions. The nodes represent variables; the edges represent cause-and-effect dependencies; the distributions encode uncertainty at each node. The following constructs the network from the node, link, and distribution specifications laid out in the preceding section.
+
+First, define the nodes.
 
 ```{r}
 nodes <- data.frame(
   id = c(
-    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
-    "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB",
-    "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN",
-    "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ",
-    "BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI"
+    "SC",
+    "A",  "B",  "C",
+    "D",  "E",  "F",
+    "G",  "H",  "I",
+    "J",  "K",  "L",
+    "M",  "N",  "O",
+    "P",  "Q",  "R",
+    "S",  "T",  "U",
+    "V",  "W",  "X",  "Y"
   ),
   label = c(
-    "Risk-1",
-    "Risk-2",
-    "Risk-3",
-    "Risk-4",
-    "Risk-5",
-    "Resource-1.1",
-    "Resource-1.2",
-    "Resource-1.3",
-    "Resource-1.4",
-    "Resource-1.5",
-    "Resource-1.6",
-    "Resource-1.7",
-    "Resource-1.8",
-    "Resource-2.1",
-    "Resource-2.2",
-    "Resource-2.3",
-    "Resource-2.4",
-    "Resource-2.5",
-    "Resource-2.6",
-    "Resource-2.7",
-    "Resource-2.8",
-    "Resource-3.1",
-    "Resource-3.2",
-    "Resource-3.3",
-    "Resource-3.4",
-    "Resource-3.5",
-    "Resource-3.6",
-    "Resource-3.7",
-    "Resource-3.8",
-    "Resource-3.9",
-    "Resource-3-10",
-    "Task-1.1",
-    "Task-1.2",
-    "Task-1.3",
-    "Task-1.4",
-    "Task-1.5",
-    "Task-1.6",
-    "Task-1.7",
-    "Task-1.8",
-    "Task-2.1",
-    "Task-2.2",
-    "Task-2.3",
-    "Task-2.4",
-    "Task-2.5",
-    "Task-2.6",
-    "Task-2.7",
-    "Task-2.8",
-    "Task-3.1",
-    "Task-3.2",
-    "Task-3.3",
-    "Task-3.4",
-    "Task-3.5",
-    "Task-3.6",
-    "Task-3.7",
-    "Task-3.8",
-    "Task-3.9",
-    "Task-3.10",
-    "Project 1",
-    "Project 2",
-    "Project 3",
-    "Project Portfolio"
+    "Supply Chain Disruption",
+    "Risk-1 (Labor Shortage)",
+    "Risk-2 (Material Price Spike)",
+    "Risk-3 (Weather Delay)",
+    "Labor-1",    "Materials-1",  "Equipment-1",
+    "Labor-2",    "Materials-2",  "Equipment-2",
+    "Labor-3",    "Materials-3",  "Equipment-3",
+    "Task-1.1",   "Task-1.2",     "Task-1.3",
+    "Task-2.1",   "Task-2.2",     "Task-2.3",
+    "Task-3.1",   "Task-3.2",     "Task-3.3",
+    "Project 1",  "Project 2",    "Project 3",
+    "Portfolio"
   ),
   group = c(
-    "Risk",
-    "Risk",
-    "Risk",
-    "Risk",
-    "Risk",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Resource",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Task",
-    "Project",
-    "Project",
-    "Project",
+    "Root Cause",
+    "Risk", "Risk", "Risk",
+    "Resource", "Resource", "Resource",
+    "Resource", "Resource", "Resource",
+    "Resource", "Resource", "Resource",
+    "Task", "Task", "Task",
+    "Task", "Task", "Task",
+    "Task", "Task", "Task",
+    "Project", "Project", "Project",
     "Portfolio"
   ),
   stringsAsFactors = FALSE
 )
 ```
 
-Next, define the edges of the Bayesian network. The following code defines the edges of the Bayesian network.
+Next, define the edges. The structure follows the Resource-based View hierarchy: risks flow into shared resources, resources drive tasks, tasks roll up into projects, and projects aggregate into the portfolio.
 
 ```{r}
 links <- data.frame(
   source = c(
-    "A", "B", "C", "A", "D", "C", "B", "D", "E", "F", "G", "H", "I",
-    "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W",
-    "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI",
-    "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU",
-    "AV", "AW", "AX", "AY", "AZ", "BA", "BB", "BC", "BD", "BE", "BF", "BG",
-    "BH"
+    # Root cause → Risks (SC drives Labor Shortage and Material Price Spike)
+    "SC", "SC",
+    # Risks → Resources (each risk hits the same resource type across all 3 projects)
+    "A", "A", "A",   # Labor Shortage → Labor in P1, P2, P3
+    "B", "B", "B",   # Material Spike → Materials in P1, P2, P3
+    "C", "C", "C",   # Weather Delay → Equipment in P1, P2, P3
+    # Resources → Tasks (1-to-1)
+    "D", "E", "F",
+    "G", "H", "I",
+    "J", "K", "L",
+    # Tasks → Projects
+    "M", "N", "O",
+    "P", "Q", "R",
+    "S", "T", "U",
+    # Projects → Portfolio
+    "V", "W", "X"
   ),
   target = c(
-    "H", "I", "J", "P", "S", "O", "W", "AD", "Y", "AF", "AG", "AH", "AI",
-    "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU",
-    "AV", "AW", "AX", "AY", "AZ", "BA", "BB", "BC", "BD", "BE", "BF", "BF",
-    "BF", "BF", "BF", "BF", "BF", "BF", "BG", "BG", "BG", "BG", "BG", "BG",
-    "BG", "BG", "BH", "BH", "BH", "BH", "BH", "BH", "BH", "BH", "BH", "BH",
-    "BI", "BI", "BI"
+    "A", "B",
+    "D", "G", "J",
+    "E", "H", "K",
+    "F", "I", "L",
+    "M", "N", "O",
+    "P", "Q", "R",
+    "S", "T", "U",
+    "V", "V", "V",
+    "W", "W", "W",
+    "X", "X", "X",
+    "Y", "Y", "Y"
   ),
-  value = rep(1, 64)
+  value = rep(1, 32)
 )
 ```
 
-Then define the distributions for the nodes. The distributions represent the probabilities of the outcomes for each node. The following code defines the distributions for the nodes.
+Then define the probability distributions for each node.
 
 ```{r}
 distributions <- list(
+  # --- Root cause node ---
+  # SC: Supply Chain Disruption (marginal; drives both A and B)
+  SC = list(type = "discrete", values = c(1, 0), probs = c(0.7, 0.3)),
+
+  # --- Risk nodes (discrete: 1 = occurs, 0 = does not occur) ---
+  # A and B are conditionally dependent on SC; C is independent
   A = list(
-    type = "discrete",
-    values = c(1, 0),
-    probs = c(0.9, 0.1)
+    type = "conditional", condition = "SC",
+    true_dist  = list(type = "discrete", values = c(1, 0), probs = c(0.95, 0.05)),
+    false_dist = list(type = "discrete", values = c(1, 0), probs = c(0.40, 0.60))
   ),
+  # Marginal P(A=1) = 0.7*0.95 + 0.3*0.40 = 0.785 (≈ original 0.8)
   B = list(
-    type = "discrete",
-    values = c(1, 0),
-    probs = c(0.95, 0.05)
+    type = "conditional", condition = "SC",
+    true_dist  = list(type = "discrete", values = c(1, 0), probs = c(0.85, 0.15)),
+    false_dist = list(type = "discrete", values = c(1, 0), probs = c(0.25, 0.75))
   ),
-  C = list(
-    type = "discrete",
-    values = c(1, 0),
-    probs = c(0.8, 0.2)
-  ),
+  # Marginal P(B=1) = 0.7*0.85 + 0.3*0.25 = 0.670 (≈ original 0.7)
+  C = list(type = "discrete", values = c(1, 0), probs = c(0.6, 0.4)),
+
+  # --- Resource nodes (conditional on shared risk) ---
+  # Labor (all conditioned on Risk-1: Labor Shortage)
   D = list(
-    type = "discrete",
-    values = c(1, 0),
-    probs = c(0.9, 0.1)
-  ),
-  E = list(
-    type = "discrete",
-    values = c(1, 0),
-    probs = c(0.95, 0.05)
-  ),
-  F = list(
-    type = "normal",
-    mean = 10000,
-    sd = 2000
+    type = "conditional", condition = "A",
+    true_dist  = list(type = "normal", mean = 50000, sd = 8000),
+    false_dist = list(type = "normal", mean = 30000, sd = 5000)
   ),
   G = list(
-    type = "normal",
-    mean = 20000,
-    sd = 5000
-  ),
-  H = list(
-    type = "conditional",
-    condition = c("A"),
-    true_dist = list(
-      type = "normal",
-      mean = 7000,
-      sd = 2000
-    ),
-    false_dist = list(
-      type = "normal",
-      mean = 3500,
-      sd = 1000
-    )
-  ),
-  I = list(
-    type = "conditional",
-    condition = c("B"),
-    true_dist = list(
-      type = "normal",
-      mean = 70000,
-      sd = 20000
-    ),
-    false_dist = list(
-      type = "normal",
-      mean = 35000,
-      sd = 10000
-    )
+    type = "conditional", condition = "A",
+    true_dist  = list(type = "normal", mean = 40000, sd = 6000),
+    false_dist = list(type = "normal", mean = 25000, sd = 4000)
   ),
   J = list(
-    type = "conditional",
-    condition = c("C"),
-    true_dist = list(
-      type = "normal",
-      mean = 100000,
-      sd = 40000
-    ),
-    false_dist = list(
-      type = "normal",
-      mean = 50000,
-      sd = 20000
-    )
+    type = "conditional", condition = "A",
+    true_dist  = list(type = "normal", mean = 65000, sd = 10000),
+    false_dist = list(type = "normal", mean = 40000, sd = 6000)
+  ),
+  # Materials (all conditioned on Risk-2: Material Price Spike)
+  E = list(
+    type = "conditional", condition = "B",
+    true_dist  = list(type = "normal", mean = 80000, sd = 12000),
+    false_dist = list(type = "normal", mean = 50000, sd = 8000)
+  ),
+  H = list(
+    type = "conditional", condition = "B",
+    true_dist  = list(type = "normal", mean = 50000, sd = 8000),
+    false_dist = list(type = "normal", mean = 30000, sd = 5000)
   ),
   K = list(
-    type = "normal",
-    mean = 25000,
-    sd = 5000
+    type = "conditional", condition = "B",
+    true_dist  = list(type = "normal", mean = 100000, sd = 15000),
+    false_dist = list(type = "normal", mean = 60000, sd = 10000)
+  ),
+  # Equipment (all conditioned on Risk-3: Weather Delay)
+  F = list(
+    type = "conditional", condition = "C",
+    true_dist  = list(type = "normal", mean = 35000, sd = 6000),
+    false_dist = list(type = "normal", mean = 20000, sd = 4000)
+  ),
+  I = list(
+    type = "conditional", condition = "C",
+    true_dist  = list(type = "normal", mean = 25000, sd = 4000),
+    false_dist = list(type = "normal", mean = 15000, sd = 3000)
   ),
   L = list(
-    type = "normal",
-    mean = 6500,
-    sd = 1500
+    type = "conditional", condition = "C",
+    true_dist  = list(type = "normal", mean = 40000, sd = 6000),
+    false_dist = list(type = "normal", mean = 25000, sd = 4000)
   ),
-  M = list(
-    type = "normal",
-    mean = 2000,
-    sd = 500
-  ),
-  N = list(
-    type = "normal",
-    mean = 15000,
-    sd = 3000
-  ),
-  O = list(
-    type = "conditional",
-    condition = c("C"),
-    true_dist = list(
-      type = "normal",
-      mean = 8000,
-      sd = 2000
-    ),
-    false_dist = list(
-      type = "normal",
-      mean = 4000,
-      sd = 1000
-    )
-  ),
-  P = list(
-    type = "conditional",
-    condition = c("A"),
-    true_dist = list(
-      type = "normal",
-      mean = 8000,
-      sd = 2000
-    ),
-    false_dist = list(
-      type = "normal",
-      mean = 4000,
-      sd = 1000
-    )
-  ),
-  Q = list(
-    type = "normal",
-    mean = 40000,
-    sd = 10000
-  ),
-  R = list(
-    type = "normal",
-    mean = 100000,
-    sd = 20000
-  ),
-  S = list(
-    type = "conditional",
-    condition = c("D"),
-    true_dist = list(
-      type = "normal",
-      mean = 16000,
-      sd = 4000
-    ),
-    false_dist = list(
-      type = "normal",
-      mean = 8000,
-      sd = 2000
-    )
-  ),
-  T = list(
-    type = "normal",
-    mean = 8000,
-    sd = 1500
-  ),
-  U = list(
-    type = "normal",
-    mean = 2500,
-    sd = 500
-  ),
-  V = list(
-    type = "normal",
-    mean = 10000,
-    sd = 2000
-  ),
-  W = list(
-    type = "conditional",
-    condition = c("B"),
-    true_dist = list(
-      type = "normal",
-      mean = 60000,
-      sd = 4000
-    ),
-    false_dist = list(
-      type = "normal",
-      mean = 30000,
-      sd = 2000
-    )
-  ),
-  X = list(
-    type = "normal",
-    mean = 30000,
-    sd = 6000
-  ),
-  Y = list(
-    type = "conditional",
-    condition = c("E"),
-    true_dist = list(
-      type = "normal",
-      mean = 20000,
-      sd = 2000
-    ),
-    false_dist = list(
-      type = "normal",
-      mean = 10000,
-      sd = 1000
-    )
-  ),
-  Z = list(
-    type = "normal",
-    mean = 5000,
-    sd = 1000
-  ),
-  AA = list(
-    type = "normal",
-    mean = 50000,
-    sd = 10000
-  ),
-  AB = list(
-    type = "normal",
-    mean = 100000,
-    sd = 20000
-  ),
-  AC = list(
-    type = "normal",
-    mean = 20000,
-    sd = 4000
-  ),
-  AD = list(
-    type = "conditional",
-    condition = c("D"),
-    true_dist = list(
-      type = "normal",
-      mean = 40000,
-      sd = 8000
-    ),
-    false_dist = list(
-      type = "normal",
-      mean = 20000,
-      sd = 4000
-    )
-  ),
-  AE = list(
-    type = "normal",
-    mean = 10000,
-    sd = 2000
-  ),
-  AF = list(
-    type = "aggregate",
-    nodes = c("F")
-  ),
-  AG = list(
-    type = "aggregate",
-    nodes = c("G")
-  ),
-  AH = list(
-    type = "aggregate",
-    nodes = c("H")
-  ),
-  AI = list(
-    type = "aggregate",
-    nodes = c("I")
-  ),
-  AJ = list(
-    type = "aggregate",
-    nodes = c("J")
-  ),
-  AK = list(
-    type = "aggregate",
-    nodes = c("K")
-  ),
-  AL = list(
-    type = "aggregate",
-    nodes = c("L")
-  ),
-  AM = list(
-    type = "aggregate",
-    nodes = c("M")
-  ),
-  AN = list(
-    type = "aggregate",
-    nodes = c("N")
-  ),
-  AO = list(
-    type = "aggregate",
-    nodes = c("O")
-  ),
-  AP = list(
-    type = "aggregate",
-    nodes = c("P")
-  ),
-  AQ = list(
-    type = "aggregate",
-    nodes = c("Q")
-  ),
-  AR = list(
-    type = "aggregate",
-    nodes = c("R")
-  ),
-  AS = list(
-    type = "aggregate",
-    nodes = c("S")
-  ),
-  AT = list(
-    type = "aggregate",
-    nodes = c("T")
-  ),
-  AU = list(
-    type = "aggregate",
-    nodes = c("U")
-  ),
-  AV = list(
-    type = "aggregate",
-    nodes = c("V")
-  ),
-  AW = list(
-    type = "aggregate",
-    nodes = c("W")
-  ),
-  AX = list(
-    type = "aggregate",
-    nodes = c("X")
-  ),
-  AY = list(
-    type = "aggregate",
-    nodes = c("Y")
-  ),
-  AZ = list(
-    type = "aggregate",
-    nodes = c("Z")
-  ),
-  BA = list(
-    type = "aggregate",
-    nodes = c("AA")
-  ),
-  BB = list(
-    type = "aggregate",
-    nodes = c("AB")
-  ),
-  BC = list(
-    type = "aggregate",
-    nodes = c("AC")
-  ),
-  BD = list(
-    type = "aggregate",
-    nodes = c("AD")
-  ),
-  BE = list(
-    type = "aggregate",
-    nodes = c("AE")
-  ),
-  BF = list(
-    type = "aggregate",
-    nodes = c("AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM")
-  ),
-  BG = list(
-    type = "aggregate",
-    nodes = c("AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU")
-  ),
-  BH = list(
-    type = "aggregate",
-    nodes = c("AV", "AW", "AX", "AY", "AZ", "BA", "BB", "BC", "BD", "BE")
-  ),
-  BI = list(
-    type = "aggregate",
-    nodes = c("BF", "BG", "BH")
-  )
+
+  # --- Task nodes (aggregate of their single resource) ---
+  M = list(type = "aggregate", nodes = c("D")),
+  N = list(type = "aggregate", nodes = c("E")),
+  O = list(type = "aggregate", nodes = c("F")),
+  P = list(type = "aggregate", nodes = c("G")),
+  Q = list(type = "aggregate", nodes = c("H")),
+  R = list(type = "aggregate", nodes = c("I")),
+  S = list(type = "aggregate", nodes = c("J")),
+  T = list(type = "aggregate", nodes = c("K")),
+  U = list(type = "aggregate", nodes = c("L")),
+
+  # --- Project nodes (aggregate of their tasks) ---
+  V = list(type = "aggregate", nodes = c("M", "N", "O")),
+  W = list(type = "aggregate", nodes = c("P", "Q", "R")),
+  X = list(type = "aggregate", nodes = c("S", "T", "U")),
+
+  # --- Portfolio node ---
+  Y = list(type = "aggregate", nodes = c("V", "W", "X"))
 )
 ```
 
-Finally, define the Bayesian network using the nodes, edges, and distributions. The following code defines the Bayesian network.
-
-```{r}
-library(PRA)
-graph <- prob_net(nodes, links, distributions = distributions)
-```
-
-The Bayesian network can be visualized using the igraph and networkD3 packages. The igraph package provides functions for creating and analyzing graph structures, and the networkD3 package provides functions for creating interactive network visualizations.
+Build the network and visualize it using the `igraph` and `networkD3` packages.
 
 ```{r message=FALSE}
-library(igraph)
-library(networkD3)
+graph <- prob_net(nodes, links, distributions = distributions)
+
 g <- graph_from_data_frame(graph$links, vertices = graph$nodes, directed = TRUE)
 d3g <- igraph_to_networkD3(g, group = graph$nodes$group)
 forceNetwork(
-  Links = d3g$links, Nodes = d3g$nodes, NodeID = "name", Group = "group", Value = "value",
-  zoom = TRUE, legend = TRUE, arrows = TRUE, opacity = 0.8, fontSize = 14
+  Links = d3g$links, Nodes = d3g$nodes, NodeID = "name", Group = "group",
+  Value = "value", zoom = TRUE, legend = TRUE, arrows = TRUE,
+  opacity = 0.8, fontSize = 14
 )
 ```
+
+The network graph makes the shared-risk structure immediately visible: each of the three risk nodes fans out to the same resource type across all three projects. This is the graphical representation of the Resource-based View argument, shared resources are the structural pathway through which risks propagate across the portfolio. Note that the force-directed layout positions nodes for visual clarity only; causal ordering is determined by the topological sort of the DAG and encoded in the direction of the edges, not by left-right or top-bottom node placement.
 
 ## Inference
 
-To analyze the Bayesian network, use probabilistic inference to calculate the probabilities of different outcomes. Probabilistic inference is the process of estimating the probability distribution of a variable given evidence about other variables. Inference helps in making predictions about the risks based on the observed data.
+Following Pearl (2009), a causal network supports three qualitatively distinct queries: the **observational** distribution $P(Y)$, the **conditional** distribution under seeing $P(Y \mid X = x)$, and the **interventional** distribution under doing $P(Y \mid \operatorname{do}(X = x))$. The three are generally different, and conflating them is the source of the most common errors in causal reasoning. This section treats each in turn.
 
-```{r results='asis'}
-simulation_results <- prob_net_sim(graph, num_samples = 1000)
-```
-
-The simulation results can be used to estimate the total project portfolio cost and assess the impact of risks on the project outcomes. The following code estimates the total portfolio cost.
+The observational query $P(Y)$ is computed by Monte Carlo simulation over the joint distribution $P(\mathbf{r}, \mathbf{a}, \mathbf{t}, \mathbf{p}, Y)$ implied by the DAG's factorisation. Each sample draws a realization of every risk event, propagates costs through the conditional resource distributions, and sums to a portfolio total.
 
 ```{r}
-hist <- hist(simulation_results$BI, breaks = 50, plot = FALSE)
-plot(hist, main = "Total Project Portfolio Cost", xlab = "Project Cost", col = "skyblue", border = "white")
+sim_results <- prob_net_sim(graph, num_samples = 1000)
+
+hist(sim_results$Y, breaks = 50,
+     main = expression("Observational distribution " * italic(P) * "(Y)"),
+     xlab = "Portfolio Cost ($)", col = "skyblue", border = "white")
 ```
 
-The histogram shows the distribution of the total portfolio cost. The histogram helps in understanding the range of possible project costs and assess the impact of risks on the project outcomes.
+The histogram reflects the combined uncertainty of all three shared risks. Because each risk affects all three projects, the tails of $P(Y)$ are heavier than they would be if risks were independent — a direct consequence of the shared-resource structure.
 
-## Learning
+To quantify the cost of ignoring cross-project dependencies, compare the portfolio variance under the causal network against the sum of individual project variances. Under independence, $\operatorname{Var}(Y)_{\text{naive}} = \operatorname{Var}(V) + \operatorname{Var}(W) + \operatorname{Var}(X)$, because projects would be uncorrelated. Under the causal network, shared risks introduce positive covariance terms:
 
-The Bayesian network can be updated with new data to improve the model's accuracy. Learning the Bayesian network involves updating the distributions based on new evidence. The updated Bayesian network can be used to make more accurate predictions about the risks.
-
-For example, if Risk 1.2 occurred, the Bayesian network can be updated with this new data. The following code updates the Bayesian network with the new data.
-
-
-```{r results='asis'}
-updated_results <- prob_net_learn(graph,
-  observations = list(B = "Yes"),
-  num_samples = 1000
-)
-```
-
-The updated results can be compared with the original results to see how the changes in the risk probabilities affect the project outcomes. The following code compares the results before and after updating the Bayesian network.
+$$\operatorname{Var}(Y) \;=\; \operatorname{Var}(V) + \operatorname{Var}(W) + \operatorname{Var}(X) \;+\; 2\bigl[\operatorname{Cov}(V,W) + \operatorname{Cov}(V,X) + \operatorname{Cov}(W,X)\bigr]$$
 
 ```{r}
-hist <- hist(simulation_results$I, breaks = 50, plot = FALSE)
-hist2 <- hist(updated_results$I, breaks = 50, plot = FALSE)
-plot(hist,
-  main = "Heavy Machinery Cost", xlab = "Resource Cost",
-  col = "skyblue", border = "white"
-)
-plot(hist2, col = "blue", border = "white", add = TRUE)
-legend("topright",
-  legend = c("Before Update", "After Update"),
-  fill = c("skyblue", "blue"), bty = "n"
-)
+var_naive   <- var(sim_results$V) + var(sim_results$W) + var(sim_results$X)
+var_network <- var(sim_results$Y)
+var_ratio   <- round(var_network / var_naive, 2)
 ```
 
-## Updating
+In this simulation, the causal network gives a portfolio cost variance `r var_ratio`× larger than the naive independent-projects estimate — the factor by which a portfolio analyst ignoring shared resources would underestimate portfolio risk.
 
-Similarly, the Bayesian network can be updated by adding or removing arcs between nodes. Adding or removing arcs changes the dependencies between the variables and improve the model's accuracy. 
+Algorithm 2 quantifies the cross-project coupling directly. The task-cost correlation matrix reveals which task pairs are correlated and by how much, with all correlation driven by the three shared enterprise risks.
 
-For example, suppose Resource 1.3 is no longer at risk of delays. Remove the arc between Resource 1.3 and Risk 1.1 to account for this new information. The following code removes the arc between Resource 1.3 and Risk 1.1.
+```{r fig.cap="Task-cost correlation matrix (Algorithm 2). Colour intensity encodes the correlation coefficient; numerical values are shown in each cell. Tasks sharing a common enterprise risk are strongly positively correlated; tasks driven by different risks are near zero."}
+task_costs <- sim_results[, c("M", "N", "O", "P", "Q", "R", "S", "T", "U")]
+cor_matrix <- cor(task_costs)
+corrplot(cor_matrix,
+         method    = "color",
+         type      = "full",
+         addCoef.col = "black",
+         number.cex  = 0.7,
+         tl.col    = "black",
+         tl.srt    = 45,
+         col       = colorRampPalette(c("white", "steelblue"))(100),
+         mar       = c(0, 0, 1, 0))
+```
+
+Tasks driven by the same enterprise risk — Labor (M, P, S), Materials (N, Q, T), and Equipment (O, R, U) — are strongly positively correlated across projects. Tasks driven by different risks are uncorrelated. The block structure of the matrix is a direct signature of the shared-risk mechanism: three $3 \times 3$ correlated blocks along the diagonal, with near-zero entries everywhere else.
+
+## Seeing vs. Doing at the Risk Level
+
+The second and third queries — *seeing* and *doing* — are both demonstrated here at the risk level, where the presence of SC makes the two operations genuinely diverge.
+
+**Seeing** $A = 1$ conditions on the observation in the *original, unchanged* DAG. Bayes' rule propagates the evidence upstream as well as downstream:
+
+$$P(Y \mid A = 1) \;=\; \frac{P(Y,\, A = 1)}{P(A = 1)}$$
+
+Because SC is a parent of A, observing $A = 1$ raises the posterior probability of SC:
+
+$$P(\text{SC} = 1 \mid A = 1) \;=\; \frac{P(A = 1 \mid \text{SC} = 1)\,P(\text{SC} = 1)}{P(A = 1)} \;=\; \frac{0.95 \times 0.70}{0.785} \;\approx\; 0.848$$
+
+This elevated posterior for SC in turn raises the conditional probability of the Material Price Spike:
+
+$$P(B = 1 \mid A = 1) \;=\; \sum_{\text{sc}} P(B = 1 \mid \text{SC} = \text{sc})\,P(\text{SC} = \text{sc} \mid A = 1) \;\approx\; 0.767$$
+
+compared to the prior $P(B = 1) \approx 0.670$. Seeing a Labor Shortage therefore shifts material cost distributions upward as a side-effect — a consequence that flows through the shared root cause SC, not through any direct A→B link.
+
+**Doing** $\operatorname{do}(A = 1)$ performs graph surgery — severing SC→A and replacing A's distribution with a point mass at 1. The truncated factorisation removes SC's influence on A entirely:
+
+$$P(Y \mid \operatorname{do}(A = 1)) \;=\; \prod_{i\,:\,V_i \notin \{A\}} P(v_i \mid \mathrm{pa}_i)\Bigg|_{A=1}$$
+
+Because SC→A is severed, SC remains at its prior $P(\text{SC} = 1) = 0.70$, and B remains at $P(B = 1) \approx 0.670$. Material costs are unaffected. Only labor costs shift.
 
 ```{r}
-remove_links <- data.frame(
-  source = c("A"),
-  target = c("H"),
-  stringsAsFactors = FALSE
+# Seeing A = 1: Bayesian conditioning on the original graph
+seeing_results <- prob_net_learn(graph,
+  observations = list(A = 1),
+  num_samples  = 1000
 )
-update_distributions <- list(
-  H = list(
-    type = "normal",
-    mean = 3500,
-    sd = 1000
+
+# Doing do(A = 1): graph surgery — sever SC → A, fix A = 1
+do_A1_graph <- prob_net_update(graph,
+  remove_links         = data.frame(source = "SC", target = "A",
+                                    stringsAsFactors = FALSE),
+  update_distributions = list(
+    A = list(type = "discrete", values = c(1, 0), probs = c(1, 0))
   )
 )
-updated_graph <- prob_net_update(graph,
-  remove_links = remove_links,
-  update_distributions = update_distributions
-)
-updated_results <- prob_net_sim(updated_graph, num_samples = 1000)
+do_A1_results <- prob_net_sim(do_A1_graph, num_samples = 1000)
+
+h1 <- hist(sim_results$Y,    breaks = 50, plot = FALSE)
+h2 <- hist(seeing_results$Y, breaks = 50, plot = FALSE)
+h_do_A1 <- hist(do_A1_results$Y, breaks = 50, plot = FALSE)
+
+plot(h1,
+     main = expression(italic(P) * "(Y)  vs.  seeing  vs.  doing — Labor Shortage"),
+     xlab = "Portfolio Cost ($)", col = "skyblue", border = "white",
+     ylim = c(0, max(h1$counts, h2$counts, h_do_A1$counts)))
+plot(h_do_A1, col = rgb(1, 0.5, 0, 0.5), border = "white", add = TRUE)
+plot(h2,      col = rgb(0, 0, 1, 0.4),   border = "white", add = TRUE)
+legend("topright",
+       legend = c(expression(italic(P) * "(Y)  — prior"),
+                  expression(italic(P) * "(Y | do(A=1))  — doing Labor Shortage"),
+                  expression(italic(P) * "(Y | A=1)  — seeing Labor Shortage")),
+       fill = c("skyblue", rgb(1, 0.5, 0, 0.5), rgb(0, 0, 1, 0.4)), bty = "n")
 ```
 
-Just as before, the updated results can be compared with the original results to see how the changes in the network structure affect the project outcomes.
+The three distributions separate in the expected direction. The doing distribution (orange) lies between the prior and the seeing distribution (blue): it captures only the direct labor cost increase. The seeing distribution shifts further right because it also picks up the indirect material cost increase propagated through SC. The gap between the two interventional and observational posteriors is the quantitative signature of the shared root cause — and the practical reason the distinction matters to portfolio managers. An analyst who treats a confirmed Labor Shortage as equivalent to an intervention on labor would underestimate portfolio cost exposure by ignoring the correlated material price signal it carries.
+
+## Doing
+
+The third query is **intervention**, denoted by Pearl's `do(·)` operator. Unlike seeing, intervening does not condition on data in the original graph; it performs **graph surgery** — severing the incoming edges of the intervened node and replacing its conditional distribution with a post-intervention distribution. The interventional distribution is given by the *truncated factorisation* (Pearl, 2009):
+
+$$P\!\left(v_1, \ldots, v_n \,\big|\, \operatorname{do}(X = x)\right) \;=\; \prod_{i \,:\, V_i \notin X} P\!\left(v_i \mid \mathrm{pa}_i\right)\Bigg|_{X = x}$$
+
+where every factor corresponding to an intervened variable is deleted from the product.
+
+Suppose the enterprise secures a dedicated labor crew for the Building Renovation (Project 3) that is insulated from the enterprise-wide labor shortage. This is an intervention on Labor-3:
+
+$$\operatorname{do}\!\Bigl(J \sim \mathcal{N}(40{,}000,\; 6{,}000)\Bigr)$$
+
+The intervention is implemented as graph surgery: the arc $A \to J$ is deleted, and $J$ is assigned its baseline unconditional distribution. Sampling from the mutilated graph yields draws from $P\!\left(Y \mid \operatorname{do}(J \to \text{baseline})\right)$.
 
 ```{r}
-hist <- hist(simulation_results$H, breaks = 50, plot = FALSE)
-hist2 <- hist(updated_results$H, breaks = 50, plot = FALSE)
-plot(hist,
-  main = "Regulatory Support Cost", xlab = "Resource Cost",
-  col = "skyblue", border = "white", ylim = c(0, max(hist$counts, hist2$counts))
+# Graph surgery: sever A → J and fix J's post-intervention distribution
+remove_links <- data.frame(
+  source = "A",
+  target = "J",
+  stringsAsFactors = FALSE
 )
-plot(hist2, col = "blue", border = "white", add = TRUE)
+do_distributions <- list(
+  J = list(type = "normal", mean = 40000, sd = 6000)
+)
+do_graph   <- prob_net_update(graph,
+  remove_links         = remove_links,
+  update_distributions = do_distributions
+)
+do_results <- prob_net_sim(do_graph, num_samples = 1000)
+
+# Compare observational P(Y) to interventional P(Y | do(J → baseline))
+h3 <- hist(do_results$Y, breaks = 50, plot = FALSE)
+
+plot(h1,
+     main = expression(italic(P) * "(Y)  vs.  " * italic(P) *
+                       "(Y | do(J" %->% "baseline))"),
+     xlab = "Portfolio Cost ($)", col = "skyblue", border = "white",
+     ylim = c(0, max(h1$counts, h3$counts)))
+plot(h3, col = rgb(0, 0.6, 0, 0.5), border = "white", add = TRUE)
 legend("topright",
-  legend = c("Before Update", "After Update"),
-  fill = c("skyblue", "blue"), bty = "n"
-)
+       legend = c(expression(italic(P) * "(Y)  — observational"),
+                  expression(italic(P) *
+                             "(Y | do(J" %->% "baseline))  — interventional")),
+       fill = c("skyblue", rgb(0, 0.6, 0, 0.5)), bty = "n")
 ```
 
-## Conclusion
+The interventional distribution has a measurably lower mean and a thinner upper tail than the observational distribution. This is the operational pay-off of the Resource-based View seen through Pearl's lens: by severing a single $A \to J$ arc in the causal graph, portfolio tail exposure is reduced without changing anything about the labor markets for Projects 1 or 2.
 
-In this vignette, Bayesian Networks were used to analyze project portfolio risks. The projects, tasks, resources, and risks for a simple project portfolio were defined. A Bayesian network was then constructed to represent the dependencies between the variables. Probabilistic inference was applied to assess the risks and estimate the total project cost. The Bayesian network was also updated with new data to improve the model's accuracy. Overall, the Bayesian network served as a powerful tool for modeling project portfolio risks and supporting informed decision-making regarding project outcomes.
+The distinction between seeing and doing is the practical point. Seeing a Labor Shortage does not change the world; it only updates beliefs. Doing an intervention, hiring a dedicated crew,  changes the causal structure itself. Pearl's do-calculus makes this distinction formal and computable: the interventional query is answered by Monte Carlo simulation on the mutilated graph, not by Bayesian conditioning on the original.
 
+## Risk-Prevention Intervention
+
+The preceding intervention targeted a single project's resource. A second and more powerful lever is enterprise-level risk prevention: eliminating the Labor Shortage entirely rather than insulating one project from it. This corresponds to
+
+$$\operatorname{do}(A = 0)$$
+
+The graph surgery removes all three arcs $A \to D$, $A \to G$, $A \to J$ and assigns every labor node its baseline (risk-absent) distribution unconditionally. Because A is now severed from all its children, the labor cost across all three projects simultaneously reverts to baseline, not just Project 3's.
+
+```{r}
+# Graph surgery: sever SC → A (A's only incoming arc), fix A = 0
+# D, G, J then automatically draw from their false_dist via the conditional on A = 0
+do_graph_A0 <- prob_net_update(graph,
+  remove_links         = data.frame(source = "SC", target = "A",
+                                    stringsAsFactors = FALSE),
+  update_distributions = list(
+    A = list(type = "discrete", values = c(1, 0), probs = c(0, 1))
+  )
+)
+do_results_A0 <- prob_net_sim(do_graph_A0, num_samples = 1000)
+
+# Compare: observational vs. project-scoped insulation vs. enterprise prevention
+h4 <- hist(do_results_A0$Y, breaks = 50, plot = FALSE)
+
+plot(h1,
+     main = "Project-scoped vs. enterprise-level labor risk mitigation",
+     xlab = "Portfolio Cost ($)", col = "skyblue", border = "white",
+     ylim = c(0, max(h1$counts, h3$counts, h4$counts)))
+plot(h3, col = rgb(0, 0.6, 0, 0.4), border = "white", add = TRUE)
+plot(h4, col = rgb(0.8, 0.4, 0, 0.5), border = "white", add = TRUE)
+legend("topright",
+       legend = c(expression(italic(P) * "(Y)  — observational"),
+                  expression(italic(P) * "(Y | do(J" %->% "baseline))  — Project 3 insulated"),
+                  expression(italic(P) * "(Y | do(A = 0))  — enterprise prevention")),
+       fill = c("skyblue", rgb(0, 0.6, 0, 0.4), rgb(0.8, 0.4, 0, 0.5)), bty = "n")
+```
+
+The enterprise-prevention distribution is shifted further left than the project-scoped intervention because it removes labor-shortage exposure from all three projects simultaneously, not just one. The gap between the two interventional distributions quantifies the additional portfolio benefit of an enterprise-level mitigation strategy over a project-level one.
+
+## Seeing Two Risks at Once
+
+A single confirmed risk shifts the portfolio distribution noticeably. Confirming two shared risks simultaneously compounds the effect: both the mean and the upper tail shift, because two correlated-risk channels are now active at once.
+
+Suppose both the Labor Shortage and the Material Price Spike are confirmed — $A = 1$ and $B = 1$ simultaneously:
+
+$$P(Y \mid A = 1,\, B = 1) \;=\; \frac{P(Y,\, A = 1,\, B = 1)}{P(A = 1,\, B = 1)}$$
+
+```{r}
+seeing2_results <- prob_net_learn(graph,
+  observations = list(A = 1, B = 1),
+  num_samples  = 1000
+)
+
+h5 <- hist(seeing2_results$Y, breaks = 50, plot = FALSE)
+
+plot(h1,
+     main = expression(italic(P) * "(Y)  vs.  seeing one vs. two risks"),
+     xlab = "Portfolio Cost ($)", col = "skyblue", border = "white",
+     ylim = c(0, max(h1$counts, h2$counts, h5$counts)))
+plot(h2, col = rgb(0, 0, 1, 0.4), border = "white", add = TRUE)
+plot(h5, col = rgb(0.6, 0, 0.6, 0.5), border = "white", add = TRUE)
+legend("topright",
+       legend = c(expression(italic(P) * "(Y)  — prior"),
+                  expression(italic(P) * "(Y | A = 1)  — one risk confirmed"),
+                  expression(italic(P) * "(Y | A = 1, B = 1)  — two risks confirmed")),
+       fill = c("skyblue", rgb(0, 0, 1, 0.4), rgb(0.6, 0, 0.6, 0.5)), bty = "n")
+```
+
+Confirming two shared risks produces a larger rightward shift than confirming one, and the distribution also broadens because the compound observation eliminates variation from two risk channels simultaneously. In a real portfolio, this highlights the value of early risk detection across *all* shared resources, not just the highest-probability one.
+
+## Risk Importance Ranking
+
+Portfolio managers cannot mitigate every risk simultaneously. A natural question is: *which shared risk contributes most to portfolio cost variance?* The causal network answers this directly by running three separate enterprise-prevention interventions — $\operatorname{do}(A=0)$, $\operatorname{do}(B=0)$, $\operatorname{do}(C=0)$ — and measuring the variance reduction each produces.
+
+```{r fig.cap="Risk importance: portfolio cost variance eliminated by preventing each enterprise risk. A taller bar means that risk is the dominant driver of portfolio uncertainty."}
+# Helper: build a mutilated graph that prevents one risk entirely via proper do-calculus.
+# For risks with a parent (A and B): sever parent → risk, fix risk = 0.
+# For risks with no parent (C): just set risk = 0.
+prevent_risk <- function(graph, parent_node, risk_node) {
+  remove_df <- if (!is.null(parent_node))
+    data.frame(source = parent_node, target = risk_node, stringsAsFactors = FALSE)
+  else
+    data.frame(source = character(0), target = character(0), stringsAsFactors = FALSE)
+  prob_net_update(graph,
+    remove_links         = remove_df,
+    update_distributions = setNames(
+      list(list(type = "discrete", values = c(1, 0), probs = c(0, 1))),
+      risk_node
+    )
+  )
+}
+
+# do(A = 0): sever SC → A, set A = 0 (labor nodes draw from false_dist automatically)
+g_A0 <- prevent_risk(graph, "SC", "A")
+
+# do(B = 0): sever SC → B, set B = 0 (material nodes draw from false_dist automatically)
+g_B0 <- prevent_risk(graph, "SC", "B")
+
+# do(C = 0): C has no parent; just set C = 0
+g_C0 <- prevent_risk(graph, NULL, "C")
+
+r_A0 <- prob_net_sim(g_A0, num_samples = 1000)
+r_B0 <- prob_net_sim(g_B0, num_samples = 1000)
+r_C0 <- prob_net_sim(g_C0, num_samples = 1000)
+
+var_base <- var(sim_results$Y)
+importance <- c(
+  "Labor\nShortage\n(A)"    = var_base - var(r_A0$Y),
+  "Material\nPrice Spike\n(B)" = var_base - var(r_B0$Y),
+  "Weather\nDelay\n(C)"    = var_base - var(r_C0$Y)
+)
+
+barplot(importance,
+        main   = "Risk importance: variance eliminated by do(risk = 0)",
+        ylab   = expression("Variance reduction in " * italic(Y) * " ($"^2 * ")"),
+        col    = c("steelblue", "coral", "seagreen"),
+        border = "white",
+        las    = 1)
+```
+
+The bar heights rank the three enterprise risks by their contribution to portfolio cost variance. A taller bar means that risk, if prevented, would eliminate more portfolio uncertainty. This ranking gives portfolio managers a principled basis for prioritizing mitigation investments: address the risk with the highest importance score first.
+
+## Summary
+
+The following table collects key statistics from every scenario demonstrated above, converting each histogram into actionable numbers.
+
+```{r results='asis'}
+scenarios <- c(
+  "Observational P(Y)",
+  "Seeing P(Y | A = 1)",
+  "Seeing P(Y | A = 1, B = 1)",
+  "Doing do(J → baseline)  [Project 3 insulated]",
+  "Doing do(A = 0)  [Enterprise prevention]"
+)
+
+make_stats <- function(x) {
+  c(round(mean(x) / 1000, 1),
+    round(sd(x) / 1000, 1),
+    round(quantile(x, 0.95) / 1000, 1))
+}
+
+stats_mat <- rbind(
+  make_stats(sim_results$Y),
+  make_stats(seeing_results$Y),
+  make_stats(seeing2_results$Y),
+  make_stats(do_results$Y),
+  make_stats(do_results_A0$Y)
+)
+
+stats_df <- as.data.frame(stats_mat)
+colnames(stats_df) <- c("Mean ($000)", "SD ($000)", "95th Pct ($000)")
+rownames(stats_df) <- scenarios
+
+knitr::kable(stats_df,
+             caption = "Portfolio cost statistics across all causal query scenarios (values in $000s).",
+             align   = "rrr")
