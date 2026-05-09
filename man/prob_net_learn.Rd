@@ -7,14 +7,14 @@
 prob_net_learn(network, observations = list(), num_samples = 1000)
 }
 \arguments{
-\item{network}{A prob_net object created by `prob_net()`.}
+\item{network}{A prob_net object created by \code{prob_net()}.}
 
 \item{observations}{A named list where names are node IDs and values are observed values.}
 
 \item{num_samples}{Number of samples to simulate for each node (default is 1000).}
 }
 \value{
-A data frame with `num_samples` rows and one column per node containing the simulated posterior samples.
+A data frame with \code{num_samples} rows and one column per node containing the simulated posterior samples.
 }
 \description{
 This function updates a probabilistic network of project risks with observed values for certain nodes
@@ -27,8 +27,8 @@ Normal nodes are sampled from a normal distribution using the specified mean and
 Uniform nodes are sampled from a uniform distribution between the specified min and max values.
 Lognormal nodes are sampled from a lognormal distribution with specified meanlog and sdlog.
 Conditional nodes depend on a discrete conditional node; if the condition is TRUE (value = 1), the node follows
-the `true_dist`, otherwise it follows the `false_dist` (value = 0). Conditional distributions can be normal, lognormal, uniform, or discrete.
-Discrete nodes are sampled using `sample()`, and aggregate nodes are computed as the sum of values from the specified nodes.
+the \code{true_dist}, otherwise it follows the \code{false_dist} (value = 0). Conditional distributions can be normal, lognormal, uniform, or discrete.
+Discrete nodes are sampled using \code{sample()}, and aggregate nodes are computed as the sum of values from the specified nodes.
 Observed nodes are fixed at their given values.
 }
 \examples{
@@ -51,9 +51,11 @@ links <- data.frame(
 distributions <- list(
   A = list(type = "discrete", values = c(0, 1), probs = c(0.5, 0.5)),
   B = list(type = "normal", mean = 2, sd = 0.5),
-  C = list(type = "conditional", condition = "A",
-           true_dist = list(type = "normal", mean = 1, sd = 0.5),
-           false_dist = list(type = "discrete", values = c(0, 1), probs = c(0.4, 0.6))),
+  C = list(
+    type = "conditional", condition = "A",
+    true_dist = list(type = "normal", mean = 1, sd = 0.5),
+    false_dist = list(type = "discrete", values = c(0, 1), probs = c(0.4, 0.6))
+  ),
   D = list(type = "aggregate", nodes = c("B", "C"))
 )
 

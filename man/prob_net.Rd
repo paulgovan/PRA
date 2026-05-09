@@ -7,28 +7,32 @@
 prob_net(nodes, links, distributions = NULL)
 }
 \arguments{
-\item{nodes}{A data frame containing the nodes of the graph. Must include a column `id`
+\item{nodes}{A data frame containing the nodes of the graph. Must include a column \code{id}
 with unique identifiers for each node.}
 
-\item{links}{A data frame containing the links of the graph. Must include columns `source`
-and `target` specifying the nodes that form each edge.}
+\item{links}{A data frame containing the links of the graph. Must include columns \code{source}
+and \code{target} specifying the nodes that form each edge.}
 
 \item{distributions}{A named list where names correspond to node IDs and values specify
 discrete probabilities, continuous probability distributions, conditional distributions, or aggregate distributions.
-- "discrete": Specifies `values` and `probs`.
-- "normal": Specifies `mean` and `sd`.
-- "lognormal": Specifies `meanlog` and `sdlog`.
-- "uniform": Specifies `min` and `max`.
-- "conditional": Specifies a `condition` (a discrete node) and two distributions (`true_dist`, `false_dist`).
-  The conditional distributions can themselves be discrete or continuous.
-- "aggregate": Specifies `nodes` (a list of continuous node IDs to sum).}
+\itemize{
+\item "discrete": Specifies \code{values} and \code{probs}.
+\item "normal": Specifies \code{mean} and \code{sd}.
+\item "lognormal": Specifies \code{meanlog} and \code{sdlog}.
+\item "uniform": Specifies \code{min} and \code{max}.
+\item "conditional": Specifies a \code{condition} (a discrete or conditional node) and two distributions (\code{true_dist}, \code{false_dist}).
+The conditional distributions can themselves be discrete or continuous.
+\item "aggregate": Specifies \code{nodes} (a list of continuous node IDs to sum).
+}}
 }
 \value{
 A list with:
-- `nodes`: The input `nodes` data frame.
-- `links`: The input `links` data frame.
-- `adjacency_matrix`: A matrix representing connections between nodes.
-- `distributions`: The input `distributions` list.
+\itemize{
+\item \code{nodes}: The input \code{nodes} data frame.
+\item \code{links}: The input \code{links} data frame.
+\item \code{adjacency_matrix}: A matrix representing connections between nodes.
+\item \code{distributions}: The input \code{distributions} list.
+}
 }
 \description{
 This function creates a probabilistic network graph representation of project risks
@@ -42,9 +46,11 @@ distributions <- list(
   B = list(type = "normal", mean = 0, sd = 1),
   C = list(type = "lognormal", meanlog = 0, sdlog = 0.5),
   D = list(type = "uniform", min = 1, max = 5),
-  E = list(type = "conditional", condition = "A",
-           true_dist = list(type = "normal", mean = 1, sd = 0.5),
-           false_dist = list(type = "lognormal", meanlog = -1, sdlog = 0.5))
+  E = list(
+    type = "conditional", condition = "A",
+    true_dist = list(type = "normal", mean = 1, sd = 0.5),
+    false_dist = list(type = "lognormal", meanlog = -1, sdlog = 0.5)
+  )
 )
 graph <- prob_net(nodes, links, distributions = distributions)
 
