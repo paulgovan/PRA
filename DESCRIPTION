@@ -22,6 +22,7 @@ Suggests:
     base64enc,
     bslib,
     corrplot,
+    devtools,
     ellmer,
     ggplot2,
     htmltools,
