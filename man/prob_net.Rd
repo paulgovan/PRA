@@ -35,6 +35,10 @@ A list with:
 }
 }
 \description{
+\strong{Experimental.} This function is part of the experimental probabilistic
+network module and the API may change in future versions.
+}
+\details{
 This function creates a probabilistic network graph representation of project risks
 that supports discrete and continuous probability distributions.
 }

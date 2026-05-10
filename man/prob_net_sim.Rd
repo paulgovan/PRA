@@ -15,11 +15,14 @@ prob_net_sim(network, num_samples = 1000)
 A data frame with \code{num_samples} rows and one column per node containing the simulated samples.
 }
 \description{
+\strong{Experimental.} This function is part of the experimental probabilistic
+network module and the API may change in future versions.
+}
+\details{
 This function performs inference on a probabilistic network of project risks by simulating random samples
 from the distribution of each node. The function supports normal, uniform, lognormal, discrete, conditional distributions,
 and aggregate nodes that sum the values of specified continuous nodes.
-}
-\details{
+
 Aggregate nodes are computed as the sum of values from the specified continuous nodes.
 Conditional nodes depend on a discrete conditional node; if the condition is true (value = 1),
 the node follows the \code{true_dist}, otherwise it follows the \code{false_dist} (value = 0).

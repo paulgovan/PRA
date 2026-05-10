@@ -24,6 +24,10 @@ prob_net_update(
 An updated \code{prob_net} object with modified links and/or distributions.
 }
 \description{
+\strong{Experimental.} This function is part of the experimental probabilistic
+network module and the API may change in future versions.
+}
+\details{
 This function updates an existing probabilistic network by adding or removing dependencies (edges)
 and updating probability distributions for nodes.
 }

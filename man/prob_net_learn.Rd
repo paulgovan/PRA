@@ -17,12 +17,15 @@ prob_net_learn(network, observations = list(), num_samples = 1000)
 A data frame with \code{num_samples} rows and one column per node containing the simulated posterior samples.
 }
 \description{
+\strong{Experimental.} This function is part of the experimental probabilistic
+network module and the API may change in future versions.
+}
+\details{
 This function updates a probabilistic network of project risks with observed values for certain nodes
 and then performs inference to generate posterior distributions for unobserved nodes.
 The function supports normal, uniform, lognormal, conditional continuous, conditional discrete, discrete,
 and aggregate (summation) node types.
-}
-\details{
+
 Normal nodes are sampled from a normal distribution using the specified mean and sd.
 Uniform nodes are sampled from a uniform distribution between the specified min and max values.
 Lognormal nodes are sampled from a lognormal distribution with specified meanlog and sdlog.
