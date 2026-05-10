@@ -70,20 +70,20 @@ these resources are shared at the enterprise level: the same labor pool,
 the same material suppliers, and the same equipment fleet serve all
 three projects.</p>
 <p>This sharing creates direct portfolio-level risk. Three
-enterprise-wide risk events — a <strong>Labor Shortage</strong>, a
+enterprise-wide risk events, a <strong>Labor Shortage</strong>, a
 <strong>Material Price Spike</strong>, and a <strong>Weather
-Delay</strong> — each propagate through the corresponding shared
-resource to impact all three projects simultaneously. A single risk
-event therefore inflates costs across the entire portfolio, not just one
+Delay</strong>, each propagate through the corresponding shared resource
+to impact all three projects simultaneously. A single risk event
+therefore inflates costs across the entire portfolio, not just one
 project.</p>
-<p>Critically, two of these risks — the Labor Shortage and the Material
-Price Spike — share a common upstream driver: a <strong>Supply Chain
+<p>Critically, two of these risks, the Labor Shortage and the Material
+Price Spike, share a common upstream driver: a <strong>Supply Chain
 Disruption</strong> that simultaneously tightens the labor market and
 raises commodity prices. This upstream dependence means that observing a
 Labor Shortage is Bayesian evidence that a Supply Chain Disruption is
 underway, which in turn raises the probability of a Material Price
-Spike. It is precisely this structure — a root cause fanning out to
-multiple risks, which fan out to shared resources — that makes the
+Spike. It is precisely this structure, a root cause fanning out to
+multiple risks, which fan out to shared resources, that makes the
 distinction between <em>seeing</em> and <em>doing</em> empirically
 consequential at the portfolio level.</p>
 </div>
@@ -595,7 +595,7 @@ portfolio.</p>
 <p>Build the network and visualize it using the <code>igraph</code> and
 <code>networkD3</code> packages.</p>
 <div class="forceNetwork html-widget html-fill-item" id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:700px;height:432.632880098888px;"></div>
-<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"links":{"source":[0,0,1,2,3,1,2,3,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"target":[1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,22,22,23,23,23,24,24,24,25,25,25],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"NA.":[0,0,1,2,3,1,2,3,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"NA..1":[1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,22,22,23,23,23,24,24,24,25,25,25],"NA..2":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"NA..3":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["SC","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y"],"group":["Root Cause","Risk","Risk","Risk","Resource","Resource","Resource","Resource","Resource","Resource","Resource","Resource","Resource","Task","Task","Task","Task","Task","Task","Task","Task","Task","Project","Project","Project","Portfolio"]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(d3.schemeCategory20);","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":50,"linkWidth":"function(d) { return Math.sqrt(d.value); }","charge":-30,"opacity":0.8,"zoom":true,"legend":true,"arrows":true,"nodesize":false,"radiusCalculation":" Math.sqrt(d.nodesize)+6","bounded":false,"opacityNoHover":0,"clickAction":null}},"evals":[],"jsHooks":[]}</script><p>The network graph makes the shared-risk structure immediately
+<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"links":{"source":[0,0,1,2,3,1,2,3,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"target":[1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,22,22,23,23,23,24,24,24,25,25,25],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"NA.":[0,0,1,2,3,1,2,3,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"NA..1":[1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,22,22,23,23,23,24,24,24,25,25,25],"NA..2":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"NA..3":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["SC","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y"],"group":["Root Cause","Risk","Risk","Risk","Resource","Resource","Resource","Resource","Resource","Resource","Resource","Resource","Resource","Task","Task","Task","Task","Task","Task","Task","Task","Task","Project","Project","Project","Portfolio"]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(d3.schemeCategory20);","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":50,"linkWidth":"function(d) { return Math.sqrt(d.value); }","charge":-30,"opacity":0.8,"zoom":true,"legend":true,"arrows":true,"nodesize":false,"radiusCalculation":" Math.sqrt(d.nodesize)+6","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script><p>The network graph makes the shared-risk structure immediately
 visible: each of the three risk nodes fans out to the same resource type
 across all three projects. This is the graphical representation of the
 Resource-based View argument, shared resources are the structural
@@ -639,7 +639,7 @@ because projects would be uncorrelated. Under the causal network, shared
 risks introduce positive covariance terms:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.278em"></mspace><mo>=</mo><mspace width="0.278em"></mspace><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>V</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.278em"></mspace><mo>+</mo><mspace width="0.278em"></mspace><mn>2</mn><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">[</mo><mrow><mi mathvariant="normal">Cov</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>V</mi><mo>,</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mrow><mi mathvariant="normal">Cov</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>V</mi><mo>,</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mrow><mi mathvariant="normal">Cov</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>W</mi><mo>,</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">\operatorname{Var}(Y) \;=\; \operatorname{Var}(V) + \operatorname{Var}(W) + \operatorname{Var}(X) \;+\; 2\bigl[\operatorname{Cov}(V,W) + \operatorname{Cov}(V,X) + \operatorname{Cov}(W,X)\bigr]</annotation></semantics></math></p>
 <p>In this simulation, the causal network gives a portfolio cost
-variance 2.24× larger than the naive independent-projects estimate — the
+variance 2.21× larger than the naive independent-projects estimate — the
 factor by which a portfolio analyst ignoring shared resources would
 underestimate portfolio risk.</p>
 <p>Algorithm 2 quantifies the cross-project coupling directly. The
@@ -697,7 +697,8 @@ influence on A entirely:</p>
 and B remains at
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>≈</mo><mn>0.670</mn></mrow><annotation encoding="application/x-tex">P(B = 1) \approx 0.670</annotation></semantics></math>.
 Material costs are unaffected. Only labor costs shift.</p>
-<p><img src="network2_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" alt="" width="700"></p>
+<div class="forceNetwork html-widget html-fill-item" id="htmlwidget-e5c8c404fe174e4c81bd" style="width:700px;height:432.632880098888px;"></div>
+<script type="application/json" data-for="htmlwidget-e5c8c404fe174e4c81bd">{"x":{"links":{"source":[0,1,2,3,1,2,3,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"target":[2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,22,22,23,23,23,24,24,24,25,25,25],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"NA.":[0,1,2,3,1,2,3,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"NA..1":[2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,22,22,23,23,23,24,24,24,25,25,25],"NA..2":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"NA..3":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["SC","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y"],"group":["Root Cause","Intervened","Risk","Risk","Resource","Resource","Resource","Resource","Resource","Resource","Resource","Resource","Resource","Task","Task","Task","Task","Task","Task","Task","Task","Task","Project","Project","Project","Portfolio"]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(d3.schemeCategory20);","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":50,"linkWidth":"function(d) { return Math.sqrt(d.value); }","charge":-30,"opacity":0.8,"zoom":true,"legend":true,"arrows":true,"nodesize":false,"radiusCalculation":" Math.sqrt(d.nodesize)+6","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script><p><img src="network2_files/figure-html/unnamed-chunk-12-2.png" class="r-plt" alt="" width="700"></p>
 <p>The three distributions separate in the expected direction. The doing
 distribution (orange) lies between the prior and the seeing distribution
 (blue): it captures only the direct labor cost increase. The seeing
@@ -734,7 +735,8 @@ is deleted, and
 is assigned its baseline unconditional distribution. Sampling from the
 mutilated graph yields draws from
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mspace width="-0.167em"></mspace><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><mi mathvariant="normal">do</mi><mo stretchy="false" form="prefix">(</mo><mi>J</mi><mo>→</mo><mtext mathvariant="normal">baseline</mtext><mo stretchy="false" form="postfix">)</mo><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P\!\left(Y \mid \operatorname{do}(J \to \text{baseline})\right)</annotation></semantics></math>.</p>
-<p><img src="network2_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="700"></p>
+<div class="forceNetwork html-widget html-fill-item" id="htmlwidget-36aa3d2a04d42bbc2145" style="width:700px;height:432.632880098888px;"></div>
+<script type="application/json" data-for="htmlwidget-36aa3d2a04d42bbc2145">{"x":{"links":{"source":[0,0,1,2,3,1,2,3,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"target":[1,2,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19,20,21,22,22,22,23,23,23,24,24,24,25,25,25],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"NA.":[0,0,1,2,3,1,2,3,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"NA..1":[1,2,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19,20,21,22,22,22,23,23,23,24,24,24,25,25,25],"NA..2":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"NA..3":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["SC","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y"],"group":["Root Cause","Risk","Risk","Risk","Resource","Resource","Resource","Resource","Resource","Resource","Intervened","Resource","Resource","Task","Task","Task","Task","Task","Task","Task","Task","Task","Project","Project","Project","Portfolio"]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(d3.schemeCategory20);","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":50,"linkWidth":"function(d) { return Math.sqrt(d.value); }","charge":-30,"opacity":0.8,"zoom":true,"legend":true,"arrows":true,"nodesize":false,"radiusCalculation":" Math.sqrt(d.nodesize)+6","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script><p><img src="network2_files/figure-html/unnamed-chunk-13-2.png" class="r-plt" alt="" width="700"></p>
 <p>The interventional distribution has a measurably lower mean and a
 thinner upper tail than the observational distribution. This is the
 operational pay-off of the Resource-based View seen through Pearl’s
@@ -766,7 +768,8 @@ and assigns every labor node its baseline (risk-absent) distribution
 unconditionally. Because A is now severed from all its children, the
 labor cost across all three projects simultaneously reverts to baseline,
 not just Project 3’s.</p>
-<p><img src="network2_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" alt="" width="700"></p>
+<div class="forceNetwork html-widget html-fill-item" id="htmlwidget-febe03efa1a2d8d52a86" style="width:700px;height:432.632880098888px;"></div>
+<script type="application/json" data-for="htmlwidget-febe03efa1a2d8d52a86">{"x":{"links":{"source":[0,1,2,3,1,2,3,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"target":[2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,22,22,23,23,23,24,24,24,25,25,25],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"NA.":[0,1,2,3,1,2,3,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"NA..1":[2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,22,22,23,23,23,24,24,24,25,25,25],"NA..2":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"NA..3":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["SC","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y"],"group":["Root Cause","Intervened","Risk","Risk","Resource","Resource","Resource","Resource","Resource","Resource","Resource","Resource","Resource","Task","Task","Task","Task","Task","Task","Task","Task","Task","Project","Project","Project","Portfolio"]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(d3.schemeCategory20);","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":50,"linkWidth":"function(d) { return Math.sqrt(d.value); }","charge":-30,"opacity":0.8,"zoom":true,"legend":true,"arrows":true,"nodesize":false,"radiusCalculation":" Math.sqrt(d.nodesize)+6","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script><p><img src="network2_files/figure-html/unnamed-chunk-14-2.png" class="r-plt" alt="" width="700"></p>
 <p>The enterprise-prevention distribution is shifted further left than
 the project-scoped intervention because it removes labor-shortage
 exposure from all three projects simultaneously, not just one. The gap
@@ -844,33 +847,33 @@ numbers.</p>
 <tbody>
 <tr class="odd">
 <td align="left">Observational P(Y)</td>
-<td align="right">426.0</td>
-<td align="right">64.8</td>
-<td align="right">513.8</td>
+<td align="right">427.6</td>
+<td align="right">63.0</td>
+<td align="right">512.2</td>
 </tr>
 <tr class="even">
 <td align="left">Seeing P(Y | A = 1)</td>
-<td align="right">436.4</td>
-<td align="right">52.5</td>
-<td align="right">514.3</td>
+<td align="right">437.5</td>
+<td align="right">53.7</td>
+<td align="right">518.4</td>
 </tr>
 <tr class="odd">
 <td align="left">Seeing P(Y | A = 1, B = 1)</td>
-<td align="right">470.5</td>
-<td align="right">32.0</td>
-<td align="right">522.5</td>
+<td align="right">469.8</td>
+<td align="right">32.4</td>
+<td align="right">520.2</td>
 </tr>
 <tr class="even">
 <td align="left">Doing do(J → baseline) [Project 3 insulated]</td>
-<td align="right">408.2</td>
-<td align="right">57.0</td>
-<td align="right">487.7</td>
+<td align="right">403.0</td>
+<td align="right">58.9</td>
+<td align="right">489.0</td>
 </tr>
 <tr class="odd">
 <td align="left">Doing do(A = 0) [Enterprise prevention]</td>
-<td align="right">379.7</td>
-<td align="right">51.5</td>
-<td align="right">452.4</td>
+<td align="right">379.9</td>
+<td align="right">52.1</td>
+<td align="right">453.3</td>
 </tr>
 </tbody>
 </table>

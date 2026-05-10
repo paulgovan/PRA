@@ -1,10 +1,7 @@
 # Perform Bayesian Learning on a Probabilistic Network of Project Risks.
 
-This function updates a probabilistic network of project risks with
-observed values for certain nodes and then performs inference to
-generate posterior distributions for unobserved nodes. The function
-supports normal, uniform, lognormal, conditional continuous, conditional
-discrete, discrete, and aggregate (summation) node types.
+**Experimental.** This function is part of the experimental
+probabilistic network module and the API may change in future versions.
 
 ## Usage
 
@@ -33,6 +30,12 @@ A data frame with `num_samples` rows and one column per node containing
 the simulated posterior samples.
 
 ## Details
+
+This function updates a probabilistic network of project risks with
+observed values for certain nodes and then performs inference to
+generate posterior distributions for unobserved nodes. The function
+supports normal, uniform, lognormal, conditional continuous, conditional
+discrete, discrete, and aggregate (summation) node types.
 
 Normal nodes are sampled from a normal distribution using the specified
 mean and sd. Uniform nodes are sampled from a uniform distribution

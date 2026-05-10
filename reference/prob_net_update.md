@@ -1,8 +1,7 @@
 # Update a Probabilistic Network of Project Risks.
 
-This function updates an existing probabilistic network by adding or
-removing dependencies (edges) and updating probability distributions for
-nodes.
+**Experimental.** This function is part of the experimental
+probabilistic network module and the API may change in future versions.
 
 ## Usage
 
@@ -40,6 +39,12 @@ prob_net_update(
 ## Value
 
 An updated `prob_net` object with modified links and/or distributions.
+
+## Details
+
+This function updates an existing probabilistic network by adding or
+removing dependencies (edges) and updating probability distributions for
+nodes.
 
 ## Examples
 

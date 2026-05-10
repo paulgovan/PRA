@@ -10,20 +10,20 @@ level: the same labor pool, the same material suppliers, and the same
 equipment fleet serve all three projects.
 
 This sharing creates direct portfolio-level risk. Three enterprise-wide
-risk events — a **Labor Shortage**, a **Material Price Spike**, and a
-**Weather Delay** — each propagate through the corresponding shared
+risk events, a **Labor Shortage**, a **Material Price Spike**, and a
+**Weather Delay**, each propagate through the corresponding shared
 resource to impact all three projects simultaneously. A single risk
 event therefore inflates costs across the entire portfolio, not just one
 project.
 
-Critically, two of these risks — the Labor Shortage and the Material
-Price Spike — share a common upstream driver: a **Supply Chain
+Critically, two of these risks, the Labor Shortage and the Material
+Price Spike, share a common upstream driver: a **Supply Chain
 Disruption** that simultaneously tightens the labor market and raises
 commodity prices. This upstream dependence means that observing a Labor
 Shortage is Bayesian evidence that a Supply Chain Disruption is
 underway, which in turn raises the probability of a Material Price
-Spike. It is precisely this structure — a root cause fanning out to
-multiple risks, which fan out to shared resources — that makes the
+Spike. It is precisely this structure, a root cause fanning out to
+multiple risks, which fan out to shared resources, that makes the
 distinction between *seeing* and *doing* empirically consequential at
 the portfolio level.
 
@@ -314,7 +314,7 @@ risks introduce positive covariance terms:
 ```
 
 In this simulation, the causal network gives a portfolio cost variance
-2.24× larger than the naive independent-projects estimate — the factor
+2.21× larger than the naive independent-projects estimate — the factor
 by which a portfolio analyst ignoring shared resources would
 underestimate portfolio risk.
 
@@ -387,7 +387,7 @@ $`P(\text{SC} = 1) = 0.70`$, and B remains at
 $`P(B = 1) \approx 0.670`$. Material costs are unaffected. Only labor
 costs shift.
 
-![](network2_files/figure-html/unnamed-chunk-12-1.png)
+![](network2_files/figure-html/unnamed-chunk-12-2.png)
 
 The three distributions separate in the expected direction. The doing
 distribution (orange) lies between the prior and the seeing distribution
@@ -430,7 +430,7 @@ deleted, and $`J`$ is assigned its baseline unconditional distribution.
 Sampling from the mutilated graph yields draws from
 $`P\!\left(Y \mid \operatorname{do}(J \to \text{baseline})\right)`$.
 
-![](network2_files/figure-html/unnamed-chunk-13-1.png)
+![](network2_files/figure-html/unnamed-chunk-13-2.png)
 
 The interventional distribution has a measurably lower mean and a
 thinner upper tail than the observational distribution. This is the
@@ -464,7 +464,7 @@ distribution unconditionally. Because A is now severed from all its
 children, the labor cost across all three projects simultaneously
 reverts to baseline, not just Project 3’s.
 
-![](network2_files/figure-html/unnamed-chunk-14-1.png)
+![](network2_files/figure-html/unnamed-chunk-14-2.png)
 
 The enterprise-prevention distribution is shifted further left than the
 project-scoped intervention because it removes labor-shortage exposure
@@ -527,11 +527,11 @@ demonstrated above, converting each histogram into actionable numbers.
 
 |  | Mean (\$000) | SD (\$000) | 95th Pct (\$000) |
 |:---|---:|---:|---:|
-| Observational P(Y) | 426.0 | 64.8 | 513.8 |
-| Seeing P(Y \| A = 1) | 436.4 | 52.5 | 514.3 |
-| Seeing P(Y \| A = 1, B = 1) | 470.5 | 32.0 | 522.5 |
-| Doing do(J → baseline) \[Project 3 insulated\] | 408.2 | 57.0 | 487.7 |
-| Doing do(A = 0) \[Enterprise prevention\] | 379.7 | 51.5 | 452.4 |
+| Observational P(Y) | 427.6 | 63.0 | 512.2 |
+| Seeing P(Y \| A = 1) | 437.5 | 53.7 | 518.4 |
+| Seeing P(Y \| A = 1, B = 1) | 469.8 | 32.4 | 520.2 |
+| Doing do(J → baseline) \[Project 3 insulated\] | 403.0 | 58.9 | 489.0 |
+| Doing do(A = 0) \[Enterprise prevention\] | 379.9 | 52.1 | 453.3 |
 
 Portfolio cost statistics across all causal query scenarios (values in
 \$000s). {.table}

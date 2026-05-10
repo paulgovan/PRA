@@ -1,10 +1,7 @@
 # Perform Inference on a Probabilistic Network of Project Risks.
 
-This function performs inference on a probabilistic network of project
-risks by simulating random samples from the distribution of each node.
-The function supports normal, uniform, lognormal, discrete, conditional
-distributions, and aggregate nodes that sum the values of specified
-continuous nodes.
+**Experimental.** This function is part of the experimental
+probabilistic network module and the API may change in future versions.
 
 ## Usage
 
@@ -29,6 +26,12 @@ A data frame with `num_samples` rows and one column per node containing
 the simulated samples.
 
 ## Details
+
+This function performs inference on a probabilistic network of project
+risks by simulating random samples from the distribution of each node.
+The function supports normal, uniform, lognormal, discrete, conditional
+distributions, and aggregate nodes that sum the values of specified
+continuous nodes.
 
 Aggregate nodes are computed as the sum of values from the specified
 continuous nodes. Conditional nodes depend on a discrete conditional

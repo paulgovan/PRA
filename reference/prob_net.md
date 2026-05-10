@@ -1,8 +1,7 @@
 # Probabilistic Network of Project Risks.
 
-This function creates a probabilistic network graph representation of
-project risks that supports discrete and continuous probability
-distributions.
+**Experimental.** This function is part of the experimental
+probabilistic network module and the API may change in future versions.
 
 ## Usage
 
@@ -54,6 +53,12 @@ A list with:
 - `adjacency_matrix`: A matrix representing connections between nodes.
 
 - `distributions`: The input `distributions` list.
+
+## Details
+
+This function creates a probabilistic network graph representation of
+project risks that supports discrete and continuous probability
+distributions.
 
 ## Examples
 
