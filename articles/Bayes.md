@@ -10,19 +10,22 @@ accumulate.
 
 Bayes’ theorem states:
 
-$$P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)}$$
+``` math
+P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)}
+```
 
 The PRA package provides four Bayesian functions organized into two
 stages:
 
-| Stage         | Function                                                                          | Purpose                                                         |
-|---------------|-----------------------------------------------------------------------------------|-----------------------------------------------------------------|
-| **Prior**     | [`risk_prob()`](https://paulgovan.github.io/PRA/reference/risk_prob.md)           | Compute risk probability from root causes (no observations yet) |
-| **Prior**     | [`cost_pdf()`](https://paulgovan.github.io/PRA/reference/cost_pdf.md)             | Sample prior cost distribution based on risk probabilities      |
-| **Posterior** | [`risk_post_prob()`](https://paulgovan.github.io/PRA/reference/risk_post_prob.md) | Update risk probability after observing cause status            |
-| **Posterior** | [`cost_post_pdf()`](https://paulgovan.github.io/PRA/reference/cost_post_pdf.md)   | Sample posterior cost distribution based on observed risks      |
+| Stage | Function | Purpose |
+|----|----|----|
+| **Prior** | [`risk_prob()`](https://paulgovan.github.io/PRA/reference/risk_prob.md) | Compute risk probability from root causes (no observations yet) |
+| **Prior** | [`cost_pdf()`](https://paulgovan.github.io/PRA/reference/cost_pdf.md) | Sample prior cost distribution based on risk probabilities |
+| **Posterior** | [`risk_post_prob()`](https://paulgovan.github.io/PRA/reference/risk_post_prob.md) | Update risk probability after observing cause status |
+| **Posterior** | [`cost_post_pdf()`](https://paulgovan.github.io/PRA/reference/cost_post_pdf.md) | Sample posterior cost distribution based on observed risks |
 
 ``` r
+
 library(PRA)
 ```
 
@@ -38,12 +41,14 @@ root causes. For each cause, we supply:
 - `risks_given_not_causes` — P(R \| cause absent)
 
 ``` r
+
 cause_probs <- c(0.3, 0.2)
 risks_given_causes <- c(0.8, 0.6)
 risks_given_not_causes <- c(0.2, 0.4)
 ```
 
 ``` r
+
 prior_risk <- risk_prob(cause_probs, risks_given_causes, risks_given_not_causes)
 cat("Prior probability of risk event R:", round(prior_risk, 3), "\n")
 ```
@@ -58,6 +63,7 @@ samples the cost distribution before any field observations. Three
 independent risk events can each contribute cost if they occur.
 
 ``` r
+
 risk_probs <- c(0.3, 0.5, 0.2)
 means_given_risks <- c(10000, 15000, 5000)
 sds_given_risks <- c(2000, 1000, 1000)
@@ -65,6 +71,7 @@ base_cost <- 2000
 ```
 
 ``` r
+
 prior_samples <- cost_pdf(
   num_sims          = 5000,
   risk_probs        = risk_probs,
@@ -85,11 +92,13 @@ updates the risk probability using only the available evidence — NA
 causes are treated as unobserved and do not contribute to the update.
 
 ``` r
+
 # C1 observed as present; C2 not yet assessed
 observed_causes <- c(1, NA)
 ```
 
 ``` r
+
 posterior_risk <- risk_post_prob(
   cause_probs, risks_given_causes,
   risks_given_not_causes, observed_causes
@@ -106,6 +115,7 @@ confirmed observations drive the update.
 ### Prior vs. Posterior Probability
 
 ``` r
+
 prob_data <- data.frame(
   Stage       = c("Prior", "Posterior"),
   Probability = c(prior_risk, posterior_risk)
@@ -143,10 +153,12 @@ samples the posterior cost distribution. Observed risks that occurred
 simulation.
 
 ``` r
+
 observed_risks <- c(1, NA, 1) # Risk 1 and 3 confirmed; Risk 2 not yet assessed
 ```
 
 ``` r
+
 posterior_samples <- cost_post_pdf(
   num_sims          = 5000,
   observed_risks    = observed_risks,
@@ -162,6 +174,7 @@ Plotting both distributions on the same axes shows how the evidence
 shifts the cost estimate:
 
 ``` r
+
 xlim_range <- range(c(prior_samples, posterior_samples))
 
 # Prior cost histogram

@@ -1,4 +1,4 @@
-pandoc: 3.1.11
+pandoc: 3.8.3
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
@@ -7,9 +7,11 @@ articles:
   DSM: DSM.html
   evm: evm.html
   MCS: MCS.html
+  network: network.html
+  network2: network2.html
   sigmoidal: sigmoidal.html
   SMM: SMM.html
-last_built: 2026-04-13T00:19Z
+last_built: 2026-05-10T01:16Z
 urls:
   reference: https://paulgovan.github.io/PRA/reference
   article: https://paulgovan.github.io/PRA/articles

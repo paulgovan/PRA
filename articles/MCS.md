@@ -25,6 +25,7 @@ picture of possible project results.
 ## Example
 
 ``` r
+
 library(PRA)
 ```
 
@@ -34,6 +35,7 @@ distribution, Task B has a triangular distribution
 distributed.
 
 ``` r
+
 num_simulations <- 10000
 task_distributions <- list(
   list(type = "normal", mean = 10, sd = 2), # Task A
@@ -51,6 +53,7 @@ and B have moderate positive correlation (0.5), meaning delays in one
 tend to coincide with delays in the other.
 
 ``` r
+
 correlation_matrix <- matrix(c(
   1.0, 0.5, 0.3,
   0.5, 1.0, 0.4,
@@ -61,22 +64,26 @@ correlation_matrix <- matrix(c(
 ### Run the Simulation
 
 ``` r
+
 results <- mcs(num_simulations, task_distributions, correlation_matrix)
 ```
 
 ``` r
+
 cat("Mean Total Duration:     ", round(results$total_mean, 2), "weeks\n")
 ```
 
 Mean Total Duration: 38.6 weeks
 
 ``` r
+
 cat("Variance of Duration:    ", round(results$total_variance, 2), "\n")
 ```
 
 Variance of Duration: 20.01
 
 ``` r
+
 cat("Std Dev of Duration:     ", round(results$total_sd, 2), "weeks\n")
 ```
 
@@ -88,6 +95,7 @@ The histogram below shows all 10,000 simulated total durations. The
 overlaid density curve reveals the shape of the distribution.
 
 ``` r
+
 hist_data <- results$total_distribution
 
 hist(hist_data,
@@ -112,6 +120,7 @@ returns key percentiles of the total distribution. These answer the
 question: *“What duration has X% probability of not being exceeded?”*
 
 ``` r
+
 knitr::kable(
   data.frame(
     Percentile = c("P5", "P50 (Median)", "P95"),
@@ -132,7 +141,7 @@ knitr::kable(
 | 50% | P50 (Median) |     38.6 | Equal chance of finishing above or below this |
 | 95% | P95          |     46.0 | 95% chance of finishing by this date          |
 
-Simulation Percentiles
+Simulation Percentiles {.table}
 
 ## Contingency Analysis
 
@@ -141,6 +150,7 @@ uncertainty. A common approach is to use the difference between the P95
 (or chosen confidence level) outcome and the P50 (base estimate).
 
 ``` r
+
 contingency_val <- contingency(results, phigh = 0.95, pbase = 0.50)
 cat("Schedule contingency (P95 − P50):", round(contingency_val, 2), "weeks\n")
 ```
@@ -148,6 +158,7 @@ cat("Schedule contingency (P95 − P50):", round(contingency_val, 2), "weeks\n")
 Schedule contingency (P95 − P50): 7.4 weeks
 
 ``` r
+
 cat(
   "There is a 95% chance the project will finish within",
   round(results$percentiles["95%"], 1), "weeks.\n"
@@ -167,6 +178,7 @@ in the total outcome — the tasks that deserve the most management
 attention.
 
 ``` r
+
 sensitivity_results <- sensitivity(task_distributions, correlation_matrix)
 
 sens_data <- data.frame(

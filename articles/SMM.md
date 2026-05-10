@@ -23,16 +23,19 @@ SMM is best suited for early-stage estimates when:
 For a project with *n* tasks, SMM computes:
 
 - **Total mean:** Sum of individual task means:
-  $E\lbrack X\rbrack = \sum_{i = 1}^{n}E\left\lbrack X_{i} \right\rbrack$
+  $`E[X] = \sum_{i=1}^{n} E[X_i]`$
 - **Total variance:** Sum of variances plus twice the sum of all
   pairwise covariances:
-  $$Var(X) = \sum\limits_{i = 1}^{n}Var\left( X_{i} \right) + 2\sum\limits_{i < j}Cov\left( X_{i},X_{j} \right)$$
+  ``` math
+  Var(X) = \sum_{i=1}^{n} Var(X_i) + 2 \sum_{i<j} Cov(X_i, X_j)
+  ```
 - **Covariance:** Derived from the correlation matrix:
-  $Cov\left( X_{i},X_{j} \right) = \rho_{ij} \cdot \sigma_{i} \cdot \sigma_{j}$
+  $`Cov(X_i, X_j) = \rho_{ij} \cdot \sigma_i \cdot \sigma_j`$
 
 ## Example
 
 ``` r
+
 library(PRA)
 ```
 
@@ -40,6 +43,7 @@ We analyze a 3-task project with task durations in weeks. Each task has
 a known mean and variance, and correlations between tasks are provided.
 
 ``` r
+
 task_means <- c(10, 15, 20) # Expected duration for each task (weeks)
 task_vars <- c(4, 9, 16) # Variance of each task duration
 cor_mat <- matrix(c(
@@ -50,6 +54,7 @@ cor_mat <- matrix(c(
 ```
 
 ``` r
+
 result <- smm(task_means, task_vars, cor_mat)
 cat("Total Mean Duration:    ", round(result$total_mean, 2), "weeks\n")
 ```
@@ -57,12 +62,14 @@ cat("Total Mean Duration:    ", round(result$total_mean, 2), "weeks\n")
 Total Mean Duration: 45 weeks
 
 ``` r
+
 cat("Total Variance:         ", round(result$total_var, 2), "\n")
 ```
 
 Total Variance: 49.4
 
 ``` r
+
 cat("Total Std Deviation:    ", round(result$total_std, 2), "weeks\n")
 ```
 
@@ -76,9 +83,12 @@ from the mean and standard deviation.
 
 A 95% confidence interval for total project duration is approximately:
 
-$$\bar{X} \pm 1.96 \cdot \sigma$$
+``` math
+ \bar{X} \pm 1.96 \cdot \sigma 
+```
 
 ``` r
+
 total_mean <- result$total_mean
 total_sd <- result$total_std
 ci_lower <- total_mean - 1.96 * total_sd
@@ -92,6 +102,7 @@ The plot below shows the implied normal distribution of total project
 duration:
 
 ``` r
+
 x_range <- seq(total_mean - 4 * total_sd, total_mean + 4 * total_sd, length.out = 300)
 y_range <- dnorm(x_range, mean = total_mean, sd = total_sd)
 
@@ -128,6 +139,7 @@ methods should yield very similar total means; differences in variance
 arise because SMM and MCS handle correlated sampling differently.
 
 ``` r
+
 # Represent each task as a normal distribution for MCS comparison (independent case)
 task_dists_for_mcs <- list(
   list(type = "normal", mean = task_means[1], sd = sqrt(task_vars[1])),
@@ -140,6 +152,7 @@ mcs_result <- mcs(10000, task_dists_for_mcs)
 ```
 
 ``` r
+
 # SMM variance without correlation = sum of individual variances
 smm_var_nocor <- sum(task_vars)
 
@@ -157,7 +170,7 @@ knitr::kable(comparison, caption = "SMM vs. Monte Carlo Comparison (independent 
 | SMM (independent)         |      45.00 |          29.00 |         5.39 |
 | Monte Carlo (10,000 runs) |      45.01 |          29.83 |         5.46 |
 
-SMM vs. Monte Carlo Comparison (independent tasks)
+SMM vs. Monte Carlo Comparison (independent tasks) {.table}
 
 The two methods agree closely on the mean and variance. SMM is faster
 but assumes normality; Monte Carlo is more flexible and can use any
@@ -166,11 +179,11 @@ analytically while MCS uses a correlation-based sampling scheme.
 
 ## Benefits and Limitations
 
-|                             | SMM                               | Monte Carlo                              |
-|-----------------------------|-----------------------------------|------------------------------------------|
-| **Speed**                   | Instant (analytical)              | Slow (thousands of iterations)           |
-| **Inputs needed**           | Mean + variance per task          | Full distribution per task               |
-| **Distribution assumption** | Normal (by Central Limit Theorem) | Any distribution                         |
-| **Correlation handling**    | Explicit covariance formula       | Cholesky decomposition                   |
-| **Skewness / tails**        | Ignored                           | Captured accurately                      |
-| **Best for**                | Early estimates, quick checks     | Detailed risk analysis, non-normal tasks |
+|  | SMM | Monte Carlo |
+|----|----|----|
+| **Speed** | Instant (analytical) | Slow (thousands of iterations) |
+| **Inputs needed** | Mean + variance per task | Full distribution per task |
+| **Distribution assumption** | Normal (by Central Limit Theorem) | Any distribution |
+| **Correlation handling** | Explicit covariance formula | Cholesky decomposition |
+| **Skewness / tails** | Ignored | Captured accurately |
+| **Best for** | Early estimates, quick checks | Detailed risk analysis, non-normal tasks |

@@ -40,6 +40,7 @@ Switzerland: Springer, 2020.
 ## Examples
 
 ``` r
+
 # Set the mean vector, variance vector, and correlation matrix for a toy project.
 mean <- c(10, 15, 20)
 var <- c(4, 9, 16)

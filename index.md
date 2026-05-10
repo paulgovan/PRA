@@ -10,11 +10,11 @@ with project schedules, costs, and performance.
 PRA can be used as a traditional R package with direct function calls,
 or as an **AI-powered risk analysis agent** with three input modes:
 
-| Input                      | Route                        | When to use                          |
-|----------------------------|------------------------------|--------------------------------------|
-| `/command`                 | Deterministic tool execution | Reliable, instant results            |
-| Natural language with data | LLM selects and calls tools  | Exploratory analysis                 |
-| Conceptual question        | RAG knowledge base           | “What is CPI?”, “How does MCS work?” |
+| Input | Route | When to use |
+|----|----|----|
+| `/command` | Deterministic tool execution | Reliable, instant results |
+| Natural language with data | LLM selects and calls tools | Exploratory analysis |
+| Conceptual question | RAG knowledge base | “What is CPI?”, “How does MCS work?” |
 
 ## Key Features
 
@@ -62,12 +62,14 @@ for details.
 To install the release version of PRA, use:
 
 ``` r
+
 install.packages('PRA')
 ```
 
 You can install the development version of PRA like so:
 
 ``` r
+
 devtools::install_github('paulgovan/PRA')
 ```
 
@@ -81,6 +83,7 @@ task.
 First, load the package:
 
 ``` r
+
 library(PRA)
 ```
 
@@ -94,6 +97,7 @@ distributions for each work package. In this case, run 10,000
 simulations with the following distributions:
 
 ``` r
+
 num_simulations <- 10000
 task_distributions <- list(
   list(type = "normal", mean = 10, sd = 2), # Task A: Normal distribution
@@ -105,6 +109,7 @@ task_distributions <- list(
 Then run the simulation using the `mcs` function and store the results:
 
 ``` r
+
 results <- mcs(num_simulations, task_distributions)
 ```
 
@@ -113,6 +118,7 @@ project duration. You can also overlay a normal distribution curve based
 on the mean and standard deviation of the results:
 
 ``` r
+
 hist(results$total_distribution,
   freq = FALSE, breaks = 50, main = "Distribution of Total Project Duration",
   xlab = "Total Duration", col = "skyblue", border = "white"
@@ -135,6 +141,7 @@ framework.
 **Slash commands** (deterministic, no LLM required):
 
 ``` r
+
 # Monte Carlo simulation
 r <- PRA:::execute_command(
   '/mcs tasks=[{"type":"normal","mean":10,"sd":2},{"type":"triangular","a":5,"b":10,"c":15}]'
@@ -163,6 +170,7 @@ cat(r$result)
 **Chat interface** (natural language, requires Ollama):
 
 ``` r
+
 chat <- pra_chat(model = "llama3.2")
 
 # Numerical data → LLM calls the appropriate tool
@@ -177,6 +185,7 @@ chat$chat("What is the difference between SPI and CPI?")
 **Interactive Shiny app:**
 
 ``` r
+
 pra_app()
 ```
 
@@ -191,6 +200,7 @@ for RAG-powered answers:
 Extend the agent’s domain knowledge with your own documents:
 
 ``` r
+
 store <- build_knowledge_base()
 add_documents(store, "path/to/project_docs/")
 ```
