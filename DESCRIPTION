@@ -12,7 +12,7 @@ Imports:
   mc2d,
   minpack.lm,
   stats
-License: CC BY 4.0
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list (markdown = TRUE, roclets = c ("namespace", "rd", "srr::srr_stats_roclet"))
@@ -36,6 +36,7 @@ Suggests:
     scales,
     shiny,
     shinychat,
+    mcptools,
     mockr,
     testthat (>= 3.0.0),
     vitals,

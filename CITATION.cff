@@ -1,0 +1,40 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "PRA: An R Package for Quantitative Project Risk Analysis"
+version: 0.4.0
+date-released: "2026-05-20"
+doi: 10.32614/CRAN.package.PRA
+url: "https://github.com/paulgovan/PRA"
+repository-code: "https://github.com/paulgovan/PRA"
+repository-artifact: "https://cran.r-project.org/package=PRA"
+license: MIT
+authors:
+  - family-names: Govan
+    given-names: Paul
+    orcid: "https://orcid.org/0000-0002-1821-8492"
+    email: paul.govan2@gmail.com
+keywords:
+  - project-risk-analysis
+  - monte-carlo-simulation
+  - earned-value-management
+  - bayesian-inference
+  - R
+abstract: >
+  Data analysis for Project Risk Management via the Second Moment Method,
+  Monte Carlo Simulation, Contingency Analysis, Sensitivity Analysis,
+  Earned Value Management, Learning Curves, Bayesian Methods, and more.
+  Includes an AI agent interface powered by large language models and
+  Model Context Protocol (MCP) integration.
+references:
+  - type: book
+    title: "Data Analytics for Engineering and Construction Project Risk Management"
+    authors:
+      - family-names: Damnjanovic
+        given-names: Ivan
+      - family-names: Reinschmidt
+        given-names: Kenneth
+    year: 2020
+    publisher:
+      name: Springer
+    doi: 10.1007/978-3-030-14251-3

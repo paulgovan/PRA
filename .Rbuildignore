@@ -14,3 +14,6 @@
 ^\.positai$
 ^CLAUDE\.md$
 ^\.claude$
+^paper\.md$
+^paper\.bib$
+^CITATION\.cff$

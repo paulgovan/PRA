@@ -1,0 +1,4 @@
+"configuration","overall","single_tool_8","multi_tool_9","open_ended_8"
+"llama3.2 + RAG","72.0%","87.5%","55.6%","75.0%"
+"llama3.2 (no RAG)","68.0%","100.0%","44.4%","62.5%"
+"RAG delta","+4.0%","-12.5%","+11.1%","+12.5%"
