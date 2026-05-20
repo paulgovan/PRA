@@ -42,6 +42,8 @@
   Launch the PRA Risk Analysis Agent App
 - [`pra_chat()`](https://paulgovan.github.io/PRA/reference/pra_chat.md)
   : Create a PRA Risk Analysis Chat Agent
+- [`pra_mcp_server()`](https://paulgovan.github.io/PRA/reference/pra_mcp_server.md)
+  : Start a PRA MCP Server
 - [`pra_tools()`](https://paulgovan.github.io/PRA/reference/pra_tools.md)
   : Create PRA Tool Definitions for LLM Agent
 - [`predict_sigmoidal()`](https://paulgovan.github.io/PRA/reference/predict_sigmoidal.md)

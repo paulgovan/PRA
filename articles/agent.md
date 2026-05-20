@@ -498,6 +498,104 @@ comparison <- run_pra_comparison(
 )
 ```
 
+## MCP Integration
+
+PRA can expose all its analytical tools as an [MCP (Model Context
+Protocol)](https://modelcontextprotocol.io) server via the
+[mcptools](https://posit-dev.github.io/mcptools/) package. This lets
+Claude Desktop, Claude Code, or any MCP-compatible AI client call PRA
+functions directly — no R session or Shiny app required on the user’s
+end.
+
+### Installation
+
+``` r
+
+install.packages("mcptools")
+```
+
+### Starting the server
+
+``` r
+
+# From an interactive R session
+pra_mcp_server()
+
+# Or from the terminal (for use with Claude Code / Desktop)
+# Rscript -e "PRA::pra_mcp_server()"
+```
+
+The server communicates over stdio and exposes the same 13+ tools as
+[`pra_tools()`](https://paulgovan.github.io/PRA/reference/pra_tools.md):
+MCS, SMM, EVM, contingency, sensitivity, Bayesian risk, learning curves,
+and DSM analysis.
+
+### Connecting from Claude Code
+
+Register PRA as a project-level MCP server (a `.claude/mcp.json` file is
+included in this package’s repository):
+
+``` bash
+claude mcp add -s project pra -- Rscript -e "PRA::pra_mcp_server()"
+```
+
+Or add it at the user level so it is available across all projects:
+
+``` bash
+claude mcp add -s user pra -- Rscript -e "PRA::pra_mcp_server()"
+```
+
+Once registered, Claude Code can call PRA tools in any conversation:
+
+> “Run a Monte Carlo simulation for three tasks: Task A normal(10, 2),
+> Task B triangular(5, 10, 15), Task C uniform(8, 12). What is the
+> contingency reserve at the 90th percentile?”
+
+### Connecting from Claude Desktop
+
+Add the following to `~/.config/claude/claude_desktop_config.json`
+(macOS/Linux) or `%APPDATA%\Claude\claude_desktop_config.json`
+(Windows):
+
+``` json
+{
+  "mcpServers": {
+    "pra": {
+      "command": "Rscript",
+      "args": ["-e", "PRA::pra_mcp_server()"]
+    }
+  }
+}
+```
+
+Restart Claude Desktop. PRA tools will appear in the tools panel and can
+be called in any conversation.
+
+### Connecting from other MCP clients
+
+Any client that supports stdio MCP servers works:
+
+``` bash
+# Generic stdio MCP client
+Rscript -e "PRA::pra_mcp_server()"
+```
+
+### Persistent session state
+
+By default, each `Rscript` invocation starts a fresh R session. To
+preserve simulation results across tool calls within a conversation
+(e.g., run MCS then immediately calculate contingency on those results),
+use
+[`mcptools::mcp_session()`](https://posit-dev.github.io/mcptools/reference/server.html)
+in an interactive R session before connecting:
+
+``` r
+
+# In .Rprofile or an interactive session
+mcptools::mcp_session()
+pra_mcp_server()
+```
+
 ## Troubleshooting
 
 ### Tool calling not working

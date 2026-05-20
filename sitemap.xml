@@ -3,6 +3,7 @@
 <url><loc>https://paulgovan.github.io/PRA/CLAUDE.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/CODE_OF_CONDUCT.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/CONTRIBUTING.html</loc></url>
+<url><loc>https://paulgovan.github.io/PRA/LICENSE-text.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/LICENSE.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/articles/Bayes.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/articles/DSM.html</loc></url>
@@ -17,6 +18,7 @@
 <url><loc>https://paulgovan.github.io/PRA/authors.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/index.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/news/index.html</loc></url>
+<url><loc>https://paulgovan.github.io/PRA/paper.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/PRA-package.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/ac.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/add_documents.html</loc></url>
@@ -49,6 +51,7 @@
 <url><loc>https://paulgovan.github.io/PRA/reference/pra_app.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/pra_chat.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/pra_command_registry.html</loc></url>
+<url><loc>https://paulgovan.github.io/PRA/reference/pra_mcp_server.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/pra_shiny_app.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/pra_system_prompt.html</loc></url>
 <url><loc>https://paulgovan.github.io/PRA/reference/pra_tools.html</loc></url>

@@ -1,4 +1,4 @@
 # License
 
-    YEAR: 2024
-    COPYRIGHT HOLDER: PRA authors
+    YEAR: 2026
+    COPYRIGHT HOLDER: Paul Govan
