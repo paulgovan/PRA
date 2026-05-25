@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Appendix B — Quick Reference – Project Risk Analysis: A Practical Guide</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./appendix-glossary.html" rel="next">
+<link href="./appendix-casestudy.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-20cc673454d4e2322ef0b4e40f22bd1f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./appendix-casestudy.html">Appendices</a></li><li class="breadcrumb-item"><a href="./appendix-ref.html"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Quick Reference</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./cover.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./cover.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Project Risk Analysis: A Practical Guide</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/paulgovan/PRA" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to the Jungle: An Introduction to Project Risk Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-mcs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Go Monte or Go Home: Monte Carlo Simulation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-sensitivity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Who’s Driving? Sensitivity Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-smm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">May I Have a (Second) Moment? The Second Moment Method</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-evm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Show Me the Money: Earned Value Management</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-bayes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">I Had a Feeling: Bayesian Risk Inference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-sigmoidal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">S Is for Success: Sigmoidal Learning Curves</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-network.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-network2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Portfolio Problems? The Network Has Entered the Chat</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-agent.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-casestudy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Case Study: Riverside Bridge Replacement</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-ref.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Quick Reference</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-math.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Mathematical Derivations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-solutions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Exercise Solutions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#monte-carlo-simulation" id="toc-monte-carlo-simulation" class="nav-link active" data-scroll-target="#monte-carlo-simulation"><span class="header-section-number">B.1</span> Monte Carlo Simulation</a></li>
+  <li><a href="#second-moment-method" id="toc-second-moment-method" class="nav-link" data-scroll-target="#second-moment-method"><span class="header-section-number">B.2</span> Second Moment Method</a></li>
+  <li><a href="#sensitivity-analysis" id="toc-sensitivity-analysis" class="nav-link" data-scroll-target="#sensitivity-analysis"><span class="header-section-number">B.3</span> Sensitivity Analysis</a></li>
+  <li><a href="#contingency-correlation" id="toc-contingency-correlation" class="nav-link" data-scroll-target="#contingency-correlation"><span class="header-section-number">B.4</span> Contingency &amp; Correlation</a></li>
+  <li><a href="#earned-value-management" id="toc-earned-value-management" class="nav-link" data-scroll-target="#earned-value-management"><span class="header-section-number">B.5</span> Earned Value Management</a></li>
+  <li><a href="#bayesian-risk" id="toc-bayesian-risk" class="nav-link" data-scroll-target="#bayesian-risk"><span class="header-section-number">B.6</span> Bayesian Risk</a></li>
+  <li><a href="#learning-curves" id="toc-learning-curves" class="nav-link" data-scroll-target="#learning-curves"><span class="header-section-number">B.7</span> Learning Curves</a></li>
+  <li><a href="#design-structure-matrices" id="toc-design-structure-matrices" class="nav-link" data-scroll-target="#design-structure-matrices"><span class="header-section-number">B.8</span> Design Structure Matrices</a></li>
+  <li><a href="#probabilistic-networks" id="toc-probabilistic-networks" class="nav-link" data-scroll-target="#probabilistic-networks"><span class="header-section-number">B.9</span> Probabilistic Networks</a></li>
+  <li><a href="#agentic-framework" id="toc-agentic-framework" class="nav-link" data-scroll-target="#agentic-framework"><span class="header-section-number">B.10</span> Agentic Framework</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/paulgovan/PRA/edit/main/appendix-ref.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulgovan/PRA/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./appendix-casestudy.html">Appendices</a></li><li class="breadcrumb-item"><a href="./appendix-ref.html"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Quick Reference</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-ref" class="quarto-section-identifier">Appendix B — Quick Reference</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>A compact reference to every exported function in the <code>PRA</code> package. Arguments marked <code>*</code> are required; all others have defaults.</p>
+<section id="monte-carlo-simulation" class="level2" data-number="B.1">
+<h2 data-number="B.1" class="anchored" data-anchor-id="monte-carlo-simulation"><span class="header-section-number">B.1</span> Monte Carlo Simulation</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 33%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Key Arguments</th>
+<th>Returns</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>mcs(task_dists*, n, cor_mat)</code></td>
+<td><code>task_dists</code> list of distribution specs; <code>n</code> simulations (default 10 000); optional correlation matrix</td>
+<td>S3 object of class <code>mcs</code> with <code>$simulations</code> matrix, <code>$total_distribution</code>, percentiles</td>
+<td><a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a></td>
+</tr>
+<tr class="even">
+<td><code>print.mcs(x)</code></td>
+<td><code>x</code> an <code>mcs</code> object</td>
+<td>Console summary of P50/P80/P95 and task means</td>
+<td><a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Distribution spec format</strong> (used by <code>mcs()</code>, <code>sensitivity()</code>, <code>smm()</code>):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>,     <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"triangular"</span>, <span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">10</span>, <span class="at">c =</span> <span class="dv">15</span>)   <span class="co"># a=min, b=mode, c=max</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"uniform"</span>,    <span class="at">min =</span> <span class="dv">8</span>, <span class="at">max =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="second-moment-method" class="level2" data-number="B.2">
+<h2 data-number="B.2" class="anchored" data-anchor-id="second-moment-method"><span class="header-section-number">B.2</span> Second Moment Method</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 33%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Key Arguments</th>
+<th>Returns</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>smm(means*, vars*)</code></td>
+<td>Numeric vectors of task means and variances</td>
+<td>S3 object of class <code>smm</code> with <code>$total_mean</code>, <code>$total_var</code>, <code>$total_sd</code></td>
+<td><a href="ch-smm.html" class="quarto-xref"><span>Chapter 4</span></a></td>
+</tr>
+<tr class="even">
+<td><code>print.smm(x)</code></td>
+<td><code>x</code> an <code>smm</code> object</td>
+<td>Console summary of total mean, SD, and 95% CI</td>
+<td><a href="ch-smm.html" class="quarto-xref"><span>Chapter 4</span></a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="sensitivity-analysis" class="level2" data-number="B.3">
+<h2 data-number="B.3" class="anchored" data-anchor-id="sensitivity-analysis"><span class="header-section-number">B.3</span> Sensitivity Analysis</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 33%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Key Arguments</th>
+<th>Returns</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sensitivity(task_dists*, cor_mat)</code></td>
+<td>Same distribution specs as <code>mcs()</code>; optional correlation matrix</td>
+<td>Named numeric vector of sensitivity indices (one per task)</td>
+<td><a href="ch-sensitivity.html" class="quarto-xref"><span>Chapter 3</span></a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="contingency-correlation" class="level2" data-number="B.4">
+<h2 data-number="B.4" class="anchored" data-anchor-id="contingency-correlation"><span class="header-section-number">B.4</span> Contingency &amp; Correlation</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 33%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Key Arguments</th>
+<th>Returns</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>contingency(mcs_result*, phigh, pbase)</code></td>
+<td><code>mcs_result</code> from <code>mcs()</code>; <code>phigh</code> target percentile (default 0.95); <code>pbase</code> base percentile (default 0.50)</td>
+<td>Numeric contingency reserve (phigh quantile minus pbase quantile)</td>
+<td><a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a></td>
+</tr>
+<tr class="even">
+<td><code>cor_matrix(num_samples, num_vars, dists*)</code></td>
+<td><code>dists</code> list of sampling functions <code>function(n) ...</code>; <code>num_samples</code> (default 100); <code>num_vars</code> (default 5)</td>
+<td>Numeric correlation matrix</td>
+<td><a href="ch-sensitivity.html" class="quarto-xref"><span>Chapter 3</span></a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="earned-value-management" class="level2" data-number="B.5">
+<h2 data-number="B.5" class="anchored" data-anchor-id="earned-value-management"><span class="header-section-number">B.5</span> Earned Value Management</h2>
+<p>All EVM functions accept numeric scalars or vectors as noted.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 33%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Key Arguments</th>
+<th>Returns</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pv(bac*, schedule*, period*)</code></td>
+<td>Budget at completion; cumulative schedule proportions; current period (1-based)</td>
+<td>Planned Value</td>
+<td><a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a></td>
+</tr>
+<tr class="even">
+<td><code>ev(bac*, complete*)</code></td>
+<td>Budget at completion; fraction complete (0–1)</td>
+<td>Earned Value</td>
+<td><a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a></td>
+</tr>
+<tr class="odd">
+<td><code>ac(costs*, period*)</code></td>
+<td>Vector of actual costs per period; current period</td>
+<td>Actual Cost</td>
+<td><a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a></td>
+</tr>
+<tr class="even">
+<td><code>sv(ev*, pv*)</code></td>
+<td>Earned Value; Planned Value</td>
+<td>Schedule Variance (EV − PV)</td>
+<td><a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a></td>
+</tr>
+<tr class="odd">
+<td><code>cv(ev*, ac*)</code></td>
+<td>Earned Value; Actual Cost</td>
+<td>Cost Variance (EV − AC)</td>
+<td><a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a></td>
+</tr>
+<tr class="even">
+<td><code>spi(ev*, pv*)</code></td>
+<td>Earned Value; Planned Value</td>
+<td>Schedule Performance Index (EV / PV)</td>
+<td><a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a></td>
+</tr>
+<tr class="odd">
+<td><code>cpi(ev*, ac*)</code></td>
+<td>Earned Value; Actual Cost</td>
+<td>Cost Performance Index (EV / AC)</td>
+<td><a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a></td>
+</tr>
+<tr class="even">
+<td><code>eac(bac*, ac*, ev*, method)</code></td>
+<td>BAC, AC, EV; <code>method</code> = “typical” / “atypical” / “combined”</td>
+<td>Estimate at Completion</td>
+<td><a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a></td>
+</tr>
+<tr class="odd">
+<td><code>etc(eac*, ac*)</code></td>
+<td>Estimate at Completion; Actual Cost</td>
+<td>Estimate to Complete (EAC − AC)</td>
+<td><a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a></td>
+</tr>
+<tr class="even">
+<td><code>tcpi(bac*, ev*, eac*)</code></td>
+<td>BAC, EV, EAC</td>
+<td>To-Complete Performance Index</td>
+<td><a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a></td>
+</tr>
+<tr class="odd">
+<td><code>vac(bac*, eac*)</code></td>
+<td>Budget at Completion; Estimate at Completion</td>
+<td>Variance at Completion (BAC − EAC)</td>
+<td><a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="bayesian-risk" class="level2" data-number="B.6">
+<h2 data-number="B.6" class="anchored" data-anchor-id="bayesian-risk"><span class="header-section-number">B.6</span> Bayesian Risk</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 33%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Key Arguments</th>
+<th>Returns</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>risk_prob(causes*, given*, not_given*)</code></td>
+<td>Vectors of prior probabilities, likelihoods if cause present/absent</td>
+<td>Prior risk probability (scalar)</td>
+<td><a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a></td>
+</tr>
+<tr class="even">
+<td><code>risk_post_prob(causes*, given*, not_given*, observed*)</code></td>
+<td>Same as above plus <code>observed</code> vector (1 = observed, 0 = not, NA = unknown)</td>
+<td>Posterior risk probability after observations</td>
+<td><a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="learning-curves" class="level2" data-number="B.7">
+<h2 data-number="B.7" class="anchored" data-anchor-id="learning-curves"><span class="header-section-number">B.7</span> Learning Curves</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 33%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Key Arguments</th>
+<th>Returns</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>fit_sigmoidal(x*, y*, model)</code></td>
+<td><code>x</code> time vector; <code>y</code> response vector; <code>model</code> = “logistic” / “gompertz” / “pearl”</td>
+<td>List with fitted model object, coefficients, RSE</td>
+<td><a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a></td>
+</tr>
+<tr class="even">
+<td><code>predict_sigmoidal(fit*, newx*)</code></td>
+<td>Object from <code>fit_sigmoidal()</code>; new x values</td>
+<td>Numeric vector of predictions</td>
+<td><a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a></td>
+</tr>
+<tr class="odd">
+<td><code>plot_sigmoidal(fit*, x*, y*)</code></td>
+<td>Object from <code>fit_sigmoidal()</code>; original data</td>
+<td>Plot of fitted curve with confidence band</td>
+<td><a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="design-structure-matrices" class="level2" data-number="B.8">
+<h2 data-number="B.8" class="anchored" data-anchor-id="design-structure-matrices"><span class="header-section-number">B.8</span> Design Structure Matrices</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 33%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Key Arguments</th>
+<th>Returns</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>parent_dsm(S*)</code></td>
+<td>Resource-Task matrix S (resources × tasks, binary)</td>
+<td>S3 object of class <code>parent_dsm</code>; <code>$matrix</code> is tasks × tasks</td>
+<td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 8</span></a></td>
+</tr>
+<tr class="even">
+<td><code>grandparent_dsm(S*, R*)</code></td>
+<td>Resource-Task matrix S; Risk-Resource matrix R (risks × resources, binary)</td>
+<td>S3 object of class <code>grandparent_dsm</code>; <code>$matrix</code> is tasks × tasks</td>
+<td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 8</span></a></td>
+</tr>
+</tbody>
+</table>
+<p>Both objects have <code>print()</code> and <code>plot()</code> methods.</p>
+<hr>
+</section>
+<section id="probabilistic-networks" class="level2" data-number="B.9">
+<h2 data-number="B.9" class="anchored" data-anchor-id="probabilistic-networks"><span class="header-section-number">B.9</span> Probabilistic Networks</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 33%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Key Arguments</th>
+<th>Returns</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>prob_net(nodes*, links*, distributions*)</code></td>
+<td>Data frames of nodes (id, label, group) and links (source, target, value); named list of distributions</td>
+<td>Graph object (list of nodes, links, distributions)</td>
+<td><a href="ch-network.html" class="quarto-xref"><span>Chapter 9</span></a></td>
+</tr>
+<tr class="even">
+<td><code>prob_net_sim(graph*, num_samples)</code></td>
+<td>Graph from <code>prob_net()</code>; number of simulations (default 10 000)</td>
+<td>Named list of sample vectors, one per node</td>
+<td><a href="ch-network.html" class="quarto-xref"><span>Chapter 9</span></a></td>
+</tr>
+<tr class="odd">
+<td><code>prob_net_learn(graph*, observations*, num_samples)</code></td>
+<td>Graph; named list of clamped observations e.g.&nbsp;<code>list(B = "No")</code>; sample count</td>
+<td>Named list of sample vectors with upstream nodes clamped</td>
+<td><a href="ch-network.html" class="quarto-xref"><span>Chapter 9</span></a></td>
+</tr>
+<tr class="even">
+<td><code>prob_net_update(graph*, remove_links, update_distributions)</code></td>
+<td>Graph; data frame of edges to remove; named list of replacement distributions</td>
+<td>Modified graph object</td>
+<td><a href="ch-network.html" class="quarto-xref"><span>Chapter 9</span></a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Node distribution types</strong> (used in <code>distributions</code> list):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>,     <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>,       <span class="at">mean =</span> <span class="dv">50000</span>, <span class="at">sd =</span> <span class="dv">10000</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>,  <span class="at">condition =</span> <span class="st">"A"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">80000</span>, <span class="at">sd =</span> <span class="dv">20000</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">50000</span>, <span class="at">sd =</span> <span class="dv">10000</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>,    <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="agentic-framework" class="level2" data-number="B.10">
+<h2 data-number="B.10" class="anchored" data-anchor-id="agentic-framework"><span class="header-section-number">B.10</span> Agentic Framework</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 33%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Key Arguments</th>
+<th>Returns</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pra_chat(model, chat)</code></td>
+<td><code>model</code> Ollama model name (default “llama3.2”); or <code>chat</code> an ellmer chat object for cloud models</td>
+<td>Chat object; call <code>$chat("...")</code> to converse</td>
+<td><a href="ch-agent.html" class="quarto-xref"><span>Chapter 11</span></a></td>
+</tr>
+<tr class="even">
+<td><code>pra_app()</code></td>
+<td>None</td>
+<td>Launches Shiny app in browser (requires Ollama)</td>
+<td><a href="ch-agent.html" class="quarto-xref"><span>Chapter 11</span></a></td>
+</tr>
+<tr class="odd">
+<td><code>pra_mcp_server()</code></td>
+<td>None</td>
+<td>Starts MCP server; register with <code>claude mcp add</code></td>
+<td><a href="ch-agent.html" class="quarto-xref"><span>Chapter 11</span></a></td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./appendix-casestudy.html" class="pagination-link" aria-label="Case Study: Riverside Bridge Replacement">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Case Study: Riverside Bridge Replacement</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./appendix-glossary.html" class="pagination-link" aria-label="Glossary">
+        <span class="nav-page-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Glossary</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Quick Reference {#sec-ref}</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>A compact reference to every exported function in the <span class="in">`PRA`</span> package. Arguments marked <span class="in">`*`</span> are required; all others have defaults.</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">## Monte Carlo Simulation</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`mcs(task_dists*, n, cor_mat)`</span> <span class="pp">|</span> <span class="in">`task_dists`</span> list of distribution specs; <span class="in">`n`</span> simulations (default 10 000); optional correlation matrix <span class="pp">|</span> S3 object of class <span class="in">`mcs`</span> with <span class="in">`$simulations`</span> matrix, <span class="in">`$total_distribution`</span>, percentiles <span class="pp">|</span> @sec-mcs <span class="pp">|</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`print.mcs(x)`</span> <span class="pp">|</span> <span class="in">`x`</span> an <span class="in">`mcs`</span> object <span class="pp">|</span> Console summary of P50/P80/P95 and task means <span class="pp">|</span> @sec-mcs <span class="pp">|</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>**Distribution spec format** (used by <span class="in">`mcs()`</span>, <span class="in">`sensitivity()`</span>, <span class="in">`smm()`</span>):</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>,     <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"triangular"</span>, <span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">10</span>, <span class="at">c =</span> <span class="dv">15</span>)   <span class="co"># a=min, b=mode, c=max</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"uniform"</span>,    <span class="at">min =</span> <span class="dv">8</span>, <span class="at">max =</span> <span class="dv">12</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="fu">## Second Moment Method</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`smm(means*, vars*)`</span> <span class="pp">|</span> Numeric vectors of task means and variances <span class="pp">|</span> S3 object of class <span class="in">`smm`</span> with <span class="in">`$total_mean`</span>, <span class="in">`$total_var`</span>, <span class="in">`$total_sd`</span> <span class="pp">|</span> @sec-smm <span class="pp">|</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`print.smm(x)`</span> <span class="pp">|</span> <span class="in">`x`</span> an <span class="in">`smm`</span> object <span class="pp">|</span> Console summary of total mean, SD, and 95% CI <span class="pp">|</span> @sec-smm <span class="pp">|</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sensitivity Analysis</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`sensitivity(task_dists*, cor_mat)`</span> <span class="pp">|</span> Same distribution specs as <span class="in">`mcs()`</span>; optional correlation matrix <span class="pp">|</span> Named numeric vector of sensitivity indices (one per task) <span class="pp">|</span> @sec-sensitivity <span class="pp">|</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="fu">## Contingency &amp; Correlation</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`contingency(mcs_result*, phigh, pbase)`</span> <span class="pp">|</span> <span class="in">`mcs_result`</span> from <span class="in">`mcs()`</span>; <span class="in">`phigh`</span> target percentile (default 0.95); <span class="in">`pbase`</span> base percentile (default 0.50) <span class="pp">|</span> Numeric contingency reserve (phigh quantile minus pbase quantile) <span class="pp">|</span> @sec-mcs <span class="pp">|</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`cor_matrix(num_samples, num_vars, dists*)`</span> <span class="pp">|</span> <span class="in">`dists`</span> list of sampling functions <span class="in">`function(n) ...`</span>; <span class="in">`num_samples`</span> (default 100); <span class="in">`num_vars`</span> (default 5) <span class="pp">|</span> Numeric correlation matrix <span class="pp">|</span> @sec-sensitivity <span class="pp">|</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="fu">## Earned Value Management</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>All EVM functions accept numeric scalars or vectors as noted.</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pv(bac*, schedule*, period*)`</span> <span class="pp">|</span> Budget at completion; cumulative schedule proportions; current period (1-based) <span class="pp">|</span> Planned Value <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`ev(bac*, complete*)`</span> <span class="pp">|</span> Budget at completion; fraction complete (0–1) <span class="pp">|</span> Earned Value <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`ac(costs*, period*)`</span> <span class="pp">|</span> Vector of actual costs per period; current period <span class="pp">|</span> Actual Cost <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`sv(ev*, pv*)`</span> <span class="pp">|</span> Earned Value; Planned Value <span class="pp">|</span> Schedule Variance (EV − PV) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`cv(ev*, ac*)`</span> <span class="pp">|</span> Earned Value; Actual Cost <span class="pp">|</span> Cost Variance (EV − AC) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`spi(ev*, pv*)`</span> <span class="pp">|</span> Earned Value; Planned Value <span class="pp">|</span> Schedule Performance Index (EV / PV) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`cpi(ev*, ac*)`</span> <span class="pp">|</span> Earned Value; Actual Cost <span class="pp">|</span> Cost Performance Index (EV / AC) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`eac(bac*, ac*, ev*, method)`</span> <span class="pp">|</span> BAC, AC, EV; <span class="in">`method`</span> = "typical" / "atypical" / "combined" <span class="pp">|</span> Estimate at Completion <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`etc(eac*, ac*)`</span> <span class="pp">|</span> Estimate at Completion; Actual Cost <span class="pp">|</span> Estimate to Complete (EAC − AC) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`tcpi(bac*, ev*, eac*)`</span> <span class="pp">|</span> BAC, EV, EAC <span class="pp">|</span> To-Complete Performance Index <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`vac(bac*, eac*)`</span> <span class="pp">|</span> Budget at Completion; Estimate at Completion <span class="pp">|</span> Variance at Completion (BAC − EAC) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bayesian Risk</span></span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`risk_prob(causes*, given*, not_given*)`</span> <span class="pp">|</span> Vectors of prior probabilities, likelihoods if cause present/absent <span class="pp">|</span> Prior risk probability (scalar) <span class="pp">|</span> @sec-bayes <span class="pp">|</span></span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`risk_post_prob(causes*, given*, not_given*, observed*)`</span> <span class="pp">|</span> Same as above plus <span class="in">`observed`</span> vector (1 = observed, 0 = not, NA = unknown) <span class="pp">|</span> Posterior risk probability after observations <span class="pp">|</span> @sec-bayes <span class="pp">|</span></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning Curves</span></span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`fit_sigmoidal(x*, y*, model)`</span> <span class="pp">|</span> <span class="in">`x`</span> time vector; <span class="in">`y`</span> response vector; <span class="in">`model`</span> = "logistic" / "gompertz" / "pearl" <span class="pp">|</span> List with fitted model object, coefficients, RSE <span class="pp">|</span> @sec-sigmoidal <span class="pp">|</span></span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`predict_sigmoidal(fit*, newx*)`</span> <span class="pp">|</span> Object from <span class="in">`fit_sigmoidal()`</span>; new x values <span class="pp">|</span> Numeric vector of predictions <span class="pp">|</span> @sec-sigmoidal <span class="pp">|</span></span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`plot_sigmoidal(fit*, x*, y*)`</span> <span class="pp">|</span> Object from <span class="in">`fit_sigmoidal()`</span>; original data <span class="pp">|</span> Plot of fitted curve with confidence band <span class="pp">|</span> @sec-sigmoidal <span class="pp">|</span></span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a><span class="fu">## Design Structure Matrices</span></span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`parent_dsm(S*)`</span> <span class="pp">|</span> Resource-Task matrix S (resources × tasks, binary) <span class="pp">|</span> S3 object of class <span class="in">`parent_dsm`</span>; <span class="in">`$matrix`</span> is tasks × tasks <span class="pp">|</span> @sec-dsm <span class="pp">|</span></span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`grandparent_dsm(S*, R*)`</span> <span class="pp">|</span> Resource-Task matrix S; Risk-Resource matrix R (risks × resources, binary) <span class="pp">|</span> S3 object of class <span class="in">`grandparent_dsm`</span>; <span class="in">`$matrix`</span> is tasks × tasks <span class="pp">|</span> @sec-dsm <span class="pp">|</span></span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>Both objects have <span class="in">`print()`</span> and <span class="in">`plot()`</span> methods.</span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a><span class="fu">## Probabilistic Networks</span></span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`prob_net(nodes*, links*, distributions*)`</span> <span class="pp">|</span> Data frames of nodes (id, label, group) and links (source, target, value); named list of distributions <span class="pp">|</span> Graph object (list of nodes, links, distributions) <span class="pp">|</span> @sec-network <span class="pp">|</span></span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`prob_net_sim(graph*, num_samples)`</span> <span class="pp">|</span> Graph from <span class="in">`prob_net()`</span>; number of simulations (default 10 000) <span class="pp">|</span> Named list of sample vectors, one per node <span class="pp">|</span> @sec-network <span class="pp">|</span></span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`prob_net_learn(graph*, observations*, num_samples)`</span> <span class="pp">|</span> Graph; named list of clamped observations e.g. <span class="in">`list(B = "No")`</span>; sample count <span class="pp">|</span> Named list of sample vectors with upstream nodes clamped <span class="pp">|</span> @sec-network <span class="pp">|</span></span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`prob_net_update(graph*, remove_links, update_distributions)`</span> <span class="pp">|</span> Graph; data frame of edges to remove; named list of replacement distributions <span class="pp">|</span> Modified graph object <span class="pp">|</span> @sec-network <span class="pp">|</span></span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>**Node distribution types** (used in <span class="in">`distributions`</span> list):</span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>,     <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>))</span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>,       <span class="at">mean =</span> <span class="dv">50000</span>, <span class="at">sd =</span> <span class="dv">10000</span>)</span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>,  <span class="at">condition =</span> <span class="st">"A"</span>,</span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a>     <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">80000</span>, <span class="at">sd =</span> <span class="dv">20000</span>),</span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>     <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">50000</span>, <span class="at">sd =</span> <span class="dv">10000</span>))</span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>,    <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>))</span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a><span class="fu">## Agentic Framework</span></span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra_chat(model, chat)`</span> <span class="pp">|</span> <span class="in">`model`</span> Ollama model name (default "llama3.2"); or <span class="in">`chat`</span> an ellmer chat object for cloud models <span class="pp">|</span> Chat object; call <span class="in">`$chat("...")`</span> to converse <span class="pp">|</span> @sec-agent <span class="pp">|</span></span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra_app()`</span> <span class="pp">|</span> None <span class="pp">|</span> Launches Shiny app in browser (requires Ollama) <span class="pp">|</span> @sec-agent <span class="pp">|</span></span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra_mcp_server()`</span> <span class="pp">|</span> None <span class="pp">|</span> Starts MCP server; register with <span class="in">`claude mcp add`</span> <span class="pp">|</span> @sec-agent <span class="pp">|</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/paulgovan/PRA/edit/main/appendix-ref.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulgovan/PRA/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
