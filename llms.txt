@@ -34,6 +34,10 @@ or as an **AI-powered risk analysis agent** with three input modes:
   Curves](https://paulgovan.github.io/PRA/book/ch-sigmoidal.html)
 - [Design Structure
   Matrices](https://paulgovan.github.io/PRA/book/ch-dsm.html)
+- [Probabilistic
+  Networks](https://paulgovan.github.io/PRA/book/ch-network.html)
+- [Network Portfolio
+  Analysis](https://paulgovan.github.io/PRA/book/ch-network2.html)
 - [Bayesian Methods](https://paulgovan.github.io/PRA/book/ch-bayes.html)
 
 ### AI Agent Framework
