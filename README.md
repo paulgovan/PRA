@@ -39,21 +39,21 @@ or as an **AI-powered risk analysis agent** with three input modes:
 ### Analytical Methods
 
 - [Second Moment
-  Analysis](https://paulgovan.github.io/PRA/articles/SMM.html)
+  Analysis](https://paulgovan.github.io/PRA/book/ch-smm.html)
 - [Monte Carlo
-  Simulation](https://paulgovan.github.io/PRA/articles/MCS.html)
+  Simulation](https://paulgovan.github.io/PRA/book/ch-mcs.html)
 - [Contingency
-  Analysis](https://paulgovan.github.io/PRA/articles/MCS.html#contingency)
+  Analysis](https://paulgovan.github.io/PRA/book/ch-mcs.html)
 - [Sensitivity
-  Analysis](https://paulgovan.github.io/PRA/articles/MCS.html#sensitivity)
+  Analysis](https://paulgovan.github.io/PRA/book/ch-sensitivity.html)
 - [Earned Value
-  Management](https://paulgovan.github.io/PRA/articles/evm.html)
+  Management](https://paulgovan.github.io/PRA/book/ch-evm.html)
 - [Learning
-  Curves](https://paulgovan.github.io/PRA/articles/sigmoidal.html)
+  Curves](https://paulgovan.github.io/PRA/book/ch-sigmoidal.html)
 - [Design Structure
-  Matrices](https://paulgovan.github.io/PRA/articles/DSM.html)
+  Matrices](https://paulgovan.github.io/PRA/book/ch-dsm.html)
 - [Bayesian
-  Methods](https://paulgovan.github.io/PRA/articles/Bayes.html)
+  Methods](https://paulgovan.github.io/PRA/book/ch-bayes.html)
 
 ### AI Agent Framework
 
@@ -72,7 +72,7 @@ or as an **AI-powered risk analysis agent** with three input modes:
   [vitals](https://vitals.tidyverse.org)
 
 See the [Agentic Risk
-Analysis](https://paulgovan.github.io/PRA/articles/agent.html) vignette
+Analysis](https://paulgovan.github.io/PRA/book/ch-agent.html) chapter
 for details.
 
 ## Installation

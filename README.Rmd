@@ -41,14 +41,14 @@ PRA can be used as a traditional R package with direct function calls, or as an 
 
 ### Analytical Methods
 
-* [Second Moment Analysis](https://paulgovan.github.io/PRA/articles/SMM.html)
-* [Monte Carlo Simulation](https://paulgovan.github.io/PRA/articles/MCS.html)
-* [Contingency Analysis](https://paulgovan.github.io/PRA/articles/MCS.html#contingency)
-* [Sensitivity Analysis](https://paulgovan.github.io/PRA/articles/MCS.html#sensitivity)
-* [Earned Value Management](https://paulgovan.github.io/PRA/articles/evm.html)
-* [Learning Curves](https://paulgovan.github.io/PRA/articles/sigmoidal.html)
-* [Design Structure Matrices](https://paulgovan.github.io/PRA/articles/DSM.html)
-* [Bayesian Methods](https://paulgovan.github.io/PRA/articles/Bayes.html)
+* [Second Moment Analysis](https://paulgovan.github.io/PRA/book/ch-smm.html)
+* [Monte Carlo Simulation](https://paulgovan.github.io/PRA/book/ch-mcs.html)
+* [Contingency Analysis](https://paulgovan.github.io/PRA/book/ch-mcs.html)
+* [Sensitivity Analysis](https://paulgovan.github.io/PRA/book/ch-sensitivity.html)
+* [Earned Value Management](https://paulgovan.github.io/PRA/book/ch-evm.html)
+* [Learning Curves](https://paulgovan.github.io/PRA/book/ch-sigmoidal.html)
+* [Design Structure Matrices](https://paulgovan.github.io/PRA/book/ch-dsm.html)
+* [Bayesian Methods](https://paulgovan.github.io/PRA/book/ch-bayes.html)
 
 ### AI Agent Framework
 
@@ -59,7 +59,7 @@ PRA can be used as a traditional R package with direct function calls, or as an 
 * **Interactive Shiny app** — chat UI with `/commands`, data upload, inline plots, and model settings
 * **Evaluation framework** — measure tool-calling accuracy with [vitals](https://vitals.tidyverse.org)
 
-See the [Agentic Risk Analysis](https://paulgovan.github.io/PRA/articles/agent.html) vignette for details.
+See the [Agentic Risk Analysis](https://paulgovan.github.io/PRA/book/ch-agent.html) chapter for details.
 
 ## Installation
 
