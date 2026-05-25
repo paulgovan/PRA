@@ -1,0 +1,732 @@
+---
+title: "An AI Agent Framework for Quantitative Project Risk Analysis: Integrating Large Language Models with Validated Probabilistic Tools"
+author:
+  - name: Paul Govan
+    email: paul.govan2@gmail.com
+    orcid: 0000-0002-1821-8492
+date: "`r Sys.Date()`"
+output:
+  word_document:
+    reference_docx: null
+  pdf_document:
+    latex_engine: xelatex
+    keep_tex: false
+bibliography: manuscript.bib
+csl: https://www.zotero.org/styles/risk-analysis
+abstract: |
+  Quantitative methods for project risk analysis — including Monte Carlo
+  simulation, Earned Value Management, and Bayesian inference — are
+  well-established in theory but underutilized in practice due to their
+  technical complexity and fragmented tooling. Large language model (LLM)
+  agents capable of calling domain-validated code functions offer a promising
+  path toward closing this gap. This paper presents an AI agent framework,
+  implemented as the open-source R package PRA, that exposes a validated suite
+  of project risk analysis functions as tools callable by LLMs through a
+  three-mode routing architecture: deterministic slash commands for immediate
+  reproducible results, LLM tool-calling for flexible natural-language
+  queries, and Retrieval-Augmented Generation (RAG) for conceptual questions
+  grounded in domain literature. We evaluate the framework across 25 scenarios
+  in three tiers of complexity using the llama3.2 model (3.2B parameters,
+  local inference). With RAG enabled, the agent achieves 72.0% overall
+  tool-selection accuracy (87.5% on single-tool, 55.6% on multi-tool chains,
+  75.0% on open-ended queries), compared to 68.0% without RAG. RAG
+  substantially improves multi-tool chain accuracy (+11.1%) and open-ended
+  response quality (+12.5%) at the cost of reduced single-tool precision
+  (−12.5%), a trade-off fully mitigated by the slash command interface for
+  deterministic workflows. The framework is available on CRAN, supports the
+  Model Context Protocol for interoperability with Claude, Claude Code, and
+  other AI clients, and runs fully offline via Ollama — requiring no cloud API
+  keys or data transmission.
+keywords:
+  - project risk analysis
+  - large language models
+  - retrieval-augmented generation
+  - Monte Carlo simulation
+  - earned value management
+  - AI agents
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+# 1. Introduction
+
+Quantitative risk analysis is central to sound project management. Methods
+such as Monte Carlo simulation (MCS), Earned Value Management (EVM), and
+Bayesian risk inference provide project managers and cost engineers with
+principled tools for quantifying schedule uncertainty, diagnosing cost
+overruns, and updating risk beliefs as projects evolve [@Damnjanovic2020;
+@Vose2008; @Fleming2010]. Yet surveys of project management practice
+consistently show that quantitative risk techniques remain underutilized, with
+most organizations relying on qualitative risk registers rather than
+probabilistic analysis [@Damnjanovic2020]. The barriers are well understood:
+these methods require statistical expertise to apply correctly, their
+implementations are scattered across commercial tools (Palisade \@RISK,
+Primavera Risk Analysis) that are expensive and not reproducible, and
+practitioners often lack the time or training to connect the right tool to
+each type of problem.
+
+Large language models (LLMs) have emerged as a potentially transformative
+interface for domain expertise. Through *tool calling* — the ability to
+invoke external functions in response to natural language queries —
+LLMs can act as intelligent intermediaries that translate a practitioner's
+intent into a validated computational pipeline [@Patil2023]. Rather than
+requiring users to know which function to call and how to parameterize it, the
+agent selects and invokes the appropriate tool automatically. This capability
+has been demonstrated in general software engineering contexts, but its
+application to specialized engineering analysis domains — particularly project
+risk — remains nascent.
+
+Retrieval-Augmented Generation (RAG) complements tool calling by grounding
+agent responses in domain-specific knowledge [@Lewis2020]. For conceptual
+queries ("what is the difference between SPI and CPI?" or "how does Bayesian
+inference apply to cost risk?"), RAG retrieves relevant passages from a curated
+knowledge base and presents them as context for the LLM's response, reducing
+hallucination and improving source attribution [@RAGReview2024; @CHI2025RAG].
+Together, tool calling and RAG address the two primary failure modes of
+general-purpose LLMs in engineering contexts: incorrect tool selection or
+parameterization, and fabrication of quantitative claims.
+
+This paper presents a novel AI agent framework for quantitative project risk
+analysis, implemented as part of the open-source R package PRA [@PRA] and
+available on the Comprehensive R Archive Network (CRAN). The framework makes
+four contributions:
+
+1. A **three-mode routing architecture** — deterministic slash commands, LLM
+   tool-calling, and RAG — that accommodates different user workflows and
+   reliability requirements within a single interface.
+
+2. A **validated analytical tool layer** comprising 14 LLM-callable tools and
+   9 deterministic commands, wrapping a peer-reviewed suite of project risk
+   analysis functions that cover MCS, SMM, EVM, contingency analysis,
+   sensitivity analysis, Bayesian inference, learning curves, and dependency
+   structure matrices.
+
+3. **Model Context Protocol (MCP) integration** via the `mcptools` package
+   [@mcptools], enabling PRA tools to be called natively from Claude, Claude
+   Code, and any MCP-compatible AI client without additional configuration.
+
+4. A **systematic evaluation** of agent performance across 25 scenarios in
+   three tiers of complexity, providing the first published benchmark of an
+   LLM agent for quantitative project risk analysis.
+
+The remainder of the paper is organized as follows. Section 2 reviews the
+relevant background. Section 3 describes the framework architecture. Section 4
+presents the evaluation methodology and results. Section 5 discusses
+implications and limitations. Section 6 concludes.
+
+# 2. Background
+
+## 2.1 Quantitative Project Risk Methods
+
+Project risk analysis encompasses a range of techniques for quantifying
+uncertainty in schedule, cost, and performance. Monte Carlo simulation samples
+from probability distributions assigned to individual tasks and aggregates them
+over many iterations to produce a project-level distribution from which
+contingency reserves and risk-adjusted completion probabilities can be derived
+[@Vose2008]. The Second Moment Method (SMM) provides a computationally cheaper
+analytical approximation, propagating means and variances through the task
+network without simulation [@Damnjanovic2020]. Earned Value Management tracks
+project performance against a baseline cost and schedule plan using a set of
+standardized metrics — Cost Performance Index (CPI), Schedule Performance
+Index (SPI), Estimate at Completion (EAC), and others — defined in the
+ANSI/EIA-748 standard [@Fleming2010]. Bayesian risk inference applies the law
+of total probability and Bayes' theorem to estimate and update risk event
+probabilities as observations arrive [@Gelman2013]. Design Structure Matrices
+(DSM) model task coupling and risk propagation in complex project networks
+[@Browning2001].
+
+Despite their theoretical grounding, these methods see limited practical
+adoption. Each requires a different data format, a different software tool, and
+a different conceptual model. Commercial tools such as Palisade \@RISK and
+Oracle Primavera Risk Analysis cover subsets of this space but are expensive,
+proprietary, and not amenable to reproducible research workflows. The PRA
+R package [@PRA] was developed to consolidate these methods in a single,
+open-source, peer-reviewed implementation, but even a well-designed
+programmatic interface requires users to understand which function addresses
+their question and how to format its inputs.
+
+## 2.2 LLM Tool Calling
+
+The ability for LLMs to invoke external functions — variously called tool
+calling, function calling, or code execution — has emerged as a key capability
+for building AI agents that act on the world rather than only describing it
+[@Patil2023]. When a user's query contains structured data that can be
+processed by a validated function, the LLM selects the appropriate tool from
+a registered set, constructs the call arguments, invokes the function, and
+incorporates the result into its response. This paradigm separates the natural
+language understanding task (which LLMs perform well) from the computation task
+(which validated code performs reliably), combining the strengths of both.
+
+The `ellmer` R package [@ellmer] provides a unified interface for LLM tool
+calling in R, supporting Ollama local models, OpenAI, Anthropic, and other
+backends through a consistent `tool()` registration API. Tools defined with
+`ellmer::tool()` can be registered on a chat object and reused across
+conversational turns, making them a natural fit for the PRA agent framework.
+
+## 2.3 Retrieval-Augmented Generation
+
+Retrieval-Augmented Generation augments LLM responses with passages retrieved
+from an external knowledge base, enabling models to answer domain-specific
+questions without requiring that knowledge to be encoded in model weights
+[@Lewis2020]. A retrieval system indexes a corpus of documents as vector
+embeddings; at query time, the most semantically similar chunks are retrieved
+and inserted into the LLM's context window as grounding evidence. Reviews of
+RAG systems find that hybrid retrieval — combining dense vector similarity
+search with sparse keyword matching (BM25) — generally outperforms either
+approach alone, particularly for domain-specific terminology [@RAGReview2024].
+
+For engineering decision support, the transparency and source attribution
+properties of RAG are especially important. @CHI2025RAG find that domain
+experts are more willing to trust AI-generated responses when retrieved source
+passages are visible, allowing them to verify claims against primary literature.
+In the project risk context, where practitioners may need to defend their
+analyses to stakeholders, the ability to cite a specific EVM standard or
+simulation methodology is a meaningful quality criterion.
+
+## 2.4 AI-Assisted Engineering Decision Support
+
+AI-assisted decision support has been explored across a range of engineering
+risk contexts. @DeLLMa2024 demonstrate that LLMs can support principled
+decision making under uncertainty by combining probabilistic reasoning with
+chain-of-thought prompting. @FMEA2025 show that LLM integration accelerates
+Failure Mode and Effects Analysis (FMEA) — a structured risk identification
+technique closely related to project risk assessment — while maintaining
+accuracy comparable to expert analysts. @SafetyRAG2025 combine RAG with LLMs
+to provide automated safety risk guidance, demonstrating that domain-grounded
+generation substantially outperforms base LLM responses on compliance-critical
+queries.
+
+A common theme across these works is that LLM agents are most effective when
+tightly coupled with validated domain tools or knowledge sources rather than
+relying on the model's parametric knowledge alone. The PRA agent framework
+adopts this design principle explicitly: the LLM is responsible for
+understanding user intent and selecting tools, while all quantitative
+computation is delegated to validated R functions.
+
+# 3. Framework Design
+
+## 3.1 Architecture Overview
+
+The PRA agent framework is organized in three layers (Figure 1):
+
+- **Interface layer**: The user interacts through one of three surfaces — a
+  programmatic R chat object (`pra_chat()`), a Shiny web application
+  (`pra_app()`), or any MCP-compatible AI client via `pra_mcp_server()`.
+
+- **Routing layer**: User input is classified into one of three modes —
+  *command*, *tool*, or *rag* — by a heuristic classifier that examines the
+  input for slash prefixes, numerical data patterns, and conceptual question
+  markers.
+
+- **Execution layer**: Classified inputs are dispatched to the appropriate
+  handler: the command registry (deterministic), the LLM tool-calling loop
+  (probabilistic), or the RAG retrieval pipeline (knowledge-grounded).
+
+This architecture separates concerns cleanly: reliability-critical workflows
+use the command path, exploratory analysis uses the tool-calling path, and
+conceptual learning uses the RAG path. A single entry point handles all three
+modes, so users do not need to choose a different application for each workflow.
+
+```{r fig1-architecture, fig.width=7, fig.height=5, fig.cap="Figure 1. Three-layer architecture of the PRA AI agent framework. User input enters through the interface layer, is classified by the routing layer into one of three modes, and dispatched to the appropriate execution handler.", echo=FALSE}
+library(grid)
+grid.newpage()
+
+# Color palette
+header_bg  <- "#d0d8e8"
+box_bg     <- "#f7f9fc"
+border_col <- "#4a5568"
+arrow_col  <- "#4a5568"
+text_col   <- "#1a202c"
+label_col  <- "#2d3748"
+
+# Layer y-positions (top, middle, bottom) and height
+layer_tops <- c(0.93, 0.62, 0.31)
+layer_h    <- 0.26
+header_h   <- 0.055
+
+# Column x-positions (left edge) and width
+col_xs <- c(0.04, 0.37, 0.70)
+col_w  <- 0.28
+
+layer_labels <- c("INTERFACE LAYER", "ROUTING LAYER", "EXECUTION LAYER")
+box_titles <- list(
+  c("pra_chat()\nR Console", "pra_app()\nShiny Web", "MCP Clients\nClaude / Claude Code"),
+  c("/command prefix\n→ COMMAND", "Numeric patterns\n→ TOOL", "Conceptual query\n→ RAG"),
+  c("Command Registry\n9 slash commands\nDeterministic", "LLM Tool Loop\n14 ellmer tools\nProbabilistic", "RAG Pipeline\nDuckDB + BM25/VSS\nKnowledge-grounded")
+)
+
+for (layer in 1:3) {
+  top <- layer_tops[layer]
+
+  # Layer header bar
+  grid.rect(x = 0.5, y = top - header_h / 2,
+            width = 0.94, height = header_h,
+            gp = gpar(fill = header_bg, col = border_col, lwd = 1),
+            just = "centre")
+  grid.text(layer_labels[layer],
+            x = 0.5, y = top - header_h / 2,
+            gp = gpar(fontsize = 8, fontface = "bold", col = label_col))
+
+  # Three boxes per layer
+  box_top <- top - header_h
+  box_h   <- layer_h - header_h
+
+  for (col in 1:3) {
+    bx <- col_xs[col] + col_w / 2
+    by <- box_top - box_h / 2
+
+    grid.rect(x = bx, y = by,
+              width = col_w - 0.02, height = box_h,
+              gp = gpar(fill = box_bg, col = border_col, lwd = 0.8),
+              just = "centre")
+    grid.text(box_titles[[layer]][col],
+              x = bx, y = by,
+              gp = gpar(fontsize = 7, col = text_col),
+              just = "centre")
+  }
+}
+
+# Downward arrows between layers (three per gap)
+for (col in 1:3) {
+  ax <- col_xs[col] + col_w / 2
+  for (gap in 1:2) {
+    y_top    <- layer_tops[gap]   - layer_h + 0.005
+    y_bottom <- layer_tops[gap + 1] - 0.005
+    grid.lines(x = c(ax, ax), y = c(y_top, y_bottom),
+               gp = gpar(col = arrow_col, lwd = 1.2),
+               arrow = arrow(length = unit(0.08, "inches"), type = "closed",
+                             angle = 20))
+  }
+}
+```
+
+## 3.2 Input Routing
+
+The routing classifier (`route_input()`) operates as follows. If the input
+begins with a forward slash, it is classified as a *command* and dispatched to
+the command registry without involving the LLM. Otherwise, the input is scanned
+for numerical patterns: distribution specifications (e.g., `normal(10, 2)`),
+JSON arrays, monetary amounts (`$500,000`), EVM keywords (`BAC`, `schedule`),
+and structured parameter assignments (`mean=`, `costs=`). If any pattern
+matches, the input is classified as a *tool* call. If no numerical patterns are
+found, the input is classified as *rag* and the knowledge base is queried for
+relevant context.
+
+The LLM is involved in both the *tool* and *rag* modes but plays different
+roles. In *tool* mode, the system prompt encodes tool-selection heuristics —
+for example, "if the user provides distribution specifications, call
+`mcs_tool`, then `contingency_tool` and `sensitivity_tool`" — and the LLM
+selects and invokes the appropriate tools. In *rag* mode, retrieved passages
+are inserted into the context window and the LLM synthesizes a response with
+source attribution.
+
+The classification heuristic is intentionally lightweight: it trades recall
+for precision, occasionally routing tool-call queries to RAG when numerical
+patterns are absent, but never routing conceptual questions through the
+tool-calling path (which would produce spurious function invocations). Users
+can always override classification by using a slash command directly.
+
+## 3.3 Analytical Tool Layer
+
+The tool layer comprises 14 `ellmer::tool()` definitions, each wrapping one
+or more PRA analytical functions. Table 1 summarizes the tools.
+
+```{r table1-tools, echo=FALSE}
+tools_df <- data.frame(
+  Tool = c(
+    "`mcs_tool`", "`smm_tool`", "`contingency_tool`", "`sensitivity_tool`",
+    "`evm_analysis_tool`", "`risk_prob_tool`", "`risk_post_prob_tool`",
+    "`cost_pdf_tool`", "`cost_post_pdf_tool`",
+    "`fit_and_predict_sigmoidal_tool`",
+    "`parent_dsm_tool`", "`grandparent_dsm_tool`"
+  ),
+  `R Function(s)` = c(
+    "`mcs()`", "`smm()`", "`contingency()`", "`sensitivity()`",
+    "EVM suite", "`risk_prob()`", "`risk_post_prob()`",
+    "`cost_pdf()`", "`cost_post_pdf()`",
+    "`fit_sigmoidal()` + `predict_sigmoidal()`",
+    "`parent_dsm()`", "`grandparent_dsm()`"
+  ),
+  Description = c(
+    "Monte Carlo simulation with task distributions and correlations",
+    "Second Moment Method analytical project estimate",
+    "Contingency reserve derived from simulation percentile",
+    "Variance contribution by task (tornado chart)",
+    "Full ANSI/EIA-748 dashboard: 11 EVM metrics",
+    "Bayesian prior risk probability from root causes",
+    "Bayesian posterior probability after observed evidence",
+    "Prior cost risk distribution (Beta-Binomial)",
+    "Posterior cost distribution after observations",
+    "Sigmoidal learning curve fit and completion forecast",
+    "Resource-task dependency matrix (parent DSM)",
+    "Risk-resource-task dependency matrix (grandparent DSM)"
+  ),
+  check.names = FALSE
+)
+knitr::kable(tools_df,
+  caption = "Table 1. LLM-callable tools in the PRA agent registry.",
+  align = c("l", "l", "l")
+)
+```
+
+All tool inputs are passed as JSON strings (matching the format LLMs naturally produce),
+and a fault-tolerant JSON parser (`parse_json()`) handles common LLM output
+artifacts such as smart quotes, trailing commas, and missing array brackets.
+
+Tool outputs are designed for dual use: plain-text summaries are returned to
+the LLM for incorporation into conversational responses, while rich HTML
+outputs (inline charts and formatted tables) are rendered in the Shiny
+interface. Full simulation results (e.g., the 10,000-element distribution
+vector from `mcs_tool`) are stored in a package-level environment
+(`.pra_agent_env`) rather than returned verbatim, which keeps the LLM's
+context window manageable and enables tool chaining — the `contingency_tool`
+and `sensitivity_tool` read from `.pra_agent_env$last_mcs` rather than
+requiring the user to re-specify the simulation.
+
+In addition to the LLM-callable tools, nine deterministic slash commands
+(Table 2) provide the same analytical capabilities through a structured
+argument syntax that bypasses the LLM entirely. Commands use a
+bracket-aware argument parser (`parse_command_args()`) that handles nested
+JSON values in command arguments without regex fragility. The commands produce
+identical numerical results to the tools but execute in milliseconds and
+guarantee reproducibility.
+
+```{r table2-commands, echo=FALSE}
+cmds_df <- data.frame(
+  Command = c(
+    "`/mcs`", "`/smm`", "`/contingency`", "`/sensitivity`",
+    "`/evm`", "`/risk`", "`/risk_post`", "`/learning`", "`/dsm`"
+  ),
+  `Equivalent Tool` = c(
+    "`mcs_tool`", "`smm_tool`", "`contingency_tool`", "`sensitivity_tool`",
+    "`evm_analysis_tool`", "`risk_prob_tool`", "`risk_post_prob_tool`",
+    "`fit_and_predict_sigmoidal_tool`", "`parent_dsm_tool`"
+  ),
+  `Example Syntax` = c(
+    '/mcs n=10000 tasks=[{"type":"normal","mean":10,"sd":2}]',
+    "/smm means=[10,15,20] vars=[4,9,16]",
+    "/contingency phigh=0.95 pbase=0.50",
+    '/sensitivity tasks=[{"type":"normal","mean":10,"sd":2}]',
+    "/evm bac=500000 schedule=[0.2,0.4,0.6,0.8,1.0] period=3 complete=0.55 costs=[90000,195000,310000]",
+    "/risk causes=[0.3,0.2] given=[0.8,0.6] not_given=[0.2,0.4]",
+    "/risk_post causes=[0.3,0.2] given=[0.8,0.6] not_given=[0.2,0.4] observed=[1,null]",
+    "/learning model=logistic x=[1,2,3,4,5,6,7,8] y=[2,8,25,50,72,88,95,98]",
+    "/dsm matrix=[[1,1,0],[0,1,1],[0,0,1]]"
+  ),
+  check.names = FALSE
+)
+knitr::kable(cmds_df,
+  caption = "Table 2. Deterministic slash commands. Each command executes the corresponding analytical function directly without LLM involvement.",
+  align = c("l", "l", "l")
+)
+```
+
+## 3.4 RAG Knowledge Layer
+
+The knowledge base consists of six curated Markdown documents (~19 KB total)
+covering the core project risk analysis methods:
+
+- `mcs_methods.md` — distribution selection, correlation, convergence criteria
+- `evm_standards.md` — ANSI/EIA-748 metrics and EAC forecasting methods
+- `bayesian_risk.md` — prior/posterior probability, Beta-Binomial model
+- `sensitivity_contingency.md` — variance decomposition, reserve calculation
+- `learning_curves.md` — logistic, Gompertz, and Pearl sigmoidal models
+- `pra_functions.md` — comprehensive function reference
+
+Documents are chunked using Markdown-aware splitting via `ragnar::markdown_chunk()`
+and stored in a DuckDB database through the `ragnar` package [@ragnar]. At
+query time, `retrieve_context()` performs hybrid retrieval combining BM25
+keyword matching and vector similarity search over 768-dimensional embeddings
+produced by the `nomic-embed-text` model running locally via Ollama [@Ollama2023].
+The top-3 chunks are returned with source filenames for attribution. The
+database is built on first use and cached locally, so subsequent calls operate
+from the cached store without re-embedding.
+
+The knowledge base is user-extensible via `add_documents()`, which ingests
+additional `.md` or `.txt` files and rebuilds the index. This allows
+organizations to add project-specific risk registers, standards documents, or
+historical performance data as grounding context.
+
+## 3.5 MCP Integration
+
+The Model Context Protocol [@MCP2024] defines a standard interface through
+which AI clients can discover and invoke external tools via JSON-RPC 2.0
+over stdio or HTTP/SSE transports. The `pra_mcp_server()` function launches
+PRA as an MCP server, exposing the same 14 tools as the `ellmer` layer through
+this protocol:
+
+```r
+pra_mcp_server()  # starts stdio MCP server
+```
+
+The implementation delegates to `mcptools::mcp_server(tools = pra_tools())`
+[@mcptools], reusing the existing `ellmer::tool()` definitions without
+duplication. Claude Code, Claude Desktop, and other MCP clients can connect
+by adding PRA to their MCP server configuration. A project-level
+`.claude/mcp.json` file is included in the package repository for zero-
+configuration Claude Code integration:
+
+```json
+{
+  "mcpServers": {
+    "pra": {
+      "command": "Rscript",
+      "args": ["-e", "PRA::pra_mcp_server()"]
+    }
+  }
+}
+```
+
+MCP integration decouples the PRA tool layer from the R-based agent
+orchestration: any MCP-compatible AI client gains access to validated project
+risk analysis functions without requiring R session management or Shiny.
+
+## 3.6 Implementation
+
+The framework is implemented as part of the PRA R package (v0.4.0), available
+on CRAN. The agent components span approximately 2,400 lines of R across three
+source files: `R/chat.R` (agent initialization, system prompt, MCP server),
+`R/rag.R` (knowledge base construction and retrieval), and `R/tools.R` (tool
+wrappers, command registry, and input router). Hard dependencies are limited to
+`mc2d`, `minpack.lm`, and `stats`; all AI components are in `Suggests` and
+loaded on demand.
+
+By default, PRA uses locally running Ollama models [@Ollama2023] — specifically
+`llama3.2` (3.2B parameters) for generation and `nomic-embed-text` (137M
+parameters) for embeddings. This design is deliberate: local inference
+preserves data privacy (no project data leaves the user's machine), eliminates
+per-query API costs, and operates without network connectivity. Users who
+prefer higher accuracy for complex tool-calling scenarios can supply a
+pre-configured `ellmer` chat object using a cloud model (e.g.,
+`ellmer::chat_anthropic(model = "claude-opus-4-7")`); the agent architecture
+is model-agnostic.
+
+The Shiny application (`pra_app()`) provides a browser-based interface with
+streaming responses, inline visualizations from tool outputs, and example
+prompt chips that demonstrate all three input modes. It is launched with a
+single R call and requires no web server configuration.
+
+# 4. Evaluation
+
+## 4.1 Design
+
+We evaluate the agent's ability to correctly identify and invoke the
+appropriate analytical tools in response to user queries, using a benchmark
+of 25 scenarios spanning three tiers of complexity:
+
+- **Tier 1 — Single-tool** (8 scenarios): Each scenario requires exactly one
+  tool call with correctly specified parameters. Examples include "Run a Monte
+  Carlo simulation with 10,000 iterations for a 3-task project with Normal(10,2),
+  Triangular(5,10,15), and Uniform(8,12) distributions" and "Fit a logistic
+  learning curve to this data: x = [1..8], y = [2,8,25,50,72,88,95,98]."
+
+- **Tier 2 — Multi-tool chain** (9 scenarios): Each scenario requires two or
+  more tool calls in sequence. Examples include MCS followed by contingency
+  reserve calculation, full EVM analysis with forecast interpretation, and
+  Bayesian prior computation followed by posterior updating with observed
+  evidence.
+
+- **Tier 3 — Open-ended** (8 scenarios): Conceptual queries that do not
+  require tool calls but should be answered with domain-accurate content
+  citing the knowledge base. Examples include "How do Bayesian risk methods
+  differ from Monte Carlo simulation?" and "My project's CPI is 0.85 and SPI
+  is 0.92. Should I be concerned?"
+
+Scoring follows a three-level rubric for Tiers 1 and 2: **Correct** (all
+expected tools called), **Partial** (some expected tools called), and
+**Incorrect** (no expected tools called). For Tier 3, responses are scored on
+keyword coverage: **Correct** if ≥50% of domain-relevant keywords appear,
+**Partial** if any keywords match, **Incorrect** otherwise. The evaluation
+framework is implemented using the `vitals` R package [@vitals].
+
+We test two configurations: `llama3.2` with RAG enabled (the default) and
+`llama3.2` with RAG disabled (ablation). The `llama3.2` model (Meta, 3.2B
+parameters) was chosen as a representative small local model accessible to
+practitioners without GPU hardware. All inference runs locally via Ollama with
+a 16,384-token context window. Each configuration is run in a single trial.
+
+## 4.2 Results
+
+Table 3 summarizes the evaluation results.
+
+```{r results-table, echo=FALSE}
+results <- data.frame(
+  Configuration     = c("llama3.2 + RAG", "llama3.2 (no RAG)", "RAG delta"),
+  Overall           = c("72.0%", "68.0%", "+4.0%"),
+  `Single-tool (n=8)`  = c("87.5%", "100.0%", "-12.5%"),
+  `Multi-tool (n=9)`   = c("55.6%", "44.4%",  "+11.1%"),
+  `Open-ended (n=8)`   = c("75.0%", "62.5%",  "+12.5%"),
+  check.names = FALSE
+)
+knitr::kable(results,
+  caption = "Table 3. Tool-selection accuracy by configuration and tier.",
+  align = c("l", "r", "r", "r", "r")
+)
+```
+
+With RAG enabled, the agent achieves 72.0% overall accuracy: 87.5% on
+single-tool scenarios, 55.6% on multi-tool chains, and 75.0% on open-ended
+queries. Without RAG, overall accuracy falls to 68.0%, with 100.0% on
+single-tool, 44.4% on multi-tool, and 62.5% on open-ended.
+
+## 4.3 Discussion of Results
+
+The RAG ablation reveals a clear pattern. RAG substantially improves
+performance on multi-tool chains (+11.1 percentage points) and open-ended
+conceptual queries (+12.5 pp), while reducing performance on single-tool
+scenarios (−12.5 pp). We interpret this as follows.
+
+For **multi-tool chains**, the retrieved context about method sequences (e.g.,
+the `mcs_methods.md` document describes the typical workflow of
+simulation → contingency → sensitivity) provides the LLM with planning context
+that improves its ability to construct the correct tool call sequence. For
+**open-ended queries**, the retrieved passages directly supply the domain
+content the model needs, reducing reliance on the model's parametric knowledge
+and improving keyword coverage. For **single-tool scenarios**, however, the
+additional context appears to prime the model toward explanation over action:
+when a passage about Monte Carlo methods is retrieved alongside a query
+requesting a simulation, the model sometimes generates an explanatory response
+about the method rather than immediately calling `mcs_tool`.
+
+This trade-off is practically mitigated by the slash command interface.
+Single-tool scenarios correspond precisely to the use case for which slash
+commands were designed: the user knows which computation they want and provides
+the data. Typing `/mcs tasks=[...]` guarantees correct tool invocation in
+zero latency with no LLM involvement. The 100% single-tool accuracy of the
+no-RAG configuration would be matched — and exceeded in speed and reliability
+— by the deterministic command path.
+
+Multi-tool chain performance (55.6% with RAG) represents the most significant
+remaining limitation. Failures in this tier are predominantly attributable to
+the model omitting the second tool in a chain — for example, running MCS but
+not following through to `contingency_tool` — rather than calling the wrong
+tool. This suggests that multi-step planning is the principal challenge for
+a 3.2B parameter model at the task complexity level tested. We expect larger
+models (8B+) and cloud-hosted models (GPT-4o, Claude Opus) to show
+substantially higher accuracy on this tier, which we leave for future work.
+
+# 5. Discussion
+
+## 5.1 Implications for Risk Practice
+
+The PRA agent framework lowers the barrier to quantitative risk analysis in
+two complementary ways. First, the natural language interface means
+practitioners no longer need to memorize function signatures or data formats:
+they can describe their project in plain language and let the agent select
+and invoke the appropriate analytical pipeline. Second, the slash command
+interface means practitioners who have learned a workflow can execute it
+instantly and reproducibly, without LLM latency or variability.
+
+These two affordances serve different user profiles. A risk analyst encountering
+a new project type benefits from the exploratory, conversational interface;
+an experienced analyst running weekly EVM updates benefits from the
+deterministic `/evm` command. The three-mode architecture accommodates both
+within a single tool.
+
+## 5.2 Comparison to Prior Approaches
+
+Compared to **commercial tools** (Palisade \@RISK, Primavera Risk Analysis),
+PRA offers full reproducibility through open-source R, no licensing cost, and
+programmatic integration with the broader R statistical ecosystem. The AI
+agent layer adds a natural language interface that these tools lack.
+
+Compared to **general-purpose LLMs** (GPT-4, Claude, Gemini), PRA offers
+validated quantitative computation. General-purpose LLMs can reason about
+project risk in natural language but cannot reliably perform numerical
+simulation, EVM calculation, or Bayesian updating; when they attempt to, they
+frequently produce plausible-looking but incorrect numbers [@DeLLMa2024]. By
+routing computation to validated R functions, PRA eliminates this failure mode.
+
+Compared to **general R agent frameworks**, PRA provides domain-specific
+tool definitions, a curated knowledge base, and a Shiny interface optimized
+for project risk workflows. The MCP integration additionally enables users
+to call PRA functions from Claude Code and other AI clients without writing
+any R code.
+
+## 5.3 Design Trade-offs
+
+The choice to use local Ollama models by default prioritizes privacy and
+accessibility over accuracy. The llama3.2 (3.2B) model achieves 72.0% overall
+accuracy — adequate for exploratory use and reliable for single-tool scenarios,
+but below what larger models would likely achieve for complex multi-tool chains.
+Organizations with cloud access can substitute a more capable model; the
+architecture is model-agnostic. A systematic model comparison benchmark is
+left for future work.
+
+The hybrid BM25 + vector similarity RAG retrieval performs well on the
+domain-specific terminology in the knowledge base, but the current knowledge
+corpus is intentionally small (~19 KB across six documents). Expanding the
+corpus with project-specific standards, historical project data, or additional
+risk frameworks would increase retrieval quality but also increase the risk of
+retrieval noise degrading response coherence.
+
+## 5.4 Generalizability
+
+The three-mode routing architecture — deterministic commands, LLM tool-calling,
+and RAG — is not specific to project risk analysis. Any domain that has (1) a
+set of validated computational functions in R and (2) a corpus of domain
+knowledge in text form can adopt the same architecture. The `ellmer` + `ragnar`
++ `mcptools` stack used here provides a reusable implementation pattern.
+
+## 5.5 Limitations and Future Work
+
+Several limitations of the current work point toward future research directions.
+
+*Evaluation scope.* The 25-scenario benchmark uses a single model (llama3.2)
+in a single trial. Multi-trial evaluation with confidence intervals, and
+systematic comparison across model families and sizes (e.g., llama3.1 8B,
+Qwen2.5, GPT-4o, Claude Opus), would provide a more complete picture of the
+accuracy-model-size trade-off.
+
+*Scoring methodology.* The tool-selection accuracy metric captures whether
+the correct functions were called, but not whether the parameters were
+correctly specified or whether the final answer was numerically correct. A
+complementary end-to-end correctness metric — comparing tool output values
+to reference solutions — would provide a more rigorous evaluation.
+
+*Human baseline.* The evaluation does not include a human-baseline condition.
+Comparing agent performance to that of domain experts operating the same
+tools manually would provide the most meaningful measure of practical utility.
+
+*Multi-turn conversations.* The current evaluation tests single-turn
+performance. Real project risk assessments typically involve iterative
+refinement — running a simulation, examining the results, adjusting
+assumptions, re-running. Multi-turn benchmark design is an important next step.
+
+*Data integration.* Future versions could integrate with project management
+data sources (Microsoft Project, Primavera, ERP systems) to ingest schedule
+and cost actuals automatically, removing the data-entry burden that is one
+of the main practical barriers to quantitative risk analysis.
+
+# 6. Conclusion
+
+This paper presented an AI agent framework for quantitative project risk
+analysis that integrates large language model tool-calling with a validated
+suite of probabilistic analysis functions. The framework's three-mode routing
+architecture — deterministic slash commands, LLM tool-calling, and
+Retrieval-Augmented Generation — serves a range of user workflows: from
+instant reproducible computation for experienced analysts to exploratory
+natural language interaction for practitioners new to quantitative methods.
+
+Systematic evaluation across 25 scenarios demonstrates 72.0% tool-selection
+accuracy with a small local model (llama3.2, 3.2B parameters), with RAG
+providing meaningful improvements for multi-tool chains (+11.1%) and
+open-ended conceptual queries (+12.5%). The Model Context Protocol integration
+extends the framework's reach to Claude, Claude Code, and other MCP-compatible
+AI clients, enabling quantitative project risk analysis from any LLM interface.
+
+The framework is fully open source, available on CRAN as the PRA package
+(version 0.4.0), and operates entirely locally with no cloud API dependencies.
+By combining the accessibility of natural language with the reliability of
+validated quantitative tools, it offers a practical path toward broader
+adoption of evidence-based quantitative risk analysis in project management.
+
+# Acknowledgments
+
+The author thanks the developers of the `ellmer`, `ragnar`, `mcptools`, and
+`vitals` R packages, whose work provided the foundational infrastructure for
+this framework.
+
+# References

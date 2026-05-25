@@ -41,6 +41,5 @@ Suggests:
     testthat (>= 3.0.0),
     vitals,
     withr
-VignetteBuilder: knitr
 Config/testthat/edition: 3
 RoxygenNote: 7.3.3

@@ -1,23 +1,4 @@
 url: https://paulgovan.github.io/PRA/
 template:
   bootstrap: 5
-articles:
-  - title: "Second Moment Analysis"
-    contents: SMM
-  - title: "Monte Carlo Simulation"
-    contents: MCS
-  - title: "Learning Curves"
-    contents: sigmoidal
-  - title: "Earned Value Management"
-    contents: evm
-  - title: "Bayesian Methods"
-    contents: Bayes
-  - title: "Design Structure Matrices"
-    contents: DSM
-  - title: "Probabilistic Networks"
-    contents: network
-  - title: "Probabilistic Networks Expanded"
-    contents: network2
-  - title: "Agentic Risk Analysis"
-    contents: agent
 

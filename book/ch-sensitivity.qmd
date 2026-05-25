@@ -1,0 +1,172 @@
+# Who's Driving? Sensitivity Analysis {#sec-sensitivity}
+
+> *"Not all uncertainty is created equal. Some tasks keep you up at night for good reason."*
+
+You've run a Monte Carlo simulation and you have a P95 schedule. Now your project sponsor asks: "Which task should we focus on? Where should we spend our mitigation budget?" Looking at the total distribution doesn't answer that — it just tells you how uncertain the total is. Sensitivity analysis tells you *why*.
+
+::: {.callout-note icon=false}
+## Learning Objectives
+
+By the end of this chapter, you will be able to:
+
+1. Explain variance decomposition and how it differs from percentile analysis
+2. Interpret a sensitivity index and identify the dominant risk driver in a project
+3. Call `sensitivity()` with the three standard distribution types
+4. Produce a tornado chart that ranks tasks by their contribution to total variance
+5. Extend the analysis to correlated tasks using a correlation matrix
+:::
+
+## What Is Sensitivity Analysis?
+
+Sensitivity analysis answers the question: "If I could reduce uncertainty in one task, which task would have the greatest effect on total project variance?"
+
+The answer is not always the task with the longest expected duration. A short task with extremely high variance — say, a procurement step that might take anywhere from 1 to 20 weeks — can dominate the project's total uncertainty even though its mean duration is modest.
+
+### Variance Decomposition
+
+For a project with $n$ independent tasks, total variance is simply the sum of individual variances:
+
+$$\sigma^2_\text{total} = \sum_{i=1}^n \sigma^2_i$$
+
+When tasks are correlated, covariance terms appear:
+
+$$\sigma^2_\text{total} = \sum_{i=1}^n \sigma^2_i + 2\sum_{i < j} \text{cov}(i, j)$$
+
+The **sensitivity index** for task $i$ quantifies how much its variance — including its covariance with all other tasks — contributes to the total:
+
+$$s_i = 1 + 2 \sum_{j \neq i} \frac{\text{cov}_{ij}}{\sqrt{\sigma^2_i \cdot \sigma^2_j}}$$
+
+For independent tasks, all covariance terms are zero and $s_i = 1$ for every task — the tasks contribute proportionally to their variance. Positive correlations push dominant tasks' indices above 1 and amplify them relative to smaller-variance tasks.
+
+::: {.callout-tip}
+## Sensitivity vs. Percentiles
+
+Monte Carlo gives you *how bad* the total outcome could be (P95 = 38 weeks). Sensitivity analysis gives you *which task is responsible* (Task B drives 60% of total variance). Use both: percentiles for the headline number, sensitivity for the "where do we focus?" conversation.
+:::
+
+## Setup
+
+```{r setup}
+#| code-fold: false
+library(PRA)
+set.seed(42)
+```
+
+We use the same three tasks from @sec-mcs — a three-task project with mixed distribution types — so you can see the complementary view.
+
+```{r}
+task_dists <- list(
+  TaskA = list(type = "normal",     mean = 10, sd = 2),
+  TaskB = list(type = "triangular", a = 5, b = 10, c = 15),
+  TaskC = list(type = "uniform",    min = 8, max = 12)
+)
+```
+
+## Computing Sensitivity
+
+```{r}
+sens <- sensitivity(task_dists)
+sens
+```
+
+The output is a named vector — one sensitivity index per task. A higher value means that task's variance has a larger proportional effect on total project variance.
+
+### Interpretation
+
+```{r}
+round(sens / sum(sens) * 100, 1)
+```
+
+Expressing the indices as percentages makes the picture clear: Task B (triangular) carries the largest share of total project variance. This is the task where mitigation effort pays off most.
+
+## Tornado Chart
+
+A horizontal bar chart sorted by sensitivity index is the standard way to communicate this finding — it's called a tornado chart because the bars narrow from top to bottom.
+
+```{r}
+#| fig-cap: "Tornado chart of task sensitivity indices. The tallest bar is the dominant risk driver — the task where reducing variance has the greatest effect on total project uncertainty."
+sorted_sens <- sort(sens, decreasing = FALSE)
+barplot(
+  sorted_sens,
+  horiz  = TRUE,
+  names.arg = names(sorted_sens),
+  xlab   = "Sensitivity Index",
+  main   = "Task Sensitivity",
+  col    = "#18bc9c",
+  border = "white",
+  las    = 1
+)
+abline(v = 1, lty = 2, col = "#e74c3c")
+```
+
+The dashed red line at $s = 1$ marks the neutral baseline. Tasks above 1 are amplified by positive correlation with other tasks; tasks below 1 are damped by negative correlation (or simply have lower variance).
+
+## With Correlated Tasks
+
+Real projects have correlated tasks — they share resources, face the same weather, or depend on the same supplier. Positive correlation amplifies the dominant driver; it becomes even more important to get that task right.
+
+Use `cor_matrix()` to build a correlation matrix from sampled distributions:
+
+```{r}
+cm <- cor_matrix(
+  num_samples = 10000,
+  num_vars    = 3,
+  dists = list(
+    TaskA = function(n) rnorm(n, 10, 2),
+    TaskB = function(n) {
+      mc2d::rtriang(n, min = 5, mode = 10, max = 15)
+    },
+    TaskC = function(n) runif(n, 8, 12)
+  )
+)
+cm
+```
+
+```{r}
+#| fig-cap: "Sensitivity indices when tasks are correlated. Positive correlations amplify the dominant driver (Task B) and increase total project variance."
+sens_corr <- sensitivity(task_dists, cor_mat = cm)
+
+par(mfrow = c(1, 2))
+
+sorted_base <- sort(sens, decreasing = FALSE)
+barplot(sorted_base, horiz = TRUE, names.arg = names(sorted_base),
+  xlab = "Sensitivity Index", main = "Independent",
+  col = "#18bc9c", border = "white", las = 1)
+abline(v = 1, lty = 2, col = "#e74c3c")
+
+sorted_corr <- sort(sens_corr, decreasing = FALSE)
+barplot(sorted_corr, horiz = TRUE, names.arg = names(sorted_corr),
+  xlab = "Sensitivity Index", main = "Correlated",
+  col = "#3498db", border = "white", las = 1)
+abline(v = 1, lty = 2, col = "#e74c3c")
+
+par(mfrow = c(1, 1))
+```
+
+Comparing the two panels: when tasks are positively correlated, the dominant task's index rises. Ignoring correlations understates the risk concentration.
+
+## Summary
+
+::: {.callout-tip icon=false}
+## Key Takeaways
+
+- **Sensitivity analysis** decomposes total project variance into per-task contributions. The result is an index, not a probability — it shows relative importance, not absolute risk.
+- **`sensitivity(task_dists)`** takes the same distribution specs as `mcs()` and returns a named vector of sensitivity indices.
+- The task with the highest sensitivity index is the one where reducing variance has the greatest effect on the total project distribution. That is where to spend mitigation budget.
+- **Positive correlations amplify the dominant driver.** A task that leads in the independent case leads by an even larger margin when it is positively correlated with its neighbours.
+- A tornado chart (sorted horizontal bar plot) is the standard deliverable for communicating sensitivity results to stakeholders.
+
+For a fast analytical estimate of total mean and variance — without the index-level decomposition — see @sec-smm. For the simulation that produced the total distribution these indices decompose, see @sec-mcs.
+:::
+
+## Exercises
+
+1. **Reading the chart.** In the tornado chart above, which task contributes the least to total variance? What property of its distribution explains this?
+
+2. **Change the spread.** Replace Task B's triangular distribution with `Triangular(8, 10, 12)` — a tighter spread. How do the sensitivity indices change? Does Task B still dominate?
+
+3. **High-variance newcomer.** Add a fourth task, Task D ~ `Normal(5, 6)` (very high variance relative to its mean). Recompute the sensitivity indices. Does Task D become the dominant driver?
+
+4. **Correlation direction.** ★ Construct a correlation matrix where Task A and Task B are negatively correlated (−0.5). What happens to their sensitivity indices relative to the independent case? Explain the result in terms of the covariance formula.
+
+5. **From sensitivity to contingency.** ★ Run `mcs()` on the same three tasks, then run `sensitivity()`. The task with the highest sensitivity index should also be responsible for the widest spread in the simulation. Verify this by plotting the individual task distributions from the MCS output alongside the sensitivity indices. Do they tell a consistent story?

@@ -1,0 +1,126 @@
+# Quick Reference {#sec-ref}
+
+A compact reference to every exported function in the `PRA` package. Arguments marked `*` are required; all others have defaults.
+
+## Monte Carlo Simulation
+
+| Function | Key Arguments | Returns | Chapter |
+|----------|--------------|---------|---------|
+| `mcs(task_dists*, n, cor_mat)` | `task_dists` list of distribution specs; `n` simulations (default 10 000); optional correlation matrix | S3 object of class `mcs` with `$simulations` matrix, `$total_distribution`, percentiles | @sec-mcs |
+| `print.mcs(x)` | `x` an `mcs` object | Console summary of P50/P80/P95 and task means | @sec-mcs |
+
+**Distribution spec format** (used by `mcs()`, `sensitivity()`, `smm()`):
+
+```r
+list(type = "normal",     mean = 10, sd = 2)
+list(type = "triangular", a = 5, b = 10, c = 15)   # a=min, b=mode, c=max
+list(type = "uniform",    min = 8, max = 12)
+```
+
+---
+
+## Second Moment Method
+
+| Function | Key Arguments | Returns | Chapter |
+|----------|--------------|---------|---------|
+| `smm(means*, vars*)` | Numeric vectors of task means and variances | S3 object of class `smm` with `$total_mean`, `$total_var`, `$total_sd` | @sec-smm |
+| `print.smm(x)` | `x` an `smm` object | Console summary of total mean, SD, and 95% CI | @sec-smm |
+
+---
+
+## Sensitivity Analysis
+
+| Function | Key Arguments | Returns | Chapter |
+|----------|--------------|---------|---------|
+| `sensitivity(task_dists*, cor_mat)` | Same distribution specs as `mcs()`; optional correlation matrix | Named numeric vector of sensitivity indices (one per task) | @sec-sensitivity |
+
+---
+
+## Contingency & Correlation
+
+| Function | Key Arguments | Returns | Chapter |
+|----------|--------------|---------|---------|
+| `contingency(mcs_result*, phigh, pbase)` | `mcs_result` from `mcs()`; `phigh` target percentile (default 0.95); `pbase` base percentile (default 0.50) | Numeric contingency reserve (phigh quantile minus pbase quantile) | @sec-mcs |
+| `cor_matrix(num_samples, num_vars, dists*)` | `dists` list of sampling functions `function(n) ...`; `num_samples` (default 100); `num_vars` (default 5) | Numeric correlation matrix | @sec-sensitivity |
+
+---
+
+## Earned Value Management
+
+All EVM functions accept numeric scalars or vectors as noted.
+
+| Function | Key Arguments | Returns | Chapter |
+|----------|--------------|---------|---------|
+| `pv(bac*, schedule*, period*)` | Budget at completion; cumulative schedule proportions; current period (1-based) | Planned Value | @sec-evm |
+| `ev(bac*, complete*)` | Budget at completion; fraction complete (0–1) | Earned Value | @sec-evm |
+| `ac(costs*, period*)` | Vector of actual costs per period; current period | Actual Cost | @sec-evm |
+| `sv(ev*, pv*)` | Earned Value; Planned Value | Schedule Variance (EV − PV) | @sec-evm |
+| `cv(ev*, ac*)` | Earned Value; Actual Cost | Cost Variance (EV − AC) | @sec-evm |
+| `spi(ev*, pv*)` | Earned Value; Planned Value | Schedule Performance Index (EV / PV) | @sec-evm |
+| `cpi(ev*, ac*)` | Earned Value; Actual Cost | Cost Performance Index (EV / AC) | @sec-evm |
+| `eac(bac*, ac*, ev*, method)` | BAC, AC, EV; `method` = "typical" / "atypical" / "combined" | Estimate at Completion | @sec-evm |
+| `etc(eac*, ac*)` | Estimate at Completion; Actual Cost | Estimate to Complete (EAC − AC) | @sec-evm |
+| `tcpi(bac*, ev*, eac*)` | BAC, EV, EAC | To-Complete Performance Index | @sec-evm |
+| `vac(bac*, eac*)` | Budget at Completion; Estimate at Completion | Variance at Completion (BAC − EAC) | @sec-evm |
+
+---
+
+## Bayesian Risk
+
+| Function | Key Arguments | Returns | Chapter |
+|----------|--------------|---------|---------|
+| `risk_prob(causes*, given*, not_given*)` | Vectors of prior probabilities, likelihoods if cause present/absent | Prior risk probability (scalar) | @sec-bayes |
+| `risk_post_prob(causes*, given*, not_given*, observed*)` | Same as above plus `observed` vector (1 = observed, 0 = not, NA = unknown) | Posterior risk probability after observations | @sec-bayes |
+
+---
+
+## Learning Curves
+
+| Function | Key Arguments | Returns | Chapter |
+|----------|--------------|---------|---------|
+| `fit_sigmoidal(x*, y*, model)` | `x` time vector; `y` response vector; `model` = "logistic" / "gompertz" / "pearl" | List with fitted model object, coefficients, RSE | @sec-sigmoidal |
+| `predict_sigmoidal(fit*, newx*)` | Object from `fit_sigmoidal()`; new x values | Numeric vector of predictions | @sec-sigmoidal |
+| `plot_sigmoidal(fit*, x*, y*)` | Object from `fit_sigmoidal()`; original data | Plot of fitted curve with confidence band | @sec-sigmoidal |
+
+---
+
+## Design Structure Matrices
+
+| Function | Key Arguments | Returns | Chapter |
+|----------|--------------|---------|---------|
+| `parent_dsm(S*)` | Resource-Task matrix S (resources × tasks, binary) | S3 object of class `parent_dsm`; `$matrix` is tasks × tasks | @sec-dsm |
+| `grandparent_dsm(S*, R*)` | Resource-Task matrix S; Risk-Resource matrix R (risks × resources, binary) | S3 object of class `grandparent_dsm`; `$matrix` is tasks × tasks | @sec-dsm |
+
+Both objects have `print()` and `plot()` methods.
+
+---
+
+## Probabilistic Networks
+
+| Function | Key Arguments | Returns | Chapter |
+|----------|--------------|---------|---------|
+| `prob_net(nodes*, links*, distributions*)` | Data frames of nodes (id, label, group) and links (source, target, value); named list of distributions | Graph object (list of nodes, links, distributions) | @sec-network |
+| `prob_net_sim(graph*, num_samples)` | Graph from `prob_net()`; number of simulations (default 10 000) | Named list of sample vectors, one per node | @sec-network |
+| `prob_net_learn(graph*, observations*, num_samples)` | Graph; named list of clamped observations e.g. `list(B = "No")`; sample count | Named list of sample vectors with upstream nodes clamped | @sec-network |
+| `prob_net_update(graph*, remove_links, update_distributions)` | Graph; data frame of edges to remove; named list of replacement distributions | Modified graph object | @sec-network |
+
+**Node distribution types** (used in `distributions` list):
+
+```r
+list(type = "discrete",     values = c(1, 0), probs = c(0.7, 0.3))
+list(type = "normal",       mean = 50000, sd = 10000)
+list(type = "conditional",  condition = "A",
+     true_dist  = list(type = "normal", mean = 80000, sd = 20000),
+     false_dist = list(type = "normal", mean = 50000, sd = 10000))
+list(type = "aggregate",    nodes = c("F", "G", "H"))
+```
+
+---
+
+## Agentic Framework
+
+| Function | Key Arguments | Returns | Chapter |
+|----------|--------------|---------|---------|
+| `pra_chat(model, chat)` | `model` Ollama model name (default "llama3.2"); or `chat` an ellmer chat object for cloud models | Chat object; call `$chat("...")` to converse | @sec-agent |
+| `pra_app()` | None | Launches Shiny app in browser (requires Ollama) | @sec-agent |
+| `pra_mcp_server()` | None | Starts MCP server; register with `claude mcp add` | @sec-agent |

@@ -1,0 +1,101 @@
+# Preface {.unnumbered}
+
+Every project starts with a plan. And then reality happens.
+
+Deadlines slip. Costs creep. That one vendor who was "definitely going to deliver on time" ... doesn't. Risk is not an edge case in project management — it is the whole game. The question is not whether uncertainty will show up on your project, but whether you'll have the tools to quantify it, communicate it, and manage it before it manages you.
+
+This book is your toolkit.
+
+## What This Book Is About
+
+*Project Risk Analysis: A Practical Guide* is a hands-on introduction to quantitative methods for managing uncertainty in project schedules and costs. We cover the major techniques used by risk analysts, project managers, and engineers: Monte Carlo simulation, second moment methods, earned value management, Bayesian inference, learning curves, design structure matrices, probabilistic networks, and AI-powered risk analysis — all through working R code using the `PRA` package.
+
+The goal is not to overwhelm you with theory (though we won't shy away from the math when it helps). The goal is to make you dangerous: someone who can take a project estimate, ask the right "what if" questions, and produce defensible numbers for schedule and cost contingency.
+
+## Who This Book Is For
+
+- **Project managers** who want to move beyond gut-feel estimates and "10% contingency, because that's what we always do"
+- **Engineers and analysts** who know statistics but haven't applied it to project risk
+- **Students** in construction management, systems engineering, or operations research programs
+- **R users** who want practical, well-documented examples of risk analysis workflows
+
+You don't need to be a statistician to follow along — but you should be comfortable with basic probability (what is a mean? what is a variance?) and have at least a passing familiarity with R.
+
+## How to Use This Book
+
+Each chapter is self-contained and covers one method. If you're in a hurry and just need Monte Carlo simulation, go straight to @sec-mcs. If you already know EVM and want to learn Bayesian inference, skip ahead to @sec-bayes. That said, the chapters do build on each other conceptually, and reading in order will give you the fullest picture.
+
+Every chapter follows the same structure:
+
+1. **Why this method?** — A short, honest answer to "when would I actually use this?"
+2. **How it works** — Just enough theory to understand what the code is doing
+3. **A worked example** — Fully reproducible R code from start to finish
+4. **Exercises** — Problems that range from "verify you followed along" to "extend this to a real scenario"
+
+## Getting Started
+
+All examples use the `PRA` package. Install it from CRAN:
+
+```r
+install.packages("PRA")
+```
+
+Or get the development version from GitHub:
+
+```r
+# install.packages("remotes")
+remotes::install_github("paulgovan/PRA")
+```
+
+Then load it at the start of any session:
+
+```r
+library(PRA)
+```
+
+Some chapters (especially the network chapters) use additional packages like `igraph` and `networkD3`, and the agentic chapter requires Ollama for local AI models. Prerequisites are listed at the top of each chapter.
+
+## A Note on Tone
+
+Risk analysis has a reputation for being dry. Probability tables. Spreadsheets. Earnest diagrams with boxes and arrows. We've done our best to keep things lively — catchy chapter titles, the occasional metaphor, and examples drawn from real project contexts. If a chapter made you smile, that was on purpose. If it also made you understand Bayesian updating, that's the win.
+
+## Why the `PRA` Package?
+
+Most project risk analysis is done in spreadsheets. Spreadsheets work — until they don't: a formula breaks, a column gets deleted, and suddenly your P95 estimate is based on a range that ends three rows too early. The `PRA` package takes the same methods and makes them:
+
+- **Tested.** Every function ships with a full test suite. You can trust that `mcs()` is doing what the documentation says.
+- **Documented.** Every parameter has a type, a valid range, and an example. No more guessing what "n" means.
+- **Reproducible.** An R script is a record of exactly what you did. Share it, version-control it, re-run it six months later — it produces the same result.
+- **Composable.** The output of `mcs()` flows directly into `contingency()` and `sensitivity()`. Methods chain together naturally rather than requiring manual copy-paste between tabs.
+
+Learning risk analysis through a software package also enforces discipline: you have to be explicit about your assumptions. There is no "I eyeballed it" in code.
+
+## A Reproducible Book
+
+Every code block in this book is live. When the book is built, R executes the code and embeds the actual output — the numbers, the plots, the tables. There is no "trust us, this is what you'd see." If a result looks wrong, you can run the same code yourself and verify it.
+
+This matters because:
+
+- **You can experiment.** Change a parameter, re-run the chunk, and immediately see how the output shifts. The best way to develop intuition for Monte Carlo simulation is to change the number of samples and watch what happens to the tails.
+- **The book stays honest.** A static book can silently go out of date. A reproducible book will break noisily if a function changes behavior — which means the examples you're reading have been verified against the current version of `PRA`.
+- **You learn a transferable skill.** Writing reproducible analyses in Quarto or R Markdown is increasingly expected in data-driven fields. Following along with this book is practice for that.
+
+To reproduce the entire book yourself:
+
+```bash
+quarto render book/
+```
+
+All outputs are generated from scratch in a clean R session.
+
+## License
+
+The `PRA` R package is released under the [MIT License](https://opensource.org/licenses/MIT). You are free to use, modify, and distribute it, provided the original copyright notice is retained.
+
+This book is released under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). You are free to share and adapt the material for any purpose, provided you give appropriate credit.
+
+## Acknowledgements
+
+The `PRA` package and this book grew out of research on the resource-based view of project risk management [@govan2016; @govan2014]. Thanks to the open-source R community for the packages that make quantitative risk analysis accessible, and to every project manager who has ever stared at a schedule baseline and thought "there's no way this is right."
+
+Let's find out how wrong it is — quantitatively.

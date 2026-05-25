@@ -1,0 +1,147 @@
+# Everything Is Connected: Design Structure Matrices {#sec-dsm}
+
+> *"You can't just fix Task 7. Task 7 shares three resources with Tasks 2, 4, and 9."*
+
+Projects are not a list of independent activities. They are a web of interdependencies, and understanding that web is the key to understanding where delays and cost overruns actually come from. A delay in one task may ripple into five others — not because the tasks are sequentially linked, but because they share the same crew, the same materials, or the same equipment.
+
+The Design Structure Matrix (DSM) makes these hidden connections visible and quantifiable [@browning2001; @steward1981].
+
+::: {.callout-note icon=false}
+## Learning Objectives
+
+By the end of this chapter, you will be able to:
+
+1. Construct a Resource-Task matrix **S** and a Risk-Resource matrix **R**
+2. Compute the Parent DSM (resource-based coupling) using `parent_dsm()`
+3. Compute the Grandparent DSM (risk-based coupling) using `grandparent_dsm()`
+4. Interpret diagonal vs. off-diagonal DSM entries
+5. Use DSM coupling values to prioritize risk mitigation decisions
+:::
+
+## What Is a DSM?
+
+A DSM is a square matrix that maps dependencies between tasks in a project. In PRA, DSMs are derived from bipartite relationships: resources are shared across tasks, and risks are shared across resources. These shared dependencies create coupling between tasks that can propagate delays, cost overruns, or failures.
+
+PRA provides two DSM functions:
+
+- **`parent_dsm()`** — the Resource-based "Parent" DSM: shows how many resources are shared between each pair of tasks.
+- **`grandparent_dsm()`** — the Risk-based "Grandparent" DSM: shows how many risks are shared between task pairs (via the resource layer).
+
+The key idea from the resource-based view of project management [@govan2016]: shared resources are the structural pathway through which risks propagate. If you want to understand why two tasks always seem to get delayed together, look at what resources they share.
+
+## The Resource-Task Matrix
+
+The starting point is the Resource-Task Matrix **S**, where rows represent resources and columns represent tasks. An entry `S[i, j] = 1` means resource $i$ is used by task $j$.
+
+```{r setup}
+#| code-fold: false
+library(PRA)
+```
+
+```{r}
+# 4 resources x 5 tasks
+S <- matrix(c(
+  1, 0, 1, 0,
+  1, 1, 0, 0,
+  0, 1, 0, 1,
+  0, 0, 1, 1,
+  0, 1, 1, 0
+), nrow = 4, ncol = 5)
+rownames(S) <- paste0("R", 1:4)
+colnames(S) <- paste0("T", 1:5)
+S
+```
+
+## Parent DSM
+
+The Parent DSM **P** = t(**S**) %*% **S** is a tasks-by-tasks matrix. The diagonal entry `P[j, j]` counts how many resources task $j$ uses. The off-diagonal entry `P[j, k]` counts how many resources tasks $j$ and $k$ share — a measure of coupling.
+
+```{r}
+p <- parent_dsm(S)
+print(p)
+```
+
+```{r}
+#| fig-cap: "Parent DSM heatmap. Darker cells indicate more shared resources between tasks — and therefore more potential for correlated disruption."
+plot(p)
+```
+
+Tasks that share more resources are more tightly coupled. If a resource is delayed or constrained, all tasks that depend on it are affected simultaneously.
+
+## The Risk-Resource Matrix
+
+The Risk-Resource Matrix **R** adds a second layer. Rows represent risks and columns represent resources. An entry `R[i, j] = 1` means risk $i$ affects resource $j$.
+
+```{r}
+# 3 risks x 4 resources
+R <- matrix(c(
+  1, 0, 1,
+  1, 1, 0,
+  0, 1, 0,
+  0, 0, 1
+), nrow = 3, ncol = 4)
+rownames(R) <- paste0("Risk", 1:3)
+colnames(R) <- paste0("R", 1:4)
+R
+```
+
+## Grandparent DSM
+
+The Grandparent DSM traces the dependency chain from risks through resources to tasks. The intermediate matrix **T** = **R** %*% **S** gives a risks-by-tasks mapping, and the Grandparent DSM is **G** = t(**T**) %*% **T**. Off-diagonal entries count how many risks are shared between each pair of tasks.
+
+```{r}
+g <- grandparent_dsm(S, R)
+print(g)
+```
+
+```{r}
+#| fig-cap: "Grandparent DSM heatmap. Shows risk-based coupling: tasks that share risk exposure through common resources tend to fail together."
+plot(g)
+```
+
+## Interpreting the DSM
+
+- **Diagonal values** indicate the total number of resources (Parent) or risks (Grandparent) associated with each task. Higher values mean a task has more dependencies.
+- **Off-diagonal values** indicate coupling between task pairs. Higher values mean more shared dependencies and greater potential for correlated disruption.
+- **Symmetric structure**: both DSMs are always symmetric since shared dependencies are bidirectional — if task A shares a resource with task B, then task B shares that resource with task A.
+
+A high off-diagonal value between tasks T2 and T5, for example, means those tasks share multiple resources. When risk strikes any of those resources, both tasks are hit simultaneously. This is not a coincidence — it is structural.
+
+## From DSM to Decision
+
+::: {.callout-tip}
+## Using the DSM to Prioritize Mitigation
+
+1. **Find the highest off-diagonal values** in the Parent DSM — these task pairs share the most resources and are most likely to fail together.
+2. **Identify those shared resources** — they are the structural bottlenecks through which risk propagates.
+3. **Inspect the Grandparent DSM** for those same pairs — if they also share risks, the coupling is doubly reinforced.
+4. **Prioritize mitigation** on the shared resources with the highest combined Parent + Grandparent coupling: add contingency, build redundancy, or create buffers.
+:::
+
+The Grandparent DSM goes one level deeper: it shows which pairs of tasks are exposed to the same risks. If you can eliminate or mitigate a risk, you simultaneously reduce coupling between all tasks that share that risk.
+
+## Summary
+
+::: {.callout-tip icon=false}
+## Key Takeaways
+
+- The DSM makes **structural task dependencies** visible: not sequential dependencies, but resource-sharing dependencies that create correlated risk.
+- **Parent DSM** (resource-based): `P = t(S) %*% S`. Off-diagonal `P[j,k]` = number of shared resources between tasks j and k.
+- **Grandparent DSM** (risk-based): `G = t(T) %*% T` where `T = R %*% S`. Off-diagonal entries count shared risks via the resource layer.
+- Both DSMs are always **symmetric** — shared dependencies are bidirectional.
+- High off-diagonal values point directly to the resources and risks that deserve the most mitigation investment.
+:::
+
+The DSM quantifies *structural* coupling, but not the probabilistic dynamics of how risk propagates through it. For the full probabilistic treatment — including simulation and Bayesian updating over the same structure — see @sec-network and @sec-network2.
+
+## Exercises
+
+1. **Reading the DSM.** In the Parent DSM computed above, which pair of tasks has the highest coupling (highest off-diagonal value)? What does this mean in practical terms — what would happen if the shared resource became unavailable?
+
+2. **Extend the matrix.** Add a 5th resource (R5) to the Resource-Task matrix **S** such that it is used by tasks T1 and T5. Recompute the Parent DSM. Which entries change, and why?
+
+3. **Risk propagation.** ★ Look at the Grandparent DSM. Which task pair shares the most risks? Describe in plain English the risk scenario where this coupling causes the most damage.
+
+4. **DSM symmetry.** Both the Parent and Grandparent DSMs are symmetric. Why? Is there a project structure where the DSM would not be symmetric? (Hint: think about directed dependencies — what if one task uses a resource but another task produces it?)
+
+5. **From DSM to Monte Carlo.** ★ The off-diagonal values in the Parent DSM can be interpreted as a basis for correlation. Design a correlation matrix for MCS (from @sec-mcs) based on the Parent DSM: normalize the off-diagonal values so they range between 0 and 1, and use them as correlation coefficients. Run the MCS with this correlation structure and compare the total variance to the case with a zero correlation matrix. What did the structural coupling add to the risk picture?

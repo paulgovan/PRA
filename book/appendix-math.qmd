@@ -1,0 +1,181 @@
+# Mathematical Derivations {#sec-math}
+
+This appendix contains the mathematical foundations underlying the methods in this book. The main chapters focus on application; this appendix shows the "why" for readers who want to understand where the formulas come from.
+
+---
+
+## 1. Why Total Variance Is a Sum {#sec-math-smm}
+
+*Relevant chapter: @sec-smm*
+
+### Independent Tasks
+
+Let $X_1, X_2, \ldots, X_n$ be independent random variables representing task durations, with means $\mu_i$ and variances $\sigma^2_i$. The total project duration is:
+
+$$T = X_1 + X_2 + \cdots + X_n$$
+
+**Mean of the total.** By linearity of expectation (no independence required):
+
+$$E[T] = E[X_1] + E[X_2] + \cdots + E[X_n] = \sum_{i=1}^n \mu_i$$
+
+**Variance of the total.** Variance is not generally linear, but for *independent* random variables, covariances are zero:
+
+$$\text{Var}(T) = \text{Var}(X_1 + \cdots + X_n) = \sum_{i=1}^n \text{Var}(X_i) + 2\sum_{i < j} \text{Cov}(X_i, X_j)$$
+
+When $X_i$ and $X_j$ are independent, $\text{Cov}(X_i, X_j) = 0$, so:
+
+$$\sigma^2_T = \sum_{i=1}^n \sigma^2_i \quad \text{(independent tasks)}$$
+
+This is the central result used by `smm()`.
+
+### Correlated Tasks
+
+When tasks share resources or face common risks, they are positively correlated. The full formula reinstates the covariance terms:
+
+$$\sigma^2_T = \sum_{i=1}^n \sigma^2_i + 2\sum_{i < j} \text{Cov}(X_i, X_j)$$
+
+Since $\text{Cov}(X_i, X_j) = \rho_{ij} \sigma_i \sigma_j$ where $\rho_{ij}$ is the correlation coefficient:
+
+$$\sigma^2_T = \sum_{i=1}^n \sigma^2_i + 2\sum_{i < j} \rho_{ij} \sigma_i \sigma_j$$
+
+Positive correlations ($\rho_{ij} > 0$) increase total variance; negative correlations decrease it. The SMM ignores correlations by default; the MCS chapter shows how to incorporate them via a correlation matrix.
+
+### Why the Normal Approximation Works
+
+The Second Moment Method uses the normal distribution for the total $T$. The justification is the **Central Limit Theorem**: for a sum of $n$ independent, identically distributed random variables with finite mean and variance, the standardised sum:
+
+$$\frac{T - \mu_T}{\sigma_T / \sqrt{n}}$$
+
+converges in distribution to $N(0, 1)$ as $n \to \infty$.
+
+In practice, convergence is fast even for non-normal distributions: sums of 5–10 tasks produce totals that are approximately normal for most project distributions. The approximation degrades when:
+
+- $n$ is small (fewer than 4–5 tasks)
+- One task has much higher variance than the others (heavy tail dominates)
+- Tasks are strongly correlated (CLT does not apply)
+
+In these cases, Monte Carlo simulation (@sec-mcs) gives the correct non-normal total distribution.
+
+---
+
+## 2. Variance Formulas for Standard Distributions {#sec-math-vars}
+
+*Relevant chapters: @sec-sensitivity, @sec-smm*
+
+The `sensitivity()` and `smm()` functions need to extract variance from a distribution specification. Here are the formulas they use.
+
+### Normal Distribution
+
+$$X \sim N(\mu, \sigma^2) \implies \text{Var}(X) = \sigma^2$$
+
+The variance is given directly by the $\sigma$ parameter. No derivation needed.
+
+### Triangular Distribution
+
+$$X \sim \text{Triangular}(a, b, c), \quad a \leq b \leq c$$
+
+The variance of the triangular distribution is:
+
+$$\text{Var}(X) = \frac{a^2 + b^2 + c^2 - ab - ac - bc}{18}$$
+
+**Derivation sketch.** The mean of the triangular is $\mu = (a + b + c)/3$. The second moment is:
+
+$$E[X^2] = \frac{a^2 + b^2 + c^2 + ab + ac + bc}{6}$$
+
+(obtained by integrating $x^2$ against the piecewise triangular PDF). The variance follows from:
+
+$$\text{Var}(X) = E[X^2] - \mu^2 = \frac{a^2 + b^2 + c^2 + ab + ac + bc}{6} - \frac{(a+b+c)^2}{9}$$
+
+Combining over a common denominator of 18 and simplifying yields the formula above.
+
+**Note on mode parameter naming.** In `PRA`, the mode is labelled $b$ for triangular distributions (consistent with the $a, b, c$ notation where $b$ is the most likely value), but some references use $b$ for the maximum. Always check the parameter order: `list(type = "triangular", a = min, b = mode, c = max)`.
+
+### Uniform Distribution
+
+$$X \sim \text{Uniform}(\text{min}, \text{max})$$
+
+$$\text{Var}(X) = \frac{(\text{max} - \text{min})^2}{12}$$
+
+**Derivation.** The PDF is $f(x) = 1/(b-a)$ on $[a, b]$. The mean is $(a+b)/2$. The variance:
+
+$$\text{Var}(X) = \int_a^b \left(x - \frac{a+b}{2}\right)^2 \frac{dx}{b-a} = \frac{(b-a)^2}{12}$$
+
+---
+
+## 3. The Sensitivity Index {#sec-math-sensitivity}
+
+*Relevant chapter: @sec-sensitivity*
+
+The sensitivity index for task $i$ measures how much a marginal increase in $\sigma^2_i$ would increase $\sigma^2_T$, relative to a baseline.
+
+### Derivation
+
+Start with the total variance for $n$ tasks:
+
+$$\sigma^2_T = \sum_{k=1}^n \sigma^2_k + 2\sum_{j < k} \rho_{jk} \sigma_j \sigma_k$$
+
+Differentiate with respect to $\sigma^2_i$ (treating all other variances and all correlations as fixed):
+
+$$\frac{\partial \sigma^2_T}{\partial \sigma^2_i} = 1 + \sum_{j \neq i} \rho_{ij} \frac{\sigma_j}{\sigma_i}$$
+
+This derivative is the sensitivity index. Rewriting using $\text{Cov}(i,j) = \rho_{ij}\sigma_i\sigma_j$:
+
+$$s_i = 1 + 2\sum_{j \neq i} \frac{\text{Cov}(X_i, X_j)}{\sqrt{\sigma^2_i \cdot \sigma^2_j} \cdot \sigma_i / \sigma_j} = 1 + 2\sum_{j \neq i} \frac{\rho_{ij} \sigma_j}{\sigma_i}$$
+
+### The Independent Case
+
+When all tasks are independent, $\rho_{ij} = 0$ for all $i \neq j$, so $s_i = 1$ for every task. All tasks contribute proportionally to their variance — no amplification.
+
+### Interpretation
+
+A task with $s_i > 1$ is positively correlated with other tasks that also have substantial variance: its uncertainty propagates *through* those correlations to inflate the total. A task with $s_i < 1$ is partially insulated by negative correlations. The contribution of task $i$ to total variance is proportional to $s_i \cdot \sigma^2_i$.
+
+The tornado chart in @sec-sensitivity plots $s_i$ values sorted descending, identifying at a glance which task deserves the most mitigation effort.
+
+---
+
+## 4. Bayesian Updating for Project Risk {#sec-math-bayes}
+
+*Relevant chapter: @sec-bayes*
+
+### Bayes' Theorem
+
+For a hypothesis $H$ and evidence $E$:
+
+$$P(H|E) = \frac{P(E|H) \cdot P(H)}{P(E)}$$
+
+where $P(E) = P(E|H)P(H) + P(E|\neg H)P(\neg H)$ by the law of total probability.
+
+In project risk terms:
+
+- $H$: the risk event occurs
+- $E$: a root cause (observable signal) is present
+- $P(H)$: prior probability of the risk event
+- $P(E|H)$: probability of observing the cause *given* the risk occurs
+- $P(E|\neg H)$: probability of observing the cause *given* the risk does not occur
+
+### Multiple Independent Root Causes (Prior)
+
+Let $C_1, C_2, \ldots, C_m$ be independent root causes, each with prior probability $p_i = P(C_i)$. The probability that *at least one* root cause is present is:
+
+$$P(\text{any cause}) = 1 - \prod_{i=1}^m (1 - p_i)$$
+
+The prior risk probability (what `risk_prob()` computes) is obtained by weighting over all possible root-cause combinations. For a single cause $C_i$:
+
+$$P(\text{Risk}) = P(\text{Risk}|C_i) P(C_i) + P(\text{Risk}|\neg C_i)(1 - P(C_i))$$
+
+For multiple causes treated as competing explanations:
+
+$$P(\text{Risk}) = \sum_{i=1}^m P(\text{Risk}|C_i) \cdot p_i + P(\text{Risk}|\text{no cause}) \cdot \prod_i (1-p_i)$$
+
+### Posterior Update (Observed Causes)
+
+When some root causes are observed (present or absent), the posterior conditions on those observations. For an observed cause $C_i = 1$:
+
+$$P(\text{Risk}|C_i = 1) = \frac{P(C_i = 1|\text{Risk}) \cdot P(\text{Risk})}{P(C_i = 1)}$$
+
+`risk_post_prob()` iterates through the observed causes (1 = present, 0 = absent, NA = unknown) and applies the update sequentially, treating each observation as conditionally independent given the risk state.
+
+### Why Observing a Cause Increases Risk Probability
+
+Even without directly observing the risk event, observing a root cause raises $P(\text{Risk})$ because the cause is more likely to be observed when the risk is present than when it is absent — that is, $P(C|H) > P(C|\neg H)$. This is the key asymmetry that makes Bayesian updating useful: observable precursors carry information about latent risk states.

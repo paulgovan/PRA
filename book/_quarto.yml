@@ -1,0 +1,52 @@
+project:
+  type: book
+
+book:
+  title: "Project Risk Analysis: A Practical Guide"
+  subtitle: "From Monte Carlo to AI Agents, Without Losing Your Mind"
+  author: "Paul Govan"
+  date: today
+  cover-image: cover.png
+  sidebar:
+    logo: cover.png
+  repo-url: https://github.com/paulgovan/PRA
+  repo-actions: [edit, issue]
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - ch-mcs.qmd
+    - ch-sensitivity.qmd
+    - ch-smm.qmd
+    - ch-evm.qmd
+    - ch-bayes.qmd
+    - ch-sigmoidal.qmd
+    - ch-dsm.qmd
+    - ch-network.qmd
+    - ch-network2.qmd
+    - ch-agent.qmd
+  appendices:
+    - appendix-casestudy.qmd
+    - appendix-ref.qmd
+    - appendix-glossary.qmd
+    - appendix-math.qmd
+    - appendix-solutions.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    code-fold: false
+    code-tools: true
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    highlight-style: github
+  pdf:
+    documentclass: scrbook
+    colorlinks: true
+
+execute:
+  warning: false
+  message: false

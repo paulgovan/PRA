@@ -1,0 +1,323 @@
+# Your AI Co-Pilot: Agentic Risk Analysis {#sec-agent}
+
+> *"The best tool for the job is the one you'll actually use."*
+
+You've made it through eight chapters of quantitative risk analysis. You know Monte Carlo, SMM, EVM, Bayesian inference, learning curves, design structure matrices, and probabilistic networks. Now imagine not having to remember the syntax for all of them.
+
+Imagine a project manager typing "run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)" and getting back a P95 date, a contingency reserve, and a tornado chart — all in ten seconds, without opening R. That's the promise of the `PRA` agentic framework: a layer of intelligence on top of all the methods you've learned.
+
+::: {.callout-note icon=false}
+## Learning Objectives
+
+By the end of this chapter, you will be able to:
+
+1. Distinguish the three routing modes (slash commands, LLM tool calls, RAG)
+2. Run any PRA method via a slash command and chain results across commands
+3. Use `pra_chat()` to interact with PRA methods through natural language
+4. Explain how RAG augments the LLM with domain-specific knowledge
+5. Configure PRA as an MCP server for Claude Desktop or Claude Code
+:::
+
+## The Three Routing Modes
+
+::: {.callout-note}
+## How PRA Routes Your Input
+
+| Input type | Route | Example |
+|------------|-------|---------|
+| `/command` | **Deterministic** — executes the tool directly, no LLM | `/mcs tasks=[...]` |
+| Numerical data | **LLM tool call** — the model selects and calls the right tool | "Simulate 3 tasks: Normal(10,2)..." |
+| Conceptual question | **RAG** — answered from the knowledge base | "What is earned value?" |
+
+**When to use each:**
+
+- Use **slash commands** when you need guaranteed, reproducible results — they bypass the LLM entirely.
+- Use the **chat interface** for exploratory questions and interpretation, especially with larger models.
+- Use **RAG** for conceptual questions — it retrieves the most relevant knowledge base content and cites sources.
+:::
+
+Three interfaces expose these modes:
+
+1. **Slash commands** — deterministic tool calls that bypass the LLM for instant, reliable results
+2. **Chat interface** (`pra_chat()`) — programmatic R chat powered by ellmer
+3. **Shiny app** (`pra_app()`) — browser-based experience combining all three modes
+
+## Prerequisites
+
+### Install Ollama
+
+Download from <https://ollama.com>, then pull a model:
+
+```bash
+ollama serve
+ollama pull llama3.2
+ollama pull nomic-embed-text  # for RAG embeddings
+```
+
+### Install R dependencies
+
+```{r}
+#| eval: false
+install.packages(c("ellmer", "ragnar", "shiny", "bslib", "shinychat", "jsonlite"))
+```
+
+## Slash Commands
+
+Slash commands provide deterministic tool execution — no LLM required. Type `/help` to see all available commands, or `/help <command>` for detailed usage.
+
+### Available Commands
+
+```{r}
+library(PRA)
+cat(PRA:::format_help_overview())
+```
+
+### Example: Monte Carlo Simulation
+
+```{r}
+set.seed(42)
+r <- PRA:::execute_command(
+  '/mcs n=10000 tasks=[{"type":"normal","mean":10,"sd":2},{"type":"triangular","a":5,"b":10,"c":15},{"type":"uniform","min":8,"max":12}]'
+)
+cat(r$result)
+```
+
+```{r}
+#| fig-cap: "MCS results via slash command. The /mcs command stores results for downstream chaining."
+result <- PRA:::.pra_agent_env$last_mcs
+hist(result$total_distribution,
+  freq = FALSE, breaks = 50,
+  main = "Monte Carlo Simulation Results",
+  xlab = "Total Project Duration/Cost",
+  col  = "#18bc9c80", border = "white"
+)
+curve(dnorm(x, mean = result$total_mean, sd = result$total_sd),
+  add = TRUE, col = "#2c3e50", lwd = 2
+)
+abline(
+  v   = quantile(result$total_distribution, c(0.50, 0.95)),
+  col = c("#3498db", "#e74c3c"), lty = 2, lwd = 1.5
+)
+legend("topright",
+  legend = c("Normal fit", "P50", "P95"),
+  col    = c("#2c3e50", "#3498db", "#e74c3c"),
+  lty    = c(1, 2, 2), lwd = c(2, 1.5, 1.5),
+  cex    = 0.8, bg = "white"
+)
+```
+
+### Example: Chaining MCS to Contingency
+
+After running `/mcs`, chain to `/contingency` for the reserve estimate:
+
+```{r}
+r <- PRA:::execute_command("/contingency phigh=0.95 pbase=0.50")
+cat(r$result)
+```
+
+### Example: Earned Value Management
+
+Full EVM analysis with a single command:
+
+```{r}
+r <- PRA:::execute_command(
+  "/evm bac=500000 schedule=[0.2,0.4,0.6,0.8,1.0] period=3 complete=0.35 costs=[90000,195000,310000]"
+)
+cat(r$result)
+```
+
+### Example: Bayesian Risk Probability
+
+```{r}
+r <- PRA:::execute_command(
+  "/risk causes=[0.3,0.2] given=[0.8,0.6] not_given=[0.2,0.4]"
+)
+cat(r$result)
+```
+
+Then update with observations:
+
+```{r}
+r <- PRA:::execute_command(
+  "/risk_post causes=[0.3,0.2] given=[0.8,0.6] not_given=[0.2,0.4] observed=[1,null]"
+)
+cat(r$result)
+```
+
+### Example: Second Moment Method
+
+```{r}
+r <- PRA:::execute_command("/smm means=[10,12,8] vars=[4,9,2]")
+cat(r$result)
+```
+
+### Input Validation
+
+Missing or invalid arguments produce helpful error messages:
+
+```{r}
+r <- PRA:::execute_command("/risk causes=[0.3]")
+cat(r$result)
+```
+
+## Chat Interface
+
+::: {.callout-note}
+## About `eval: false` in This Chapter
+
+The Chat Interface, Shiny App, and MCP sections require a running Ollama server and cannot be evaluated during book rendering. Code blocks marked `eval: false` show the correct syntax — to follow along interactively, start Ollama with `ollama serve` before running them. The slash command examples above **are** fully evaluated and show actual output.
+:::
+
+The chat interface routes queries through the LLM, which decides whether to call a tool or answer from the RAG knowledge base:
+
+- **Numerical data** → LLM calls the appropriate tool and interprets the results
+- **Conceptual questions** → LLM answers from the RAG knowledge base with source citations
+
+```{r}
+#| eval: false
+chat <- pra_chat(model = "llama3.2")
+
+# Tool call: user provides numerical data
+chat$chat("Run a Monte Carlo simulation for a 3-task project with
+  Task A ~ Normal(10, 2), Task B ~ Triangular(5, 10, 15),
+  Task C ~ Uniform(8, 12). Use 10,000 simulations.")
+
+# RAG: conceptual question
+chat$chat("What is the difference between SPI and CPI?")
+```
+
+### Using Cloud Models
+
+For better accuracy with complex queries:
+
+```{r}
+#| eval: false
+# Anthropic
+chat <- pra_chat(chat = ellmer::chat_anthropic(model = "claude-sonnet-4-20250514"))
+
+# OpenAI
+chat <- pra_chat(chat = ellmer::chat_openai(model = "gpt-4o"))
+```
+
+## Interactive Shiny App
+
+For a browser-based experience with streaming responses and inline visualizations:
+
+```{r}
+#| eval: false
+pra_app()
+```
+
+The app supports all three input modes in the same chat panel:
+
+- Type `/mcs tasks=[...]` for **instant deterministic** results
+- Type "Simulate 3 tasks..." for **LLM tool calling**
+- Type "What is earned value?" for **RAG-powered answers**
+
+### Features
+
+- **Three input modes** in a single panel
+- **Clickable example prompts** that execute `/commands` on click
+- **Streaming chat** with token-by-token responses
+- **Inline tool results** as rich HTML tables and plots
+- **RAG source citations** for conceptual answers
+- **Export** — download the conversation as markdown
+
+## RAG Knowledge Base
+
+PRA includes a built-in knowledge base covering all the methods in this book:
+
+| File | Topics |
+|------|--------|
+| `mcs_methods.md` | Distribution selection, correlation, interpreting percentiles |
+| `evm_standards.md` | EVM metrics, performance indices, forecasting methods |
+| `bayesian_risk.md` | Prior/posterior risk, Bayes' theorem |
+| `learning_curves.md` | Sigmoidal models, curve fitting |
+| `sensitivity_contingency.md` | Variance decomposition, contingency reserves |
+| `pra_functions.md` | PRA package function reference |
+
+### Adding Your Own Documents
+
+```{r}
+#| eval: false
+store <- build_knowledge_base()
+add_documents(store, "path/to/my_risk_register.md")
+add_documents(store, "path/to/project_docs/")
+```
+
+## MCP Integration
+
+PRA can expose all its tools as an [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server, letting Claude Desktop, Claude Code, or any MCP-compatible AI client call PRA functions directly.
+
+### Starting the Server
+
+```{r}
+#| eval: false
+pra_mcp_server()
+```
+
+### Connecting from Claude Code
+
+```bash
+claude mcp add -s project pra -- Rscript -e "PRA::pra_mcp_server()"
+```
+
+Once registered, Claude Code can call PRA tools in any conversation:
+
+> "Run a Monte Carlo simulation for three tasks: Task A normal(10, 2), Task B triangular(5, 10, 15), Task C uniform(8, 12). What is the contingency reserve at the 90th percentile?"
+
+### Connecting from Claude Desktop
+
+Add the following to your Claude Desktop config file:
+
+```json
+{
+  "mcpServers": {
+    "pra": {
+      "command": "Rscript",
+      "args": ["-e", "PRA::pra_mcp_server()"]
+    }
+  }
+}
+```
+
+## Available Commands Reference
+
+| Command | Description |
+|---------|-------------|
+| `/mcs` | Monte Carlo simulation with task distributions |
+| `/smm` | Second Moment Method (analytical estimate) |
+| `/contingency` | Contingency reserve from last MCS |
+| `/sensitivity` | Variance contribution per task |
+| `/evm` | Full Earned Value Management analysis |
+| `/risk` | Bayesian prior risk probability |
+| `/risk_post` | Bayesian posterior risk after observations |
+| `/learning` | Sigmoidal learning curve fit and prediction |
+| `/dsm` | Design Structure Matrix |
+| `/help` | List all commands or get help for one |
+
+## Summary
+
+::: {.callout-tip icon=false}
+## Key Takeaways
+
+- Slash commands (`/mcs`, `/evm`, `/risk`, etc.) provide **deterministic, LLM-free** execution of every method covered in this book — use them when you need guaranteed reproducibility.
+- The chat interface routes input intelligently: numerical data → tool call; conceptual question → RAG. The LLM is a router, not a calculator.
+- **RAG** (Retrieval-Augmented Generation) grounds LLM answers in the PRA knowledge base, reducing hallucination and enabling source citations.
+- The MCP server exposes all PRA tools to any MCP-compatible AI client — Claude Desktop, Claude Code, or custom agents — without requiring an R session on the user's end.
+- Small models (3B) handle simple single-tool queries; use larger models (8B+) or cloud models for multi-step chains and interpretation.
+:::
+
+Congratulations — you've completed the toolkit. You can now quantify project uncertainty (MCS, @sec-mcs; SMM, @sec-smm), track project performance (EVM, @sec-evm), update risk estimates with new evidence (Bayesian, @sec-bayes; Networks, @sec-network), model structural dependencies (DSM, @sec-dsm; Portfolio, @sec-network2), forecast learning (Sigmoidal, @sec-sigmoidal), and automate it all through an AI interface (@sec-agent). The rest is practice.
+
+## Exercises
+
+1. **Slash vs. chat.** Run the same MCS problem using (a) a `/mcs` slash command and (b) a natural language prompt through `pra_chat()`. Do you get the same numerical results? If not, why might they differ?
+
+2. **Command chaining.** Run `/mcs` for a 3-task project of your choice, then immediately run `/contingency` at P80 and P95. What is the difference between the two contingency values? Interpret this difference in plain English.
+
+3. **EVM from a prompt.** Use `/evm` with the following inputs: BAC = \$300K, schedule = [0.2, 0.4, 0.6, 0.8, 1.0], period = 4, complete = 0.55, costs = [\$55K, \$115K, \$175K, \$240K]. Report CPI, SPI, and EAC (typical). Is the project in good shape?
+
+4. **RAG vs. tool call.** Ask `pra_chat()` two questions: (a) "What distributions should I use for tasks with optimistic/likely/pessimistic estimates?" and (b) "Run a Monte Carlo simulation for Task A ~ Normal(10, 2) and Task B ~ Uniform(8, 12)." Identify which routing mode was used for each. How can you tell from the response?
+
+5. **MCP integration.** ★ If you have Claude Desktop or Claude Code installed, configure PRA as an MCP server using the instructions above. Ask Claude to run a Monte Carlo simulation and report the P95 duration. Then ask a conceptual question about EVM. Describe the experience: did the tool calls work? Was the RAG answer accurate?
