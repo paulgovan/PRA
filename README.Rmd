@@ -48,6 +48,8 @@ PRA can be used as a traditional R package with direct function calls, or as an 
 * [Earned Value Management](https://paulgovan.github.io/PRA/book/ch-evm.html)
 * [Learning Curves](https://paulgovan.github.io/PRA/book/ch-sigmoidal.html)
 * [Design Structure Matrices](https://paulgovan.github.io/PRA/book/ch-dsm.html)
+* [Probabilistic Networks](https://paulgovan.github.io/PRA/book/ch-network.html)
+* [Network Portfolio Analysis](https://paulgovan.github.io/PRA/book/ch-network2.html)
 * [Bayesian Methods](https://paulgovan.github.io/PRA/book/ch-bayes.html)
 
 ### AI Agent Framework
