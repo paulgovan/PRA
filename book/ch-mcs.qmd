@@ -38,6 +38,7 @@ Monte Carlo (MC) simulation is a quantitative risk analysis technique that model
 ```{r setup}
 #| code-fold: false
 library(PRA)
+library(ggplot2)
 set.seed(42)
 ```
 

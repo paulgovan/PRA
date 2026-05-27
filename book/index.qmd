@@ -88,6 +88,25 @@ quarto render book/
 
 All outputs are generated from scratch in a clean R session.
 
+## How to Cite
+
+If you use this book in your work, please cite it as:
+
+> Govan, P. (*year*). *Project Risk Analysis: A Practical Guide: From Monte Carlo to AI Agents, Without Losing Your Mind*. <https://github.com/paulgovan/PRA>
+
+Or in BibTeX:
+
+```bibtex
+@book{govan_pra,
+  author    = {Paul Govan},
+  title     = {Project Risk Analysis: A Practical Guide},
+  subtitle  = {From Monte Carlo to AI Agents, Without Losing Your Mind},
+  year      = {2025},
+  url       = {https://github.com/paulgovan/PRA},
+  note      = {CC BY 4.0}
+}
+```
+
 ## License
 
 The `PRA` R package is released under the [MIT License](https://opensource.org/licenses/MIT). You are free to use, modify, and distribute it, provided the original copyright notice is retained.

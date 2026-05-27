@@ -25,8 +25,8 @@ The `PRA` package provides a collection of methods that complement each other. T
 | Chapter | Method | What it answers |
 |---------|--------|----------------|
 | @sec-mcs | Monte Carlo Simulation | What is the full distribution of possible outcomes? |
-| @sec-sensitivity | Sensitivity Analysis | Which task drives the most variance? |
 | @sec-smm | Second Moment Method | What are the mean and variance quickly, analytically? |
+| @sec-sensitivity | Sensitivity Analysis | Which task drives the most variance? |
 | @sec-evm | Earned Value Management | How is the project actually performing right now? |
 | @sec-bayes | Bayesian Inference | How should I update my risk estimate given new evidence? |
 | @sec-sigmoidal | Learning Curves | When will the team reach full productivity? |

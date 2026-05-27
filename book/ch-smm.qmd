@@ -3,6 +3,8 @@
 > *"All models are wrong, but some are useful."*
 > — George E. P. Box
 
+The SMM is a deliberately simplified model. It assumes the total project duration is normally distributed. It ignores the shape of individual task distributions. And it is, in Box's sense, *useful* — fast enough to run before a meeting ends, and honest enough to use in a risk report.
+
 Sometimes you don't need a full Monte Carlo simulation. Sometimes you need an answer in thirty seconds, not thirty minutes. You have means and variances, a correlation matrix, and a deadline. Enter the Second Moment Method — the analyst's equivalent of a napkin calculation that is actually defensible.
 
 The name comes from statistics: the "first moment" of a distribution is its mean; the "second moment" (more precisely, the central second moment) is its variance — and the Second Moment Method is named for exactly that. It's the fastest way to get from "I have means and variances" to "I have a project risk estimate."
@@ -128,6 +130,14 @@ legend("topright",
 ```
 
 ## Comparison with Monte Carlo Simulation
+
+::: {.callout-note}
+## What This Comparison Is Testing
+
+To isolate the effect of **distributional assumptions** (normal vs. any shape), the MCS below uses the same task parameters as the SMM but with **no correlation matrix** — i.e., tasks are treated as independent. This allows a clean apples-to-apples test: both methods sum three independent normal tasks, so any remaining difference comes from simulation variance alone.
+
+The earlier SMM result (total mean = 45 weeks, total SD including correlations) is *not* the right benchmark here — that figure includes covariance from the correlation matrix, which the MCS below omits. To compare correlated results, you would pass the same `cor_mat` to `mcs()`.
+:::
 
 Running Monte Carlo simulation with the same task distributions validates the SMM. The two methods should yield very similar total means; differences in variance arise from how each handles correlated sampling.
 

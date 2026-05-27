@@ -15,8 +15,8 @@ book:
     - index.qmd
     - intro.qmd
     - ch-mcs.qmd
-    - ch-sensitivity.qmd
     - ch-smm.qmd
+    - ch-sensitivity.qmd
     - ch-evm.qmd
     - ch-bayes.qmd
     - ch-sigmoidal.qmd
@@ -25,10 +25,10 @@ book:
     - ch-network2.qmd
     - ch-agent.qmd
   appendices:
-    - appendix-casestudy.qmd
-    - appendix-ref.qmd
     - appendix-glossary.qmd
     - appendix-math.qmd
+    - appendix-ref.qmd
+    - appendix-casestudy.qmd
     - appendix-solutions.qmd
     - references.qmd
 

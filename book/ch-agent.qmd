@@ -1,6 +1,7 @@
 # Your AI Co-Pilot: Agentic Risk Analysis {#sec-agent}
 
 > *"The best tool for the job is the one you'll actually use."*
+> — P.G.
 
 You've made it through eight chapters of quantitative risk analysis. You know Monte Carlo, SMM, EVM, Bayesian inference, learning curves, design structure matrices, and probabilistic networks. Now imagine not having to remember the syntax for all of them.
 
@@ -192,8 +193,8 @@ For better accuracy with complex queries:
 
 ```{r}
 #| eval: false
-# Anthropic
-chat <- pra_chat(chat = ellmer::chat_anthropic(model = "claude-sonnet-4-20250514"))
+# Anthropic (replace with the current model ID from https://docs.anthropic.com/en/docs/about-claude/models)
+chat <- pra_chat(chat = ellmer::chat_anthropic(model = "claude-sonnet-4-5"))
 
 # OpenAI
 chat <- pra_chat(chat = ellmer::chat_openai(model = "gpt-4o"))

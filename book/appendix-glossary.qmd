@@ -63,7 +63,7 @@ A statistical result stating that the sum of many independent random variables t
 The second moment of a probability distribution is its mean squared plus its variance: $E[X^2] = \mu^2 + \sigma^2$. The "Second Moment Method" is named for its use of the first two moments (mean and variance) to characterise uncertainty. See @sec-smm.
 
 **Second Moment Method (SMM)**
-An analytical technique that computes total project mean and variance from individual task means and variances, without simulation. Fast but assumes tasks are independent and that the normal approximation is adequate. See @sec-smm.
+An analytical technique that computes total project mean and variance from individual task means, variances, and pairwise correlations, without simulation. Fast, but assumes that the normal approximation for the total is adequate. See @sec-smm.
 
 ---
 

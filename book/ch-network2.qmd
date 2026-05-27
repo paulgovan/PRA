@@ -1,4 +1,4 @@
-# Portfolio Problems? The Network Has Entered the Chat {#sec-network2}
+# The Portfolio Problem: When Risks Are Shared {#sec-network2}
 
 > *"Seeing a fire is not the same as starting one."*
 > — The First Law of Causal Inference

@@ -1,6 +1,7 @@
 # Show Me the Money: Earned Value Management {#sec-evm}
 
-> *"It's not about the budget you planned. It's about the value you earned."*
+> *"What gets measured gets managed."*
+> — Peter Drucker
 
 Imagine you're three months into a six-month project and you've spent exactly half the budget. Great news, right? Not so fast. The real question is: how much work did you actually get done? If you've only completed 30% of the project, you've got a serious problem. If you've completed 55%, you're ahead of the game.
 
@@ -32,15 +33,7 @@ By the end of this chapter, you will be able to:
 Every EVM metric — variance, index, or forecast — derives from these three numbers. If you know PV, EV, and AC, you know everything EVM can tell you.
 :::
 
-EVM integrates scope, schedule, and cost into three core quantities [@flemming2010]:
-
-| Quantity | What it measures |
-|----------|-----------------|
-| **PV** — Planned Value | The budget authorized for work scheduled through today |
-| **EV** — Earned Value | The budget value of work actually completed |
-| **AC** — Actual Cost | Total cost incurred to date |
-
-From these three numbers, all the other EVM metrics flow. Every performance index, every forecast, every variance — it all comes back to PV, EV, and AC.
+EVM integrates scope, schedule, and cost into these three core quantities [@flemming2010]. From them, all the other EVM metrics flow — every performance index, every forecast, every variance comes back to PV, EV, and AC.
 
 ## Key Metrics
 
@@ -181,7 +174,7 @@ cat("TCPI (to meet BAC):          ", round(tcpi_bac, 3), "\n")
 cat("TCPI (to meet EAC):          ", round(tcpi_eac, 3), "\n")
 ```
 
-**Interpretation:** TCPI > 1 means the team must work more efficiently than they have been to meet the target. A TCPI above 1.2 is generally considered unrealistic — if you need to be 30% more efficient for the rest of the project, it probably isn't going to happen. Using the EAC target gives a more realistic benchmark.
+**Interpretation:** TCPI > 1 means the team must work more efficiently than they have been to meet the target. A TCPI above 1.2 is a widely-cited practitioner rule of thumb for "unrealistic" — not a formal PMBOK standard, but a useful warning signal. If you need to be 30% more efficient for the rest of the project, it probably isn't going to happen. Using the EAC target gives a more realistic benchmark.
 
 ## Performance Trend Chart
 
@@ -239,7 +232,7 @@ print(p)
 - EVM combines scope, schedule, and cost into three numbers (PV, EV, AC) from which all performance metrics flow.
 - **CPI < 1** means over-budget; **SPI < 1** means behind schedule. Both below 1 signals a project in serious trouble.
 - The **Typical EAC** (BAC / CPI) is the most conservative forecast; use it when current inefficiency is expected to persist.
-- **TCPI > 1.2** is generally unrealistic — flag it as a signal to revise the budget rather than chase an unachievable efficiency target.
+- **TCPI > 1.2** is a common practitioner rule of thumb for "unrealistic" (not a formal standard) — flag it as a signal to revise the budget rather than chase an unachievable efficiency target.
 - The trend chart (PV, EV, AC over time) is your single most powerful communication tool for project status.
 :::
 

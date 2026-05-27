@@ -5,7 +5,7 @@
 
 A risk register lists risks. A probability network shows you how those risks talk to each other, and to your project. It's the difference between knowing that "Technical Complexity" is a risk and understanding exactly how it flows through your developer costs into your total project budget — and what happens to that flow when you learn new information.
 
-Bayesian networks are the tool. They combine graph theory with probability theory to model the full dependency structure of a project: which risks drive which resources, which resources drive which tasks, and how uncertainty propagates all the way up to the project total.
+Bayesian networks are the tool. A Bayesian network is a specific type of probabilistic network — a directed acyclic graph (DAG) in which each node represents a random variable and each edge encodes a conditional probability relationship. The "probabilistic network" framing in this chapter's title is intentional: the core concepts (conditioning, propagation, graph structure) apply to the broader class, and `PRA` uses the Bayesian network formulation specifically. They combine graph theory with probability theory to model the full dependency structure of a project: which risks drive which resources, which resources drive which tasks, and how uncertainty propagates all the way up to the project total.
 
 ::: {.callout-note icon=false}
 ## Learning Objectives
