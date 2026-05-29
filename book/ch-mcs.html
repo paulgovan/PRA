@@ -548,7 +548,7 @@ div.csl-indent {
 <blockquote class="blockquote">
 <p><em>“Anyone who considers arithmetical methods of producing random digits is, of course, in a state of sin.”</em> — John von Neumann</p>
 </blockquote>
-<p>Here is the core insight behind Monte Carlo simulation: instead of guessing a single answer, roll the dice thousands of times and let the distribution speak for itself. The method was named after the famous casino in Monaco — not because it involves gambling, but because it involves random sampling. If you can describe your uncertainty with a probability distribution, Monte Carlo can turn that uncertainty into a full picture of possible project outcomes.</p>
+<p>Here is the core insight behind Monte Carlo simulation: instead of guessing a single answer, roll the dice thousands of times and let the distribution speak for itself. The method was named after the famous casino in Monaco, not because it involves gambling, but because it involves random sampling. If you can describe your uncertainty with a probability distribution, Monte Carlo can turn that uncertainty into a full picture of possible project outcomes.</p>
 <p>Monte Carlo simulation turns that randomness into insight.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -584,11 +584,11 @@ div.csl-indent {
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><strong>Model Definition</strong> — Define project tasks and the variables that drive uncertainty (durations, costs).</li>
-<li><strong>Assign Distributions</strong> — Choose a probability distribution for each uncertain variable (e.g., triangular for tasks with optimistic/likely/pessimistic estimates).</li>
-<li><strong>Specify Correlations</strong> — If tasks are related (e.g., both affected by a shared risk), set a correlation coefficient between them.</li>
-<li><strong>Run Simulation</strong> — Draw random samples and compute the total outcome for each iteration (typically 10,000+).</li>
-<li><strong>Analyze Results</strong> — Summarize the distribution of totals using percentiles, mean, and variance.</li>
+<li><strong>Model Definition</strong>: Define project tasks and the variables that drive uncertainty (durations, costs).</li>
+<li><strong>Assign Distributions</strong>: Choose a probability distribution for each uncertain variable (e.g., triangular for tasks with optimistic/likely/pessimistic estimates).</li>
+<li><strong>Specify Correlations</strong>: If tasks are related (e.g., both affected by a shared risk), set a correlation coefficient between them.</li>
+<li><strong>Run Simulation</strong>: Draw random samples and compute the total outcome for each iteration (typically 10,000+).</li>
+<li><strong>Analyze Results</strong>: Summarize the distribution of totals using percentiles, mean, and variance.</li>
 </ol>
 </div>
 </div>
@@ -642,13 +642,13 @@ div.csl-indent {
 </section>
 <section id="distribution-of-outcomes" class="level3" data-number="2.2.3">
 <h3 data-number="2.2.3" class="anchored" data-anchor-id="distribution-of-outcomes"><span class="header-section-number">2.2.3</span> Distribution of Outcomes</h3>
-<p>The histogram below shows all 10,000 simulated total durations. The overlaid density curve reveals the shape of the distribution — notice the slight right skew from the triangular task.</p>
+<p>The histogram below shows all 10,000 simulated total durations. The overlaid density curve reveals the shape of the distribution, notice the slight right skew from the triangular task.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>hist_data <span class="ot">&lt;-</span> results<span class="sc">$</span>total_distribution</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(hist_data,</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">freq =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Monte Carlo Simulation — Total Project Duration"</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Monte Carlo Simulation: Total Project Duration"</span>,</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Total Duration (weeks)"</span>, <span class="at">col =</span> <span class="st">"steelblue"</span>, <span class="at">border =</span> <span class="st">"white"</span></span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(hist_data), <span class="at">col =</span> <span class="st">"tomato"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
@@ -724,7 +724,7 @@ div.csl-indent {
 </table>
 </div>
 </div>
-<p>The P50 is your base estimate — the median, not the mean (though for symmetric distributions they’re close). The P95 is the date you can be 95% confident in. The gap between P50 and P95 is your schedule risk.</p>
+<p>The P50 is your base estimate, the median, not the mean (though for symmetric distributions they’re close). The P95 is the date you can be 95% confident in. The gap between P50 and P95 is your schedule risk.</p>
 </section>
 <section id="contingency-analysis" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="contingency-analysis"><span class="header-section-number">2.4</span> Contingency Analysis</h2>
@@ -747,7 +747,7 @@ div.csl-indent {
 </section>
 <section id="sensitivity-analysis" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="sensitivity-analysis"><span class="header-section-number">2.5</span> Sensitivity Analysis</h2>
-<p>Sensitivity analysis identifies which tasks drive the most variability in the total outcome — the tasks that deserve the most management attention. The result is a <strong>tornado chart</strong>: the wider the bar, the bigger the impact on total schedule risk.</p>
+<p>Sensitivity analysis identifies which tasks drive the most variability in the total outcome, the tasks that deserve the most management attention. The result is a <strong>tornado chart</strong>: the wider the bar, the bigger the impact on total schedule risk.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sensitivity_results <span class="ot">&lt;-</span> <span class="fu">sensitivity</span>(task_distributions, correlation_matrix)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -765,7 +765,7 @@ div.csl-indent {
 <span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.1</span>, <span class="at">size =</span> <span class="fl">3.5</span></span>
 <span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(</span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Tornado Chart — Task Sensitivity"</span>,</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Tornado Chart: Task Sensitivity"</span>,</span>
 <span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">"Sensitivity Coefficient"</span>,</span>
 <span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">y     =</span> <span class="cn">NULL</span></span>
 <span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
@@ -800,7 +800,7 @@ div.csl-indent {
 <li>Monte Carlo simulation runs thousands of iterations to produce a full distribution of project outcomes, not just a single number.</li>
 <li><strong>Percentiles</strong> (P50, P80, P95) translate simulation output into concrete schedule or cost commitments at a stated confidence level.</li>
 <li><strong>Contingency</strong> = P_high − P50: the buffer needed to achieve a given confidence level above the base estimate.</li>
-<li><strong>Sensitivity analysis</strong> (tornado chart) reveals which tasks drive the most variance — focus mitigation there first.</li>
+<li><strong>Sensitivity analysis</strong> (tornado chart) reveals which tasks drive the most variance, so focus mitigation there first.</li>
 <li>Positive correlation between tasks <em>always</em> increases total variance; ignoring it leads to underestimating risk.</li>
 </ul>
 </div>
@@ -1312,7 +1312,7 @@ Vose, David. 2008. <em>Risk Analysis: A Quantitative Guide</em>. 3rd ed. John Wi
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"Anyone who considers arithmetical methods of producing random digits is, of course, in a state of sin."*</span></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; — John von Neumann</span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>Here is the core insight behind Monte Carlo simulation: instead of guessing a single answer, roll the dice thousands of times and let the distribution speak for itself. The method was named after the famous casino in Monaco — not because it involves gambling, but because it involves random sampling. If you can describe your uncertainty with a probability distribution, Monte Carlo can turn that uncertainty into a full picture of possible project outcomes.</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>Here is the core insight behind Monte Carlo simulation: instead of guessing a single answer, roll the dice thousands of times and let the distribution speak for itself. The method was named after the famous casino in Monaco, not because it involves gambling, but because it involves random sampling. If you can describe your uncertainty with a probability distribution, Monte Carlo can turn that uncertainty into a full picture of possible project outcomes.</span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>Monte Carlo simulation turns that randomness into insight.</span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
@@ -1335,11 +1335,11 @@ Vose, David. 2008. <em>Risk Analysis: A Quantitative Guide</em>. 3rd ed. John Wi
 <span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
 <span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Five Steps of Monte Carlo Simulation</span></span>
 <span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Model Definition** — Define project tasks and the variables that drive uncertainty (durations, costs).</span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Assign Distributions** — Choose a probability distribution for each uncertain variable (e.g., triangular for tasks with optimistic/likely/pessimistic estimates).</span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Specify Correlations** — If tasks are related (e.g., both affected by a shared risk), set a correlation coefficient between them.</span>
-<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Run Simulation** — Draw random samples and compute the total outcome for each iteration (typically 10,000+).</span>
-<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Analyze Results** — Summarize the distribution of totals using percentiles, mean, and variance.</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Model Definition**: Define project tasks and the variables that drive uncertainty (durations, costs).</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Assign Distributions**: Choose a probability distribution for each uncertain variable (e.g., triangular for tasks with optimistic/likely/pessimistic estimates).</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Specify Correlations**: If tasks are related (e.g., both affected by a shared risk), set a correlation coefficient between them.</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Run Simulation**: Draw random samples and compute the total outcome for each iteration (typically 10,000+).</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Analyze Results**: Summarize the distribution of totals using percentiles, mean, and variance.</span>
 <span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example</span></span>
@@ -1388,7 +1388,7 @@ Vose, David. 2008. <em>Risk Analysis: A Quantitative Guide</em>. 3rd ed. John Wi
 <span id="cb18-87"><a href="#cb18-87" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-88"><a href="#cb18-88" aria-hidden="true" tabindex="-1"></a><span class="fu">### Distribution of Outcomes</span></span>
 <span id="cb18-89"><a href="#cb18-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-90"><a href="#cb18-90" aria-hidden="true" tabindex="-1"></a>The histogram below shows all 10,000 simulated total durations. The overlaid density curve reveals the shape of the distribution — notice the slight right skew from the triangular task.</span>
+<span id="cb18-90"><a href="#cb18-90" aria-hidden="true" tabindex="-1"></a>The histogram below shows all 10,000 simulated total durations. The overlaid density curve reveals the shape of the distribution, notice the slight right skew from the triangular task.</span>
 <span id="cb18-91"><a href="#cb18-91" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-94"><a href="#cb18-94" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb18-95"><a href="#cb18-95" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Monte Carlo simulation results showing the full distribution of possible total project durations."</span></span>
@@ -1396,7 +1396,7 @@ Vose, David. 2008. <em>Risk Analysis: A Quantitative Guide</em>. 3rd ed. John Wi
 <span id="cb18-97"><a href="#cb18-97" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-98"><a href="#cb18-98" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(hist_data,</span>
 <span id="cb18-99"><a href="#cb18-99" aria-hidden="true" tabindex="-1"></a>  <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">freq =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb18-100"><a href="#cb18-100" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Monte Carlo Simulation — Total Project Duration"</span>,</span>
+<span id="cb18-100"><a href="#cb18-100" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Monte Carlo Simulation: Total Project Duration"</span>,</span>
 <span id="cb18-101"><a href="#cb18-101" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Total Duration (weeks)"</span>, <span class="at">col =</span> <span class="st">"steelblue"</span>, <span class="at">border =</span> <span class="st">"white"</span></span>
 <span id="cb18-102"><a href="#cb18-102" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb18-103"><a href="#cb18-103" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(hist_data), <span class="at">col =</span> <span class="st">"tomato"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
@@ -1426,7 +1426,7 @@ Vose, David. 2008. <em>Risk Analysis: A Quantitative Guide</em>. 3rd ed. John Wi
 <span id="cb18-129"><a href="#cb18-129" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb18-130"><a href="#cb18-130" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb18-131"><a href="#cb18-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-132"><a href="#cb18-132" aria-hidden="true" tabindex="-1"></a>The P50 is your base estimate — the median, not the mean (though for symmetric distributions they're close). The P95 is the date you can be 95% confident in. The gap between P50 and P95 is your schedule risk.</span>
+<span id="cb18-132"><a href="#cb18-132" aria-hidden="true" tabindex="-1"></a>The P50 is your base estimate, the median, not the mean (though for symmetric distributions they're close). The P95 is the date you can be 95% confident in. The gap between P50 and P95 is your schedule risk.</span>
 <span id="cb18-133"><a href="#cb18-133" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-134"><a href="#cb18-134" aria-hidden="true" tabindex="-1"></a><span class="fu">## Contingency Analysis</span></span>
 <span id="cb18-135"><a href="#cb18-135" aria-hidden="true" tabindex="-1"></a></span>
@@ -1445,7 +1445,7 @@ Vose, David. 2008. <em>Risk Analysis: A Quantitative Guide</em>. 3rd ed. John Wi
 <span id="cb18-150"><a href="#cb18-150" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-151"><a href="#cb18-151" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sensitivity Analysis</span></span>
 <span id="cb18-152"><a href="#cb18-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-153"><a href="#cb18-153" aria-hidden="true" tabindex="-1"></a>Sensitivity analysis identifies which tasks drive the most variability in the total outcome — the tasks that deserve the most management attention. The result is a **tornado chart**: the wider the bar, the bigger the impact on total schedule risk.</span>
+<span id="cb18-153"><a href="#cb18-153" aria-hidden="true" tabindex="-1"></a>Sensitivity analysis identifies which tasks drive the most variability in the total outcome, the tasks that deserve the most management attention. The result is a **tornado chart**: the wider the bar, the bigger the impact on total schedule risk.</span>
 <span id="cb18-154"><a href="#cb18-154" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-157"><a href="#cb18-157" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb18-158"><a href="#cb18-158" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Tornado chart showing each task's contribution to total schedule variance. Focus risk mitigation on the tallest bars."</span></span>
@@ -1465,7 +1465,7 @@ Vose, David. 2008. <em>Risk Analysis: A Quantitative Guide</em>. 3rd ed. John Wi
 <span id="cb18-172"><a href="#cb18-172" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.1</span>, <span class="at">size =</span> <span class="fl">3.5</span></span>
 <span id="cb18-173"><a href="#cb18-173" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb18-174"><a href="#cb18-174" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(</span>
-<span id="cb18-175"><a href="#cb18-175" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Tornado Chart — Task Sensitivity"</span>,</span>
+<span id="cb18-175"><a href="#cb18-175" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Tornado Chart: Task Sensitivity"</span>,</span>
 <span id="cb18-176"><a href="#cb18-176" aria-hidden="true" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">"Sensitivity Coefficient"</span>,</span>
 <span id="cb18-177"><a href="#cb18-177" aria-hidden="true" tabindex="-1"></a>    <span class="at">y     =</span> <span class="cn">NULL</span></span>
 <span id="cb18-178"><a href="#cb18-178" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
@@ -1485,7 +1485,7 @@ Vose, David. 2008. <em>Risk Analysis: A Quantitative Guide</em>. 3rd ed. John Wi
 <span id="cb18-192"><a href="#cb18-192" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Monte Carlo simulation runs thousands of iterations to produce a full distribution of project outcomes, not just a single number.</span>
 <span id="cb18-193"><a href="#cb18-193" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Percentiles** (P50, P80, P95) translate simulation output into concrete schedule or cost commitments at a stated confidence level.</span>
 <span id="cb18-194"><a href="#cb18-194" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Contingency** = P_high − P50: the buffer needed to achieve a given confidence level above the base estimate.</span>
-<span id="cb18-195"><a href="#cb18-195" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sensitivity analysis** (tornado chart) reveals which tasks drive the most variance — focus mitigation there first.</span>
+<span id="cb18-195"><a href="#cb18-195" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sensitivity analysis** (tornado chart) reveals which tasks drive the most variance, so focus mitigation there first.</span>
 <span id="cb18-196"><a href="#cb18-196" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Positive correlation between tasks *always* increases total variance; ignoring it leads to underestimating risk.</span>
 <span id="cb18-197"><a href="#cb18-197" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb18-198"><a href="#cb18-198" aria-hidden="true" tabindex="-1"></a></span>

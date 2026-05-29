@@ -561,7 +561,7 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p><em>“When the facts change, I change my mind. What do you do, sir?”</em> — Attributed to John Maynard Keynes</p>
 </blockquote>
-<p>Here is the situation: you have a risk assessment based on historical data and expert judgment. Then something happens on site — a root cause you were watching turns out to be present, or a supplier sends a warning signal. Your prior assessment is now out of date. Do you stick with the original numbers, or update them?</p>
+<p>Here is the situation: you have a risk assessment based on historical data and expert judgment. Then something happens on site: a root cause you were watching turns out to be present, or a supplier sends a warning signal. Your prior assessment is now out of date. Do you stick with the original numbers, or update them?</p>
 <p>Bayesian inference gives you the formal machinery to update. Not because it feels right, but because it is the mathematically correct way to incorporate new evidence.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -599,7 +599,7 @@ window.Quarto = {
 <p><strong>In plain English:</strong> Your updated belief (posterior) equals your initial belief (prior) multiplied by how well the evidence fits that belief, normalized to sum to 1.</p>
 <p>In project risk terms:</p>
 <ul>
-<li><strong>Prior</strong> <span class="math inline">\(P(H)\)</span>: Your initial estimate of risk probability — before any field observations</li>
+<li><strong>Prior</strong> <span class="math inline">\(P(H)\)</span>: Your initial estimate of risk probability, before any field observations</li>
 <li><strong>Likelihood</strong> <span class="math inline">\(P(E \mid H)\)</span>: How likely is the observed evidence if the risk/cause is present?</li>
 <li><strong>Posterior</strong> <span class="math inline">\(P(H \mid E)\)</span>: Your updated estimate after incorporating the evidence</li>
 </ul>
@@ -608,7 +608,7 @@ window.Quarto = {
 </div>
 <p>Bayes’ theorem states:</p>
 <p><span class="math display">\[P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)}\]</span></p>
-<p>In English: the probability of your hypothesis (<span class="math inline">\(H\)</span>) given new evidence (<span class="math inline">\(E\)</span>) equals the likelihood of seeing that evidence if the hypothesis were true, times your prior probability, divided by the total probability of the evidence. The result is the <strong>posterior</strong> probability — your updated belief.</p>
+<p>In English: the probability of your hypothesis (<span class="math inline">\(H\)</span>) given new evidence (<span class="math inline">\(E\)</span>) equals the likelihood of seeing that evidence if the hypothesis were true, times your prior probability, divided by the total probability of the evidence. The result is the <strong>posterior</strong> probability, your updated belief.</p>
 <p>In project risk terms:</p>
 <ul>
 <li><strong>Prior</strong>: Your initial estimate of risk probability before any field observations</li>
@@ -659,7 +659,7 @@ window.Quarto = {
 </section>
 <section id="causal-structure" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="causal-structure"><span class="header-section-number">6.2</span> Causal Structure</h2>
-<p>Before computing probabilities, it helps to see the causal graph. Two independent root causes each point to the risk event — observing either one updates the posterior risk probability.</p>
+<p>Before computing probabilities, it helps to see the causal graph. Two independent root causes each point to the risk event, and observing either one updates the posterior risk probability.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(</span>
@@ -683,9 +683,9 @@ window.Quarto = {
 <h2 data-number="6.3" class="anchored" data-anchor-id="step-1-prior-risk-probability"><span class="header-section-number">6.3</span> Step 1: Prior Risk Probability</h2>
 <p>Before any observations are made, <code>risk_prob()</code> computes the probability of a risk event R occurring given two potential root causes. For each cause, we supply:</p>
 <ul>
-<li><code>cause_probs</code> — prior probability that the cause is present</li>
-<li><code>risks_given_causes</code> — P(R | cause present)</li>
-<li><code>risks_given_not_causes</code> — P(R | cause absent)</li>
+<li><code>cause_probs</code>: prior probability that the cause is present</li>
+<li><code>risks_given_causes</code>: P(R | cause present)</li>
+<li><code>risks_given_not_causes</code>: P(R | cause absent)</li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cause_probs            <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.2</span>)</span>
@@ -699,7 +699,7 @@ window.Quarto = {
 <pre><code>Prior probability of risk event R: 0.82 </code></pre>
 </div>
 </div>
-<p>This is your starting point — an estimate of how likely the risk event is before you’ve looked at anything on site.</p>
+<p>This is your starting point, an estimate of how likely the risk event is before you’ve looked at anything on site.</p>
 </section>
 <section id="step-2-prior-cost-distribution" class="level2" data-number="6.4">
 <h2 data-number="6.4" class="anchored" data-anchor-id="step-2-prior-cost-distribution"><span class="header-section-number">6.4</span> Step 2: Prior Cost Distribution</h2>
@@ -723,7 +723,7 @@ window.Quarto = {
 </section>
 <section id="step-3-posterior-risk-probability-bayesian-update" class="level2" data-number="6.5">
 <h2 data-number="6.5" class="anchored" data-anchor-id="step-3-posterior-risk-probability-bayesian-update"><span class="header-section-number">6.5</span> Step 3: Posterior Risk Probability (Bayesian Update)</h2>
-<p>After inspecting the project site, we observe that Cause 1 is present (= 1). Cause 2 has not yet been assessed (= NA). <code>risk_post_prob()</code> updates the risk probability using only the available evidence — NA causes are treated as unobserved and do not contribute to the update.</p>
+<p>After inspecting the project site, we observe that Cause 1 is present (= 1). Cause 2 has not yet been assessed (= NA). <code>risk_post_prob()</code> updates the risk probability using only the available evidence; NA causes are treated as unobserved and do not contribute to the update.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>observed_causes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="cn">NA</span>)  <span class="co"># C1 observed as present; C2 not yet assessed</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -737,7 +737,7 @@ window.Quarto = {
 <pre><code>Posterior probability of risk event R: 0.632 </code></pre>
 </div>
 </div>
-<p>Observing Cause 1 (which has a strong link to R) raises the risk probability substantially. The NA for Cause 2 is simply ignored — only confirmed observations drive the update.</p>
+<p>Observing Cause 1 (which has a strong link to R) raises the risk probability substantially. The NA for Cause 2 is simply ignored; only confirmed observations drive the update.</p>
 <section id="prior-vs.-posterior-probability" class="level3" data-number="6.5.1">
 <h3 data-number="6.5.1" class="anchored" data-anchor-id="prior-vs.-posterior-probability"><span class="header-section-number">6.5.1</span> Prior vs.&nbsp;Posterior Probability</h3>
 <div class="cell">
@@ -828,16 +828,16 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p><strong>Interpretation:</strong> The posterior distribution is narrower and shifted upward — observing which risks materialized eliminates uncertainty about some cost components while raising the estimated exposure from confirmed events. The remaining spread reflects uncertainty from the unobserved risk and cost variability in the confirmed ones.</p>
+<p><strong>Interpretation:</strong> The posterior distribution is narrower and shifted upward, as observing which risks materialized eliminates uncertainty about some cost components while raising the estimated exposure from confirmed events. The remaining spread reflects uncertainty from the unobserved risk and cost variability in the confirmed ones.</p>
 </section>
 </section>
 <section id="summary" class="level2" data-number="6.7">
 <h2 data-number="6.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">6.7</span> Summary</h2>
 <p>The Bayesian workflow in PRA follows a natural before-and-after structure:</p>
 <ol type="1">
-<li><strong>Before observations</strong> — use <code>risk_prob()</code> and <code>cost_pdf()</code> to characterize the risk landscape.</li>
-<li><strong>As evidence arrives</strong> — use <code>risk_post_prob()</code> and <code>cost_post_pdf()</code> to update estimates.</li>
-<li><strong>NA values</strong> represent causes/risks not yet assessed — they are correctly excluded from the update.</li>
+<li><strong>Before observations</strong>: use <code>risk_prob()</code> and <code>cost_pdf()</code> to characterize the risk landscape.</li>
+<li><strong>As evidence arrives</strong>: use <code>risk_post_prob()</code> and <code>cost_post_pdf()</code> to update estimates.</li>
+<li><strong>NA values</strong> represent causes/risks not yet assessed; they are correctly excluded from the update.</li>
 </ol>
 <p>This approach is particularly powerful in phased projects where information about risk drivers becomes available progressively, allowing cost forecasts to be refined at each stage.</p>
 </section>
@@ -854,9 +854,9 @@ window.Quarto = {
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>Bayesian inference is the principled way to update risk estimates as new evidence arrives — it is not a heuristic, it is the mathematically correct rule.</li>
+<li>Bayesian inference is the principled way to update risk estimates as new evidence arrives; it is not a heuristic, it is the mathematically correct rule.</li>
 <li><strong>Prior → Posterior</strong>: the posterior always moves in the direction of the evidence; the size of the move depends on how strongly the cause links to the risk.</li>
-<li><code>NA</code> values for unobserved causes or risks are correctly handled — they do not contribute to the update, reflecting genuine ignorance.</li>
+<li><code>NA</code> values for unobserved causes or risks are correctly handled; they do not contribute to the update, reflecting genuine ignorance.</li>
 <li>The posterior cost distribution is typically narrower than the prior, because confirmed risk states eliminate uncertainty about some cost components.</li>
 <li>This workflow is particularly powerful in <strong>phased projects</strong>: update at each phase gate as more information becomes available.</li>
 </ul>
@@ -1361,7 +1361,7 @@ window.Quarto = {
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"When the facts change, I change my mind. What do you do, sir?"*</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; — Attributed to John Maynard Keynes</span></span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>Here is the situation: you have a risk assessment based on historical data and expert judgment. Then something happens on site — a root cause you were watching turns out to be present, or a supplier sends a warning signal. Your prior assessment is now out of date. Do you stick with the original numbers, or update them?</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>Here is the situation: you have a risk assessment based on historical data and expert judgment. Then something happens on site: a root cause you were watching turns out to be present, or a supplier sends a warning signal. Your prior assessment is now out of date. Do you stick with the original numbers, or update them?</span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>Bayesian inference gives you the formal machinery to update. Not because it feels right, but because it is the mathematically correct way to incorporate new evidence.</span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
@@ -1388,7 +1388,7 @@ window.Quarto = {
 <span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>In project risk terms:</span>
 <span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Prior** $P(H)$: Your initial estimate of risk probability — before any field observations</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Prior** $P(H)$: Your initial estimate of risk probability, before any field observations</span>
 <span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Likelihood** $P(E \mid H)$: How likely is the observed evidence if the risk/cause is present?</span>
 <span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Posterior** $P(H \mid E)$: Your updated estimate after incorporating the evidence</span>
 <span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a></span>
@@ -1399,7 +1399,7 @@ window.Quarto = {
 <span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>$$P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)}$$</span>
 <span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>In English: the probability of your hypothesis ($H$) given new evidence ($E$) equals the likelihood of seeing that evidence if the hypothesis were true, times your prior probability, divided by the total probability of the evidence. The result is the **posterior** probability — your updated belief.</span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>In English: the probability of your hypothesis ($H$) given new evidence ($E$) equals the likelihood of seeing that evidence if the hypothesis were true, times your prior probability, divided by the total probability of the evidence. The result is the **posterior** probability, your updated belief.</span>
 <span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>In project risk terms:</span>
 <span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a></span>
@@ -1424,7 +1424,7 @@ window.Quarto = {
 <span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a><span class="fu">## Causal Structure</span></span>
 <span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a>Before computing probabilities, it helps to see the causal graph. Two independent root causes each point to the risk event — observing either one updates the posterior risk probability.</span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a>Before computing probabilities, it helps to see the causal graph. Two independent root causes each point to the risk event, and observing either one updates the posterior risk probability.</span>
 <span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "DAG: Cause-1 and Cause-2 independently drive the risk event R."</span></span>
@@ -1442,9 +1442,9 @@ window.Quarto = {
 <span id="cb15-86"><a href="#cb15-86" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-87"><a href="#cb15-87" aria-hidden="true" tabindex="-1"></a>Before any observations are made, <span class="in">`risk_prob()`</span> computes the probability of a risk event R occurring given two potential root causes. For each cause, we supply:</span>
 <span id="cb15-88"><a href="#cb15-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-89"><a href="#cb15-89" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`cause_probs`</span> — prior probability that the cause is present</span>
-<span id="cb15-90"><a href="#cb15-90" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`risks_given_causes`</span> — P(R | cause present)</span>
-<span id="cb15-91"><a href="#cb15-91" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`risks_given_not_causes`</span> — P(R | cause absent)</span>
+<span id="cb15-89"><a href="#cb15-89" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`cause_probs`</span>: prior probability that the cause is present</span>
+<span id="cb15-90"><a href="#cb15-90" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`risks_given_causes`</span>: P(R | cause present)</span>
+<span id="cb15-91"><a href="#cb15-91" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`risks_given_not_causes`</span>: P(R | cause absent)</span>
 <span id="cb15-92"><a href="#cb15-92" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-95"><a href="#cb15-95" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb15-96"><a href="#cb15-96" aria-hidden="true" tabindex="-1"></a>cause_probs            <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.2</span>)</span>
@@ -1457,7 +1457,7 @@ window.Quarto = {
 <span id="cb15-105"><a href="#cb15-105" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Prior probability of risk event R:"</span>, <span class="fu">round</span>(prior_risk, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb15-106"><a href="#cb15-106" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb15-107"><a href="#cb15-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-108"><a href="#cb15-108" aria-hidden="true" tabindex="-1"></a>This is your starting point — an estimate of how likely the risk event is before you've looked at anything on site.</span>
+<span id="cb15-108"><a href="#cb15-108" aria-hidden="true" tabindex="-1"></a>This is your starting point, an estimate of how likely the risk event is before you've looked at anything on site.</span>
 <span id="cb15-109"><a href="#cb15-109" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-110"><a href="#cb15-110" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 2: Prior Cost Distribution</span></span>
 <span id="cb15-111"><a href="#cb15-111" aria-hidden="true" tabindex="-1"></a></span>
@@ -1484,7 +1484,7 @@ window.Quarto = {
 <span id="cb15-136"><a href="#cb15-136" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-137"><a href="#cb15-137" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 3: Posterior Risk Probability (Bayesian Update)</span></span>
 <span id="cb15-138"><a href="#cb15-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-139"><a href="#cb15-139" aria-hidden="true" tabindex="-1"></a>After inspecting the project site, we observe that Cause 1 is present (= 1). Cause 2 has not yet been assessed (= NA). <span class="in">`risk_post_prob()`</span> updates the risk probability using only the available evidence — NA causes are treated as unobserved and do not contribute to the update.</span>
+<span id="cb15-139"><a href="#cb15-139" aria-hidden="true" tabindex="-1"></a>After inspecting the project site, we observe that Cause 1 is present (= 1). Cause 2 has not yet been assessed (= NA). <span class="in">`risk_post_prob()`</span> updates the risk probability using only the available evidence; NA causes are treated as unobserved and do not contribute to the update.</span>
 <span id="cb15-140"><a href="#cb15-140" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-143"><a href="#cb15-143" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb15-144"><a href="#cb15-144" aria-hidden="true" tabindex="-1"></a>observed_causes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="cn">NA</span>)  <span class="co"># C1 observed as present; C2 not yet assessed</span></span>
@@ -1498,7 +1498,7 @@ window.Quarto = {
 <span id="cb15-154"><a href="#cb15-154" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Posterior probability of risk event R:"</span>, <span class="fu">round</span>(posterior_risk, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb15-155"><a href="#cb15-155" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb15-156"><a href="#cb15-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-157"><a href="#cb15-157" aria-hidden="true" tabindex="-1"></a>Observing Cause 1 (which has a strong link to R) raises the risk probability substantially. The NA for Cause 2 is simply ignored — only confirmed observations drive the update.</span>
+<span id="cb15-157"><a href="#cb15-157" aria-hidden="true" tabindex="-1"></a>Observing Cause 1 (which has a strong link to R) raises the risk probability substantially. The NA for Cause 2 is simply ignored; only confirmed observations drive the update.</span>
 <span id="cb15-158"><a href="#cb15-158" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-159"><a href="#cb15-159" aria-hidden="true" tabindex="-1"></a><span class="fu">### Prior vs. Posterior Probability</span></span>
 <span id="cb15-160"><a href="#cb15-160" aria-hidden="true" tabindex="-1"></a></span>
@@ -1580,15 +1580,15 @@ window.Quarto = {
 <span id="cb15-244"><a href="#cb15-244" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb15-245"><a href="#cb15-245" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb15-246"><a href="#cb15-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-247"><a href="#cb15-247" aria-hidden="true" tabindex="-1"></a>**Interpretation:** The posterior distribution is narrower and shifted upward — observing which risks materialized eliminates uncertainty about some cost components while raising the estimated exposure from confirmed events. The remaining spread reflects uncertainty from the unobserved risk and cost variability in the confirmed ones.</span>
+<span id="cb15-247"><a href="#cb15-247" aria-hidden="true" tabindex="-1"></a>**Interpretation:** The posterior distribution is narrower and shifted upward, as observing which risks materialized eliminates uncertainty about some cost components while raising the estimated exposure from confirmed events. The remaining spread reflects uncertainty from the unobserved risk and cost variability in the confirmed ones.</span>
 <span id="cb15-248"><a href="#cb15-248" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-249"><a href="#cb15-249" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
 <span id="cb15-250"><a href="#cb15-250" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-251"><a href="#cb15-251" aria-hidden="true" tabindex="-1"></a>The Bayesian workflow in PRA follows a natural before-and-after structure:</span>
 <span id="cb15-252"><a href="#cb15-252" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-253"><a href="#cb15-253" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Before observations** — use <span class="in">`risk_prob()`</span> and <span class="in">`cost_pdf()`</span> to characterize the risk landscape.</span>
-<span id="cb15-254"><a href="#cb15-254" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**As evidence arrives** — use <span class="in">`risk_post_prob()`</span> and <span class="in">`cost_post_pdf()`</span> to update estimates.</span>
-<span id="cb15-255"><a href="#cb15-255" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**NA values** represent causes/risks not yet assessed — they are correctly excluded from the update.</span>
+<span id="cb15-253"><a href="#cb15-253" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Before observations**: use <span class="in">`risk_prob()`</span> and <span class="in">`cost_pdf()`</span> to characterize the risk landscape.</span>
+<span id="cb15-254"><a href="#cb15-254" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**As evidence arrives**: use <span class="in">`risk_post_prob()`</span> and <span class="in">`cost_post_pdf()`</span> to update estimates.</span>
+<span id="cb15-255"><a href="#cb15-255" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**NA values** represent causes/risks not yet assessed; they are correctly excluded from the update.</span>
 <span id="cb15-256"><a href="#cb15-256" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-257"><a href="#cb15-257" aria-hidden="true" tabindex="-1"></a>This approach is particularly powerful in phased projects where information about risk drivers becomes available progressively, allowing cost forecasts to be refined at each stage.</span>
 <span id="cb15-258"><a href="#cb15-258" aria-hidden="true" tabindex="-1"></a></span>
@@ -1597,9 +1597,9 @@ window.Quarto = {
 <span id="cb15-261"><a href="#cb15-261" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
 <span id="cb15-262"><a href="#cb15-262" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
 <span id="cb15-263"><a href="#cb15-263" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-264"><a href="#cb15-264" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Bayesian inference is the principled way to update risk estimates as new evidence arrives — it is not a heuristic, it is the mathematically correct rule.</span>
+<span id="cb15-264"><a href="#cb15-264" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Bayesian inference is the principled way to update risk estimates as new evidence arrives; it is not a heuristic, it is the mathematically correct rule.</span>
 <span id="cb15-265"><a href="#cb15-265" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Prior → Posterior**: the posterior always moves in the direction of the evidence; the size of the move depends on how strongly the cause links to the risk.</span>
-<span id="cb15-266"><a href="#cb15-266" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`NA`</span> values for unobserved causes or risks are correctly handled — they do not contribute to the update, reflecting genuine ignorance.</span>
+<span id="cb15-266"><a href="#cb15-266" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`NA`</span> values for unobserved causes or risks are correctly handled; they do not contribute to the update, reflecting genuine ignorance.</span>
 <span id="cb15-267"><a href="#cb15-267" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The posterior cost distribution is typically narrower than the prior, because confirmed risk states eliminate uncertainty about some cost components.</span>
 <span id="cb15-268"><a href="#cb15-268" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>This workflow is particularly powerful in **phased projects**: update at each phase gate as more information becomes available.</span>
 <span id="cb15-269"><a href="#cb15-269" aria-hidden="true" tabindex="-1"></a>:::</span>

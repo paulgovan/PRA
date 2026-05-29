@@ -606,9 +606,9 @@ window.Quarto = {
 </div>
 <section id="the-portfolio-case-study" class="level2" data-number="10.1">
 <h2 data-number="10.1" class="anchored" data-anchor-id="the-portfolio-case-study"><span class="header-section-number">10.1</span> The Portfolio Case Study</h2>
-<p>Consider an enterprise running three projects simultaneously: a <strong>Road Repair</strong>, a <strong>Park Construction</strong>, and a <strong>Building Renovation</strong>. Each project has three tasks driven by three resources — labor, materials, and equipment.</p>
+<p>Consider an enterprise running three projects simultaneously: a <strong>Road Repair</strong>, a <strong>Park Construction</strong>, and a <strong>Building Renovation</strong>. Each project has three tasks driven by three resources: labor, materials, and equipment.</p>
 <p>Critically, these resources are <strong>shared at the enterprise level</strong>: the same labor pool, the same material suppliers, and the same equipment fleet serve all three projects. Three enterprise-wide risk events propagate through the corresponding shared resource to impact all three projects simultaneously.</p>
-<p>Even more critically, two of these risks — a <strong>Labor Shortage</strong> and a <strong>Material Price Spike</strong> — share a common upstream driver: a <strong>Supply Chain Disruption</strong> that simultaneously tightens the labor market and raises commodity prices. This shared root cause is what makes the distinction between <em>seeing</em> and <em>doing</em> consequential <span class="citation" data-cites="pearl2009 govan2014">(<a href="references.html#ref-pearl2009" role="doc-biblioref">Pearl 2009</a>; <a href="references.html#ref-govan2014" role="doc-biblioref">Govan 2014</a>)</span>.</p>
+<p>Even more critically, two of these risks, a <strong>Labor Shortage</strong> and a <strong>Material Price Spike</strong>, share a common upstream driver: a <strong>Supply Chain Disruption</strong> that simultaneously tightens the labor market and raises commodity prices. This shared root cause is what makes the distinction between <em>seeing</em> and <em>doing</em> consequential <span class="citation" data-cites="pearl2009 govan2014">(<a href="references.html#ref-pearl2009" role="doc-biblioref">Pearl 2009</a>; <a href="references.html#ref-govan2014" role="doc-biblioref">Govan 2014</a>)</span>.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -621,7 +621,7 @@ window.Quarto = {
 <div class="callout-body-container callout-body">
 <p><strong>Seeing</strong> <span class="math inline">\(A = 1\)</span> (observing a Labor Shortage) conditions on the evidence in the <em>original</em> graph. Bayes’ rule propagates upstream: it raises the posterior probability of the Supply Chain Disruption, which in turn raises the probability of the Material Price Spike. A side-effect flows through the shared root cause.</p>
 <p><strong>Doing</strong> <span class="math inline">\(\text{do}(A = 1)\)</span> (intervening to cause a Labor Shortage) severs the SC → A edge via graph surgery. SC stays at its prior, B stays near its prior, and material costs are unaffected. Only labor costs change.</p>
-<p>The gap between the two distributions — seeing vs.&nbsp;doing — is the operational signature of the shared root cause SC. Confusing the two leads to systematically underestimating portfolio cost exposure <span class="citation" data-cites="pearl2009">(<a href="references.html#ref-pearl2009" role="doc-biblioref">Pearl 2009</a>)</span>.</p>
+<p>The gap between the two distributions, seeing vs.&nbsp;doing, is the operational signature of the shared root cause SC. Confusing the two leads to systematically underestimating portfolio cost exposure <span class="citation" data-cites="pearl2009">(<a href="references.html#ref-pearl2009" role="doc-biblioref">Pearl 2009</a>)</span>.</p>
 </div>
 </div>
 </section>
@@ -807,7 +807,7 @@ window.Quarto = {
 </table>
 </div>
 </div>
-<p>The shared root cause SC is what makes <em>seeing</em> and <em>doing</em> diverge: observing <span class="math inline">\(A = 1\)</span> raises the posterior probability of SC, which in turn raises the probability of <span class="math inline">\(B = 1\)</span> — a side-effect that <span class="math inline">\(\text{do}(A = 1)\)</span> does not produce.</p>
+<p>The shared root cause SC is what makes <em>seeing</em> and <em>doing</em> diverge: observing <span class="math inline">\(A = 1\)</span> raises the posterior probability of SC, which in turn raises the probability of <span class="math inline">\(B = 1\)</span>, a side-effect that <span class="math inline">\(\text{do}(A = 1)\)</span> does not produce.</p>
 </section>
 </section>
 <section id="building-the-portfolio-network" class="level2" data-number="10.3">
@@ -953,7 +953,7 @@ window.Quarto = {
 </section>
 <section id="seeing-vs.-doing-at-the-risk-level" class="level2" data-number="10.5">
 <h2 data-number="10.5" class="anchored" data-anchor-id="seeing-vs.-doing-at-the-risk-level"><span class="header-section-number">10.5</span> Seeing vs.&nbsp;Doing at the Risk Level</h2>
-<p>This is where the real insight lives. <strong>Seeing</strong> <span class="math inline">\(A = 1\)</span> conditions on the observation in the original graph — evidence propagates upstream as well as downstream. <strong>Doing</strong> <span class="math inline">\(\text{do}(A = 1)\)</span> performs graph surgery, severing SC→A and fixing <span class="math inline">\(A = 1\)</span>. The two operations produce different results because of the shared root cause SC.</p>
+<p>This is where the real insight lives. <strong>Seeing</strong> <span class="math inline">\(A = 1\)</span> conditions on the observation in the original graph: evidence propagates upstream as well as downstream. <strong>Doing</strong> <span class="math inline">\(\text{do}(A = 1)\)</span> performs graph surgery, severing SC→A and fixing <span class="math inline">\(A = 1\)</span>. The two operations produce different results because of the shared root cause SC.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>seeing_results <span class="ot">&lt;-</span> <span class="fu">prob_net_learn</span>(graph, <span class="at">observations =</span> <span class="fu">list</span>(<span class="at">A =</span> <span class="dv">1</span>), <span class="at">num_samples =</span> <span class="dv">1000</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -968,15 +968,15 @@ window.Quarto = {
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>h2     <span class="ot">&lt;-</span> <span class="fu">hist</span>(seeing_results<span class="sc">$</span>Y, <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>h_do   <span class="ot">&lt;-</span> <span class="fu">hist</span>(do_A1_results<span class="sc">$</span>Y,  <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h1, <span class="at">main =</span> <span class="st">"P(Y) vs. Seeing vs. Doing — Labor Shortage"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h1, <span class="at">main =</span> <span class="st">"P(Y) vs. Seeing vs. Doing: Labor Shortage"</span>,</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Portfolio Cost ($)"</span>, <span class="at">col =</span> <span class="st">"skyblue"</span>, <span class="at">border =</span> <span class="st">"white"</span>,</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(h1<span class="sc">$</span>counts, h2<span class="sc">$</span>counts, h_do<span class="sc">$</span>counts)))</span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h_do, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="fl">0.5</span>), <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h2,   <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.4</span>),   <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"P(Y) — prior"</span>,</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>             <span class="st">"P(Y | do(A=1)) — doing"</span>,</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>             <span class="st">"P(Y | A=1) — seeing"</span>),</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"P(Y): prior"</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>             <span class="st">"P(Y | do(A=1)): doing"</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>             <span class="st">"P(Y | A=1): seeing"</span>),</span>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="fu">rgb</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="fl">0.5</span>), <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.4</span>)), <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -987,7 +987,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p><strong>The key distinction:</strong> <em>Seeing</em> a Labor Shortage raises our belief that a Supply Chain Disruption is underway, which in turn raises the probability of a Material Price Spike — a side-effect that propagates through SC. <em>Doing</em> <span class="math inline">\(\text{do}(A = 1)\)</span> severs SC→A, so SC stays at its prior and material costs are unaffected. The gap between the two distributions is the operational signature of the shared root cause.</p>
+<p><strong>The key distinction:</strong> <em>Seeing</em> a Labor Shortage raises our belief that a Supply Chain Disruption is underway, which in turn raises the probability of a Material Price Spike, a side-effect that propagates through SC. <em>Doing</em> <span class="math inline">\(\text{do}(A = 1)\)</span> severs SC→A, so SC stays at its prior and material costs are unaffected. The gap between the two distributions is the operational signature of the shared root cause.</p>
 </section>
 <section id="enterprise-vs.-project-scoped-intervention" class="level2" data-number="10.6">
 <h2 data-number="10.6" class="anchored" data-anchor-id="enterprise-vs.-project-scoped-intervention"><span class="header-section-number">10.6</span> Enterprise vs.&nbsp;Project-Scoped Intervention</h2>
@@ -1019,9 +1019,9 @@ window.Quarto = {
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h3, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="fl">0.6</span>, <span class="dv">0</span>, <span class="fl">0.4</span>),   <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h4, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="fl">0.8</span>, <span class="fl">0.4</span>, <span class="dv">0</span>, <span class="fl">0.5</span>), <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"P(Y) — observational"</span>,</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>             <span class="st">"do(J → baseline) — Project 3 insulated"</span>,</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>             <span class="st">"do(A = 0) — enterprise prevention"</span>),</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"P(Y): observational"</span>,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>             <span class="st">"do(J → baseline): Project 3 insulated"</span>,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>             <span class="st">"do(A = 0): enterprise prevention"</span>),</span>
 <span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="fl">0.6</span>, <span class="dv">0</span>, <span class="fl">0.4</span>), <span class="fu">rgb</span>(<span class="fl">0.8</span>, <span class="fl">0.4</span>, <span class="dv">0</span>, <span class="fl">0.5</span>)), <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -1081,7 +1081,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>The bar heights rank the three enterprise risks by their contribution to portfolio cost variance — a principled basis for prioritizing mitigation investments.</p>
+<p>The bar heights rank the three enterprise risks by their contribution to portfolio cost variance, a principled basis for prioritizing mitigation investments.</p>
 </section>
 <section id="summary-table" class="level2" data-number="10.8">
 <h2 data-number="10.8" class="anchored" data-anchor-id="summary-table"><span class="header-section-number">10.8</span> Summary Table</h2>
@@ -1171,10 +1171,10 @@ window.Quarto = {
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>Shared enterprise risks create <strong>positive correlation across all projects</strong> that share those resources — portfolio variance is always larger than the naive sum of individual project variances.</li>
+<li>Shared enterprise risks create <strong>positive correlation across all projects</strong> that share those resources, driving portfolio variance is always larger than the naive sum of individual project variances.</li>
 <li>The <strong>task-cost correlation matrix</strong> reveals the block structure of risk sharing: tasks driven by the same enterprise risk cluster together, while tasks driven by different risks are near-zero.</li>
-<li><strong>Seeing</strong> conditions on evidence in the original graph — it propagates upstream through shared root causes, raising the probability of sibling risks as a side-effect.</li>
-<li><strong>Doing</strong> (graph surgery) severs incoming edges of the intervened node — it changes only what the intervention directly controls, without raising posteriors about shared root causes.</li>
+<li><strong>Seeing</strong> conditions on evidence in the original graph; it propagates upstream through shared root causes, raising the probability of sibling risks as a side-effect.</li>
+<li><strong>Doing</strong> (graph surgery) severs incoming edges of the intervened node; it changes only what the intervention directly controls, without raising posteriors about shared root causes.</li>
 <li>Enterprise-level risk prevention (<span class="math inline">\(\text{do}(A = 0)\)</span>) reduces portfolio exposure across all projects simultaneously; project-scoped insulation (<span class="math inline">\(\text{do}(J \to \text{baseline})\)</span>) reduces exposure for only one.</li>
 <li><strong>Risk importance ranking</strong> by variance reduction from <span class="math inline">\(\text{do}(\text{risk} = 0)\)</span> gives a principled basis for prioritizing mitigation budgets.</li>
 </ul>
@@ -1704,11 +1704,11 @@ Pearl, Judea. 2009. <em>Causality: Models, Reasoning, and Inference</em>. 2nd ed
 <span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Portfolio Case Study</span></span>
 <span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>Consider an enterprise running three projects simultaneously: a **Road Repair**, a **Park Construction**, and a **Building Renovation**. Each project has three tasks driven by three resources — labor, materials, and equipment.</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>Consider an enterprise running three projects simultaneously: a **Road Repair**, a **Park Construction**, and a **Building Renovation**. Each project has three tasks driven by three resources: labor, materials, and equipment.</span>
 <span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>Critically, these resources are **shared at the enterprise level**: the same labor pool, the same material suppliers, and the same equipment fleet serve all three projects. Three enterprise-wide risk events propagate through the corresponding shared resource to impact all three projects simultaneously.</span>
 <span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>Even more critically, two of these risks — a **Labor Shortage** and a **Material Price Spike** — share a common upstream driver: a **Supply Chain Disruption** that simultaneously tightens the labor market and raises commodity prices. This shared root cause is what makes the distinction between *seeing* and *doing* consequential <span class="co">[</span><span class="ot">@pearl2009; @govan2014</span><span class="co">]</span>.</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>Even more critically, two of these risks, a **Labor Shortage** and a **Material Price Spike**, share a common upstream driver: a **Supply Chain Disruption** that simultaneously tightens the labor market and raises commodity prices. This shared root cause is what makes the distinction between *seeing* and *doing* consequential <span class="co">[</span><span class="ot">@pearl2009; @govan2014</span><span class="co">]</span>.</span>
 <span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
 <span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## Seeing Is Not the Same as Doing</span></span>
@@ -1717,7 +1717,7 @@ Pearl, Judea. 2009. <em>Causality: Models, Reasoning, and Inference</em>. 2nd ed
 <span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>**Doing** $\text{do}(A = 1)$ (intervening to cause a Labor Shortage) severs the SC → A edge via graph surgery. SC stays at its prior, B stays near its prior, and material costs are unaffected. Only labor costs change.</span>
 <span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>The gap between the two distributions — seeing vs. doing — is the operational signature of the shared root cause SC. Confusing the two leads to systematically underestimating portfolio cost exposure <span class="co">[</span><span class="ot">@pearl2009</span><span class="co">]</span>.</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>The gap between the two distributions, seeing vs. doing, is the operational signature of the shared root cause SC. Confusing the two leads to systematically underestimating portfolio cost exposure <span class="co">[</span><span class="ot">@pearl2009</span><span class="co">]</span>.</span>
 <span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## Setup</span></span>
@@ -1770,7 +1770,7 @@ Pearl, Judea. 2009. <em>Causality: Models, Reasoning, and Inference</em>. 2nd ed
 <span id="cb14-91"><a href="#cb14-91" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(risks, <span class="at">caption =</span> <span class="st">"Enterprise Risks"</span>)</span>
 <span id="cb14-92"><a href="#cb14-92" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb14-93"><a href="#cb14-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-94"><a href="#cb14-94" aria-hidden="true" tabindex="-1"></a>The shared root cause SC is what makes *seeing* and *doing* diverge: observing $A = 1$ raises the posterior probability of SC, which in turn raises the probability of $B = 1$ — a side-effect that $\text{do}(A = 1)$ does not produce.</span>
+<span id="cb14-94"><a href="#cb14-94" aria-hidden="true" tabindex="-1"></a>The shared root cause SC is what makes *seeing* and *doing* diverge: observing $A = 1$ raises the posterior probability of SC, which in turn raises the probability of $B = 1$, a side-effect that $\text{do}(A = 1)$ does not produce.</span>
 <span id="cb14-95"><a href="#cb14-95" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-96"><a href="#cb14-96" aria-hidden="true" tabindex="-1"></a><span class="fu">## Building the Portfolio Network</span></span>
 <span id="cb14-97"><a href="#cb14-97" aria-hidden="true" tabindex="-1"></a></span>
@@ -1906,7 +1906,7 @@ Pearl, Judea. 2009. <em>Causality: Models, Reasoning, and Inference</em>. 2nd ed
 <span id="cb14-235"><a href="#cb14-235" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-236"><a href="#cb14-236" aria-hidden="true" tabindex="-1"></a><span class="fu">## Seeing vs. Doing at the Risk Level</span></span>
 <span id="cb14-237"><a href="#cb14-237" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-238"><a href="#cb14-238" aria-hidden="true" tabindex="-1"></a>This is where the real insight lives. **Seeing** $A = 1$ conditions on the observation in the original graph — evidence propagates upstream as well as downstream. **Doing** $\text{do}(A = 1)$ performs graph surgery, severing SC→A and fixing $A = 1$. The two operations produce different results because of the shared root cause SC.</span>
+<span id="cb14-238"><a href="#cb14-238" aria-hidden="true" tabindex="-1"></a>This is where the real insight lives. **Seeing** $A = 1$ conditions on the observation in the original graph: evidence propagates upstream as well as downstream. **Doing** $\text{do}(A = 1)$ performs graph surgery, severing SC→A and fixing $A = 1$. The two operations produce different results because of the shared root cause SC.</span>
 <span id="cb14-239"><a href="#cb14-239" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-242"><a href="#cb14-242" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb14-243"><a href="#cb14-243" aria-hidden="true" tabindex="-1"></a>seeing_results <span class="ot">&lt;-</span> <span class="fu">prob_net_learn</span>(graph, <span class="at">observations =</span> <span class="fu">list</span>(<span class="at">A =</span> <span class="dv">1</span>), <span class="at">num_samples =</span> <span class="dv">1000</span>)</span>
@@ -1924,19 +1924,19 @@ Pearl, Judea. 2009. <em>Causality: Models, Reasoning, and Inference</em>. 2nd ed
 <span id="cb14-257"><a href="#cb14-257" aria-hidden="true" tabindex="-1"></a>h2     <span class="ot">&lt;-</span> <span class="fu">hist</span>(seeing_results<span class="sc">$</span>Y, <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb14-258"><a href="#cb14-258" aria-hidden="true" tabindex="-1"></a>h_do   <span class="ot">&lt;-</span> <span class="fu">hist</span>(do_A1_results<span class="sc">$</span>Y,  <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb14-259"><a href="#cb14-259" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-260"><a href="#cb14-260" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h1, <span class="at">main =</span> <span class="st">"P(Y) vs. Seeing vs. Doing — Labor Shortage"</span>,</span>
+<span id="cb14-260"><a href="#cb14-260" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h1, <span class="at">main =</span> <span class="st">"P(Y) vs. Seeing vs. Doing: Labor Shortage"</span>,</span>
 <span id="cb14-261"><a href="#cb14-261" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Portfolio Cost ($)"</span>, <span class="at">col =</span> <span class="st">"skyblue"</span>, <span class="at">border =</span> <span class="st">"white"</span>,</span>
 <span id="cb14-262"><a href="#cb14-262" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(h1<span class="sc">$</span>counts, h2<span class="sc">$</span>counts, h_do<span class="sc">$</span>counts)))</span>
 <span id="cb14-263"><a href="#cb14-263" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h_do, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="fl">0.5</span>), <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb14-264"><a href="#cb14-264" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h2,   <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.4</span>),   <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb14-265"><a href="#cb14-265" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
-<span id="cb14-266"><a href="#cb14-266" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"P(Y) — prior"</span>,</span>
-<span id="cb14-267"><a href="#cb14-267" aria-hidden="true" tabindex="-1"></a>             <span class="st">"P(Y | do(A=1)) — doing"</span>,</span>
-<span id="cb14-268"><a href="#cb14-268" aria-hidden="true" tabindex="-1"></a>             <span class="st">"P(Y | A=1) — seeing"</span>),</span>
+<span id="cb14-266"><a href="#cb14-266" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"P(Y): prior"</span>,</span>
+<span id="cb14-267"><a href="#cb14-267" aria-hidden="true" tabindex="-1"></a>             <span class="st">"P(Y | do(A=1)): doing"</span>,</span>
+<span id="cb14-268"><a href="#cb14-268" aria-hidden="true" tabindex="-1"></a>             <span class="st">"P(Y | A=1): seeing"</span>),</span>
 <span id="cb14-269"><a href="#cb14-269" aria-hidden="true" tabindex="-1"></a>  <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="fu">rgb</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="fl">0.5</span>), <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.4</span>)), <span class="at">bty =</span> <span class="st">"n"</span>)</span>
 <span id="cb14-270"><a href="#cb14-270" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb14-271"><a href="#cb14-271" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-272"><a href="#cb14-272" aria-hidden="true" tabindex="-1"></a>**The key distinction:** *Seeing* a Labor Shortage raises our belief that a Supply Chain Disruption is underway, which in turn raises the probability of a Material Price Spike — a side-effect that propagates through SC. *Doing* $\text{do}(A = 1)$ severs SC→A, so SC stays at its prior and material costs are unaffected. The gap between the two distributions is the operational signature of the shared root cause.</span>
+<span id="cb14-272"><a href="#cb14-272" aria-hidden="true" tabindex="-1"></a>**The key distinction:** *Seeing* a Labor Shortage raises our belief that a Supply Chain Disruption is underway, which in turn raises the probability of a Material Price Spike, a side-effect that propagates through SC. *Doing* $\text{do}(A = 1)$ severs SC→A, so SC stays at its prior and material costs are unaffected. The gap between the two distributions is the operational signature of the shared root cause.</span>
 <span id="cb14-273"><a href="#cb14-273" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-274"><a href="#cb14-274" aria-hidden="true" tabindex="-1"></a><span class="fu">## Enterprise vs. Project-Scoped Intervention</span></span>
 <span id="cb14-275"><a href="#cb14-275" aria-hidden="true" tabindex="-1"></a></span>
@@ -1970,9 +1970,9 @@ Pearl, Judea. 2009. <em>Causality: Models, Reasoning, and Inference</em>. 2nd ed
 <span id="cb14-307"><a href="#cb14-307" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h3, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="fl">0.6</span>, <span class="dv">0</span>, <span class="fl">0.4</span>),   <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb14-308"><a href="#cb14-308" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h4, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="fl">0.8</span>, <span class="fl">0.4</span>, <span class="dv">0</span>, <span class="fl">0.5</span>), <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb14-309"><a href="#cb14-309" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
-<span id="cb14-310"><a href="#cb14-310" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"P(Y) — observational"</span>,</span>
-<span id="cb14-311"><a href="#cb14-311" aria-hidden="true" tabindex="-1"></a>             <span class="st">"do(J → baseline) — Project 3 insulated"</span>,</span>
-<span id="cb14-312"><a href="#cb14-312" aria-hidden="true" tabindex="-1"></a>             <span class="st">"do(A = 0) — enterprise prevention"</span>),</span>
+<span id="cb14-310"><a href="#cb14-310" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"P(Y): observational"</span>,</span>
+<span id="cb14-311"><a href="#cb14-311" aria-hidden="true" tabindex="-1"></a>             <span class="st">"do(J → baseline): Project 3 insulated"</span>,</span>
+<span id="cb14-312"><a href="#cb14-312" aria-hidden="true" tabindex="-1"></a>             <span class="st">"do(A = 0): enterprise prevention"</span>),</span>
 <span id="cb14-313"><a href="#cb14-313" aria-hidden="true" tabindex="-1"></a>  <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="fl">0.6</span>, <span class="dv">0</span>, <span class="fl">0.4</span>), <span class="fu">rgb</span>(<span class="fl">0.8</span>, <span class="fl">0.4</span>, <span class="dv">0</span>, <span class="fl">0.5</span>)), <span class="at">bty =</span> <span class="st">"n"</span>)</span>
 <span id="cb14-314"><a href="#cb14-314" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb14-315"><a href="#cb14-315" aria-hidden="true" tabindex="-1"></a></span>
@@ -2019,7 +2019,7 @@ Pearl, Judea. 2009. <em>Causality: Models, Reasoning, and Inference</em>. 2nd ed
 <span id="cb14-358"><a href="#cb14-358" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb14-359"><a href="#cb14-359" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb14-360"><a href="#cb14-360" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-361"><a href="#cb14-361" aria-hidden="true" tabindex="-1"></a>The bar heights rank the three enterprise risks by their contribution to portfolio cost variance — a principled basis for prioritizing mitigation investments.</span>
+<span id="cb14-361"><a href="#cb14-361" aria-hidden="true" tabindex="-1"></a>The bar heights rank the three enterprise risks by their contribution to portfolio cost variance, a principled basis for prioritizing mitigation investments.</span>
 <span id="cb14-362"><a href="#cb14-362" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-363"><a href="#cb14-363" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary Table</span></span>
 <span id="cb14-364"><a href="#cb14-364" aria-hidden="true" tabindex="-1"></a></span>
@@ -2050,10 +2050,10 @@ Pearl, Judea. 2009. <em>Causality: Models, Reasoning, and Inference</em>. 2nd ed
 <span id="cb14-391"><a href="#cb14-391" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
 <span id="cb14-392"><a href="#cb14-392" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
 <span id="cb14-393"><a href="#cb14-393" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-394"><a href="#cb14-394" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Shared enterprise risks create **positive correlation across all projects** that share those resources — portfolio variance is always larger than the naive sum of individual project variances.</span>
+<span id="cb14-394"><a href="#cb14-394" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Shared enterprise risks create **positive correlation across all projects** that share those resources, driving portfolio variance is always larger than the naive sum of individual project variances.</span>
 <span id="cb14-395"><a href="#cb14-395" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **task-cost correlation matrix** reveals the block structure of risk sharing: tasks driven by the same enterprise risk cluster together, while tasks driven by different risks are near-zero.</span>
-<span id="cb14-396"><a href="#cb14-396" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Seeing** conditions on evidence in the original graph — it propagates upstream through shared root causes, raising the probability of sibling risks as a side-effect.</span>
-<span id="cb14-397"><a href="#cb14-397" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Doing** (graph surgery) severs incoming edges of the intervened node — it changes only what the intervention directly controls, without raising posteriors about shared root causes.</span>
+<span id="cb14-396"><a href="#cb14-396" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Seeing** conditions on evidence in the original graph; it propagates upstream through shared root causes, raising the probability of sibling risks as a side-effect.</span>
+<span id="cb14-397"><a href="#cb14-397" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Doing** (graph surgery) severs incoming edges of the intervened node; it changes only what the intervention directly controls, without raising posteriors about shared root causes.</span>
 <span id="cb14-398"><a href="#cb14-398" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Enterprise-level risk prevention ($\text{do}(A = 0)$) reduces portfolio exposure across all projects simultaneously; project-scoped insulation ($\text{do}(J \to \text{baseline})$) reduces exposure for only one.</span>
 <span id="cb14-399"><a href="#cb14-399" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Risk importance ranking** by variance reduction from $\text{do}(\text{risk} = 0)$ gives a principled basis for prioritizing mitigation budgets.</span>
 <span id="cb14-400"><a href="#cb14-400" aria-hidden="true" tabindex="-1"></a>:::</span>

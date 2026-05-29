@@ -560,8 +560,8 @@ div.csl-indent {
 <blockquote class="blockquote">
 <p><em>“Everything is connected to everything else.”</em> — Barry Commoner’s First Law of Ecology</p>
 </blockquote>
-<p>A risk register lists risks. A probability network shows you how those risks talk to each other, and to your project. It’s the difference between knowing that “Technical Complexity” is a risk and understanding exactly how it flows through your developer costs into your total project budget — and what happens to that flow when you learn new information.</p>
-<p>Bayesian networks are the tool. A Bayesian network is a specific type of probabilistic network — a directed acyclic graph (DAG) in which each node represents a random variable and each edge encodes a conditional probability relationship. The “probabilistic network” framing in this chapter’s title is intentional: the core concepts (conditioning, propagation, graph structure) apply to the broader class, and <code>PRA</code> uses the Bayesian network formulation specifically. They combine graph theory with probability theory to model the full dependency structure of a project: which risks drive which resources, which resources drive which tasks, and how uncertainty propagates all the way up to the project total.</p>
+<p>A risk register lists risks. A probability network shows you how those risks talk to each other, and to your project. It’s the difference between knowing that “Technical Complexity” is a risk and understanding exactly how it flows through your developer costs into your total project budget, and what happens to that flow when you learn new information.</p>
+<p>Bayesian networks are the tool. A Bayesian network is a specific type of probabilistic network, a directed acyclic graph (DAG) in which each node represents a random variable and each edge encodes a conditional probability relationship. The “probabilistic network” framing in this chapter’s title is intentional: the core concepts (conditioning, propagation, graph structure) apply to the broader class, and <code>PRA</code> uses the Bayesian network formulation specifically. They combine graph theory with probability theory to model the full dependency structure of a project: which risks drive which resources, which resources drive which tasks, and how uncertainty propagates all the way up to the project total.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -594,7 +594,7 @@ div.csl-indent {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The Design Structure Matrix (<a href="ch-dsm.html" class="quarto-xref"><span>Chapter 8</span></a>) shows <em>structural</em> coupling — how many resources two tasks share. A Bayesian network goes further: it encodes <strong>probabilistic dependencies</strong>, meaning the actual conditional distributions of costs given risk states. Where the DSM counts connections, the network simulates consequences.</p>
+<p>The Design Structure Matrix (<a href="ch-dsm.html" class="quarto-xref"><span>Chapter 8</span></a>) shows <em>structural</em> coupling, specifically how many resources two tasks share. A Bayesian network goes further: it encodes <strong>probabilistic dependencies</strong>, meaning the actual conditional distributions of costs given risk states. Where the DSM counts connections, the network simulates consequences.</p>
 <p>Use a DSM for rapid structural triage. Use a Bayesian network when you need actual cost distributions and the ability to condition on observed evidence.</p>
 </div>
 </div>
@@ -884,7 +884,7 @@ div.csl-indent {
 </section>
 <section id="learning-incorporating-new-evidence" class="level2" data-number="9.5">
 <h2 data-number="9.5" class="anchored" data-anchor-id="learning-incorporating-new-evidence"><span class="header-section-number">9.5</span> Learning: Incorporating New Evidence</h2>
-<p>Use <code>prob_net_learn()</code> to clamp one or more nodes to observed values and re-simulate. This shows the downstream effect of new information — for example, learning that Technical Complexity (Risk-2) did not materialize.</p>
+<p>Use <code>prob_net_learn()</code> to clamp one or more nodes to observed values and re-simulate. This shows the downstream effect of new information, for example, learning that Technical Complexity (Risk-2) did not materialize.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>learn_results <span class="ot">&lt;-</span> <span class="fu">prob_net_learn</span>(</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  graph,</span>
@@ -917,7 +917,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>With Risk-2 ruled out, the Developer cost collapses to the lower baseline distribution — and the total project cost shifts left accordingly.</p>
+<p>With Risk-2 ruled out, the Developer cost collapses to the lower baseline distribution, and the total project cost shifts left accordingly.</p>
 </section>
 <section id="updating-modifying-the-network" class="level2" data-number="9.6">
 <h2 data-number="9.6" class="anchored" data-anchor-id="updating-modifying-the-network"><span class="header-section-number">9.6</span> Updating: Modifying the Network</h2>
@@ -1005,10 +1005,10 @@ div.csl-indent {
 <div class="callout-body-container callout-body">
 <ul>
 <li>A probabilistic network models the full dependency chain from risks → resources → tasks → project cost, encoding uncertainty at every layer.</li>
-<li><strong><code>prob_net_sim()</code></strong> draws Monte Carlo samples in topological order — each run propagates risk states through the network to produce a total cost distribution.</li>
+<li><strong><code>prob_net_sim()</code></strong> draws Monte Carlo samples in topological order, propagating risk states through the network to produce a total cost distribution.</li>
 <li><strong><code>prob_net_learn()</code></strong> conditions on observed evidence (<em>seeing</em>): clamping a node to its observed value and re-simulating the downstream distribution.</li>
 <li><strong><code>prob_net_update()</code></strong> performs structural changes (<em>doing</em>): removing edges or replacing distributions, enabling causal interventions beyond what conditioning can express.</li>
-<li>The difference between <em>seeing</em> and <em>doing</em> becomes consequential when nodes share upstream parents — see <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a> for the full treatment with shared enterprise risks.</li>
+<li>The difference between <em>seeing</em> and <em>doing</em> becomes consequential when nodes share upstream parents; see <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a> for the full treatment with shared enterprise risks.</li>
 </ul>
 </div>
 </div>
@@ -1515,9 +1515,9 @@ Govan, Paul. 2014. <span>“A Resource-Based View on Project Risk Management.”
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"Everything is connected to everything else."*</span></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; — Barry Commoner's First Law of Ecology</span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>A risk register lists risks. A probability network shows you how those risks talk to each other, and to your project. It's the difference between knowing that "Technical Complexity" is a risk and understanding exactly how it flows through your developer costs into your total project budget — and what happens to that flow when you learn new information.</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>A risk register lists risks. A probability network shows you how those risks talk to each other, and to your project. It's the difference between knowing that "Technical Complexity" is a risk and understanding exactly how it flows through your developer costs into your total project budget, and what happens to that flow when you learn new information.</span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>Bayesian networks are the tool. A Bayesian network is a specific type of probabilistic network — a directed acyclic graph (DAG) in which each node represents a random variable and each edge encodes a conditional probability relationship. The "probabilistic network" framing in this chapter's title is intentional: the core concepts (conditioning, propagation, graph structure) apply to the broader class, and <span class="in">`PRA`</span> uses the Bayesian network formulation specifically. They combine graph theory with probability theory to model the full dependency structure of a project: which risks drive which resources, which resources drive which tasks, and how uncertainty propagates all the way up to the project total.</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>Bayesian networks are the tool. A Bayesian network is a specific type of probabilistic network, a directed acyclic graph (DAG) in which each node represents a random variable and each edge encodes a conditional probability relationship. The "probabilistic network" framing in this chapter's title is intentional: the core concepts (conditioning, propagation, graph structure) apply to the broader class, and <span class="in">`PRA`</span> uses the Bayesian network formulation specifically. They combine graph theory with probability theory to model the full dependency structure of a project: which risks drive which resources, which resources drive which tasks, and how uncertainty propagates all the way up to the project total.</span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning Objectives</span></span>
@@ -1536,7 +1536,7 @@ Govan, Paul. 2014. <span>“A Resource-Based View on Project Risk Management.”
 <span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
 <span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bayesian Network vs. DSM</span></span>
 <span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>The Design Structure Matrix (@sec-dsm) shows *structural* coupling — how many resources two tasks share. A Bayesian network goes further: it encodes **probabilistic dependencies**, meaning the actual conditional distributions of costs given risk states. Where the DSM counts connections, the network simulates consequences.</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>The Design Structure Matrix (@sec-dsm) shows *structural* coupling, specifically how many resources two tasks share. A Bayesian network goes further: it encodes **probabilistic dependencies**, meaning the actual conditional distributions of costs given risk states. Where the DSM counts connections, the network simulates consequences.</span>
 <span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>Use a DSM for rapid structural triage. Use a Bayesian network when you need actual cost distributions and the ability to condition on observed evidence.</span>
 <span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>:::</span>
@@ -1724,7 +1724,7 @@ Govan, Paul. 2014. <span>“A Resource-Based View on Project Risk Management.”
 <span id="cb18-236"><a href="#cb18-236" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-237"><a href="#cb18-237" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning: Incorporating New Evidence</span></span>
 <span id="cb18-238"><a href="#cb18-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-239"><a href="#cb18-239" aria-hidden="true" tabindex="-1"></a>Use <span class="in">`prob_net_learn()`</span> to clamp one or more nodes to observed values and re-simulate. This shows the downstream effect of new information — for example, learning that Technical Complexity (Risk-2) did not materialize.</span>
+<span id="cb18-239"><a href="#cb18-239" aria-hidden="true" tabindex="-1"></a>Use <span class="in">`prob_net_learn()`</span> to clamp one or more nodes to observed values and re-simulate. This shows the downstream effect of new information, for example, learning that Technical Complexity (Risk-2) did not materialize.</span>
 <span id="cb18-240"><a href="#cb18-240" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-243"><a href="#cb18-243" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb18-244"><a href="#cb18-244" aria-hidden="true" tabindex="-1"></a>learn_results <span class="ot">&lt;-</span> <span class="fu">prob_net_learn</span>(</span>
@@ -1753,7 +1753,7 @@ Govan, Paul. 2014. <span>“A Resource-Based View on Project Risk Management.”
 <span id="cb18-269"><a href="#cb18-269" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb18-270"><a href="#cb18-270" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb18-271"><a href="#cb18-271" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-272"><a href="#cb18-272" aria-hidden="true" tabindex="-1"></a>With Risk-2 ruled out, the Developer cost collapses to the lower baseline distribution — and the total project cost shifts left accordingly.</span>
+<span id="cb18-272"><a href="#cb18-272" aria-hidden="true" tabindex="-1"></a>With Risk-2 ruled out, the Developer cost collapses to the lower baseline distribution, and the total project cost shifts left accordingly.</span>
 <span id="cb18-273"><a href="#cb18-273" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-274"><a href="#cb18-274" aria-hidden="true" tabindex="-1"></a><span class="fu">## Updating: Modifying the Network</span></span>
 <span id="cb18-275"><a href="#cb18-275" aria-hidden="true" tabindex="-1"></a></span>
@@ -1804,10 +1804,10 @@ Govan, Paul. 2014. <span>“A Resource-Based View on Project Risk Management.”
 <span id="cb18-324"><a href="#cb18-324" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
 <span id="cb18-325"><a href="#cb18-325" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-326"><a href="#cb18-326" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A probabilistic network models the full dependency chain from risks → resources → tasks → project cost, encoding uncertainty at every layer.</span>
-<span id="cb18-327"><a href="#cb18-327" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**`prob_net_sim()`** draws Monte Carlo samples in topological order — each run propagates risk states through the network to produce a total cost distribution.</span>
+<span id="cb18-327"><a href="#cb18-327" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**`prob_net_sim()`** draws Monte Carlo samples in topological order, propagating risk states through the network to produce a total cost distribution.</span>
 <span id="cb18-328"><a href="#cb18-328" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**`prob_net_learn()`** conditions on observed evidence (*seeing*): clamping a node to its observed value and re-simulating the downstream distribution.</span>
 <span id="cb18-329"><a href="#cb18-329" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**`prob_net_update()`** performs structural changes (*doing*): removing edges or replacing distributions, enabling causal interventions beyond what conditioning can express.</span>
-<span id="cb18-330"><a href="#cb18-330" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The difference between *seeing* and *doing* becomes consequential when nodes share upstream parents — see @sec-network2 for the full treatment with shared enterprise risks.</span>
+<span id="cb18-330"><a href="#cb18-330" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The difference between *seeing* and *doing* becomes consequential when nodes share upstream parents; see @sec-network2 for the full treatment with shared enterprise risks.</span>
 <span id="cb18-331"><a href="#cb18-331" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb18-332"><a href="#cb18-332" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-333"><a href="#cb18-333" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>

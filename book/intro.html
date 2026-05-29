@@ -559,17 +559,17 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p><em>“In preparing for battle I have always found that plans are useless, but planning is indispensable.”</em> — Dwight D. Eisenhower</p>
 </blockquote>
-<p>Every project estimate is really a best guess. Your team genuinely believes the schedule when they write it — and that’s the right attitude to have. But once the project starts, reality has a way of offering its own revisions. Materials arrive late. Scope grows. That team member who was penciled in for three concurrent tasks runs into the usual constraints of time and bandwidth.</p>
+<p>Every project estimate is really a best guess. Your team genuinely believes the schedule when they write it, and that’s the right attitude to have. But once the project starts, reality has a way of offering its own revisions. Materials arrive late. Scope grows. That team member who was penciled in for three concurrent tasks runs into the usual constraints of time and bandwidth.</p>
 <p>This is where quantitative methods come in.</p>
 <section id="what-is-project-risk" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="what-is-project-risk"><span class="header-section-number">1.1</span> What Is Project Risk?</h2>
-<p>Risk, in the technical sense, is uncertainty that matters. Not all uncertainty is risk — we don’t worry about the exact number of paperclips in the supply closet — but uncertainty about task durations, resource availability, weather, regulatory approvals, and supplier performance absolutely is. Risk has two components:</p>
+<p>Risk, in the technical sense, is uncertainty that matters. Not all uncertainty is risk; we don’t worry about the exact number of paperclips in the supply closet, but uncertainty about task durations, resource availability, weather, regulatory approvals, and supplier performance absolutely is. Risk has two components:</p>
 <ol type="1">
-<li><strong>Probability</strong> — How likely is this uncertain event to occur?</li>
-<li><strong>Impact</strong> — If it does occur, how much does it affect cost or schedule?</li>
+<li><strong>Probability</strong>: How likely is this uncertain event to occur?</li>
+<li><strong>Impact</strong>: If it does occur, how much does it affect cost or schedule?</li>
 </ol>
 <p>Traditional project management often handles risk qualitatively: a risk register with “High / Medium / Low” likelihood and impact ratings, maybe a <span class="math inline">\(10\%\)</span> contingency tacked onto the budget because that’s what was done last time. This approach is comfortable, but it lacks precision. It cannot tell you whether your P80 schedule estimate is 3 weeks or 3 months above the base estimate. It cannot tell you which risk deserves the most mitigation dollars.</p>
-<p>Quantitative risk analysis — the subject of this book — can.</p>
+<p>Quantitative risk analysis, the subject of this book, can.</p>
 </section>
 <section id="the-quantitative-toolkit" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="the-quantitative-toolkit"><span class="header-section-number">1.2</span> The Quantitative Toolkit</h2>
@@ -640,11 +640,11 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>These methods are not competing alternatives — they are a progression. You might use the Second Moment Method for a quick back-of-the-envelope estimate, then Monte Carlo for the formal risk report, and a Bayesian network when you need to understand how one risk cascades into others.</p>
+<p>These methods are not competing alternatives; they are a progression. You might use the Second Moment Method for a quick back-of-the-envelope estimate, then Monte Carlo for the formal risk report, and a Bayesian network when you need to understand how one risk cascades into others.</p>
 </section>
 <section id="how-to-navigate-this-book" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="how-to-navigate-this-book"><span class="header-section-number">1.3</span> How to Navigate This Book</h2>
-<p>Each chapter is self-contained — feel free to jump to the method you need. That said, there are natural dependencies: Monte Carlo (<a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>) and the Second Moment Method (<a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a>) build on the same uncertainty concepts; probabilistic networks (<a href="ch-network.html" class="quarto-xref"><span>Chapter 9</span></a>, <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a>) extend Bayesian inference (<a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a>); and the agent chapter (<a href="ch-agent.html" class="quarto-xref"><span>Chapter 11</span></a>) assumes familiarity with all prior methods.</p>
+<p>Each chapter is self-contained; feel free to jump to the method you need. That said, there are natural dependencies: Monte Carlo (<a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>) and the Second Moment Method (<a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a>) build on the same uncertainty concepts; probabilistic networks (<a href="ch-network.html" class="quarto-xref"><span>Chapter 9</span></a>, <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a>) extend Bayesian inference (<a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a>); and the agent chapter (<a href="ch-agent.html" class="quarto-xref"><span>Chapter 11</span></a>) assumes familiarity with all prior methods.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 57%">
@@ -692,7 +692,7 @@ window.Quarto = {
 <h2 data-number="1.4" class="anchored" data-anchor-id="a-map-of-the-methods"><span class="header-section-number">1.4</span> A Map of the Methods</h2>
 <section id="early-estimation" class="level3" data-number="1.4.1">
 <h3 data-number="1.4.1" class="anchored" data-anchor-id="early-estimation"><span class="header-section-number">1.4.1</span> Early Estimation</h3>
-<p>When you are building the initial project estimate, you have distributions but no data yet. The <strong>Second Moment Method</strong> (Chapter <a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a>) and <strong>Monte Carlo Simulation</strong> (Chapter <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>) are your tools here. SMM is fast and analytical — it gives you a mean and variance in seconds using only the mean and variance of each task. MCS is slower but more powerful — it can use any distribution shape and handles correlations between tasks.</p>
+<p>When you are building the initial project estimate, you have distributions but no data yet. The <strong>Second Moment Method</strong> (Chapter <a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a>) and <strong>Monte Carlo Simulation</strong> (Chapter <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>) are your tools here. SMM is fast and analytical, giving you a mean and variance in seconds using only the mean and variance of each task. MCS is slower but more powerful, able to use any distribution shape and handling correlations between tasks.</p>
 </section>
 <section id="during-execution" class="level3" data-number="1.4.2">
 <h3 data-number="1.4.2" class="anchored" data-anchor-id="during-execution"><span class="header-section-number">1.4.2</span> During Execution</h3>
@@ -737,17 +737,17 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Quantitative risk analysis can give a false sense of precision. The output of a Monte Carlo simulation — “P95 = 47.3 weeks” — sounds authoritative. But that number is only as good as the distributions you fed it.</p>
+<p>Quantitative risk analysis can give a false sense of precision. The output of a Monte Carlo simulation, “P95 = 47.3 weeks”, sounds authoritative. But that number is only as good as the distributions you fed it.</p>
 <p>The skill is not in running the software. The skill is in:</p>
 <ol type="1">
 <li><strong>Choosing distributions</strong> that honestly represent what you know and don’t know</li>
 <li><strong>Identifying correlations</strong> that actually exist in your project</li>
 <li><strong>Communicating results</strong> in a way that drives good decisions rather than false confidence</li>
 </ol>
-<p>Every chapter in this book includes exercises that push you to think critically about these choices — not just to run the code, but to question whether the inputs are defensible.</p>
+<p>Every chapter in this book includes exercises that push you to think critically about these choices, not just to run the code, but to question whether the inputs are defensible.</p>
 </div>
 </div>
-<p>With that caveat in mind — let’s run some simulations.</p>
+<p>With that caveat in mind, let’s run some simulations.</p>
 
 
 <!-- -->
@@ -1236,20 +1236,20 @@ window.Quarto = {
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"In preparing for battle I have always found that plans are useless, but planning is indispensable."*</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; — Dwight D. Eisenhower</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>Every project estimate is really a best guess. Your team genuinely believes the schedule when they write it — and that's the right attitude to have. But once the project starts, reality has a way of offering its own revisions. Materials arrive late. Scope grows. That team member who was penciled in for three concurrent tasks runs into the usual constraints of time and bandwidth.</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>Every project estimate is really a best guess. Your team genuinely believes the schedule when they write it, and that's the right attitude to have. But once the project starts, reality has a way of offering its own revisions. Materials arrive late. Scope grows. That team member who was penciled in for three concurrent tasks runs into the usual constraints of time and bandwidth.</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>This is where quantitative methods come in.</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## What Is Project Risk?</span></span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>Risk, in the technical sense, is uncertainty that matters. Not all uncertainty is risk — we don't worry about the exact number of paperclips in the supply closet — but uncertainty about task durations, resource availability, weather, regulatory approvals, and supplier performance absolutely is. Risk has two components:</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>Risk, in the technical sense, is uncertainty that matters. Not all uncertainty is risk; we don't worry about the exact number of paperclips in the supply closet, but uncertainty about task durations, resource availability, weather, regulatory approvals, and supplier performance absolutely is. Risk has two components:</span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Probability** — How likely is this uncertain event to occur?</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Impact** — If it does occur, how much does it affect cost or schedule?</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Probability**: How likely is this uncertain event to occur?</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Impact**: If it does occur, how much does it affect cost or schedule?</span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>Traditional project management often handles risk qualitatively: a risk register with "High / Medium / Low" likelihood and impact ratings, maybe a $10\%$ contingency tacked onto the budget because that's what was done last time. This approach is comfortable, but it lacks precision. It cannot tell you whether your P80 schedule estimate is 3 weeks or 3 months above the base estimate. It cannot tell you which risk deserves the most mitigation dollars.</span>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>Quantitative risk analysis — the subject of this book — can.</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>Quantitative risk analysis, the subject of this book, can.</span>
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Quantitative Toolkit</span></span>
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
@@ -1268,11 +1268,11 @@ window.Quarto = {
 <span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> @sec-network2 <span class="pp">|</span> Portfolio Networks <span class="pp">|</span> How do shared risks affect multiple projects at once? <span class="pp">|</span></span>
 <span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> @sec-agent <span class="pp">|</span> Agentic Risk Analysis <span class="pp">|</span> Can I just ask an AI to run all of this? <span class="pp">|</span></span>
 <span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>These methods are not competing alternatives — they are a progression. You might use the Second Moment Method for a quick back-of-the-envelope estimate, then Monte Carlo for the formal risk report, and a Bayesian network when you need to understand how one risk cascades into others.</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>These methods are not competing alternatives; they are a progression. You might use the Second Moment Method for a quick back-of-the-envelope estimate, then Monte Carlo for the formal risk report, and a Bayesian network when you need to understand how one risk cascades into others.</span>
 <span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## How to Navigate This Book</span></span>
 <span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>Each chapter is self-contained — feel free to jump to the method you need. That said, there are natural dependencies: Monte Carlo (@sec-mcs) and the Second Moment Method (@sec-smm) build on the same uncertainty concepts; probabilistic networks (@sec-network, @sec-network2) extend Bayesian inference (@sec-bayes); and the agent chapter (@sec-agent) assumes familiarity with all prior methods.</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>Each chapter is self-contained; feel free to jump to the method you need. That said, there are natural dependencies: Monte Carlo (@sec-mcs) and the Second Moment Method (@sec-smm) build on the same uncertainty concepts; probabilistic networks (@sec-network, @sec-network2) extend Bayesian inference (@sec-bayes); and the agent chapter (@sec-agent) assumes familiarity with all prior methods.</span>
 <span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Your situation <span class="pp">|</span> Start here <span class="pp">|</span></span>
 <span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------------|-----------|</span></span>
@@ -1288,7 +1288,7 @@ window.Quarto = {
 <span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="fu">### Early Estimation</span></span>
 <span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>When you are building the initial project estimate, you have distributions but no data yet. The **Second Moment Method** (Chapter @sec-smm) and **Monte Carlo Simulation** (Chapter @sec-mcs) are your tools here. SMM is fast and analytical — it gives you a mean and variance in seconds using only the mean and variance of each task. MCS is slower but more powerful — it can use any distribution shape and handles correlations between tasks.</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>When you are building the initial project estimate, you have distributions but no data yet. The **Second Moment Method** (Chapter @sec-smm) and **Monte Carlo Simulation** (Chapter @sec-mcs) are your tools here. SMM is fast and analytical, giving you a mean and variance in seconds using only the mean and variance of each task. MCS is slower but more powerful, able to use any distribution shape and handling correlations between tasks.</span>
 <span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="fu">### During Execution</span></span>
 <span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a></span>
@@ -1331,7 +1331,7 @@ window.Quarto = {
 <span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
 <span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a><span class="fu">## Garbage In, Garbage Out</span></span>
 <span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>Quantitative risk analysis can give a false sense of precision. The output of a Monte Carlo simulation — "P95 = 47.3 weeks" — sounds authoritative. But that number is only as good as the distributions you fed it.</span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>Quantitative risk analysis can give a false sense of precision. The output of a Monte Carlo simulation, "P95 = 47.3 weeks", sounds authoritative. But that number is only as good as the distributions you fed it.</span>
 <span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a>The skill is not in running the software. The skill is in:</span>
 <span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a></span>
@@ -1339,10 +1339,10 @@ window.Quarto = {
 <span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Identifying correlations** that actually exist in your project</span>
 <span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Communicating results** in a way that drives good decisions rather than false confidence</span>
 <span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>Every chapter in this book includes exercises that push you to think critically about these choices — not just to run the code, but to question whether the inputs are defensible.</span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>Every chapter in this book includes exercises that push you to think critically about these choices, not just to run the code, but to question whether the inputs are defensible.</span>
 <span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a>With that caveat in mind — let's run some simulations.</span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a>With that caveat in mind, let's run some simulations.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

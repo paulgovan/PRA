@@ -559,8 +559,8 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p><em>“First it’s slow, then it’s fast, then you’ve already hit the ceiling.”</em> — P.G.</p>
 </blockquote>
-<p>Every team that’s ever built something knows the pattern. Week one: figuring things out. Week four: hitting a stride. Week eight: slowing down as completion approaches 100%. This S-shaped curve — slow start, rapid middle, graceful plateau — is not a quirk of one project. It’s a near-universal pattern in learning and production processes, and it has a name: the <strong>sigmoidal curve</strong>.</p>
-<p>If you can fit a sigmoidal model to your early progress data, you can forecast when you’ll finish — and how confident you should be in that forecast.</p>
+<p>Every team that’s ever built something knows the pattern. Week one: figuring things out. Week four: hitting a stride. Week eight: slowing down as completion approaches 100%. This S-shaped curve, with a slow start, rapid middle, and graceful plateau, is not a quirk of one project. It’s a near-universal pattern in learning and production processes, and it has a name: the <strong>sigmoidal curve</strong>.</p>
+<p>If you can fit a sigmoidal model to your early progress data, you can forecast when you’ll finish, and how confident you should be in that forecast.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -647,7 +647,7 @@ window.Quarto = {
 </section>
 <section id="assess-fit-quality" class="level3" data-number="7.3.2">
 <h3 data-number="7.3.2" class="anchored" data-anchor-id="assess-fit-quality"><span class="header-section-number">7.3.2</span> Assess Fit Quality</h3>
-<p>Use <code>summary()</code> to examine the fitted coefficients, their standard errors, and the residual standard error — a measure of how closely the model matches the observed data.</p>
+<p>Use <code>summary()</code> to examine the fitted coefficients, their standard errors, and the residual standard error, a measure of how closely the model matches the observed data.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -677,7 +677,7 @@ Achieved convergence tolerance: 1.49e-08</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_sigmoidal</span>(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  fit, data, <span class="st">"time"</span>, <span class="st">"completion"</span>, <span class="st">"logistic"</span>,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">conf_level =</span> <span class="fl">0.95</span>,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">main       =</span> <span class="st">"Logistic Learning Curve — Completion Forecast"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">main       =</span> <span class="st">"Logistic Learning Curve: Completion Forecast"</span>,</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab       =</span> <span class="st">"Week"</span>,</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab       =</span> <span class="st">"Completion (%)"</span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -690,7 +690,7 @@ Achieved convergence tolerance: 1.49e-08</code></pre>
 </div>
 </div>
 </div>
-<p>The shaded region is the 95% confidence band — the range within which the true curve is likely to lie. Note how the band widens as we extrapolate past the observed data range.</p>
+<p>The shaded region is the 95% confidence band, the range within which the true curve is likely to lie. Note how the band widens as we extrapolate past the observed data range.</p>
 </section>
 <section id="predict-future-completion" class="level3" data-number="7.3.4">
 <h3 data-number="7.3.4" class="anchored" data-anchor-id="predict-future-completion"><span class="header-section-number">7.3.4</span> Predict Future Completion</h3>
@@ -834,7 +834,7 @@ Achieved convergence tolerance: 1.49e-08</code></pre>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The Logistic and Pearl models share the same mathematical formula and will produce <strong>identical fits</strong> on the same data. The distinction is historical, not functional. When comparing model fits, the Pearl and Logistic RSEs will always be equal — this is expected behavior, not a bug.</p>
+<p>The Logistic and Pearl models share the same mathematical formula and will produce <strong>identical fits</strong> on the same data. The distinction is historical, not functional. When comparing model fits, the Pearl and Logistic RSEs will always be equal; this is expected behavior, not a bug.</p>
 <p>Gompertz is genuinely different: its inflection point occurs earlier and the curve is asymmetric, making it better suited for processes that accelerate quickly before plateauing slowly.</p>
 </div>
 </div>
@@ -843,10 +843,10 @@ Achieved convergence tolerance: 1.49e-08</code></pre>
 <h2 data-number="7.5" class="anchored" data-anchor-id="summary"><span class="header-section-number">7.5</span> Summary</h2>
 <p>The sigmoidal workflow in PRA:</p>
 <ol type="1">
-<li><code>fit_sigmoidal()</code> — fit a model to observed time-completion data</li>
-<li><code>summary(fit)</code> — inspect coefficient estimates and goodness-of-fit</li>
-<li><code>predict_sigmoidal()</code> — generate numeric forecasts with optional confidence bounds</li>
-<li><code>plot_sigmoidal()</code> — visualize the fit and confidence band</li>
+<li><code>fit_sigmoidal()</code>: fit a model to observed time-completion data</li>
+<li><code>summary(fit)</code>: inspect coefficient estimates and goodness-of-fit</li>
+<li><code>predict_sigmoidal()</code>: generate numeric forecasts with optional confidence bounds</li>
+<li><code>plot_sigmoidal()</code>: visualize the fit and confidence band</li>
 </ol>
 <p>Choose the model type based on the shape of your data and theoretical expectations about the learning process.</p>
 </section>
@@ -863,11 +863,11 @@ Achieved convergence tolerance: 1.49e-08</code></pre>
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>Sigmoidal models capture the three universal phases of learning: slow start, rapid improvement, and plateau — making them physically meaningful for completion forecasting.</li>
-<li><strong>Logistic and Pearl are identical</strong> — if they give different RSEs, something has gone wrong with the fit. Use Logistic unless you have a specific reason to use Pearl.</li>
-<li><strong>Gompertz</strong> accelerates earlier and plateaus more gradually — choose it when you have evidence of rapid early-stage learning.</li>
+<li>Sigmoidal models capture the three universal phases of learning: slow start, rapid improvement, and plateau, making them physically meaningful for completion forecasting.</li>
+<li><strong>Logistic and Pearl are identical</strong>: if they give different RSEs, something has gone wrong with the fit. Use Logistic unless you have a specific reason to use Pearl.</li>
+<li><strong>Gompertz</strong> accelerates earlier and plateaus more gradually; choose it when you have evidence of rapid early-stage learning.</li>
 <li><strong>Wider confidence bands</strong> at later time points reflect extrapolation uncertainty; the further you predict beyond the observed data, the less trustworthy the forecast.</li>
-<li>Always check both the fitted curve visually <em>and</em> the RSE numerically — a low RSE with a nonsensical curve shape means overfitting.</li>
+<li>Always check both the fitted curve visually <em>and</em> the RSE numerically, as a low RSE with a nonsensical curve shape means overfitting.</li>
 </ul>
 </div>
 </div>
@@ -879,7 +879,7 @@ Achieved convergence tolerance: 1.49e-08</code></pre>
 <li><p><strong>Fit comparison.</strong> Using the construction data from this chapter, fit all three models and compare their residual standard errors. Which model fits best? Does the best-fitting model always give the most sensible forecast? Plot the predictions out to week 15 and compare the three extrapolations.</p></li>
 <li><p><strong>Confidence band width.</strong> ★ Predict percent complete at week 12 using the logistic model. How wide is the 95% confidence band (upper − lower)? At week 6? At week 3? What drives the increasing uncertainty as you extrapolate further from the observed data?</p></li>
 <li><p><strong>Your own data.</strong> Collect or invent 8 weeks of progress data for a project activity. Fit a logistic model. Does the model suggest you’ll reach 90% completion by week 12? By week 16? What does the confidence interval tell you about the reliability of that forecast?</p></li>
-<li><p><strong>Beyond completion.</strong> ★ Learning curves can model more than completion percentages — they can model cost efficiency, defect rates, or productivity. Choose one of these alternative interpretations and describe how you would set up the <code>data</code> frame, what “ceiling” K means in that context, and what a fitted model would tell you.</p></li>
+<li><p><strong>Beyond completion.</strong> ★ Learning curves can model more than completion percentages; they can model cost efficiency, defect rates, or productivity. Choose one of these alternative interpretations and describe how you would set up the <code>data</code> frame, what “ceiling” K means in that context, and what a fitted model would tell you.</p></li>
 </ol>
 
 
@@ -1369,9 +1369,9 @@ Achieved convergence tolerance: 1.49e-08</code></pre>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"First it's slow, then it's fast, then you've already hit the ceiling."*</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; — P.G.</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>Every team that's ever built something knows the pattern. Week one: figuring things out. Week four: hitting a stride. Week eight: slowing down as completion approaches 100%. This S-shaped curve — slow start, rapid middle, graceful plateau — is not a quirk of one project. It's a near-universal pattern in learning and production processes, and it has a name: the **sigmoidal curve**.</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>Every team that's ever built something knows the pattern. Week one: figuring things out. Week four: hitting a stride. Week eight: slowing down as completion approaches 100%. This S-shaped curve, with a slow start, rapid middle, and graceful plateau, is not a quirk of one project. It's a near-universal pattern in learning and production processes, and it has a name: the **sigmoidal curve**.</span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>If you can fit a sigmoidal model to your early progress data, you can forecast when you'll finish — and how confident you should be in that forecast.</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>If you can fit a sigmoidal model to your early progress data, you can forecast when you'll finish, and how confident you should be in that forecast.</span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning Objectives</span></span>
@@ -1431,7 +1431,7 @@ Achieved convergence tolerance: 1.49e-08</code></pre>
 <span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a><span class="fu">### Assess Fit Quality</span></span>
 <span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a>Use <span class="in">`summary()`</span> to examine the fitted coefficients, their standard errors, and the residual standard error — a measure of how closely the model matches the observed data.</span>
+<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a>Use <span class="in">`summary()`</span> to examine the fitted coefficients, their standard errors, and the residual standard error, a measure of how closely the model matches the observed data.</span>
 <span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-76"><a href="#cb11-76" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
@@ -1448,13 +1448,13 @@ Achieved convergence tolerance: 1.49e-08</code></pre>
 <span id="cb11-90"><a href="#cb11-90" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_sigmoidal</span>(</span>
 <span id="cb11-91"><a href="#cb11-91" aria-hidden="true" tabindex="-1"></a>  fit, data, <span class="st">"time"</span>, <span class="st">"completion"</span>, <span class="st">"logistic"</span>,</span>
 <span id="cb11-92"><a href="#cb11-92" aria-hidden="true" tabindex="-1"></a>  <span class="at">conf_level =</span> <span class="fl">0.95</span>,</span>
-<span id="cb11-93"><a href="#cb11-93" aria-hidden="true" tabindex="-1"></a>  <span class="at">main       =</span> <span class="st">"Logistic Learning Curve — Completion Forecast"</span>,</span>
+<span id="cb11-93"><a href="#cb11-93" aria-hidden="true" tabindex="-1"></a>  <span class="at">main       =</span> <span class="st">"Logistic Learning Curve: Completion Forecast"</span>,</span>
 <span id="cb11-94"><a href="#cb11-94" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab       =</span> <span class="st">"Week"</span>,</span>
 <span id="cb11-95"><a href="#cb11-95" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab       =</span> <span class="st">"Completion (%)"</span></span>
 <span id="cb11-96"><a href="#cb11-96" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb11-97"><a href="#cb11-97" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb11-98"><a href="#cb11-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-99"><a href="#cb11-99" aria-hidden="true" tabindex="-1"></a>The shaded region is the 95% confidence band — the range within which the true curve is likely to lie. Note how the band widens as we extrapolate past the observed data range.</span>
+<span id="cb11-99"><a href="#cb11-99" aria-hidden="true" tabindex="-1"></a>The shaded region is the 95% confidence band, the range within which the true curve is likely to lie. Note how the band widens as we extrapolate past the observed data range.</span>
 <span id="cb11-100"><a href="#cb11-100" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-101"><a href="#cb11-101" aria-hidden="true" tabindex="-1"></a><span class="fu">### Predict Future Completion</span></span>
 <span id="cb11-102"><a href="#cb11-102" aria-hidden="true" tabindex="-1"></a></span>
@@ -1520,7 +1520,7 @@ Achieved convergence tolerance: 1.49e-08</code></pre>
 <span id="cb11-170"><a href="#cb11-170" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
 <span id="cb11-171"><a href="#cb11-171" aria-hidden="true" tabindex="-1"></a><span class="fu">## Logistic and Pearl Are the Same Model</span></span>
 <span id="cb11-172"><a href="#cb11-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-173"><a href="#cb11-173" aria-hidden="true" tabindex="-1"></a>The Logistic and Pearl models share the same mathematical formula and will produce **identical fits** on the same data. The distinction is historical, not functional. When comparing model fits, the Pearl and Logistic RSEs will always be equal — this is expected behavior, not a bug.</span>
+<span id="cb11-173"><a href="#cb11-173" aria-hidden="true" tabindex="-1"></a>The Logistic and Pearl models share the same mathematical formula and will produce **identical fits** on the same data. The distinction is historical, not functional. When comparing model fits, the Pearl and Logistic RSEs will always be equal; this is expected behavior, not a bug.</span>
 <span id="cb11-174"><a href="#cb11-174" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-175"><a href="#cb11-175" aria-hidden="true" tabindex="-1"></a>Gompertz is genuinely different: its inflection point occurs earlier and the curve is asymmetric, making it better suited for processes that accelerate quickly before plateauing slowly.</span>
 <span id="cb11-176"><a href="#cb11-176" aria-hidden="true" tabindex="-1"></a>:::</span>
@@ -1529,10 +1529,10 @@ Achieved convergence tolerance: 1.49e-08</code></pre>
 <span id="cb11-179"><a href="#cb11-179" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-180"><a href="#cb11-180" aria-hidden="true" tabindex="-1"></a>The sigmoidal workflow in PRA:</span>
 <span id="cb11-181"><a href="#cb11-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-182"><a href="#cb11-182" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span><span class="in">`fit_sigmoidal()`</span> — fit a model to observed time-completion data</span>
-<span id="cb11-183"><a href="#cb11-183" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span><span class="in">`summary(fit)`</span> — inspect coefficient estimates and goodness-of-fit</span>
-<span id="cb11-184"><a href="#cb11-184" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span><span class="in">`predict_sigmoidal()`</span> — generate numeric forecasts with optional confidence bounds</span>
-<span id="cb11-185"><a href="#cb11-185" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span><span class="in">`plot_sigmoidal()`</span> — visualize the fit and confidence band</span>
+<span id="cb11-182"><a href="#cb11-182" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span><span class="in">`fit_sigmoidal()`</span>: fit a model to observed time-completion data</span>
+<span id="cb11-183"><a href="#cb11-183" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span><span class="in">`summary(fit)`</span>: inspect coefficient estimates and goodness-of-fit</span>
+<span id="cb11-184"><a href="#cb11-184" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span><span class="in">`predict_sigmoidal()`</span>: generate numeric forecasts with optional confidence bounds</span>
+<span id="cb11-185"><a href="#cb11-185" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span><span class="in">`plot_sigmoidal()`</span>: visualize the fit and confidence band</span>
 <span id="cb11-186"><a href="#cb11-186" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-187"><a href="#cb11-187" aria-hidden="true" tabindex="-1"></a>Choose the model type based on the shape of your data and theoretical expectations about the learning process.</span>
 <span id="cb11-188"><a href="#cb11-188" aria-hidden="true" tabindex="-1"></a></span>
@@ -1541,11 +1541,11 @@ Achieved convergence tolerance: 1.49e-08</code></pre>
 <span id="cb11-191"><a href="#cb11-191" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
 <span id="cb11-192"><a href="#cb11-192" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
 <span id="cb11-193"><a href="#cb11-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-194"><a href="#cb11-194" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sigmoidal models capture the three universal phases of learning: slow start, rapid improvement, and plateau — making them physically meaningful for completion forecasting.</span>
-<span id="cb11-195"><a href="#cb11-195" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Logistic and Pearl are identical** — if they give different RSEs, something has gone wrong with the fit. Use Logistic unless you have a specific reason to use Pearl.</span>
-<span id="cb11-196"><a href="#cb11-196" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Gompertz** accelerates earlier and plateaus more gradually — choose it when you have evidence of rapid early-stage learning.</span>
+<span id="cb11-194"><a href="#cb11-194" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sigmoidal models capture the three universal phases of learning: slow start, rapid improvement, and plateau, making them physically meaningful for completion forecasting.</span>
+<span id="cb11-195"><a href="#cb11-195" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Logistic and Pearl are identical**: if they give different RSEs, something has gone wrong with the fit. Use Logistic unless you have a specific reason to use Pearl.</span>
+<span id="cb11-196"><a href="#cb11-196" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Gompertz** accelerates earlier and plateaus more gradually; choose it when you have evidence of rapid early-stage learning.</span>
 <span id="cb11-197"><a href="#cb11-197" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Wider confidence bands** at later time points reflect extrapolation uncertainty; the further you predict beyond the observed data, the less trustworthy the forecast.</span>
-<span id="cb11-198"><a href="#cb11-198" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Always check both the fitted curve visually *and* the RSE numerically — a low RSE with a nonsensical curve shape means overfitting.</span>
+<span id="cb11-198"><a href="#cb11-198" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Always check both the fitted curve visually *and* the RSE numerically, as a low RSE with a nonsensical curve shape means overfitting.</span>
 <span id="cb11-199"><a href="#cb11-199" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb11-200"><a href="#cb11-200" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-201"><a href="#cb11-201" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
@@ -1558,7 +1558,7 @@ Achieved convergence tolerance: 1.49e-08</code></pre>
 <span id="cb11-208"><a href="#cb11-208" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-209"><a href="#cb11-209" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Your own data.** Collect or invent 8 weeks of progress data for a project activity. Fit a logistic model. Does the model suggest you'll reach 90% completion by week 12? By week 16? What does the confidence interval tell you about the reliability of that forecast?</span>
 <span id="cb11-210"><a href="#cb11-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-211"><a href="#cb11-211" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Beyond completion.** ★ Learning curves can model more than completion percentages — they can model cost efficiency, defect rates, or productivity. Choose one of these alternative interpretations and describe how you would set up the <span class="in">`data`</span> frame, what "ceiling" K means in that context, and what a fitted model would tell you.</span>
+<span id="cb11-211"><a href="#cb11-211" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Beyond completion.** ★ Learning curves can model more than completion percentages; they can model cost efficiency, defect rates, or productivity. Choose one of these alternative interpretations and describe how you would set up the <span class="in">`data`</span> frame, what "ceiling" K means in that context, and what a fitted model would tell you.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

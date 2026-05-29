@@ -555,7 +555,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><em>“The best tool for the job is the one you’ll actually use.”</em> — P.G.</p>
 </blockquote>
 <p>You’ve made it through eight chapters of quantitative risk analysis. You know Monte Carlo, SMM, EVM, Bayesian inference, learning curves, design structure matrices, and probabilistic networks. Now imagine not having to remember the syntax for all of them.</p>
-<p>Imagine a project manager typing “run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)” and getting back a P95 date, a contingency reserve, and a tornado chart — all in ten seconds, without opening R. That’s the promise of the <code>PRA</code> agentic framework: a layer of intelligence on top of all the methods you’ve learned.</p>
+<p>Imagine a project manager typing “run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)” and getting back a P95 date, a contingency reserve, and a tornado chart, all in ten seconds, without opening R. That’s the promise of the <code>PRA</code> agentic framework: a layer of intelligence on top of all the methods you’ve learned.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -604,34 +604,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td><code>/command</code></td>
-<td><strong>Deterministic</strong> — executes the tool directly, no LLM</td>
+<td><strong>Deterministic</strong>: executes the tool directly, no LLM</td>
 <td><code>/mcs tasks=[...]</code></td>
 </tr>
 <tr class="even">
 <td>Numerical data</td>
-<td><strong>LLM tool call</strong> — the model selects and calls the right tool</td>
+<td><strong>LLM tool call</strong>: the model selects and calls the right tool</td>
 <td>“Simulate 3 tasks: Normal(10,2)…”</td>
 </tr>
 <tr class="odd">
 <td>Conceptual question</td>
-<td><strong>RAG</strong> — answered from the knowledge base</td>
+<td><strong>RAG</strong>: answered from the knowledge base</td>
 <td>“What is earned value?”</td>
 </tr>
 </tbody>
 </table>
 <p><strong>When to use each:</strong></p>
 <ul>
-<li>Use <strong>slash commands</strong> when you need guaranteed, reproducible results — they bypass the LLM entirely.</li>
+<li>Use <strong>slash commands</strong> when you need guaranteed, reproducible results; they bypass the LLM entirely.</li>
 <li>Use the <strong>chat interface</strong> for exploratory questions and interpretation, especially with larger models.</li>
-<li>Use <strong>RAG</strong> for conceptual questions — it retrieves the most relevant knowledge base content and cites sources.</li>
+<li>Use <strong>RAG</strong> for conceptual questions; it retrieves the most relevant knowledge base content and cites sources.</li>
 </ul>
 </div>
 </div>
 <p>Three interfaces expose these modes:</p>
 <ol type="1">
-<li><strong>Slash commands</strong> — deterministic tool calls that bypass the LLM for instant, reliable results</li>
-<li><strong>Chat interface</strong> (<code>pra_chat()</code>) — programmatic R chat powered by ellmer</li>
-<li><strong>Shiny app</strong> (<code>pra_app()</code>) — browser-based experience combining all three modes</li>
+<li><strong>Slash commands</strong>: deterministic tool calls that bypass the LLM for instant, reliable results</li>
+<li><strong>Chat interface</strong> (<code>pra_chat()</code>): programmatic R chat powered by ellmer</li>
+<li><strong>Shiny app</strong> (<code>pra_app()</code>): browser-based experience combining all three modes</li>
 </ol>
 </section>
 <section id="prerequisites" class="level2" data-number="11.2">
@@ -652,7 +652,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="slash-commands" class="level2" data-number="11.3">
 <h2 data-number="11.3" class="anchored" data-anchor-id="slash-commands"><span class="header-section-number">11.3</span> Slash Commands</h2>
-<p>Slash commands provide deterministic tool execution — no LLM required. Type <code>/help</code> to see all available commands, or <code>/help &lt;command&gt;</code> for detailed usage.</p>
+<p>Slash commands provide deterministic tool execution with no LLM required. Type <code>/help</code> to see all available commands, or <code>/help &lt;command&gt;</code> for detailed usage.</p>
 <section id="available-commands" class="level3" data-number="11.3.1">
 <h3 data-number="11.3.1" class="anchored" data-anchor-id="available-commands"><span class="header-section-number">11.3.1</span> Available Commands</h3>
 <div class="cell">
@@ -875,7 +875,7 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The Chat Interface, Shiny App, and MCP sections require a running Ollama server and cannot be evaluated during book rendering. Code blocks marked <code>eval: false</code> show the correct syntax — to follow along interactively, start Ollama with <code>ollama serve</code> before running them. The slash command examples above <strong>are</strong> fully evaluated and show actual output.</p>
+<p>The Chat Interface, Shiny App, and MCP sections require a running Ollama server and cannot be evaluated during book rendering. Code blocks marked <code>eval: false</code> show the correct syntax; to follow along interactively, start Ollama with <code>ollama serve</code> before running them. The slash command examples above <strong>are</strong> fully evaluated and show actual output.</p>
 </div>
 </div>
 <p>The chat interface routes queries through the LLM, which decides whether to call a tool or answer from the RAG knowledge base:</p>
@@ -926,7 +926,7 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 <li><strong>Streaming chat</strong> with token-by-token responses</li>
 <li><strong>Inline tool results</strong> as rich HTML tables and plots</li>
 <li><strong>RAG source citations</strong> for conceptual answers</li>
-<li><strong>Export</strong> — download the conversation as markdown</li>
+<li><strong>Export</strong>: download the conversation as markdown</li>
 </ul>
 </section>
 </section>
@@ -1076,15 +1076,15 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>Slash commands (<code>/mcs</code>, <code>/evm</code>, <code>/risk</code>, etc.) provide <strong>deterministic, LLM-free</strong> execution of every method covered in this book — use them when you need guaranteed reproducibility.</li>
+<li>Slash commands (<code>/mcs</code>, <code>/evm</code>, <code>/risk</code>, etc.) provide <strong>deterministic, LLM-free</strong> execution of every method covered in this book; use them when you need guaranteed reproducibility.</li>
 <li>The chat interface routes input intelligently: numerical data → tool call; conceptual question → RAG. The LLM is a router, not a calculator.</li>
 <li><strong>RAG</strong> (Retrieval-Augmented Generation) grounds LLM answers in the PRA knowledge base, reducing hallucination and enabling source citations.</li>
-<li>The MCP server exposes all PRA tools to any MCP-compatible AI client — Claude Desktop, Claude Code, or custom agents — without requiring an R session on the user’s end.</li>
+<li>The MCP server exposes all PRA tools to any MCP-compatible AI client (Claude Desktop, Claude Code, or custom agents) without requiring an R session on the user’s end.</li>
 <li>Small models (3B) handle simple single-tool queries; use larger models (8B+) or cloud models for multi-step chains and interpretation.</li>
 </ul>
 </div>
 </div>
-<p>Congratulations — you’ve completed the toolkit. You can now quantify project uncertainty (MCS, <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>; SMM, <a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a>), track project performance (EVM, <a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a>), update risk estimates with new evidence (Bayesian, <a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a>; Networks, <a href="ch-network.html" class="quarto-xref"><span>Chapter 9</span></a>), model structural dependencies (DSM, <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 8</span></a>; Portfolio, <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a>), forecast learning (Sigmoidal, <a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a>), and automate it all through an AI interface (<a href="#sec-agent" class="quarto-xref"><span>Chapter 11</span></a>). The rest is practice.</p>
+<p>Congratulations, you’ve completed the toolkit. You can now quantify project uncertainty (MCS, <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>; SMM, <a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a>), track project performance (EVM, <a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a>), update risk estimates with new evidence (Bayesian, <a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a>; Networks, <a href="ch-network.html" class="quarto-xref"><span>Chapter 9</span></a>), model structural dependencies (DSM, <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 8</span></a>; Portfolio, <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a>), forecast learning (Sigmoidal, <a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a>), and automate it all through an AI interface (<a href="#sec-agent" class="quarto-xref"><span>Chapter 11</span></a>). The rest is practice.</p>
 </section>
 <section id="exercises" class="level2" data-number="11.10">
 <h2 data-number="11.10" class="anchored" data-anchor-id="exercises"><span class="header-section-number">11.10</span> Exercises</h2>
@@ -1585,7 +1585,7 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>You've made it through eight chapters of quantitative risk analysis. You know Monte Carlo, SMM, EVM, Bayesian inference, learning curves, design structure matrices, and probabilistic networks. Now imagine not having to remember the syntax for all of them.</span>
 <span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>Imagine a project manager typing "run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)" and getting back a P95 date, a contingency reserve, and a tornado chart — all in ten seconds, without opening R. That's the promise of the <span class="in">`PRA`</span> agentic framework: a layer of intelligence on top of all the methods you've learned.</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>Imagine a project manager typing "run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)" and getting back a P95 date, a contingency reserve, and a tornado chart, all in ten seconds, without opening R. That's the promise of the <span class="in">`PRA`</span> agentic framework: a layer of intelligence on top of all the methods you've learned.</span>
 <span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
 <span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning Objectives</span></span>
@@ -1606,22 +1606,22 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 <span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Input type <span class="pp">|</span> Route <span class="pp">|</span> Example <span class="pp">|</span></span>
 <span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------|-------|---------|</span></span>
-<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/command`</span> <span class="pp">|</span> **Deterministic** — executes the tool directly, no LLM <span class="pp">|</span> <span class="in">`/mcs tasks=[...]`</span> <span class="pp">|</span></span>
-<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Numerical data <span class="pp">|</span> **LLM tool call** — the model selects and calls the right tool <span class="pp">|</span> "Simulate 3 tasks: Normal(10,2)..." <span class="pp">|</span></span>
-<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Conceptual question <span class="pp">|</span> **RAG** — answered from the knowledge base <span class="pp">|</span> "What is earned value?" <span class="pp">|</span></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/command`</span> <span class="pp">|</span> **Deterministic**: executes the tool directly, no LLM <span class="pp">|</span> <span class="in">`/mcs tasks=[...]`</span> <span class="pp">|</span></span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Numerical data <span class="pp">|</span> **LLM tool call**: the model selects and calls the right tool <span class="pp">|</span> "Simulate 3 tasks: Normal(10,2)..." <span class="pp">|</span></span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Conceptual question <span class="pp">|</span> **RAG**: answered from the knowledge base <span class="pp">|</span> "What is earned value?" <span class="pp">|</span></span>
 <span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>**When to use each:**</span>
 <span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use **slash commands** when you need guaranteed, reproducible results — they bypass the LLM entirely.</span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use **slash commands** when you need guaranteed, reproducible results; they bypass the LLM entirely.</span>
 <span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use the **chat interface** for exploratory questions and interpretation, especially with larger models.</span>
-<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use **RAG** for conceptual questions — it retrieves the most relevant knowledge base content and cites sources.</span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use **RAG** for conceptual questions; it retrieves the most relevant knowledge base content and cites sources.</span>
 <span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>Three interfaces expose these modes:</span>
 <span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Slash commands** — deterministic tool calls that bypass the LLM for instant, reliable results</span>
-<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Chat interface** (<span class="in">`pra_chat()`</span>) — programmatic R chat powered by ellmer</span>
-<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Shiny app** (<span class="in">`pra_app()`</span>) — browser-based experience combining all three modes</span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Slash commands**: deterministic tool calls that bypass the LLM for instant, reliable results</span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Chat interface** (<span class="in">`pra_chat()`</span>): programmatic R chat powered by ellmer</span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Shiny app** (<span class="in">`pra_app()`</span>): browser-based experience combining all three modes</span>
 <span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a><span class="fu">## Prerequisites</span></span>
 <span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a></span>
@@ -1644,7 +1644,7 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 <span id="cb27-66"><a href="#cb27-66" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-67"><a href="#cb27-67" aria-hidden="true" tabindex="-1"></a><span class="fu">## Slash Commands</span></span>
 <span id="cb27-68"><a href="#cb27-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-69"><a href="#cb27-69" aria-hidden="true" tabindex="-1"></a>Slash commands provide deterministic tool execution — no LLM required. Type <span class="in">`/help`</span> to see all available commands, or <span class="in">`/help &lt;command&gt;`</span> for detailed usage.</span>
+<span id="cb27-69"><a href="#cb27-69" aria-hidden="true" tabindex="-1"></a>Slash commands provide deterministic tool execution with no LLM required. Type <span class="in">`/help`</span> to see all available commands, or <span class="in">`/help &lt;command&gt;`</span> for detailed usage.</span>
 <span id="cb27-70"><a href="#cb27-70" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-71"><a href="#cb27-71" aria-hidden="true" tabindex="-1"></a><span class="fu">### Available Commands</span></span>
 <span id="cb27-72"><a href="#cb27-72" aria-hidden="true" tabindex="-1"></a></span>
@@ -1754,7 +1754,7 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 <span id="cb27-194"><a href="#cb27-194" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
 <span id="cb27-195"><a href="#cb27-195" aria-hidden="true" tabindex="-1"></a><span class="fu">## About `eval: false` in This Chapter</span></span>
 <span id="cb27-196"><a href="#cb27-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-197"><a href="#cb27-197" aria-hidden="true" tabindex="-1"></a>The Chat Interface, Shiny App, and MCP sections require a running Ollama server and cannot be evaluated during book rendering. Code blocks marked <span class="in">`eval: false`</span> show the correct syntax — to follow along interactively, start Ollama with <span class="in">`ollama serve`</span> before running them. The slash command examples above **are** fully evaluated and show actual output.</span>
+<span id="cb27-197"><a href="#cb27-197" aria-hidden="true" tabindex="-1"></a>The Chat Interface, Shiny App, and MCP sections require a running Ollama server and cannot be evaluated during book rendering. Code blocks marked <span class="in">`eval: false`</span> show the correct syntax; to follow along interactively, start Ollama with <span class="in">`ollama serve`</span> before running them. The slash command examples above **are** fully evaluated and show actual output.</span>
 <span id="cb27-198"><a href="#cb27-198" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb27-199"><a href="#cb27-199" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-200"><a href="#cb27-200" aria-hidden="true" tabindex="-1"></a>The chat interface routes queries through the LLM, which decides whether to call a tool or answer from the RAG knowledge base:</span>
@@ -1810,7 +1810,7 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 <span id="cb27-256"><a href="#cb27-256" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Streaming chat** with token-by-token responses</span>
 <span id="cb27-257"><a href="#cb27-257" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Inline tool results** as rich HTML tables and plots</span>
 <span id="cb27-258"><a href="#cb27-258" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RAG source citations** for conceptual answers</span>
-<span id="cb27-259"><a href="#cb27-259" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Export** — download the conversation as markdown</span>
+<span id="cb27-259"><a href="#cb27-259" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Export**: download the conversation as markdown</span>
 <span id="cb27-260"><a href="#cb27-260" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-261"><a href="#cb27-261" aria-hidden="true" tabindex="-1"></a><span class="fu">## RAG Knowledge Base</span></span>
 <span id="cb27-262"><a href="#cb27-262" aria-hidden="true" tabindex="-1"></a></span>
@@ -1890,14 +1890,14 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 <span id="cb27-340"><a href="#cb27-340" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
 <span id="cb27-341"><a href="#cb27-341" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
 <span id="cb27-342"><a href="#cb27-342" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-343"><a href="#cb27-343" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Slash commands (<span class="in">`/mcs`</span>, <span class="in">`/evm`</span>, <span class="in">`/risk`</span>, etc.) provide **deterministic, LLM-free** execution of every method covered in this book — use them when you need guaranteed reproducibility.</span>
+<span id="cb27-343"><a href="#cb27-343" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Slash commands (<span class="in">`/mcs`</span>, <span class="in">`/evm`</span>, <span class="in">`/risk`</span>, etc.) provide **deterministic, LLM-free** execution of every method covered in this book; use them when you need guaranteed reproducibility.</span>
 <span id="cb27-344"><a href="#cb27-344" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The chat interface routes input intelligently: numerical data → tool call; conceptual question → RAG. The LLM is a router, not a calculator.</span>
 <span id="cb27-345"><a href="#cb27-345" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RAG** (Retrieval-Augmented Generation) grounds LLM answers in the PRA knowledge base, reducing hallucination and enabling source citations.</span>
-<span id="cb27-346"><a href="#cb27-346" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The MCP server exposes all PRA tools to any MCP-compatible AI client — Claude Desktop, Claude Code, or custom agents — without requiring an R session on the user's end.</span>
+<span id="cb27-346"><a href="#cb27-346" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The MCP server exposes all PRA tools to any MCP-compatible AI client (Claude Desktop, Claude Code, or custom agents) without requiring an R session on the user's end.</span>
 <span id="cb27-347"><a href="#cb27-347" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Small models (3B) handle simple single-tool queries; use larger models (8B+) or cloud models for multi-step chains and interpretation.</span>
 <span id="cb27-348"><a href="#cb27-348" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb27-349"><a href="#cb27-349" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-350"><a href="#cb27-350" aria-hidden="true" tabindex="-1"></a>Congratulations — you've completed the toolkit. You can now quantify project uncertainty (MCS, @sec-mcs; SMM, @sec-smm), track project performance (EVM, @sec-evm), update risk estimates with new evidence (Bayesian, @sec-bayes; Networks, @sec-network), model structural dependencies (DSM, @sec-dsm; Portfolio, @sec-network2), forecast learning (Sigmoidal, @sec-sigmoidal), and automate it all through an AI interface (@sec-agent). The rest is practice.</span>
+<span id="cb27-350"><a href="#cb27-350" aria-hidden="true" tabindex="-1"></a>Congratulations, you've completed the toolkit. You can now quantify project uncertainty (MCS, @sec-mcs; SMM, @sec-smm), track project performance (EVM, @sec-evm), update risk estimates with new evidence (Bayesian, @sec-bayes; Networks, @sec-network), model structural dependencies (DSM, @sec-dsm; Portfolio, @sec-network2), forecast learning (Sigmoidal, @sec-sigmoidal), and automate it all through an AI interface (@sec-agent). The rest is practice.</span>
 <span id="cb27-351"><a href="#cb27-351" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-352"><a href="#cb27-352" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
 <span id="cb27-353"><a href="#cb27-353" aria-hidden="true" tabindex="-1"></a></span>

@@ -573,9 +573,9 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p><em>“All models are wrong, but some are useful.”</em> — George E. P. Box</p>
 </blockquote>
-<p>The SMM is a deliberately simplified model. It assumes the total project duration is normally distributed. It ignores the shape of individual task distributions. And it is, in Box’s sense, <em>useful</em> — fast enough to run before a meeting ends, and honest enough to use in a risk report.</p>
-<p>Sometimes you don’t need a full Monte Carlo simulation. Sometimes you need an answer in thirty seconds, not thirty minutes. You have means and variances, a correlation matrix, and a deadline. Enter the Second Moment Method — the analyst’s equivalent of a napkin calculation that is actually defensible.</p>
-<p>The name comes from statistics: the “first moment” of a distribution is its mean; the “second moment” (more precisely, the central second moment) is its variance — and the Second Moment Method is named for exactly that. It’s the fastest way to get from “I have means and variances” to “I have a project risk estimate.”</p>
+<p>The SMM is a deliberately simplified model. It assumes the total project duration is normally distributed. It ignores the shape of individual task distributions. And it is, in Box’s sense, <em>useful</em>, fast enough to run before a meeting ends, and honest enough to use in a risk report.</p>
+<p>Sometimes you don’t need a full Monte Carlo simulation. Sometimes you need an answer in thirty seconds, not thirty minutes. You have means and variances, a correlation matrix, and a deadline. Enter the Second Moment Method, the analyst’s equivalent of a napkin calculation that is actually defensible.</p>
+<p>The name comes from statistics: the “first moment” of a distribution is its mean; the “second moment” (more precisely, the central second moment) is its variance, and the Second Moment Method is named for exactly that. It’s the fastest way to get from “I have means and variances” to “I have a project risk estimate.”</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -619,7 +619,7 @@ window.Quarto = {
 <ul>
 <li>Tasks have non-normal distributions (triangular, uniform, lognormal)</li>
 <li>You need accurate tail behavior (P90, P95, P99)</li>
-<li>Skewness matters — asymmetric distributions require simulation to capture correctly</li>
+<li>Skewness matters, as asymmetric distributions require simulation to capture correctly</li>
 </ul>
 </div>
 </div>
@@ -631,7 +631,7 @@ window.Quarto = {
 <p><strong>Total mean:</strong> Sum of individual task means: <span class="math display">\[E[X] = \sum_{i=1}^{n} E[X_i]\]</span></p>
 <p><strong>Total variance:</strong> Sum of variances plus twice the sum of all pairwise covariances: <span class="math display">\[\text{Var}(X) = \sum_{i=1}^{n} \text{Var}(X_i) + 2 \sum_{i&lt;j} \text{Cov}(X_i, X_j)\]</span></p>
 <p><strong>Covariance:</strong> Derived from the correlation matrix: <span class="math display">\[\text{Cov}(X_i, X_j) = \rho_{ij} \cdot \sigma_i \cdot \sigma_j\]</span></p>
-<p>By the Central Limit Theorem, the total is approximately normally distributed when there are many tasks — so we get confidence intervals for free <span class="citation" data-cites="benjamin2000">(<a href="references.html#ref-benjamin2000" role="doc-biblioref">Benjamin and Cornell 2000</a>)</span>.</p>
+<p>By the Central Limit Theorem, the total is approximately normally distributed when there are many tasks, so we get confidence intervals for free <span class="citation" data-cites="benjamin2000">(<a href="references.html#ref-benjamin2000" role="doc-biblioref">Benjamin and Cornell 2000</a>)</span>.</p>
 </section>
 <section id="example" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="example"><span class="header-section-number">3.3</span> Example</h2>
@@ -687,7 +687,7 @@ window.Quarto = {
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x_range, y_range,</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"steelblue"</span>,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"SMM — Implied Project Duration Distribution"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"SMM: Implied Project Duration Distribution"</span>,</span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Total Duration (weeks)"</span>, <span class="at">ylab =</span> <span class="st">"Density"</span></span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
@@ -727,8 +727,8 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>To isolate the effect of <strong>distributional assumptions</strong> (normal vs.&nbsp;any shape), the MCS below uses the same task parameters as the SMM but with <strong>no correlation matrix</strong> — i.e., tasks are treated as independent. This allows a clean apples-to-apples test: both methods sum three independent normal tasks, so any remaining difference comes from simulation variance alone.</p>
-<p>The earlier SMM result (total mean = 45 weeks, total SD including correlations) is <em>not</em> the right benchmark here — that figure includes covariance from the correlation matrix, which the MCS below omits. To compare correlated results, you would pass the same <code>cor_mat</code> to <code>mcs()</code>.</p>
+<p>To isolate the effect of <strong>distributional assumptions</strong> (normal vs.&nbsp;any shape), the MCS below uses the same task parameters as the SMM but with <strong>no correlation matrix</strong> (i.e., tasks are treated as independent). This allows a clean apples-to-apples test: both methods sum three independent normal tasks, so any remaining difference comes from simulation variance alone.</p>
+<p>The earlier SMM result (total mean = 45 weeks, total SD including correlations) is <em>not</em> the right benchmark here, as that figure includes covariance from the correlation matrix, which the MCS below omits. To compare correlated results, you would pass the same <code>cor_mat</code> to <code>mcs()</code>.</p>
 </div>
 </div>
 <p>Running Monte Carlo simulation with the same task distributions validates the SMM. The two methods should yield very similar total means; differences in variance arise from how each handles correlated sampling.</p>
@@ -843,9 +843,9 @@ window.Quarto = {
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>The Second Moment Method propagates uncertainty analytically using only means, variances, and correlations — no simulation required.</li>
+<li>The Second Moment Method propagates uncertainty analytically using only means, variances, and correlations, no simulation required.</li>
 <li>The <strong>covariance formula</strong> <span class="math inline">\(\text{Cov}(X_i, X_j) = \rho_{ij} \cdot \sigma_i \cdot \sigma_j\)</span> turns a correlation matrix into a contribution to total variance.</li>
-<li>By the Central Limit Theorem, the total is approximately normal — enabling confidence intervals via <span class="math inline">\(\bar{X} \pm z \cdot \sigma\)</span>.</li>
+<li>By the Central Limit Theorem, the total is approximately normal, enabling confidence intervals via <span class="math inline">\(\bar{X} \pm z \cdot \sigma\)</span>.</li>
 <li>SMM and Monte Carlo agree closely on the mean; differences in variance emerge from distributional assumptions and correlation handling.</li>
 <li>SMM is ideal for rapid early-stage estimates; use Monte Carlo (<a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>) when distribution shape and tail accuracy matter.</li>
 </ul>
@@ -1355,11 +1355,11 @@ Benjamin, Jack R., and C. Allin Cornell. 2000. <em>Probability, Statistics, and 
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"All models are wrong, but some are useful."*</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; — George E. P. Box</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>The SMM is a deliberately simplified model. It assumes the total project duration is normally distributed. It ignores the shape of individual task distributions. And it is, in Box's sense, *useful* — fast enough to run before a meeting ends, and honest enough to use in a risk report.</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>The SMM is a deliberately simplified model. It assumes the total project duration is normally distributed. It ignores the shape of individual task distributions. And it is, in Box's sense, *useful*, fast enough to run before a meeting ends, and honest enough to use in a risk report.</span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>Sometimes you don't need a full Monte Carlo simulation. Sometimes you need an answer in thirty seconds, not thirty minutes. You have means and variances, a correlation matrix, and a deadline. Enter the Second Moment Method — the analyst's equivalent of a napkin calculation that is actually defensible.</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>Sometimes you don't need a full Monte Carlo simulation. Sometimes you need an answer in thirty seconds, not thirty minutes. You have means and variances, a correlation matrix, and a deadline. Enter the Second Moment Method, the analyst's equivalent of a napkin calculation that is actually defensible.</span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>The name comes from statistics: the "first moment" of a distribution is its mean; the "second moment" (more precisely, the central second moment) is its variance — and the Second Moment Method is named for exactly that. It's the fastest way to get from "I have means and variances" to "I have a project risk estimate."</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>The name comes from statistics: the "first moment" of a distribution is its mean; the "second moment" (more precisely, the central second moment) is its variance, and the Second Moment Method is named for exactly that. It's the fastest way to get from "I have means and variances" to "I have a project risk estimate."</span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning Objectives</span></span>
@@ -1389,7 +1389,7 @@ Benjamin, Jack R., and C. Allin Cornell. 2000. <em>Probability, Statistics, and 
 <span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Tasks have non-normal distributions (triangular, uniform, lognormal)</span>
 <span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>You need accurate tail behavior (P90, P95, P99)</span>
-<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Skewness matters — asymmetric distributions require simulation to capture correctly</span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Skewness matters, as asymmetric distributions require simulation to capture correctly</span>
 <span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>Think of SMM as a reconnaissance tool. It tells you the territory before you commit to the full expedition.</span>
@@ -1407,7 +1407,7 @@ Benjamin, Jack R., and C. Allin Cornell. 2000. <em>Probability, Statistics, and 
 <span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>**Covariance:** Derived from the correlation matrix:</span>
 <span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a>$$\text{Cov}(X_i, X_j) = \rho_{ij} \cdot \sigma_i \cdot \sigma_j$$</span>
 <span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>By the Central Limit Theorem, the total is approximately normally distributed when there are many tasks — so we get confidence intervals for free <span class="co">[</span><span class="ot">@benjamin2000</span><span class="co">]</span>.</span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>By the Central Limit Theorem, the total is approximately normally distributed when there are many tasks, so we get confidence intervals for free <span class="co">[</span><span class="ot">@benjamin2000</span><span class="co">]</span>.</span>
 <span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example</span></span>
 <span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a></span>
@@ -1461,7 +1461,7 @@ Benjamin, Jack R., and C. Allin Cornell. 2000. <em>Probability, Statistics, and 
 <span id="cb14-117"><a href="#cb14-117" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-118"><a href="#cb14-118" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x_range, y_range,</span>
 <span id="cb14-119"><a href="#cb14-119" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"steelblue"</span>,</span>
-<span id="cb14-120"><a href="#cb14-120" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"SMM — Implied Project Duration Distribution"</span>,</span>
+<span id="cb14-120"><a href="#cb14-120" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"SMM: Implied Project Duration Distribution"</span>,</span>
 <span id="cb14-121"><a href="#cb14-121" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Total Duration (weeks)"</span>, <span class="at">ylab =</span> <span class="st">"Density"</span></span>
 <span id="cb14-122"><a href="#cb14-122" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb14-123"><a href="#cb14-123" aria-hidden="true" tabindex="-1"></a></span>
@@ -1486,9 +1486,9 @@ Benjamin, Jack R., and C. Allin Cornell. 2000. <em>Probability, Statistics, and 
 <span id="cb14-142"><a href="#cb14-142" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
 <span id="cb14-143"><a href="#cb14-143" aria-hidden="true" tabindex="-1"></a><span class="fu">## What This Comparison Is Testing</span></span>
 <span id="cb14-144"><a href="#cb14-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-145"><a href="#cb14-145" aria-hidden="true" tabindex="-1"></a>To isolate the effect of **distributional assumptions** (normal vs. any shape), the MCS below uses the same task parameters as the SMM but with **no correlation matrix** — i.e., tasks are treated as independent. This allows a clean apples-to-apples test: both methods sum three independent normal tasks, so any remaining difference comes from simulation variance alone.</span>
+<span id="cb14-145"><a href="#cb14-145" aria-hidden="true" tabindex="-1"></a>To isolate the effect of **distributional assumptions** (normal vs. any shape), the MCS below uses the same task parameters as the SMM but with **no correlation matrix** (i.e., tasks are treated as independent). This allows a clean apples-to-apples test: both methods sum three independent normal tasks, so any remaining difference comes from simulation variance alone.</span>
 <span id="cb14-146"><a href="#cb14-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-147"><a href="#cb14-147" aria-hidden="true" tabindex="-1"></a>The earlier SMM result (total mean = 45 weeks, total SD including correlations) is *not* the right benchmark here — that figure includes covariance from the correlation matrix, which the MCS below omits. To compare correlated results, you would pass the same <span class="in">`cor_mat`</span> to <span class="in">`mcs()`</span>.</span>
+<span id="cb14-147"><a href="#cb14-147" aria-hidden="true" tabindex="-1"></a>The earlier SMM result (total mean = 45 weeks, total SD including correlations) is *not* the right benchmark here, as that figure includes covariance from the correlation matrix, which the MCS below omits. To compare correlated results, you would pass the same <span class="in">`cor_mat`</span> to <span class="in">`mcs()`</span>.</span>
 <span id="cb14-148"><a href="#cb14-148" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb14-149"><a href="#cb14-149" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-150"><a href="#cb14-150" aria-hidden="true" tabindex="-1"></a>Running Monte Carlo simulation with the same task distributions validates the SMM. The two methods should yield very similar total means; differences in variance arise from how each handles correlated sampling.</span>
@@ -1533,9 +1533,9 @@ Benjamin, Jack R., and C. Allin Cornell. 2000. <em>Probability, Statistics, and 
 <span id="cb14-193"><a href="#cb14-193" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
 <span id="cb14-194"><a href="#cb14-194" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
 <span id="cb14-195"><a href="#cb14-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-196"><a href="#cb14-196" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The Second Moment Method propagates uncertainty analytically using only means, variances, and correlations — no simulation required.</span>
+<span id="cb14-196"><a href="#cb14-196" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The Second Moment Method propagates uncertainty analytically using only means, variances, and correlations, no simulation required.</span>
 <span id="cb14-197"><a href="#cb14-197" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **covariance formula** $\text{Cov}(X_i, X_j) = \rho_{ij} \cdot \sigma_i \cdot \sigma_j$ turns a correlation matrix into a contribution to total variance.</span>
-<span id="cb14-198"><a href="#cb14-198" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>By the Central Limit Theorem, the total is approximately normal — enabling confidence intervals via $\bar{X} \pm z \cdot \sigma$.</span>
+<span id="cb14-198"><a href="#cb14-198" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>By the Central Limit Theorem, the total is approximately normal, enabling confidence intervals via $\bar{X} \pm z \cdot \sigma$.</span>
 <span id="cb14-199"><a href="#cb14-199" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>SMM and Monte Carlo agree closely on the mean; differences in variance emerge from distributional assumptions and correlation handling.</span>
 <span id="cb14-200"><a href="#cb14-200" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>SMM is ideal for rapid early-stage estimates; use Monte Carlo (@sec-mcs) when distribution shape and tail accuracy matter.</span>
 <span id="cb14-201"><a href="#cb14-201" aria-hidden="true" tabindex="-1"></a>:::</span>

@@ -564,11 +564,11 @@ div.csl-indent {
 <section id="preface" class="level1 unnumbered">
 <h1 class="unnumbered">Preface</h1><p><img src="cover.png" title="Project Risk Analysis: A Practical Guide" class="quarto-cover-image nolightbox img-fluid"></p>
 <p>Every project starts with a plan. Then the project starts.</p>
-<p>Deadlines shift. Costs drift. Risks that seemed unlikely have a way of becoming very real. Uncertainty is not an edge case in project management — it is woven into the work itself. The question is not whether it will show up, but whether you’ll have the tools to quantify it, communicate it, and manage it thoughtfully.</p>
+<p>Deadlines shift. Costs drift. Risks that seemed unlikely have a way of becoming very real. Uncertainty is not an edge case in project management, it is woven into the work itself. The question is not whether it will show up, but whether you’ll have the tools to quantify it, communicate it, and manage it thoughtfully.</p>
 <p>This book is your toolkit.</p>
 <section id="what-this-book-is-about" class="level2">
 <h2 class="anchored" data-anchor-id="what-this-book-is-about">What This Book Is About</h2>
-<p><em>Project Risk Analysis: A Practical Guide</em> is a hands-on introduction to quantitative methods for managing uncertainty in project schedules and costs. We cover the major techniques used by risk analysts, project managers, and engineers: Monte Carlo simulation, second moment methods, earned value management, Bayesian inference, learning curves, design structure matrices, probabilistic networks, and AI-powered risk analysis — all through working R code using the <code>PRA</code> package.</p>
+<p><em>Project Risk Analysis: A Practical Guide</em> is a hands-on introduction to quantitative methods for managing uncertainty in project schedules and costs. We cover the major techniques used by risk analysts, project managers, and engineers: Monte Carlo simulation, second moment methods, earned value management, Bayesian inference, learning curves, design structure matrices, probabilistic networks, and AI-powered risk analysis, all through working R code using the <code>PRA</code> package.</p>
 <p>The goal is not to overwhelm you with theory (though we won’t shy away from the math when it helps). The goal is to give you a real edge: the ability to take a project estimate, ask the right “what if” questions, and produce defensible numbers for schedule and cost contingency.</p>
 </section>
 <section id="who-this-book-is-for" class="level2">
@@ -579,17 +579,17 @@ div.csl-indent {
 <li><strong>Students</strong> in construction management, systems engineering, or operations research programs</li>
 <li><strong>R users</strong> who want practical, well-documented examples of risk analysis workflows</li>
 </ul>
-<p>You don’t need to be a statistician to follow along — but you should be comfortable with basic probability (what is a mean? what is a variance?) and have at least a passing familiarity with R.</p>
+<p>You don’t need to be a statistician to follow along, but you should be comfortable with basic probability (what is a mean? what is a variance?) and have at least a passing familiarity with R.</p>
 </section>
 <section id="how-to-use-this-book" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-use-this-book">How to Use This Book</h2>
 <p>Each chapter is self-contained and covers one method. If you’re in a hurry and just need Monte Carlo simulation, go straight to <a href="ch-mcs.html" class="quarto-xref"><span>2&nbsp; Roll the Dice: Monte Carlo Simulation</span></a>. If you already know EVM and want to learn Bayesian inference, skip ahead to <a href="ch-bayes.html" class="quarto-xref"><span>6&nbsp; I Had a Feeling: Bayesian Risk Inference</span></a>. That said, the chapters do build on each other conceptually, and reading in order will give you the fullest picture.</p>
 <p>Every chapter follows the same structure:</p>
 <ol type="1">
-<li><strong>Why this method?</strong> — A short, honest answer to “when would I actually use this?”</li>
-<li><strong>How it works</strong> — Just enough theory to understand what the code is doing</li>
-<li><strong>A worked example</strong> — Fully reproducible R code from start to finish</li>
-<li><strong>Exercises</strong> — Problems that range from “verify you followed along” to “extend this to a real scenario”</li>
+<li><strong>Why this method?</strong>: A short, honest answer to “when would I actually use this?”</li>
+<li><strong>How it works</strong>: Just enough theory to understand what the code is doing</li>
+<li><strong>A worked example</strong>: Fully reproducible R code from start to finish</li>
+<li><strong>Exercises</strong>: Problems that range from “verify you followed along” to “extend this to a real scenario”</li>
 </ol>
 </section>
 <section id="getting-started" class="level2">
@@ -605,26 +605,26 @@ div.csl-indent {
 </section>
 <section id="a-note-on-tone" class="level2">
 <h2 class="anchored" data-anchor-id="a-note-on-tone">A Note on Tone</h2>
-<p>Risk analysis has a reputation for being dry. Probability tables. Spreadsheets. Earnest diagrams with boxes and arrows. We’ve done our best to keep things lively — catchy chapter titles, the occasional metaphor, and examples drawn from real project contexts. If a chapter made you smile, that was on purpose. If it also made you understand Bayesian updating, that’s the win.</p>
+<p>Risk analysis has a reputation for being dry. Probability tables. Spreadsheets. Earnest diagrams with boxes and arrows. We’ve done our best to keep things lively, with catchy chapter titles, the occasional metaphor, and examples drawn from real project contexts. If a chapter made you smile, that was on purpose. If it also made you understand Bayesian updating, that’s the win.</p>
 </section>
 <section id="why-the-pra-package" class="level2">
 <h2 class="anchored" data-anchor-id="why-the-pra-package">Why the <code>PRA</code> Package?</h2>
-<p>Most project risk analysis is done in spreadsheets. Spreadsheets work — until they don’t: a formula breaks, a column gets deleted, and suddenly your P95 estimate is based on a range that ends three rows too early. The <code>PRA</code> package takes the same methods and makes them:</p>
+<p>Most project risk analysis is done in spreadsheets. Spreadsheets work, until they don’t: a formula breaks, a column gets deleted, and suddenly your P95 estimate is based on a range that ends three rows too early. The <code>PRA</code> package takes the same methods and makes them:</p>
 <ul>
 <li><strong>Tested.</strong> Every function ships with a full test suite. You can trust that <code>mcs()</code> is doing what the documentation says.</li>
 <li><strong>Documented.</strong> Every parameter has a type, a valid range, and an example. No more guessing what “n” means.</li>
-<li><strong>Reproducible.</strong> An R script is a record of exactly what you did. Share it, version-control it, re-run it six months later — it produces the same result.</li>
+<li><strong>Reproducible.</strong> An R script is a record of exactly what you did. Share it, version-control it, re-run it six months later, and it produces the same result.</li>
 <li><strong>Composable.</strong> The output of <code>mcs()</code> flows directly into <code>contingency()</code> and <code>sensitivity()</code>. Methods chain together naturally rather than requiring manual copy-paste between tabs.</li>
 </ul>
 <p>Learning risk analysis through a software package also enforces discipline: you have to be explicit about your assumptions. Code makes assumptions explicit and verifiable.</p>
 </section>
 <section id="a-reproducible-book" class="level2">
 <h2 class="anchored" data-anchor-id="a-reproducible-book">A Reproducible Book</h2>
-<p>Every code block in this book is live. When the book is built, R executes the code and embeds the actual output — the numbers, the plots, the tables. There is no “trust us, this is what you’d see.” If a result looks wrong, you can run the same code yourself and verify it.</p>
+<p>Every code block in this book is live. When the book is built, R executes the code and embeds the actual output: the numbers, the plots, the tables. There is no “trust us, this is what you’d see.” If a result looks wrong, you can run the same code yourself and verify it.</p>
 <p>This matters because:</p>
 <ul>
 <li><strong>You can experiment.</strong> Change a parameter, re-run the chunk, and immediately see how the output shifts. The best way to develop intuition for Monte Carlo simulation is to change the number of samples and watch what happens to the tails.</li>
-<li><strong>The book stays honest.</strong> A static book can silently go out of date. A reproducible book will break noisily if a function changes behavior — which means the examples you’re reading have been verified against the current version of <code>PRA</code>.</li>
+<li><strong>The book stays honest.</strong> A static book can silently go out of date. A reproducible book will break noisily if a function changes behavior, which means the examples you’re reading have been verified against the current version of <code>PRA</code>.</li>
 <li><strong>You learn a transferable skill.</strong> Writing reproducible analyses in Quarto or R Markdown is increasingly expected in data-driven fields. Following along with this book is practice for that.</li>
 </ul>
 <p>To reproduce the entire book yourself:</p>
@@ -655,7 +655,7 @@ div.csl-indent {
 <section id="acknowledgements" class="level2">
 <h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
 <p>The <code>PRA</code> package and this book grew out of research on the resource-based view of project risk management <span class="citation" data-cites="govan2016 govan2014">(<a href="references.html#ref-govan2016" role="doc-biblioref">Govan and Damnjanovic 2016</a>; <a href="references.html#ref-govan2014" role="doc-biblioref">Govan 2014</a>)</span>. Thanks to the open-source R community for the packages that make quantitative risk analysis accessible, and to every project manager who has ever looked at a schedule baseline and wondered whether the numbers were as solid as they looked.</p>
-<p>There is only one way to find out — quantitatively.</p>
+<p>There is only one way to find out: quantitatively.</p>
 
 
 <!-- -->
@@ -1149,13 +1149,13 @@ Govan, Paul, and Ivan Damnjanovic. 2016. <span>“The Resource-Based View on Pro
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>Every project starts with a plan. Then the project starts.</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>Deadlines shift. Costs drift. Risks that seemed unlikely have a way of becoming very real. Uncertainty is not an edge case in project management — it is woven into the work itself. The question is not whether it will show up, but whether you'll have the tools to quantify it, communicate it, and manage it thoughtfully.</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>Deadlines shift. Costs drift. Risks that seemed unlikely have a way of becoming very real. Uncertainty is not an edge case in project management, it is woven into the work itself. The question is not whether it will show up, but whether you'll have the tools to quantify it, communicate it, and manage it thoughtfully.</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>This book is your toolkit.</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">## What This Book Is About</span></span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>*Project Risk Analysis: A Practical Guide* is a hands-on introduction to quantitative methods for managing uncertainty in project schedules and costs. We cover the major techniques used by risk analysts, project managers, and engineers: Monte Carlo simulation, second moment methods, earned value management, Bayesian inference, learning curves, design structure matrices, probabilistic networks, and AI-powered risk analysis — all through working R code using the <span class="in">`PRA`</span> package.</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>*Project Risk Analysis: A Practical Guide* is a hands-on introduction to quantitative methods for managing uncertainty in project schedules and costs. We cover the major techniques used by risk analysts, project managers, and engineers: Monte Carlo simulation, second moment methods, earned value management, Bayesian inference, learning curves, design structure matrices, probabilistic networks, and AI-powered risk analysis, all through working R code using the <span class="in">`PRA`</span> package.</span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>The goal is not to overwhelm you with theory (though we won't shy away from the math when it helps). The goal is to give you a real edge: the ability to take a project estimate, ask the right "what if" questions, and produce defensible numbers for schedule and cost contingency.</span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
@@ -1166,7 +1166,7 @@ Govan, Paul, and Ivan Damnjanovic. 2016. <span>“The Resource-Based View on Pro
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Students** in construction management, systems engineering, or operations research programs</span>
 <span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**R users** who want practical, well-documented examples of risk analysis workflows</span>
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>You don't need to be a statistician to follow along — but you should be comfortable with basic probability (what is a mean? what is a variance?) and have at least a passing familiarity with R.</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>You don't need to be a statistician to follow along, but you should be comfortable with basic probability (what is a mean? what is a variance?) and have at least a passing familiarity with R.</span>
 <span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## How to Use This Book</span></span>
 <span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
@@ -1174,10 +1174,10 @@ Govan, Paul, and Ivan Damnjanovic. 2016. <span>“The Resource-Based View on Pro
 <span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>Every chapter follows the same structure:</span>
 <span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Why this method?** — A short, honest answer to "when would I actually use this?"</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**How it works** — Just enough theory to understand what the code is doing</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**A worked example** — Fully reproducible R code from start to finish</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Exercises** — Problems that range from "verify you followed along" to "extend this to a real scenario"</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Why this method?**: A short, honest answer to "when would I actually use this?"</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**How it works**: Just enough theory to understand what the code is doing</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**A worked example**: Fully reproducible R code from start to finish</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Exercises**: Problems that range from "verify you followed along" to "extend this to a real scenario"</span>
 <span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="fu">## Getting Started</span></span>
 <span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a></span>
@@ -1204,27 +1204,27 @@ Govan, Paul, and Ivan Damnjanovic. 2016. <span>“The Resource-Based View on Pro
 <span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## A Note on Tone</span></span>
 <span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>Risk analysis has a reputation for being dry. Probability tables. Spreadsheets. Earnest diagrams with boxes and arrows. We've done our best to keep things lively — catchy chapter titles, the occasional metaphor, and examples drawn from real project contexts. If a chapter made you smile, that was on purpose. If it also made you understand Bayesian updating, that's the win.</span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>Risk analysis has a reputation for being dry. Probability tables. Spreadsheets. Earnest diagrams with boxes and arrows. We've done our best to keep things lively, with catchy chapter titles, the occasional metaphor, and examples drawn from real project contexts. If a chapter made you smile, that was on purpose. If it also made you understand Bayesian updating, that's the win.</span>
 <span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why the `PRA` Package?</span></span>
 <span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>Most project risk analysis is done in spreadsheets. Spreadsheets work — until they don't: a formula breaks, a column gets deleted, and suddenly your P95 estimate is based on a range that ends three rows too early. The <span class="in">`PRA`</span> package takes the same methods and makes them:</span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>Most project risk analysis is done in spreadsheets. Spreadsheets work, until they don't: a formula breaks, a column gets deleted, and suddenly your P95 estimate is based on a range that ends three rows too early. The <span class="in">`PRA`</span> package takes the same methods and makes them:</span>
 <span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Tested.** Every function ships with a full test suite. You can trust that <span class="in">`mcs()`</span> is doing what the documentation says.</span>
 <span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Documented.** Every parameter has a type, a valid range, and an example. No more guessing what "n" means.</span>
-<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Reproducible.** An R script is a record of exactly what you did. Share it, version-control it, re-run it six months later — it produces the same result.</span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Reproducible.** An R script is a record of exactly what you did. Share it, version-control it, re-run it six months later, and it produces the same result.</span>
 <span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Composable.** The output of <span class="in">`mcs()`</span> flows directly into <span class="in">`contingency()`</span> and <span class="in">`sensitivity()`</span>. Methods chain together naturally rather than requiring manual copy-paste between tabs.</span>
 <span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>Learning risk analysis through a software package also enforces discipline: you have to be explicit about your assumptions. Code makes assumptions explicit and verifiable.</span>
 <span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a><span class="fu">## A Reproducible Book</span></span>
 <span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>Every code block in this book is live. When the book is built, R executes the code and embeds the actual output — the numbers, the plots, the tables. There is no "trust us, this is what you'd see." If a result looks wrong, you can run the same code yourself and verify it.</span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>Every code block in this book is live. When the book is built, R executes the code and embeds the actual output: the numbers, the plots, the tables. There is no "trust us, this is what you'd see." If a result looks wrong, you can run the same code yourself and verify it.</span>
 <span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>This matters because:</span>
 <span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**You can experiment.** Change a parameter, re-run the chunk, and immediately see how the output shifts. The best way to develop intuition for Monte Carlo simulation is to change the number of samples and watch what happens to the tails.</span>
-<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**The book stays honest.** A static book can silently go out of date. A reproducible book will break noisily if a function changes behavior — which means the examples you're reading have been verified against the current version of <span class="in">`PRA`</span>.</span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**The book stays honest.** A static book can silently go out of date. A reproducible book will break noisily if a function changes behavior, which means the examples you're reading have been verified against the current version of <span class="in">`PRA`</span>.</span>
 <span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**You learn a transferable skill.** Writing reproducible analyses in Quarto or R Markdown is increasingly expected in data-driven fields. Following along with this book is practice for that.</span>
 <span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a>To reproduce the entire book yourself:</span>
@@ -1264,7 +1264,7 @@ Govan, Paul, and Ivan Damnjanovic. 2016. <span>“The Resource-Based View on Pro
 <span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a>The <span class="in">`PRA`</span> package and this book grew out of research on the resource-based view of project risk management <span class="co">[</span><span class="ot">@govan2016; @govan2014</span><span class="co">]</span>. Thanks to the open-source R community for the packages that make quantitative risk analysis accessible, and to every project manager who has ever looked at a schedule baseline and wondered whether the numbers were as solid as they looked.</span>
 <span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a>There is only one way to find out — quantitatively.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a>There is only one way to find out: quantitatively.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

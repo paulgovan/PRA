@@ -687,14 +687,14 @@ Percentiles:
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(sorted_sens, <span class="at">horiz =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">names.arg =</span> <span class="fu">names</span>(sorted_sens),</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Sensitivity Index"</span>,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Schedule Sensitivity — Riverside Bridge"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Schedule Sensitivity: Riverside Bridge"</span>,</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"#18bc9c"</span>, <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">las =</span> <span class="dv">1</span>)</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"#e74c3c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="appendix-casestudy_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Tornado chart. T3 (Structural Steel &amp; Deck) dominates schedule variance — its wide triangular distribution swamps the other tasks.</figcaption>
+<figcaption>Tornado chart. T3 (Structural Steel &amp; Deck) dominates schedule variance, with its wide triangular distribution swamps the other tasks.</figcaption>
 </figure>
 </div>
 </div>
@@ -704,7 +704,7 @@ Percentiles:
 </section>
 <section id="sec-cs-smm" class="level2" data-number="D.4">
 <h2 data-number="D.4" class="anchored" data-anchor-id="sec-cs-smm"><span class="header-section-number">D.4</span> Step 3: Second Moment Method</h2>
-<p>The Second Moment Method gives us a fast analytical check — no simulation needed.</p>
+<p>The Second Moment Method gives us a fast analytical check, no simulation needed.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">T1 =</span> <span class="dv">3</span>,   <span class="at">T2 =</span> <span class="dv">8</span>,   <span class="at">T3 =</span> <span class="fl">14.67</span>,  <span class="at">T4 =</span> <span class="dv">4</span>,   <span class="at">T5 =</span> <span class="dv">2</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>vars  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">T1 =</span> <span class="fl">0.5</span>, <span class="at">T2 =</span> <span class="fl">2.25</span>, <span class="at">T3 =</span> <span class="fl">16.33</span>, <span class="at">T4 =</span> <span class="fl">0.64</span>, <span class="at">T5 =</span> <span class="fl">0.333</span>)</span>
@@ -791,12 +791,12 @@ Total Standard Deviation:  4.478058 </code></pre>
 <pre><code>EAC (typical):       $ 2,812,500 </code></pre>
 </div>
 </div>
-<p>A CPI below 1.0 means the project is over budget for work completed. The EAC (typical) forecasts the final cost if current cost efficiency continues. The project manager needs to investigate the source of the cost overrun — the Adverse Weather or Ground Conditions risks are likely candidates.</p>
+<p>A CPI below 1.0 means the project is over budget for work completed. The EAC (typical) forecasts the final cost if current cost efficiency continues. The project manager needs to investigate the source of the cost overrun; the Adverse Weather or Ground Conditions risks are likely candidates.</p>
 <hr>
 </section>
 <section id="sec-cs-bayes" class="level2" data-number="D.6">
 <h2 data-number="D.6" class="anchored" data-anchor-id="sec-cs-bayes"><span class="header-section-number">D.6</span> Step 5: Bayesian Risk Update</h2>
-<p>Before construction began, the probability of encountering poor ground conditions was estimated at 0.40. Halfway through the foundation work, the geotechnical team reports finding unexpected clay layers — a strong signal that the ground conditions risk has materialised.</p>
+<p>Before construction began, the probability of encountering poor ground conditions was estimated at 0.40. Halfway through the foundation work, the geotechnical team reports finding unexpected clay layers, a strong signal that the ground conditions risk has materialised.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>causes    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.40</span>, <span class="fl">0.25</span>)</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>given     <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.85</span>, <span class="fl">0.60</span>)</span>
@@ -895,7 +895,7 @@ Total Standard Deviation:  4.478058 </code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="appendix-casestudy_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Parent DSM (resource-based coupling). Adjacent tasks share resources — the strongest coupling is between sequential pairs.</figcaption>
+<figcaption>Parent DSM (resource-based coupling). Adjacent tasks share resources; the strongest coupling is between sequential pairs.</figcaption>
 </figure>
 </div>
 </div>
@@ -911,7 +911,7 @@ Total Standard Deviation:  4.478058 </code></pre>
 </div>
 </div>
 </div>
-<p>The DSMs confirm that T2 (Foundation) and T3 (Steel) are most tightly coupled — they share the Civil Engineer and Structural Engineer. When ground conditions affect the foundation work, pressure immediately flows to the steel schedule.</p>
+<p>The DSMs confirm that T2 (Foundation) and T3 (Steel) are most tightly coupled, sharing the Civil Engineer and Structural Engineer. When ground conditions affect the foundation work, pressure immediately flows to the steel schedule.</p>
 <hr>
 </section>
 <section id="sec-cs-network" class="level2" data-number="D.9">
@@ -950,7 +950,7 @@ Total Standard Deviation:  4.478058 </code></pre>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sim_net<span class="sc">$</span>E, <span class="at">breaks =</span> <span class="dv">60</span>,</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Total Project Cost — Bayesian Network"</span>,</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Total Project Cost: Bayesian Network"</span>,</span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Cost ($)"</span>, <span class="at">col =</span> <span class="st">"skyblue"</span>, <span class="at">border =</span> <span class="st">"white"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -980,7 +980,7 @@ Total Standard Deviation:  4.478058 </code></pre>
 </section>
 <section id="sec-cs-agent" class="level2" data-number="D.10">
 <h2 data-number="D.10" class="anchored" data-anchor-id="sec-cs-agent"><span class="header-section-number">D.10</span> Step 9: Agentic Analysis</h2>
-<p>All of the above can also be run via slash commands — no function-by-function scripting required.</p>
+<p>All of the above can also be run via slash commands, no function-by-function scripting required.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'/mcs n=10000 tasks=[</span></span>
@@ -1047,7 +1047,7 @@ Total Standard Deviation:  4.478058 </code></pre>
 </tr>
 <tr class="even">
 <td>EVM</td>
-<td>Period 3: CPI &lt; 1.0 — cost overrun in progress</td>
+<td>Period 3: CPI &lt; 1.0, cost overrun in progress</td>
 </tr>
 <tr class="odd">
 <td>Bayesian</td>
@@ -1067,7 +1067,7 @@ Total Standard Deviation:  4.478058 </code></pre>
 </tr>
 </tbody>
 </table>
-<p>No single method gives the full picture. The MCS tells you how wide the distribution is. The sensitivity analysis tells you where to act. The EVM tells you how you’re performing right now. The Bayesian update tells you how new information should change your reserves. Together, they are the complete toolkit — and that is the point of this book.</p>
+<p>No single method gives the full picture. The MCS tells you how wide the distribution is. The sensitivity analysis tells you where to act. The EVM tells you how you’re performing right now. The Bayesian update tells you how new information should change your reserves. Together, they are the complete toolkit, and that is the point of this book.</p>
 
 
 <!-- -->
@@ -1636,12 +1636,12 @@ Total Standard Deviation:  4.478058 </code></pre>
 <span id="cb60-91"><a href="#cb60-91" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb60-92"><a href="#cb60-92" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-95"><a href="#cb60-95" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb60-96"><a href="#cb60-96" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Tornado chart. T3 (Structural Steel &amp; Deck) dominates schedule variance — its wide triangular distribution swamps the other tasks."</span></span>
+<span id="cb60-96"><a href="#cb60-96" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Tornado chart. T3 (Structural Steel &amp; Deck) dominates schedule variance, with its wide triangular distribution swamps the other tasks."</span></span>
 <span id="cb60-97"><a href="#cb60-97" aria-hidden="true" tabindex="-1"></a>sorted_sens <span class="ot">&lt;-</span> <span class="fu">sort</span>(sens, <span class="at">decreasing =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb60-98"><a href="#cb60-98" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(sorted_sens, <span class="at">horiz =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb60-99"><a href="#cb60-99" aria-hidden="true" tabindex="-1"></a>  <span class="at">names.arg =</span> <span class="fu">names</span>(sorted_sens),</span>
 <span id="cb60-100"><a href="#cb60-100" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Sensitivity Index"</span>,</span>
-<span id="cb60-101"><a href="#cb60-101" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Schedule Sensitivity — Riverside Bridge"</span>,</span>
+<span id="cb60-101"><a href="#cb60-101" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Schedule Sensitivity: Riverside Bridge"</span>,</span>
 <span id="cb60-102"><a href="#cb60-102" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"#18bc9c"</span>, <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">las =</span> <span class="dv">1</span>)</span>
 <span id="cb60-103"><a href="#cb60-103" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"#e74c3c"</span>)</span>
 <span id="cb60-104"><a href="#cb60-104" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
@@ -1652,7 +1652,7 @@ Total Standard Deviation:  4.478058 </code></pre>
 <span id="cb60-109"><a href="#cb60-109" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-110"><a href="#cb60-110" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 3: Second Moment Method {#sec-cs-smm}</span></span>
 <span id="cb60-111"><a href="#cb60-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-112"><a href="#cb60-112" aria-hidden="true" tabindex="-1"></a>The Second Moment Method gives us a fast analytical check — no simulation needed.</span>
+<span id="cb60-112"><a href="#cb60-112" aria-hidden="true" tabindex="-1"></a>The Second Moment Method gives us a fast analytical check, no simulation needed.</span>
 <span id="cb60-113"><a href="#cb60-113" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-116"><a href="#cb60-116" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb60-117"><a href="#cb60-117" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">T1 =</span> <span class="dv">3</span>,   <span class="at">T2 =</span> <span class="dv">8</span>,   <span class="at">T3 =</span> <span class="fl">14.67</span>,  <span class="at">T4 =</span> <span class="dv">4</span>,   <span class="at">T5 =</span> <span class="dv">2</span>)</span>
@@ -1702,13 +1702,13 @@ Total Standard Deviation:  4.478058 </code></pre>
 <span id="cb60-165"><a href="#cb60-165" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb60-166"><a href="#cb60-166" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb60-167"><a href="#cb60-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-168"><a href="#cb60-168" aria-hidden="true" tabindex="-1"></a>A CPI below 1.0 means the project is over budget for work completed. The EAC (typical) forecasts the final cost if current cost efficiency continues. The project manager needs to investigate the source of the cost overrun — the Adverse Weather or Ground Conditions risks are likely candidates.</span>
+<span id="cb60-168"><a href="#cb60-168" aria-hidden="true" tabindex="-1"></a>A CPI below 1.0 means the project is over budget for work completed. The EAC (typical) forecasts the final cost if current cost efficiency continues. The project manager needs to investigate the source of the cost overrun; the Adverse Weather or Ground Conditions risks are likely candidates.</span>
 <span id="cb60-169"><a href="#cb60-169" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-170"><a href="#cb60-170" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb60-171"><a href="#cb60-171" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-172"><a href="#cb60-172" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 5: Bayesian Risk Update {#sec-cs-bayes}</span></span>
 <span id="cb60-173"><a href="#cb60-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-174"><a href="#cb60-174" aria-hidden="true" tabindex="-1"></a>Before construction began, the probability of encountering poor ground conditions was estimated at 0.40. Halfway through the foundation work, the geotechnical team reports finding unexpected clay layers — a strong signal that the ground conditions risk has materialised.</span>
+<span id="cb60-174"><a href="#cb60-174" aria-hidden="true" tabindex="-1"></a>Before construction began, the probability of encountering poor ground conditions was estimated at 0.40. Halfway through the foundation work, the geotechnical team reports finding unexpected clay layers, a strong signal that the ground conditions risk has materialised.</span>
 <span id="cb60-175"><a href="#cb60-175" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-178"><a href="#cb60-178" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb60-179"><a href="#cb60-179" aria-hidden="true" tabindex="-1"></a>causes    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.40</span>, <span class="fl">0.25</span>)</span>
@@ -1788,7 +1788,7 @@ Total Standard Deviation:  4.478058 </code></pre>
 <span id="cb60-263"><a href="#cb60-263" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb60-264"><a href="#cb60-264" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-267"><a href="#cb60-267" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb60-268"><a href="#cb60-268" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Parent DSM (resource-based coupling). Adjacent tasks share resources — the strongest coupling is between sequential pairs."</span></span>
+<span id="cb60-268"><a href="#cb60-268" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Parent DSM (resource-based coupling). Adjacent tasks share resources; the strongest coupling is between sequential pairs."</span></span>
 <span id="cb60-269"><a href="#cb60-269" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(p)</span>
 <span id="cb60-270"><a href="#cb60-270" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb60-271"><a href="#cb60-271" aria-hidden="true" tabindex="-1"></a></span>
@@ -1797,7 +1797,7 @@ Total Standard Deviation:  4.478058 </code></pre>
 <span id="cb60-276"><a href="#cb60-276" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(g)</span>
 <span id="cb60-277"><a href="#cb60-277" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb60-278"><a href="#cb60-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-279"><a href="#cb60-279" aria-hidden="true" tabindex="-1"></a>The DSMs confirm that T2 (Foundation) and T3 (Steel) are most tightly coupled — they share the Civil Engineer and Structural Engineer. When ground conditions affect the foundation work, pressure immediately flows to the steel schedule.</span>
+<span id="cb60-279"><a href="#cb60-279" aria-hidden="true" tabindex="-1"></a>The DSMs confirm that T2 (Foundation) and T3 (Steel) are most tightly coupled, sharing the Civil Engineer and Structural Engineer. When ground conditions affect the foundation work, pressure immediately flows to the steel schedule.</span>
 <span id="cb60-280"><a href="#cb60-280" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-281"><a href="#cb60-281" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb60-282"><a href="#cb60-282" aria-hidden="true" tabindex="-1"></a></span>
@@ -1840,7 +1840,7 @@ Total Standard Deviation:  4.478058 </code></pre>
 <span id="cb60-323"><a href="#cb60-323" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb60-324"><a href="#cb60-324" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Total project cost distribution from the Bayesian network. The bimodal shape reflects whether ground conditions risk materialises."</span></span>
 <span id="cb60-325"><a href="#cb60-325" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sim_net<span class="sc">$</span>E, <span class="at">breaks =</span> <span class="dv">60</span>,</span>
-<span id="cb60-326"><a href="#cb60-326" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Total Project Cost — Bayesian Network"</span>,</span>
+<span id="cb60-326"><a href="#cb60-326" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Total Project Cost: Bayesian Network"</span>,</span>
 <span id="cb60-327"><a href="#cb60-327" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Cost ($)"</span>, <span class="at">col =</span> <span class="st">"skyblue"</span>, <span class="at">border =</span> <span class="st">"white"</span>)</span>
 <span id="cb60-328"><a href="#cb60-328" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb60-329"><a href="#cb60-329" aria-hidden="true" tabindex="-1"></a></span>
@@ -1859,7 +1859,7 @@ Total Standard Deviation:  4.478058 </code></pre>
 <span id="cb60-344"><a href="#cb60-344" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-345"><a href="#cb60-345" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 9: Agentic Analysis {#sec-cs-agent}</span></span>
 <span id="cb60-346"><a href="#cb60-346" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-347"><a href="#cb60-347" aria-hidden="true" tabindex="-1"></a>All of the above can also be run via slash commands — no function-by-function scripting required.</span>
+<span id="cb60-347"><a href="#cb60-347" aria-hidden="true" tabindex="-1"></a>All of the above can also be run via slash commands, no function-by-function scripting required.</span>
 <span id="cb60-348"><a href="#cb60-348" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-351"><a href="#cb60-351" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb60-352"><a href="#cb60-352" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
@@ -1906,13 +1906,13 @@ Total Standard Deviation:  4.478058 </code></pre>
 <span id="cb60-397"><a href="#cb60-397" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> MCS <span class="pp">|</span> P80 schedule = ~35 weeks; contingency reserve ~3 weeks <span class="pp">|</span></span>
 <span id="cb60-398"><a href="#cb60-398" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sensitivity <span class="pp">|</span> T3 (Steel &amp; Deck) drives 60%+ of schedule variance <span class="pp">|</span></span>
 <span id="cb60-399"><a href="#cb60-399" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> SMM <span class="pp">|</span> Confirms MCS mean and SD analytically <span class="pp">|</span></span>
-<span id="cb60-400"><a href="#cb60-400" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> EVM <span class="pp">|</span> Period 3: CPI &lt; 1.0 — cost overrun in progress <span class="pp">|</span></span>
+<span id="cb60-400"><a href="#cb60-400" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> EVM <span class="pp">|</span> Period 3: CPI &lt; 1.0, cost overrun in progress <span class="pp">|</span></span>
 <span id="cb60-401"><a href="#cb60-401" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Bayesian <span class="pp">|</span> Ground conditions risk updated from 0.40 → ~0.70 after observations <span class="pp">|</span></span>
 <span id="cb60-402"><a href="#cb60-402" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Learning Curve <span class="pp">|</span> Crew plateaus ~week 12; early T3 concrete work will be slower <span class="pp">|</span></span>
 <span id="cb60-403"><a href="#cb60-403" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> DSM <span class="pp">|</span> T2–T3 most coupled; ground conditions propagates through both <span class="pp">|</span></span>
 <span id="cb60-404"><a href="#cb60-404" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Network <span class="pp">|</span> Conditioning on ground conditions = Yes adds ~\$200K to expected cost <span class="pp">|</span></span>
 <span id="cb60-405"><a href="#cb60-405" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-406"><a href="#cb60-406" aria-hidden="true" tabindex="-1"></a>No single method gives the full picture. The MCS tells you how wide the distribution is. The sensitivity analysis tells you where to act. The EVM tells you how you're performing right now. The Bayesian update tells you how new information should change your reserves. Together, they are the complete toolkit — and that is the point of this book.</span>
+<span id="cb60-406"><a href="#cb60-406" aria-hidden="true" tabindex="-1"></a>No single method gives the full picture. The MCS tells you how wide the distribution is. The sensitivity analysis tells you where to act. The EVM tells you how you're performing right now. The Bayesian update tells you how new information should change your reserves. Together, they are the complete toolkit, and that is the point of this book.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
