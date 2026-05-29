@@ -1,7 +1,3 @@
----
-prefer-html: true
----
-
 # It's a Small World After All: Probabilistic Networks {#sec-network}
 
 > *"Everything is connected to everything else."*
@@ -167,15 +163,31 @@ graph <- prob_net(nodes, links, distributions = distributions)
 The network can be visualized with the `igraph` and `networkD3` packages.
 
 ```{r}
-#| eval: true
+#| label: fig-network-graph-setup
 library(igraph)
 library(networkD3)
 g   <- graph_from_data_frame(graph$links, vertices = graph$nodes, directed = TRUE)
 d3g <- igraph_to_networkD3(g, group = graph$nodes$group)
+```
+
+```{r}
+#| eval: !expr knitr::is_html_output()
+#| fig-cap: "Probabilistic network of risks, resources, tasks, and project cost."
 forceNetwork(
   Links = d3g$links, Nodes = d3g$nodes, NodeID = "name", Group = "group",
   Value = "value", zoom = TRUE, legend = TRUE, arrows = TRUE,
   opacity = 0.8, fontSize = 14
+)
+```
+
+```{r}
+#| eval: !expr "!knitr::is_html_output()"
+#| fig-cap: "Probabilistic network of risks, resources, tasks, and project cost."
+plot(
+  g,
+  vertex.color = as.factor(graph$nodes$group),
+  vertex.size = 14, vertex.label.cex = 0.7,
+  edge.arrow.size = 0.4, layout = layout_with_sugiyama(g)$layout
 )
 ```
 

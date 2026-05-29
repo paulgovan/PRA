@@ -5,8 +5,10 @@ template:
 navbar:
   components:
     book:
-      text: Book
+      icon: fa-book
+      text: Read the Book
       href: https://paulgovan.github.io/PRA/book/
+      class: btn btn-primary text-white fw-bold ms-2
   structure:
     left: [intro, reference, articles, tutorials, news]
     right: [book, search, github]
