@@ -171,7 +171,7 @@ d3g <- igraph_to_networkD3(g, group = graph$nodes$group)
 ```
 
 ```{r}
-#| eval: !expr knitr::is_html_output()
+#| eval: !expr knitr::is_html_output(excludes = "epub")
 #| fig-cap: "Probabilistic network of risks, resources, tasks, and project cost."
 forceNetwork(
   Links = d3g$links, Nodes = d3g$nodes, NodeID = "name", Group = "group",
@@ -181,7 +181,7 @@ forceNetwork(
 ```
 
 ```{r}
-#| eval: !expr "!knitr::is_html_output()"
+#| eval: !expr "!knitr::is_html_output(excludes = 'epub')"
 #| fig-cap: "Probabilistic network of risks, resources, tasks, and project cost."
 #| fig-width: 5.5
 #| fig-height: 4.5
