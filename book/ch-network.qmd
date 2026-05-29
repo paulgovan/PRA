@@ -1,3 +1,7 @@
+---
+prefer-html: true
+---
+
 # It's a Small World After All: Probabilistic Networks {#sec-network}
 
 > *"Everything is connected to everything else."*
