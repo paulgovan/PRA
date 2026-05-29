@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Project Risk Analysis: A Practical Guide",
     "section": "",
-    "text": "Preface\nEvery project starts with a plan. And then reality happens.\nDeadlines slip. Costs creep. That one vendor who was “definitely going to deliver on time” … doesn’t. Risk is not an edge case in project management — it is the whole game. The question is not whether uncertainty will show up on your project, but whether you’ll have the tools to quantify it, communicate it, and manage it before it manages you.\nThis book is your toolkit.",
+    "text": "Preface\nEvery project starts with a plan. Then the project starts.\nDeadlines shift. Costs drift. Risks that seemed unlikely have a way of becoming very real. Uncertainty is not an edge case in project management — it is woven into the work itself. The question is not whether it will show up, but whether you’ll have the tools to quantify it, communicate it, and manage it thoughtfully.\nThis book is your toolkit.",
     "crumbs": [
       "Preface"
     ]
@@ -14,7 +14,7 @@
     "href": "index.html#what-this-book-is-about",
     "title": "Project Risk Analysis: A Practical Guide",
     "section": "What This Book Is About",
-    "text": "What This Book Is About\nProject Risk Analysis: A Practical Guide is a hands-on introduction to quantitative methods for managing uncertainty in project schedules and costs. We cover the major techniques used by risk analysts, project managers, and engineers: Monte Carlo simulation, second moment methods, earned value management, Bayesian inference, learning curves, design structure matrices, probabilistic networks, and AI-powered risk analysis — all through working R code using the PRA package.\nThe goal is not to overwhelm you with theory (though we won’t shy away from the math when it helps). The goal is to make you dangerous: someone who can take a project estimate, ask the right “what if” questions, and produce defensible numbers for schedule and cost contingency.",
+    "text": "What This Book Is About\nProject Risk Analysis: A Practical Guide is a hands-on introduction to quantitative methods for managing uncertainty in project schedules and costs. We cover the major techniques used by risk analysts, project managers, and engineers: Monte Carlo simulation, second moment methods, earned value management, Bayesian inference, learning curves, design structure matrices, probabilistic networks, and AI-powered risk analysis — all through working R code using the PRA package.\nThe goal is not to overwhelm you with theory (though we won’t shy away from the math when it helps). The goal is to give you a real edge: the ability to take a project estimate, ask the right “what if” questions, and produce defensible numbers for schedule and cost contingency.",
     "crumbs": [
       "Preface"
     ]
@@ -34,7 +34,7 @@
     "href": "index.html#how-to-use-this-book",
     "title": "Project Risk Analysis: A Practical Guide",
     "section": "How to Use This Book",
-    "text": "How to Use This Book\nEach chapter is self-contained and covers one method. If you’re in a hurry and just need Monte Carlo simulation, go straight to 2  Go Monte or Go Home: Monte Carlo Simulation. If you already know EVM and want to learn Bayesian inference, skip ahead to 6  I Had a Feeling: Bayesian Risk Inference. That said, the chapters do build on each other conceptually, and reading in order will give you the fullest picture.\nEvery chapter follows the same structure:\n\nWhy this method? — A short, honest answer to “when would I actually use this?”\nHow it works — Just enough theory to understand what the code is doing\nA worked example — Fully reproducible R code from start to finish\nExercises — Problems that range from “verify you followed along” to “extend this to a real scenario”",
+    "text": "How to Use This Book\nEach chapter is self-contained and covers one method. If you’re in a hurry and just need Monte Carlo simulation, go straight to 2  Roll the Dice: Monte Carlo Simulation. If you already know EVM and want to learn Bayesian inference, skip ahead to 6  I Had a Feeling: Bayesian Risk Inference. That said, the chapters do build on each other conceptually, and reading in order will give you the fullest picture.\nEvery chapter follows the same structure:\n\nWhy this method? — A short, honest answer to “when would I actually use this?”\nHow it works — Just enough theory to understand what the code is doing\nA worked example — Fully reproducible R code from start to finish\nExercises — Problems that range from “verify you followed along” to “extend this to a real scenario”",
     "crumbs": [
       "Preface"
     ]
@@ -64,7 +64,7 @@
     "href": "index.html#why-the-pra-package",
     "title": "Project Risk Analysis: A Practical Guide",
     "section": "Why the PRA Package?",
-    "text": "Why the PRA Package?\nMost project risk analysis is done in spreadsheets. Spreadsheets work — until they don’t: a formula breaks, a column gets deleted, and suddenly your P95 estimate is based on a range that ends three rows too early. The PRA package takes the same methods and makes them:\n\nTested. Every function ships with a full test suite. You can trust that mcs() is doing what the documentation says.\nDocumented. Every parameter has a type, a valid range, and an example. No more guessing what “n” means.\nReproducible. An R script is a record of exactly what you did. Share it, version-control it, re-run it six months later — it produces the same result.\nComposable. The output of mcs() flows directly into contingency() and sensitivity(). Methods chain together naturally rather than requiring manual copy-paste between tabs.\n\nLearning risk analysis through a software package also enforces discipline: you have to be explicit about your assumptions. There is no “I eyeballed it” in code.",
+    "text": "Why the PRA Package?\nMost project risk analysis is done in spreadsheets. Spreadsheets work — until they don’t: a formula breaks, a column gets deleted, and suddenly your P95 estimate is based on a range that ends three rows too early. The PRA package takes the same methods and makes them:\n\nTested. Every function ships with a full test suite. You can trust that mcs() is doing what the documentation says.\nDocumented. Every parameter has a type, a valid range, and an example. No more guessing what “n” means.\nReproducible. An R script is a record of exactly what you did. Share it, version-control it, re-run it six months later — it produces the same result.\nComposable. The output of mcs() flows directly into contingency() and sensitivity(). Methods chain together naturally rather than requiring manual copy-paste between tabs.\n\nLearning risk analysis through a software package also enforces discipline: you have to be explicit about your assumptions. Code makes assumptions explicit and verifiable.",
     "crumbs": [
       "Preface"
     ]
@@ -84,7 +84,7 @@
     "href": "index.html#how-to-cite",
     "title": "Project Risk Analysis: A Practical Guide",
     "section": "How to Cite",
-    "text": "How to Cite\nIf you use this book in your work, please cite it as:\n\nGovan, P. (year). Project Risk Analysis: A Practical Guide: From Monte Carlo to AI Agents, Without Losing Your Mind. https://github.com/paulgovan/PRA\n\nOr in BibTeX:\n@book{govan_pra,\n  author    = {Paul Govan},\n  title     = {Project Risk Analysis: A Practical Guide},\n  subtitle  = {From Monte Carlo to AI Agents, Without Losing Your Mind},\n  year      = {2025},\n  url       = {https://github.com/paulgovan/PRA},\n  note      = {CC BY 4.0}\n}",
+    "text": "How to Cite\nIf you use this book in your work, please cite it as:\n\nGovan, P. (year). Project Risk Analysis: A Practical Guide: From Monte Carlo to AI Agents. https://github.com/paulgovan/PRA\n\nOr in BibTeX:\n@book{govan_pra,\n  author    = {Paul Govan},\n  title     = {Project Risk Analysis: A Practical Guide},\n  subtitle  = {From Monte Carlo to AI Agents},\n  year      = {2025},\n  url       = {https://github.com/paulgovan/PRA},\n  note      = {CC BY 4.0}\n}",
     "crumbs": [
       "Preface"
     ]
@@ -104,7 +104,7 @@
     "href": "index.html#acknowledgements",
     "title": "Project Risk Analysis: A Practical Guide",
     "section": "Acknowledgements",
-    "text": "Acknowledgements\nThe PRA package and this book grew out of research on the resource-based view of project risk management (Govan and Damnjanovic 2016; Govan 2014). Thanks to the open-source R community for the packages that make quantitative risk analysis accessible, and to every project manager who has ever stared at a schedule baseline and thought “there’s no way this is right.”\nLet’s find out how wrong it is — quantitatively.\n\n\n\n\n\n\nGovan, Paul. 2014. “A Resource-Based View on Project Risk Management.” PhD thesis, The University of Texas at Austin.\n\n\nGovan, Paul, and Ivan Damnjanovic. 2016. “The Resource-Based View on Project Risk Management.” Journal of Construction Engineering and Management 142 (9): 04016034. https://doi.org/10.1061/(ASCE)CO.1943-7862.0001157.",
+    "text": "Acknowledgements\nThe PRA package and this book grew out of research on the resource-based view of project risk management (Govan and Damnjanovic 2016; Govan 2014). Thanks to the open-source R community for the packages that make quantitative risk analysis accessible, and to every project manager who has ever looked at a schedule baseline and wondered whether the numbers were as solid as they looked.\nThere is only one way to find out — quantitatively.\n\n\n\n\n\n\nGovan, Paul. 2014. “A Resource-Based View on Project Risk Management.” PhD thesis, The University of Texas at Austin.\n\n\nGovan, Paul, and Ivan Damnjanovic. 2016. “The Resource-Based View on Project Risk Management.” Journal of Construction Engineering and Management 142 (9): 04016034. https://doi.org/10.1061/(ASCE)CO.1943-7862.0001157.",
     "crumbs": [
       "Preface"
     ]
@@ -112,151 +112,151 @@
   {
     "objectID": "intro.html",
     "href": "intro.html",
-    "title": "1  Welcome to the Jungle: An Introduction to Project Risk Analysis",
+    "title": "1  Into the Unknown: An Introduction to Project Risk Analysis",
     "section": "",
-    "text": "1.1 What Is Project Risk?\nLet’s be honest: every project estimate is a fiction. Not a malicious one — your team genuinely believes the schedule when they write it. But the moment the project starts, reality begins editing the manuscript. Materials arrive late. Scope grows. That one team member who was supposed to do three things at once turns out to be merely human.\nThis is not a reason to despair. It is a reason to quantify.\nRisk, in the technical sense, is uncertainty that matters. Not all uncertainty is risk — we don’t worry about the exact number of paperclips in the supply closet — but uncertainty about task durations, resource availability, weather, regulatory approvals, and supplier performance absolutely is. Risk has two components:\nTraditional project management often handles risk qualitatively: a risk register with “High / Medium / Low” likelihood and impact ratings, maybe a \\(10\\%\\) contingency tacked onto the budget because that’s what was done last time. This approach is comfortable, but it lacks precision. It cannot tell you whether your P80 schedule estimate is 3 weeks or 3 months above the base estimate. It cannot tell you which risk deserves the most mitigation dollars.\nQuantitative risk analysis — the subject of this book — can.",
+    "text": "1.1 What Is Project Risk?\nEvery project estimate is really a best guess. Your team genuinely believes the schedule when they write it — and that’s the right attitude to have. But once the project starts, reality has a way of offering its own revisions. Materials arrive late. Scope grows. That team member who was penciled in for three concurrent tasks runs into the usual constraints of time and bandwidth.\nThis is where quantitative methods come in.\nRisk, in the technical sense, is uncertainty that matters. Not all uncertainty is risk — we don’t worry about the exact number of paperclips in the supply closet — but uncertainty about task durations, resource availability, weather, regulatory approvals, and supplier performance absolutely is. Risk has two components:\nTraditional project management often handles risk qualitatively: a risk register with “High / Medium / Low” likelihood and impact ratings, maybe a \\(10\\%\\) contingency tacked onto the budget because that’s what was done last time. This approach is comfortable, but it lacks precision. It cannot tell you whether your P80 schedule estimate is 3 weeks or 3 months above the base estimate. It cannot tell you which risk deserves the most mitigation dollars.\nQuantitative risk analysis — the subject of this book — can.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome to the Jungle: An Introduction to Project Risk Analysis</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Into the Unknown: An Introduction to Project Risk Analysis</span>"
     ]
   },
   {
     "objectID": "intro.html#what-is-project-risk",
     "href": "intro.html#what-is-project-risk",
-    "title": "1  Welcome to the Jungle: An Introduction to Project Risk Analysis",
+    "title": "1  Into the Unknown: An Introduction to Project Risk Analysis",
     "section": "",
     "text": "Probability — How likely is this uncertain event to occur?\nImpact — If it does occur, how much does it affect cost or schedule?",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome to the Jungle: An Introduction to Project Risk Analysis</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Into the Unknown: An Introduction to Project Risk Analysis</span>"
     ]
   },
   {
     "objectID": "intro.html#the-quantitative-toolkit",
     "href": "intro.html#the-quantitative-toolkit",
-    "title": "1  Welcome to the Jungle: An Introduction to Project Risk Analysis",
+    "title": "1  Into the Unknown: An Introduction to Project Risk Analysis",
     "section": "1.2 The Quantitative Toolkit",
     "text": "1.2 The Quantitative Toolkit\nThe PRA package provides a collection of methods that complement each other. Think of them as different lenses on the same project:\n\n\n\n\n\n\n\n\nChapter\nMethod\nWhat it answers\n\n\n\n\nChapter 2\nMonte Carlo Simulation\nWhat is the full distribution of possible outcomes?\n\n\nChapter 3\nSecond Moment Method\nWhat are the mean and variance quickly, analytically?\n\n\nChapter 4\nSensitivity Analysis\nWhich task drives the most variance?\n\n\nChapter 5\nEarned Value Management\nHow is the project actually performing right now?\n\n\nChapter 6\nBayesian Inference\nHow should I update my risk estimate given new evidence?\n\n\nChapter 7\nLearning Curves\nWhen will the team reach full productivity?\n\n\nChapter 8\nDesign Structure Matrices\nWhich tasks are most tightly coupled through shared resources?\n\n\nChapter 9\nProbabilistic Networks\nHow do risks propagate through the project?\n\n\nChapter 10\nPortfolio Networks\nHow do shared risks affect multiple projects at once?\n\n\nChapter 11\nAgentic Risk Analysis\nCan I just ask an AI to run all of this?\n\n\n\nThese methods are not competing alternatives — they are a progression. You might use the Second Moment Method for a quick back-of-the-envelope estimate, then Monte Carlo for the formal risk report, and a Bayesian network when you need to understand how one risk cascades into others.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome to the Jungle: An Introduction to Project Risk Analysis</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Into the Unknown: An Introduction to Project Risk Analysis</span>"
     ]
   },
   {
     "objectID": "intro.html#how-to-navigate-this-book",
     "href": "intro.html#how-to-navigate-this-book",
-    "title": "1  Welcome to the Jungle: An Introduction to Project Risk Analysis",
+    "title": "1  Into the Unknown: An Introduction to Project Risk Analysis",
     "section": "1.3 How to Navigate This Book",
     "text": "1.3 How to Navigate This Book\nEach chapter is self-contained — feel free to jump to the method you need. That said, there are natural dependencies: Monte Carlo (Chapter 2) and the Second Moment Method (Chapter 3) build on the same uncertainty concepts; probabilistic networks (Chapter 9, Chapter 10) extend Bayesian inference (Chapter 6); and the agent chapter (Chapter 11) assumes familiarity with all prior methods.\n\n\n\n\n\n\n\nYour situation\nStart here\n\n\n\n\nBuilding an initial schedule or cost estimate\nChapter 2 or Chapter 3\n\n\nProject underway; need to assess performance\nChapter 5\n\n\nNew information arrived; want to update risk estimates\nChapter 6\n\n\nTasks keep failing together; want to understand why\nChapter 8 or Chapter 9\n\n\nManaging a portfolio of projects with shared resources\nChapter 10\n\n\nForecasting when the team will reach full productivity\nChapter 7\n\n\nWant AI-assisted analysis without writing code every time\nChapter 11",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome to the Jungle: An Introduction to Project Risk Analysis</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Into the Unknown: An Introduction to Project Risk Analysis</span>"
     ]
   },
   {
     "objectID": "intro.html#a-map-of-the-methods",
     "href": "intro.html#a-map-of-the-methods",
-    "title": "1  Welcome to the Jungle: An Introduction to Project Risk Analysis",
+    "title": "1  Into the Unknown: An Introduction to Project Risk Analysis",
     "section": "1.4 A Map of the Methods",
-    "text": "1.4 A Map of the Methods\n\n1.4.1 Early Estimation\nWhen you are building the initial project estimate, you have distributions but no data yet. The Second Moment Method (Chapter Chapter 3) and Monte Carlo Simulation (Chapter Chapter 2) are your tools here. SMM is fast and analytical — it gives you a mean and variance in seconds using only the mean and variance of each task. MCS is slower but more powerful — it can use any distribution shape and handles correlations between tasks.\n\n\n1.4.2 During Execution\nOnce the project is underway and you have actual cost and schedule data, Earned Value Management (Chapter Chapter 5) tracks how the project is performing against the plan. EVM’s performance indices (CPI, SPI) are early-warning signals: if your Cost Performance Index drops below 1.0 in period 3, you want to know what the final cost forecast looks like before it becomes a surprise in period 10.\n\n\n1.4.3 As Evidence Arrives\nBayesian Inference (Chapter Chapter 6) lets you update your risk estimates as you learn more about the project environment. Observed that a key supplier is struggling? Update your material cost distribution accordingly. This is particularly powerful in phased projects where information accumulates progressively.\n\n\n1.4.4 Understanding Structure\nDesign Structure Matrices (Chapter Chapter 8) and Probabilistic Networks (Chapters Chapter 9 and Chapter 10) address the question of why risks correlate. When two tasks both depend on the same crew, a labor shortage affects them both simultaneously. These methods make that structure explicit and quantifiable. Learning Curves (Chapter Chapter 7) capture a different kind of structure: how a team’s productivity evolves over time.\n\n\n1.4.5 AI-Assisted Analysis\nChapter Chapter 11 introduces the PRA agentic framework: slash commands for instant deterministic analysis, a chat interface powered by a local or cloud LLM, and an MCP server that lets tools like Claude Code call PRA functions directly. Think of it as having a risk analyst who never sleeps and always remembers the EVM formulas.",
+    "text": "1.4 A Map of the Methods\n\n1.4.1 Early Estimation\nWhen you are building the initial project estimate, you have distributions but no data yet. The Second Moment Method (Chapter Chapter 3) and Monte Carlo Simulation (Chapter Chapter 2) are your tools here. SMM is fast and analytical — it gives you a mean and variance in seconds using only the mean and variance of each task. MCS is slower but more powerful — it can use any distribution shape and handles correlations between tasks.\n\n\n1.4.2 During Execution\nOnce the project is underway and you have actual cost and schedule data, Earned Value Management (Chapter Chapter 5) tracks how the project is performing against the plan. EVM’s performance indices (CPI, SPI) are early-warning signals: if your Cost Performance Index drops below 1.0 in period 3, you want to know what the final cost forecast looks like before it becomes a surprise in period 10.\n\n\n1.4.3 As Evidence Arrives\nBayesian Inference (Chapter Chapter 6) lets you update your risk estimates as you learn more about the project environment. Observed that a key supplier is struggling? Update your material cost distribution accordingly. This is particularly powerful in phased projects where information accumulates progressively.\n\n\n1.4.4 Understanding Structure\nDesign Structure Matrices (Chapter Chapter 8) and Probabilistic Networks (Chapters Chapter 9 and Chapter 10) address the question of why risks correlate. When two tasks both depend on the same crew, a labor shortage affects them both simultaneously. These methods make that structure explicit and quantifiable. Learning Curves (Chapter Chapter 7) capture a different kind of structure: how a team’s productivity evolves over time.\n\n\n1.4.5 AI-Assisted Analysis\nChapter Chapter 11 introduces the PRA agentic framework: slash commands for instant deterministic analysis, a chat interface powered by a local or cloud LLM, and an MCP server that lets tools like Claude Code call PRA functions directly. Think of it as having a risk analyst on call who always has the EVM formulas at hand.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome to the Jungle: An Introduction to Project Risk Analysis</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Into the Unknown: An Introduction to Project Risk Analysis</span>"
     ]
   },
   {
     "objectID": "intro.html#installing-the-package",
     "href": "intro.html#installing-the-package",
-    "title": "1  Welcome to the Jungle: An Introduction to Project Risk Analysis",
+    "title": "1  Into the Unknown: An Introduction to Project Risk Analysis",
     "section": "1.5 Installing the Package",
     "text": "1.5 Installing the Package\n\ninstall.packages(\"PRA\")\n\nOr the development version:\n\nremotes::install_github(\"paulgovan/PRA\")\n\nLoad it in any session:\n\nlibrary(PRA)",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome to the Jungle: An Introduction to Project Risk Analysis</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Into the Unknown: An Introduction to Project Risk Analysis</span>"
     ]
   },
   {
     "objectID": "intro.html#a-note-on-uncertainty-about-uncertainty",
     "href": "intro.html#a-note-on-uncertainty-about-uncertainty",
-    "title": "1  Welcome to the Jungle: An Introduction to Project Risk Analysis",
+    "title": "1  Into the Unknown: An Introduction to Project Risk Analysis",
     "section": "1.6 A Note on Uncertainty About Uncertainty",
     "text": "1.6 A Note on Uncertainty About Uncertainty\n\n\n\n\n\n\nWarningGarbage In, Garbage Out\n\n\n\nQuantitative risk analysis can give a false sense of precision. The output of a Monte Carlo simulation — “P95 = 47.3 weeks” — sounds authoritative. But that number is only as good as the distributions you fed it.\nThe skill is not in running the software. The skill is in:\n\nChoosing distributions that honestly represent what you know and don’t know\nIdentifying correlations that actually exist in your project\nCommunicating results in a way that drives good decisions rather than false confidence\n\nEvery chapter in this book includes exercises that push you to think critically about these choices — not just to run the code, but to question whether the inputs are defensible.\n\n\nWith that caveat in mind — let’s run some simulations.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome to the Jungle: An Introduction to Project Risk Analysis</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Into the Unknown: An Introduction to Project Risk Analysis</span>"
     ]
   },
   {
     "objectID": "ch-mcs.html",
     "href": "ch-mcs.html",
-    "title": "2  Go Monte or Go Home: Monte Carlo Simulation",
+    "title": "2  Roll the Dice: Monte Carlo Simulation",
     "section": "",
-    "text": "2.1 How Monte Carlo Simulation Works\nHere is the core insight behind Monte Carlo simulation: instead of guessing a single answer, roll the dice thousands of times and let the distribution speak for itself. The method was named after the famous casino in Monaco — not because it involves gambling, but because it involves random sampling. If you can describe your uncertainty with a probability distribution, Monte Carlo can turn that uncertainty into a full picture of possible project outcomes.\nAnd unlike the casino, the odds are in your favor.\nMonte Carlo (MC) simulation is a quantitative risk analysis technique that models uncertainty by running thousands of simulated project outcomes. Instead of using single-point estimates for task durations or costs, each task is described by a probability distribution. The simulation draws random samples from these distributions, sums them to get a total outcome, and repeats this thousands of times to build a full picture of possible project results (Vose 2008).",
+    "text": "2.1 How Monte Carlo Simulation Works\nHere is the core insight behind Monte Carlo simulation: instead of guessing a single answer, roll the dice thousands of times and let the distribution speak for itself. The method was named after the famous casino in Monaco — not because it involves gambling, but because it involves random sampling. If you can describe your uncertainty with a probability distribution, Monte Carlo can turn that uncertainty into a full picture of possible project outcomes.\nMonte Carlo simulation turns that randomness into insight.\nMonte Carlo (MC) simulation is a quantitative risk analysis technique that models uncertainty by running thousands of simulated project outcomes. Instead of using single-point estimates for task durations or costs, each task is described by a probability distribution. The simulation draws random samples from these distributions, sums them to get a total outcome, and repeats this thousands of times to build a full picture of possible project results (Vose 2008).",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Go Monte or Go Home: Monte Carlo Simulation</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Roll the Dice: Monte Carlo Simulation</span>"
     ]
   },
   {
     "objectID": "ch-mcs.html#how-monte-carlo-simulation-works",
     "href": "ch-mcs.html#how-monte-carlo-simulation-works",
-    "title": "2  Go Monte or Go Home: Monte Carlo Simulation",
+    "title": "2  Roll the Dice: Monte Carlo Simulation",
     "section": "",
     "text": "NoteThe Five Steps of Monte Carlo Simulation\n\n\n\n\nModel Definition — Define project tasks and the variables that drive uncertainty (durations, costs).\nAssign Distributions — Choose a probability distribution for each uncertain variable (e.g., triangular for tasks with optimistic/likely/pessimistic estimates).\nSpecify Correlations — If tasks are related (e.g., both affected by a shared risk), set a correlation coefficient between them.\nRun Simulation — Draw random samples and compute the total outcome for each iteration (typically 10,000+).\nAnalyze Results — Summarize the distribution of totals using percentiles, mean, and variance.",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Go Monte or Go Home: Monte Carlo Simulation</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Roll the Dice: Monte Carlo Simulation</span>"
     ]
   },
   {
     "objectID": "ch-mcs.html#example",
     "href": "ch-mcs.html#example",
-    "title": "2  Go Monte or Go Home: Monte Carlo Simulation",
+    "title": "2  Roll the Dice: Monte Carlo Simulation",
     "section": "2.2 Example",
     "text": "2.2 Example\n\nlibrary(PRA)\nlibrary(ggplot2)\nset.seed(42)\n\nWe model a 3-task project (in weeks). Task A follows a normal distribution, Task B has a triangular distribution (optimistic/most-likely/pessimistic), and Task C is uniformly distributed.\n\nnum_simulations &lt;- 10000\ntask_distributions &lt;- list(\n  list(type = \"normal\", mean = 10, sd = 2),        # Task A\n  list(type = \"triangular\", a = 5, b = 10, c = 15), # Task B\n  list(type = \"uniform\", min = 8, max = 12)          # Task C\n)\n\n\n2.2.1 Correlation Matrix\nTasks often move together due to shared resources or external risks. The correlation matrix captures this. Values range from −1 (perfectly opposed) to +1 (perfectly aligned); 0 means independent. Here Tasks A and B have moderate positive correlation (0.5), meaning delays in one tend to coincide with delays in the other.\n\ncorrelation_matrix &lt;- matrix(c(\n  1.0, 0.5, 0.3,\n  0.5, 1.0, 0.4,\n  0.3, 0.4, 1.0\n), nrow = 3, byrow = TRUE)\n\n\n\n2.2.2 Run the Simulation\n\nresults &lt;- mcs(num_simulations, task_distributions, correlation_matrix)\n\n\ncat(\"Mean Total Duration:  \", round(results$total_mean, 2), \"weeks\\n\")\n\nMean Total Duration:   38.6 weeks\n\ncat(\"Variance of Duration: \", round(results$total_variance, 2), \"\\n\")\n\nVariance of Duration:  20.01 \n\ncat(\"Std Dev of Duration:  \", round(results$total_sd, 2), \"weeks\\n\")\n\nStd Dev of Duration:   4.47 weeks\n\n\n\n\n2.2.3 Distribution of Outcomes\nThe histogram below shows all 10,000 simulated total durations. The overlaid density curve reveals the shape of the distribution — notice the slight right skew from the triangular task.\n\nhist_data &lt;- results$total_distribution\n\nhist(hist_data,\n  breaks = 50, freq = FALSE,\n  main = \"Monte Carlo Simulation — Total Project Duration\",\n  xlab = \"Total Duration (weeks)\", col = \"steelblue\", border = \"white\"\n)\nlines(density(hist_data), col = \"tomato\", lwd = 2)\nabline(v = results$total_mean, col = \"black\", lty = 2, lwd = 1.5)\nlegend(\"topright\",\n  legend = c(\"Density\", paste0(\"Mean = \", round(results$total_mean, 1), \" wks\")),\n  col = c(\"tomato\", \"black\"), lty = c(1, 2), lwd = 2, bty = \"n\"\n)\n\n\n\n\nMonte Carlo simulation results showing the full distribution of possible total project durations.",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Go Monte or Go Home: Monte Carlo Simulation</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Roll the Dice: Monte Carlo Simulation</span>"
     ]
   },
   {
     "objectID": "ch-mcs.html#interpreting-percentiles",
     "href": "ch-mcs.html#interpreting-percentiles",
-    "title": "2  Go Monte or Go Home: Monte Carlo Simulation",
+    "title": "2  Roll the Dice: Monte Carlo Simulation",
     "section": "2.3 Interpreting Percentiles",
     "text": "2.3 Interpreting Percentiles\nThe mcs() function returns key percentiles of the total distribution. These answer the question: “What duration has X% probability of not being exceeded?”\n\nknitr::kable(\n  data.frame(\n    Percentile = c(\"P5\", \"P50 (Median)\", \"P95\"),\n    Duration   = round(results$percentiles, 1),\n    Meaning    = c(\n      \"5% chance of finishing this fast or faster\",\n      \"Equal chance of finishing above or below this\",\n      \"95% chance of finishing by this date\"\n    )\n  ),\n  caption = \"Simulation Percentiles\"\n)\n\n\nSimulation Percentiles\n\n\n\n\n\n\n\n\n\nPercentile\nDuration\nMeaning\n\n\n\n\n5%\nP5\n31.2\n5% chance of finishing this fast or faster\n\n\n50%\nP50 (Median)\n38.6\nEqual chance of finishing above or below this\n\n\n95%\nP95\n46.0\n95% chance of finishing by this date\n\n\n\n\n\nThe P50 is your base estimate — the median, not the mean (though for symmetric distributions they’re close). The P95 is the date you can be 95% confident in. The gap between P50 and P95 is your schedule risk.",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Go Monte or Go Home: Monte Carlo Simulation</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Roll the Dice: Monte Carlo Simulation</span>"
     ]
   },
   {
     "objectID": "ch-mcs.html#contingency-analysis",
     "href": "ch-mcs.html#contingency-analysis",
-    "title": "2  Go Monte or Go Home: Monte Carlo Simulation",
+    "title": "2  Roll the Dice: Monte Carlo Simulation",
     "section": "2.4 Contingency Analysis",
     "text": "2.4 Contingency Analysis\nContingency is the buffer added above the base estimate to cover uncertainty. A common approach is to use the difference between the P95 (or chosen confidence level) outcome and the P50 (base estimate) (Project Management Institute 2021).\n\ncontingency_val &lt;- contingency(results, phigh = 0.95, pbase = 0.50)\ncat(\"Schedule contingency (P95 − P50):\", round(contingency_val, 2), \"weeks\\n\")\n\nSchedule contingency (P95 − P50): 7.4 weeks\n\ncat(\n  \"There is a 95% chance the project will finish within\",\n  round(results$percentiles[\"95%\"], 1), \"weeks.\\n\"\n)\n\nThere is a 95% chance the project will finish within 46 weeks.\n\n\nAdding this contingency to the P50 estimate gives a 95% confidence of on-time delivery. Teams with low risk tolerance should use P95; those with higher tolerance might use P80.",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Go Monte or Go Home: Monte Carlo Simulation</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Roll the Dice: Monte Carlo Simulation</span>"
     ]
   },
   {
     "objectID": "ch-mcs.html#sensitivity-analysis",
     "href": "ch-mcs.html#sensitivity-analysis",
-    "title": "2  Go Monte or Go Home: Monte Carlo Simulation",
+    "title": "2  Roll the Dice: Monte Carlo Simulation",
     "section": "2.5 Sensitivity Analysis",
     "text": "2.5 Sensitivity Analysis\nSensitivity analysis identifies which tasks drive the most variability in the total outcome — the tasks that deserve the most management attention. The result is a tornado chart: the wider the bar, the bigger the impact on total schedule risk.\n\nsensitivity_results &lt;- sensitivity(task_distributions, correlation_matrix)\n\nsens_data &lt;- data.frame(\n  Task        = c(\"Task A (Normal)\", \"Task B (Triangular)\", \"Task C (Uniform)\"),\n  Sensitivity = sensitivity_results\n)\n\np &lt;- ggplot2::ggplot(\n  sens_data,\n  ggplot2::aes(x = Sensitivity, y = reorder(Task, Sensitivity))\n) +\n  ggplot2::geom_col(fill = \"steelblue\") +\n  ggplot2::geom_text(ggplot2::aes(label = round(Sensitivity, 3)),\n    hjust = -0.1, size = 3.5\n  ) +\n  ggplot2::labs(\n    title = \"Tornado Chart — Task Sensitivity\",\n    x     = \"Sensitivity Coefficient\",\n    y     = NULL\n  ) +\n  ggplot2::xlim(0, max(sensitivity_results) * 1.2) +\n  ggplot2::theme_minimal()\n\nprint(p)\n\n\n\n\nTornado chart showing each task’s contribution to total schedule variance. Focus risk mitigation on the tallest bars.\n\n\n\n\nTasks with larger bars contribute more variance to the total. Prioritize risk mitigation efforts on the highest-sensitivity task. Even a small reduction in its uncertainty can meaningfully reduce overall project risk.",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Go Monte or Go Home: Monte Carlo Simulation</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Roll the Dice: Monte Carlo Simulation</span>"
     ]
   },
   {
     "objectID": "ch-mcs.html#summary",
     "href": "ch-mcs.html#summary",
-    "title": "2  Go Monte or Go Home: Monte Carlo Simulation",
+    "title": "2  Roll the Dice: Monte Carlo Simulation",
     "section": "2.6 Summary",
     "text": "2.6 Summary\n\n\n\n\n\n\nTipKey Takeaways\n\n\n\n\nMonte Carlo simulation runs thousands of iterations to produce a full distribution of project outcomes, not just a single number.\nPercentiles (P50, P80, P95) translate simulation output into concrete schedule or cost commitments at a stated confidence level.\nContingency = P_high − P50: the buffer needed to achieve a given confidence level above the base estimate.\nSensitivity analysis (tornado chart) reveals which tasks drive the most variance — focus mitigation there first.\nPositive correlation between tasks always increases total variance; ignoring it leads to underestimating risk.\n\n\n\nFor early-stage estimates when full distributions are unavailable, the Second Moment Method (Chapter 3) provides a fast analytical alternative using only means and variances.",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Go Monte or Go Home: Monte Carlo Simulation</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Roll the Dice: Monte Carlo Simulation</span>"
     ]
   },
   {
     "objectID": "ch-mcs.html#exercises",
     "href": "ch-mcs.html#exercises",
-    "title": "2  Go Monte or Go Home: Monte Carlo Simulation",
+    "title": "2  Roll the Dice: Monte Carlo Simulation",
     "section": "2.7 Exercises",
     "text": "2.7 Exercises\n\nConceptual check. What does increasing the number of simulations from 10,000 to 100,000 do to the result? Does it change the mean? The P95? The smoothness of the histogram? Try it.\nNew task. Add a 4th task with a Beta distribution (hint: look at ?mcs to see if Beta is supported, or use a normal approximation). Run mcs() with your updated task list and compare the P80 to the 3-task version. Did the project get riskier or safer?\nCorrelation experiment. Re-run the simulation with all off-diagonal correlation values set to 0 (fully independent tasks). Then re-run with all off-diagonal values set to 0.9 (strongly correlated). How does total variance change in each case? Explain intuitively why strong positive correlation increases portfolio risk. ★\nChoosing a confidence level. Your client asks for a “90% confident” delivery date. What percentile do you use, and what contingency does that imply? Recalculate using contingency(results, phigh = 0.90, pbase = 0.50).\nReal-world application. ★ Think of a project you know. Identify three tasks with significant uncertainty. Estimate (or guess) a distribution type and rough parameters for each. Run mcs() and report the P50 and P80 schedule. What’s the contingency at P80?\n\n\n\n\n\n\n\nProject Management Institute. 2021. A Guide to the Project Management Body of Knowledge (PMBOK Guide). 7th ed. Project Management Institute.\n\n\nVose, David. 2008. Risk Analysis: A Quantitative Guide. 3rd ed. John Wiley & Sons.",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Go Monte or Go Home: Monte Carlo Simulation</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Roll the Dice: Monte Carlo Simulation</span>"
     ]
   },
   {
@@ -374,7 +374,7 @@
     "href": "ch-sensitivity.html#setup",
     "title": "4  Who’s Driving? Sensitivity Analysis",
     "section": "4.2 Setup",
-    "text": "4.2 Setup\n\nlibrary(PRA)\nset.seed(42)\n\nWe use the same three tasks from Chapter 2 — a three-task project with mixed distribution types — so you can see the complementary view.\n\ntask_dists &lt;- list(\n  TaskA = list(type = \"normal\",     mean = 10, sd = 2),\n  TaskB = list(type = \"triangular\", a = 5, b = 10, c = 15),\n  TaskC = list(type = \"uniform\",    min = 8, max = 12)\n)",
+    "text": "4.2 Setup\n\nlibrary(PRA)\nset.seed(42)\n\nWe use the same three tasks from Chapter 2 — a three-task project with mixed distribution types — so you can see the complementary view.\n\ntask_dists &lt;- list(\n  TaskA = list(type = \"normal\",     mean = 10, sd = 4),\n  TaskB = list(type = \"triangular\", a = 5, b = 10, c = 15),\n  TaskC = list(type = \"uniform\",    min = 9.5, max = 10.5)\n)",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Who's Driving? Sensitivity Analysis</span>"
     ]
@@ -384,7 +384,7 @@
     "href": "ch-sensitivity.html#computing-sensitivity",
     "title": "4  Who’s Driving? Sensitivity Analysis",
     "section": "4.3 Computing Sensitivity",
-    "text": "4.3 Computing Sensitivity\n\nsens &lt;- sensitivity(task_dists)\nsens\n\n[1] 1 1 1\n\n\nThe output is a named vector — one sensitivity index per task. A higher value means that task’s variance has a larger proportional effect on total project variance.\n\n4.3.1 Interpretation\n\nround(sens / sum(sens) * 100, 1)\n\n[1] 33.3 33.3 33.3\n\n\nExpressing the indices as percentages makes the picture clear: Task B (triangular) carries the largest share of total project variance. This is the task where mitigation effort pays off most.",
+    "text": "4.3 Computing Sensitivity\n\nsens &lt;- sensitivity(task_dists)\nsens\n\n[1] 1 1 1\n\n\nThe output is a named vector — one sensitivity index per task. A higher value means that task’s variance has a larger proportional effect on total project variance.\n\n4.3.1 Interpretation\n\nround(sens / sum(sens) * 100, 1)\n\n[1] 33.3 33.3 33.3\n\n\nExpressing the indices as percentages makes the picture clear: Task A (normal, sd = 4) dominates total project variance, accounting for the majority of total uncertainty. Task B is a secondary contributor, while Task C barely registers. Task A is the task where mitigation effort pays off most.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Who's Driving? Sensitivity Analysis</span>"
     ]
@@ -404,7 +404,7 @@
     "href": "ch-sensitivity.html#with-correlated-tasks",
     "title": "4  Who’s Driving? Sensitivity Analysis",
     "section": "4.5 With Correlated Tasks",
-    "text": "4.5 With Correlated Tasks\nReal projects have correlated tasks — they share resources, face the same weather, or depend on the same supplier. Positive correlation amplifies the dominant driver; it becomes even more important to get that task right.\nUse cor_matrix() to build a correlation matrix from sampled distributions:\n\ncm &lt;- cor_matrix(\n  num_samples = 10000,\n  num_vars    = 3,\n  dists = list(\n    TaskA = function(n) rnorm(n, 10, 2),\n    TaskB = function(n) {\n      mc2d::rtriang(n, min = 5, mode = 10, max = 15)\n    },\n    TaskC = function(n) runif(n, 8, 12)\n  )\n)\ncm\n\n             [,1]         [,2]         [,3]\n[1,]  1.000000000 -0.014481805 -0.001149786\n[2,] -0.014481805  1.000000000 -0.001525418\n[3,] -0.001149786 -0.001525418  1.000000000\n\n\n\nsens_corr &lt;- sensitivity(task_dists, cor_mat = cm)\n\npar(mfrow = c(1, 2))\n\nsorted_base &lt;- sort(sens, decreasing = FALSE)\nbarplot(sorted_base, horiz = TRUE, names.arg = names(sorted_base),\n  xlab = \"Sensitivity Index\", main = \"Independent\",\n  col = \"#18bc9c\", border = \"white\", las = 1)\nabline(v = 1, lty = 2, col = \"#e74c3c\")\n\nsorted_corr &lt;- sort(sens_corr, decreasing = FALSE)\nbarplot(sorted_corr, horiz = TRUE, names.arg = names(sorted_corr),\n  xlab = \"Sensitivity Index\", main = \"Correlated\",\n  col = \"#3498db\", border = \"white\", las = 1)\nabline(v = 1, lty = 2, col = \"#e74c3c\")\n\n\n\n\nSensitivity indices when tasks are correlated. Positive correlations amplify the dominant driver (Task B) and increase total project variance.\n\n\n\npar(mfrow = c(1, 1))\n\nComparing the two panels: when tasks are positively correlated, the dominant task’s index rises. Ignoring correlations understates the risk concentration.",
+    "text": "4.5 With Correlated Tasks\nReal projects have correlated tasks — they share resources, face the same weather, or depend on the same supplier. Positive correlation amplifies the dominant driver; it becomes even more important to get that task right.\nUse cor_matrix() to build a correlation matrix from sampled distributions:\n\ncm &lt;- cor_matrix(\n  num_samples = 10000,\n  num_vars    = 3,\n  dists = list(\n    TaskA = function(n) rnorm(n, 10, 4),\n    TaskB = function(n) {\n      mc2d::rtriang(n, min = 5, mode = 10, max = 15)\n    },\n    TaskC = function(n) runif(n, 9.5, 10.5)\n  )\n)\ncm\n\n             [,1]         [,2]         [,3]\n[1,]  1.000000000 -0.014481805 -0.001149786\n[2,] -0.014481805  1.000000000 -0.001525418\n[3,] -0.001149786 -0.001525418  1.000000000\n\n\n\nsens_corr &lt;- sensitivity(task_dists, cor_mat = cm)\n\npar(mfrow = c(1, 2))\n\nsorted_base &lt;- sort(sens, decreasing = FALSE)\nbarplot(sorted_base, horiz = TRUE, names.arg = names(sorted_base),\n  xlab = \"Sensitivity Index\", main = \"Independent\",\n  col = \"#18bc9c\", border = \"white\", las = 1)\nabline(v = 1, lty = 2, col = \"#e74c3c\")\n\nsorted_corr &lt;- sort(sens_corr, decreasing = FALSE)\nbarplot(sorted_corr, horiz = TRUE, names.arg = names(sorted_corr),\n  xlab = \"Sensitivity Index\", main = \"Correlated\",\n  col = \"#3498db\", border = \"white\", las = 1)\nabline(v = 1, lty = 2, col = \"#e74c3c\")\n\n\n\n\nSensitivity indices when tasks are correlated. Positive correlations amplify the dominant driver (Task A) and increase total project variance.\n\n\n\npar(mfrow = c(1, 1))\n\nComparing the two panels: when tasks are positively correlated, the dominant task’s index rises. Ignoring correlations understates the risk concentration.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Who's Driving? Sensitivity Analysis</span>"
     ]
@@ -432,91 +432,91 @@
   {
     "objectID": "ch-evm.html",
     "href": "ch-evm.html",
-    "title": "5  Show Me the Money: Earned Value Management",
+    "title": "5  Keeping Score: Earned Value Management",
     "section": "",
-    "text": "5.1 The Three Numbers That Rule Them All\nImagine you’re three months into a six-month project and you’ve spent exactly half the budget. Great news, right? Not so fast. The real question is: how much work did you actually get done? If you’ve only completed 30% of the project, you’ve got a serious problem. If you’ve completed 55%, you’re ahead of the game.\nThis is the fundamental insight behind Earned Value Management (EVM): you can’t judge project health by money spent alone. You need to compare three things — what you planned, what you actually did, and what it cost you to do it.\nEVM integrates scope, schedule, and cost into these three core quantities (Fleming and Koppelman 2010). From them, all the other EVM metrics flow — every performance index, every forecast, every variance comes back to PV, EV, and AC.",
+    "text": "5.1 The Three Core Numbers\nImagine you’re three months into a six-month project and you’ve spent exactly half the budget. That might sound encouraging — but the more useful question is: how much work did you actually get done? If you’ve completed 30% of the project, the budget situation looks very different than if you’ve completed 55%.\nThis is the fundamental insight behind Earned Value Management (EVM): you can’t judge project health by money spent alone. You need to compare three things — what you planned, what you actually did, and what it cost you to do it.\nEVM integrates scope, schedule, and cost into these three core quantities (Fleming and Koppelman 2010). From them, all the other EVM metrics flow — every performance index, every forecast, every variance comes back to PV, EV, and AC.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Show Me the Money: Earned Value Management</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Keeping Score: Earned Value Management</span>"
     ]
   },
   {
-    "objectID": "ch-evm.html#the-three-numbers-that-rule-them-all",
-    "href": "ch-evm.html#the-three-numbers-that-rule-them-all",
-    "title": "5  Show Me the Money: Earned Value Management",
+    "objectID": "ch-evm.html#the-three-core-numbers",
+    "href": "ch-evm.html#the-three-core-numbers",
+    "title": "5  Keeping Score: Earned Value Management",
     "section": "",
     "text": "NotePV, EV, AC — The Foundation of Everything\n\n\n\n\n\n\n\n\n\n\nQuantity\nWhat it measures\n\n\n\n\nPV — Planned Value\nThe budget authorized for work scheduled through today\n\n\nEV — Earned Value\nThe budget value of work actually completed\n\n\nAC — Actual Cost\nTotal cost incurred to date\n\n\n\nEvery EVM metric — variance, index, or forecast — derives from these three numbers. If you know PV, EV, and AC, you know everything EVM can tell you.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Show Me the Money: Earned Value Management</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Keeping Score: Earned Value Management</span>"
     ]
   },
   {
     "objectID": "ch-evm.html#key-metrics",
     "href": "ch-evm.html#key-metrics",
-    "title": "5  Show Me the Money: Earned Value Management",
+    "title": "5  Keeping Score: Earned Value Management",
     "section": "5.2 Key Metrics",
     "text": "5.2 Key Metrics\n\n\n\n\n\n\n\n\nMetric\nFormula\nInterpretation\n\n\n\n\nCV — Cost Variance\nEV − AC\n&gt; 0: under budget; &lt; 0: over budget\n\n\nSV — Schedule Variance\nEV − PV\n&gt; 0: ahead of schedule; &lt; 0: behind schedule\n\n\nCPI — Cost Performance Index\nEV / AC\n&gt; 1: efficient; = 1: on target; &lt; 1: over-spending\n\n\nSPI — Schedule Performance Index\nEV / PV\n&gt; 1: ahead; = 1: on target; &lt; 1: behind\n\n\nEAC — Estimate at Completion\nSee below\nForecast of total project cost\n\n\nETC — Estimate to Complete\nEAC − AC\nRemaining cost to finish the project\n\n\nVAC — Variance at Completion\nBAC − EAC\nExpected surplus (positive) or overrun (negative)\n\n\nTCPI — To-Complete Performance Index\n(BAC−EV) / (BAC−AC)\nEfficiency required on remaining work",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Show Me the Money: Earned Value Management</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Keeping Score: Earned Value Management</span>"
     ]
   },
   {
     "objectID": "ch-evm.html#example-setup",
     "href": "ch-evm.html#example-setup",
-    "title": "5  Show Me the Money: Earned Value Management",
+    "title": "5  Keeping Score: Earned Value Management",
     "section": "5.3 Example Setup",
     "text": "5.3 Example Setup\n\nlibrary(PRA)\n\nWe will track a project with a total budget of $500,000 over a 5-period schedule.\n\nbac      &lt;- 500000\nschedule &lt;- c(0.10, 0.25, 0.50, 0.75, 1.00)\ntime_period &lt;- 3\n\n\n5.3.1 Planned Value (PV)\nPV is the authorized budget for work planned through the current period.\n\npv_val &lt;- pv(bac, schedule, time_period)\ncat(\"Planned Value (PV): $\", format(pv_val, big.mark = \",\"), \"\\n\")\n\nPlanned Value (PV): $ 250,000 \n\n\nThe project was planned to be 50% complete by period 3, so PV = $250,000.\n\n\n5.3.2 Earned Value (EV)\nEV reflects the budget value of work actually completed.\n\nactual_per_complete &lt;- 0.40\nev_val &lt;- ev(bac, actual_per_complete)\ncat(\"Earned Value (EV): $\", format(ev_val, big.mark = \",\"), \"\\n\")\n\nEarned Value (EV): $ 2e+05 \n\n\nOnly 40% of work is done despite 50% being planned — we are behind schedule.\n\n\n5.3.3 Actual Cost (AC)\nAC is the cumulative cost incurred through period 3.\n\nperiod_costs &lt;- c(45000, 110000, 135000)\nac_val &lt;- ac(period_costs, time_period, cumulative = FALSE)\ncat(\"Actual Cost (AC): $\", format(ac_val, big.mark = \",\"), \"\\n\")\n\nActual Cost (AC): $ 290,000 \n\n\n\n\n5.3.4 Performance Indicators\n\nsv_val  &lt;- sv(ev_val, pv_val)\ncv_val  &lt;- cv(ev_val, ac_val)\nspi_val &lt;- spi(ev_val, pv_val)\ncpi_val &lt;- cpi(ev_val, ac_val)\n\ncat(\"Schedule Variance (SV):           $\", format(sv_val, big.mark = \",\"), \"\\n\")\n\nSchedule Variance (SV):           $ -50,000 \n\ncat(\"Cost Variance (CV):               $\", format(cv_val, big.mark = \",\"), \"\\n\")\n\nCost Variance (CV):               $ -90,000 \n\ncat(\"Schedule Performance Index (SPI):\", round(spi_val, 3), \"\\n\")\n\nSchedule Performance Index (SPI): 0.8 \n\ncat(\"Cost Performance Index (CPI):    \", round(cpi_val, 3), \"\\n\")\n\nCost Performance Index (CPI):     0.69 \n\n\nInterpretation: SPI &lt; 1 means we are behind schedule — we’re only earning 80 cents of planned value per dollar of schedule. CPI &lt; 1 means we are over budget — earning only 69 cents of value per dollar spent. Both are below 1.0: this project is in trouble.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Show Me the Money: Earned Value Management</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Keeping Score: Earned Value Management</span>"
     ]
   },
   {
     "objectID": "ch-evm.html#forecasting-estimate-at-completion-eac",
     "href": "ch-evm.html#forecasting-estimate-at-completion-eac",
-    "title": "5  Show Me the Money: Earned Value Management",
+    "title": "5  Keeping Score: Earned Value Management",
     "section": "5.4 Forecasting: Estimate at Completion (EAC)",
     "text": "5.4 Forecasting: Estimate at Completion (EAC)\nEAC forecasts the total cost at project completion. Three methods are available, each making a different assumption about future performance:\n\n\n\n\n\n\n\n\nMethod\nFormula\nWhen to use\n\n\n\n\nTypical\nBAC / CPI\nCurrent cost inefficiency is expected to continue\n\n\nAtypical\nAC + (BAC − EV)\nCost overrun was a one-time event; future work at planned rate\n\n\nCombined\nAC + (BAC − EV) / (CPI × SPI)\nBoth cost and schedule performance will influence future costs\n\n\n\n\neac_typical  &lt;- eac(bac, method = \"typical\", cpi = cpi_val)\neac_atypical &lt;- eac(bac, method = \"atypical\", ac = ac_val, ev = ev_val)\neac_combined &lt;- eac(bac,\n  method = \"combined\", cpi = cpi_val, ac = ac_val,\n  ev = ev_val, spi = spi_val\n)\n\ncat(\"EAC (typical):  $\", format(round(eac_typical),  big.mark = \",\"), \"\\n\")\n\nEAC (typical):  $ 725,000 \n\ncat(\"EAC (atypical): $\", format(round(eac_atypical), big.mark = \",\"), \"\\n\")\n\nEAC (atypical): $ 590,000 \n\ncat(\"EAC (combined): $\", format(round(eac_combined), big.mark = \",\"), \"\\n\")\n\nEAC (combined): $ 833,750 \n\n\nThe typical method gives the most conservative (highest cost) estimate because it assumes the current CPI persists. The atypical method is the most optimistic.\n\n5.4.1 EAC Comparison Table\n\neac_table &lt;- data.frame(\n  Method     = c(\"Typical\", \"Atypical\", \"Combined\"),\n  EAC        = c(round(eac_typical), round(eac_atypical), round(eac_combined)),\n  Overrun    = c(\n    round(eac_typical  - bac),\n    round(eac_atypical - bac),\n    round(eac_combined - bac)\n  ),\n  Assumption = c(\n    \"Current CPI continues\",\n    \"Future work at planned rate\",\n    \"CPI and SPI both factor in\"\n  )\n)\nknitr::kable(eac_table,\n  format.args = list(big.mark = \",\"),\n  caption = \"EAC Comparison by Method\"\n)\n\n\nEAC Comparison by Method\n\n\nMethod\nEAC\nOverrun\nAssumption\n\n\n\n\nTypical\n725,000\n225,000\nCurrent CPI continues\n\n\nAtypical\n590,000\n90,000\nFuture work at planned rate\n\n\nCombined\n833,750\n333,750\nCPI and SPI both factor in",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Show Me the Money: Earned Value Management</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Keeping Score: Earned Value Management</span>"
     ]
   },
   {
     "objectID": "ch-evm.html#additional-metrics",
     "href": "ch-evm.html#additional-metrics",
-    "title": "5  Show Me the Money: Earned Value Management",
+    "title": "5  Keeping Score: Earned Value Management",
     "section": "5.5 Additional Metrics",
     "text": "5.5 Additional Metrics\n\netc_val  &lt;- etc(bac, ev_val, cpi_val)\nvac_val  &lt;- vac(bac, eac_typical)\ntcpi_bac &lt;- tcpi(bac, ev_val, ac_val, target = \"bac\")\ntcpi_eac &lt;- tcpi(bac, ev_val, ac_val, target = \"eac\", eac = eac_typical)\n\ncat(\"Estimate to Complete (ETC):  $\", format(round(etc_val), big.mark = \",\"), \"\\n\")\n\nEstimate to Complete (ETC):  $ 435,000 \n\ncat(\"Variance at Completion (VAC): $\", format(round(vac_val), big.mark = \",\"), \"\\n\")\n\nVariance at Completion (VAC): $ -225,000 \n\ncat(\"TCPI (to meet BAC):          \", round(tcpi_bac, 3), \"\\n\")\n\nTCPI (to meet BAC):           1.429 \n\ncat(\"TCPI (to meet EAC):          \", round(tcpi_eac, 3), \"\\n\")\n\nTCPI (to meet EAC):           0.69 \n\n\nInterpretation: TCPI &gt; 1 means the team must work more efficiently than they have been to meet the target. A TCPI above 1.2 is a widely-cited practitioner rule of thumb for “unrealistic” — not a formal PMBOK standard, but a useful warning signal. If you need to be 30% more efficient for the rest of the project, it probably isn’t going to happen. Using the EAC target gives a more realistic benchmark.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Show Me the Money: Earned Value Management</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Keeping Score: Earned Value Management</span>"
     ]
   },
   {
     "objectID": "ch-evm.html#performance-trend-chart",
     "href": "ch-evm.html#performance-trend-chart",
-    "title": "5  Show Me the Money: Earned Value Management",
+    "title": "5  Keeping Score: Earned Value Management",
     "section": "5.6 Performance Trend Chart",
     "text": "5.6 Performance Trend Chart\nThe chart below shows cumulative PV, AC, and EV over time, with reference lines for BAC and EAC.\n\ntime_periods &lt;- c(1, 2, 3)\nactual_pct   &lt;- c(0.08, 0.22, 0.40)\np_costs      &lt;- c(45000, 110000, 135000)\n\npv_vals &lt;- sapply(time_periods, function(t) pv(bac, schedule, t))\nac_vals &lt;- cumsum(p_costs)\nev_vals &lt;- sapply(actual_pct, function(a) ev(bac, a))\n\ntrend_data &lt;- data.frame(\n  Period = time_periods,\n  PV = pv_vals, AC = ac_vals, EV = ev_vals\n)\n\np &lt;- ggplot2::ggplot(trend_data, ggplot2::aes(x = Period)) +\n  ggplot2::geom_line(ggplot2::aes(y = PV, color = \"Planned Value (PV)\"), linewidth = 1.2) +\n  ggplot2::geom_line(ggplot2::aes(y = AC, color = \"Actual Cost (AC)\"), linewidth = 1.2) +\n  ggplot2::geom_line(ggplot2::aes(y = EV, color = \"Earned Value (EV)\"), linewidth = 1.2) +\n  ggplot2::geom_point(ggplot2::aes(y = PV, color = \"Planned Value (PV)\"), size = 3) +\n  ggplot2::geom_point(ggplot2::aes(y = AC, color = \"Actual Cost (AC)\"), size = 3) +\n  ggplot2::geom_point(ggplot2::aes(y = EV, color = \"Earned Value (EV)\"), size = 3) +\n  ggplot2::geom_hline(yintercept = bac, linetype = \"dashed\", color = \"black\", linewidth = 0.8) +\n  ggplot2::geom_hline(yintercept = eac_typical, linetype = \"dotted\", color = \"darkred\", linewidth = 0.8) +\n  ggplot2::annotate(\"text\", x = 2.8, y = bac + 12000, label = \"BAC = $500K\", size = 3.5) +\n  ggplot2::annotate(\"text\", x = 2.8, y = eac_typical + 12000, label = \"EAC (typical)\", size = 3.5) +\n  ggplot2::scale_color_manual(values = c(\n    \"Planned Value (PV)\" = \"steelblue\",\n    \"Actual Cost (AC)\"   = \"tomato\",\n    \"Earned Value (EV)\"  = \"forestgreen\"\n  )) +\n  ggplot2::scale_y_continuous(labels = scales::label_dollar(scale = 1e-3, suffix = \"K\")) +\n  ggplot2::labs(\n    title = \"Earned Value Management — Performance Trend\",\n    x     = \"Time Period\", y = \"Value\", color = NULL\n  ) +\n  ggplot2::theme_minimal() +\n  ggplot2::theme(legend.position = \"bottom\")\n\nprint(p)\n\n\n\n\nEVM trend chart. When EV falls below PV, you’re behind schedule. When AC rises above EV, you’re over budget. Both conditions here — a project in the red on both dimensions.\n\n\n\n\nReading the chart: The gap between PV and EV shows the schedule gap — EV is below PV, so we’re behind. The gap between AC and EV shows the cost overrun — we’ve spent more than the value we’ve earned.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Show Me the Money: Earned Value Management</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Keeping Score: Earned Value Management</span>"
     ]
   },
   {
     "objectID": "ch-evm.html#summary",
     "href": "ch-evm.html#summary",
-    "title": "5  Show Me the Money: Earned Value Management",
+    "title": "5  Keeping Score: Earned Value Management",
     "section": "5.7 Summary",
     "text": "5.7 Summary\n\n\n\n\n\n\nTipKey Takeaways\n\n\n\n\nEVM combines scope, schedule, and cost into three numbers (PV, EV, AC) from which all performance metrics flow.\nCPI &lt; 1 means over-budget; SPI &lt; 1 means behind schedule. Both below 1 signals a project in serious trouble.\nThe Typical EAC (BAC / CPI) is the most conservative forecast; use it when current inefficiency is expected to persist.\nTCPI &gt; 1.2 is a common practitioner rule of thumb for “unrealistic” (not a formal standard) — flag it as a signal to revise the budget rather than chase an unachievable efficiency target.\nThe trend chart (PV, EV, AC over time) is your single most powerful communication tool for project status.\n\n\n\nEVM tells you where the project stands right now. For forward-looking updates that incorporate new information as the project evolves, Bayesian methods in Chapter 6 provide a complementary approach to cost forecasting.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Show Me the Money: Earned Value Management</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Keeping Score: Earned Value Management</span>"
     ]
   },
   {
     "objectID": "ch-evm.html#exercises",
     "href": "ch-evm.html#exercises",
-    "title": "5  Show Me the Money: Earned Value Management",
+    "title": "5  Keeping Score: Earned Value Management",
     "section": "5.8 Exercises",
     "text": "5.8 Exercises\n\nDiagnosis. If SPI &lt; 1 and CPI &gt; 1, what does that tell you about the project? Describe the scenario in plain English and give an example of how this might happen on a real project.\nForecast comparison. Compute EAC using all three methods for a new project with BAC = $200K, PV = $80K, EV = $60K, AC = $70K. Which method produces the highest estimate? The lowest? Which would you recommend reporting to the client?\nTCPI reality check. For the same project (BAC = $200K, PV = $80K, EV = $60K, AC = $70K), calculate TCPI to meet BAC. Is it realistic? At what TCPI would you advise the client to revise the budget rather than try to recover?\nThe optimistic mistake. A project manager always uses the atypical EAC method, regardless of what’s happening. In what circumstances would this be dangerously wrong? Write a 2–3 sentence warning label for the atypical method.\nBuild your own trend. ★ Create a 5-period EVM dataset where the project starts over budget but recovers over time (CPI &lt; 1 in periods 1–2, CPI ≥ 1 in periods 3–5). Plot the trend chart. Does the “typical” EAC improve as the project recovers?\n\n\n\n\n\n\n\nFleming, Quentin W., and Joel M. Koppelman. 2010. Earned Value Project Management. 4th ed. Project Management Institute.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Show Me the Money: Earned Value Management</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Keeping Score: Earned Value Management</span>"
     ]
   },
   {
@@ -540,11 +540,21 @@
     ]
   },
   {
+    "objectID": "ch-bayes.html#causal-structure",
+    "href": "ch-bayes.html#causal-structure",
+    "title": "6  I Had a Feeling: Bayesian Risk Inference",
+    "section": "6.2 Causal Structure",
+    "text": "6.2 Causal Structure\nBefore computing probabilities, it helps to see the causal graph. Two independent root causes each point to the risk event — observing either one updates the posterior risk probability.\n\nlibrary(igraph)\ng &lt;- graph_from_data_frame(\n  data.frame(from = c(\"Cause-1\", \"Cause-2\"), to = c(\"Risk\", \"Risk\")),\n  directed = TRUE\n)\nV(g)$color &lt;- c(\"steelblue\", \"steelblue\", \"tomato\")\nplot(g, vertex.size = 40, vertex.label.cex = 0.9,\n     edge.arrow.size = 0.6, layout = layout_with_sugiyama(g)$layout)\n\n\n\n\nDAG: Cause-1 and Cause-2 independently drive the risk event R.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>I Had a Feeling: Bayesian Risk Inference</span>"
+    ]
+  },
+  {
     "objectID": "ch-bayes.html#step-1-prior-risk-probability",
     "href": "ch-bayes.html#step-1-prior-risk-probability",
     "title": "6  I Had a Feeling: Bayesian Risk Inference",
-    "section": "6.2 Step 1: Prior Risk Probability",
-    "text": "6.2 Step 1: Prior Risk Probability\nBefore any observations are made, risk_prob() computes the probability of a risk event R occurring given two potential root causes. For each cause, we supply:\n\ncause_probs — prior probability that the cause is present\nrisks_given_causes — P(R | cause present)\nrisks_given_not_causes — P(R | cause absent)\n\n\ncause_probs            &lt;- c(0.3, 0.2)\nrisks_given_causes     &lt;- c(0.8, 0.6)\nrisks_given_not_causes &lt;- c(0.2, 0.4)\n\n\nprior_risk &lt;- risk_prob(cause_probs, risks_given_causes, risks_given_not_causes)\ncat(\"Prior probability of risk event R:\", round(prior_risk, 3), \"\\n\")\n\nPrior probability of risk event R: 0.82 \n\n\nThis is your starting point — an estimate of how likely the risk event is before you’ve looked at anything on site.",
+    "section": "6.3 Step 1: Prior Risk Probability",
+    "text": "6.3 Step 1: Prior Risk Probability\nBefore any observations are made, risk_prob() computes the probability of a risk event R occurring given two potential root causes. For each cause, we supply:\n\ncause_probs — prior probability that the cause is present\nrisks_given_causes — P(R | cause present)\nrisks_given_not_causes — P(R | cause absent)\n\n\ncause_probs            &lt;- c(0.3, 0.2)\nrisks_given_causes     &lt;- c(0.8, 0.6)\nrisks_given_not_causes &lt;- c(0.2, 0.4)\n\n\nprior_risk &lt;- risk_prob(cause_probs, risks_given_causes, risks_given_not_causes)\ncat(\"Prior probability of risk event R:\", round(prior_risk, 3), \"\\n\")\n\nPrior probability of risk event R: 0.82 \n\n\nThis is your starting point — an estimate of how likely the risk event is before you’ve looked at anything on site.",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>I Had a Feeling: Bayesian Risk Inference</span>"
     ]
@@ -553,8 +563,8 @@
     "objectID": "ch-bayes.html#step-2-prior-cost-distribution",
     "href": "ch-bayes.html#step-2-prior-cost-distribution",
     "title": "6  I Had a Feeling: Bayesian Risk Inference",
-    "section": "6.3 Step 2: Prior Cost Distribution",
-    "text": "6.3 Step 2: Prior Cost Distribution\nGiven the prior risk probabilities, cost_pdf() samples the cost distribution before any field observations. Three independent risk events can each contribute cost if they occur.\n\nrisk_probs        &lt;- c(0.3, 0.5, 0.2)\nmeans_given_risks &lt;- c(10000, 15000, 5000)\nsds_given_risks   &lt;- c(2000, 1000, 1000)\nbase_cost         &lt;- 2000\n\n\nprior_samples &lt;- cost_pdf(\n  num_sims          = 5000,\n  risk_probs        = risk_probs,\n  means_given_risks = means_given_risks,\n  sds_given_risks   = sds_given_risks,\n  base_cost         = base_cost\n)\n\nWe’ll compare this prior distribution to the posterior in Step 4.",
+    "section": "6.4 Step 2: Prior Cost Distribution",
+    "text": "6.4 Step 2: Prior Cost Distribution\nGiven the prior risk probabilities, cost_pdf() samples the cost distribution before any field observations. Three independent risk events can each contribute cost if they occur.\n\nrisk_probs        &lt;- c(0.3, 0.5, 0.2)\nmeans_given_risks &lt;- c(10000, 15000, 5000)\nsds_given_risks   &lt;- c(2000, 1000, 1000)\nbase_cost         &lt;- 2000\n\n\nprior_samples &lt;- cost_pdf(\n  num_sims          = 5000,\n  risk_probs        = risk_probs,\n  means_given_risks = means_given_risks,\n  sds_given_risks   = sds_given_risks,\n  base_cost         = base_cost\n)\n\nWe’ll compare this prior distribution to the posterior in Step 4.",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>I Had a Feeling: Bayesian Risk Inference</span>"
     ]
@@ -563,8 +573,8 @@
     "objectID": "ch-bayes.html#step-3-posterior-risk-probability-bayesian-update",
     "href": "ch-bayes.html#step-3-posterior-risk-probability-bayesian-update",
     "title": "6  I Had a Feeling: Bayesian Risk Inference",
-    "section": "6.4 Step 3: Posterior Risk Probability (Bayesian Update)",
-    "text": "6.4 Step 3: Posterior Risk Probability (Bayesian Update)\nAfter inspecting the project site, we observe that Cause 1 is present (= 1). Cause 2 has not yet been assessed (= NA). risk_post_prob() updates the risk probability using only the available evidence — NA causes are treated as unobserved and do not contribute to the update.\n\nobserved_causes &lt;- c(1, NA)  # C1 observed as present; C2 not yet assessed\n\n\nposterior_risk &lt;- risk_post_prob(\n  cause_probs, risks_given_causes,\n  risks_given_not_causes, observed_causes\n)\ncat(\"Posterior probability of risk event R:\", round(posterior_risk, 3), \"\\n\")\n\nPosterior probability of risk event R: 0.632 \n\n\nObserving Cause 1 (which has a strong link to R) raises the risk probability substantially. The NA for Cause 2 is simply ignored — only confirmed observations drive the update.\n\n6.4.1 Prior vs. Posterior Probability\n\nprob_data &lt;- data.frame(\n  Stage       = c(\"Prior\", \"Posterior\"),\n  Probability = c(prior_risk, posterior_risk)\n)\n\np &lt;- ggplot2::ggplot(prob_data, ggplot2::aes(x = Stage, y = Probability, fill = Stage)) +\n  ggplot2::geom_col(width = 0.5, show.legend = FALSE) +\n  ggplot2::geom_text(ggplot2::aes(label = round(Probability, 3)),\n    vjust = -0.4, size = 4.5\n  ) +\n  ggplot2::scale_fill_manual(values = c(\"Prior\" = \"steelblue\", \"Posterior\" = \"tomato\")) +\n  ggplot2::scale_y_continuous(limits = c(0, 1), labels = scales::percent) +\n  ggplot2::labs(\n    title = \"Bayesian Update: Risk Probability\",\n    x     = NULL, y = \"P(Risk Event R)\"\n  ) +\n  ggplot2::theme_minimal(base_size = 13)\n\nprint(p)\n\n\n\n\nBayesian update: observing Cause 1 nearly doubles the estimated probability of the risk event.",
+    "section": "6.5 Step 3: Posterior Risk Probability (Bayesian Update)",
+    "text": "6.5 Step 3: Posterior Risk Probability (Bayesian Update)\nAfter inspecting the project site, we observe that Cause 1 is present (= 1). Cause 2 has not yet been assessed (= NA). risk_post_prob() updates the risk probability using only the available evidence — NA causes are treated as unobserved and do not contribute to the update.\n\nobserved_causes &lt;- c(1, NA)  # C1 observed as present; C2 not yet assessed\n\n\nposterior_risk &lt;- risk_post_prob(\n  cause_probs, risks_given_causes,\n  risks_given_not_causes, observed_causes\n)\ncat(\"Posterior probability of risk event R:\", round(posterior_risk, 3), \"\\n\")\n\nPosterior probability of risk event R: 0.632 \n\n\nObserving Cause 1 (which has a strong link to R) raises the risk probability substantially. The NA for Cause 2 is simply ignored — only confirmed observations drive the update.\n\n6.5.1 Prior vs. Posterior Probability\n\nprob_data &lt;- data.frame(\n  Stage       = c(\"Prior\", \"Posterior\"),\n  Probability = c(prior_risk, posterior_risk)\n)\n\np &lt;- ggplot2::ggplot(prob_data, ggplot2::aes(x = Stage, y = Probability, fill = Stage)) +\n  ggplot2::geom_col(width = 0.5, show.legend = FALSE) +\n  ggplot2::geom_text(ggplot2::aes(label = round(Probability, 3)),\n    vjust = -0.4, size = 4.5\n  ) +\n  ggplot2::scale_fill_manual(values = c(\"Prior\" = \"steelblue\", \"Posterior\" = \"tomato\")) +\n  ggplot2::scale_y_continuous(limits = c(0, 1), labels = scales::percent) +\n  ggplot2::labs(\n    title = \"Bayesian Update: Risk Probability\",\n    x     = NULL, y = \"P(Risk Event R)\"\n  ) +\n  ggplot2::theme_minimal(base_size = 13)\n\nprint(p)\n\n\n\n\nBayesian update: observing Cause 1 nearly doubles the estimated probability of the risk event.",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>I Had a Feeling: Bayesian Risk Inference</span>"
     ]
@@ -573,8 +583,8 @@
     "objectID": "ch-bayes.html#step-4-posterior-cost-distribution",
     "href": "ch-bayes.html#step-4-posterior-cost-distribution",
     "title": "6  I Had a Feeling: Bayesian Risk Inference",
-    "section": "6.5 Step 4: Posterior Cost Distribution",
-    "text": "6.5 Step 4: Posterior Cost Distribution\nNow that we know Cause 1 is present (Risk 1 occurs), and one risk remains unobserved (Risk 2 = NA), cost_post_pdf() samples the posterior cost distribution. Observed risks that occurred (= 1) add their cost; unobserved risks (= NA) are excluded from the simulation.\n\nobserved_risks &lt;- c(1, NA, 1)  # Risk 1 and 3 confirmed; Risk 2 not yet assessed\n\n\nposterior_samples &lt;- cost_post_pdf(\n  num_sims          = 5000,\n  observed_risks    = observed_risks,\n  means_given_risks = means_given_risks,\n  sds_given_risks   = sds_given_risks,\n  base_cost         = base_cost\n)\n\n\n6.5.1 Prior vs. Posterior Cost Distribution\nPlotting both distributions on the same axes shows how the evidence shifts the cost estimate:\n\nxlim_range &lt;- range(c(prior_samples, posterior_samples))\n\nhist(prior_samples,\n  breaks = 40, freq = FALSE,\n  col    = rgb(0.27, 0.51, 0.71, 0.5),\n  border = \"white\",\n  xlim   = xlim_range,\n  main   = \"Prior vs. Posterior Cost Distribution\",\n  xlab   = \"Total Cost ($)\", ylab = \"Density\"\n)\n\nhist(posterior_samples,\n  breaks = 40, freq = FALSE,\n  col    = rgb(0.84, 0.24, 0.31, 0.5),\n  border = \"white\",\n  add    = TRUE\n)\n\nabline(v = mean(prior_samples),     col = \"steelblue\", lty = 2, lwd = 2)\nabline(v = mean(posterior_samples), col = \"tomato\",    lty = 2, lwd = 2)\n\nlegend(\"topright\",\n  legend = c(\n    paste0(\"Prior  (mean = $\", format(round(mean(prior_samples)),     big.mark = \",\")),\n    paste0(\"Posterior (mean = $\", format(round(mean(posterior_samples)), big.mark = \",\"))\n  ),\n  fill = c(rgb(0.27, 0.51, 0.71, 0.5), rgb(0.84, 0.24, 0.31, 0.5)),\n  bty  = \"n\"\n)\n\n\n\n\nPrior vs. posterior cost distribution. Confirming which risks materialized narrows and shifts the distribution.\n\n\n\n\nInterpretation: The posterior distribution is narrower and shifted upward — observing which risks materialized eliminates uncertainty about some cost components while raising the estimated exposure from confirmed events. The remaining spread reflects uncertainty from the unobserved risk and cost variability in the confirmed ones.",
+    "section": "6.6 Step 4: Posterior Cost Distribution",
+    "text": "6.6 Step 4: Posterior Cost Distribution\nNow that we know Cause 1 is present (Risk 1 occurs), and one risk remains unobserved (Risk 2 = NA), cost_post_pdf() samples the posterior cost distribution. Observed risks that occurred (= 1) add their cost; unobserved risks (= NA) are excluded from the simulation.\n\nobserved_risks &lt;- c(1, NA, 1)  # Risk 1 and 3 confirmed; Risk 2 not yet assessed\n\n\nposterior_samples &lt;- cost_post_pdf(\n  num_sims          = 5000,\n  observed_risks    = observed_risks,\n  means_given_risks = means_given_risks,\n  sds_given_risks   = sds_given_risks,\n  base_cost         = base_cost\n)\n\n\n6.6.1 Prior vs. Posterior Cost Distribution\nPlotting both distributions on the same axes shows how the evidence shifts the cost estimate:\n\nxlim_range &lt;- range(c(prior_samples, posterior_samples))\n\nhist(prior_samples,\n  breaks = 40, freq = FALSE,\n  col    = rgb(0.27, 0.51, 0.71, 0.5),\n  border = \"white\",\n  xlim   = xlim_range,\n  main   = \"Prior vs. Posterior Cost Distribution\",\n  xlab   = \"Total Cost ($)\", ylab = \"Density\"\n)\n\nhist(posterior_samples,\n  breaks = 40, freq = FALSE,\n  col    = rgb(0.84, 0.24, 0.31, 0.5),\n  border = \"white\",\n  add    = TRUE\n)\n\nabline(v = mean(prior_samples),     col = \"steelblue\", lty = 2, lwd = 2)\nabline(v = mean(posterior_samples), col = \"tomato\",    lty = 2, lwd = 2)\n\nlegend(\"topright\",\n  legend = c(\n    paste0(\"Prior  (mean = $\", format(round(mean(prior_samples)),     big.mark = \",\")),\n    paste0(\"Posterior (mean = $\", format(round(mean(posterior_samples)), big.mark = \",\"))\n  ),\n  fill = c(rgb(0.27, 0.51, 0.71, 0.5), rgb(0.84, 0.24, 0.31, 0.5)),\n  bty  = \"n\"\n)\n\n\n\n\nPrior vs. posterior cost distribution. Confirming which risks materialized narrows and shifts the distribution.\n\n\n\n\nInterpretation: The posterior distribution is narrower and shifted upward — observing which risks materialized eliminates uncertainty about some cost components while raising the estimated exposure from confirmed events. The remaining spread reflects uncertainty from the unobserved risk and cost variability in the confirmed ones.",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>I Had a Feeling: Bayesian Risk Inference</span>"
     ]
@@ -583,8 +593,8 @@
     "objectID": "ch-bayes.html#summary",
     "href": "ch-bayes.html#summary",
     "title": "6  I Had a Feeling: Bayesian Risk Inference",
-    "section": "6.6 Summary",
-    "text": "6.6 Summary\nThe Bayesian workflow in PRA follows a natural before-and-after structure:\n\nBefore observations — use risk_prob() and cost_pdf() to characterize the risk landscape.\nAs evidence arrives — use risk_post_prob() and cost_post_pdf() to update estimates.\nNA values represent causes/risks not yet assessed — they are correctly excluded from the update.\n\nThis approach is particularly powerful in phased projects where information about risk drivers becomes available progressively, allowing cost forecasts to be refined at each stage.",
+    "section": "6.7 Summary",
+    "text": "6.7 Summary\nThe Bayesian workflow in PRA follows a natural before-and-after structure:\n\nBefore observations — use risk_prob() and cost_pdf() to characterize the risk landscape.\nAs evidence arrives — use risk_post_prob() and cost_post_pdf() to update estimates.\nNA values represent causes/risks not yet assessed — they are correctly excluded from the update.\n\nThis approach is particularly powerful in phased projects where information about risk drivers becomes available progressively, allowing cost forecasts to be refined at each stage.",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>I Had a Feeling: Bayesian Risk Inference</span>"
     ]
@@ -593,8 +603,8 @@
     "objectID": "ch-bayes.html#summary-1",
     "href": "ch-bayes.html#summary-1",
     "title": "6  I Had a Feeling: Bayesian Risk Inference",
-    "section": "6.7 Summary",
-    "text": "6.7 Summary\n\n\n\n\n\n\nTipKey Takeaways\n\n\n\n\nBayesian inference is the principled way to update risk estimates as new evidence arrives — it is not a heuristic, it is the mathematically correct rule.\nPrior → Posterior: the posterior always moves in the direction of the evidence; the size of the move depends on how strongly the cause links to the risk.\nNA values for unobserved causes or risks are correctly handled — they do not contribute to the update, reflecting genuine ignorance.\nThe posterior cost distribution is typically narrower than the prior, because confirmed risk states eliminate uncertainty about some cost components.\nThis workflow is particularly powerful in phased projects: update at each phase gate as more information becomes available.\n\n\n\nFor risks that propagate through a network of shared resources and tasks, Chapter 9 extends these ideas into a full probabilistic graph where Bayesian conditioning and structural dependencies interact.",
+    "section": "6.8 Summary",
+    "text": "6.8 Summary\n\n\n\n\n\n\nTipKey Takeaways\n\n\n\n\nBayesian inference is the principled way to update risk estimates as new evidence arrives — it is not a heuristic, it is the mathematically correct rule.\nPrior → Posterior: the posterior always moves in the direction of the evidence; the size of the move depends on how strongly the cause links to the risk.\nNA values for unobserved causes or risks are correctly handled — they do not contribute to the update, reflecting genuine ignorance.\nThe posterior cost distribution is typically narrower than the prior, because confirmed risk states eliminate uncertainty about some cost components.\nThis workflow is particularly powerful in phased projects: update at each phase gate as more information becomes available.\n\n\n\nFor risks that propagate through a network of shared resources and tasks, Chapter 9 extends these ideas into a full probabilistic graph where Bayesian conditioning and structural dependencies interact.",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>I Had a Feeling: Bayesian Risk Inference</span>"
     ]
@@ -603,8 +613,8 @@
     "objectID": "ch-bayes.html#exercises",
     "href": "ch-bayes.html#exercises",
     "title": "6  I Had a Feeling: Bayesian Risk Inference",
-    "section": "6.8 Exercises",
-    "text": "6.8 Exercises\n\nPrior vs. posterior. In plain English, what is the difference between a prior probability and a posterior probability? Give a project example where each would be used.\nChange the observation. Re-run Step 3 with Cause 2 observed as present (= 1) instead of Cause 1. How does the posterior change compared to when Cause 1 was observed? Why?\nBoth causes observed. What happens if you observe both causes as present (= 1, = 1)? Compute the posterior. What is the maximum possible posterior probability given the model parameters?\nIntuition check. ★ Explain in plain English why observing one root cause changes your belief about the risk event, even though we didn’t observe the risk event itself. What is the role of the conditional probabilities risks_given_causes in this reasoning?\nSequential updating. ★ Start with the prior. Observe Cause 1. Update. Then observe Cause 2. Update again. Does it matter what order you observe the causes? Should it? (Hint: think about whether the causes are assumed independent in this model.)",
+    "section": "6.9 Exercises",
+    "text": "6.9 Exercises\n\nPrior vs. posterior. In plain English, what is the difference between a prior probability and a posterior probability? Give a project example where each would be used.\nChange the observation. Re-run Step 3 with Cause 2 observed as present (= 1) instead of Cause 1. How does the posterior change compared to when Cause 1 was observed? Why?\nBoth causes observed. What happens if you observe both causes as present (= 1, = 1)? Compute the posterior. What is the maximum possible posterior probability given the model parameters?\nIntuition check. ★ Explain in plain English why observing one root cause changes your belief about the risk event, even though we didn’t observe the risk event itself. What is the role of the conditional probabilities risks_given_causes in this reasoning?\nSequential updating. ★ Start with the prior. Observe Cause 1. Update. Then observe Cause 2. Update again. Does it matter what order you observe the causes? Should it? (Hint: think about whether the causes are assumed independent in this model.)",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>I Had a Feeling: Bayesian Risk Inference</span>"
     ]
@@ -824,7 +834,7 @@
     "href": "ch-network.html#building-the-bayesian-network",
     "title": "9  It’s a Small World After All: Probabilistic Networks",
     "section": "9.3 Building the Bayesian Network",
-    "text": "9.3 Building the Bayesian Network\n\n9.3.1 Nodes\n\nnodes &lt;- data.frame(\n  id    = c(\"A\", \"B\", \"C\", \"D\", \"E\", \"F\", \"G\", \"H\", \"I\"),\n  label = c(\n    \"Risk-1\", \"Risk-2\",\n    \"Resource-1\", \"Resource-2\", \"Resource-3\",\n    \"Task-1\", \"Task-2\", \"Task-3\",\n    \"Project\"\n  ),\n  group = c(\n    \"Risk\", \"Risk\",\n    \"Resource\", \"Resource\", \"Resource\",\n    \"Task\", \"Task\", \"Task\",\n    \"Project\"\n  ),\n  stringsAsFactors = FALSE\n)\n\n\n\n9.3.2 Edges\nEdges encode the causal dependencies: risks affect resources, resources drive tasks, and tasks roll up to the project total.\n\nlinks &lt;- data.frame(\n  source = c(\"A\", \"B\", \"C\", \"D\", \"E\", \"F\", \"G\", \"H\"),\n  target = c(\"C\", \"D\", \"F\", \"G\", \"H\", \"I\", \"I\", \"I\"),\n  value  = rep(1, 8),\n  stringsAsFactors = FALSE\n)\n\n\n\n9.3.3 Distributions\n\ndistributions &lt;- list(\n  A = list(type = \"discrete\", values = c(1, 0), probs = c(0.70, 0.30)),\n  B = list(type = \"discrete\", values = c(1, 0), probs = c(0.60, 0.40)),\n  C = list(\n    type = \"conditional\", condition = \"A\",\n    true_dist  = list(type = \"normal\", mean = 30000, sd = 8000),\n    false_dist = list(type = \"normal\", mean = 15000, sd = 3000)\n  ),\n  D = list(\n    type = \"conditional\", condition = \"B\",\n    true_dist  = list(type = \"normal\", mean = 80000, sd = 20000),\n    false_dist = list(type = \"normal\", mean = 50000, sd = 10000)\n  ),\n  E = list(type = \"normal\", mean = 20000, sd = 4000),\n  F = list(type = \"aggregate\", nodes = c(\"C\")),\n  G = list(type = \"aggregate\", nodes = c(\"D\")),\n  H = list(type = \"aggregate\", nodes = c(\"E\")),\n  I = list(type = \"aggregate\", nodes = c(\"F\", \"G\", \"H\"))\n)\n\n\n\n9.3.4 Build the Graph\n\ngraph &lt;- prob_net(nodes, links, distributions = distributions)\n\nThe network can be visualized with the igraph and networkD3 packages.\n\nlibrary(igraph)\nlibrary(networkD3)\ng   &lt;- graph_from_data_frame(graph$links, vertices = graph$nodes, directed = TRUE)\nd3g &lt;- igraph_to_networkD3(g, group = graph$nodes$group)\nforceNetwork(\n  Links = d3g$links, Nodes = d3g$nodes, NodeID = \"name\", Group = \"group\",\n  Value = \"value\", zoom = TRUE, legend = TRUE, arrows = TRUE,\n  opacity = 0.8, fontSize = 14\n)",
+    "text": "9.3 Building the Bayesian Network\n\n9.3.1 Nodes\n\nnodes &lt;- data.frame(\n  id    = c(\"A\", \"B\", \"C\", \"D\", \"E\", \"F\", \"G\", \"H\", \"I\"),\n  label = c(\n    \"Risk-1\", \"Risk-2\",\n    \"Resource-1\", \"Resource-2\", \"Resource-3\",\n    \"Task-1\", \"Task-2\", \"Task-3\",\n    \"Project\"\n  ),\n  group = c(\n    \"Risk\", \"Risk\",\n    \"Resource\", \"Resource\", \"Resource\",\n    \"Task\", \"Task\", \"Task\",\n    \"Project\"\n  ),\n  stringsAsFactors = FALSE\n)\n\n\n\n9.3.2 Edges\nEdges encode the causal dependencies: risks affect resources, resources drive tasks, and tasks roll up to the project total.\n\nlinks &lt;- data.frame(\n  source = c(\"A\", \"B\", \"C\", \"D\", \"E\", \"F\", \"G\", \"H\"),\n  target = c(\"C\", \"D\", \"F\", \"G\", \"H\", \"I\", \"I\", \"I\"),\n  value  = rep(1, 8),\n  stringsAsFactors = FALSE\n)\n\n\n\n9.3.3 Distributions\n\ndistributions &lt;- list(\n  A = list(type = \"discrete\", values = c(1, 0), probs = c(0.70, 0.30)),\n  B = list(type = \"discrete\", values = c(1, 0), probs = c(0.60, 0.40)),\n  C = list(\n    type = \"conditional\", condition = \"A\",\n    true_dist  = list(type = \"normal\", mean = 30000, sd = 8000),\n    false_dist = list(type = \"normal\", mean = 15000, sd = 3000)\n  ),\n  D = list(\n    type = \"conditional\", condition = \"B\",\n    true_dist  = list(type = \"normal\", mean = 80000, sd = 20000),\n    false_dist = list(type = \"normal\", mean = 50000, sd = 10000)\n  ),\n  E = list(type = \"normal\", mean = 20000, sd = 4000),\n  F = list(type = \"aggregate\", nodes = c(\"C\")),\n  G = list(type = \"aggregate\", nodes = c(\"D\")),\n  H = list(type = \"aggregate\", nodes = c(\"E\")),\n  I = list(type = \"aggregate\", nodes = c(\"F\", \"G\", \"H\"))\n)\n\n\n\n9.3.4 Build the Graph\n\ngraph &lt;- prob_net(nodes, links, distributions = distributions)\n\nThe network can be visualized with the igraph and networkD3 packages.\n\nlibrary(igraph)\nlibrary(networkD3)\ng   &lt;- graph_from_data_frame(graph$links, vertices = graph$nodes, directed = TRUE)\nd3g &lt;- igraph_to_networkD3(g, group = graph$nodes$group)\n\n\nforceNetwork(\n  Links = d3g$links, Nodes = d3g$nodes, NodeID = \"name\", Group = \"group\",\n  Value = \"value\", zoom = TRUE, legend = TRUE, arrows = TRUE,\n  opacity = 0.8, fontSize = 14\n)\n\n\n\nProbabilistic network of risks, resources, tasks, and project cost.\n\n\n\nplot(\n  g,\n  vertex.color = as.factor(graph$nodes$group),\n  vertex.size = 14, vertex.label.cex = 0.7,\n  edge.arrow.size = 0.4, layout = layout_with_sugiyama(g)$layout\n)",
     "crumbs": [
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>It's a Small World After All: Probabilistic Networks</span>"
     ]

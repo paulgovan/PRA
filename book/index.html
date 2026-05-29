@@ -181,13 +181,13 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to the Jungle: An Introduction to Project Risk Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Into the Unknown: An Introduction to Project Risk Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-mcs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Go Monte or Go Home: Monte Carlo Simulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Roll the Dice: Monte Carlo Simulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -205,7 +205,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-evm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Show Me the Money: Earned Value Management</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Keeping Score: Earned Value Management</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -323,7 +323,7 @@ div.csl-indent {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title">Project Risk Analysis: A Practical Guide</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
-<p class="subtitle lead">From Monte Carlo to AI Agents, Without Losing Your Mind</p>
+<p class="subtitle lead">From Monte Carlo to AI Agents</p>
 </div>
 
 
@@ -355,13 +355,13 @@ div.csl-indent {
 
 <section id="preface" class="level1 unnumbered">
 <h1 class="unnumbered">Preface</h1><p><img src="cover.png" title="Project Risk Analysis: A Practical Guide" class="quarto-cover-image nolightbox img-fluid"></p>
-<p>Every project starts with a plan. And then reality happens.</p>
-<p>Deadlines slip. Costs creep. That one vendor who was “definitely going to deliver on time” … doesn’t. Risk is not an edge case in project management — it is the whole game. The question is not whether uncertainty will show up on your project, but whether you’ll have the tools to quantify it, communicate it, and manage it before it manages you.</p>
+<p>Every project starts with a plan. Then the project starts.</p>
+<p>Deadlines shift. Costs drift. Risks that seemed unlikely have a way of becoming very real. Uncertainty is not an edge case in project management — it is woven into the work itself. The question is not whether it will show up, but whether you’ll have the tools to quantify it, communicate it, and manage it thoughtfully.</p>
 <p>This book is your toolkit.</p>
 <section id="what-this-book-is-about" class="level2">
 <h2 class="anchored" data-anchor-id="what-this-book-is-about">What This Book Is About</h2>
 <p><em>Project Risk Analysis: A Practical Guide</em> is a hands-on introduction to quantitative methods for managing uncertainty in project schedules and costs. We cover the major techniques used by risk analysts, project managers, and engineers: Monte Carlo simulation, second moment methods, earned value management, Bayesian inference, learning curves, design structure matrices, probabilistic networks, and AI-powered risk analysis — all through working R code using the <code>PRA</code> package.</p>
-<p>The goal is not to overwhelm you with theory (though we won’t shy away from the math when it helps). The goal is to make you dangerous: someone who can take a project estimate, ask the right “what if” questions, and produce defensible numbers for schedule and cost contingency.</p>
+<p>The goal is not to overwhelm you with theory (though we won’t shy away from the math when it helps). The goal is to give you a real edge: the ability to take a project estimate, ask the right “what if” questions, and produce defensible numbers for schedule and cost contingency.</p>
 </section>
 <section id="who-this-book-is-for" class="level2">
 <h2 class="anchored" data-anchor-id="who-this-book-is-for">Who This Book Is For</h2>
@@ -375,7 +375,7 @@ div.csl-indent {
 </section>
 <section id="how-to-use-this-book" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-use-this-book">How to Use This Book</h2>
-<p>Each chapter is self-contained and covers one method. If you’re in a hurry and just need Monte Carlo simulation, go straight to <a href="ch-mcs.html" class="quarto-xref"><span>2&nbsp; Go Monte or Go Home: Monte Carlo Simulation</span></a>. If you already know EVM and want to learn Bayesian inference, skip ahead to <a href="ch-bayes.html" class="quarto-xref"><span>6&nbsp; I Had a Feeling: Bayesian Risk Inference</span></a>. That said, the chapters do build on each other conceptually, and reading in order will give you the fullest picture.</p>
+<p>Each chapter is self-contained and covers one method. If you’re in a hurry and just need Monte Carlo simulation, go straight to <a href="ch-mcs.html" class="quarto-xref"><span>2&nbsp; Roll the Dice: Monte Carlo Simulation</span></a>. If you already know EVM and want to learn Bayesian inference, skip ahead to <a href="ch-bayes.html" class="quarto-xref"><span>6&nbsp; I Had a Feeling: Bayesian Risk Inference</span></a>. That said, the chapters do build on each other conceptually, and reading in order will give you the fullest picture.</p>
 <p>Every chapter follows the same structure:</p>
 <ol type="1">
 <li><strong>Why this method?</strong> — A short, honest answer to “when would I actually use this?”</li>
@@ -408,7 +408,7 @@ div.csl-indent {
 <li><strong>Reproducible.</strong> An R script is a record of exactly what you did. Share it, version-control it, re-run it six months later — it produces the same result.</li>
 <li><strong>Composable.</strong> The output of <code>mcs()</code> flows directly into <code>contingency()</code> and <code>sensitivity()</code>. Methods chain together naturally rather than requiring manual copy-paste between tabs.</li>
 </ul>
-<p>Learning risk analysis through a software package also enforces discipline: you have to be explicit about your assumptions. There is no “I eyeballed it” in code.</p>
+<p>Learning risk analysis through a software package also enforces discipline: you have to be explicit about your assumptions. Code makes assumptions explicit and verifiable.</p>
 </section>
 <section id="a-reproducible-book" class="level2">
 <h2 class="anchored" data-anchor-id="a-reproducible-book">A Reproducible Book</h2>
@@ -427,13 +427,13 @@ div.csl-indent {
 <h2 class="anchored" data-anchor-id="how-to-cite">How to Cite</h2>
 <p>If you use this book in your work, please cite it as:</p>
 <blockquote class="blockquote">
-<p>Govan, P. (<em>year</em>). <em>Project Risk Analysis: A Practical Guide: From Monte Carlo to AI Agents, Without Losing Your Mind</em>. <a href="https://github.com/paulgovan/PRA" class="uri">https://github.com/paulgovan/PRA</a></p>
+<p>Govan, P. (<em>year</em>). <em>Project Risk Analysis: A Practical Guide: From Monte Carlo to AI Agents</em>. <a href="https://github.com/paulgovan/PRA" class="uri">https://github.com/paulgovan/PRA</a></p>
 </blockquote>
 <p>Or in BibTeX:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bibtex code-with-copy"><code class="sourceCode bibtex"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">@book</span>{<span class="ot">govan_pra</span>,</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>    = {Paul Govan},</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>     = {Project Risk Analysis: A Practical Guide},</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">subtitle</span>  = {From Monte Carlo to AI Agents, Without Losing Your Mind},</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">subtitle</span>  = {From Monte Carlo to AI Agents},</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>      = {2025},</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">url</span>       = {https://github.com/paulgovan/PRA},</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">note</span>      = {CC BY 4.0}</span>
@@ -446,8 +446,8 @@ div.csl-indent {
 </section>
 <section id="acknowledgements" class="level2">
 <h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
-<p>The <code>PRA</code> package and this book grew out of research on the resource-based view of project risk management <span class="citation" data-cites="govan2016 govan2014">(<a href="references.html#ref-govan2016" role="doc-biblioref">Govan and Damnjanovic 2016</a>; <a href="references.html#ref-govan2014" role="doc-biblioref">Govan 2014</a>)</span>. Thanks to the open-source R community for the packages that make quantitative risk analysis accessible, and to every project manager who has ever stared at a schedule baseline and thought “there’s no way this is right.”</p>
-<p>Let’s find out how wrong it is — quantitatively.</p>
+<p>The <code>PRA</code> package and this book grew out of research on the resource-based view of project risk management <span class="citation" data-cites="govan2016 govan2014">(<a href="references.html#ref-govan2016" role="doc-biblioref">Govan and Damnjanovic 2016</a>; <a href="references.html#ref-govan2014" role="doc-biblioref">Govan 2014</a>)</span>. Thanks to the open-source R community for the packages that make quantitative risk analysis accessible, and to every project manager who has ever looked at a schedule baseline and wondered whether the numbers were as solid as they looked.</p>
+<p>There is only one way to find out — quantitatively.</p>
 
 
 <!-- -->
@@ -919,16 +919,16 @@ Govan, Paul, and Ivan Damnjanovic. 2016. <span>“The Resource-Based View on Pro
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./intro.html" class="pagination-link" aria-label="Welcome to the Jungle: An Introduction to Project Risk Analysis">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to the Jungle: An Introduction to Project Risk Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./intro.html" class="pagination-link" aria-label="Into the Unknown: An Introduction to Project Risk Analysis">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Into the Unknown: An Introduction to Project Risk Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Preface {.unnumbered}</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>Every project starts with a plan. And then reality happens.</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>Every project starts with a plan. Then the project starts.</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>Deadlines slip. Costs creep. That one vendor who was "definitely going to deliver on time" ... doesn't. Risk is not an edge case in project management — it is the whole game. The question is not whether uncertainty will show up on your project, but whether you'll have the tools to quantify it, communicate it, and manage it before it manages you.</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>Deadlines shift. Costs drift. Risks that seemed unlikely have a way of becoming very real. Uncertainty is not an edge case in project management — it is woven into the work itself. The question is not whether it will show up, but whether you'll have the tools to quantify it, communicate it, and manage it thoughtfully.</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>This book is your toolkit.</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
@@ -936,7 +936,7 @@ Govan, Paul, and Ivan Damnjanovic. 2016. <span>“The Resource-Based View on Pro
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>*Project Risk Analysis: A Practical Guide* is a hands-on introduction to quantitative methods for managing uncertainty in project schedules and costs. We cover the major techniques used by risk analysts, project managers, and engineers: Monte Carlo simulation, second moment methods, earned value management, Bayesian inference, learning curves, design structure matrices, probabilistic networks, and AI-powered risk analysis — all through working R code using the <span class="in">`PRA`</span> package.</span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>The goal is not to overwhelm you with theory (though we won't shy away from the math when it helps). The goal is to make you dangerous: someone who can take a project estimate, ask the right "what if" questions, and produce defensible numbers for schedule and cost contingency.</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>The goal is not to overwhelm you with theory (though we won't shy away from the math when it helps). The goal is to give you a real edge: the ability to take a project estimate, ask the right "what if" questions, and produce defensible numbers for schedule and cost contingency.</span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## Who This Book Is For</span></span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
@@ -994,7 +994,7 @@ Govan, Paul, and Ivan Damnjanovic. 2016. <span>“The Resource-Based View on Pro
 <span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Reproducible.** An R script is a record of exactly what you did. Share it, version-control it, re-run it six months later — it produces the same result.</span>
 <span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Composable.** The output of <span class="in">`mcs()`</span> flows directly into <span class="in">`contingency()`</span> and <span class="in">`sensitivity()`</span>. Methods chain together naturally rather than requiring manual copy-paste between tabs.</span>
 <span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>Learning risk analysis through a software package also enforces discipline: you have to be explicit about your assumptions. There is no "I eyeballed it" in code.</span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>Learning risk analysis through a software package also enforces discipline: you have to be explicit about your assumptions. Code makes assumptions explicit and verifiable.</span>
 <span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a><span class="fu">## A Reproducible Book</span></span>
 <span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a></span>
@@ -1018,7 +1018,7 @@ Govan, Paul, and Ivan Damnjanovic. 2016. <span>“The Resource-Based View on Pro
 <span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a>If you use this book in your work, please cite it as:</span>
 <span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Govan, P. (*year*). *Project Risk Analysis: A Practical Guide: From Monte Carlo to AI Agents, Without Losing Your Mind*. </span><span class="ot">&lt;https://github.com/paulgovan/PRA&gt;</span></span>
+<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Govan, P. (*year*). *Project Risk Analysis: A Practical Guide: From Monte Carlo to AI Agents*. </span><span class="ot">&lt;https://github.com/paulgovan/PRA&gt;</span></span>
 <span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a>Or in BibTeX:</span>
 <span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a></span>
@@ -1026,7 +1026,7 @@ Govan, Paul, and Ivan Damnjanovic. 2016. <span>“The Resource-Based View on Pro
 <span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a><span class="in">@book{govan_pra,</span></span>
 <span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a><span class="in">  author    = {Paul Govan},</span></span>
 <span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a><span class="in">  title     = {Project Risk Analysis: A Practical Guide},</span></span>
-<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a><span class="in">  subtitle  = {From Monte Carlo to AI Agents, Without Losing Your Mind},</span></span>
+<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a><span class="in">  subtitle  = {From Monte Carlo to AI Agents},</span></span>
 <span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a><span class="in">  year      = {2025},</span></span>
 <span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a><span class="in">  url       = {https://github.com/paulgovan/PRA},</span></span>
 <span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a><span class="in">  note      = {CC BY 4.0}</span></span>
@@ -1041,9 +1041,9 @@ Govan, Paul, and Ivan Damnjanovic. 2016. <span>“The Resource-Based View on Pro
 <span id="cb6-115"><a href="#cb6-115" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-116"><a href="#cb6-116" aria-hidden="true" tabindex="-1"></a><span class="fu">## Acknowledgements</span></span>
 <span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a>The <span class="in">`PRA`</span> package and this book grew out of research on the resource-based view of project risk management <span class="co">[</span><span class="ot">@govan2016; @govan2014</span><span class="co">]</span>. Thanks to the open-source R community for the packages that make quantitative risk analysis accessible, and to every project manager who has ever stared at a schedule baseline and thought "there's no way this is right."</span>
+<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a>The <span class="in">`PRA`</span> package and this book grew out of research on the resource-based view of project risk management <span class="co">[</span><span class="ot">@govan2016; @govan2014</span><span class="co">]</span>. Thanks to the open-source R community for the packages that make quantitative risk analysis accessible, and to every project manager who has ever looked at a schedule baseline and wondered whether the numbers were as solid as they looked.</span>
 <span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a>Let's find out how wrong it is — quantitatively.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a>There is only one way to find out — quantitatively.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

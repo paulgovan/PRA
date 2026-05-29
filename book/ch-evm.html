@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; Show Me the Money: Earned Value Management – Project Risk Analysis: A Practical Guide</title>
+<title>5&nbsp; Keeping Score: Earned Value Management – Project Risk Analysis: A Practical Guide</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -139,7 +139,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch-evm.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Show Me the Money: Earned Value Management</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch-evm.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Keeping Score: Earned Value Management</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -180,13 +180,13 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to the Jungle: An Introduction to Project Risk Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Into the Unknown: An Introduction to Project Risk Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-mcs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Go Monte or Go Home: Monte Carlo Simulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Roll the Dice: Monte Carlo Simulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -204,7 +204,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-evm.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Show Me the Money: Earned Value Management</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Keeping Score: Earned Value Management</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -300,7 +300,7 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-three-numbers-that-rule-them-all" id="toc-the-three-numbers-that-rule-them-all" class="nav-link active" data-scroll-target="#the-three-numbers-that-rule-them-all"><span class="header-section-number">5.1</span> The Three Numbers That Rule Them All</a></li>
+  <li><a href="#the-three-core-numbers" id="toc-the-three-core-numbers" class="nav-link active" data-scroll-target="#the-three-core-numbers"><span class="header-section-number">5.1</span> The Three Core Numbers</a></li>
   <li><a href="#key-metrics" id="toc-key-metrics" class="nav-link" data-scroll-target="#key-metrics"><span class="header-section-number">5.2</span> Key Metrics</a></li>
   <li><a href="#example-setup" id="toc-example-setup" class="nav-link" data-scroll-target="#example-setup"><span class="header-section-number">5.3</span> Example Setup</a>
   <ul class="collapse">
@@ -325,7 +325,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span id="sec-evm" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Show Me the Money: Earned Value Management</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-evm" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Keeping Score: Earned Value Management</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -345,7 +345,7 @@ div.csl-indent {
 <blockquote class="blockquote">
 <p><em>“What gets measured gets managed.”</em> — Peter Drucker</p>
 </blockquote>
-<p>Imagine you’re three months into a six-month project and you’ve spent exactly half the budget. Great news, right? Not so fast. The real question is: how much work did you actually get done? If you’ve only completed 30% of the project, you’ve got a serious problem. If you’ve completed 55%, you’re ahead of the game.</p>
+<p>Imagine you’re three months into a six-month project and you’ve spent exactly half the budget. That might sound encouraging — but the more useful question is: how much work did you actually get done? If you’ve completed 30% of the project, the budget situation looks very different than if you’ve completed 55%.</p>
 <p>This is the fundamental insight behind <strong>Earned Value Management</strong> (EVM): you can’t judge project health by money spent alone. You need to compare three things — what you planned, what you actually did, and what it cost you to do it.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -367,8 +367,8 @@ div.csl-indent {
 </ol>
 </div>
 </div>
-<section id="the-three-numbers-that-rule-them-all" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="the-three-numbers-that-rule-them-all"><span class="header-section-number">5.1</span> The Three Numbers That Rule Them All</h2>
+<section id="the-three-core-numbers" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="the-three-core-numbers"><span class="header-section-number">5.1</span> The Three Core Numbers</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1245,12 +1245,12 @@ Fleming, Quentin W., and Joel M. Koppelman. 2010. <em>Earned Value Project Manag
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Show Me the Money: Earned Value Management {#sec-evm}</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Keeping Score: Earned Value Management {#sec-evm}</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"What gets measured gets managed."*</span></span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; — Peter Drucker</span></span>
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>Imagine you're three months into a six-month project and you've spent exactly half the budget. Great news, right? Not so fast. The real question is: how much work did you actually get done? If you've only completed 30% of the project, you've got a serious problem. If you've completed 55%, you're ahead of the game.</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>Imagine you're three months into a six-month project and you've spent exactly half the budget. That might sound encouraging — but the more useful question is: how much work did you actually get done? If you've completed 30% of the project, the budget situation looks very different than if you've completed 55%.</span>
 <span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>This is the fundamental insight behind **Earned Value Management** (EVM): you can't judge project health by money spent alone. You need to compare three things — what you planned, what you actually did, and what it cost you to do it.</span>
 <span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a></span>
@@ -1266,7 +1266,7 @@ Fleming, Quentin W., and Joel M. Koppelman. 2010. <em>Earned Value Project Manag
 <span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Read and construct an EVM trend chart</span>
 <span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Three Numbers That Rule Them All</span></span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Three Core Numbers</span></span>
 <span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
 <span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a><span class="fu">## PV, EV, AC — The Foundation of Everything</span></span>
