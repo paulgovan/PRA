@@ -88,7 +88,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./ch-bayes.html" rel="next">
-<link href="./ch-smm.html" rel="prev">
+<link href="./ch-sensitivity.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -98,7 +98,7 @@ div.csl-indent {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-20cc673454d4e2322ef0b4e40f22bd1f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-b4a76c01c78fe92eb35a980f874a855b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -191,14 +191,14 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-sensitivity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Who’s Driving? Sensitivity Analysis</span></span></a>
+  <a href="./ch-smm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">May I Have a (Second) Moment? The Second Moment Method</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-smm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">May I Have a (Second) Moment? The Second Moment Method</span></span></a>
+  <a href="./ch-sensitivity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Who’s Driving? Sensitivity Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -234,7 +234,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-network2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Portfolio Problems? The Network Has Entered the Chat</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Portfolio Problem: When Risks Are Shared</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -254,26 +254,26 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./appendix-casestudy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Case Study: Riverside Bridge Replacement</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./appendix-ref.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Quick Reference</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./appendix-glossary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./appendix-math.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Mathematical Derivations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Mathematical Derivations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-ref.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Quick Reference</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-casestudy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Case Study: Riverside Bridge Replacement</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -343,7 +343,7 @@ div.csl-indent {
 
 
 <blockquote class="blockquote">
-<p><em>“It’s not about the budget you planned. It’s about the value you earned.”</em></p>
+<p><em>“What gets measured gets managed.”</em> — Peter Drucker</p>
 </blockquote>
 <p>Imagine you’re three months into a six-month project and you’ve spent exactly half the budget. Great news, right? Not so fast. The real question is: how much work did you actually get done? If you’ve only completed 30% of the project, you’ve got a serious problem. If you’ve completed 55%, you’re ahead of the game.</p>
 <p>This is the fundamental insight behind <strong>Earned Value Management</strong> (EVM): you can’t judge project health by money spent alone. You need to compare three things — what you planned, what you actually did, and what it cost you to do it.</p>
@@ -408,34 +408,7 @@ div.csl-indent {
 <p>Every EVM metric — variance, index, or forecast — derives from these three numbers. If you know PV, EV, and AC, you know everything EVM can tell you.</p>
 </div>
 </div>
-<p>EVM integrates scope, schedule, and cost into three core quantities <span class="citation" data-cites="flemming2010">(<a href="references.html#ref-flemming2010" role="doc-biblioref">Fleming and Koppelman 2010</a>)</span>:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 37%">
-<col style="width: 62%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Quantity</th>
-<th>What it measures</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>PV</strong> — Planned Value</td>
-<td>The budget authorized for work scheduled through today</td>
-</tr>
-<tr class="even">
-<td><strong>EV</strong> — Earned Value</td>
-<td>The budget value of work actually completed</td>
-</tr>
-<tr class="odd">
-<td><strong>AC</strong> — Actual Cost</td>
-<td>Total cost incurred to date</td>
-</tr>
-</tbody>
-</table>
-<p>From these three numbers, all the other EVM metrics flow. Every performance index, every forecast, every variance — it all comes back to PV, EV, and AC.</p>
+<p>EVM integrates scope, schedule, and cost into these three core quantities <span class="citation" data-cites="flemming2010">(<a href="references.html#ref-flemming2010" role="doc-biblioref">Fleming and Koppelman 2010</a>)</span>. From them, all the other EVM metrics flow — every performance index, every forecast, every variance comes back to PV, EV, and AC.</p>
 </section>
 <section id="key-metrics" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="key-metrics"><span class="header-section-number">5.2</span> Key Metrics</h2>
@@ -710,7 +683,7 @@ div.csl-indent {
 <pre><code>TCPI (to meet EAC):           0.69 </code></pre>
 </div>
 </div>
-<p><strong>Interpretation:</strong> TCPI &gt; 1 means the team must work more efficiently than they have been to meet the target. A TCPI above 1.2 is generally considered unrealistic — if you need to be 30% more efficient for the rest of the project, it probably isn’t going to happen. Using the EAC target gives a more realistic benchmark.</p>
+<p><strong>Interpretation:</strong> TCPI &gt; 1 means the team must work more efficiently than they have been to meet the target. A TCPI above 1.2 is a widely-cited practitioner rule of thumb for “unrealistic” — not a formal PMBOK standard, but a useful warning signal. If you need to be 30% more efficient for the rest of the project, it probably isn’t going to happen. Using the EAC target gives a more realistic benchmark.</p>
 </section>
 <section id="performance-trend-chart" class="level2" data-number="5.6">
 <h2 data-number="5.6" class="anchored" data-anchor-id="performance-trend-chart"><span class="header-section-number">5.6</span> Performance Trend Chart</h2>
@@ -781,7 +754,7 @@ div.csl-indent {
 <li>EVM combines scope, schedule, and cost into three numbers (PV, EV, AC) from which all performance metrics flow.</li>
 <li><strong>CPI &lt; 1</strong> means over-budget; <strong>SPI &lt; 1</strong> means behind schedule. Both below 1 signals a project in serious trouble.</li>
 <li>The <strong>Typical EAC</strong> (BAC / CPI) is the most conservative forecast; use it when current inefficiency is expected to persist.</li>
-<li><strong>TCPI &gt; 1.2</strong> is generally unrealistic — flag it as a signal to revise the budget rather than chase an unachievable efficiency target.</li>
+<li><strong>TCPI &gt; 1.2</strong> is a common practitioner rule of thumb for “unrealistic” (not a formal standard) — flag it as a signal to revise the budget rather than chase an unachievable efficiency target.</li>
 <li>The trend chart (PV, EV, AC over time) is your single most powerful communication tool for project status.</li>
 </ul>
 </div>
@@ -1262,8 +1235,8 @@ Fleming, Quentin W., and Joel M. Koppelman. 2010. <em>Earned Value Project Manag
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./ch-smm.html" class="pagination-link" aria-label="May I Have a (Second) Moment? The Second Moment Method">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">May I Have a (Second) Moment? The Second Moment Method</span></span>
+      <a href="./ch-sensitivity.html" class="pagination-link" aria-label="Who's Driving? Sensitivity Analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Who’s Driving? Sensitivity Analysis</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
@@ -1274,262 +1247,255 @@ Fleming, Quentin W., and Joel M. Koppelman. 2010. <em>Earned Value Project Manag
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Show Me the Money: Earned Value Management {#sec-evm}</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"It's not about the budget you planned. It's about the value you earned."*</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>Imagine you're three months into a six-month project and you've spent exactly half the budget. Great news, right? Not so fast. The real question is: how much work did you actually get done? If you've only completed 30% of the project, you've got a serious problem. If you've completed 55%, you're ahead of the game.</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>This is the fundamental insight behind **Earned Value Management** (EVM): you can't judge project health by money spent alone. You need to compare three things — what you planned, what you actually did, and what it cost you to do it.</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning Objectives</span></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>By the end of this chapter, you will be able to:</span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Compute PV, EV, and AC from project data</span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Calculate and interpret CPI and SPI performance indices</span>
-<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Produce an EAC forecast using all three methods and choose the right one</span>
-<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Calculate ETC, VAC, and TCPI</span>
-<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Read and construct an EVM trend chart</span>
-<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Three Numbers That Rule Them All</span></span>
-<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## PV, EV, AC — The Foundation of Everything</span></span>
-<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Quantity <span class="pp">|</span> What it measures <span class="pp">|</span></span>
-<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|-----------------|</span></span>
-<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **PV** — Planned Value <span class="pp">|</span> The budget authorized for work *scheduled* through today <span class="pp">|</span></span>
-<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **EV** — Earned Value <span class="pp">|</span> The budget value of work *actually completed* <span class="pp">|</span></span>
-<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **AC** — Actual Cost <span class="pp">|</span> Total cost *incurred* to date <span class="pp">|</span></span>
-<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-32"><a href="#cb33-32" aria-hidden="true" tabindex="-1"></a>Every EVM metric — variance, index, or forecast — derives from these three numbers. If you know PV, EV, and AC, you know everything EVM can tell you.</span>
-<span id="cb33-33"><a href="#cb33-33" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb33-34"><a href="#cb33-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-35"><a href="#cb33-35" aria-hidden="true" tabindex="-1"></a>EVM integrates scope, schedule, and cost into three core quantities <span class="co">[</span><span class="ot">@flemming2010</span><span class="co">]</span>:</span>
-<span id="cb33-36"><a href="#cb33-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-37"><a href="#cb33-37" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Quantity <span class="pp">|</span> What it measures <span class="pp">|</span></span>
-<span id="cb33-38"><a href="#cb33-38" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|-----------------|</span></span>
-<span id="cb33-39"><a href="#cb33-39" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **PV** — Planned Value <span class="pp">|</span> The budget authorized for work scheduled through today <span class="pp">|</span></span>
-<span id="cb33-40"><a href="#cb33-40" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **EV** — Earned Value <span class="pp">|</span> The budget value of work actually completed <span class="pp">|</span></span>
-<span id="cb33-41"><a href="#cb33-41" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **AC** — Actual Cost <span class="pp">|</span> Total cost incurred to date <span class="pp">|</span></span>
-<span id="cb33-42"><a href="#cb33-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-43"><a href="#cb33-43" aria-hidden="true" tabindex="-1"></a>From these three numbers, all the other EVM metrics flow. Every performance index, every forecast, every variance — it all comes back to PV, EV, and AC.</span>
-<span id="cb33-44"><a href="#cb33-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-45"><a href="#cb33-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Metrics</span></span>
-<span id="cb33-46"><a href="#cb33-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-47"><a href="#cb33-47" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Metric <span class="pp">|</span> Formula <span class="pp">|</span> Interpretation <span class="pp">|</span></span>
-<span id="cb33-48"><a href="#cb33-48" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|---------|----------------|</span></span>
-<span id="cb33-49"><a href="#cb33-49" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **CV** — Cost Variance <span class="pp">|</span> EV − AC <span class="pp">|</span> &gt; 0: under budget; &lt; 0: over budget <span class="pp">|</span></span>
-<span id="cb33-50"><a href="#cb33-50" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **SV** — Schedule Variance <span class="pp">|</span> EV − PV <span class="pp">|</span> &gt; 0: ahead of schedule; &lt; 0: behind schedule <span class="pp">|</span></span>
-<span id="cb33-51"><a href="#cb33-51" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **CPI** — Cost Performance Index <span class="pp">|</span> EV / AC <span class="pp">|</span> &gt; 1: efficient; = 1: on target; &lt; 1: over-spending <span class="pp">|</span></span>
-<span id="cb33-52"><a href="#cb33-52" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **SPI** — Schedule Performance Index <span class="pp">|</span> EV / PV <span class="pp">|</span> &gt; 1: ahead; = 1: on target; &lt; 1: behind <span class="pp">|</span></span>
-<span id="cb33-53"><a href="#cb33-53" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **EAC** — Estimate at Completion <span class="pp">|</span> See below <span class="pp">|</span> Forecast of total project cost <span class="pp">|</span></span>
-<span id="cb33-54"><a href="#cb33-54" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **ETC** — Estimate to Complete <span class="pp">|</span> EAC − AC <span class="pp">|</span> Remaining cost to finish the project <span class="pp">|</span></span>
-<span id="cb33-55"><a href="#cb33-55" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **VAC** — Variance at Completion <span class="pp">|</span> BAC − EAC <span class="pp">|</span> Expected surplus (positive) or overrun (negative) <span class="pp">|</span></span>
-<span id="cb33-56"><a href="#cb33-56" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **TCPI** — To-Complete Performance Index <span class="pp">|</span> (BAC−EV) / (BAC−AC) <span class="pp">|</span> Efficiency required on remaining work <span class="pp">|</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"What gets measured gets managed."*</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; — Peter Drucker</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>Imagine you're three months into a six-month project and you've spent exactly half the budget. Great news, right? Not so fast. The real question is: how much work did you actually get done? If you've only completed 30% of the project, you've got a serious problem. If you've completed 55%, you're ahead of the game.</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>This is the fundamental insight behind **Earned Value Management** (EVM): you can't judge project health by money spent alone. You need to compare three things — what you planned, what you actually did, and what it cost you to do it.</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning Objectives</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>By the end of this chapter, you will be able to:</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Compute PV, EV, and AC from project data</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Calculate and interpret CPI and SPI performance indices</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Produce an EAC forecast using all three methods and choose the right one</span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Calculate ETC, VAC, and TCPI</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Read and construct an EVM trend chart</span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Three Numbers That Rule Them All</span></span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a><span class="fu">## PV, EV, AC — The Foundation of Everything</span></span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Quantity <span class="pp">|</span> What it measures <span class="pp">|</span></span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|-----------------|</span></span>
+<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **PV** — Planned Value <span class="pp">|</span> The budget authorized for work *scheduled* through today <span class="pp">|</span></span>
+<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **EV** — Earned Value <span class="pp">|</span> The budget value of work *actually completed* <span class="pp">|</span></span>
+<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **AC** — Actual Cost <span class="pp">|</span> Total cost *incurred* to date <span class="pp">|</span></span>
+<span id="cb33-32"><a href="#cb33-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-33"><a href="#cb33-33" aria-hidden="true" tabindex="-1"></a>Every EVM metric — variance, index, or forecast — derives from these three numbers. If you know PV, EV, and AC, you know everything EVM can tell you.</span>
+<span id="cb33-34"><a href="#cb33-34" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb33-35"><a href="#cb33-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-36"><a href="#cb33-36" aria-hidden="true" tabindex="-1"></a>EVM integrates scope, schedule, and cost into these three core quantities <span class="co">[</span><span class="ot">@flemming2010</span><span class="co">]</span>. From them, all the other EVM metrics flow — every performance index, every forecast, every variance comes back to PV, EV, and AC.</span>
+<span id="cb33-37"><a href="#cb33-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-38"><a href="#cb33-38" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Metrics</span></span>
+<span id="cb33-39"><a href="#cb33-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-40"><a href="#cb33-40" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Metric <span class="pp">|</span> Formula <span class="pp">|</span> Interpretation <span class="pp">|</span></span>
+<span id="cb33-41"><a href="#cb33-41" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|---------|----------------|</span></span>
+<span id="cb33-42"><a href="#cb33-42" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **CV** — Cost Variance <span class="pp">|</span> EV − AC <span class="pp">|</span> &gt; 0: under budget; &lt; 0: over budget <span class="pp">|</span></span>
+<span id="cb33-43"><a href="#cb33-43" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **SV** — Schedule Variance <span class="pp">|</span> EV − PV <span class="pp">|</span> &gt; 0: ahead of schedule; &lt; 0: behind schedule <span class="pp">|</span></span>
+<span id="cb33-44"><a href="#cb33-44" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **CPI** — Cost Performance Index <span class="pp">|</span> EV / AC <span class="pp">|</span> &gt; 1: efficient; = 1: on target; &lt; 1: over-spending <span class="pp">|</span></span>
+<span id="cb33-45"><a href="#cb33-45" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **SPI** — Schedule Performance Index <span class="pp">|</span> EV / PV <span class="pp">|</span> &gt; 1: ahead; = 1: on target; &lt; 1: behind <span class="pp">|</span></span>
+<span id="cb33-46"><a href="#cb33-46" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **EAC** — Estimate at Completion <span class="pp">|</span> See below <span class="pp">|</span> Forecast of total project cost <span class="pp">|</span></span>
+<span id="cb33-47"><a href="#cb33-47" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **ETC** — Estimate to Complete <span class="pp">|</span> EAC − AC <span class="pp">|</span> Remaining cost to finish the project <span class="pp">|</span></span>
+<span id="cb33-48"><a href="#cb33-48" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **VAC** — Variance at Completion <span class="pp">|</span> BAC − EAC <span class="pp">|</span> Expected surplus (positive) or overrun (negative) <span class="pp">|</span></span>
+<span id="cb33-49"><a href="#cb33-49" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **TCPI** — To-Complete Performance Index <span class="pp">|</span> (BAC−EV) / (BAC−AC) <span class="pp">|</span> Efficiency required on remaining work <span class="pp">|</span></span>
+<span id="cb33-50"><a href="#cb33-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-51"><a href="#cb33-51" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example Setup</span></span>
+<span id="cb33-52"><a href="#cb33-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-53"><a href="#cb33-53" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup}</span></span>
+<span id="cb33-54"><a href="#cb33-54" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb33-55"><a href="#cb33-55" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
+<span id="cb33-56"><a href="#cb33-56" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb33-57"><a href="#cb33-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-58"><a href="#cb33-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example Setup</span></span>
+<span id="cb33-58"><a href="#cb33-58" aria-hidden="true" tabindex="-1"></a>We will track a project with a total budget of \$500,000 over a 5-period schedule.</span>
 <span id="cb33-59"><a href="#cb33-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-60"><a href="#cb33-60" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup}</span></span>
-<span id="cb33-61"><a href="#cb33-61" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: false</span></span>
-<span id="cb33-62"><a href="#cb33-62" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
-<span id="cb33-63"><a href="#cb33-63" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-64"><a href="#cb33-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-65"><a href="#cb33-65" aria-hidden="true" tabindex="-1"></a>We will track a project with a total budget of \$500,000 over a 5-period schedule.</span>
-<span id="cb33-66"><a href="#cb33-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-69"><a href="#cb33-69" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb33-70"><a href="#cb33-70" aria-hidden="true" tabindex="-1"></a>bac      <span class="ot">&lt;-</span> <span class="dv">500000</span></span>
-<span id="cb33-71"><a href="#cb33-71" aria-hidden="true" tabindex="-1"></a>schedule <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.10</span>, <span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>, <span class="fl">1.00</span>)</span>
-<span id="cb33-72"><a href="#cb33-72" aria-hidden="true" tabindex="-1"></a>time_period <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb33-73"><a href="#cb33-73" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-74"><a href="#cb33-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-75"><a href="#cb33-75" aria-hidden="true" tabindex="-1"></a><span class="fu">### Planned Value (PV)</span></span>
-<span id="cb33-76"><a href="#cb33-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-77"><a href="#cb33-77" aria-hidden="true" tabindex="-1"></a>PV is the authorized budget for work planned through the current period.</span>
+<span id="cb33-62"><a href="#cb33-62" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-63"><a href="#cb33-63" aria-hidden="true" tabindex="-1"></a>bac      <span class="ot">&lt;-</span> <span class="dv">500000</span></span>
+<span id="cb33-64"><a href="#cb33-64" aria-hidden="true" tabindex="-1"></a>schedule <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.10</span>, <span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>, <span class="fl">1.00</span>)</span>
+<span id="cb33-65"><a href="#cb33-65" aria-hidden="true" tabindex="-1"></a>time_period <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb33-66"><a href="#cb33-66" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-67"><a href="#cb33-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-68"><a href="#cb33-68" aria-hidden="true" tabindex="-1"></a><span class="fu">### Planned Value (PV)</span></span>
+<span id="cb33-69"><a href="#cb33-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-70"><a href="#cb33-70" aria-hidden="true" tabindex="-1"></a>PV is the authorized budget for work planned through the current period.</span>
+<span id="cb33-71"><a href="#cb33-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-74"><a href="#cb33-74" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-75"><a href="#cb33-75" aria-hidden="true" tabindex="-1"></a>pv_val <span class="ot">&lt;-</span> <span class="fu">pv</span>(bac, schedule, time_period)</span>
+<span id="cb33-76"><a href="#cb33-76" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Planned Value (PV): $"</span>, <span class="fu">format</span>(pv_val, <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb33-77"><a href="#cb33-77" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb33-78"><a href="#cb33-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-81"><a href="#cb33-81" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb33-82"><a href="#cb33-82" aria-hidden="true" tabindex="-1"></a>pv_val <span class="ot">&lt;-</span> <span class="fu">pv</span>(bac, schedule, time_period)</span>
-<span id="cb33-83"><a href="#cb33-83" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Planned Value (PV): $"</span>, <span class="fu">format</span>(pv_val, <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb33-84"><a href="#cb33-84" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-85"><a href="#cb33-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-86"><a href="#cb33-86" aria-hidden="true" tabindex="-1"></a>The project was planned to be 50% complete by period 3, so PV = \$250,000.</span>
-<span id="cb33-87"><a href="#cb33-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-88"><a href="#cb33-88" aria-hidden="true" tabindex="-1"></a><span class="fu">### Earned Value (EV)</span></span>
-<span id="cb33-89"><a href="#cb33-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-90"><a href="#cb33-90" aria-hidden="true" tabindex="-1"></a>EV reflects the budget value of work actually completed.</span>
-<span id="cb33-91"><a href="#cb33-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-94"><a href="#cb33-94" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb33-95"><a href="#cb33-95" aria-hidden="true" tabindex="-1"></a>actual_per_complete <span class="ot">&lt;-</span> <span class="fl">0.40</span></span>
-<span id="cb33-96"><a href="#cb33-96" aria-hidden="true" tabindex="-1"></a>ev_val <span class="ot">&lt;-</span> <span class="fu">ev</span>(bac, actual_per_complete)</span>
-<span id="cb33-97"><a href="#cb33-97" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Earned Value (EV): $"</span>, <span class="fu">format</span>(ev_val, <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb33-98"><a href="#cb33-98" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-99"><a href="#cb33-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-100"><a href="#cb33-100" aria-hidden="true" tabindex="-1"></a>Only 40% of work is done despite 50% being planned — we are behind schedule.</span>
-<span id="cb33-101"><a href="#cb33-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-102"><a href="#cb33-102" aria-hidden="true" tabindex="-1"></a><span class="fu">### Actual Cost (AC)</span></span>
-<span id="cb33-103"><a href="#cb33-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-104"><a href="#cb33-104" aria-hidden="true" tabindex="-1"></a>AC is the cumulative cost incurred through period 3.</span>
-<span id="cb33-105"><a href="#cb33-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-108"><a href="#cb33-108" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb33-109"><a href="#cb33-109" aria-hidden="true" tabindex="-1"></a>period_costs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45000</span>, <span class="dv">110000</span>, <span class="dv">135000</span>)</span>
-<span id="cb33-110"><a href="#cb33-110" aria-hidden="true" tabindex="-1"></a>ac_val <span class="ot">&lt;-</span> <span class="fu">ac</span>(period_costs, time_period, <span class="at">cumulative =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb33-111"><a href="#cb33-111" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Actual Cost (AC): $"</span>, <span class="fu">format</span>(ac_val, <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb33-112"><a href="#cb33-112" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-113"><a href="#cb33-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-114"><a href="#cb33-114" aria-hidden="true" tabindex="-1"></a><span class="fu">### Performance Indicators</span></span>
-<span id="cb33-115"><a href="#cb33-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-118"><a href="#cb33-118" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb33-119"><a href="#cb33-119" aria-hidden="true" tabindex="-1"></a>sv_val  <span class="ot">&lt;-</span> <span class="fu">sv</span>(ev_val, pv_val)</span>
-<span id="cb33-120"><a href="#cb33-120" aria-hidden="true" tabindex="-1"></a>cv_val  <span class="ot">&lt;-</span> <span class="fu">cv</span>(ev_val, ac_val)</span>
-<span id="cb33-121"><a href="#cb33-121" aria-hidden="true" tabindex="-1"></a>spi_val <span class="ot">&lt;-</span> <span class="fu">spi</span>(ev_val, pv_val)</span>
-<span id="cb33-122"><a href="#cb33-122" aria-hidden="true" tabindex="-1"></a>cpi_val <span class="ot">&lt;-</span> <span class="fu">cpi</span>(ev_val, ac_val)</span>
-<span id="cb33-123"><a href="#cb33-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-124"><a href="#cb33-124" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Schedule Variance (SV):           $"</span>, <span class="fu">format</span>(sv_val, <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb33-125"><a href="#cb33-125" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Cost Variance (CV):               $"</span>, <span class="fu">format</span>(cv_val, <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb33-126"><a href="#cb33-126" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Schedule Performance Index (SPI):"</span>, <span class="fu">round</span>(spi_val, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb33-127"><a href="#cb33-127" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Cost Performance Index (CPI):    "</span>, <span class="fu">round</span>(cpi_val, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb33-128"><a href="#cb33-128" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-129"><a href="#cb33-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-130"><a href="#cb33-130" aria-hidden="true" tabindex="-1"></a>**Interpretation:** SPI &lt; 1 means we are behind schedule — we're only earning 80 cents of planned value per dollar of schedule. CPI &lt; 1 means we are over budget — earning only 69 cents of value per dollar spent. Both are below 1.0: this project is in trouble.</span>
-<span id="cb33-131"><a href="#cb33-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-132"><a href="#cb33-132" aria-hidden="true" tabindex="-1"></a><span class="fu">## Forecasting: Estimate at Completion (EAC)</span></span>
-<span id="cb33-133"><a href="#cb33-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-134"><a href="#cb33-134" aria-hidden="true" tabindex="-1"></a>EAC forecasts the total cost at project completion. Three methods are available, each making a different assumption about future performance:</span>
-<span id="cb33-135"><a href="#cb33-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-136"><a href="#cb33-136" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Method <span class="pp">|</span> Formula <span class="pp">|</span> When to use <span class="pp">|</span></span>
-<span id="cb33-137"><a href="#cb33-137" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|---------|-------------|</span></span>
-<span id="cb33-138"><a href="#cb33-138" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Typical** <span class="pp">|</span> BAC / CPI <span class="pp">|</span> Current cost inefficiency is expected to continue <span class="pp">|</span></span>
-<span id="cb33-139"><a href="#cb33-139" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Atypical** <span class="pp">|</span> AC + (BAC − EV) <span class="pp">|</span> Cost overrun was a one-time event; future work at planned rate <span class="pp">|</span></span>
-<span id="cb33-140"><a href="#cb33-140" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Combined** <span class="pp">|</span> AC + (BAC − EV) / (CPI × SPI) <span class="pp">|</span> Both cost and schedule performance will influence future costs <span class="pp">|</span></span>
-<span id="cb33-141"><a href="#cb33-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-144"><a href="#cb33-144" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb33-145"><a href="#cb33-145" aria-hidden="true" tabindex="-1"></a>eac_typical  <span class="ot">&lt;-</span> <span class="fu">eac</span>(bac, <span class="at">method =</span> <span class="st">"typical"</span>, <span class="at">cpi =</span> cpi_val)</span>
-<span id="cb33-146"><a href="#cb33-146" aria-hidden="true" tabindex="-1"></a>eac_atypical <span class="ot">&lt;-</span> <span class="fu">eac</span>(bac, <span class="at">method =</span> <span class="st">"atypical"</span>, <span class="at">ac =</span> ac_val, <span class="at">ev =</span> ev_val)</span>
-<span id="cb33-147"><a href="#cb33-147" aria-hidden="true" tabindex="-1"></a>eac_combined <span class="ot">&lt;-</span> <span class="fu">eac</span>(bac,</span>
-<span id="cb33-148"><a href="#cb33-148" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"combined"</span>, <span class="at">cpi =</span> cpi_val, <span class="at">ac =</span> ac_val,</span>
-<span id="cb33-149"><a href="#cb33-149" aria-hidden="true" tabindex="-1"></a>  <span class="at">ev =</span> ev_val, <span class="at">spi =</span> spi_val</span>
-<span id="cb33-150"><a href="#cb33-150" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-79"><a href="#cb33-79" aria-hidden="true" tabindex="-1"></a>The project was planned to be 50% complete by period 3, so PV = \$250,000.</span>
+<span id="cb33-80"><a href="#cb33-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-81"><a href="#cb33-81" aria-hidden="true" tabindex="-1"></a><span class="fu">### Earned Value (EV)</span></span>
+<span id="cb33-82"><a href="#cb33-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-83"><a href="#cb33-83" aria-hidden="true" tabindex="-1"></a>EV reflects the budget value of work actually completed.</span>
+<span id="cb33-84"><a href="#cb33-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-87"><a href="#cb33-87" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-88"><a href="#cb33-88" aria-hidden="true" tabindex="-1"></a>actual_per_complete <span class="ot">&lt;-</span> <span class="fl">0.40</span></span>
+<span id="cb33-89"><a href="#cb33-89" aria-hidden="true" tabindex="-1"></a>ev_val <span class="ot">&lt;-</span> <span class="fu">ev</span>(bac, actual_per_complete)</span>
+<span id="cb33-90"><a href="#cb33-90" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Earned Value (EV): $"</span>, <span class="fu">format</span>(ev_val, <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb33-91"><a href="#cb33-91" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-92"><a href="#cb33-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-93"><a href="#cb33-93" aria-hidden="true" tabindex="-1"></a>Only 40% of work is done despite 50% being planned — we are behind schedule.</span>
+<span id="cb33-94"><a href="#cb33-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-95"><a href="#cb33-95" aria-hidden="true" tabindex="-1"></a><span class="fu">### Actual Cost (AC)</span></span>
+<span id="cb33-96"><a href="#cb33-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-97"><a href="#cb33-97" aria-hidden="true" tabindex="-1"></a>AC is the cumulative cost incurred through period 3.</span>
+<span id="cb33-98"><a href="#cb33-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-101"><a href="#cb33-101" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-102"><a href="#cb33-102" aria-hidden="true" tabindex="-1"></a>period_costs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45000</span>, <span class="dv">110000</span>, <span class="dv">135000</span>)</span>
+<span id="cb33-103"><a href="#cb33-103" aria-hidden="true" tabindex="-1"></a>ac_val <span class="ot">&lt;-</span> <span class="fu">ac</span>(period_costs, time_period, <span class="at">cumulative =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb33-104"><a href="#cb33-104" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Actual Cost (AC): $"</span>, <span class="fu">format</span>(ac_val, <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb33-105"><a href="#cb33-105" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-106"><a href="#cb33-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-107"><a href="#cb33-107" aria-hidden="true" tabindex="-1"></a><span class="fu">### Performance Indicators</span></span>
+<span id="cb33-108"><a href="#cb33-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-111"><a href="#cb33-111" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-112"><a href="#cb33-112" aria-hidden="true" tabindex="-1"></a>sv_val  <span class="ot">&lt;-</span> <span class="fu">sv</span>(ev_val, pv_val)</span>
+<span id="cb33-113"><a href="#cb33-113" aria-hidden="true" tabindex="-1"></a>cv_val  <span class="ot">&lt;-</span> <span class="fu">cv</span>(ev_val, ac_val)</span>
+<span id="cb33-114"><a href="#cb33-114" aria-hidden="true" tabindex="-1"></a>spi_val <span class="ot">&lt;-</span> <span class="fu">spi</span>(ev_val, pv_val)</span>
+<span id="cb33-115"><a href="#cb33-115" aria-hidden="true" tabindex="-1"></a>cpi_val <span class="ot">&lt;-</span> <span class="fu">cpi</span>(ev_val, ac_val)</span>
+<span id="cb33-116"><a href="#cb33-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-117"><a href="#cb33-117" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Schedule Variance (SV):           $"</span>, <span class="fu">format</span>(sv_val, <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb33-118"><a href="#cb33-118" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Cost Variance (CV):               $"</span>, <span class="fu">format</span>(cv_val, <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb33-119"><a href="#cb33-119" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Schedule Performance Index (SPI):"</span>, <span class="fu">round</span>(spi_val, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb33-120"><a href="#cb33-120" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Cost Performance Index (CPI):    "</span>, <span class="fu">round</span>(cpi_val, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb33-121"><a href="#cb33-121" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-122"><a href="#cb33-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-123"><a href="#cb33-123" aria-hidden="true" tabindex="-1"></a>**Interpretation:** SPI &lt; 1 means we are behind schedule — we're only earning 80 cents of planned value per dollar of schedule. CPI &lt; 1 means we are over budget — earning only 69 cents of value per dollar spent. Both are below 1.0: this project is in trouble.</span>
+<span id="cb33-124"><a href="#cb33-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-125"><a href="#cb33-125" aria-hidden="true" tabindex="-1"></a><span class="fu">## Forecasting: Estimate at Completion (EAC)</span></span>
+<span id="cb33-126"><a href="#cb33-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-127"><a href="#cb33-127" aria-hidden="true" tabindex="-1"></a>EAC forecasts the total cost at project completion. Three methods are available, each making a different assumption about future performance:</span>
+<span id="cb33-128"><a href="#cb33-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-129"><a href="#cb33-129" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Method <span class="pp">|</span> Formula <span class="pp">|</span> When to use <span class="pp">|</span></span>
+<span id="cb33-130"><a href="#cb33-130" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|---------|-------------|</span></span>
+<span id="cb33-131"><a href="#cb33-131" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Typical** <span class="pp">|</span> BAC / CPI <span class="pp">|</span> Current cost inefficiency is expected to continue <span class="pp">|</span></span>
+<span id="cb33-132"><a href="#cb33-132" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Atypical** <span class="pp">|</span> AC + (BAC − EV) <span class="pp">|</span> Cost overrun was a one-time event; future work at planned rate <span class="pp">|</span></span>
+<span id="cb33-133"><a href="#cb33-133" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Combined** <span class="pp">|</span> AC + (BAC − EV) / (CPI × SPI) <span class="pp">|</span> Both cost and schedule performance will influence future costs <span class="pp">|</span></span>
+<span id="cb33-134"><a href="#cb33-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-137"><a href="#cb33-137" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-138"><a href="#cb33-138" aria-hidden="true" tabindex="-1"></a>eac_typical  <span class="ot">&lt;-</span> <span class="fu">eac</span>(bac, <span class="at">method =</span> <span class="st">"typical"</span>, <span class="at">cpi =</span> cpi_val)</span>
+<span id="cb33-139"><a href="#cb33-139" aria-hidden="true" tabindex="-1"></a>eac_atypical <span class="ot">&lt;-</span> <span class="fu">eac</span>(bac, <span class="at">method =</span> <span class="st">"atypical"</span>, <span class="at">ac =</span> ac_val, <span class="at">ev =</span> ev_val)</span>
+<span id="cb33-140"><a href="#cb33-140" aria-hidden="true" tabindex="-1"></a>eac_combined <span class="ot">&lt;-</span> <span class="fu">eac</span>(bac,</span>
+<span id="cb33-141"><a href="#cb33-141" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"combined"</span>, <span class="at">cpi =</span> cpi_val, <span class="at">ac =</span> ac_val,</span>
+<span id="cb33-142"><a href="#cb33-142" aria-hidden="true" tabindex="-1"></a>  <span class="at">ev =</span> ev_val, <span class="at">spi =</span> spi_val</span>
+<span id="cb33-143"><a href="#cb33-143" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-144"><a href="#cb33-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-145"><a href="#cb33-145" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"EAC (typical):  $"</span>, <span class="fu">format</span>(<span class="fu">round</span>(eac_typical),  <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb33-146"><a href="#cb33-146" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"EAC (atypical): $"</span>, <span class="fu">format</span>(<span class="fu">round</span>(eac_atypical), <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb33-147"><a href="#cb33-147" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"EAC (combined): $"</span>, <span class="fu">format</span>(<span class="fu">round</span>(eac_combined), <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb33-148"><a href="#cb33-148" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-149"><a href="#cb33-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-150"><a href="#cb33-150" aria-hidden="true" tabindex="-1"></a>The typical method gives the most conservative (highest cost) estimate because it assumes the current CPI persists. The atypical method is the most optimistic.</span>
 <span id="cb33-151"><a href="#cb33-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-152"><a href="#cb33-152" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"EAC (typical):  $"</span>, <span class="fu">format</span>(<span class="fu">round</span>(eac_typical),  <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb33-153"><a href="#cb33-153" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"EAC (atypical): $"</span>, <span class="fu">format</span>(<span class="fu">round</span>(eac_atypical), <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb33-154"><a href="#cb33-154" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"EAC (combined): $"</span>, <span class="fu">format</span>(<span class="fu">round</span>(eac_combined), <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb33-155"><a href="#cb33-155" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-156"><a href="#cb33-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-157"><a href="#cb33-157" aria-hidden="true" tabindex="-1"></a>The typical method gives the most conservative (highest cost) estimate because it assumes the current CPI persists. The atypical method is the most optimistic.</span>
-<span id="cb33-158"><a href="#cb33-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-159"><a href="#cb33-159" aria-hidden="true" tabindex="-1"></a><span class="fu">### EAC Comparison Table</span></span>
-<span id="cb33-160"><a href="#cb33-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-163"><a href="#cb33-163" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb33-164"><a href="#cb33-164" aria-hidden="true" tabindex="-1"></a>eac_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb33-165"><a href="#cb33-165" aria-hidden="true" tabindex="-1"></a>  <span class="at">Method     =</span> <span class="fu">c</span>(<span class="st">"Typical"</span>, <span class="st">"Atypical"</span>, <span class="st">"Combined"</span>),</span>
-<span id="cb33-166"><a href="#cb33-166" aria-hidden="true" tabindex="-1"></a>  <span class="at">EAC        =</span> <span class="fu">c</span>(<span class="fu">round</span>(eac_typical), <span class="fu">round</span>(eac_atypical), <span class="fu">round</span>(eac_combined)),</span>
-<span id="cb33-167"><a href="#cb33-167" aria-hidden="true" tabindex="-1"></a>  <span class="at">Overrun    =</span> <span class="fu">c</span>(</span>
-<span id="cb33-168"><a href="#cb33-168" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(eac_typical  <span class="sc">-</span> bac),</span>
-<span id="cb33-169"><a href="#cb33-169" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(eac_atypical <span class="sc">-</span> bac),</span>
-<span id="cb33-170"><a href="#cb33-170" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(eac_combined <span class="sc">-</span> bac)</span>
-<span id="cb33-171"><a href="#cb33-171" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb33-172"><a href="#cb33-172" aria-hidden="true" tabindex="-1"></a>  <span class="at">Assumption =</span> <span class="fu">c</span>(</span>
-<span id="cb33-173"><a href="#cb33-173" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Current CPI continues"</span>,</span>
-<span id="cb33-174"><a href="#cb33-174" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Future work at planned rate"</span>,</span>
-<span id="cb33-175"><a href="#cb33-175" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CPI and SPI both factor in"</span></span>
-<span id="cb33-176"><a href="#cb33-176" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb33-177"><a href="#cb33-177" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb33-178"><a href="#cb33-178" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(eac_table,</span>
-<span id="cb33-179"><a href="#cb33-179" aria-hidden="true" tabindex="-1"></a>  <span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">big.mark =</span> <span class="st">","</span>),</span>
-<span id="cb33-180"><a href="#cb33-180" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"EAC Comparison by Method"</span></span>
-<span id="cb33-181"><a href="#cb33-181" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb33-182"><a href="#cb33-182" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-183"><a href="#cb33-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-184"><a href="#cb33-184" aria-hidden="true" tabindex="-1"></a><span class="fu">## Additional Metrics</span></span>
-<span id="cb33-185"><a href="#cb33-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-188"><a href="#cb33-188" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb33-189"><a href="#cb33-189" aria-hidden="true" tabindex="-1"></a>etc_val  <span class="ot">&lt;-</span> <span class="fu">etc</span>(bac, ev_val, cpi_val)</span>
-<span id="cb33-190"><a href="#cb33-190" aria-hidden="true" tabindex="-1"></a>vac_val  <span class="ot">&lt;-</span> <span class="fu">vac</span>(bac, eac_typical)</span>
-<span id="cb33-191"><a href="#cb33-191" aria-hidden="true" tabindex="-1"></a>tcpi_bac <span class="ot">&lt;-</span> <span class="fu">tcpi</span>(bac, ev_val, ac_val, <span class="at">target =</span> <span class="st">"bac"</span>)</span>
-<span id="cb33-192"><a href="#cb33-192" aria-hidden="true" tabindex="-1"></a>tcpi_eac <span class="ot">&lt;-</span> <span class="fu">tcpi</span>(bac, ev_val, ac_val, <span class="at">target =</span> <span class="st">"eac"</span>, <span class="at">eac =</span> eac_typical)</span>
-<span id="cb33-193"><a href="#cb33-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-194"><a href="#cb33-194" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Estimate to Complete (ETC):  $"</span>, <span class="fu">format</span>(<span class="fu">round</span>(etc_val), <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb33-195"><a href="#cb33-195" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Variance at Completion (VAC): $"</span>, <span class="fu">format</span>(<span class="fu">round</span>(vac_val), <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb33-196"><a href="#cb33-196" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"TCPI (to meet BAC):          "</span>, <span class="fu">round</span>(tcpi_bac, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb33-197"><a href="#cb33-197" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"TCPI (to meet EAC):          "</span>, <span class="fu">round</span>(tcpi_eac, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb33-198"><a href="#cb33-198" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-199"><a href="#cb33-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-200"><a href="#cb33-200" aria-hidden="true" tabindex="-1"></a>**Interpretation:** TCPI &gt; 1 means the team must work more efficiently than they have been to meet the target. A TCPI above 1.2 is generally considered unrealistic — if you need to be 30% more efficient for the rest of the project, it probably isn't going to happen. Using the EAC target gives a more realistic benchmark.</span>
-<span id="cb33-201"><a href="#cb33-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-202"><a href="#cb33-202" aria-hidden="true" tabindex="-1"></a><span class="fu">## Performance Trend Chart</span></span>
-<span id="cb33-203"><a href="#cb33-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-204"><a href="#cb33-204" aria-hidden="true" tabindex="-1"></a>The chart below shows cumulative PV, AC, and EV over time, with reference lines for BAC and EAC.</span>
-<span id="cb33-205"><a href="#cb33-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-208"><a href="#cb33-208" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb33-209"><a href="#cb33-209" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "EVM trend chart. When EV falls below PV, you're behind schedule. When AC rises above EV, you're over budget. Both conditions here — a project in the red on both dimensions."</span></span>
-<span id="cb33-210"><a href="#cb33-210" aria-hidden="true" tabindex="-1"></a>time_periods <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb33-211"><a href="#cb33-211" aria-hidden="true" tabindex="-1"></a>actual_pct   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.08</span>, <span class="fl">0.22</span>, <span class="fl">0.40</span>)</span>
-<span id="cb33-212"><a href="#cb33-212" aria-hidden="true" tabindex="-1"></a>p_costs      <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45000</span>, <span class="dv">110000</span>, <span class="dv">135000</span>)</span>
-<span id="cb33-213"><a href="#cb33-213" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-214"><a href="#cb33-214" aria-hidden="true" tabindex="-1"></a>pv_vals <span class="ot">&lt;-</span> <span class="fu">sapply</span>(time_periods, <span class="cf">function</span>(t) <span class="fu">pv</span>(bac, schedule, t))</span>
-<span id="cb33-215"><a href="#cb33-215" aria-hidden="true" tabindex="-1"></a>ac_vals <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(p_costs)</span>
-<span id="cb33-216"><a href="#cb33-216" aria-hidden="true" tabindex="-1"></a>ev_vals <span class="ot">&lt;-</span> <span class="fu">sapply</span>(actual_pct, <span class="cf">function</span>(a) <span class="fu">ev</span>(bac, a))</span>
-<span id="cb33-217"><a href="#cb33-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-218"><a href="#cb33-218" aria-hidden="true" tabindex="-1"></a>trend_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb33-219"><a href="#cb33-219" aria-hidden="true" tabindex="-1"></a>  <span class="at">Period =</span> time_periods,</span>
-<span id="cb33-220"><a href="#cb33-220" aria-hidden="true" tabindex="-1"></a>  <span class="at">PV =</span> pv_vals, <span class="at">AC =</span> ac_vals, <span class="at">EV =</span> ev_vals</span>
-<span id="cb33-221"><a href="#cb33-221" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb33-222"><a href="#cb33-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-223"><a href="#cb33-223" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(trend_data, ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x =</span> Period)) <span class="sc">+</span></span>
-<span id="cb33-224"><a href="#cb33-224" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">y =</span> PV, <span class="at">color =</span> <span class="st">"Planned Value (PV)"</span>), <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb33-225"><a href="#cb33-225" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">y =</span> AC, <span class="at">color =</span> <span class="st">"Actual Cost (AC)"</span>), <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb33-226"><a href="#cb33-226" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">y =</span> EV, <span class="at">color =</span> <span class="st">"Earned Value (EV)"</span>), <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb33-227"><a href="#cb33-227" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_point</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">y =</span> PV, <span class="at">color =</span> <span class="st">"Planned Value (PV)"</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb33-228"><a href="#cb33-228" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_point</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">y =</span> AC, <span class="at">color =</span> <span class="st">"Actual Cost (AC)"</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb33-229"><a href="#cb33-229" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_point</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">y =</span> EV, <span class="at">color =</span> <span class="st">"Earned Value (EV)"</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb33-230"><a href="#cb33-230" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_hline</span>(<span class="at">yintercept =</span> bac, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb33-231"><a href="#cb33-231" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_hline</span>(<span class="at">yintercept =</span> eac_typical, <span class="at">linetype =</span> <span class="st">"dotted"</span>, <span class="at">color =</span> <span class="st">"darkred"</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb33-232"><a href="#cb33-232" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">2.8</span>, <span class="at">y =</span> bac <span class="sc">+</span> <span class="dv">12000</span>, <span class="at">label =</span> <span class="st">"BAC = $500K"</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
-<span id="cb33-233"><a href="#cb33-233" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">2.8</span>, <span class="at">y =</span> eac_typical <span class="sc">+</span> <span class="dv">12000</span>, <span class="at">label =</span> <span class="st">"EAC (typical)"</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
-<span id="cb33-234"><a href="#cb33-234" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(</span>
-<span id="cb33-235"><a href="#cb33-235" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Planned Value (PV)"</span> <span class="ot">=</span> <span class="st">"steelblue"</span>,</span>
-<span id="cb33-236"><a href="#cb33-236" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Actual Cost (AC)"</span>   <span class="ot">=</span> <span class="st">"tomato"</span>,</span>
-<span id="cb33-237"><a href="#cb33-237" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Earned Value (EV)"</span>  <span class="ot">=</span> <span class="st">"forestgreen"</span></span>
-<span id="cb33-238"><a href="#cb33-238" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">+</span></span>
-<span id="cb33-239"><a href="#cb33-239" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_dollar</span>(<span class="at">scale =</span> <span class="fl">1e-3</span>, <span class="at">suffix =</span> <span class="st">"K"</span>)) <span class="sc">+</span></span>
-<span id="cb33-240"><a href="#cb33-240" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(</span>
-<span id="cb33-241"><a href="#cb33-241" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Earned Value Management — Performance Trend"</span>,</span>
-<span id="cb33-242"><a href="#cb33-242" aria-hidden="true" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">"Time Period"</span>, <span class="at">y =</span> <span class="st">"Value"</span>, <span class="at">color =</span> <span class="cn">NULL</span></span>
-<span id="cb33-243"><a href="#cb33-243" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb33-244"><a href="#cb33-244" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb33-245"><a href="#cb33-245" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb33-152"><a href="#cb33-152" aria-hidden="true" tabindex="-1"></a><span class="fu">### EAC Comparison Table</span></span>
+<span id="cb33-153"><a href="#cb33-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-156"><a href="#cb33-156" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-157"><a href="#cb33-157" aria-hidden="true" tabindex="-1"></a>eac_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb33-158"><a href="#cb33-158" aria-hidden="true" tabindex="-1"></a>  <span class="at">Method     =</span> <span class="fu">c</span>(<span class="st">"Typical"</span>, <span class="st">"Atypical"</span>, <span class="st">"Combined"</span>),</span>
+<span id="cb33-159"><a href="#cb33-159" aria-hidden="true" tabindex="-1"></a>  <span class="at">EAC        =</span> <span class="fu">c</span>(<span class="fu">round</span>(eac_typical), <span class="fu">round</span>(eac_atypical), <span class="fu">round</span>(eac_combined)),</span>
+<span id="cb33-160"><a href="#cb33-160" aria-hidden="true" tabindex="-1"></a>  <span class="at">Overrun    =</span> <span class="fu">c</span>(</span>
+<span id="cb33-161"><a href="#cb33-161" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(eac_typical  <span class="sc">-</span> bac),</span>
+<span id="cb33-162"><a href="#cb33-162" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(eac_atypical <span class="sc">-</span> bac),</span>
+<span id="cb33-163"><a href="#cb33-163" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(eac_combined <span class="sc">-</span> bac)</span>
+<span id="cb33-164"><a href="#cb33-164" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb33-165"><a href="#cb33-165" aria-hidden="true" tabindex="-1"></a>  <span class="at">Assumption =</span> <span class="fu">c</span>(</span>
+<span id="cb33-166"><a href="#cb33-166" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Current CPI continues"</span>,</span>
+<span id="cb33-167"><a href="#cb33-167" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Future work at planned rate"</span>,</span>
+<span id="cb33-168"><a href="#cb33-168" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CPI and SPI both factor in"</span></span>
+<span id="cb33-169"><a href="#cb33-169" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb33-170"><a href="#cb33-170" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-171"><a href="#cb33-171" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(eac_table,</span>
+<span id="cb33-172"><a href="#cb33-172" aria-hidden="true" tabindex="-1"></a>  <span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">big.mark =</span> <span class="st">","</span>),</span>
+<span id="cb33-173"><a href="#cb33-173" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"EAC Comparison by Method"</span></span>
+<span id="cb33-174"><a href="#cb33-174" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-175"><a href="#cb33-175" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-176"><a href="#cb33-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-177"><a href="#cb33-177" aria-hidden="true" tabindex="-1"></a><span class="fu">## Additional Metrics</span></span>
+<span id="cb33-178"><a href="#cb33-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-181"><a href="#cb33-181" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-182"><a href="#cb33-182" aria-hidden="true" tabindex="-1"></a>etc_val  <span class="ot">&lt;-</span> <span class="fu">etc</span>(bac, ev_val, cpi_val)</span>
+<span id="cb33-183"><a href="#cb33-183" aria-hidden="true" tabindex="-1"></a>vac_val  <span class="ot">&lt;-</span> <span class="fu">vac</span>(bac, eac_typical)</span>
+<span id="cb33-184"><a href="#cb33-184" aria-hidden="true" tabindex="-1"></a>tcpi_bac <span class="ot">&lt;-</span> <span class="fu">tcpi</span>(bac, ev_val, ac_val, <span class="at">target =</span> <span class="st">"bac"</span>)</span>
+<span id="cb33-185"><a href="#cb33-185" aria-hidden="true" tabindex="-1"></a>tcpi_eac <span class="ot">&lt;-</span> <span class="fu">tcpi</span>(bac, ev_val, ac_val, <span class="at">target =</span> <span class="st">"eac"</span>, <span class="at">eac =</span> eac_typical)</span>
+<span id="cb33-186"><a href="#cb33-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-187"><a href="#cb33-187" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Estimate to Complete (ETC):  $"</span>, <span class="fu">format</span>(<span class="fu">round</span>(etc_val), <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb33-188"><a href="#cb33-188" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Variance at Completion (VAC): $"</span>, <span class="fu">format</span>(<span class="fu">round</span>(vac_val), <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb33-189"><a href="#cb33-189" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"TCPI (to meet BAC):          "</span>, <span class="fu">round</span>(tcpi_bac, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb33-190"><a href="#cb33-190" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"TCPI (to meet EAC):          "</span>, <span class="fu">round</span>(tcpi_eac, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb33-191"><a href="#cb33-191" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-192"><a href="#cb33-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-193"><a href="#cb33-193" aria-hidden="true" tabindex="-1"></a>**Interpretation:** TCPI &gt; 1 means the team must work more efficiently than they have been to meet the target. A TCPI above 1.2 is a widely-cited practitioner rule of thumb for "unrealistic" — not a formal PMBOK standard, but a useful warning signal. If you need to be 30% more efficient for the rest of the project, it probably isn't going to happen. Using the EAC target gives a more realistic benchmark.</span>
+<span id="cb33-194"><a href="#cb33-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-195"><a href="#cb33-195" aria-hidden="true" tabindex="-1"></a><span class="fu">## Performance Trend Chart</span></span>
+<span id="cb33-196"><a href="#cb33-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-197"><a href="#cb33-197" aria-hidden="true" tabindex="-1"></a>The chart below shows cumulative PV, AC, and EV over time, with reference lines for BAC and EAC.</span>
+<span id="cb33-198"><a href="#cb33-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-201"><a href="#cb33-201" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-202"><a href="#cb33-202" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "EVM trend chart. When EV falls below PV, you're behind schedule. When AC rises above EV, you're over budget. Both conditions here — a project in the red on both dimensions."</span></span>
+<span id="cb33-203"><a href="#cb33-203" aria-hidden="true" tabindex="-1"></a>time_periods <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb33-204"><a href="#cb33-204" aria-hidden="true" tabindex="-1"></a>actual_pct   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.08</span>, <span class="fl">0.22</span>, <span class="fl">0.40</span>)</span>
+<span id="cb33-205"><a href="#cb33-205" aria-hidden="true" tabindex="-1"></a>p_costs      <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45000</span>, <span class="dv">110000</span>, <span class="dv">135000</span>)</span>
+<span id="cb33-206"><a href="#cb33-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-207"><a href="#cb33-207" aria-hidden="true" tabindex="-1"></a>pv_vals <span class="ot">&lt;-</span> <span class="fu">sapply</span>(time_periods, <span class="cf">function</span>(t) <span class="fu">pv</span>(bac, schedule, t))</span>
+<span id="cb33-208"><a href="#cb33-208" aria-hidden="true" tabindex="-1"></a>ac_vals <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(p_costs)</span>
+<span id="cb33-209"><a href="#cb33-209" aria-hidden="true" tabindex="-1"></a>ev_vals <span class="ot">&lt;-</span> <span class="fu">sapply</span>(actual_pct, <span class="cf">function</span>(a) <span class="fu">ev</span>(bac, a))</span>
+<span id="cb33-210"><a href="#cb33-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-211"><a href="#cb33-211" aria-hidden="true" tabindex="-1"></a>trend_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb33-212"><a href="#cb33-212" aria-hidden="true" tabindex="-1"></a>  <span class="at">Period =</span> time_periods,</span>
+<span id="cb33-213"><a href="#cb33-213" aria-hidden="true" tabindex="-1"></a>  <span class="at">PV =</span> pv_vals, <span class="at">AC =</span> ac_vals, <span class="at">EV =</span> ev_vals</span>
+<span id="cb33-214"><a href="#cb33-214" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-215"><a href="#cb33-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-216"><a href="#cb33-216" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(trend_data, ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x =</span> Period)) <span class="sc">+</span></span>
+<span id="cb33-217"><a href="#cb33-217" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">y =</span> PV, <span class="at">color =</span> <span class="st">"Planned Value (PV)"</span>), <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb33-218"><a href="#cb33-218" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">y =</span> AC, <span class="at">color =</span> <span class="st">"Actual Cost (AC)"</span>), <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb33-219"><a href="#cb33-219" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">y =</span> EV, <span class="at">color =</span> <span class="st">"Earned Value (EV)"</span>), <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb33-220"><a href="#cb33-220" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_point</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">y =</span> PV, <span class="at">color =</span> <span class="st">"Planned Value (PV)"</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb33-221"><a href="#cb33-221" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_point</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">y =</span> AC, <span class="at">color =</span> <span class="st">"Actual Cost (AC)"</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb33-222"><a href="#cb33-222" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_point</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">y =</span> EV, <span class="at">color =</span> <span class="st">"Earned Value (EV)"</span>), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb33-223"><a href="#cb33-223" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_hline</span>(<span class="at">yintercept =</span> bac, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb33-224"><a href="#cb33-224" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_hline</span>(<span class="at">yintercept =</span> eac_typical, <span class="at">linetype =</span> <span class="st">"dotted"</span>, <span class="at">color =</span> <span class="st">"darkred"</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb33-225"><a href="#cb33-225" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">2.8</span>, <span class="at">y =</span> bac <span class="sc">+</span> <span class="dv">12000</span>, <span class="at">label =</span> <span class="st">"BAC = $500K"</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb33-226"><a href="#cb33-226" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">2.8</span>, <span class="at">y =</span> eac_typical <span class="sc">+</span> <span class="dv">12000</span>, <span class="at">label =</span> <span class="st">"EAC (typical)"</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb33-227"><a href="#cb33-227" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(</span>
+<span id="cb33-228"><a href="#cb33-228" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Planned Value (PV)"</span> <span class="ot">=</span> <span class="st">"steelblue"</span>,</span>
+<span id="cb33-229"><a href="#cb33-229" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Actual Cost (AC)"</span>   <span class="ot">=</span> <span class="st">"tomato"</span>,</span>
+<span id="cb33-230"><a href="#cb33-230" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Earned Value (EV)"</span>  <span class="ot">=</span> <span class="st">"forestgreen"</span></span>
+<span id="cb33-231"><a href="#cb33-231" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">+</span></span>
+<span id="cb33-232"><a href="#cb33-232" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_dollar</span>(<span class="at">scale =</span> <span class="fl">1e-3</span>, <span class="at">suffix =</span> <span class="st">"K"</span>)) <span class="sc">+</span></span>
+<span id="cb33-233"><a href="#cb33-233" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(</span>
+<span id="cb33-234"><a href="#cb33-234" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Earned Value Management — Performance Trend"</span>,</span>
+<span id="cb33-235"><a href="#cb33-235" aria-hidden="true" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">"Time Period"</span>, <span class="at">y =</span> <span class="st">"Value"</span>, <span class="at">color =</span> <span class="cn">NULL</span></span>
+<span id="cb33-236"><a href="#cb33-236" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb33-237"><a href="#cb33-237" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb33-238"><a href="#cb33-238" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb33-239"><a href="#cb33-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-240"><a href="#cb33-240" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p)</span>
+<span id="cb33-241"><a href="#cb33-241" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-242"><a href="#cb33-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-243"><a href="#cb33-243" aria-hidden="true" tabindex="-1"></a>**Reading the chart:** The gap between PV and EV shows the schedule gap — EV is below PV, so we're behind. The gap between AC and EV shows the cost overrun — we've spent more than the value we've earned.</span>
+<span id="cb33-244"><a href="#cb33-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-245"><a href="#cb33-245" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
 <span id="cb33-246"><a href="#cb33-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-247"><a href="#cb33-247" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p)</span>
-<span id="cb33-248"><a href="#cb33-248" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-247"><a href="#cb33-247" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
+<span id="cb33-248"><a href="#cb33-248" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
 <span id="cb33-249"><a href="#cb33-249" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-250"><a href="#cb33-250" aria-hidden="true" tabindex="-1"></a>**Reading the chart:** The gap between PV and EV shows the schedule gap — EV is below PV, so we're behind. The gap between AC and EV shows the cost overrun — we've spent more than the value we've earned.</span>
-<span id="cb33-251"><a href="#cb33-251" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-252"><a href="#cb33-252" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
-<span id="cb33-253"><a href="#cb33-253" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-254"><a href="#cb33-254" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
-<span id="cb33-255"><a href="#cb33-255" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
+<span id="cb33-250"><a href="#cb33-250" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>EVM combines scope, schedule, and cost into three numbers (PV, EV, AC) from which all performance metrics flow.</span>
+<span id="cb33-251"><a href="#cb33-251" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**CPI &lt; 1** means over-budget; **SPI &lt; 1** means behind schedule. Both below 1 signals a project in serious trouble.</span>
+<span id="cb33-252"><a href="#cb33-252" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **Typical EAC** (BAC / CPI) is the most conservative forecast; use it when current inefficiency is expected to persist.</span>
+<span id="cb33-253"><a href="#cb33-253" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**TCPI &gt; 1.2** is a common practitioner rule of thumb for "unrealistic" (not a formal standard) — flag it as a signal to revise the budget rather than chase an unachievable efficiency target.</span>
+<span id="cb33-254"><a href="#cb33-254" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The trend chart (PV, EV, AC over time) is your single most powerful communication tool for project status.</span>
+<span id="cb33-255"><a href="#cb33-255" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb33-256"><a href="#cb33-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-257"><a href="#cb33-257" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>EVM combines scope, schedule, and cost into three numbers (PV, EV, AC) from which all performance metrics flow.</span>
-<span id="cb33-258"><a href="#cb33-258" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**CPI &lt; 1** means over-budget; **SPI &lt; 1** means behind schedule. Both below 1 signals a project in serious trouble.</span>
-<span id="cb33-259"><a href="#cb33-259" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **Typical EAC** (BAC / CPI) is the most conservative forecast; use it when current inefficiency is expected to persist.</span>
-<span id="cb33-260"><a href="#cb33-260" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**TCPI &gt; 1.2** is generally unrealistic — flag it as a signal to revise the budget rather than chase an unachievable efficiency target.</span>
-<span id="cb33-261"><a href="#cb33-261" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The trend chart (PV, EV, AC over time) is your single most powerful communication tool for project status.</span>
-<span id="cb33-262"><a href="#cb33-262" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb33-263"><a href="#cb33-263" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-264"><a href="#cb33-264" aria-hidden="true" tabindex="-1"></a>EVM tells you *where the project stands right now*. For forward-looking updates that incorporate new information as the project evolves, Bayesian methods in @sec-bayes provide a complementary approach to cost forecasting.</span>
-<span id="cb33-265"><a href="#cb33-265" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-266"><a href="#cb33-266" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
-<span id="cb33-267"><a href="#cb33-267" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-268"><a href="#cb33-268" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Diagnosis.** If SPI &lt; 1 and CPI &gt; 1, what does that tell you about the project? Describe the scenario in plain English and give an example of how this might happen on a real project.</span>
-<span id="cb33-269"><a href="#cb33-269" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-270"><a href="#cb33-270" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Forecast comparison.** Compute EAC using all three methods for a new project with BAC = \$200K, PV = \$80K, EV = \$60K, AC = \$70K. Which method produces the highest estimate? The lowest? Which would you recommend reporting to the client?</span>
-<span id="cb33-271"><a href="#cb33-271" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-272"><a href="#cb33-272" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**TCPI reality check.** For the same project (BAC = \$200K, PV = \$80K, EV = \$60K, AC = \$70K), calculate TCPI to meet BAC. Is it realistic? At what TCPI would you advise the client to revise the budget rather than try to recover?</span>
-<span id="cb33-273"><a href="#cb33-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-274"><a href="#cb33-274" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**The optimistic mistake.** A project manager always uses the atypical EAC method, regardless of what's happening. In what circumstances would this be dangerously wrong? Write a 2–3 sentence warning label for the atypical method.</span>
-<span id="cb33-275"><a href="#cb33-275" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-276"><a href="#cb33-276" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Build your own trend.** ★ Create a 5-period EVM dataset where the project starts over budget but recovers over time (CPI &lt; 1 in periods 1–2, CPI ≥ 1 in periods 3–5). Plot the trend chart. Does the "typical" EAC improve as the project recovers?</span>
+<span id="cb33-257"><a href="#cb33-257" aria-hidden="true" tabindex="-1"></a>EVM tells you *where the project stands right now*. For forward-looking updates that incorporate new information as the project evolves, Bayesian methods in @sec-bayes provide a complementary approach to cost forecasting.</span>
+<span id="cb33-258"><a href="#cb33-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-259"><a href="#cb33-259" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
+<span id="cb33-260"><a href="#cb33-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-261"><a href="#cb33-261" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Diagnosis.** If SPI &lt; 1 and CPI &gt; 1, what does that tell you about the project? Describe the scenario in plain English and give an example of how this might happen on a real project.</span>
+<span id="cb33-262"><a href="#cb33-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-263"><a href="#cb33-263" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Forecast comparison.** Compute EAC using all three methods for a new project with BAC = \$200K, PV = \$80K, EV = \$60K, AC = \$70K. Which method produces the highest estimate? The lowest? Which would you recommend reporting to the client?</span>
+<span id="cb33-264"><a href="#cb33-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-265"><a href="#cb33-265" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**TCPI reality check.** For the same project (BAC = \$200K, PV = \$80K, EV = \$60K, AC = \$70K), calculate TCPI to meet BAC. Is it realistic? At what TCPI would you advise the client to revise the budget rather than try to recover?</span>
+<span id="cb33-266"><a href="#cb33-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-267"><a href="#cb33-267" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**The optimistic mistake.** A project manager always uses the atypical EAC method, regardless of what's happening. In what circumstances would this be dangerously wrong? Write a 2–3 sentence warning label for the atypical method.</span>
+<span id="cb33-268"><a href="#cb33-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-269"><a href="#cb33-269" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Build your own trend.** ★ Create a 5-period EVM dataset where the project starts over budget but recovers over time (CPI &lt; 1 in periods 1–2, CPI ≥ 1 in periods 3–5). Plot the trend chart. Does the "typical" EAC improve as the project recovers?</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
