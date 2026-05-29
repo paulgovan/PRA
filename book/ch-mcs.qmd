@@ -3,7 +3,7 @@
 > *"Anyone who considers arithmetical methods of producing random digits is, of course, in a state of sin."*
 > — John von Neumann
 
-Here is the core insight behind Monte Carlo simulation: instead of guessing a single answer, roll the dice thousands of times and let the distribution speak for itself. The method was named after the famous casino in Monaco — not because it involves gambling, but because it involves random sampling. If you can describe your uncertainty with a probability distribution, Monte Carlo can turn that uncertainty into a full picture of possible project outcomes.
+Here is the core insight behind Monte Carlo simulation: instead of guessing a single answer, roll the dice thousands of times and let the distribution speak for itself. The method was named after the famous casino in Monaco, not because it involves gambling, but because it involves random sampling. If you can describe your uncertainty with a probability distribution, Monte Carlo can turn that uncertainty into a full picture of possible project outcomes.
 
 Monte Carlo simulation turns that randomness into insight.
 
@@ -26,11 +26,11 @@ Monte Carlo (MC) simulation is a quantitative risk analysis technique that model
 ::: {.callout-note}
 ## The Five Steps of Monte Carlo Simulation
 
-1. **Model Definition** — Define project tasks and the variables that drive uncertainty (durations, costs).
-2. **Assign Distributions** — Choose a probability distribution for each uncertain variable (e.g., triangular for tasks with optimistic/likely/pessimistic estimates).
-3. **Specify Correlations** — If tasks are related (e.g., both affected by a shared risk), set a correlation coefficient between them.
-4. **Run Simulation** — Draw random samples and compute the total outcome for each iteration (typically 10,000+).
-5. **Analyze Results** — Summarize the distribution of totals using percentiles, mean, and variance.
+1. **Model Definition**: Define project tasks and the variables that drive uncertainty (durations, costs).
+2. **Assign Distributions**: Choose a probability distribution for each uncertain variable (e.g., triangular for tasks with optimistic/likely/pessimistic estimates).
+3. **Specify Correlations**: If tasks are related (e.g., both affected by a shared risk), set a correlation coefficient between them.
+4. **Run Simulation**: Draw random samples and compute the total outcome for each iteration (typically 10,000+).
+5. **Analyze Results**: Summarize the distribution of totals using percentiles, mean, and variance.
 :::
 
 ## Example
@@ -79,7 +79,7 @@ cat("Std Dev of Duration:  ", round(results$total_sd, 2), "weeks\n")
 
 ### Distribution of Outcomes
 
-The histogram below shows all 10,000 simulated total durations. The overlaid density curve reveals the shape of the distribution — notice the slight right skew from the triangular task.
+The histogram below shows all 10,000 simulated total durations. The overlaid density curve reveals the shape of the distribution, notice the slight right skew from the triangular task.
 
 ```{r}
 #| fig-cap: "Monte Carlo simulation results showing the full distribution of possible total project durations."
@@ -87,7 +87,7 @@ hist_data <- results$total_distribution
 
 hist(hist_data,
   breaks = 50, freq = FALSE,
-  main = "Monte Carlo Simulation — Total Project Duration",
+  main = "Monte Carlo Simulation: Total Project Duration",
   xlab = "Total Duration (weeks)", col = "steelblue", border = "white"
 )
 lines(density(hist_data), col = "tomato", lwd = 2)
@@ -117,7 +117,7 @@ knitr::kable(
 )
 ```
 
-The P50 is your base estimate — the median, not the mean (though for symmetric distributions they're close). The P95 is the date you can be 95% confident in. The gap between P50 and P95 is your schedule risk.
+The P50 is your base estimate, the median, not the mean (though for symmetric distributions they're close). The P95 is the date you can be 95% confident in. The gap between P50 and P95 is your schedule risk.
 
 ## Contingency Analysis
 
@@ -136,7 +136,7 @@ Adding this contingency to the P50 estimate gives a 95% confidence of on-time de
 
 ## Sensitivity Analysis
 
-Sensitivity analysis identifies which tasks drive the most variability in the total outcome — the tasks that deserve the most management attention. The result is a **tornado chart**: the wider the bar, the bigger the impact on total schedule risk.
+Sensitivity analysis identifies which tasks drive the most variability in the total outcome, the tasks that deserve the most management attention. The result is a **tornado chart**: the wider the bar, the bigger the impact on total schedule risk.
 
 ```{r}
 #| fig-cap: "Tornado chart showing each task's contribution to total schedule variance. Focus risk mitigation on the tallest bars."
@@ -156,7 +156,7 @@ p <- ggplot2::ggplot(
     hjust = -0.1, size = 3.5
   ) +
   ggplot2::labs(
-    title = "Tornado Chart — Task Sensitivity",
+    title = "Tornado Chart: Task Sensitivity",
     x     = "Sensitivity Coefficient",
     y     = NULL
   ) +
@@ -176,7 +176,7 @@ Tasks with larger bars contribute more variance to the total. Prioritize risk mi
 - Monte Carlo simulation runs thousands of iterations to produce a full distribution of project outcomes, not just a single number.
 - **Percentiles** (P50, P80, P95) translate simulation output into concrete schedule or cost commitments at a stated confidence level.
 - **Contingency** = P_high − P50: the buffer needed to achieve a given confidence level above the base estimate.
-- **Sensitivity analysis** (tornado chart) reveals which tasks drive the most variance — focus mitigation there first.
+- **Sensitivity analysis** (tornado chart) reveals which tasks drive the most variance, so focus mitigation there first.
 - Positive correlation between tasks *always* increases total variance; ignoring it leads to underestimating risk.
 :::
 

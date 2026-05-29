@@ -83,12 +83,12 @@ sens <- sensitivity(task_dists)
 ```
 
 ```{r}
-#| fig-cap: "Tornado chart. T3 (Structural Steel & Deck) dominates schedule variance — its wide triangular distribution swamps the other tasks."
+#| fig-cap: "Tornado chart. T3 (Structural Steel & Deck) dominates schedule variance, with its wide triangular distribution swamps the other tasks."
 sorted_sens <- sort(sens, decreasing = FALSE)
 barplot(sorted_sens, horiz = TRUE,
   names.arg = names(sorted_sens),
   xlab = "Sensitivity Index",
-  main = "Schedule Sensitivity — Riverside Bridge",
+  main = "Schedule Sensitivity: Riverside Bridge",
   col = "#18bc9c", border = "white", las = 1)
 abline(v = 1, lty = 2, col = "#e74c3c")
 ```
@@ -99,7 +99,7 @@ T3 is the clear driver. The project manager should investigate whether a steel p
 
 ## Step 3: Second Moment Method {#sec-cs-smm}
 
-The Second Moment Method gives us a fast analytical check — no simulation needed.
+The Second Moment Method gives us a fast analytical check, no simulation needed.
 
 ```{r}
 means <- c(T1 = 3,   T2 = 8,   T3 = 14.67,  T4 = 4,   T5 = 2)
@@ -149,13 +149,13 @@ cat(
 )
 ```
 
-A CPI below 1.0 means the project is over budget for work completed. The EAC (typical) forecasts the final cost if current cost efficiency continues. The project manager needs to investigate the source of the cost overrun — the Adverse Weather or Ground Conditions risks are likely candidates.
+A CPI below 1.0 means the project is over budget for work completed. The EAC (typical) forecasts the final cost if current cost efficiency continues. The project manager needs to investigate the source of the cost overrun; the Adverse Weather or Ground Conditions risks are likely candidates.
 
 ---
 
 ## Step 5: Bayesian Risk Update {#sec-cs-bayes}
 
-Before construction began, the probability of encountering poor ground conditions was estimated at 0.40. Halfway through the foundation work, the geotechnical team reports finding unexpected clay layers — a strong signal that the ground conditions risk has materialised.
+Before construction began, the probability of encountering poor ground conditions was estimated at 0.40. Halfway through the foundation work, the geotechnical team reports finding unexpected clay layers, a strong signal that the ground conditions risk has materialised.
 
 ```{r}
 causes    <- c(0.40, 0.25)
@@ -235,7 +235,7 @@ g <- grandparent_dsm(S, R)
 ```
 
 ```{r}
-#| fig-cap: "Parent DSM (resource-based coupling). Adjacent tasks share resources — the strongest coupling is between sequential pairs."
+#| fig-cap: "Parent DSM (resource-based coupling). Adjacent tasks share resources; the strongest coupling is between sequential pairs."
 plot(p)
 ```
 
@@ -244,7 +244,7 @@ plot(p)
 plot(g)
 ```
 
-The DSMs confirm that T2 (Foundation) and T3 (Steel) are most tightly coupled — they share the Civil Engineer and Structural Engineer. When ground conditions affect the foundation work, pressure immediately flows to the steel schedule.
+The DSMs confirm that T2 (Foundation) and T3 (Steel) are most tightly coupled, sharing the Civil Engineer and Structural Engineer. When ground conditions affect the foundation work, pressure immediately flows to the steel schedule.
 
 ---
 
@@ -287,7 +287,7 @@ sim_net <- prob_net_sim(graph, num_samples = 10000)
 ```{r}
 #| fig-cap: "Total project cost distribution from the Bayesian network. The bimodal shape reflects whether ground conditions risk materialises."
 hist(sim_net$E, breaks = 60,
-  main = "Total Project Cost — Bayesian Network",
+  main = "Total Project Cost: Bayesian Network",
   xlab = "Cost ($)", col = "skyblue", border = "white")
 ```
 
@@ -306,7 +306,7 @@ Conditioning on the observed ground conditions (confirmed by the clay layers in 
 
 ## Step 9: Agentic Analysis {#sec-cs-agent}
 
-All of the above can also be run via slash commands — no function-by-function scripting required.
+All of the above can also be run via slash commands, no function-by-function scripting required.
 
 ```{r}
 #| eval: false
@@ -353,10 +353,10 @@ Pulling the results together:
 | MCS | P80 schedule = ~35 weeks; contingency reserve ~3 weeks |
 | Sensitivity | T3 (Steel & Deck) drives 60%+ of schedule variance |
 | SMM | Confirms MCS mean and SD analytically |
-| EVM | Period 3: CPI < 1.0 — cost overrun in progress |
+| EVM | Period 3: CPI < 1.0, cost overrun in progress |
 | Bayesian | Ground conditions risk updated from 0.40 → ~0.70 after observations |
 | Learning Curve | Crew plateaus ~week 12; early T3 concrete work will be slower |
 | DSM | T2–T3 most coupled; ground conditions propagates through both |
 | Network | Conditioning on ground conditions = Yes adds ~\$200K to expected cost |
 
-No single method gives the full picture. The MCS tells you how wide the distribution is. The sensitivity analysis tells you where to act. The EVM tells you how you're performing right now. The Bayesian update tells you how new information should change your reserves. Together, they are the complete toolkit — and that is the point of this book.
+No single method gives the full picture. The MCS tells you how wide the distribution is. The sensitivity analysis tells you where to act. The EVM tells you how you're performing right now. The Bayesian update tells you how new information should change your reserves. Together, they are the complete toolkit, and that is the point of this book.

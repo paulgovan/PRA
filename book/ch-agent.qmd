@@ -5,7 +5,7 @@
 
 You've made it through eight chapters of quantitative risk analysis. You know Monte Carlo, SMM, EVM, Bayesian inference, learning curves, design structure matrices, and probabilistic networks. Now imagine not having to remember the syntax for all of them.
 
-Imagine a project manager typing "run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)" and getting back a P95 date, a contingency reserve, and a tornado chart — all in ten seconds, without opening R. That's the promise of the `PRA` agentic framework: a layer of intelligence on top of all the methods you've learned.
+Imagine a project manager typing "run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)" and getting back a P95 date, a contingency reserve, and a tornado chart, all in ten seconds, without opening R. That's the promise of the `PRA` agentic framework: a layer of intelligence on top of all the methods you've learned.
 
 ::: {.callout-note icon=false}
 ## Learning Objectives
@@ -26,22 +26,22 @@ By the end of this chapter, you will be able to:
 
 | Input type | Route | Example |
 |------------|-------|---------|
-| `/command` | **Deterministic** — executes the tool directly, no LLM | `/mcs tasks=[...]` |
-| Numerical data | **LLM tool call** — the model selects and calls the right tool | "Simulate 3 tasks: Normal(10,2)..." |
-| Conceptual question | **RAG** — answered from the knowledge base | "What is earned value?" |
+| `/command` | **Deterministic**: executes the tool directly, no LLM | `/mcs tasks=[...]` |
+| Numerical data | **LLM tool call**: the model selects and calls the right tool | "Simulate 3 tasks: Normal(10,2)..." |
+| Conceptual question | **RAG**: answered from the knowledge base | "What is earned value?" |
 
 **When to use each:**
 
-- Use **slash commands** when you need guaranteed, reproducible results — they bypass the LLM entirely.
+- Use **slash commands** when you need guaranteed, reproducible results; they bypass the LLM entirely.
 - Use the **chat interface** for exploratory questions and interpretation, especially with larger models.
-- Use **RAG** for conceptual questions — it retrieves the most relevant knowledge base content and cites sources.
+- Use **RAG** for conceptual questions; it retrieves the most relevant knowledge base content and cites sources.
 :::
 
 Three interfaces expose these modes:
 
-1. **Slash commands** — deterministic tool calls that bypass the LLM for instant, reliable results
-2. **Chat interface** (`pra_chat()`) — programmatic R chat powered by ellmer
-3. **Shiny app** (`pra_app()`) — browser-based experience combining all three modes
+1. **Slash commands**: deterministic tool calls that bypass the LLM for instant, reliable results
+2. **Chat interface** (`pra_chat()`): programmatic R chat powered by ellmer
+3. **Shiny app** (`pra_app()`): browser-based experience combining all three modes
 
 ## Prerequisites
 
@@ -64,7 +64,7 @@ install.packages(c("ellmer", "ragnar", "shiny", "bslib", "shinychat", "jsonlite"
 
 ## Slash Commands
 
-Slash commands provide deterministic tool execution — no LLM required. Type `/help` to see all available commands, or `/help <command>` for detailed usage.
+Slash commands provide deterministic tool execution with no LLM required. Type `/help` to see all available commands, or `/help <command>` for detailed usage.
 
 ### Available Commands
 
@@ -174,7 +174,7 @@ cat(r$result)
 ::: {.callout-note}
 ## About `eval: false` in This Chapter
 
-The Chat Interface, Shiny App, and MCP sections require a running Ollama server and cannot be evaluated during book rendering. Code blocks marked `eval: false` show the correct syntax — to follow along interactively, start Ollama with `ollama serve` before running them. The slash command examples above **are** fully evaluated and show actual output.
+The Chat Interface, Shiny App, and MCP sections require a running Ollama server and cannot be evaluated during book rendering. Code blocks marked `eval: false` show the correct syntax; to follow along interactively, start Ollama with `ollama serve` before running them. The slash command examples above **are** fully evaluated and show actual output.
 :::
 
 The chat interface routes queries through the LLM, which decides whether to call a tool or answer from the RAG knowledge base:
@@ -230,7 +230,7 @@ The app supports all three input modes in the same chat panel:
 - **Streaming chat** with token-by-token responses
 - **Inline tool results** as rich HTML tables and plots
 - **RAG source citations** for conceptual answers
-- **Export** — download the conversation as markdown
+- **Export**: download the conversation as markdown
 
 ## RAG Knowledge Base
 
@@ -310,14 +310,14 @@ Add the following to your Claude Desktop config file:
 ::: {.callout-tip icon=false}
 ## Key Takeaways
 
-- Slash commands (`/mcs`, `/evm`, `/risk`, etc.) provide **deterministic, LLM-free** execution of every method covered in this book — use them when you need guaranteed reproducibility.
+- Slash commands (`/mcs`, `/evm`, `/risk`, etc.) provide **deterministic, LLM-free** execution of every method covered in this book; use them when you need guaranteed reproducibility.
 - The chat interface routes input intelligently: numerical data → tool call; conceptual question → RAG. The LLM is a router, not a calculator.
 - **RAG** (Retrieval-Augmented Generation) grounds LLM answers in the PRA knowledge base, reducing hallucination and enabling source citations.
-- The MCP server exposes all PRA tools to any MCP-compatible AI client — Claude Desktop, Claude Code, or custom agents — without requiring an R session on the user's end.
+- The MCP server exposes all PRA tools to any MCP-compatible AI client (Claude Desktop, Claude Code, or custom agents) without requiring an R session on the user's end.
 - Small models (3B) handle simple single-tool queries; use larger models (8B+) or cloud models for multi-step chains and interpretation.
 :::
 
-Congratulations — you've completed the toolkit. You can now quantify project uncertainty (MCS, @sec-mcs; SMM, @sec-smm), track project performance (EVM, @sec-evm), update risk estimates with new evidence (Bayesian, @sec-bayes; Networks, @sec-network), model structural dependencies (DSM, @sec-dsm; Portfolio, @sec-network2), forecast learning (Sigmoidal, @sec-sigmoidal), and automate it all through an AI interface (@sec-agent). The rest is practice.
+Congratulations, you've completed the toolkit. You can now quantify project uncertainty (MCS, @sec-mcs; SMM, @sec-smm), track project performance (EVM, @sec-evm), update risk estimates with new evidence (Bayesian, @sec-bayes; Networks, @sec-network), model structural dependencies (DSM, @sec-dsm; Portfolio, @sec-network2), forecast learning (Sigmoidal, @sec-sigmoidal), and automate it all through an AI interface (@sec-agent). The rest is practice.
 
 ## Exercises
 

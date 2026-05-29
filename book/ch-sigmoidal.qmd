@@ -3,9 +3,9 @@
 > *"First it's slow, then it's fast, then you've already hit the ceiling."*
 > — P.G.
 
-Every team that's ever built something knows the pattern. Week one: figuring things out. Week four: hitting a stride. Week eight: slowing down as completion approaches 100%. This S-shaped curve — slow start, rapid middle, graceful plateau — is not a quirk of one project. It's a near-universal pattern in learning and production processes, and it has a name: the **sigmoidal curve**.
+Every team that's ever built something knows the pattern. Week one: figuring things out. Week four: hitting a stride. Week eight: slowing down as completion approaches 100%. This S-shaped curve, with a slow start, rapid middle, and graceful plateau, is not a quirk of one project. It's a near-universal pattern in learning and production processes, and it has a name: the **sigmoidal curve**.
 
-If you can fit a sigmoidal model to your early progress data, you can forecast when you'll finish — and how confident you should be in that forecast.
+If you can fit a sigmoidal model to your early progress data, you can forecast when you'll finish, and how confident you should be in that forecast.
 
 ::: {.callout-note icon=false}
 ## Learning Objectives
@@ -65,7 +65,7 @@ fit <- fit_sigmoidal(data, "time", "completion", "logistic")
 
 ### Assess Fit Quality
 
-Use `summary()` to examine the fitted coefficients, their standard errors, and the residual standard error — a measure of how closely the model matches the observed data.
+Use `summary()` to examine the fitted coefficients, their standard errors, and the residual standard error, a measure of how closely the model matches the observed data.
 
 ```{r}
 summary(fit)
@@ -82,13 +82,13 @@ A small residual standard error (relative to the response scale) indicates a goo
 plot_sigmoidal(
   fit, data, "time", "completion", "logistic",
   conf_level = 0.95,
-  main       = "Logistic Learning Curve — Completion Forecast",
+  main       = "Logistic Learning Curve: Completion Forecast",
   xlab       = "Week",
   ylab       = "Completion (%)"
 )
 ```
 
-The shaded region is the 95% confidence band — the range within which the true curve is likely to lie. Note how the band widens as we extrapolate past the observed data range.
+The shaded region is the 95% confidence band, the range within which the true curve is likely to lie. Note how the band widens as we extrapolate past the observed data range.
 
 ### Predict Future Completion
 
@@ -154,7 +154,7 @@ legend("bottomright",
 ::: {.callout-warning}
 ## Logistic and Pearl Are the Same Model
 
-The Logistic and Pearl models share the same mathematical formula and will produce **identical fits** on the same data. The distinction is historical, not functional. When comparing model fits, the Pearl and Logistic RSEs will always be equal — this is expected behavior, not a bug.
+The Logistic and Pearl models share the same mathematical formula and will produce **identical fits** on the same data. The distinction is historical, not functional. When comparing model fits, the Pearl and Logistic RSEs will always be equal; this is expected behavior, not a bug.
 
 Gompertz is genuinely different: its inflection point occurs earlier and the curve is asymmetric, making it better suited for processes that accelerate quickly before plateauing slowly.
 :::
@@ -163,10 +163,10 @@ Gompertz is genuinely different: its inflection point occurs earlier and the cur
 
 The sigmoidal workflow in PRA:
 
-1. `fit_sigmoidal()` — fit a model to observed time-completion data
-2. `summary(fit)` — inspect coefficient estimates and goodness-of-fit
-3. `predict_sigmoidal()` — generate numeric forecasts with optional confidence bounds
-4. `plot_sigmoidal()` — visualize the fit and confidence band
+1. `fit_sigmoidal()`: fit a model to observed time-completion data
+2. `summary(fit)`: inspect coefficient estimates and goodness-of-fit
+3. `predict_sigmoidal()`: generate numeric forecasts with optional confidence bounds
+4. `plot_sigmoidal()`: visualize the fit and confidence band
 
 Choose the model type based on the shape of your data and theoretical expectations about the learning process.
 
@@ -175,11 +175,11 @@ Choose the model type based on the shape of your data and theoretical expectatio
 ::: {.callout-tip icon=false}
 ## Key Takeaways
 
-- Sigmoidal models capture the three universal phases of learning: slow start, rapid improvement, and plateau — making them physically meaningful for completion forecasting.
-- **Logistic and Pearl are identical** — if they give different RSEs, something has gone wrong with the fit. Use Logistic unless you have a specific reason to use Pearl.
-- **Gompertz** accelerates earlier and plateaus more gradually — choose it when you have evidence of rapid early-stage learning.
+- Sigmoidal models capture the three universal phases of learning: slow start, rapid improvement, and plateau, making them physically meaningful for completion forecasting.
+- **Logistic and Pearl are identical**: if they give different RSEs, something has gone wrong with the fit. Use Logistic unless you have a specific reason to use Pearl.
+- **Gompertz** accelerates earlier and plateaus more gradually; choose it when you have evidence of rapid early-stage learning.
 - **Wider confidence bands** at later time points reflect extrapolation uncertainty; the further you predict beyond the observed data, the less trustworthy the forecast.
-- Always check both the fitted curve visually *and* the RSE numerically — a low RSE with a nonsensical curve shape means overfitting.
+- Always check both the fitted curve visually *and* the RSE numerically, as a low RSE with a nonsensical curve shape means overfitting.
 :::
 
 ## Exercises
@@ -192,4 +192,4 @@ Choose the model type based on the shape of your data and theoretical expectatio
 
 4. **Your own data.** Collect or invent 8 weeks of progress data for a project activity. Fit a logistic model. Does the model suggest you'll reach 90% completion by week 12? By week 16? What does the confidence interval tell you about the reliability of that forecast?
 
-5. **Beyond completion.** ★ Learning curves can model more than completion percentages — they can model cost efficiency, defect rates, or productivity. Choose one of these alternative interpretations and describe how you would set up the `data` frame, what "ceiling" K means in that context, and what a fitted model would tell you.
+5. **Beyond completion.** ★ Learning curves can model more than completion percentages; they can model cost efficiency, defect rates, or productivity. Choose one of these alternative interpretations and describe how you would set up the `data` frame, what "ceiling" K means in that context, and what a fitted model would tell you.

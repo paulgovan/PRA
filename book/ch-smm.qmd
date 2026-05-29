@@ -3,11 +3,11 @@
 > *"All models are wrong, but some are useful."*
 > — George E. P. Box
 
-The SMM is a deliberately simplified model. It assumes the total project duration is normally distributed. It ignores the shape of individual task distributions. And it is, in Box's sense, *useful* — fast enough to run before a meeting ends, and honest enough to use in a risk report.
+The SMM is a deliberately simplified model. It assumes the total project duration is normally distributed. It ignores the shape of individual task distributions. And it is, in Box's sense, *useful*, fast enough to run before a meeting ends, and honest enough to use in a risk report.
 
-Sometimes you don't need a full Monte Carlo simulation. Sometimes you need an answer in thirty seconds, not thirty minutes. You have means and variances, a correlation matrix, and a deadline. Enter the Second Moment Method — the analyst's equivalent of a napkin calculation that is actually defensible.
+Sometimes you don't need a full Monte Carlo simulation. Sometimes you need an answer in thirty seconds, not thirty minutes. You have means and variances, a correlation matrix, and a deadline. Enter the Second Moment Method, the analyst's equivalent of a napkin calculation that is actually defensible.
 
-The name comes from statistics: the "first moment" of a distribution is its mean; the "second moment" (more precisely, the central second moment) is its variance — and the Second Moment Method is named for exactly that. It's the fastest way to get from "I have means and variances" to "I have a project risk estimate."
+The name comes from statistics: the "first moment" of a distribution is its mean; the "second moment" (more precisely, the central second moment) is its variance, and the Second Moment Method is named for exactly that. It's the fastest way to get from "I have means and variances" to "I have a project risk estimate."
 
 ::: {.callout-note icon=false}
 ## Learning Objectives
@@ -37,7 +37,7 @@ Use **Monte Carlo** (@sec-mcs) when:
 
 - Tasks have non-normal distributions (triangular, uniform, lognormal)
 - You need accurate tail behavior (P90, P95, P99)
-- Skewness matters — asymmetric distributions require simulation to capture correctly
+- Skewness matters, as asymmetric distributions require simulation to capture correctly
 :::
 
 Think of SMM as a reconnaissance tool. It tells you the territory before you commit to the full expedition.
@@ -55,7 +55,7 @@ $$\text{Var}(X) = \sum_{i=1}^{n} \text{Var}(X_i) + 2 \sum_{i<j} \text{Cov}(X_i, 
 **Covariance:** Derived from the correlation matrix:
 $$\text{Cov}(X_i, X_j) = \rho_{ij} \cdot \sigma_i \cdot \sigma_j$$
 
-By the Central Limit Theorem, the total is approximately normally distributed when there are many tasks — so we get confidence intervals for free [@benjamin2000].
+By the Central Limit Theorem, the total is approximately normally distributed when there are many tasks, so we get confidence intervals for free [@benjamin2000].
 
 ## Example
 
@@ -109,7 +109,7 @@ y_range <- dnorm(x_range, mean = total_mean, sd = total_sd)
 
 plot(x_range, y_range,
   type = "l", lwd = 2, col = "steelblue",
-  main = "SMM — Implied Project Duration Distribution",
+  main = "SMM: Implied Project Duration Distribution",
   xlab = "Total Duration (weeks)", ylab = "Density"
 )
 
@@ -134,9 +134,9 @@ legend("topright",
 ::: {.callout-note}
 ## What This Comparison Is Testing
 
-To isolate the effect of **distributional assumptions** (normal vs. any shape), the MCS below uses the same task parameters as the SMM but with **no correlation matrix** — i.e., tasks are treated as independent. This allows a clean apples-to-apples test: both methods sum three independent normal tasks, so any remaining difference comes from simulation variance alone.
+To isolate the effect of **distributional assumptions** (normal vs. any shape), the MCS below uses the same task parameters as the SMM but with **no correlation matrix** (i.e., tasks are treated as independent). This allows a clean apples-to-apples test: both methods sum three independent normal tasks, so any remaining difference comes from simulation variance alone.
 
-The earlier SMM result (total mean = 45 weeks, total SD including correlations) is *not* the right benchmark here — that figure includes covariance from the correlation matrix, which the MCS below omits. To compare correlated results, you would pass the same `cor_mat` to `mcs()`.
+The earlier SMM result (total mean = 45 weeks, total SD including correlations) is *not* the right benchmark here, as that figure includes covariance from the correlation matrix, which the MCS below omits. To compare correlated results, you would pass the same `cor_mat` to `mcs()`.
 :::
 
 Running Monte Carlo simulation with the same task distributions validates the SMM. The two methods should yield very similar total means; differences in variance arise from how each handles correlated sampling.
@@ -181,9 +181,9 @@ The two methods agree closely on the mean and variance. SMM is faster but assume
 ::: {.callout-tip icon=false}
 ## Key Takeaways
 
-- The Second Moment Method propagates uncertainty analytically using only means, variances, and correlations — no simulation required.
+- The Second Moment Method propagates uncertainty analytically using only means, variances, and correlations, no simulation required.
 - The **covariance formula** $\text{Cov}(X_i, X_j) = \rho_{ij} \cdot \sigma_i \cdot \sigma_j$ turns a correlation matrix into a contribution to total variance.
-- By the Central Limit Theorem, the total is approximately normal — enabling confidence intervals via $\bar{X} \pm z \cdot \sigma$.
+- By the Central Limit Theorem, the total is approximately normal, enabling confidence intervals via $\bar{X} \pm z \cdot \sigma$.
 - SMM and Monte Carlo agree closely on the mean; differences in variance emerge from distributional assumptions and correlation handling.
 - SMM is ideal for rapid early-stage estimates; use Monte Carlo (@sec-mcs) when distribution shape and tail accuracy matter.
 :::

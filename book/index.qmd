@@ -2,13 +2,13 @@
 
 Every project starts with a plan. Then the project starts.
 
-Deadlines shift. Costs drift. Risks that seemed unlikely have a way of becoming very real. Uncertainty is not an edge case in project management — it is woven into the work itself. The question is not whether it will show up, but whether you'll have the tools to quantify it, communicate it, and manage it thoughtfully.
+Deadlines shift. Costs drift. Risks that seemed unlikely have a way of becoming very real. Uncertainty is not an edge case in project management, it is woven into the work itself. The question is not whether it will show up, but whether you'll have the tools to quantify it, communicate it, and manage it thoughtfully.
 
 This book is your toolkit.
 
 ## What This Book Is About
 
-*Project Risk Analysis: A Practical Guide* is a hands-on introduction to quantitative methods for managing uncertainty in project schedules and costs. We cover the major techniques used by risk analysts, project managers, and engineers: Monte Carlo simulation, second moment methods, earned value management, Bayesian inference, learning curves, design structure matrices, probabilistic networks, and AI-powered risk analysis — all through working R code using the `PRA` package.
+*Project Risk Analysis: A Practical Guide* is a hands-on introduction to quantitative methods for managing uncertainty in project schedules and costs. We cover the major techniques used by risk analysts, project managers, and engineers: Monte Carlo simulation, second moment methods, earned value management, Bayesian inference, learning curves, design structure matrices, probabilistic networks, and AI-powered risk analysis, all through working R code using the `PRA` package.
 
 The goal is not to overwhelm you with theory (though we won't shy away from the math when it helps). The goal is to give you a real edge: the ability to take a project estimate, ask the right "what if" questions, and produce defensible numbers for schedule and cost contingency.
 
@@ -19,7 +19,7 @@ The goal is not to overwhelm you with theory (though we won't shy away from the 
 - **Students** in construction management, systems engineering, or operations research programs
 - **R users** who want practical, well-documented examples of risk analysis workflows
 
-You don't need to be a statistician to follow along — but you should be comfortable with basic probability (what is a mean? what is a variance?) and have at least a passing familiarity with R.
+You don't need to be a statistician to follow along, but you should be comfortable with basic probability (what is a mean? what is a variance?) and have at least a passing familiarity with R.
 
 ## How to Use This Book
 
@@ -27,10 +27,10 @@ Each chapter is self-contained and covers one method. If you're in a hurry and j
 
 Every chapter follows the same structure:
 
-1. **Why this method?** — A short, honest answer to "when would I actually use this?"
-2. **How it works** — Just enough theory to understand what the code is doing
-3. **A worked example** — Fully reproducible R code from start to finish
-4. **Exercises** — Problems that range from "verify you followed along" to "extend this to a real scenario"
+1. **Why this method?**: A short, honest answer to "when would I actually use this?"
+2. **How it works**: Just enough theory to understand what the code is doing
+3. **A worked example**: Fully reproducible R code from start to finish
+4. **Exercises**: Problems that range from "verify you followed along" to "extend this to a real scenario"
 
 ## Getting Started
 
@@ -57,27 +57,27 @@ Some chapters (especially the network chapters) use additional packages like `ig
 
 ## A Note on Tone
 
-Risk analysis has a reputation for being dry. Probability tables. Spreadsheets. Earnest diagrams with boxes and arrows. We've done our best to keep things lively — catchy chapter titles, the occasional metaphor, and examples drawn from real project contexts. If a chapter made you smile, that was on purpose. If it also made you understand Bayesian updating, that's the win.
+Risk analysis has a reputation for being dry. Probability tables. Spreadsheets. Earnest diagrams with boxes and arrows. We've done our best to keep things lively, with catchy chapter titles, the occasional metaphor, and examples drawn from real project contexts. If a chapter made you smile, that was on purpose. If it also made you understand Bayesian updating, that's the win.
 
 ## Why the `PRA` Package?
 
-Most project risk analysis is done in spreadsheets. Spreadsheets work — until they don't: a formula breaks, a column gets deleted, and suddenly your P95 estimate is based on a range that ends three rows too early. The `PRA` package takes the same methods and makes them:
+Most project risk analysis is done in spreadsheets. Spreadsheets work, until they don't: a formula breaks, a column gets deleted, and suddenly your P95 estimate is based on a range that ends three rows too early. The `PRA` package takes the same methods and makes them:
 
 - **Tested.** Every function ships with a full test suite. You can trust that `mcs()` is doing what the documentation says.
 - **Documented.** Every parameter has a type, a valid range, and an example. No more guessing what "n" means.
-- **Reproducible.** An R script is a record of exactly what you did. Share it, version-control it, re-run it six months later — it produces the same result.
+- **Reproducible.** An R script is a record of exactly what you did. Share it, version-control it, re-run it six months later, and it produces the same result.
 - **Composable.** The output of `mcs()` flows directly into `contingency()` and `sensitivity()`. Methods chain together naturally rather than requiring manual copy-paste between tabs.
 
 Learning risk analysis through a software package also enforces discipline: you have to be explicit about your assumptions. Code makes assumptions explicit and verifiable.
 
 ## A Reproducible Book
 
-Every code block in this book is live. When the book is built, R executes the code and embeds the actual output — the numbers, the plots, the tables. There is no "trust us, this is what you'd see." If a result looks wrong, you can run the same code yourself and verify it.
+Every code block in this book is live. When the book is built, R executes the code and embeds the actual output: the numbers, the plots, the tables. There is no "trust us, this is what you'd see." If a result looks wrong, you can run the same code yourself and verify it.
 
 This matters because:
 
 - **You can experiment.** Change a parameter, re-run the chunk, and immediately see how the output shifts. The best way to develop intuition for Monte Carlo simulation is to change the number of samples and watch what happens to the tails.
-- **The book stays honest.** A static book can silently go out of date. A reproducible book will break noisily if a function changes behavior — which means the examples you're reading have been verified against the current version of `PRA`.
+- **The book stays honest.** A static book can silently go out of date. A reproducible book will break noisily if a function changes behavior, which means the examples you're reading have been verified against the current version of `PRA`.
 - **You learn a transferable skill.** Writing reproducible analyses in Quarto or R Markdown is increasingly expected in data-driven fields. Following along with this book is practice for that.
 
 To reproduce the entire book yourself:
@@ -117,4 +117,4 @@ This book is released under [CC BY 4.0](https://creativecommons.org/licenses/by/
 
 The `PRA` package and this book grew out of research on the resource-based view of project risk management [@govan2016; @govan2014]. Thanks to the open-source R community for the packages that make quantitative risk analysis accessible, and to every project manager who has ever looked at a schedule baseline and wondered whether the numbers were as solid as they looked.
 
-There is only one way to find out — quantitatively.
+There is only one way to find out: quantitatively.

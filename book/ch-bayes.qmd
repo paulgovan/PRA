@@ -3,7 +3,7 @@
 > *"When the facts change, I change my mind. What do you do, sir?"*
 > — Attributed to John Maynard Keynes
 
-Here is the situation: you have a risk assessment based on historical data and expert judgment. Then something happens on site — a root cause you were watching turns out to be present, or a supplier sends a warning signal. Your prior assessment is now out of date. Do you stick with the original numbers, or update them?
+Here is the situation: you have a risk assessment based on historical data and expert judgment. Then something happens on site: a root cause you were watching turns out to be present, or a supplier sends a warning signal. Your prior assessment is now out of date. Do you stick with the original numbers, or update them?
 
 Bayesian inference gives you the formal machinery to update. Not because it feels right, but because it is the mathematically correct way to incorporate new evidence.
 
@@ -30,7 +30,7 @@ $$P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)}$$
 
 In project risk terms:
 
-- **Prior** $P(H)$: Your initial estimate of risk probability — before any field observations
+- **Prior** $P(H)$: Your initial estimate of risk probability, before any field observations
 - **Likelihood** $P(E \mid H)$: How likely is the observed evidence if the risk/cause is present?
 - **Posterior** $P(H \mid E)$: Your updated estimate after incorporating the evidence
 
@@ -41,7 +41,7 @@ Bayes' theorem states:
 
 $$P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)}$$
 
-In English: the probability of your hypothesis ($H$) given new evidence ($E$) equals the likelihood of seeing that evidence if the hypothesis were true, times your prior probability, divided by the total probability of the evidence. The result is the **posterior** probability — your updated belief.
+In English: the probability of your hypothesis ($H$) given new evidence ($E$) equals the likelihood of seeing that evidence if the hypothesis were true, times your prior probability, divided by the total probability of the evidence. The result is the **posterior** probability, your updated belief.
 
 In project risk terms:
 
@@ -66,7 +66,7 @@ set.seed(42)
 
 ## Causal Structure
 
-Before computing probabilities, it helps to see the causal graph. Two independent root causes each point to the risk event — observing either one updates the posterior risk probability.
+Before computing probabilities, it helps to see the causal graph. Two independent root causes each point to the risk event, and observing either one updates the posterior risk probability.
 
 ```{r}
 #| fig-cap: "DAG: Cause-1 and Cause-2 independently drive the risk event R."
@@ -84,9 +84,9 @@ plot(g, vertex.size = 40, vertex.label.cex = 0.9,
 
 Before any observations are made, `risk_prob()` computes the probability of a risk event R occurring given two potential root causes. For each cause, we supply:
 
-- `cause_probs` — prior probability that the cause is present
-- `risks_given_causes` — P(R | cause present)
-- `risks_given_not_causes` — P(R | cause absent)
+- `cause_probs`: prior probability that the cause is present
+- `risks_given_causes`: P(R | cause present)
+- `risks_given_not_causes`: P(R | cause absent)
 
 ```{r}
 cause_probs            <- c(0.3, 0.2)
@@ -99,7 +99,7 @@ prior_risk <- risk_prob(cause_probs, risks_given_causes, risks_given_not_causes)
 cat("Prior probability of risk event R:", round(prior_risk, 3), "\n")
 ```
 
-This is your starting point — an estimate of how likely the risk event is before you've looked at anything on site.
+This is your starting point, an estimate of how likely the risk event is before you've looked at anything on site.
 
 ## Step 2: Prior Cost Distribution
 
@@ -126,7 +126,7 @@ We'll compare this prior distribution to the posterior in Step 4.
 
 ## Step 3: Posterior Risk Probability (Bayesian Update)
 
-After inspecting the project site, we observe that Cause 1 is present (= 1). Cause 2 has not yet been assessed (= NA). `risk_post_prob()` updates the risk probability using only the available evidence — NA causes are treated as unobserved and do not contribute to the update.
+After inspecting the project site, we observe that Cause 1 is present (= 1). Cause 2 has not yet been assessed (= NA). `risk_post_prob()` updates the risk probability using only the available evidence; NA causes are treated as unobserved and do not contribute to the update.
 
 ```{r}
 observed_causes <- c(1, NA)  # C1 observed as present; C2 not yet assessed
@@ -140,7 +140,7 @@ posterior_risk <- risk_post_prob(
 cat("Posterior probability of risk event R:", round(posterior_risk, 3), "\n")
 ```
 
-Observing Cause 1 (which has a strong link to R) raises the risk probability substantially. The NA for Cause 2 is simply ignored — only confirmed observations drive the update.
+Observing Cause 1 (which has a strong link to R) raises the risk probability substantially. The NA for Cause 2 is simply ignored; only confirmed observations drive the update.
 
 ### Prior vs. Posterior Probability
 
@@ -222,15 +222,15 @@ legend("topright",
 )
 ```
 
-**Interpretation:** The posterior distribution is narrower and shifted upward — observing which risks materialized eliminates uncertainty about some cost components while raising the estimated exposure from confirmed events. The remaining spread reflects uncertainty from the unobserved risk and cost variability in the confirmed ones.
+**Interpretation:** The posterior distribution is narrower and shifted upward, as observing which risks materialized eliminates uncertainty about some cost components while raising the estimated exposure from confirmed events. The remaining spread reflects uncertainty from the unobserved risk and cost variability in the confirmed ones.
 
 ## Summary
 
 The Bayesian workflow in PRA follows a natural before-and-after structure:
 
-1. **Before observations** — use `risk_prob()` and `cost_pdf()` to characterize the risk landscape.
-2. **As evidence arrives** — use `risk_post_prob()` and `cost_post_pdf()` to update estimates.
-3. **NA values** represent causes/risks not yet assessed — they are correctly excluded from the update.
+1. **Before observations**: use `risk_prob()` and `cost_pdf()` to characterize the risk landscape.
+2. **As evidence arrives**: use `risk_post_prob()` and `cost_post_pdf()` to update estimates.
+3. **NA values** represent causes/risks not yet assessed; they are correctly excluded from the update.
 
 This approach is particularly powerful in phased projects where information about risk drivers becomes available progressively, allowing cost forecasts to be refined at each stage.
 
@@ -239,9 +239,9 @@ This approach is particularly powerful in phased projects where information abou
 ::: {.callout-tip icon=false}
 ## Key Takeaways
 
-- Bayesian inference is the principled way to update risk estimates as new evidence arrives — it is not a heuristic, it is the mathematically correct rule.
+- Bayesian inference is the principled way to update risk estimates as new evidence arrives; it is not a heuristic, it is the mathematically correct rule.
 - **Prior → Posterior**: the posterior always moves in the direction of the evidence; the size of the move depends on how strongly the cause links to the risk.
-- `NA` values for unobserved causes or risks are correctly handled — they do not contribute to the update, reflecting genuine ignorance.
+- `NA` values for unobserved causes or risks are correctly handled; they do not contribute to the update, reflecting genuine ignorance.
 - The posterior cost distribution is typically narrower than the prior, because confirmed risk states eliminate uncertainty about some cost components.
 - This workflow is particularly powerful in **phased projects**: update at each phase gate as more information becomes available.
 :::

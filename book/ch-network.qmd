@@ -3,9 +3,9 @@
 > *"Everything is connected to everything else."*
 > — Barry Commoner's First Law of Ecology
 
-A risk register lists risks. A probability network shows you how those risks talk to each other, and to your project. It's the difference between knowing that "Technical Complexity" is a risk and understanding exactly how it flows through your developer costs into your total project budget — and what happens to that flow when you learn new information.
+A risk register lists risks. A probability network shows you how those risks talk to each other, and to your project. It's the difference between knowing that "Technical Complexity" is a risk and understanding exactly how it flows through your developer costs into your total project budget, and what happens to that flow when you learn new information.
 
-Bayesian networks are the tool. A Bayesian network is a specific type of probabilistic network — a directed acyclic graph (DAG) in which each node represents a random variable and each edge encodes a conditional probability relationship. The "probabilistic network" framing in this chapter's title is intentional: the core concepts (conditioning, propagation, graph structure) apply to the broader class, and `PRA` uses the Bayesian network formulation specifically. They combine graph theory with probability theory to model the full dependency structure of a project: which risks drive which resources, which resources drive which tasks, and how uncertainty propagates all the way up to the project total.
+Bayesian networks are the tool. A Bayesian network is a specific type of probabilistic network, a directed acyclic graph (DAG) in which each node represents a random variable and each edge encodes a conditional probability relationship. The "probabilistic network" framing in this chapter's title is intentional: the core concepts (conditioning, propagation, graph structure) apply to the broader class, and `PRA` uses the Bayesian network formulation specifically. They combine graph theory with probability theory to model the full dependency structure of a project: which risks drive which resources, which resources drive which tasks, and how uncertainty propagates all the way up to the project total.
 
 ::: {.callout-note icon=false}
 ## Learning Objectives
@@ -24,7 +24,7 @@ By the end of this chapter, you will be able to:
 ::: {.callout-note}
 ## Bayesian Network vs. DSM
 
-The Design Structure Matrix (@sec-dsm) shows *structural* coupling — how many resources two tasks share. A Bayesian network goes further: it encodes **probabilistic dependencies**, meaning the actual conditional distributions of costs given risk states. Where the DSM counts connections, the network simulates consequences.
+The Design Structure Matrix (@sec-dsm) shows *structural* coupling, specifically how many resources two tasks share. A Bayesian network goes further: it encodes **probabilistic dependencies**, meaning the actual conditional distributions of costs given risk states. Where the DSM counts connections, the network simulates consequences.
 
 Use a DSM for rapid structural triage. Use a Bayesian network when you need actual cost distributions and the ability to condition on observed evidence.
 :::
@@ -212,7 +212,7 @@ The spread reflects compounded uncertainty from both risk events. The right tail
 
 ## Learning: Incorporating New Evidence
 
-Use `prob_net_learn()` to clamp one or more nodes to observed values and re-simulate. This shows the downstream effect of new information — for example, learning that Technical Complexity (Risk-2) did not materialize.
+Use `prob_net_learn()` to clamp one or more nodes to observed values and re-simulate. This shows the downstream effect of new information, for example, learning that Technical Complexity (Risk-2) did not materialize.
 
 ```{r}
 learn_results <- prob_net_learn(
@@ -241,7 +241,7 @@ legend(
 )
 ```
 
-With Risk-2 ruled out, the Developer cost collapses to the lower baseline distribution — and the total project cost shifts left accordingly.
+With Risk-2 ruled out, the Developer cost collapses to the lower baseline distribution, and the total project cost shifts left accordingly.
 
 ## Updating: Modifying the Network
 
@@ -292,10 +292,10 @@ legend(
 ## Key Takeaways
 
 - A probabilistic network models the full dependency chain from risks → resources → tasks → project cost, encoding uncertainty at every layer.
-- **`prob_net_sim()`** draws Monte Carlo samples in topological order — each run propagates risk states through the network to produce a total cost distribution.
+- **`prob_net_sim()`** draws Monte Carlo samples in topological order, propagating risk states through the network to produce a total cost distribution.
 - **`prob_net_learn()`** conditions on observed evidence (*seeing*): clamping a node to its observed value and re-simulating the downstream distribution.
 - **`prob_net_update()`** performs structural changes (*doing*): removing edges or replacing distributions, enabling causal interventions beyond what conditioning can express.
-- The difference between *seeing* and *doing* becomes consequential when nodes share upstream parents — see @sec-network2 for the full treatment with shared enterprise risks.
+- The difference between *seeing* and *doing* becomes consequential when nodes share upstream parents; see @sec-network2 for the full treatment with shared enterprise risks.
 :::
 
 ## Exercises

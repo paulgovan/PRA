@@ -22,7 +22,7 @@ A distribution where all values in the interval $[\text{min}, \text{max}]$ are e
 The probability-weighted average of all possible outcomes of a random variable. For a project total, it equals the sum of the individual task means. Denoted $\mu$ or $E[X]$. See @sec-smm.
 
 **P50 / P80 / P95**
-The 50th, 80th, and 95th percentiles of a distribution. P50 is the median — half of outcomes fall below it. P80 and P95 are common targets for schedule and cost contingency. See @sec-mcs.
+The 50th, 80th, and 95th percentiles of a distribution. P50 is the median, with half of outcomes falling below it. P80 and P95 are common targets for schedule and cost contingency. See @sec-mcs.
 
 **Percentile**
 The value below which a given percentage of outcomes fall. The $p$-th percentile is the value $x$ such that $P(X \leq x) = p$. See @sec-mcs.
@@ -138,7 +138,7 @@ A sigmoidal growth model with an asymmetric S-shape: slow initial growth, rapid 
 A symmetric sigmoidal growth model: $y = K / (1 + e^{-r(t - t_0)})$. Growth accelerates from 0 to $K/2$ then decelerates symmetrically toward the ceiling $K$. See @sec-sigmoidal.
 
 **Pearl model**
-Functionally identical to the logistic model — a symmetric S-curve with the same formula. Named after Raymond Pearl who applied it to population growth. See @sec-sigmoidal.
+Functionally identical to the logistic model, a symmetric S-curve with the same formula. Named after Raymond Pearl who applied it to population growth. See @sec-sigmoidal.
 
 **Residual standard error (RSE)**
 The standard deviation of the residuals (observed minus fitted values) in a regression model. Lower RSE indicates a better fit. Used to compare logistic, Gompertz, and Pearl model fits. See @sec-sigmoidal.
@@ -154,7 +154,7 @@ An S-shaped curve that models bounded growth: starts near zero, accelerates, the
 A directed acyclic graph (DAG) in which nodes represent random variables and edges represent conditional dependencies. Used in `PRA` to model how risk events propagate through resources and tasks to project cost. See @sec-network.
 
 **DAG (Directed Acyclic Graph)**
-A graph of nodes and directed edges with no cycles — you cannot return to a starting node by following edges in their directed direction. The required structure for Bayesian networks. See @sec-network.
+A graph of nodes and directed edges with no cycles; you cannot return to a starting node by following edges in their directed direction. The required structure for Bayesian networks. See @sec-network.
 
 **Design Structure Matrix (DSM)**
 A square matrix that encodes task-to-task dependencies. In `PRA`, DSMs are derived from shared resource and risk structures, making hidden coupling between tasks visible and quantifiable. See @sec-dsm.
@@ -176,7 +176,7 @@ A binary matrix with risks as rows and resources as columns. Entry $R[i,j] = 1$ 
 ## Agentic Framework
 
 **MCP (Model Context Protocol)**
-An open protocol that allows AI clients (such as Claude Desktop or Claude Code) to call external tools — including `PRA` functions — directly from a conversation. See @sec-agent.
+An open protocol that allows AI clients (such as Claude Desktop or Claude Code) to call external tools, including `PRA` functions, directly from a conversation. See @sec-agent.
 
 **RAG (Retrieval-Augmented Generation)**
 A technique that augments an LLM's response by first retrieving relevant documents from a knowledge base. In `PRA`, RAG grounds conceptual answers in the built-in methods documentation, reducing hallucination. See @sec-agent.

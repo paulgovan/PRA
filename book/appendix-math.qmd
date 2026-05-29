@@ -124,7 +124,7 @@ $$s_i = 1 + 2\sum_{j \neq i} \frac{\text{Cov}(X_i, X_j)}{\sqrt{\sigma^2_i \cdot 
 
 ### The Independent Case
 
-When all tasks are independent, $\rho_{ij} = 0$ for all $i \neq j$, so $s_i = 1$ for every task. All tasks contribute proportionally to their variance — no amplification.
+When all tasks are independent, $\rho_{ij} = 0$ for all $i \neq j$, so $s_i = 1$ for every task. All tasks contribute proportionally to their variance, with no amplification.
 
 ### Interpretation
 
@@ -178,4 +178,4 @@ $$P(\text{Risk}|C_i = 1) = \frac{P(C_i = 1|\text{Risk}) \cdot P(\text{Risk})}{P(
 
 ### Why Observing a Cause Increases Risk Probability
 
-Even without directly observing the risk event, observing a root cause raises $P(\text{Risk})$ because the cause is more likely to be observed when the risk is present than when it is absent — that is, $P(C|H) > P(C|\neg H)$. This is the key asymmetry that makes Bayesian updating useful: observable precursors carry information about latent risk states.
+Even without directly observing the risk event, observing a root cause raises $P(\text{Risk})$ because the cause is more likely to be observed when the risk is present than when it is absent, that is, $P(C|H) > P(C|\neg H)$. This is the key asymmetry that makes Bayesian updating useful: observable precursors carry information about latent risk states.

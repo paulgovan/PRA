@@ -3,9 +3,9 @@
 > *"What gets measured gets managed."*
 > — Peter Drucker
 
-Imagine you're three months into a six-month project and you've spent exactly half the budget. That might sound encouraging — but the more useful question is: how much work did you actually get done? If you've completed 30% of the project, the budget situation looks very different than if you've completed 55%.
+Imagine you're three months into a six-month project and you've spent exactly half the budget. That might sound encouraging, but the more useful question is: how much work did you actually get done? If you've completed 30% of the project, the budget situation looks very different than if you've completed 55%.
 
-This is the fundamental insight behind **Earned Value Management** (EVM): you can't judge project health by money spent alone. You need to compare three things — what you planned, what you actually did, and what it cost you to do it.
+This is the fundamental insight behind **Earned Value Management** (EVM): you can't judge project health by money spent alone. You need to compare three things: what you planned, what you actually did, and what it cost you to do it.
 
 ::: {.callout-note icon=false}
 ## Learning Objectives
@@ -22,31 +22,31 @@ By the end of this chapter, you will be able to:
 ## The Three Core Numbers
 
 ::: {.callout-note}
-## PV, EV, AC — The Foundation of Everything
+## PV, EV, AC: The Foundation of Everything
 
 | Quantity | What it measures |
 |----------|-----------------|
-| **PV** — Planned Value | The budget authorized for work *scheduled* through today |
-| **EV** — Earned Value | The budget value of work *actually completed* |
-| **AC** — Actual Cost | Total cost *incurred* to date |
+| **PV**: Planned Value | The budget authorized for work *scheduled* through today |
+| **EV**: Earned Value | The budget value of work *actually completed* |
+| **AC**: Actual Cost | Total cost *incurred* to date |
 
-Every EVM metric — variance, index, or forecast — derives from these three numbers. If you know PV, EV, and AC, you know everything EVM can tell you.
+Every EVM metric, variance, index, or forecast, derives from these three numbers. If you know PV, EV, and AC, you know everything EVM can tell you.
 :::
 
-EVM integrates scope, schedule, and cost into these three core quantities [@flemming2010]. From them, all the other EVM metrics flow — every performance index, every forecast, every variance comes back to PV, EV, and AC.
+EVM integrates scope, schedule, and cost into these three core quantities [@flemming2010]. From them, all the other EVM metrics flow, with every performance index, every forecast, and every variance coming back to PV, EV, and AC.
 
 ## Key Metrics
 
 | Metric | Formula | Interpretation |
 |--------|---------|----------------|
-| **CV** — Cost Variance | EV − AC | > 0: under budget; < 0: over budget |
-| **SV** — Schedule Variance | EV − PV | > 0: ahead of schedule; < 0: behind schedule |
-| **CPI** — Cost Performance Index | EV / AC | > 1: efficient; = 1: on target; < 1: over-spending |
-| **SPI** — Schedule Performance Index | EV / PV | > 1: ahead; = 1: on target; < 1: behind |
-| **EAC** — Estimate at Completion | See below | Forecast of total project cost |
-| **ETC** — Estimate to Complete | EAC − AC | Remaining cost to finish the project |
-| **VAC** — Variance at Completion | BAC − EAC | Expected surplus (positive) or overrun (negative) |
-| **TCPI** — To-Complete Performance Index | (BAC−EV) / (BAC−AC) | Efficiency required on remaining work |
+| **CV**: Cost Variance | EV − AC | > 0: under budget; < 0: over budget |
+| **SV**: Schedule Variance | EV − PV | > 0: ahead of schedule; < 0: behind schedule |
+| **CPI**: Cost Performance Index | EV / AC | > 1: efficient; = 1: on target; < 1: over-spending |
+| **SPI**: Schedule Performance Index | EV / PV | > 1: ahead; = 1: on target; < 1: behind |
+| **EAC**: Estimate at Completion | See below | Forecast of total project cost |
+| **ETC**: Estimate to Complete | EAC − AC | Remaining cost to finish the project |
+| **VAC**: Variance at Completion | BAC − EAC | Expected surplus (positive) or overrun (negative) |
+| **TCPI**: To-Complete Performance Index | (BAC−EV) / (BAC−AC) | Efficiency required on remaining work |
 
 ## Example Setup
 
@@ -84,7 +84,7 @@ ev_val <- ev(bac, actual_per_complete)
 cat("Earned Value (EV): $", format(ev_val, big.mark = ","), "\n")
 ```
 
-Only 40% of work is done despite 50% being planned — we are behind schedule.
+Only 40% of work is done despite 50% being planned, so we are behind schedule.
 
 ### Actual Cost (AC)
 
@@ -110,7 +110,7 @@ cat("Schedule Performance Index (SPI):", round(spi_val, 3), "\n")
 cat("Cost Performance Index (CPI):    ", round(cpi_val, 3), "\n")
 ```
 
-**Interpretation:** SPI < 1 means we are behind schedule — we're only earning 80 cents of planned value per dollar of schedule. CPI < 1 means we are over budget — earning only 69 cents of value per dollar spent. Both are below 1.0: this project is in trouble.
+**Interpretation:** SPI < 1 means we are behind schedule, earning only 80 cents of planned value per dollar of schedule. CPI < 1 means we are over budget, earning only 69 cents of value per dollar spent. Both are below 1.0: this project is in trouble.
 
 ## Forecasting: Estimate at Completion (EAC)
 
@@ -174,14 +174,14 @@ cat("TCPI (to meet BAC):          ", round(tcpi_bac, 3), "\n")
 cat("TCPI (to meet EAC):          ", round(tcpi_eac, 3), "\n")
 ```
 
-**Interpretation:** TCPI > 1 means the team must work more efficiently than they have been to meet the target. A TCPI above 1.2 is a widely-cited practitioner rule of thumb for "unrealistic" — not a formal PMBOK standard, but a useful warning signal. If you need to be 30% more efficient for the rest of the project, it probably isn't going to happen. Using the EAC target gives a more realistic benchmark.
+**Interpretation:** TCPI > 1 means the team must work more efficiently than they have been to meet the target. A TCPI above 1.2 is a widely-cited practitioner rule of thumb for "unrealistic" (not a formal PMBOK standard), a useful warning signal. If you need to be 30% more efficient for the rest of the project, it probably isn't going to happen. Using the EAC target gives a more realistic benchmark.
 
 ## Performance Trend Chart
 
 The chart below shows cumulative PV, AC, and EV over time, with reference lines for BAC and EAC.
 
 ```{r}
-#| fig-cap: "EVM trend chart. When EV falls below PV, you're behind schedule. When AC rises above EV, you're over budget. Both conditions here — a project in the red on both dimensions."
+#| fig-cap: "EVM trend chart. When EV falls below PV, you're behind schedule. When AC rises above EV, you're over budget. Both conditions here, a project in the red on both dimensions."
 time_periods <- c(1, 2, 3)
 actual_pct   <- c(0.08, 0.22, 0.40)
 p_costs      <- c(45000, 110000, 135000)
@@ -213,7 +213,7 @@ p <- ggplot2::ggplot(trend_data, ggplot2::aes(x = Period)) +
   )) +
   ggplot2::scale_y_continuous(labels = scales::label_dollar(scale = 1e-3, suffix = "K")) +
   ggplot2::labs(
-    title = "Earned Value Management — Performance Trend",
+    title = "Earned Value Management: Performance Trend",
     x     = "Time Period", y = "Value", color = NULL
   ) +
   ggplot2::theme_minimal() +
@@ -222,7 +222,7 @@ p <- ggplot2::ggplot(trend_data, ggplot2::aes(x = Period)) +
 print(p)
 ```
 
-**Reading the chart:** The gap between PV and EV shows the schedule gap — EV is below PV, so we're behind. The gap between AC and EV shows the cost overrun — we've spent more than the value we've earned.
+**Reading the chart:** The gap between PV and EV shows the schedule gap, with EV below PV. The gap between AC and EV shows the cost overrun, as we've spent more than the value we've earned.
 
 ## Summary
 
@@ -232,7 +232,7 @@ print(p)
 - EVM combines scope, schedule, and cost into three numbers (PV, EV, AC) from which all performance metrics flow.
 - **CPI < 1** means over-budget; **SPI < 1** means behind schedule. Both below 1 signals a project in serious trouble.
 - The **Typical EAC** (BAC / CPI) is the most conservative forecast; use it when current inefficiency is expected to persist.
-- **TCPI > 1.2** is a common practitioner rule of thumb for "unrealistic" (not a formal standard) — flag it as a signal to revise the budget rather than chase an unachievable efficiency target.
+- **TCPI > 1.2** is a common practitioner rule of thumb for "unrealistic" (not a formal standard), flag it as a signal to revise the budget rather than chase an unachievable efficiency target.
 - The trend chart (PV, EV, AC over time) is your single most powerful communication tool for project status.
 :::
 

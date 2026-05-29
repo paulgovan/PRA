@@ -21,11 +21,11 @@ By the end of this chapter, you will be able to:
 
 ## The Portfolio Case Study
 
-Consider an enterprise running three projects simultaneously: a **Road Repair**, a **Park Construction**, and a **Building Renovation**. Each project has three tasks driven by three resources — labor, materials, and equipment.
+Consider an enterprise running three projects simultaneously: a **Road Repair**, a **Park Construction**, and a **Building Renovation**. Each project has three tasks driven by three resources: labor, materials, and equipment.
 
 Critically, these resources are **shared at the enterprise level**: the same labor pool, the same material suppliers, and the same equipment fleet serve all three projects. Three enterprise-wide risk events propagate through the corresponding shared resource to impact all three projects simultaneously.
 
-Even more critically, two of these risks — a **Labor Shortage** and a **Material Price Spike** — share a common upstream driver: a **Supply Chain Disruption** that simultaneously tightens the labor market and raises commodity prices. This shared root cause is what makes the distinction between *seeing* and *doing* consequential [@pearl2009; @govan2014].
+Even more critically, two of these risks, a **Labor Shortage** and a **Material Price Spike**, share a common upstream driver: a **Supply Chain Disruption** that simultaneously tightens the labor market and raises commodity prices. This shared root cause is what makes the distinction between *seeing* and *doing* consequential [@pearl2009; @govan2014].
 
 ::: {.callout-warning}
 ## Seeing Is Not the Same as Doing
@@ -34,7 +34,7 @@ Even more critically, two of these risks — a **Labor Shortage** and a **Materi
 
 **Doing** $\text{do}(A = 1)$ (intervening to cause a Labor Shortage) severs the SC → A edge via graph surgery. SC stays at its prior, B stays near its prior, and material costs are unaffected. Only labor costs change.
 
-The gap between the two distributions — seeing vs. doing — is the operational signature of the shared root cause SC. Confusing the two leads to systematically underestimating portfolio cost exposure [@pearl2009].
+The gap between the two distributions, seeing vs. doing, is the operational signature of the shared root cause SC. Confusing the two leads to systematically underestimating portfolio cost exposure [@pearl2009].
 :::
 
 ## Setup
@@ -87,7 +87,7 @@ knitr::kable(root_cause, caption = "Root Cause (SC)")
 knitr::kable(risks, caption = "Enterprise Risks")
 ```
 
-The shared root cause SC is what makes *seeing* and *doing* diverge: observing $A = 1$ raises the posterior probability of SC, which in turn raises the probability of $B = 1$ — a side-effect that $\text{do}(A = 1)$ does not produce.
+The shared root cause SC is what makes *seeing* and *doing* diverge: observing $A = 1$ raises the posterior probability of SC, which in turn raises the probability of $B = 1$, a side-effect that $\text{do}(A = 1)$ does not produce.
 
 ## Building the Portfolio Network
 
@@ -223,7 +223,7 @@ corrplot(cor_matrix,
 
 ## Seeing vs. Doing at the Risk Level
 
-This is where the real insight lives. **Seeing** $A = 1$ conditions on the observation in the original graph — evidence propagates upstream as well as downstream. **Doing** $\text{do}(A = 1)$ performs graph surgery, severing SC→A and fixing $A = 1$. The two operations produce different results because of the shared root cause SC.
+This is where the real insight lives. **Seeing** $A = 1$ conditions on the observation in the original graph: evidence propagates upstream as well as downstream. **Doing** $\text{do}(A = 1)$ performs graph surgery, severing SC→A and fixing $A = 1$. The two operations produce different results because of the shared root cause SC.
 
 ```{r}
 seeing_results <- prob_net_learn(graph, observations = list(A = 1), num_samples = 1000)
@@ -241,19 +241,19 @@ h1     <- hist(sim_results$Y,    breaks = 50, plot = FALSE)
 h2     <- hist(seeing_results$Y, breaks = 50, plot = FALSE)
 h_do   <- hist(do_A1_results$Y,  breaks = 50, plot = FALSE)
 
-plot(h1, main = "P(Y) vs. Seeing vs. Doing — Labor Shortage",
+plot(h1, main = "P(Y) vs. Seeing vs. Doing: Labor Shortage",
      xlab = "Portfolio Cost ($)", col = "skyblue", border = "white",
      ylim = c(0, max(h1$counts, h2$counts, h_do$counts)))
 plot(h_do, col = rgb(1, 0.5, 0, 0.5), border = "white", add = TRUE)
 plot(h2,   col = rgb(0, 0, 1, 0.4),   border = "white", add = TRUE)
 legend("topright",
-  legend = c("P(Y) — prior",
-             "P(Y | do(A=1)) — doing",
-             "P(Y | A=1) — seeing"),
+  legend = c("P(Y): prior",
+             "P(Y | do(A=1)): doing",
+             "P(Y | A=1): seeing"),
   fill = c("skyblue", rgb(1, 0.5, 0, 0.5), rgb(0, 0, 1, 0.4)), bty = "n")
 ```
 
-**The key distinction:** *Seeing* a Labor Shortage raises our belief that a Supply Chain Disruption is underway, which in turn raises the probability of a Material Price Spike — a side-effect that propagates through SC. *Doing* $\text{do}(A = 1)$ severs SC→A, so SC stays at its prior and material costs are unaffected. The gap between the two distributions is the operational signature of the shared root cause.
+**The key distinction:** *Seeing* a Labor Shortage raises our belief that a Supply Chain Disruption is underway, which in turn raises the probability of a Material Price Spike, a side-effect that propagates through SC. *Doing* $\text{do}(A = 1)$ severs SC→A, so SC stays at its prior and material costs are unaffected. The gap between the two distributions is the operational signature of the shared root cause.
 
 ## Enterprise vs. Project-Scoped Intervention
 
@@ -287,9 +287,9 @@ plot(h1, main = "Project-scoped vs. Enterprise-level Labor Mitigation",
 plot(h3, col = rgb(0, 0.6, 0, 0.4),   border = "white", add = TRUE)
 plot(h4, col = rgb(0.8, 0.4, 0, 0.5), border = "white", add = TRUE)
 legend("topright",
-  legend = c("P(Y) — observational",
-             "do(J → baseline) — Project 3 insulated",
-             "do(A = 0) — enterprise prevention"),
+  legend = c("P(Y): observational",
+             "do(J → baseline): Project 3 insulated",
+             "do(A = 0): enterprise prevention"),
   fill = c("skyblue", rgb(0, 0.6, 0, 0.4), rgb(0.8, 0.4, 0, 0.5)), bty = "n")
 ```
 
@@ -336,7 +336,7 @@ barplot(importance,
 )
 ```
 
-The bar heights rank the three enterprise risks by their contribution to portfolio cost variance — a principled basis for prioritizing mitigation investments.
+The bar heights rank the three enterprise risks by their contribution to portfolio cost variance, a principled basis for prioritizing mitigation investments.
 
 ## Summary Table
 
@@ -367,10 +367,10 @@ knitr::kable(stats_df, caption = "Portfolio cost statistics across all scenarios
 ::: {.callout-tip icon=false}
 ## Key Takeaways
 
-- Shared enterprise risks create **positive correlation across all projects** that share those resources — portfolio variance is always larger than the naive sum of individual project variances.
+- Shared enterprise risks create **positive correlation across all projects** that share those resources, driving portfolio variance is always larger than the naive sum of individual project variances.
 - The **task-cost correlation matrix** reveals the block structure of risk sharing: tasks driven by the same enterprise risk cluster together, while tasks driven by different risks are near-zero.
-- **Seeing** conditions on evidence in the original graph — it propagates upstream through shared root causes, raising the probability of sibling risks as a side-effect.
-- **Doing** (graph surgery) severs incoming edges of the intervened node — it changes only what the intervention directly controls, without raising posteriors about shared root causes.
+- **Seeing** conditions on evidence in the original graph; it propagates upstream through shared root causes, raising the probability of sibling risks as a side-effect.
+- **Doing** (graph surgery) severs incoming edges of the intervened node; it changes only what the intervention directly controls, without raising posteriors about shared root causes.
 - Enterprise-level risk prevention ($\text{do}(A = 0)$) reduces portfolio exposure across all projects simultaneously; project-scoped insulation ($\text{do}(J \to \text{baseline})$) reduces exposure for only one.
 - **Risk importance ranking** by variance reduction from $\text{do}(\text{risk} = 0)$ gives a principled basis for prioritizing mitigation budgets.
 :::

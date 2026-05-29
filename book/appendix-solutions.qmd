@@ -1,6 +1,6 @@
 # Exercise Solutions {#sec-solutions}
 
-Reference solutions for all ★-marked exercises. Computational solutions are fully evaluated. For conceptual exercises, the answers provided represent one reasonable interpretation — other defensible answers exist.
+Reference solutions for all ★-marked exercises. Computational solutions are fully evaluated. For conceptual exercises, the answers provided represent one reasonable interpretation; other defensible answers exist.
 
 ```{r setup}
 #| code-fold: false
@@ -12,7 +12,7 @@ set.seed(42)
 
 ## Monte Carlo Simulation (@sec-mcs)
 
-### Exercise 3 ★ — Correlation Experiment
+### Exercise 3 ★: Correlation Experiment
 
 *Re-run the simulation with all off-diagonal values set to 0 (independent), then 0.9 (strongly correlated). How does total variance change?*
 
@@ -34,21 +34,21 @@ cor_high <- matrix(c(
 res_indep <- mcs(10000, task_distributions, cor_zero)
 res_corr  <- mcs(10000, task_distributions, cor_high)
 
-cat("Independent — SD:", round(res_indep$total_sd, 2),
+cat("Independent SD:", round(res_indep$total_sd, 2),
     "  P95:", round(quantile(res_indep$total_distribution, 0.95), 1), "\n")
-cat("Correlated  — SD:", round(res_corr$total_sd, 2),
+cat("Correlated  SD:", round(res_corr$total_sd, 2),
     "  P95:", round(quantile(res_corr$total_distribution, 0.95), 1), "\n")
 ```
 
-**Interpretation.** Total variance rises substantially under strong positive correlation. When tasks are independent, a long draw on Task A is just as likely to coincide with a short draw on Task B — they cancel out. When tasks are positively correlated, long draws tend to cluster: if Task A is late, Task B is probably also late. This eliminates the cancellation effect and inflates the total variance. The P95 rises correspondingly. Ignoring correlations understates the risk of the worst-case scenarios.
+**Interpretation.** Total variance rises substantially under strong positive correlation. When tasks are independent, a long draw on Task A is just as likely to coincide with a short draw on Task B, and they tend to cancel out. When tasks are positively correlated, long draws tend to cluster: if Task A is late, Task B is probably also late. This eliminates the cancellation effect and inflates the total variance. The P95 rises correspondingly. Ignoring correlations understates the risk of the worst-case scenarios.
 
 ---
 
-### Exercise 5 ★ — Real-World Application
+### Exercise 5 ★: Real-World Application
 
 *Think of a project you know. Identify three tasks, estimate distributions, run `mcs()`, and report P50 and P80.*
 
-This exercise is open-ended by design — the answer depends on the project you choose. Below is one example: planning a small construction renovation (bathroom remodel).
+This exercise is open-ended by design; the answer depends on the project you choose. Below is one example: planning a small construction renovation (bathroom remodel).
 
 ```{r}
 reno_tasks <- list(
@@ -71,7 +71,7 @@ cat("Contingency (P80 - P50):",
 
 ## Sensitivity Analysis (@sec-sensitivity)
 
-### Exercise 4 ★ — Correlation Direction
+### Exercise 4 ★: Correlation Direction
 
 *Construct a correlation matrix where Task A and Task B are negatively correlated (−0.5). What happens to their sensitivity indices?*
 
@@ -98,7 +98,7 @@ round(rbind(independent = sens_indep, neg_correlated = sens_neg), 3)
 
 ---
 
-### Exercise 5 ★ — From Sensitivity to Contingency
+### Exercise 5 ★: From Sensitivity to Contingency
 
 *Run `mcs()` and `sensitivity()` on the same tasks. Verify that the highest-sensitivity task also shows the widest spread in the simulation.*
 
@@ -122,13 +122,13 @@ cat("\nSensitivity indices:\n")
 print(round(sens, 3))
 ```
 
-**Interpretation.** Task B has both the highest sensitivity index and the highest standard deviation in the MCS output — they tell a consistent story. The sensitivity index captures *variance contribution* (accounting for covariances), while the MCS SD measures *spread* directly. For independent tasks they rank identically. They can diverge when tasks are correlated: a low-variance task that is highly correlated with the dominant task can acquire a sensitivity index greater than its raw SD would suggest.
+**Interpretation.** Task B has both the highest sensitivity index and the highest standard deviation in the MCS output, telling a consistent story. The sensitivity index captures *variance contribution* (accounting for covariances), while the MCS SD measures *spread* directly. For independent tasks they rank identically. They can diverge when tasks are correlated: a low-variance task that is highly correlated with the dominant task can acquire a sensitivity index greater than its raw SD would suggest.
 
 ---
 
 ## Second Moment Method (@sec-smm)
 
-### Exercise 3 ★ — Normality Check
+### Exercise 3 ★: Normality Check
 
 *Run `mcs()` for the 3-task project and overlay the SMM normal distribution on the MCS histogram.*
 
@@ -158,11 +158,11 @@ legend("topright", legend = c("MCS", "SMM normal"),
   col = c("steelblue", "tomato"), lwd = c(NA, 2), bty = "n")
 ```
 
-**Normality with exponential distributions.** For exponential tasks, the normal approximation holds only moderately well for three tasks — the CLT needs more terms, or lighter tails. With $n = 10$ exponential tasks the approximation is already quite good; with $n = 3$ it will show excess right-skew. In that case, MCS gives the correct non-normal total.
+**Normality with exponential distributions.** For exponential tasks, the normal approximation holds only moderately well for three tasks; the CLT needs more terms, or lighter tails. With $n = 10$ exponential tasks the approximation is already quite good; with $n = 3$ it will show excess right-skew. In that case, MCS gives the correct non-normal total.
 
 ---
 
-### Exercise 5 ★ — When to Trust SMM
+### Exercise 5 ★: When to Trust SMM
 
 *Write a decision rule for choosing between SMM and Monte Carlo.*
 
@@ -172,12 +172,12 @@ Use the **SMM** when:
 - You have $\geq 6$ tasks and none dominates the others (variance contributions are roughly equal)
 - You need a quick result for a preliminary estimate or a stakeholder conversation
 - Tasks are approximately independent (no strong shared risks or resources)
-- You only need the mean, standard deviation, and a normal confidence interval — not the full shape of the distribution
+- You only need the mean, standard deviation, and a normal confidence interval, not the full shape of the distribution
 
 Use **Monte Carlo** when:
-- One or two tasks have dramatically higher variance than the others (the CLT does not apply well — the distribution is skewed or heavy-tailed)
+- One or two tasks have dramatically higher variance than the others (the CLT does not apply well, as the distribution is skewed or heavy-tailed)
 - Tasks are correlated (MCS handles the full correlation structure; SMM ignores it by default)
-- You need the full distribution — not just mean ± 1.96σ — for non-normal reporting or stakeholder communication
+- You need the full distribution, not just mean ± 1.96σ, for non-normal reporting or stakeholder communication
 - You need to compute contingency reserves at specific non-standard percentiles
 
 The SMM is a fast screening tool. If it suggests a comfortable schedule, Monte Carlo may not add much. If it shows large variance, Monte Carlo is worth running to see whether the tail is well-behaved or alarming.
@@ -186,7 +186,7 @@ The SMM is a fast screening tool. If it suggests a comfortable schedule, Monte C
 
 ## Earned Value Management (@sec-evm)
 
-### Exercise 5 ★ — Recovering Project Trend
+### Exercise 5 ★: Recovering Project Trend
 
 *Create a 5-period dataset where the project starts over budget but recovers (CPI < 1 in periods 1–2, CPI ≥ 1 in periods 3–5). Plot the trend chart.*
 
@@ -229,11 +229,11 @@ par(mfrow = c(1, 1))
 
 ## Bayesian Risk Inference (@sec-bayes)
 
-### Exercise 4 ★ — Intuition Check
+### Exercise 4 ★: Intuition Check
 
 *Explain why observing a root cause changes your belief about the risk event, even though you didn't observe the risk event itself.*
 
-**Answer.** The key is the conditional probability $P(\text{cause}|\text{risk occurs})$. If a root cause is much more likely to be observable when the risk is present than when it is absent — that is, if $P(C|\text{risk}) \gg P(C|\neg\text{risk})$ — then seeing the cause is genuine evidence that the risk has occurred or is likely to occur.
+**Answer.** The key is the conditional probability $P(\text{cause}|\text{risk occurs})$. If a root cause is much more likely to be observable when the risk is present than when it is absent, that is, if $P(C|\text{risk}) \gg P(C|\neg\text{risk})$, then seeing the cause is genuine evidence that the risk has occurred or is likely to occur.
 
 Consider an analogy: you see storm clouds (cause) and update your belief about whether it will rain (risk event). You haven't observed rain yet, but clouds are more common before rain than during clear weather, so their presence raises your probability estimate. The `risks_given_causes` parameter captures exactly this: how likely is it that you would observe this cause *if* the risk were present? A high value (close to 1) means the cause is a strong indicator.
 
@@ -241,7 +241,7 @@ The mathematical mechanism is Bayes' theorem: $P(\text{risk}|\text{cause}) \prop
 
 ---
 
-### Exercise 5 ★ — Sequential Updating
+### Exercise 5 ★: Sequential Updating
 
 *Observe Cause 1, update. Then observe Cause 2, update again. Does order matter?*
 
@@ -265,13 +265,13 @@ cat("After Cause 2 only:         ", round(after_c2, 4), "\n")
 cat("After Cause 2 then Cause 1: ", round(after_both_v2, 4), "\n")
 ```
 
-**Order doesn't matter.** The final posterior after observing both causes is identical regardless of the order of observation. This is a consequence of the independence assumption: in this model, causes are assumed independent of each other (conditional on the risk state). When causes are independent, the joint likelihood factors: $P(C_1, C_2|\text{risk}) = P(C_1|\text{risk}) \times P(C_2|\text{risk})$, and multiplication commutes. If causes were dependent on each other — for example, if observing one cause makes the other more likely — the model would need to account for that dependency and order could matter in sequential manual updates (though the final result should still be the same if done correctly via the joint distribution).
+**Order doesn't matter.** The final posterior after observing both causes is identical regardless of the order of observation. This is a consequence of the independence assumption: in this model, causes are assumed independent of each other (conditional on the risk state). When causes are independent, the joint likelihood factors: $P(C_1, C_2|\text{risk}) = P(C_1|\text{risk}) \times P(C_2|\text{risk})$, and multiplication commutes. If causes were dependent on each other, for example if observing one cause makes the other more likely, the model would need to account for that dependency and order could matter in sequential manual updates (though the final result should still be the same if done correctly via the joint distribution).
 
 ---
 
 ## Sigmoidal Learning Curves (@sec-sigmoidal)
 
-### Exercise 3 ★ — Confidence Band Width
+### Exercise 3 ★: Confidence Band Width
 
 *Predict at weeks 3, 6, and 12. How wide is the 95% confidence band at each?*
 
@@ -285,7 +285,7 @@ fit <- fit_sigmoidal(sig_data, "week", "output", "logistic")
 
 for (w in c(3, 6, 12)) {
   pred <- predict_sigmoidal(fit, w, "logistic")
-  cat(sprintf("Week %2d  — predicted: %5.1f\n", w, pred$pred))
+  cat(sprintf("Week %2d: predicted: %5.1f\n", w, pred$pred))
 }
 ```
 
@@ -294,11 +294,11 @@ for (w in c(3, 6, 12)) {
 plot_sigmoidal(fit, sig_data, "week", "output", "logistic")
 ```
 
-**Explanation.** Confidence band width increases with extrapolation distance for two reasons. First, the model is more certain about fitted values near the centre of the observed data (weeks 4–7, where the sigmoidal is most informative). Second, extrapolation beyond week 10 relies entirely on the assumed functional form — the model has no data to constrain the prediction, and small errors in the estimated parameters compound. As a rule: trust predictions within the observed range; treat extrapolations as scenarios, not forecasts.
+**Explanation.** Confidence band width increases with extrapolation distance for two reasons. First, the model is more certain about fitted values near the centre of the observed data (weeks 4–7, where the sigmoidal is most informative). Second, extrapolation beyond week 10 relies entirely on the assumed functional form; the model has no data to constrain the prediction, and small errors in the estimated parameters compound. As a rule: trust predictions within the observed range; treat extrapolations as scenarios, not forecasts.
 
 ---
 
-### Exercise 5 ★ — Beyond Completion Percentages
+### Exercise 5 ★: Beyond Completion Percentages
 
 *Choose an alternative interpretation of the sigmoidal model (cost efficiency, defect rates, or productivity).*
 
@@ -312,17 +312,17 @@ Setup:
 - `K` (ceiling) = the crew's maximum sustainable output rate (estimated from similar past projects)
 
 A fitted logistic model tells you:
-- The **inflection point** ($t_0$): the week when the crew is improving fastest — this is when you should schedule the most challenging pours
-- The **growth rate** ($r$): how quickly the crew learns — a high $r$ means the learning curve is steep and full productivity is reached quickly
+- The **inflection point** ($t_0$): the week when the crew is improving fastest; this is when you should schedule the most challenging pours
+- The **growth rate** ($r$): how quickly the crew learns; a high $r$ means the learning curve is steep and full productivity is reached quickly
 - **Extrapolation**: predict the output rate at week $n$ to inform the schedule for tasks that depend on a minimum pour rate
 
-The model is useful here because productivity is bounded (even expert crews have a maximum throughput given equipment and site constraints) and the learning pattern is S-shaped: slow start, rapid improvement, plateau. The main caveat is that `K` must be estimated in advance — if the actual plateau differs, predictions in the upper portion of the curve will be biased.
+The model is useful here because productivity is bounded (even expert crews have a maximum throughput given equipment and site constraints) and the learning pattern is S-shaped: slow start, rapid improvement, plateau. The main caveat is that `K` must be estimated in advance; if the actual plateau differs, predictions in the upper portion of the curve will be biased.
 
 ---
 
 ## Design Structure Matrices (@sec-dsm)
 
-### Exercise 3 ★ — Risk Propagation
+### Exercise 3 ★: Risk Propagation
 
 *Which task pair shares the most risks in the Grandparent DSM? Describe the worst-case scenario.*
 
@@ -350,11 +350,11 @@ g <- grandparent_dsm(S, R)
 print(g)
 ```
 
-**Worst-case scenario.** Look for the highest off-diagonal entry. Suppose it is T2–T5: both share the maximum number of risks through overlapping resource dependencies. The worst-case scenario: a single risk event strikes one of those shared resources (say, R2 — used by both tasks). Because Risk2 affects R2, and R2 is used by T2 and T5 simultaneously, the risk delays both tasks at once. The coupling means the project cannot recover from one task while the other runs normally — both are blocked. The Grandparent DSM quantifies this: the higher the off-diagonal entry, the more "failure modes" connect the pair.
+**Worst-case scenario.** Look for the highest off-diagonal entry. Suppose it is T2–T5: both share the maximum number of risks through overlapping resource dependencies. The worst-case scenario: a single risk event strikes one of those shared resources (say, R2, used by both tasks). Because Risk2 affects R2, and R2 is used by T2 and T5 simultaneously, the risk delays both tasks at once. The coupling means the project cannot recover from one task while the other runs normally; both are blocked. The Grandparent DSM quantifies this: the higher the off-diagonal entry, the more "failure modes" connect the pair.
 
 ---
 
-### Exercise 5 ★ — From DSM to Monte Carlo
+### Exercise 5 ★: From DSM to Monte Carlo
 
 *Normalize Parent DSM off-diagonal values to [0, 1] and use them as MCS correlation coefficients.*
 
@@ -389,13 +389,13 @@ cat("Variance inflation:     ",
     "%\n")
 ```
 
-**What structural coupling adds.** The DSM-derived correlation inflates total variance above the independent baseline. The magnitude depends on which task pairs have high coupling — heavily coupled pairs have high correlations, which propagate correlated delays. This exercise demonstrates that the structural analysis (DSM) and the probabilistic analysis (MCS) are complementary: DSM reveals *which* tasks are coupled; MCS quantifies *how much* that coupling increases risk.
+**What structural coupling adds.** The DSM-derived correlation inflates total variance above the independent baseline. The magnitude depends on which task pairs have high coupling, as heavily coupled pairs have high correlations, which propagate correlated delays. This exercise demonstrates that the structural analysis (DSM) and the probabilistic analysis (MCS) are complementary: DSM reveals *which* tasks are coupled; MCS quantifies *how much* that coupling increases risk.
 
 ---
 
 ## Probabilistic Networks (@sec-network)
 
-### Exercise 3 ★ — Add a QA Risk
+### Exercise 3 ★: Add a QA Risk
 
 *Add Risk-3 (p = 0.40) affecting QA Engineer, increasing cost from $20K to $35K.*
 
@@ -448,7 +448,7 @@ cat("Expected QA cost increase:",
 
 ---
 
-### Exercise 5 ★ — Two Risks, One Resource
+### Exercise 5 ★: Two Risks, One Resource
 
 *Design a network where two risks both affect the same resource. What happens to task correlation?*
 
@@ -489,13 +489,13 @@ sim2   <- prob_net_sim(graph2, num_samples = 10000)
 cat("Correlation between T1 and T2:", round(cor(sim2$T1, sim2$T2), 3), "\n")
 ```
 
-**Interpretation.** Two tasks that *both* depend on the same resource share all of that resource's uncertainty. When a risk strikes the shared resource, both tasks are affected simultaneously and in the same direction — perfect positive correlation within the resource node. This is exactly what the DSM predicts structurally (@sec-dsm): a high off-diagonal Parent DSM entry between these two tasks.
+**Interpretation.** Two tasks that *both* depend on the same resource share all of that resource's uncertainty. When a risk strikes the shared resource, both tasks are affected simultaneously and in the same direction, creating perfect positive correlation within the resource node. This is exactly what the DSM predicts structurally (@sec-dsm): a high off-diagonal Parent DSM entry between these two tasks.
 
 ---
 
 ## Portfolio Networks (@sec-network2)
 
-### Exercise 4 ★ — Add a Fourth Project
+### Exercise 4 ★: Add a Fourth Project
 
 This exercise requires reading `ch-network2.qmd` to obtain the existing three-project network structure. The solution below shows the pattern for extending the portfolio.
 
@@ -523,17 +523,17 @@ new_links <- data.frame(
 )
 ```
 
-**Expected result.** Adding a fourth project sharing the same enterprise risks increases total portfolio variance by more than the fourth project's standalone variance — the covariance terms between the new project and the existing three add to the total. The risk importance ranking is unlikely to shift dramatically, but any enterprise risk that was already dominant (highest contribution to existing portfolio variance) will become even more dominant in the extended portfolio.
+**Expected result.** Adding a fourth project sharing the same enterprise risks increases total portfolio variance by more than the fourth project's standalone variance, since the covariance terms between the new project and the existing three add to the total. The risk importance ranking is unlikely to shift dramatically, but any enterprise risk that was already dominant (highest contribution to existing portfolio variance) will become even more dominant in the extended portfolio.
 
 ---
 
-### Exercise 5 ★ — Causal Graph Design
+### Exercise 5 ★: Causal Graph Design
 
 *Add SC → C edge: Supply Chain Disruption also affects Weather Delay through logistics.*
 
-This exercise is primarily conceptual — the answer requires reasoning about the see-versus-do distinction.
+This exercise is primarily conceptual; the answer requires reasoning about the see-versus-do distinction.
 
-**Answer.** Adding SC → C means that C (Weather Delay) is no longer a root variable; it becomes conditional on SC. When you *see* C = Yes, you're now also updating your belief about SC, which in turn shifts your beliefs about A (Labor Shortage) and B (Material Price Spike) — because all three share SC as a parent. This creates *explaining away*: if you observe C and you know that SC explains it, you become less certain that some independent weather phenomenon caused C.
+**Answer.** Adding SC → C means that C (Weather Delay) is no longer a root variable; it becomes conditional on SC. When you *see* C = Yes, you're now also updating your belief about SC, which in turn shifts your beliefs about A (Labor Shortage) and B (Material Price Spike), because all three share SC as a parent. This creates *explaining away*: if you observe C and you know that SC explains it, you become less certain that some independent weather phenomenon caused C.
 
 The do-calculus implication: `prob_net_update()` (graph surgery) would remove the SC → C edge when computing $P(Y | \text{do}(C = \text{No}))$, preventing the intervention from propagating back up to SC and then down to A and B. In contrast, `prob_net_learn()` (conditioning) would propagate through all paths, including the SC back-channel. The see-versus-do distinction becomes consequential precisely because of this shared upstream cause.
 
@@ -541,7 +541,7 @@ The do-calculus implication: `prob_net_update()` (graph surgery) would remove th
 
 ## Agentic Risk Analysis (@sec-agent)
 
-### Exercise 5 ★ — MCP Integration
+### Exercise 5 ★: MCP Integration
 
 This exercise is environment-dependent and cannot be evaluated in the rendered book. Below is a description of the expected experience and how to verify it.
 
