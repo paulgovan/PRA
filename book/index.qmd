@@ -92,7 +92,7 @@ All outputs are generated from scratch in a clean R session.
 
 If you use this book in your work, please cite it as:
 
-> Govan, P. (*year*). *Project Risk Analysis: A Practical Guide: From Monte Carlo to AI Agents, Without Losing Your Mind*. <https://github.com/paulgovan/PRA>
+> Govan, P. (*year*). *Project Risk Analysis: A Practical Guide: From Monte Carlo to AI Agents*. <https://github.com/paulgovan/PRA>
 
 Or in BibTeX:
 
@@ -100,7 +100,7 @@ Or in BibTeX:
 @book{govan_pra,
   author    = {Paul Govan},
   title     = {Project Risk Analysis: A Practical Guide},
-  subtitle  = {From Monte Carlo to AI Agents, Without Losing Your Mind},
+  subtitle  = {From Monte Carlo to AI Agents},
   year      = {2025},
   url       = {https://github.com/paulgovan/PRA},
   note      = {CC BY 4.0}

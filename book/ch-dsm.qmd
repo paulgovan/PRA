@@ -1,6 +1,7 @@
 # Everything Is Connected: Design Structure Matrices {#sec-dsm}
 
 > *"You can't just fix Task 7. Task 7 shares three resources with Tasks 2, 4, and 9."*
+> — P.G.
 
 Projects are not a list of independent activities. They are a web of interdependencies, and understanding that web is the key to understanding where delays and cost overruns actually come from. A delay in one task may ripple into five others — not because the tasks are sequentially linked, but because they share the same crew, the same materials, or the same equipment.
 

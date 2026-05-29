@@ -3,7 +3,7 @@ project:
 
 book:
   title: "Project Risk Analysis: A Practical Guide"
-  subtitle: "From Monte Carlo to AI Agents, Without Losing Your Mind"
+  subtitle: "From Monte Carlo to AI Agents"
   author: "Paul Govan"
   date: today
   cover-image: cover.png
@@ -46,6 +46,7 @@ format:
   pdf:
     documentclass: scrbook
     colorlinks: true
+    cover-image: cover.png
 
 execute:
   warning: false

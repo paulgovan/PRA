@@ -64,6 +64,22 @@ library(PRA)
 set.seed(42)
 ```
 
+## Causal Structure
+
+Before computing probabilities, it helps to see the causal graph. Two independent root causes each point to the risk event — observing either one updates the posterior risk probability.
+
+```{r}
+#| fig-cap: "DAG: Cause-1 and Cause-2 independently drive the risk event R."
+library(igraph)
+g <- graph_from_data_frame(
+  data.frame(from = c("Cause-1", "Cause-2"), to = c("Risk", "Risk")),
+  directed = TRUE
+)
+V(g)$color <- c("steelblue", "steelblue", "tomato")
+plot(g, vertex.size = 40, vertex.label.cex = 0.9,
+     edge.arrow.size = 0.6, layout = layout_with_sugiyama(g)$layout)
+```
+
 ## Step 1: Prior Risk Probability
 
 Before any observations are made, `risk_prob()` computes the probability of a risk event R occurring given two potential root causes. For each cause, we supply:

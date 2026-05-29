@@ -163,7 +163,7 @@ graph <- prob_net(nodes, links, distributions = distributions)
 The network can be visualized with the `igraph` and `networkD3` packages.
 
 ```{r}
-#| eval: false
+#| eval: true
 library(igraph)
 library(networkD3)
 g   <- graph_from_data_frame(graph$links, vertices = graph$nodes, directed = TRUE)

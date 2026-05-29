@@ -1,6 +1,7 @@
 # S Is for Success: Sigmoidal Learning Curves {#sec-sigmoidal}
 
 > *"First it's slow, then it's fast, then you've already hit the ceiling."*
+> — P.G.
 
 Every team that's ever built something knows the pattern. Week one: figuring things out. Week four: hitting a stride. Week eight: slowing down as completion approaches 100%. This S-shaped curve — slow start, rapid middle, graceful plateau — is not a quirk of one project. It's a near-universal pattern in learning and production processes, and it has a name: the **sigmoidal curve**.
 
