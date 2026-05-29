@@ -142,7 +142,11 @@ cat("CV (Cost Variance):  $", format(cv(EV, AC), big.mark = ","), "\n")
 cat("SV (Schedule Var.):  $", format(sv(EV, PV), big.mark = ","), "\n")
 cat("CPI:                  ", round(cpi(EV, AC), 3), "\n")
 cat("SPI:                  ", round(spi(EV, PV), 3), "\n")
-cat("EAC (typical):       $", format(round(eac(BAC, method = "typical", cpi = cpi(EV, AC))), big.mark = ","), "\n")
+eac_typical <- eac(BAC, method = "typical", cpi = cpi(EV, AC))
+cat(
+  "EAC (typical):       $",
+  format(round(eac_typical), big.mark = ","), "\n"
+)
 ```
 
 A CPI below 1.0 means the project is over budget for work completed. The EAC (typical) forecasts the final cost if current cost efficiency continues. The project manager needs to investigate the source of the cost overrun — the Adverse Weather or Ground Conditions risks are likely candidates.

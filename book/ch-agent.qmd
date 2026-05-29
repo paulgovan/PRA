@@ -77,9 +77,13 @@ cat(PRA:::format_help_overview())
 
 ```{r}
 set.seed(42)
-r <- PRA:::execute_command(
-  '/mcs n=10000 tasks=[{"type":"normal","mean":10,"sd":2},{"type":"triangular","a":5,"b":10,"c":15},{"type":"uniform","min":8,"max":12}]'
+cmd <- paste0(
+  '/mcs n=10000 tasks=[',
+  '{"type":"normal","mean":10,"sd":2},',
+  '{"type":"triangular","a":5,"b":10,"c":15},',
+  '{"type":"uniform","min":8,"max":12}]'
 )
+r <- PRA:::execute_command(cmd)
 cat(r$result)
 ```
 
@@ -121,9 +125,13 @@ cat(r$result)
 Full EVM analysis with a single command:
 
 ```{r}
-r <- PRA:::execute_command(
-  "/evm bac=500000 schedule=[0.2,0.4,0.6,0.8,1.0] period=3 complete=0.35 costs=[90000,195000,310000]"
+cmd <- paste(
+  "/evm bac=500000",
+  "schedule=[0.2,0.4,0.6,0.8,1.0]",
+  "period=3 complete=0.35",
+  "costs=[90000,195000,310000]"
 )
+r <- PRA:::execute_command(cmd)
 cat(r$result)
 ```
 

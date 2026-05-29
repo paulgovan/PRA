@@ -183,6 +183,8 @@ forceNetwork(
 ```{r}
 #| eval: !expr "!knitr::is_html_output()"
 #| fig-cap: "Probabilistic network of risks, resources, tasks, and project cost."
+#| fig-width: 5.5
+#| fig-height: 4.5
 plot(
   g,
   vertex.color = as.factor(graph$nodes$group),

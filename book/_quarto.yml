@@ -9,8 +9,11 @@ book:
   cover-image: cover.png
   sidebar:
     logo: cover.png
+  site-url: https://paulgovan.github.io/PRA/book/
   repo-url: https://github.com/paulgovan/PRA
   repo-actions: [edit, issue]
+  downloads: [pdf, epub]
+  sharing: [twitter, linkedin, facebook]
   chapters:
     - index.qmd
     - intro.qmd
@@ -36,7 +39,9 @@ bibliography: references.bib
 
 format:
   html:
-    theme: cosmo
+    theme:
+      light: cosmo
+      dark: darkly
     code-fold: false
     code-tools: true
     toc: true
@@ -47,6 +52,16 @@ format:
     documentclass: scrbook
     colorlinks: true
     cover-image: cover.png
+    geometry:
+      - margin=1in
+    fontsize: 11pt
+    fig-width: 5.5
+    fig-height: 4
+    code-overflow: wrap
+  epub:
+    cover-image: cover.png
+    toc: true
+    fig-width: 5
 
 execute:
   warning: false

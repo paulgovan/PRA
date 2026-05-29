@@ -209,6 +209,8 @@ The correlation matrix reveals which tasks are coupled through shared risks.
 
 ```{r}
 #| fig-cap: "Task-cost correlation matrix. Tasks sharing the same enterprise risk (Labor, Materials, Equipment) are strongly correlated; tasks driven by different risks are near zero."
+#| fig-width: 5
+#| fig-asp: 1
 task_costs <- sim_results[, c("M","N","O","P","Q","R","S","T","U")]
 cor_matrix <- cor(task_costs)
 corrplot(cor_matrix,
