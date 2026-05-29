@@ -76,10 +76,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-6b6957c917596b414ec0b78690761e87.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-b4a76c01c78fe92eb35a980f874a855b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-b4a76c01c78fe92eb35a980f874a855b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-1c1893f04979aa476fa52bb1a99ba675.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-b4a76c01c78fe92eb35a980f874a855b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -111,7 +115,169 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -140,8 +306,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Project Risk Analysis: A Practical Guide</a> 
-        <div class="sidebar-tools-main">
+        <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/paulgovan/PRA" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Project-Risk-Analysis--A-Practical-Guide.pdf">
+              <i class="bi bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Project-Risk-Analysis--A-Practical-Guide.epub">
+              <i class="bi bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-1" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-1">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
     </div>
       </div>
@@ -297,6 +504,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./appendix-glossary.html">Appendices</a></li><li class="breadcrumb-item"><a href="./appendix-casestudy.html"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Case Study: Riverside Bridge Replacement</span></a></li></ol></nav>
 <div class="quarto-title">
@@ -574,7 +782,11 @@ Total Standard Deviation:  4.478058 </code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>SPI:                   0.738 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"EAC (typical):       $"</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">eac</span>(BAC, <span class="at">method =</span> <span class="st">"typical"</span>, <span class="at">cpi =</span> <span class="fu">cpi</span>(EV, AC))), <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>eac_typical <span class="ot">&lt;-</span> <span class="fu">eac</span>(BAC, <span class="at">method =</span> <span class="st">"typical"</span>, <span class="at">cpi =</span> <span class="fu">cpi</span>(EV, AC))</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"EAC (typical):       $"</span>,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">format</span>(<span class="fu">round</span>(eac_typical), <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>EAC (typical):       $ 2,812,500 </code></pre>
 </div>
@@ -865,6 +1077,19 @@ Total Standard Deviation:  4.478058 </code></pre>
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {
@@ -987,7 +1212,7 @@ Total Standard Deviation:  4.478058 </code></pre>
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/paulgovan\.github\.io\/PRA\/book\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1470,220 +1695,224 @@ Total Standard Deviation:  4.478058 </code></pre>
 <span id="cb60-158"><a href="#cb60-158" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"SV (Schedule Var.):  $"</span>, <span class="fu">format</span>(<span class="fu">sv</span>(EV, PV), <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb60-159"><a href="#cb60-159" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"CPI:                  "</span>, <span class="fu">round</span>(<span class="fu">cpi</span>(EV, AC), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
 <span id="cb60-160"><a href="#cb60-160" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"SPI:                  "</span>, <span class="fu">round</span>(<span class="fu">spi</span>(EV, PV), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb60-161"><a href="#cb60-161" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"EAC (typical):       $"</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">eac</span>(BAC, <span class="at">method =</span> <span class="st">"typical"</span>, <span class="at">cpi =</span> <span class="fu">cpi</span>(EV, AC))), <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb60-162"><a href="#cb60-162" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb60-163"><a href="#cb60-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-164"><a href="#cb60-164" aria-hidden="true" tabindex="-1"></a>A CPI below 1.0 means the project is over budget for work completed. The EAC (typical) forecasts the final cost if current cost efficiency continues. The project manager needs to investigate the source of the cost overrun — the Adverse Weather or Ground Conditions risks are likely candidates.</span>
-<span id="cb60-165"><a href="#cb60-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-166"><a href="#cb60-166" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb60-161"><a href="#cb60-161" aria-hidden="true" tabindex="-1"></a>eac_typical <span class="ot">&lt;-</span> <span class="fu">eac</span>(BAC, <span class="at">method =</span> <span class="st">"typical"</span>, <span class="at">cpi =</span> <span class="fu">cpi</span>(EV, AC))</span>
+<span id="cb60-162"><a href="#cb60-162" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(</span>
+<span id="cb60-163"><a href="#cb60-163" aria-hidden="true" tabindex="-1"></a>  <span class="st">"EAC (typical):       $"</span>,</span>
+<span id="cb60-164"><a href="#cb60-164" aria-hidden="true" tabindex="-1"></a>  <span class="fu">format</span>(<span class="fu">round</span>(eac_typical), <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span></span>
+<span id="cb60-165"><a href="#cb60-165" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb60-166"><a href="#cb60-166" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb60-167"><a href="#cb60-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-168"><a href="#cb60-168" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 5: Bayesian Risk Update {#sec-cs-bayes}</span></span>
+<span id="cb60-168"><a href="#cb60-168" aria-hidden="true" tabindex="-1"></a>A CPI below 1.0 means the project is over budget for work completed. The EAC (typical) forecasts the final cost if current cost efficiency continues. The project manager needs to investigate the source of the cost overrun — the Adverse Weather or Ground Conditions risks are likely candidates.</span>
 <span id="cb60-169"><a href="#cb60-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-170"><a href="#cb60-170" aria-hidden="true" tabindex="-1"></a>Before construction began, the probability of encountering poor ground conditions was estimated at 0.40. Halfway through the foundation work, the geotechnical team reports finding unexpected clay layers — a strong signal that the ground conditions risk has materialised.</span>
+<span id="cb60-170"><a href="#cb60-170" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb60-171"><a href="#cb60-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-174"><a href="#cb60-174" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb60-175"><a href="#cb60-175" aria-hidden="true" tabindex="-1"></a>causes    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.40</span>, <span class="fl">0.25</span>)</span>
-<span id="cb60-176"><a href="#cb60-176" aria-hidden="true" tabindex="-1"></a>given     <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.85</span>, <span class="fl">0.60</span>)</span>
-<span id="cb60-177"><a href="#cb60-177" aria-hidden="true" tabindex="-1"></a>not_given <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.20</span>)</span>
-<span id="cb60-178"><a href="#cb60-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-179"><a href="#cb60-179" aria-hidden="true" tabindex="-1"></a>prior_risk <span class="ot">&lt;-</span> <span class="fu">risk_prob</span>(causes, given, not_given)</span>
-<span id="cb60-180"><a href="#cb60-180" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Prior risk probability:"</span>, <span class="fu">round</span>(prior_risk, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb60-181"><a href="#cb60-181" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb60-172"><a href="#cb60-172" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 5: Bayesian Risk Update {#sec-cs-bayes}</span></span>
+<span id="cb60-173"><a href="#cb60-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-174"><a href="#cb60-174" aria-hidden="true" tabindex="-1"></a>Before construction began, the probability of encountering poor ground conditions was estimated at 0.40. Halfway through the foundation work, the geotechnical team reports finding unexpected clay layers — a strong signal that the ground conditions risk has materialised.</span>
+<span id="cb60-175"><a href="#cb60-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-178"><a href="#cb60-178" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb60-179"><a href="#cb60-179" aria-hidden="true" tabindex="-1"></a>causes    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.40</span>, <span class="fl">0.25</span>)</span>
+<span id="cb60-180"><a href="#cb60-180" aria-hidden="true" tabindex="-1"></a>given     <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.85</span>, <span class="fl">0.60</span>)</span>
+<span id="cb60-181"><a href="#cb60-181" aria-hidden="true" tabindex="-1"></a>not_given <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.20</span>)</span>
 <span id="cb60-182"><a href="#cb60-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-185"><a href="#cb60-185" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb60-186"><a href="#cb60-186" aria-hidden="true" tabindex="-1"></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="cn">NA</span>)  <span class="co"># clay layers observed; second cause unknown</span></span>
-<span id="cb60-187"><a href="#cb60-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-188"><a href="#cb60-188" aria-hidden="true" tabindex="-1"></a>post_risk <span class="ot">&lt;-</span> <span class="fu">risk_post_prob</span>(causes, given, not_given, observed)</span>
-<span id="cb60-189"><a href="#cb60-189" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Posterior risk probability:"</span>, <span class="fu">round</span>(post_risk, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb60-190"><a href="#cb60-190" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Update (posterior - prior):"</span>, <span class="fu">round</span>(post_risk <span class="sc">-</span> prior_risk, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb60-191"><a href="#cb60-191" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb60-192"><a href="#cb60-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-193"><a href="#cb60-193" aria-hidden="true" tabindex="-1"></a>Observing the clay layers nearly doubles the risk probability. This updated estimate should feed directly into the contingency reserve and the EAC recalculation.</span>
-<span id="cb60-194"><a href="#cb60-194" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-195"><a href="#cb60-195" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb60-183"><a href="#cb60-183" aria-hidden="true" tabindex="-1"></a>prior_risk <span class="ot">&lt;-</span> <span class="fu">risk_prob</span>(causes, given, not_given)</span>
+<span id="cb60-184"><a href="#cb60-184" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Prior risk probability:"</span>, <span class="fu">round</span>(prior_risk, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb60-185"><a href="#cb60-185" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb60-186"><a href="#cb60-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-189"><a href="#cb60-189" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb60-190"><a href="#cb60-190" aria-hidden="true" tabindex="-1"></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="cn">NA</span>)  <span class="co"># clay layers observed; second cause unknown</span></span>
+<span id="cb60-191"><a href="#cb60-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-192"><a href="#cb60-192" aria-hidden="true" tabindex="-1"></a>post_risk <span class="ot">&lt;-</span> <span class="fu">risk_post_prob</span>(causes, given, not_given, observed)</span>
+<span id="cb60-193"><a href="#cb60-193" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Posterior risk probability:"</span>, <span class="fu">round</span>(post_risk, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb60-194"><a href="#cb60-194" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Update (posterior - prior):"</span>, <span class="fu">round</span>(post_risk <span class="sc">-</span> prior_risk, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb60-195"><a href="#cb60-195" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb60-196"><a href="#cb60-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-197"><a href="#cb60-197" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 6: Learning Curve {#sec-cs-sigmoidal}</span></span>
+<span id="cb60-197"><a href="#cb60-197" aria-hidden="true" tabindex="-1"></a>Observing the clay layers nearly doubles the risk probability. This updated estimate should feed directly into the contingency reserve and the EAC recalculation.</span>
 <span id="cb60-198"><a href="#cb60-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-199"><a href="#cb60-199" aria-hidden="true" tabindex="-1"></a>The Contractor Crew is new to the bridge construction method and their weekly output (cubic metres of concrete placed per week) shows a classic learning pattern.</span>
+<span id="cb60-199"><a href="#cb60-199" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb60-200"><a href="#cb60-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-203"><a href="#cb60-203" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb60-204"><a href="#cb60-204" aria-hidden="true" tabindex="-1"></a>crew_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb60-205"><a href="#cb60-205" aria-hidden="true" tabindex="-1"></a>  <span class="at">week   =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,</span>
-<span id="cb60-206"><a href="#cb60-206" aria-hidden="true" tabindex="-1"></a>  <span class="at">output =</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">28</span>, <span class="dv">38</span>, <span class="dv">52</span>, <span class="dv">63</span>, <span class="dv">71</span>, <span class="dv">76</span>, <span class="dv">79</span>, <span class="dv">81</span>, <span class="dv">82</span>)</span>
-<span id="cb60-207"><a href="#cb60-207" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb60-208"><a href="#cb60-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-209"><a href="#cb60-209" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">fit_sigmoidal</span>(crew_data, <span class="st">"week"</span>, <span class="st">"output"</span>, <span class="st">"logistic"</span>)</span>
-<span id="cb60-210"><a href="#cb60-210" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Model: Logistic</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb60-211"><a href="#cb60-211" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Residual SE:"</span>, <span class="fu">round</span>(<span class="fu">summary</span>(fit)<span class="sc">$</span>sigma, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb60-212"><a href="#cb60-212" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb60-213"><a href="#cb60-213" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-216"><a href="#cb60-216" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb60-217"><a href="#cb60-217" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Logistic learning curve for the Contractor Crew. Productivity plateaus near 83 cubic metres per week by week 12."</span></span>
-<span id="cb60-218"><a href="#cb60-218" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_sigmoidal</span>(fit, crew_data, <span class="st">"week"</span>, <span class="st">"output"</span>, <span class="st">"logistic"</span>)</span>
-<span id="cb60-219"><a href="#cb60-219" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb60-220"><a href="#cb60-220" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-223"><a href="#cb60-223" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb60-224"><a href="#cb60-224" aria-hidden="true" tabindex="-1"></a>week12_pred <span class="ot">&lt;-</span> <span class="fu">predict_sigmoidal</span>(fit, <span class="dv">12</span>, <span class="st">"logistic"</span>)</span>
-<span id="cb60-225"><a href="#cb60-225" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Predicted output at week 12:"</span>, <span class="fu">round</span>(week12_pred<span class="sc">$</span>pred, <span class="dv">1</span>), <span class="st">"m³/week</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb60-226"><a href="#cb60-226" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb60-227"><a href="#cb60-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-228"><a href="#cb60-228" aria-hidden="true" tabindex="-1"></a>The crew is expected to reach near-plateau productivity by week 12. This informs the schedule for T3 (Structural Steel &amp; Deck): the first few weeks of concrete work will be slower than the steady-state rate.</span>
-<span id="cb60-229"><a href="#cb60-229" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-230"><a href="#cb60-230" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb60-201"><a href="#cb60-201" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 6: Learning Curve {#sec-cs-sigmoidal}</span></span>
+<span id="cb60-202"><a href="#cb60-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-203"><a href="#cb60-203" aria-hidden="true" tabindex="-1"></a>The Contractor Crew is new to the bridge construction method and their weekly output (cubic metres of concrete placed per week) shows a classic learning pattern.</span>
+<span id="cb60-204"><a href="#cb60-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-207"><a href="#cb60-207" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb60-208"><a href="#cb60-208" aria-hidden="true" tabindex="-1"></a>crew_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb60-209"><a href="#cb60-209" aria-hidden="true" tabindex="-1"></a>  <span class="at">week   =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,</span>
+<span id="cb60-210"><a href="#cb60-210" aria-hidden="true" tabindex="-1"></a>  <span class="at">output =</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">28</span>, <span class="dv">38</span>, <span class="dv">52</span>, <span class="dv">63</span>, <span class="dv">71</span>, <span class="dv">76</span>, <span class="dv">79</span>, <span class="dv">81</span>, <span class="dv">82</span>)</span>
+<span id="cb60-211"><a href="#cb60-211" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb60-212"><a href="#cb60-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-213"><a href="#cb60-213" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">fit_sigmoidal</span>(crew_data, <span class="st">"week"</span>, <span class="st">"output"</span>, <span class="st">"logistic"</span>)</span>
+<span id="cb60-214"><a href="#cb60-214" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Model: Logistic</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb60-215"><a href="#cb60-215" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Residual SE:"</span>, <span class="fu">round</span>(<span class="fu">summary</span>(fit)<span class="sc">$</span>sigma, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb60-216"><a href="#cb60-216" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb60-217"><a href="#cb60-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-220"><a href="#cb60-220" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb60-221"><a href="#cb60-221" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Logistic learning curve for the Contractor Crew. Productivity plateaus near 83 cubic metres per week by week 12."</span></span>
+<span id="cb60-222"><a href="#cb60-222" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_sigmoidal</span>(fit, crew_data, <span class="st">"week"</span>, <span class="st">"output"</span>, <span class="st">"logistic"</span>)</span>
+<span id="cb60-223"><a href="#cb60-223" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb60-224"><a href="#cb60-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-227"><a href="#cb60-227" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb60-228"><a href="#cb60-228" aria-hidden="true" tabindex="-1"></a>week12_pred <span class="ot">&lt;-</span> <span class="fu">predict_sigmoidal</span>(fit, <span class="dv">12</span>, <span class="st">"logistic"</span>)</span>
+<span id="cb60-229"><a href="#cb60-229" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Predicted output at week 12:"</span>, <span class="fu">round</span>(week12_pred<span class="sc">$</span>pred, <span class="dv">1</span>), <span class="st">"m³/week</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb60-230"><a href="#cb60-230" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb60-231"><a href="#cb60-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-232"><a href="#cb60-232" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 7: Design Structure Matrix {#sec-cs-dsm}</span></span>
+<span id="cb60-232"><a href="#cb60-232" aria-hidden="true" tabindex="-1"></a>The crew is expected to reach near-plateau productivity by week 12. This informs the schedule for T3 (Structural Steel &amp; Deck): the first few weeks of concrete work will be slower than the steady-state rate.</span>
 <span id="cb60-233"><a href="#cb60-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-234"><a href="#cb60-234" aria-hidden="true" tabindex="-1"></a>Which tasks are most structurally coupled through shared resources?</span>
+<span id="cb60-234"><a href="#cb60-234" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb60-235"><a href="#cb60-235" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-238"><a href="#cb60-238" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb60-239"><a href="#cb60-239" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
-<span id="cb60-240"><a href="#cb60-240" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
-<span id="cb60-241"><a href="#cb60-241" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
-<span id="cb60-242"><a href="#cb60-242" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
-<span id="cb60-243"><a href="#cb60-243" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>,</span>
-<span id="cb60-244"><a href="#cb60-244" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span></span>
-<span id="cb60-245"><a href="#cb60-245" aria-hidden="true" tabindex="-1"></a>), <span class="at">nrow =</span> <span class="dv">5</span>, <span class="at">ncol =</span> <span class="dv">5</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb60-246"><a href="#cb60-246" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(S) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Survey Crew"</span>, <span class="st">"Civil Eng."</span>, <span class="st">"Structural Eng."</span>, <span class="st">"Contractor Crew"</span>, <span class="st">"QA Inspector"</span>)</span>
-<span id="cb60-247"><a href="#cb60-247" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(S) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"T1"</span>, <span class="st">"T2"</span>, <span class="st">"T3"</span>, <span class="st">"T4"</span>, <span class="st">"T5"</span>)</span>
-<span id="cb60-248"><a href="#cb60-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-249"><a href="#cb60-249" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
-<span id="cb60-250"><a href="#cb60-250" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>,</span>
-<span id="cb60-251"><a href="#cb60-251" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
-<span id="cb60-252"><a href="#cb60-252" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span></span>
-<span id="cb60-253"><a href="#cb60-253" aria-hidden="true" tabindex="-1"></a>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">5</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb60-254"><a href="#cb60-254" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(R) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Adverse Weather"</span>, <span class="st">"Ground Conditions"</span>, <span class="st">"Material Delays"</span>)</span>
-<span id="cb60-255"><a href="#cb60-255" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(R) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Survey Crew"</span>, <span class="st">"Civil Eng."</span>, <span class="st">"Structural Eng."</span>, <span class="st">"Contractor Crew"</span>, <span class="st">"QA Inspector"</span>)</span>
-<span id="cb60-256"><a href="#cb60-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-257"><a href="#cb60-257" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">parent_dsm</span>(S)</span>
-<span id="cb60-258"><a href="#cb60-258" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">grandparent_dsm</span>(S, R)</span>
-<span id="cb60-259"><a href="#cb60-259" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb60-236"><a href="#cb60-236" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 7: Design Structure Matrix {#sec-cs-dsm}</span></span>
+<span id="cb60-237"><a href="#cb60-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-238"><a href="#cb60-238" aria-hidden="true" tabindex="-1"></a>Which tasks are most structurally coupled through shared resources?</span>
+<span id="cb60-239"><a href="#cb60-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-242"><a href="#cb60-242" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb60-243"><a href="#cb60-243" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
+<span id="cb60-244"><a href="#cb60-244" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
+<span id="cb60-245"><a href="#cb60-245" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
+<span id="cb60-246"><a href="#cb60-246" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
+<span id="cb60-247"><a href="#cb60-247" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>,</span>
+<span id="cb60-248"><a href="#cb60-248" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span></span>
+<span id="cb60-249"><a href="#cb60-249" aria-hidden="true" tabindex="-1"></a>), <span class="at">nrow =</span> <span class="dv">5</span>, <span class="at">ncol =</span> <span class="dv">5</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb60-250"><a href="#cb60-250" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(S) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Survey Crew"</span>, <span class="st">"Civil Eng."</span>, <span class="st">"Structural Eng."</span>, <span class="st">"Contractor Crew"</span>, <span class="st">"QA Inspector"</span>)</span>
+<span id="cb60-251"><a href="#cb60-251" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(S) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"T1"</span>, <span class="st">"T2"</span>, <span class="st">"T3"</span>, <span class="st">"T4"</span>, <span class="st">"T5"</span>)</span>
+<span id="cb60-252"><a href="#cb60-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-253"><a href="#cb60-253" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
+<span id="cb60-254"><a href="#cb60-254" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>,</span>
+<span id="cb60-255"><a href="#cb60-255" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
+<span id="cb60-256"><a href="#cb60-256" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span></span>
+<span id="cb60-257"><a href="#cb60-257" aria-hidden="true" tabindex="-1"></a>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">5</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb60-258"><a href="#cb60-258" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(R) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Adverse Weather"</span>, <span class="st">"Ground Conditions"</span>, <span class="st">"Material Delays"</span>)</span>
+<span id="cb60-259"><a href="#cb60-259" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(R) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Survey Crew"</span>, <span class="st">"Civil Eng."</span>, <span class="st">"Structural Eng."</span>, <span class="st">"Contractor Crew"</span>, <span class="st">"QA Inspector"</span>)</span>
 <span id="cb60-260"><a href="#cb60-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-263"><a href="#cb60-263" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb60-264"><a href="#cb60-264" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Parent DSM (resource-based coupling). Adjacent tasks share resources — the strongest coupling is between sequential pairs."</span></span>
-<span id="cb60-265"><a href="#cb60-265" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(p)</span>
-<span id="cb60-266"><a href="#cb60-266" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb60-267"><a href="#cb60-267" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-270"><a href="#cb60-270" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb60-271"><a href="#cb60-271" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Grandparent DSM (risk-based coupling). Ground Conditions risk creates coupling between T1–T2 through the shared Civil Engineer and Survey Crew resources."</span></span>
-<span id="cb60-272"><a href="#cb60-272" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(g)</span>
-<span id="cb60-273"><a href="#cb60-273" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb60-274"><a href="#cb60-274" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-275"><a href="#cb60-275" aria-hidden="true" tabindex="-1"></a>The DSMs confirm that T2 (Foundation) and T3 (Steel) are most tightly coupled — they share the Civil Engineer and Structural Engineer. When ground conditions affect the foundation work, pressure immediately flows to the steel schedule.</span>
-<span id="cb60-276"><a href="#cb60-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-277"><a href="#cb60-277" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb60-261"><a href="#cb60-261" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">parent_dsm</span>(S)</span>
+<span id="cb60-262"><a href="#cb60-262" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">grandparent_dsm</span>(S, R)</span>
+<span id="cb60-263"><a href="#cb60-263" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb60-264"><a href="#cb60-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-267"><a href="#cb60-267" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb60-268"><a href="#cb60-268" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Parent DSM (resource-based coupling). Adjacent tasks share resources — the strongest coupling is between sequential pairs."</span></span>
+<span id="cb60-269"><a href="#cb60-269" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(p)</span>
+<span id="cb60-270"><a href="#cb60-270" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb60-271"><a href="#cb60-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-274"><a href="#cb60-274" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb60-275"><a href="#cb60-275" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Grandparent DSM (risk-based coupling). Ground Conditions risk creates coupling between T1–T2 through the shared Civil Engineer and Survey Crew resources."</span></span>
+<span id="cb60-276"><a href="#cb60-276" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(g)</span>
+<span id="cb60-277"><a href="#cb60-277" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb60-278"><a href="#cb60-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-279"><a href="#cb60-279" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 8: Probabilistic Network {#sec-cs-network}</span></span>
+<span id="cb60-279"><a href="#cb60-279" aria-hidden="true" tabindex="-1"></a>The DSMs confirm that T2 (Foundation) and T3 (Steel) are most tightly coupled — they share the Civil Engineer and Structural Engineer. When ground conditions affect the foundation work, pressure immediately flows to the steel schedule.</span>
 <span id="cb60-280"><a href="#cb60-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-281"><a href="#cb60-281" aria-hidden="true" tabindex="-1"></a>We now model the two dominant risks (Adverse Weather, Ground Conditions) as a Bayesian network and simulate total project cost.</span>
+<span id="cb60-281"><a href="#cb60-281" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb60-282"><a href="#cb60-282" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-285"><a href="#cb60-285" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb60-286"><a href="#cb60-286" aria-hidden="true" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb60-287"><a href="#cb60-287" aria-hidden="true" tabindex="-1"></a>  <span class="at">id    =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>),</span>
-<span id="cb60-288"><a href="#cb60-288" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"Adverse Weather"</span>, <span class="st">"Ground Conditions"</span>,</span>
-<span id="cb60-289"><a href="#cb60-289" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Contractor Cost"</span>, <span class="st">"Foundation Cost"</span>, <span class="st">"Total Cost"</span>),</span>
-<span id="cb60-290"><a href="#cb60-290" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"Risk"</span>, <span class="st">"Risk"</span>, <span class="st">"Resource"</span>, <span class="st">"Resource"</span>, <span class="st">"Project"</span>),</span>
-<span id="cb60-291"><a href="#cb60-291" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
-<span id="cb60-292"><a href="#cb60-292" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb60-293"><a href="#cb60-293" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-294"><a href="#cb60-294" aria-hidden="true" tabindex="-1"></a>links <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb60-295"><a href="#cb60-295" aria-hidden="true" tabindex="-1"></a>  <span class="at">source =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>),</span>
-<span id="cb60-296"><a href="#cb60-296" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="fu">c</span>(<span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"E"</span>),</span>
-<span id="cb60-297"><a href="#cb60-297" aria-hidden="true" tabindex="-1"></a>  <span class="at">value  =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>),</span>
-<span id="cb60-298"><a href="#cb60-298" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
-<span id="cb60-299"><a href="#cb60-299" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb60-300"><a href="#cb60-300" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-301"><a href="#cb60-301" aria-hidden="true" tabindex="-1"></a>distributions <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb60-302"><a href="#cb60-302" aria-hidden="true" tabindex="-1"></a>  <span class="at">A =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>,     <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.50</span>, <span class="fl">0.50</span>)),</span>
-<span id="cb60-303"><a href="#cb60-303" aria-hidden="true" tabindex="-1"></a>  <span class="at">B =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>,     <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.40</span>, <span class="fl">0.60</span>)),</span>
-<span id="cb60-304"><a href="#cb60-304" aria-hidden="true" tabindex="-1"></a>  <span class="at">C =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>,  <span class="at">condition =</span> <span class="st">"A"</span>,</span>
-<span id="cb60-305"><a href="#cb60-305" aria-hidden="true" tabindex="-1"></a>    <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">1220000</span>, <span class="at">sd =</span> <span class="dv">30000</span>),</span>
-<span id="cb60-306"><a href="#cb60-306" aria-hidden="true" tabindex="-1"></a>    <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">1100000</span>, <span class="at">sd =</span> <span class="dv">20000</span>)),</span>
-<span id="cb60-307"><a href="#cb60-307" aria-hidden="true" tabindex="-1"></a>  <span class="at">D =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>,  <span class="at">condition =</span> <span class="st">"B"</span>,</span>
-<span id="cb60-308"><a href="#cb60-308" aria-hidden="true" tabindex="-1"></a>    <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">700000</span>, <span class="at">sd =</span> <span class="dv">50000</span>),</span>
-<span id="cb60-309"><a href="#cb60-309" aria-hidden="true" tabindex="-1"></a>    <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">500000</span>, <span class="at">sd =</span> <span class="dv">30000</span>)),</span>
-<span id="cb60-310"><a href="#cb60-310" aria-hidden="true" tabindex="-1"></a>  <span class="at">E =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>,    <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"C"</span>, <span class="st">"D"</span>))</span>
-<span id="cb60-311"><a href="#cb60-311" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb60-312"><a href="#cb60-312" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-313"><a href="#cb60-313" aria-hidden="true" tabindex="-1"></a>graph <span class="ot">&lt;-</span> <span class="fu">prob_net</span>(nodes, links, <span class="at">distributions =</span> distributions)</span>
-<span id="cb60-314"><a href="#cb60-314" aria-hidden="true" tabindex="-1"></a>sim_net <span class="ot">&lt;-</span> <span class="fu">prob_net_sim</span>(graph, <span class="at">num_samples =</span> <span class="dv">10000</span>)</span>
-<span id="cb60-315"><a href="#cb60-315" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb60-283"><a href="#cb60-283" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 8: Probabilistic Network {#sec-cs-network}</span></span>
+<span id="cb60-284"><a href="#cb60-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-285"><a href="#cb60-285" aria-hidden="true" tabindex="-1"></a>We now model the two dominant risks (Adverse Weather, Ground Conditions) as a Bayesian network and simulate total project cost.</span>
+<span id="cb60-286"><a href="#cb60-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-289"><a href="#cb60-289" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb60-290"><a href="#cb60-290" aria-hidden="true" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb60-291"><a href="#cb60-291" aria-hidden="true" tabindex="-1"></a>  <span class="at">id    =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>),</span>
+<span id="cb60-292"><a href="#cb60-292" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"Adverse Weather"</span>, <span class="st">"Ground Conditions"</span>,</span>
+<span id="cb60-293"><a href="#cb60-293" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Contractor Cost"</span>, <span class="st">"Foundation Cost"</span>, <span class="st">"Total Cost"</span>),</span>
+<span id="cb60-294"><a href="#cb60-294" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"Risk"</span>, <span class="st">"Risk"</span>, <span class="st">"Resource"</span>, <span class="st">"Resource"</span>, <span class="st">"Project"</span>),</span>
+<span id="cb60-295"><a href="#cb60-295" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb60-296"><a href="#cb60-296" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb60-297"><a href="#cb60-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-298"><a href="#cb60-298" aria-hidden="true" tabindex="-1"></a>links <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb60-299"><a href="#cb60-299" aria-hidden="true" tabindex="-1"></a>  <span class="at">source =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>),</span>
+<span id="cb60-300"><a href="#cb60-300" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="fu">c</span>(<span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"E"</span>),</span>
+<span id="cb60-301"><a href="#cb60-301" aria-hidden="true" tabindex="-1"></a>  <span class="at">value  =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>),</span>
+<span id="cb60-302"><a href="#cb60-302" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb60-303"><a href="#cb60-303" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb60-304"><a href="#cb60-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-305"><a href="#cb60-305" aria-hidden="true" tabindex="-1"></a>distributions <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb60-306"><a href="#cb60-306" aria-hidden="true" tabindex="-1"></a>  <span class="at">A =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>,     <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.50</span>, <span class="fl">0.50</span>)),</span>
+<span id="cb60-307"><a href="#cb60-307" aria-hidden="true" tabindex="-1"></a>  <span class="at">B =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>,     <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.40</span>, <span class="fl">0.60</span>)),</span>
+<span id="cb60-308"><a href="#cb60-308" aria-hidden="true" tabindex="-1"></a>  <span class="at">C =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>,  <span class="at">condition =</span> <span class="st">"A"</span>,</span>
+<span id="cb60-309"><a href="#cb60-309" aria-hidden="true" tabindex="-1"></a>    <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">1220000</span>, <span class="at">sd =</span> <span class="dv">30000</span>),</span>
+<span id="cb60-310"><a href="#cb60-310" aria-hidden="true" tabindex="-1"></a>    <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">1100000</span>, <span class="at">sd =</span> <span class="dv">20000</span>)),</span>
+<span id="cb60-311"><a href="#cb60-311" aria-hidden="true" tabindex="-1"></a>  <span class="at">D =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>,  <span class="at">condition =</span> <span class="st">"B"</span>,</span>
+<span id="cb60-312"><a href="#cb60-312" aria-hidden="true" tabindex="-1"></a>    <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">700000</span>, <span class="at">sd =</span> <span class="dv">50000</span>),</span>
+<span id="cb60-313"><a href="#cb60-313" aria-hidden="true" tabindex="-1"></a>    <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">500000</span>, <span class="at">sd =</span> <span class="dv">30000</span>)),</span>
+<span id="cb60-314"><a href="#cb60-314" aria-hidden="true" tabindex="-1"></a>  <span class="at">E =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>,    <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"C"</span>, <span class="st">"D"</span>))</span>
+<span id="cb60-315"><a href="#cb60-315" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb60-316"><a href="#cb60-316" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-319"><a href="#cb60-319" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb60-320"><a href="#cb60-320" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Total project cost distribution from the Bayesian network. The bimodal shape reflects whether ground conditions risk materialises."</span></span>
-<span id="cb60-321"><a href="#cb60-321" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sim_net<span class="sc">$</span>E, <span class="at">breaks =</span> <span class="dv">60</span>,</span>
-<span id="cb60-322"><a href="#cb60-322" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Total Project Cost — Bayesian Network"</span>,</span>
-<span id="cb60-323"><a href="#cb60-323" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Cost ($)"</span>, <span class="at">col =</span> <span class="st">"skyblue"</span>, <span class="at">border =</span> <span class="st">"white"</span>)</span>
-<span id="cb60-324"><a href="#cb60-324" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb60-325"><a href="#cb60-325" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-328"><a href="#cb60-328" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb60-329"><a href="#cb60-329" aria-hidden="true" tabindex="-1"></a>learn_net <span class="ot">&lt;-</span> <span class="fu">prob_net_learn</span>(graph,</span>
-<span id="cb60-330"><a href="#cb60-330" aria-hidden="true" tabindex="-1"></a>  <span class="at">observations =</span> <span class="fu">list</span>(<span class="at">B =</span> <span class="st">"Yes"</span>),</span>
-<span id="cb60-331"><a href="#cb60-331" aria-hidden="true" tabindex="-1"></a>  <span class="at">num_samples  =</span> <span class="dv">10000</span>)</span>
-<span id="cb60-332"><a href="#cb60-332" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-333"><a href="#cb60-333" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Mean cost (prior):"</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">mean</span>(sim_net<span class="sc">$</span>E)), <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb60-334"><a href="#cb60-334" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Mean cost (ground conditions = Yes):"</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">mean</span>(learn_net<span class="sc">$</span>E)), <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb60-335"><a href="#cb60-335" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb60-317"><a href="#cb60-317" aria-hidden="true" tabindex="-1"></a>graph <span class="ot">&lt;-</span> <span class="fu">prob_net</span>(nodes, links, <span class="at">distributions =</span> distributions)</span>
+<span id="cb60-318"><a href="#cb60-318" aria-hidden="true" tabindex="-1"></a>sim_net <span class="ot">&lt;-</span> <span class="fu">prob_net_sim</span>(graph, <span class="at">num_samples =</span> <span class="dv">10000</span>)</span>
+<span id="cb60-319"><a href="#cb60-319" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb60-320"><a href="#cb60-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-323"><a href="#cb60-323" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb60-324"><a href="#cb60-324" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Total project cost distribution from the Bayesian network. The bimodal shape reflects whether ground conditions risk materialises."</span></span>
+<span id="cb60-325"><a href="#cb60-325" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sim_net<span class="sc">$</span>E, <span class="at">breaks =</span> <span class="dv">60</span>,</span>
+<span id="cb60-326"><a href="#cb60-326" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Total Project Cost — Bayesian Network"</span>,</span>
+<span id="cb60-327"><a href="#cb60-327" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Cost ($)"</span>, <span class="at">col =</span> <span class="st">"skyblue"</span>, <span class="at">border =</span> <span class="st">"white"</span>)</span>
+<span id="cb60-328"><a href="#cb60-328" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb60-329"><a href="#cb60-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-332"><a href="#cb60-332" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb60-333"><a href="#cb60-333" aria-hidden="true" tabindex="-1"></a>learn_net <span class="ot">&lt;-</span> <span class="fu">prob_net_learn</span>(graph,</span>
+<span id="cb60-334"><a href="#cb60-334" aria-hidden="true" tabindex="-1"></a>  <span class="at">observations =</span> <span class="fu">list</span>(<span class="at">B =</span> <span class="st">"Yes"</span>),</span>
+<span id="cb60-335"><a href="#cb60-335" aria-hidden="true" tabindex="-1"></a>  <span class="at">num_samples  =</span> <span class="dv">10000</span>)</span>
 <span id="cb60-336"><a href="#cb60-336" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-337"><a href="#cb60-337" aria-hidden="true" tabindex="-1"></a>Conditioning on the observed ground conditions (confirmed by the clay layers in Step 5) shifts the expected total cost upward significantly. This updated estimate, combined with the EAC from Step 4, gives the project manager a fully informed picture of financial exposure.</span>
-<span id="cb60-338"><a href="#cb60-338" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-339"><a href="#cb60-339" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb60-337"><a href="#cb60-337" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Mean cost (prior):"</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">mean</span>(sim_net<span class="sc">$</span>E)), <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb60-338"><a href="#cb60-338" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Mean cost (ground conditions = Yes):"</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">mean</span>(learn_net<span class="sc">$</span>E)), <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb60-339"><a href="#cb60-339" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb60-340"><a href="#cb60-340" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-341"><a href="#cb60-341" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 9: Agentic Analysis {#sec-cs-agent}</span></span>
+<span id="cb60-341"><a href="#cb60-341" aria-hidden="true" tabindex="-1"></a>Conditioning on the observed ground conditions (confirmed by the clay layers in Step 5) shifts the expected total cost upward significantly. This updated estimate, combined with the EAC from Step 4, gives the project manager a fully informed picture of financial exposure.</span>
 <span id="cb60-342"><a href="#cb60-342" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-343"><a href="#cb60-343" aria-hidden="true" tabindex="-1"></a>All of the above can also be run via slash commands — no function-by-function scripting required.</span>
+<span id="cb60-343"><a href="#cb60-343" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb60-344"><a href="#cb60-344" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-347"><a href="#cb60-347" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb60-348"><a href="#cb60-348" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb60-349"><a href="#cb60-349" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(</span>
-<span id="cb60-350"><a href="#cb60-350" aria-hidden="true" tabindex="-1"></a>  <span class="st">'/mcs n=10000 tasks=[</span></span>
-<span id="cb60-351"><a href="#cb60-351" aria-hidden="true" tabindex="-1"></a><span class="st">    {"type":"triangular","a":2,"b":3,"c":5},</span></span>
-<span id="cb60-352"><a href="#cb60-352" aria-hidden="true" tabindex="-1"></a><span class="st">    {"type":"normal","mean":8,"sd":1.5},</span></span>
-<span id="cb60-353"><a href="#cb60-353" aria-hidden="true" tabindex="-1"></a><span class="st">    {"type":"triangular","a":10,"b":14,"c":20},</span></span>
-<span id="cb60-354"><a href="#cb60-354" aria-hidden="true" tabindex="-1"></a><span class="st">    {"type":"normal","mean":4,"sd":0.8},</span></span>
-<span id="cb60-355"><a href="#cb60-355" aria-hidden="true" tabindex="-1"></a><span class="st">    {"type":"uniform","min":1,"max":3}</span></span>
-<span id="cb60-356"><a href="#cb60-356" aria-hidden="true" tabindex="-1"></a><span class="st">  ]'</span></span>
-<span id="cb60-357"><a href="#cb60-357" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb60-358"><a href="#cb60-358" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
-<span id="cb60-359"><a href="#cb60-359" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb60-360"><a href="#cb60-360" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-363"><a href="#cb60-363" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb60-364"><a href="#cb60-364" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb60-365"><a href="#cb60-365" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(<span class="st">"/contingency phigh=0.80 pbase=0.50"</span>)</span>
-<span id="cb60-366"><a href="#cb60-366" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
-<span id="cb60-367"><a href="#cb60-367" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb60-368"><a href="#cb60-368" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-371"><a href="#cb60-371" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb60-372"><a href="#cb60-372" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb60-373"><a href="#cb60-373" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(</span>
-<span id="cb60-374"><a href="#cb60-374" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/evm bac=2500000 schedule=[0.15,0.35,0.65,0.85,1.0] period=3 complete=0.48 costs=[350000,810000,1350000]"</span></span>
-<span id="cb60-375"><a href="#cb60-375" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb60-376"><a href="#cb60-376" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
-<span id="cb60-377"><a href="#cb60-377" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb60-378"><a href="#cb60-378" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-379"><a href="#cb60-379" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb60-380"><a href="#cb60-380" aria-hidden="true" tabindex="-1"></a><span class="fu">## About `eval: false` above</span></span>
-<span id="cb60-381"><a href="#cb60-381" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-382"><a href="#cb60-382" aria-hidden="true" tabindex="-1"></a>The slash-command blocks above use internal PRA functions that produce the same results as the code in Steps 1–4. They are marked <span class="in">`eval: false`</span> to avoid duplicate output in the rendered book. Run them interactively to verify the commands reproduce the same numbers.</span>
-<span id="cb60-383"><a href="#cb60-383" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb60-384"><a href="#cb60-384" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-385"><a href="#cb60-385" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb60-386"><a href="#cb60-386" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-387"><a href="#cb60-387" aria-hidden="true" tabindex="-1"></a><span class="fu">## What the Methods Told Us</span></span>
+<span id="cb60-345"><a href="#cb60-345" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 9: Agentic Analysis {#sec-cs-agent}</span></span>
+<span id="cb60-346"><a href="#cb60-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-347"><a href="#cb60-347" aria-hidden="true" tabindex="-1"></a>All of the above can also be run via slash commands — no function-by-function scripting required.</span>
+<span id="cb60-348"><a href="#cb60-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-351"><a href="#cb60-351" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb60-352"><a href="#cb60-352" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb60-353"><a href="#cb60-353" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(</span>
+<span id="cb60-354"><a href="#cb60-354" aria-hidden="true" tabindex="-1"></a>  <span class="st">'/mcs n=10000 tasks=[</span></span>
+<span id="cb60-355"><a href="#cb60-355" aria-hidden="true" tabindex="-1"></a><span class="st">    {"type":"triangular","a":2,"b":3,"c":5},</span></span>
+<span id="cb60-356"><a href="#cb60-356" aria-hidden="true" tabindex="-1"></a><span class="st">    {"type":"normal","mean":8,"sd":1.5},</span></span>
+<span id="cb60-357"><a href="#cb60-357" aria-hidden="true" tabindex="-1"></a><span class="st">    {"type":"triangular","a":10,"b":14,"c":20},</span></span>
+<span id="cb60-358"><a href="#cb60-358" aria-hidden="true" tabindex="-1"></a><span class="st">    {"type":"normal","mean":4,"sd":0.8},</span></span>
+<span id="cb60-359"><a href="#cb60-359" aria-hidden="true" tabindex="-1"></a><span class="st">    {"type":"uniform","min":1,"max":3}</span></span>
+<span id="cb60-360"><a href="#cb60-360" aria-hidden="true" tabindex="-1"></a><span class="st">  ]'</span></span>
+<span id="cb60-361"><a href="#cb60-361" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb60-362"><a href="#cb60-362" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
+<span id="cb60-363"><a href="#cb60-363" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb60-364"><a href="#cb60-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-367"><a href="#cb60-367" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb60-368"><a href="#cb60-368" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb60-369"><a href="#cb60-369" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(<span class="st">"/contingency phigh=0.80 pbase=0.50"</span>)</span>
+<span id="cb60-370"><a href="#cb60-370" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
+<span id="cb60-371"><a href="#cb60-371" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb60-372"><a href="#cb60-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-375"><a href="#cb60-375" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb60-376"><a href="#cb60-376" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb60-377"><a href="#cb60-377" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(</span>
+<span id="cb60-378"><a href="#cb60-378" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/evm bac=2500000 schedule=[0.15,0.35,0.65,0.85,1.0] period=3 complete=0.48 costs=[350000,810000,1350000]"</span></span>
+<span id="cb60-379"><a href="#cb60-379" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb60-380"><a href="#cb60-380" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
+<span id="cb60-381"><a href="#cb60-381" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb60-382"><a href="#cb60-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-383"><a href="#cb60-383" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb60-384"><a href="#cb60-384" aria-hidden="true" tabindex="-1"></a><span class="fu">## About `eval: false` above</span></span>
+<span id="cb60-385"><a href="#cb60-385" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-386"><a href="#cb60-386" aria-hidden="true" tabindex="-1"></a>The slash-command blocks above use internal PRA functions that produce the same results as the code in Steps 1–4. They are marked <span class="in">`eval: false`</span> to avoid duplicate output in the rendered book. Run them interactively to verify the commands reproduce the same numbers.</span>
+<span id="cb60-387"><a href="#cb60-387" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb60-388"><a href="#cb60-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-389"><a href="#cb60-389" aria-hidden="true" tabindex="-1"></a>Pulling the results together:</span>
+<span id="cb60-389"><a href="#cb60-389" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb60-390"><a href="#cb60-390" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-391"><a href="#cb60-391" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Method <span class="pp">|</span> Key finding <span class="pp">|</span></span>
-<span id="cb60-392"><a href="#cb60-392" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|------------|</span></span>
-<span id="cb60-393"><a href="#cb60-393" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> MCS <span class="pp">|</span> P80 schedule = ~35 weeks; contingency reserve ~3 weeks <span class="pp">|</span></span>
-<span id="cb60-394"><a href="#cb60-394" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sensitivity <span class="pp">|</span> T3 (Steel &amp; Deck) drives 60%+ of schedule variance <span class="pp">|</span></span>
-<span id="cb60-395"><a href="#cb60-395" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> SMM <span class="pp">|</span> Confirms MCS mean and SD analytically <span class="pp">|</span></span>
-<span id="cb60-396"><a href="#cb60-396" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> EVM <span class="pp">|</span> Period 3: CPI &lt; 1.0 — cost overrun in progress <span class="pp">|</span></span>
-<span id="cb60-397"><a href="#cb60-397" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Bayesian <span class="pp">|</span> Ground conditions risk updated from 0.40 → ~0.70 after observations <span class="pp">|</span></span>
-<span id="cb60-398"><a href="#cb60-398" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Learning Curve <span class="pp">|</span> Crew plateaus ~week 12; early T3 concrete work will be slower <span class="pp">|</span></span>
-<span id="cb60-399"><a href="#cb60-399" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> DSM <span class="pp">|</span> T2–T3 most coupled; ground conditions propagates through both <span class="pp">|</span></span>
-<span id="cb60-400"><a href="#cb60-400" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Network <span class="pp">|</span> Conditioning on ground conditions = Yes adds ~\$200K to expected cost <span class="pp">|</span></span>
-<span id="cb60-401"><a href="#cb60-401" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-402"><a href="#cb60-402" aria-hidden="true" tabindex="-1"></a>No single method gives the full picture. The MCS tells you how wide the distribution is. The sensitivity analysis tells you where to act. The EVM tells you how you're performing right now. The Bayesian update tells you how new information should change your reserves. Together, they are the complete toolkit — and that is the point of this book.</span>
+<span id="cb60-391"><a href="#cb60-391" aria-hidden="true" tabindex="-1"></a><span class="fu">## What the Methods Told Us</span></span>
+<span id="cb60-392"><a href="#cb60-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-393"><a href="#cb60-393" aria-hidden="true" tabindex="-1"></a>Pulling the results together:</span>
+<span id="cb60-394"><a href="#cb60-394" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-395"><a href="#cb60-395" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Method <span class="pp">|</span> Key finding <span class="pp">|</span></span>
+<span id="cb60-396"><a href="#cb60-396" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|------------|</span></span>
+<span id="cb60-397"><a href="#cb60-397" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> MCS <span class="pp">|</span> P80 schedule = ~35 weeks; contingency reserve ~3 weeks <span class="pp">|</span></span>
+<span id="cb60-398"><a href="#cb60-398" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sensitivity <span class="pp">|</span> T3 (Steel &amp; Deck) drives 60%+ of schedule variance <span class="pp">|</span></span>
+<span id="cb60-399"><a href="#cb60-399" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> SMM <span class="pp">|</span> Confirms MCS mean and SD analytically <span class="pp">|</span></span>
+<span id="cb60-400"><a href="#cb60-400" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> EVM <span class="pp">|</span> Period 3: CPI &lt; 1.0 — cost overrun in progress <span class="pp">|</span></span>
+<span id="cb60-401"><a href="#cb60-401" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Bayesian <span class="pp">|</span> Ground conditions risk updated from 0.40 → ~0.70 after observations <span class="pp">|</span></span>
+<span id="cb60-402"><a href="#cb60-402" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Learning Curve <span class="pp">|</span> Crew plateaus ~week 12; early T3 concrete work will be slower <span class="pp">|</span></span>
+<span id="cb60-403"><a href="#cb60-403" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> DSM <span class="pp">|</span> T2–T3 most coupled; ground conditions propagates through both <span class="pp">|</span></span>
+<span id="cb60-404"><a href="#cb60-404" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Network <span class="pp">|</span> Conditioning on ground conditions = Yes adds ~\$200K to expected cost <span class="pp">|</span></span>
+<span id="cb60-405"><a href="#cb60-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-406"><a href="#cb60-406" aria-hidden="true" tabindex="-1"></a>No single method gives the full picture. The MCS tells you how wide the distribution is. The sensitivity analysis tells you where to act. The EVM tells you how you're performing right now. The Bayesian update tells you how new information should change your reserves. Together, they are the complete toolkit — and that is the point of this book.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

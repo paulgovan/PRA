@@ -95,10 +95,14 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-6b6957c917596b414ec0b78690761e87.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-b4a76c01c78fe92eb35a980f874a855b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-b4a76c01c78fe92eb35a980f874a855b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-1c1893f04979aa476fa52bb1a99ba675.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-b4a76c01c78fe92eb35a980f874a855b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -159,7 +163,169 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -188,8 +354,49 @@ window.Quarto = {
       </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Project Risk Analysis: A Practical Guide</a> 
-        <div class="sidebar-tools-main">
+        <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/paulgovan/PRA" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Project-Risk-Analysis--A-Practical-Guide.pdf">
+              <i class="bi bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Project-Risk-Analysis--A-Practical-Guide.epub">
+              <i class="bi bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-1" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-1">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
     </div>
       </div>
@@ -351,6 +558,7 @@ window.Quarto = {
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -735,7 +943,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="ch-network2_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="ch-network2_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="480"></p>
 <figcaption>Task-cost correlation matrix. Tasks sharing the same enterprise risk (Labor, Materials, Equipment) are strongly correlated; tasks driven by different risks are near zero.</figcaption>
 </figure>
 </div>
@@ -999,6 +1207,19 @@ Pearl, Judea. 2009. <em>Causality: Models, Reasoning, and Inference</em>. 2nd ed
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {
@@ -1121,7 +1342,7 @@ Pearl, Judea. 2009. <em>Causality: Models, Reasoning, and Inference</em>. 2nd ed
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/paulgovan\.github\.io\/PRA\/book\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1671,181 +1892,183 @@ Pearl, Judea. 2009. <em>Causality: Models, Reasoning, and Inference</em>. 2nd ed
 <span id="cb14-219"><a href="#cb14-219" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-222"><a href="#cb14-222" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb14-223"><a href="#cb14-223" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Task-cost correlation matrix. Tasks sharing the same enterprise risk (Labor, Materials, Equipment) are strongly correlated; tasks driven by different risks are near zero."</span></span>
-<span id="cb14-224"><a href="#cb14-224" aria-hidden="true" tabindex="-1"></a>task_costs <span class="ot">&lt;-</span> sim_results[, <span class="fu">c</span>(<span class="st">"M"</span>,<span class="st">"N"</span>,<span class="st">"O"</span>,<span class="st">"P"</span>,<span class="st">"Q"</span>,<span class="st">"R"</span>,<span class="st">"S"</span>,<span class="st">"T"</span>,<span class="st">"U"</span>)]</span>
-<span id="cb14-225"><a href="#cb14-225" aria-hidden="true" tabindex="-1"></a>cor_matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(task_costs)</span>
-<span id="cb14-226"><a href="#cb14-226" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(cor_matrix,</span>
-<span id="cb14-227"><a href="#cb14-227" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"color"</span>, <span class="at">type =</span> <span class="st">"full"</span>,</span>
-<span id="cb14-228"><a href="#cb14-228" aria-hidden="true" tabindex="-1"></a>         <span class="at">addCoef.col =</span> <span class="st">"black"</span>, <span class="at">number.cex =</span> <span class="fl">0.7</span>,</span>
-<span id="cb14-229"><a href="#cb14-229" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col =</span> <span class="st">"black"</span>, <span class="at">tl.srt =</span> <span class="dv">45</span>,</span>
-<span id="cb14-230"><a href="#cb14-230" aria-hidden="true" tabindex="-1"></a>         <span class="at">col =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"steelblue"</span>))(<span class="dv">100</span>),</span>
-<span id="cb14-231"><a href="#cb14-231" aria-hidden="true" tabindex="-1"></a>         <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb14-232"><a href="#cb14-232" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-233"><a href="#cb14-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-234"><a href="#cb14-234" aria-hidden="true" tabindex="-1"></a><span class="fu">## Seeing vs. Doing at the Risk Level</span></span>
+<span id="cb14-224"><a href="#cb14-224" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 5</span></span>
+<span id="cb14-225"><a href="#cb14-225" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-asp: 1</span></span>
+<span id="cb14-226"><a href="#cb14-226" aria-hidden="true" tabindex="-1"></a>task_costs <span class="ot">&lt;-</span> sim_results[, <span class="fu">c</span>(<span class="st">"M"</span>,<span class="st">"N"</span>,<span class="st">"O"</span>,<span class="st">"P"</span>,<span class="st">"Q"</span>,<span class="st">"R"</span>,<span class="st">"S"</span>,<span class="st">"T"</span>,<span class="st">"U"</span>)]</span>
+<span id="cb14-227"><a href="#cb14-227" aria-hidden="true" tabindex="-1"></a>cor_matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(task_costs)</span>
+<span id="cb14-228"><a href="#cb14-228" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(cor_matrix,</span>
+<span id="cb14-229"><a href="#cb14-229" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"color"</span>, <span class="at">type =</span> <span class="st">"full"</span>,</span>
+<span id="cb14-230"><a href="#cb14-230" aria-hidden="true" tabindex="-1"></a>         <span class="at">addCoef.col =</span> <span class="st">"black"</span>, <span class="at">number.cex =</span> <span class="fl">0.7</span>,</span>
+<span id="cb14-231"><a href="#cb14-231" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col =</span> <span class="st">"black"</span>, <span class="at">tl.srt =</span> <span class="dv">45</span>,</span>
+<span id="cb14-232"><a href="#cb14-232" aria-hidden="true" tabindex="-1"></a>         <span class="at">col =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"steelblue"</span>))(<span class="dv">100</span>),</span>
+<span id="cb14-233"><a href="#cb14-233" aria-hidden="true" tabindex="-1"></a>         <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb14-234"><a href="#cb14-234" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb14-235"><a href="#cb14-235" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-236"><a href="#cb14-236" aria-hidden="true" tabindex="-1"></a>This is where the real insight lives. **Seeing** $A = 1$ conditions on the observation in the original graph — evidence propagates upstream as well as downstream. **Doing** $\text{do}(A = 1)$ performs graph surgery, severing SC→A and fixing $A = 1$. The two operations produce different results because of the shared root cause SC.</span>
+<span id="cb14-236"><a href="#cb14-236" aria-hidden="true" tabindex="-1"></a><span class="fu">## Seeing vs. Doing at the Risk Level</span></span>
 <span id="cb14-237"><a href="#cb14-237" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-240"><a href="#cb14-240" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-241"><a href="#cb14-241" aria-hidden="true" tabindex="-1"></a>seeing_results <span class="ot">&lt;-</span> <span class="fu">prob_net_learn</span>(graph, <span class="at">observations =</span> <span class="fu">list</span>(<span class="at">A =</span> <span class="dv">1</span>), <span class="at">num_samples =</span> <span class="dv">1000</span>)</span>
-<span id="cb14-242"><a href="#cb14-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-243"><a href="#cb14-243" aria-hidden="true" tabindex="-1"></a>do_A1_graph <span class="ot">&lt;-</span> <span class="fu">prob_net_update</span>(graph,</span>
-<span id="cb14-244"><a href="#cb14-244" aria-hidden="true" tabindex="-1"></a>  <span class="at">remove_links         =</span> <span class="fu">data.frame</span>(<span class="at">source =</span> <span class="st">"SC"</span>, <span class="at">target =</span> <span class="st">"A"</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>),</span>
-<span id="cb14-245"><a href="#cb14-245" aria-hidden="true" tabindex="-1"></a>  <span class="at">update_distributions =</span> <span class="fu">list</span>(<span class="at">A =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>)))</span>
-<span id="cb14-246"><a href="#cb14-246" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-247"><a href="#cb14-247" aria-hidden="true" tabindex="-1"></a>do_A1_results <span class="ot">&lt;-</span> <span class="fu">prob_net_sim</span>(do_A1_graph, <span class="at">num_samples =</span> <span class="dv">1000</span>)</span>
-<span id="cb14-248"><a href="#cb14-248" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-249"><a href="#cb14-249" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-252"><a href="#cb14-252" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-253"><a href="#cb14-253" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Prior, doing, and seeing distributions for portfolio cost. Seeing shifts further right than doing because it propagates through the shared root cause SC."</span></span>
-<span id="cb14-254"><a href="#cb14-254" aria-hidden="true" tabindex="-1"></a>h1     <span class="ot">&lt;-</span> <span class="fu">hist</span>(sim_results<span class="sc">$</span>Y,    <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb14-255"><a href="#cb14-255" aria-hidden="true" tabindex="-1"></a>h2     <span class="ot">&lt;-</span> <span class="fu">hist</span>(seeing_results<span class="sc">$</span>Y, <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb14-256"><a href="#cb14-256" aria-hidden="true" tabindex="-1"></a>h_do   <span class="ot">&lt;-</span> <span class="fu">hist</span>(do_A1_results<span class="sc">$</span>Y,  <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb14-257"><a href="#cb14-257" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-258"><a href="#cb14-258" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h1, <span class="at">main =</span> <span class="st">"P(Y) vs. Seeing vs. Doing — Labor Shortage"</span>,</span>
-<span id="cb14-259"><a href="#cb14-259" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Portfolio Cost ($)"</span>, <span class="at">col =</span> <span class="st">"skyblue"</span>, <span class="at">border =</span> <span class="st">"white"</span>,</span>
-<span id="cb14-260"><a href="#cb14-260" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(h1<span class="sc">$</span>counts, h2<span class="sc">$</span>counts, h_do<span class="sc">$</span>counts)))</span>
-<span id="cb14-261"><a href="#cb14-261" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h_do, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="fl">0.5</span>), <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb14-262"><a href="#cb14-262" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h2,   <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.4</span>),   <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb14-263"><a href="#cb14-263" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
-<span id="cb14-264"><a href="#cb14-264" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"P(Y) — prior"</span>,</span>
-<span id="cb14-265"><a href="#cb14-265" aria-hidden="true" tabindex="-1"></a>             <span class="st">"P(Y | do(A=1)) — doing"</span>,</span>
-<span id="cb14-266"><a href="#cb14-266" aria-hidden="true" tabindex="-1"></a>             <span class="st">"P(Y | A=1) — seeing"</span>),</span>
-<span id="cb14-267"><a href="#cb14-267" aria-hidden="true" tabindex="-1"></a>  <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="fu">rgb</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="fl">0.5</span>), <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.4</span>)), <span class="at">bty =</span> <span class="st">"n"</span>)</span>
-<span id="cb14-268"><a href="#cb14-268" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-269"><a href="#cb14-269" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-270"><a href="#cb14-270" aria-hidden="true" tabindex="-1"></a>**The key distinction:** *Seeing* a Labor Shortage raises our belief that a Supply Chain Disruption is underway, which in turn raises the probability of a Material Price Spike — a side-effect that propagates through SC. *Doing* $\text{do}(A = 1)$ severs SC→A, so SC stays at its prior and material costs are unaffected. The gap between the two distributions is the operational signature of the shared root cause.</span>
+<span id="cb14-238"><a href="#cb14-238" aria-hidden="true" tabindex="-1"></a>This is where the real insight lives. **Seeing** $A = 1$ conditions on the observation in the original graph — evidence propagates upstream as well as downstream. **Doing** $\text{do}(A = 1)$ performs graph surgery, severing SC→A and fixing $A = 1$. The two operations produce different results because of the shared root cause SC.</span>
+<span id="cb14-239"><a href="#cb14-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-242"><a href="#cb14-242" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-243"><a href="#cb14-243" aria-hidden="true" tabindex="-1"></a>seeing_results <span class="ot">&lt;-</span> <span class="fu">prob_net_learn</span>(graph, <span class="at">observations =</span> <span class="fu">list</span>(<span class="at">A =</span> <span class="dv">1</span>), <span class="at">num_samples =</span> <span class="dv">1000</span>)</span>
+<span id="cb14-244"><a href="#cb14-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-245"><a href="#cb14-245" aria-hidden="true" tabindex="-1"></a>do_A1_graph <span class="ot">&lt;-</span> <span class="fu">prob_net_update</span>(graph,</span>
+<span id="cb14-246"><a href="#cb14-246" aria-hidden="true" tabindex="-1"></a>  <span class="at">remove_links         =</span> <span class="fu">data.frame</span>(<span class="at">source =</span> <span class="st">"SC"</span>, <span class="at">target =</span> <span class="st">"A"</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb14-247"><a href="#cb14-247" aria-hidden="true" tabindex="-1"></a>  <span class="at">update_distributions =</span> <span class="fu">list</span>(<span class="at">A =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>)))</span>
+<span id="cb14-248"><a href="#cb14-248" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-249"><a href="#cb14-249" aria-hidden="true" tabindex="-1"></a>do_A1_results <span class="ot">&lt;-</span> <span class="fu">prob_net_sim</span>(do_A1_graph, <span class="at">num_samples =</span> <span class="dv">1000</span>)</span>
+<span id="cb14-250"><a href="#cb14-250" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-251"><a href="#cb14-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-254"><a href="#cb14-254" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-255"><a href="#cb14-255" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Prior, doing, and seeing distributions for portfolio cost. Seeing shifts further right than doing because it propagates through the shared root cause SC."</span></span>
+<span id="cb14-256"><a href="#cb14-256" aria-hidden="true" tabindex="-1"></a>h1     <span class="ot">&lt;-</span> <span class="fu">hist</span>(sim_results<span class="sc">$</span>Y,    <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-257"><a href="#cb14-257" aria-hidden="true" tabindex="-1"></a>h2     <span class="ot">&lt;-</span> <span class="fu">hist</span>(seeing_results<span class="sc">$</span>Y, <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-258"><a href="#cb14-258" aria-hidden="true" tabindex="-1"></a>h_do   <span class="ot">&lt;-</span> <span class="fu">hist</span>(do_A1_results<span class="sc">$</span>Y,  <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-259"><a href="#cb14-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-260"><a href="#cb14-260" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h1, <span class="at">main =</span> <span class="st">"P(Y) vs. Seeing vs. Doing — Labor Shortage"</span>,</span>
+<span id="cb14-261"><a href="#cb14-261" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Portfolio Cost ($)"</span>, <span class="at">col =</span> <span class="st">"skyblue"</span>, <span class="at">border =</span> <span class="st">"white"</span>,</span>
+<span id="cb14-262"><a href="#cb14-262" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(h1<span class="sc">$</span>counts, h2<span class="sc">$</span>counts, h_do<span class="sc">$</span>counts)))</span>
+<span id="cb14-263"><a href="#cb14-263" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h_do, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="fl">0.5</span>), <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-264"><a href="#cb14-264" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h2,   <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.4</span>),   <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-265"><a href="#cb14-265" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
+<span id="cb14-266"><a href="#cb14-266" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"P(Y) — prior"</span>,</span>
+<span id="cb14-267"><a href="#cb14-267" aria-hidden="true" tabindex="-1"></a>             <span class="st">"P(Y | do(A=1)) — doing"</span>,</span>
+<span id="cb14-268"><a href="#cb14-268" aria-hidden="true" tabindex="-1"></a>             <span class="st">"P(Y | A=1) — seeing"</span>),</span>
+<span id="cb14-269"><a href="#cb14-269" aria-hidden="true" tabindex="-1"></a>  <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="fu">rgb</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="fl">0.5</span>), <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.4</span>)), <span class="at">bty =</span> <span class="st">"n"</span>)</span>
+<span id="cb14-270"><a href="#cb14-270" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb14-271"><a href="#cb14-271" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-272"><a href="#cb14-272" aria-hidden="true" tabindex="-1"></a><span class="fu">## Enterprise vs. Project-Scoped Intervention</span></span>
+<span id="cb14-272"><a href="#cb14-272" aria-hidden="true" tabindex="-1"></a>**The key distinction:** *Seeing* a Labor Shortage raises our belief that a Supply Chain Disruption is underway, which in turn raises the probability of a Material Price Spike — a side-effect that propagates through SC. *Doing* $\text{do}(A = 1)$ severs SC→A, so SC stays at its prior and material costs are unaffected. The gap between the two distributions is the operational signature of the shared root cause.</span>
 <span id="cb14-273"><a href="#cb14-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-274"><a href="#cb14-274" aria-hidden="true" tabindex="-1"></a>Two intervention strategies can reduce labor-risk exposure:</span>
+<span id="cb14-274"><a href="#cb14-274" aria-hidden="true" tabindex="-1"></a><span class="fu">## Enterprise vs. Project-Scoped Intervention</span></span>
 <span id="cb14-275"><a href="#cb14-275" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-276"><a href="#cb14-276" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Project-scoped**: Secure a dedicated crew for Building Renovation only ($\text{do}(J \to \text{baseline})$)</span>
-<span id="cb14-277"><a href="#cb14-277" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Enterprise prevention**: Eliminate the Labor Shortage entirely ($\text{do}(A = 0)$)</span>
-<span id="cb14-278"><a href="#cb14-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-281"><a href="#cb14-281" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-282"><a href="#cb14-282" aria-hidden="true" tabindex="-1"></a>do_J_graph <span class="ot">&lt;-</span> <span class="fu">prob_net_update</span>(graph,</span>
-<span id="cb14-283"><a href="#cb14-283" aria-hidden="true" tabindex="-1"></a>  <span class="at">remove_links         =</span> <span class="fu">data.frame</span>(<span class="at">source =</span> <span class="st">"A"</span>, <span class="at">target =</span> <span class="st">"J"</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>),</span>
-<span id="cb14-284"><a href="#cb14-284" aria-hidden="true" tabindex="-1"></a>  <span class="at">update_distributions =</span> <span class="fu">list</span>(<span class="at">J =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">40000</span>, <span class="at">sd =</span> <span class="dv">6000</span>))</span>
-<span id="cb14-285"><a href="#cb14-285" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-286"><a href="#cb14-286" aria-hidden="true" tabindex="-1"></a>do_J_results <span class="ot">&lt;-</span> <span class="fu">prob_net_sim</span>(do_J_graph, <span class="at">num_samples =</span> <span class="dv">1000</span>)</span>
-<span id="cb14-287"><a href="#cb14-287" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-288"><a href="#cb14-288" aria-hidden="true" tabindex="-1"></a>do_A0_graph <span class="ot">&lt;-</span> <span class="fu">prob_net_update</span>(graph,</span>
-<span id="cb14-289"><a href="#cb14-289" aria-hidden="true" tabindex="-1"></a>  <span class="at">remove_links         =</span> <span class="fu">data.frame</span>(<span class="at">source =</span> <span class="st">"SC"</span>, <span class="at">target =</span> <span class="st">"A"</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>),</span>
-<span id="cb14-290"><a href="#cb14-290" aria-hidden="true" tabindex="-1"></a>  <span class="at">update_distributions =</span> <span class="fu">list</span>(<span class="at">A =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)))</span>
-<span id="cb14-291"><a href="#cb14-291" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-292"><a href="#cb14-292" aria-hidden="true" tabindex="-1"></a>do_A0_results <span class="ot">&lt;-</span> <span class="fu">prob_net_sim</span>(do_A0_graph, <span class="at">num_samples =</span> <span class="dv">1000</span>)</span>
-<span id="cb14-293"><a href="#cb14-293" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-294"><a href="#cb14-294" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-297"><a href="#cb14-297" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-298"><a href="#cb14-298" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Project-scoped vs. enterprise-level labor risk mitigation. Enterprise prevention eliminates exposure across all three projects."</span></span>
-<span id="cb14-299"><a href="#cb14-299" aria-hidden="true" tabindex="-1"></a>h3 <span class="ot">&lt;-</span> <span class="fu">hist</span>(do_J_results<span class="sc">$</span>Y,  <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb14-300"><a href="#cb14-300" aria-hidden="true" tabindex="-1"></a>h4 <span class="ot">&lt;-</span> <span class="fu">hist</span>(do_A0_results<span class="sc">$</span>Y, <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb14-301"><a href="#cb14-301" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-302"><a href="#cb14-302" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h1, <span class="at">main =</span> <span class="st">"Project-scoped vs. Enterprise-level Labor Mitigation"</span>,</span>
-<span id="cb14-303"><a href="#cb14-303" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Portfolio Cost ($)"</span>, <span class="at">col =</span> <span class="st">"skyblue"</span>, <span class="at">border =</span> <span class="st">"white"</span>,</span>
-<span id="cb14-304"><a href="#cb14-304" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(h1<span class="sc">$</span>counts, h3<span class="sc">$</span>counts, h4<span class="sc">$</span>counts)))</span>
-<span id="cb14-305"><a href="#cb14-305" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h3, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="fl">0.6</span>, <span class="dv">0</span>, <span class="fl">0.4</span>),   <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb14-306"><a href="#cb14-306" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h4, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="fl">0.8</span>, <span class="fl">0.4</span>, <span class="dv">0</span>, <span class="fl">0.5</span>), <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb14-307"><a href="#cb14-307" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
-<span id="cb14-308"><a href="#cb14-308" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"P(Y) — observational"</span>,</span>
-<span id="cb14-309"><a href="#cb14-309" aria-hidden="true" tabindex="-1"></a>             <span class="st">"do(J → baseline) — Project 3 insulated"</span>,</span>
-<span id="cb14-310"><a href="#cb14-310" aria-hidden="true" tabindex="-1"></a>             <span class="st">"do(A = 0) — enterprise prevention"</span>),</span>
-<span id="cb14-311"><a href="#cb14-311" aria-hidden="true" tabindex="-1"></a>  <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="fl">0.6</span>, <span class="dv">0</span>, <span class="fl">0.4</span>), <span class="fu">rgb</span>(<span class="fl">0.8</span>, <span class="fl">0.4</span>, <span class="dv">0</span>, <span class="fl">0.5</span>)), <span class="at">bty =</span> <span class="st">"n"</span>)</span>
-<span id="cb14-312"><a href="#cb14-312" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-313"><a href="#cb14-313" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-314"><a href="#cb14-314" aria-hidden="true" tabindex="-1"></a><span class="fu">## Risk Importance Ranking</span></span>
+<span id="cb14-276"><a href="#cb14-276" aria-hidden="true" tabindex="-1"></a>Two intervention strategies can reduce labor-risk exposure:</span>
+<span id="cb14-277"><a href="#cb14-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-278"><a href="#cb14-278" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Project-scoped**: Secure a dedicated crew for Building Renovation only ($\text{do}(J \to \text{baseline})$)</span>
+<span id="cb14-279"><a href="#cb14-279" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Enterprise prevention**: Eliminate the Labor Shortage entirely ($\text{do}(A = 0)$)</span>
+<span id="cb14-280"><a href="#cb14-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-283"><a href="#cb14-283" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-284"><a href="#cb14-284" aria-hidden="true" tabindex="-1"></a>do_J_graph <span class="ot">&lt;-</span> <span class="fu">prob_net_update</span>(graph,</span>
+<span id="cb14-285"><a href="#cb14-285" aria-hidden="true" tabindex="-1"></a>  <span class="at">remove_links         =</span> <span class="fu">data.frame</span>(<span class="at">source =</span> <span class="st">"A"</span>, <span class="at">target =</span> <span class="st">"J"</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb14-286"><a href="#cb14-286" aria-hidden="true" tabindex="-1"></a>  <span class="at">update_distributions =</span> <span class="fu">list</span>(<span class="at">J =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">40000</span>, <span class="at">sd =</span> <span class="dv">6000</span>))</span>
+<span id="cb14-287"><a href="#cb14-287" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-288"><a href="#cb14-288" aria-hidden="true" tabindex="-1"></a>do_J_results <span class="ot">&lt;-</span> <span class="fu">prob_net_sim</span>(do_J_graph, <span class="at">num_samples =</span> <span class="dv">1000</span>)</span>
+<span id="cb14-289"><a href="#cb14-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-290"><a href="#cb14-290" aria-hidden="true" tabindex="-1"></a>do_A0_graph <span class="ot">&lt;-</span> <span class="fu">prob_net_update</span>(graph,</span>
+<span id="cb14-291"><a href="#cb14-291" aria-hidden="true" tabindex="-1"></a>  <span class="at">remove_links         =</span> <span class="fu">data.frame</span>(<span class="at">source =</span> <span class="st">"SC"</span>, <span class="at">target =</span> <span class="st">"A"</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb14-292"><a href="#cb14-292" aria-hidden="true" tabindex="-1"></a>  <span class="at">update_distributions =</span> <span class="fu">list</span>(<span class="at">A =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)))</span>
+<span id="cb14-293"><a href="#cb14-293" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-294"><a href="#cb14-294" aria-hidden="true" tabindex="-1"></a>do_A0_results <span class="ot">&lt;-</span> <span class="fu">prob_net_sim</span>(do_A0_graph, <span class="at">num_samples =</span> <span class="dv">1000</span>)</span>
+<span id="cb14-295"><a href="#cb14-295" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-296"><a href="#cb14-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-299"><a href="#cb14-299" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-300"><a href="#cb14-300" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Project-scoped vs. enterprise-level labor risk mitigation. Enterprise prevention eliminates exposure across all three projects."</span></span>
+<span id="cb14-301"><a href="#cb14-301" aria-hidden="true" tabindex="-1"></a>h3 <span class="ot">&lt;-</span> <span class="fu">hist</span>(do_J_results<span class="sc">$</span>Y,  <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-302"><a href="#cb14-302" aria-hidden="true" tabindex="-1"></a>h4 <span class="ot">&lt;-</span> <span class="fu">hist</span>(do_A0_results<span class="sc">$</span>Y, <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-303"><a href="#cb14-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-304"><a href="#cb14-304" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h1, <span class="at">main =</span> <span class="st">"Project-scoped vs. Enterprise-level Labor Mitigation"</span>,</span>
+<span id="cb14-305"><a href="#cb14-305" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Portfolio Cost ($)"</span>, <span class="at">col =</span> <span class="st">"skyblue"</span>, <span class="at">border =</span> <span class="st">"white"</span>,</span>
+<span id="cb14-306"><a href="#cb14-306" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(h1<span class="sc">$</span>counts, h3<span class="sc">$</span>counts, h4<span class="sc">$</span>counts)))</span>
+<span id="cb14-307"><a href="#cb14-307" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h3, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="fl">0.6</span>, <span class="dv">0</span>, <span class="fl">0.4</span>),   <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-308"><a href="#cb14-308" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h4, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="fl">0.8</span>, <span class="fl">0.4</span>, <span class="dv">0</span>, <span class="fl">0.5</span>), <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-309"><a href="#cb14-309" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
+<span id="cb14-310"><a href="#cb14-310" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"P(Y) — observational"</span>,</span>
+<span id="cb14-311"><a href="#cb14-311" aria-hidden="true" tabindex="-1"></a>             <span class="st">"do(J → baseline) — Project 3 insulated"</span>,</span>
+<span id="cb14-312"><a href="#cb14-312" aria-hidden="true" tabindex="-1"></a>             <span class="st">"do(A = 0) — enterprise prevention"</span>),</span>
+<span id="cb14-313"><a href="#cb14-313" aria-hidden="true" tabindex="-1"></a>  <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="fl">0.6</span>, <span class="dv">0</span>, <span class="fl">0.4</span>), <span class="fu">rgb</span>(<span class="fl">0.8</span>, <span class="fl">0.4</span>, <span class="dv">0</span>, <span class="fl">0.5</span>)), <span class="at">bty =</span> <span class="st">"n"</span>)</span>
+<span id="cb14-314"><a href="#cb14-314" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb14-315"><a href="#cb14-315" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-316"><a href="#cb14-316" aria-hidden="true" tabindex="-1"></a>Which shared risk contributes most to portfolio cost variance? Run three enterprise-prevention interventions and measure the variance reduction each produces.</span>
+<span id="cb14-316"><a href="#cb14-316" aria-hidden="true" tabindex="-1"></a><span class="fu">## Risk Importance Ranking</span></span>
 <span id="cb14-317"><a href="#cb14-317" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-320"><a href="#cb14-320" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-321"><a href="#cb14-321" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Risk importance: portfolio variance eliminated by preventing each enterprise risk. Taller bars = higher priority for mitigation."</span></span>
-<span id="cb14-322"><a href="#cb14-322" aria-hidden="true" tabindex="-1"></a>prevent_risk <span class="ot">&lt;-</span> <span class="cf">function</span>(graph, parent_node, risk_node) {</span>
-<span id="cb14-323"><a href="#cb14-323" aria-hidden="true" tabindex="-1"></a>  remove_df <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(parent_node))</span>
-<span id="cb14-324"><a href="#cb14-324" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>(<span class="at">source =</span> parent_node, <span class="at">target =</span> risk_node, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb14-325"><a href="#cb14-325" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span></span>
-<span id="cb14-326"><a href="#cb14-326" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>(<span class="at">source =</span> <span class="fu">character</span>(<span class="dv">0</span>), <span class="at">target =</span> <span class="fu">character</span>(<span class="dv">0</span>), <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb14-327"><a href="#cb14-327" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prob_net_update</span>(graph,</span>
-<span id="cb14-328"><a href="#cb14-328" aria-hidden="true" tabindex="-1"></a>    <span class="at">remove_links =</span> remove_df,</span>
-<span id="cb14-329"><a href="#cb14-329" aria-hidden="true" tabindex="-1"></a>    <span class="at">update_distributions =</span> <span class="fu">setNames</span>(</span>
-<span id="cb14-330"><a href="#cb14-330" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))),</span>
-<span id="cb14-331"><a href="#cb14-331" aria-hidden="true" tabindex="-1"></a>      risk_node</span>
-<span id="cb14-332"><a href="#cb14-332" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb14-333"><a href="#cb14-333" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb14-334"><a href="#cb14-334" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb14-335"><a href="#cb14-335" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-336"><a href="#cb14-336" aria-hidden="true" tabindex="-1"></a>g_A0 <span class="ot">&lt;-</span> <span class="fu">prevent_risk</span>(graph, <span class="st">"SC"</span>, <span class="st">"A"</span>)</span>
-<span id="cb14-337"><a href="#cb14-337" aria-hidden="true" tabindex="-1"></a>g_B0 <span class="ot">&lt;-</span> <span class="fu">prevent_risk</span>(graph, <span class="st">"SC"</span>, <span class="st">"B"</span>)</span>
-<span id="cb14-338"><a href="#cb14-338" aria-hidden="true" tabindex="-1"></a>g_C0 <span class="ot">&lt;-</span> <span class="fu">prevent_risk</span>(graph, <span class="cn">NULL</span>, <span class="st">"C"</span>)</span>
-<span id="cb14-339"><a href="#cb14-339" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-340"><a href="#cb14-340" aria-hidden="true" tabindex="-1"></a>r_A0 <span class="ot">&lt;-</span> <span class="fu">prob_net_sim</span>(g_A0, <span class="at">num_samples =</span> <span class="dv">1000</span>)</span>
-<span id="cb14-341"><a href="#cb14-341" aria-hidden="true" tabindex="-1"></a>r_B0 <span class="ot">&lt;-</span> <span class="fu">prob_net_sim</span>(g_B0, <span class="at">num_samples =</span> <span class="dv">1000</span>)</span>
-<span id="cb14-342"><a href="#cb14-342" aria-hidden="true" tabindex="-1"></a>r_C0 <span class="ot">&lt;-</span> <span class="fu">prob_net_sim</span>(g_C0, <span class="at">num_samples =</span> <span class="dv">1000</span>)</span>
-<span id="cb14-343"><a href="#cb14-343" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-344"><a href="#cb14-344" aria-hidden="true" tabindex="-1"></a>var_base  <span class="ot">&lt;-</span> <span class="fu">var</span>(sim_results<span class="sc">$</span>Y)</span>
-<span id="cb14-345"><a href="#cb14-345" aria-hidden="true" tabindex="-1"></a>importance <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb14-346"><a href="#cb14-346" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Labor</span><span class="sc">\n</span><span class="st">Shortage (A)"</span>       <span class="ot">=</span> var_base <span class="sc">-</span> <span class="fu">var</span>(r_A0<span class="sc">$</span>Y),</span>
-<span id="cb14-347"><a href="#cb14-347" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Material</span><span class="sc">\n</span><span class="st">Price Spike (B)"</span> <span class="ot">=</span> var_base <span class="sc">-</span> <span class="fu">var</span>(r_B0<span class="sc">$</span>Y),</span>
-<span id="cb14-348"><a href="#cb14-348" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Weather</span><span class="sc">\n</span><span class="st">Delay (C)"</span>        <span class="ot">=</span> var_base <span class="sc">-</span> <span class="fu">var</span>(r_C0<span class="sc">$</span>Y)</span>
-<span id="cb14-349"><a href="#cb14-349" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-350"><a href="#cb14-350" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-351"><a href="#cb14-351" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(importance,</span>
-<span id="cb14-352"><a href="#cb14-352" aria-hidden="true" tabindex="-1"></a>  <span class="at">main   =</span> <span class="st">"Risk Importance: Variance Eliminated by do(risk = 0)"</span>,</span>
-<span id="cb14-353"><a href="#cb14-353" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab   =</span> <span class="fu">expression</span>(<span class="st">"Variance reduction in Y ($"</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="st">")"</span>),</span>
-<span id="cb14-354"><a href="#cb14-354" aria-hidden="true" tabindex="-1"></a>  <span class="at">col    =</span> <span class="fu">c</span>(<span class="st">"steelblue"</span>, <span class="st">"coral"</span>, <span class="st">"seagreen"</span>),</span>
-<span id="cb14-355"><a href="#cb14-355" aria-hidden="true" tabindex="-1"></a>  <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">las =</span> <span class="dv">1</span></span>
-<span id="cb14-356"><a href="#cb14-356" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-357"><a href="#cb14-357" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-358"><a href="#cb14-358" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-359"><a href="#cb14-359" aria-hidden="true" tabindex="-1"></a>The bar heights rank the three enterprise risks by their contribution to portfolio cost variance — a principled basis for prioritizing mitigation investments.</span>
+<span id="cb14-318"><a href="#cb14-318" aria-hidden="true" tabindex="-1"></a>Which shared risk contributes most to portfolio cost variance? Run three enterprise-prevention interventions and measure the variance reduction each produces.</span>
+<span id="cb14-319"><a href="#cb14-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-322"><a href="#cb14-322" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-323"><a href="#cb14-323" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Risk importance: portfolio variance eliminated by preventing each enterprise risk. Taller bars = higher priority for mitigation."</span></span>
+<span id="cb14-324"><a href="#cb14-324" aria-hidden="true" tabindex="-1"></a>prevent_risk <span class="ot">&lt;-</span> <span class="cf">function</span>(graph, parent_node, risk_node) {</span>
+<span id="cb14-325"><a href="#cb14-325" aria-hidden="true" tabindex="-1"></a>  remove_df <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(parent_node))</span>
+<span id="cb14-326"><a href="#cb14-326" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>(<span class="at">source =</span> parent_node, <span class="at">target =</span> risk_node, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-327"><a href="#cb14-327" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span></span>
+<span id="cb14-328"><a href="#cb14-328" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>(<span class="at">source =</span> <span class="fu">character</span>(<span class="dv">0</span>), <span class="at">target =</span> <span class="fu">character</span>(<span class="dv">0</span>), <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-329"><a href="#cb14-329" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prob_net_update</span>(graph,</span>
+<span id="cb14-330"><a href="#cb14-330" aria-hidden="true" tabindex="-1"></a>    <span class="at">remove_links =</span> remove_df,</span>
+<span id="cb14-331"><a href="#cb14-331" aria-hidden="true" tabindex="-1"></a>    <span class="at">update_distributions =</span> <span class="fu">setNames</span>(</span>
+<span id="cb14-332"><a href="#cb14-332" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))),</span>
+<span id="cb14-333"><a href="#cb14-333" aria-hidden="true" tabindex="-1"></a>      risk_node</span>
+<span id="cb14-334"><a href="#cb14-334" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb14-335"><a href="#cb14-335" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb14-336"><a href="#cb14-336" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-337"><a href="#cb14-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-338"><a href="#cb14-338" aria-hidden="true" tabindex="-1"></a>g_A0 <span class="ot">&lt;-</span> <span class="fu">prevent_risk</span>(graph, <span class="st">"SC"</span>, <span class="st">"A"</span>)</span>
+<span id="cb14-339"><a href="#cb14-339" aria-hidden="true" tabindex="-1"></a>g_B0 <span class="ot">&lt;-</span> <span class="fu">prevent_risk</span>(graph, <span class="st">"SC"</span>, <span class="st">"B"</span>)</span>
+<span id="cb14-340"><a href="#cb14-340" aria-hidden="true" tabindex="-1"></a>g_C0 <span class="ot">&lt;-</span> <span class="fu">prevent_risk</span>(graph, <span class="cn">NULL</span>, <span class="st">"C"</span>)</span>
+<span id="cb14-341"><a href="#cb14-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-342"><a href="#cb14-342" aria-hidden="true" tabindex="-1"></a>r_A0 <span class="ot">&lt;-</span> <span class="fu">prob_net_sim</span>(g_A0, <span class="at">num_samples =</span> <span class="dv">1000</span>)</span>
+<span id="cb14-343"><a href="#cb14-343" aria-hidden="true" tabindex="-1"></a>r_B0 <span class="ot">&lt;-</span> <span class="fu">prob_net_sim</span>(g_B0, <span class="at">num_samples =</span> <span class="dv">1000</span>)</span>
+<span id="cb14-344"><a href="#cb14-344" aria-hidden="true" tabindex="-1"></a>r_C0 <span class="ot">&lt;-</span> <span class="fu">prob_net_sim</span>(g_C0, <span class="at">num_samples =</span> <span class="dv">1000</span>)</span>
+<span id="cb14-345"><a href="#cb14-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-346"><a href="#cb14-346" aria-hidden="true" tabindex="-1"></a>var_base  <span class="ot">&lt;-</span> <span class="fu">var</span>(sim_results<span class="sc">$</span>Y)</span>
+<span id="cb14-347"><a href="#cb14-347" aria-hidden="true" tabindex="-1"></a>importance <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb14-348"><a href="#cb14-348" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Labor</span><span class="sc">\n</span><span class="st">Shortage (A)"</span>       <span class="ot">=</span> var_base <span class="sc">-</span> <span class="fu">var</span>(r_A0<span class="sc">$</span>Y),</span>
+<span id="cb14-349"><a href="#cb14-349" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Material</span><span class="sc">\n</span><span class="st">Price Spike (B)"</span> <span class="ot">=</span> var_base <span class="sc">-</span> <span class="fu">var</span>(r_B0<span class="sc">$</span>Y),</span>
+<span id="cb14-350"><a href="#cb14-350" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Weather</span><span class="sc">\n</span><span class="st">Delay (C)"</span>        <span class="ot">=</span> var_base <span class="sc">-</span> <span class="fu">var</span>(r_C0<span class="sc">$</span>Y)</span>
+<span id="cb14-351"><a href="#cb14-351" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-352"><a href="#cb14-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-353"><a href="#cb14-353" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(importance,</span>
+<span id="cb14-354"><a href="#cb14-354" aria-hidden="true" tabindex="-1"></a>  <span class="at">main   =</span> <span class="st">"Risk Importance: Variance Eliminated by do(risk = 0)"</span>,</span>
+<span id="cb14-355"><a href="#cb14-355" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab   =</span> <span class="fu">expression</span>(<span class="st">"Variance reduction in Y ($"</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="st">")"</span>),</span>
+<span id="cb14-356"><a href="#cb14-356" aria-hidden="true" tabindex="-1"></a>  <span class="at">col    =</span> <span class="fu">c</span>(<span class="st">"steelblue"</span>, <span class="st">"coral"</span>, <span class="st">"seagreen"</span>),</span>
+<span id="cb14-357"><a href="#cb14-357" aria-hidden="true" tabindex="-1"></a>  <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">las =</span> <span class="dv">1</span></span>
+<span id="cb14-358"><a href="#cb14-358" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-359"><a href="#cb14-359" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb14-360"><a href="#cb14-360" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-361"><a href="#cb14-361" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary Table</span></span>
+<span id="cb14-361"><a href="#cb14-361" aria-hidden="true" tabindex="-1"></a>The bar heights rank the three enterprise risks by their contribution to portfolio cost variance — a principled basis for prioritizing mitigation investments.</span>
 <span id="cb14-362"><a href="#cb14-362" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-365"><a href="#cb14-365" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-366"><a href="#cb14-366" aria-hidden="true" tabindex="-1"></a>make_stats <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">c</span>(<span class="fu">round</span>(<span class="fu">mean</span>(x)<span class="sc">/</span><span class="dv">1000</span>, <span class="dv">1</span>), <span class="fu">round</span>(<span class="fu">sd</span>(x)<span class="sc">/</span><span class="dv">1000</span>, <span class="dv">1</span>),</span>
-<span id="cb14-367"><a href="#cb14-367" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">round</span>(<span class="fu">quantile</span>(x, <span class="fl">0.95</span>)<span class="sc">/</span><span class="dv">1000</span>, <span class="dv">1</span>))</span>
-<span id="cb14-368"><a href="#cb14-368" aria-hidden="true" tabindex="-1"></a>stats_mat <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
-<span id="cb14-369"><a href="#cb14-369" aria-hidden="true" tabindex="-1"></a>  <span class="fu">make_stats</span>(sim_results<span class="sc">$</span>Y),</span>
-<span id="cb14-370"><a href="#cb14-370" aria-hidden="true" tabindex="-1"></a>  <span class="fu">make_stats</span>(seeing_results<span class="sc">$</span>Y),</span>
-<span id="cb14-371"><a href="#cb14-371" aria-hidden="true" tabindex="-1"></a>  <span class="fu">make_stats</span>(do_A1_results<span class="sc">$</span>Y),</span>
-<span id="cb14-372"><a href="#cb14-372" aria-hidden="true" tabindex="-1"></a>  <span class="fu">make_stats</span>(do_J_results<span class="sc">$</span>Y),</span>
-<span id="cb14-373"><a href="#cb14-373" aria-hidden="true" tabindex="-1"></a>  <span class="fu">make_stats</span>(do_A0_results<span class="sc">$</span>Y)</span>
-<span id="cb14-374"><a href="#cb14-374" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-375"><a href="#cb14-375" aria-hidden="true" tabindex="-1"></a>stats_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(stats_mat)</span>
-<span id="cb14-376"><a href="#cb14-376" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(stats_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Mean ($000)"</span>, <span class="st">"SD ($000)"</span>, <span class="st">"95th Pct ($000)"</span>)</span>
-<span id="cb14-377"><a href="#cb14-377" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(stats_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb14-378"><a href="#cb14-378" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Observational P(Y)"</span>,</span>
-<span id="cb14-379"><a href="#cb14-379" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Seeing P(Y | A = 1)"</span>,</span>
-<span id="cb14-380"><a href="#cb14-380" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Doing do(A = 1)"</span>,</span>
-<span id="cb14-381"><a href="#cb14-381" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Doing do(J → baseline) [Project 3]"</span>,</span>
-<span id="cb14-382"><a href="#cb14-382" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Doing do(A = 0) [Enterprise prevention]"</span></span>
-<span id="cb14-383"><a href="#cb14-383" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-384"><a href="#cb14-384" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(stats_df, <span class="at">caption =</span> <span class="st">"Portfolio cost statistics across all scenarios."</span>)</span>
-<span id="cb14-385"><a href="#cb14-385" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-386"><a href="#cb14-386" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-387"><a href="#cb14-387" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
+<span id="cb14-363"><a href="#cb14-363" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary Table</span></span>
+<span id="cb14-364"><a href="#cb14-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-367"><a href="#cb14-367" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-368"><a href="#cb14-368" aria-hidden="true" tabindex="-1"></a>make_stats <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">c</span>(<span class="fu">round</span>(<span class="fu">mean</span>(x)<span class="sc">/</span><span class="dv">1000</span>, <span class="dv">1</span>), <span class="fu">round</span>(<span class="fu">sd</span>(x)<span class="sc">/</span><span class="dv">1000</span>, <span class="dv">1</span>),</span>
+<span id="cb14-369"><a href="#cb14-369" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">round</span>(<span class="fu">quantile</span>(x, <span class="fl">0.95</span>)<span class="sc">/</span><span class="dv">1000</span>, <span class="dv">1</span>))</span>
+<span id="cb14-370"><a href="#cb14-370" aria-hidden="true" tabindex="-1"></a>stats_mat <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb14-371"><a href="#cb14-371" aria-hidden="true" tabindex="-1"></a>  <span class="fu">make_stats</span>(sim_results<span class="sc">$</span>Y),</span>
+<span id="cb14-372"><a href="#cb14-372" aria-hidden="true" tabindex="-1"></a>  <span class="fu">make_stats</span>(seeing_results<span class="sc">$</span>Y),</span>
+<span id="cb14-373"><a href="#cb14-373" aria-hidden="true" tabindex="-1"></a>  <span class="fu">make_stats</span>(do_A1_results<span class="sc">$</span>Y),</span>
+<span id="cb14-374"><a href="#cb14-374" aria-hidden="true" tabindex="-1"></a>  <span class="fu">make_stats</span>(do_J_results<span class="sc">$</span>Y),</span>
+<span id="cb14-375"><a href="#cb14-375" aria-hidden="true" tabindex="-1"></a>  <span class="fu">make_stats</span>(do_A0_results<span class="sc">$</span>Y)</span>
+<span id="cb14-376"><a href="#cb14-376" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-377"><a href="#cb14-377" aria-hidden="true" tabindex="-1"></a>stats_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(stats_mat)</span>
+<span id="cb14-378"><a href="#cb14-378" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(stats_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Mean ($000)"</span>, <span class="st">"SD ($000)"</span>, <span class="st">"95th Pct ($000)"</span>)</span>
+<span id="cb14-379"><a href="#cb14-379" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(stats_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb14-380"><a href="#cb14-380" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Observational P(Y)"</span>,</span>
+<span id="cb14-381"><a href="#cb14-381" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Seeing P(Y | A = 1)"</span>,</span>
+<span id="cb14-382"><a href="#cb14-382" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Doing do(A = 1)"</span>,</span>
+<span id="cb14-383"><a href="#cb14-383" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Doing do(J → baseline) [Project 3]"</span>,</span>
+<span id="cb14-384"><a href="#cb14-384" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Doing do(A = 0) [Enterprise prevention]"</span></span>
+<span id="cb14-385"><a href="#cb14-385" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-386"><a href="#cb14-386" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(stats_df, <span class="at">caption =</span> <span class="st">"Portfolio cost statistics across all scenarios."</span>)</span>
+<span id="cb14-387"><a href="#cb14-387" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb14-388"><a href="#cb14-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-389"><a href="#cb14-389" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
-<span id="cb14-390"><a href="#cb14-390" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
-<span id="cb14-391"><a href="#cb14-391" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-392"><a href="#cb14-392" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Shared enterprise risks create **positive correlation across all projects** that share those resources — portfolio variance is always larger than the naive sum of individual project variances.</span>
-<span id="cb14-393"><a href="#cb14-393" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **task-cost correlation matrix** reveals the block structure of risk sharing: tasks driven by the same enterprise risk cluster together, while tasks driven by different risks are near-zero.</span>
-<span id="cb14-394"><a href="#cb14-394" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Seeing** conditions on evidence in the original graph — it propagates upstream through shared root causes, raising the probability of sibling risks as a side-effect.</span>
-<span id="cb14-395"><a href="#cb14-395" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Doing** (graph surgery) severs incoming edges of the intervened node — it changes only what the intervention directly controls, without raising posteriors about shared root causes.</span>
-<span id="cb14-396"><a href="#cb14-396" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Enterprise-level risk prevention ($\text{do}(A = 0)$) reduces portfolio exposure across all projects simultaneously; project-scoped insulation ($\text{do}(J \to \text{baseline})$) reduces exposure for only one.</span>
-<span id="cb14-397"><a href="#cb14-397" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Risk importance ranking** by variance reduction from $\text{do}(\text{risk} = 0)$ gives a principled basis for prioritizing mitigation budgets.</span>
-<span id="cb14-398"><a href="#cb14-398" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb14-399"><a href="#cb14-399" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-400"><a href="#cb14-400" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
+<span id="cb14-389"><a href="#cb14-389" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
+<span id="cb14-390"><a href="#cb14-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-391"><a href="#cb14-391" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
+<span id="cb14-392"><a href="#cb14-392" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
+<span id="cb14-393"><a href="#cb14-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-394"><a href="#cb14-394" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Shared enterprise risks create **positive correlation across all projects** that share those resources — portfolio variance is always larger than the naive sum of individual project variances.</span>
+<span id="cb14-395"><a href="#cb14-395" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The **task-cost correlation matrix** reveals the block structure of risk sharing: tasks driven by the same enterprise risk cluster together, while tasks driven by different risks are near-zero.</span>
+<span id="cb14-396"><a href="#cb14-396" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Seeing** conditions on evidence in the original graph — it propagates upstream through shared root causes, raising the probability of sibling risks as a side-effect.</span>
+<span id="cb14-397"><a href="#cb14-397" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Doing** (graph surgery) severs incoming edges of the intervened node — it changes only what the intervention directly controls, without raising posteriors about shared root causes.</span>
+<span id="cb14-398"><a href="#cb14-398" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Enterprise-level risk prevention ($\text{do}(A = 0)$) reduces portfolio exposure across all projects simultaneously; project-scoped insulation ($\text{do}(J \to \text{baseline})$) reduces exposure for only one.</span>
+<span id="cb14-399"><a href="#cb14-399" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Risk importance ranking** by variance reduction from $\text{do}(\text{risk} = 0)$ gives a principled basis for prioritizing mitigation budgets.</span>
+<span id="cb14-400"><a href="#cb14-400" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb14-401"><a href="#cb14-401" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-402"><a href="#cb14-402" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Seeing vs. doing.** In your own words, explain why $P(Y \mid A = 1) \neq P(Y \mid \text{do}(A = 1))$ in this model. What structural feature of the network causes the difference? What would have to change in the graph for the two to be equal?</span>
+<span id="cb14-402"><a href="#cb14-402" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
 <span id="cb14-403"><a href="#cb14-403" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-404"><a href="#cb14-404" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Risk importance.** In the risk importance ranking, which enterprise risk had the largest effect on portfolio variance? What is it about that risk's position in the network that makes it particularly impactful?</span>
+<span id="cb14-404"><a href="#cb14-404" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Seeing vs. doing.** In your own words, explain why $P(Y \mid A = 1) \neq P(Y \mid \text{do}(A = 1))$ in this model. What structural feature of the network causes the difference? What would have to change in the graph for the two to be equal?</span>
 <span id="cb14-405"><a href="#cb14-405" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-406"><a href="#cb14-406" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Two risks confirmed.** Run <span class="in">`prob_net_learn(graph, observations = list(A = 1, B = 1), num_samples = 1000)`</span>. How does the portfolio cost distribution compare to seeing only $A = 1$? Is the combined effect larger or smaller than you'd expect from adding the individual effects?</span>
+<span id="cb14-406"><a href="#cb14-406" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Risk importance.** In the risk importance ranking, which enterprise risk had the largest effect on portfolio variance? What is it about that risk's position in the network that makes it particularly impactful?</span>
 <span id="cb14-407"><a href="#cb14-407" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-408"><a href="#cb14-408" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Add a fourth project.** ★ Extend the network with a fourth project (e.g., a Bridge Inspection) with three tasks and three resources (Labor-4, Materials-4, Equipment-4), driven by the same three enterprise risks A, B, C. Add it to the portfolio node Y. How does total portfolio variance change? Does the risk importance ranking shift?</span>
+<span id="cb14-408"><a href="#cb14-408" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Two risks confirmed.** Run <span class="in">`prob_net_learn(graph, observations = list(A = 1, B = 1), num_samples = 1000)`</span>. How does the portfolio cost distribution compare to seeing only $A = 1$? Is the combined effect larger or smaller than you'd expect from adding the individual effects?</span>
 <span id="cb14-409"><a href="#cb14-409" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-410"><a href="#cb14-410" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Causal graph design.** ★ In the current model, Supply Chain Disruption (SC) drives both Labor Shortage (A) and Material Price Spike (B). Suppose you learn that, in practice, SC also affects Weather Delay (C) through disrupted logistics. Add an SC → C edge and update the C distribution to be conditional on SC. How does this change the see-versus-do analysis for C?</span>
+<span id="cb14-410"><a href="#cb14-410" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Add a fourth project.** ★ Extend the network with a fourth project (e.g., a Bridge Inspection) with three tasks and three resources (Labor-4, Materials-4, Equipment-4), driven by the same three enterprise risks A, B, C. Add it to the portfolio node Y. How does total portfolio variance change? Does the risk importance ranking shift?</span>
+<span id="cb14-411"><a href="#cb14-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-412"><a href="#cb14-412" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Causal graph design.** ★ In the current model, Supply Chain Disruption (SC) drives both Labor Shortage (A) and Material Price Spike (B). Suppose you learn that, in practice, SC also affects Weather Delay (C) through disrupted logistics. Add an SC → C edge and update the C distribution to be conditional on SC. How does this change the see-versus-do analysis for C?</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

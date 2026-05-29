@@ -76,10 +76,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-6b6957c917596b414ec0b78690761e87.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-b4a76c01c78fe92eb35a980f874a855b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-b4a76c01c78fe92eb35a980f874a855b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-1c1893f04979aa476fa52bb1a99ba675.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-b4a76c01c78fe92eb35a980f874a855b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -111,7 +115,169 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -140,8 +306,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Project Risk Analysis: A Practical Guide</a> 
-        <div class="sidebar-tools-main">
+        <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/paulgovan/PRA" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Project-Risk-Analysis--A-Practical-Guide.pdf">
+              <i class="bi bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Project-Risk-Analysis--A-Practical-Guide.epub">
+              <i class="bi bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-1" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-1">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
     </div>
       </div>
@@ -324,6 +531,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title"><span id="sec-agent" class="quarto-section-identifier"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
@@ -473,10 +681,14 @@ Type `/help` for this overview.</code></pre>
 <h3 data-number="11.3.2" class="anchored" data-anchor-id="example-monte-carlo-simulation"><span class="header-section-number">11.3.2</span> Example: Monte Carlo Simulation</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'/mcs n=10000 tasks=[{"type":"normal","mean":10,"sd":2},{"type":"triangular","a":5,"b":10,"c":15},{"type":"uniform","min":8,"max":12}]'</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cmd <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'/mcs n=10000 tasks=['</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'{"type":"normal","mean":10,"sd":2},'</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">'{"type":"triangular","a":5,"b":10,"c":15},'</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">'{"type":"uniform","min":8,"max":12}]'</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(cmd)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Monte Carlo Simulation Results (n = 10,000):
 
@@ -546,10 +758,14 @@ Percentiles:
 <h3 data-number="11.3.4" class="anchored" data-anchor-id="example-earned-value-management"><span class="header-section-number">11.3.4</span> Example: Earned Value Management</h3>
 <p>Full EVM analysis with a single command:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/evm bac=500000 schedule=[0.2,0.4,0.6,0.8,1.0] period=3 complete=0.35 costs=[90000,195000,310000]"</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>cmd <span class="ot">&lt;-</span> <span class="fu">paste</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/evm bac=500000"</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"schedule=[0.2,0.4,0.6,0.8,1.0]"</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"period=3 complete=0.35"</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"costs=[90000,195000,310000]"</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(cmd)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Earned Value Management Analysis:
 
@@ -888,6 +1104,19 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {
@@ -1010,7 +1239,7 @@ Calculate prior risk probability from root causes using Bayes' theorem.
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/paulgovan\.github\.io\/PRA\/book\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1428,251 +1657,259 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 <span id="cb27-81"><a href="#cb27-81" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-84"><a href="#cb27-84" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb27-85"><a href="#cb27-85" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb27-86"><a href="#cb27-86" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(</span>
-<span id="cb27-87"><a href="#cb27-87" aria-hidden="true" tabindex="-1"></a>  <span class="st">'/mcs n=10000 tasks=[{"type":"normal","mean":10,"sd":2},{"type":"triangular","a":5,"b":10,"c":15},{"type":"uniform","min":8,"max":12}]'</span></span>
-<span id="cb27-88"><a href="#cb27-88" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-89"><a href="#cb27-89" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
-<span id="cb27-90"><a href="#cb27-90" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-91"><a href="#cb27-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-94"><a href="#cb27-94" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-95"><a href="#cb27-95" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "MCS results via slash command. The /mcs command stores results for downstream chaining."</span></span>
-<span id="cb27-96"><a href="#cb27-96" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> PRA<span class="sc">:::</span>.pra_agent_env<span class="sc">$</span>last_mcs</span>
-<span id="cb27-97"><a href="#cb27-97" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(result<span class="sc">$</span>total_distribution,</span>
-<span id="cb27-98"><a href="#cb27-98" aria-hidden="true" tabindex="-1"></a>  <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">breaks =</span> <span class="dv">50</span>,</span>
-<span id="cb27-99"><a href="#cb27-99" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Monte Carlo Simulation Results"</span>,</span>
-<span id="cb27-100"><a href="#cb27-100" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Total Project Duration/Cost"</span>,</span>
-<span id="cb27-101"><a href="#cb27-101" aria-hidden="true" tabindex="-1"></a>  <span class="at">col  =</span> <span class="st">"#18bc9c80"</span>, <span class="at">border =</span> <span class="st">"white"</span></span>
-<span id="cb27-102"><a href="#cb27-102" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-103"><a href="#cb27-103" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x, <span class="at">mean =</span> result<span class="sc">$</span>total_mean, <span class="at">sd =</span> result<span class="sc">$</span>total_sd),</span>
-<span id="cb27-104"><a href="#cb27-104" aria-hidden="true" tabindex="-1"></a>  <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"#2c3e50"</span>, <span class="at">lwd =</span> <span class="dv">2</span></span>
-<span id="cb27-105"><a href="#cb27-105" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-106"><a href="#cb27-106" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(</span>
-<span id="cb27-107"><a href="#cb27-107" aria-hidden="true" tabindex="-1"></a>  <span class="at">v   =</span> <span class="fu">quantile</span>(result<span class="sc">$</span>total_distribution, <span class="fu">c</span>(<span class="fl">0.50</span>, <span class="fl">0.95</span>)),</span>
-<span id="cb27-108"><a href="#cb27-108" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#3498db"</span>, <span class="st">"#e74c3c"</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="fl">1.5</span></span>
+<span id="cb27-86"><a href="#cb27-86" aria-hidden="true" tabindex="-1"></a>cmd <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb27-87"><a href="#cb27-87" aria-hidden="true" tabindex="-1"></a>  <span class="st">'/mcs n=10000 tasks=['</span>,</span>
+<span id="cb27-88"><a href="#cb27-88" aria-hidden="true" tabindex="-1"></a>  <span class="st">'{"type":"normal","mean":10,"sd":2},'</span>,</span>
+<span id="cb27-89"><a href="#cb27-89" aria-hidden="true" tabindex="-1"></a>  <span class="st">'{"type":"triangular","a":5,"b":10,"c":15},'</span>,</span>
+<span id="cb27-90"><a href="#cb27-90" aria-hidden="true" tabindex="-1"></a>  <span class="st">'{"type":"uniform","min":8,"max":12}]'</span></span>
+<span id="cb27-91"><a href="#cb27-91" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-92"><a href="#cb27-92" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(cmd)</span>
+<span id="cb27-93"><a href="#cb27-93" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
+<span id="cb27-94"><a href="#cb27-94" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-95"><a href="#cb27-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-98"><a href="#cb27-98" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-99"><a href="#cb27-99" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "MCS results via slash command. The /mcs command stores results for downstream chaining."</span></span>
+<span id="cb27-100"><a href="#cb27-100" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> PRA<span class="sc">:::</span>.pra_agent_env<span class="sc">$</span>last_mcs</span>
+<span id="cb27-101"><a href="#cb27-101" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(result<span class="sc">$</span>total_distribution,</span>
+<span id="cb27-102"><a href="#cb27-102" aria-hidden="true" tabindex="-1"></a>  <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">breaks =</span> <span class="dv">50</span>,</span>
+<span id="cb27-103"><a href="#cb27-103" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Monte Carlo Simulation Results"</span>,</span>
+<span id="cb27-104"><a href="#cb27-104" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Total Project Duration/Cost"</span>,</span>
+<span id="cb27-105"><a href="#cb27-105" aria-hidden="true" tabindex="-1"></a>  <span class="at">col  =</span> <span class="st">"#18bc9c80"</span>, <span class="at">border =</span> <span class="st">"white"</span></span>
+<span id="cb27-106"><a href="#cb27-106" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-107"><a href="#cb27-107" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x, <span class="at">mean =</span> result<span class="sc">$</span>total_mean, <span class="at">sd =</span> result<span class="sc">$</span>total_sd),</span>
+<span id="cb27-108"><a href="#cb27-108" aria-hidden="true" tabindex="-1"></a>  <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"#2c3e50"</span>, <span class="at">lwd =</span> <span class="dv">2</span></span>
 <span id="cb27-109"><a href="#cb27-109" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-110"><a href="#cb27-110" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
-<span id="cb27-111"><a href="#cb27-111" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Normal fit"</span>, <span class="st">"P50"</span>, <span class="st">"P95"</span>),</span>
-<span id="cb27-112"><a href="#cb27-112" aria-hidden="true" tabindex="-1"></a>  <span class="at">col    =</span> <span class="fu">c</span>(<span class="st">"#2c3e50"</span>, <span class="st">"#3498db"</span>, <span class="st">"#e74c3c"</span>),</span>
-<span id="cb27-113"><a href="#cb27-113" aria-hidden="true" tabindex="-1"></a>  <span class="at">lty    =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fl">1.5</span>, <span class="fl">1.5</span>),</span>
-<span id="cb27-114"><a href="#cb27-114" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex    =</span> <span class="fl">0.8</span>, <span class="at">bg =</span> <span class="st">"white"</span></span>
-<span id="cb27-115"><a href="#cb27-115" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-116"><a href="#cb27-116" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-117"><a href="#cb27-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-118"><a href="#cb27-118" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example: Chaining MCS to Contingency</span></span>
-<span id="cb27-119"><a href="#cb27-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-120"><a href="#cb27-120" aria-hidden="true" tabindex="-1"></a>After running <span class="in">`/mcs`</span>, chain to <span class="in">`/contingency`</span> for the reserve estimate:</span>
+<span id="cb27-110"><a href="#cb27-110" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(</span>
+<span id="cb27-111"><a href="#cb27-111" aria-hidden="true" tabindex="-1"></a>  <span class="at">v   =</span> <span class="fu">quantile</span>(result<span class="sc">$</span>total_distribution, <span class="fu">c</span>(<span class="fl">0.50</span>, <span class="fl">0.95</span>)),</span>
+<span id="cb27-112"><a href="#cb27-112" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#3498db"</span>, <span class="st">"#e74c3c"</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="fl">1.5</span></span>
+<span id="cb27-113"><a href="#cb27-113" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-114"><a href="#cb27-114" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
+<span id="cb27-115"><a href="#cb27-115" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Normal fit"</span>, <span class="st">"P50"</span>, <span class="st">"P95"</span>),</span>
+<span id="cb27-116"><a href="#cb27-116" aria-hidden="true" tabindex="-1"></a>  <span class="at">col    =</span> <span class="fu">c</span>(<span class="st">"#2c3e50"</span>, <span class="st">"#3498db"</span>, <span class="st">"#e74c3c"</span>),</span>
+<span id="cb27-117"><a href="#cb27-117" aria-hidden="true" tabindex="-1"></a>  <span class="at">lty    =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fl">1.5</span>, <span class="fl">1.5</span>),</span>
+<span id="cb27-118"><a href="#cb27-118" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex    =</span> <span class="fl">0.8</span>, <span class="at">bg =</span> <span class="st">"white"</span></span>
+<span id="cb27-119"><a href="#cb27-119" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-120"><a href="#cb27-120" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb27-121"><a href="#cb27-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-124"><a href="#cb27-124" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-125"><a href="#cb27-125" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(<span class="st">"/contingency phigh=0.95 pbase=0.50"</span>)</span>
-<span id="cb27-126"><a href="#cb27-126" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
-<span id="cb27-127"><a href="#cb27-127" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-128"><a href="#cb27-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-129"><a href="#cb27-129" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example: Earned Value Management</span></span>
-<span id="cb27-130"><a href="#cb27-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-131"><a href="#cb27-131" aria-hidden="true" tabindex="-1"></a>Full EVM analysis with a single command:</span>
+<span id="cb27-122"><a href="#cb27-122" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example: Chaining MCS to Contingency</span></span>
+<span id="cb27-123"><a href="#cb27-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-124"><a href="#cb27-124" aria-hidden="true" tabindex="-1"></a>After running <span class="in">`/mcs`</span>, chain to <span class="in">`/contingency`</span> for the reserve estimate:</span>
+<span id="cb27-125"><a href="#cb27-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-128"><a href="#cb27-128" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-129"><a href="#cb27-129" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(<span class="st">"/contingency phigh=0.95 pbase=0.50"</span>)</span>
+<span id="cb27-130"><a href="#cb27-130" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
+<span id="cb27-131"><a href="#cb27-131" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb27-132"><a href="#cb27-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-135"><a href="#cb27-135" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-136"><a href="#cb27-136" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(</span>
-<span id="cb27-137"><a href="#cb27-137" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/evm bac=500000 schedule=[0.2,0.4,0.6,0.8,1.0] period=3 complete=0.35 costs=[90000,195000,310000]"</span></span>
-<span id="cb27-138"><a href="#cb27-138" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-139"><a href="#cb27-139" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
-<span id="cb27-140"><a href="#cb27-140" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-141"><a href="#cb27-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-142"><a href="#cb27-142" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example: Bayesian Risk Probability</span></span>
-<span id="cb27-143"><a href="#cb27-143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-146"><a href="#cb27-146" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-147"><a href="#cb27-147" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(</span>
-<span id="cb27-148"><a href="#cb27-148" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/risk causes=[0.3,0.2] given=[0.8,0.6] not_given=[0.2,0.4]"</span></span>
-<span id="cb27-149"><a href="#cb27-149" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-150"><a href="#cb27-150" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
-<span id="cb27-151"><a href="#cb27-151" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-152"><a href="#cb27-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-153"><a href="#cb27-153" aria-hidden="true" tabindex="-1"></a>Then update with observations:</span>
-<span id="cb27-154"><a href="#cb27-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-157"><a href="#cb27-157" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-158"><a href="#cb27-158" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(</span>
-<span id="cb27-159"><a href="#cb27-159" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/risk_post causes=[0.3,0.2] given=[0.8,0.6] not_given=[0.2,0.4] observed=[1,null]"</span></span>
-<span id="cb27-160"><a href="#cb27-160" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-161"><a href="#cb27-161" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
-<span id="cb27-162"><a href="#cb27-162" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-163"><a href="#cb27-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-164"><a href="#cb27-164" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example: Second Moment Method</span></span>
-<span id="cb27-165"><a href="#cb27-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-168"><a href="#cb27-168" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-169"><a href="#cb27-169" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(<span class="st">"/smm means=[10,12,8] vars=[4,9,2]"</span>)</span>
-<span id="cb27-170"><a href="#cb27-170" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
-<span id="cb27-171"><a href="#cb27-171" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-172"><a href="#cb27-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-173"><a href="#cb27-173" aria-hidden="true" tabindex="-1"></a><span class="fu">### Input Validation</span></span>
-<span id="cb27-174"><a href="#cb27-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-175"><a href="#cb27-175" aria-hidden="true" tabindex="-1"></a>Missing or invalid arguments produce helpful error messages:</span>
-<span id="cb27-176"><a href="#cb27-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-179"><a href="#cb27-179" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-180"><a href="#cb27-180" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(<span class="st">"/risk causes=[0.3]"</span>)</span>
-<span id="cb27-181"><a href="#cb27-181" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
-<span id="cb27-182"><a href="#cb27-182" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-183"><a href="#cb27-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-184"><a href="#cb27-184" aria-hidden="true" tabindex="-1"></a><span class="fu">## Chat Interface</span></span>
-<span id="cb27-185"><a href="#cb27-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-186"><a href="#cb27-186" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb27-187"><a href="#cb27-187" aria-hidden="true" tabindex="-1"></a><span class="fu">## About `eval: false` in This Chapter</span></span>
-<span id="cb27-188"><a href="#cb27-188" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-189"><a href="#cb27-189" aria-hidden="true" tabindex="-1"></a>The Chat Interface, Shiny App, and MCP sections require a running Ollama server and cannot be evaluated during book rendering. Code blocks marked <span class="in">`eval: false`</span> show the correct syntax — to follow along interactively, start Ollama with <span class="in">`ollama serve`</span> before running them. The slash command examples above **are** fully evaluated and show actual output.</span>
-<span id="cb27-190"><a href="#cb27-190" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb27-133"><a href="#cb27-133" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example: Earned Value Management</span></span>
+<span id="cb27-134"><a href="#cb27-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-135"><a href="#cb27-135" aria-hidden="true" tabindex="-1"></a>Full EVM analysis with a single command:</span>
+<span id="cb27-136"><a href="#cb27-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-139"><a href="#cb27-139" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-140"><a href="#cb27-140" aria-hidden="true" tabindex="-1"></a>cmd <span class="ot">&lt;-</span> <span class="fu">paste</span>(</span>
+<span id="cb27-141"><a href="#cb27-141" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/evm bac=500000"</span>,</span>
+<span id="cb27-142"><a href="#cb27-142" aria-hidden="true" tabindex="-1"></a>  <span class="st">"schedule=[0.2,0.4,0.6,0.8,1.0]"</span>,</span>
+<span id="cb27-143"><a href="#cb27-143" aria-hidden="true" tabindex="-1"></a>  <span class="st">"period=3 complete=0.35"</span>,</span>
+<span id="cb27-144"><a href="#cb27-144" aria-hidden="true" tabindex="-1"></a>  <span class="st">"costs=[90000,195000,310000]"</span></span>
+<span id="cb27-145"><a href="#cb27-145" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-146"><a href="#cb27-146" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(cmd)</span>
+<span id="cb27-147"><a href="#cb27-147" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
+<span id="cb27-148"><a href="#cb27-148" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-149"><a href="#cb27-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-150"><a href="#cb27-150" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example: Bayesian Risk Probability</span></span>
+<span id="cb27-151"><a href="#cb27-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-154"><a href="#cb27-154" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-155"><a href="#cb27-155" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(</span>
+<span id="cb27-156"><a href="#cb27-156" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/risk causes=[0.3,0.2] given=[0.8,0.6] not_given=[0.2,0.4]"</span></span>
+<span id="cb27-157"><a href="#cb27-157" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-158"><a href="#cb27-158" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
+<span id="cb27-159"><a href="#cb27-159" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-160"><a href="#cb27-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-161"><a href="#cb27-161" aria-hidden="true" tabindex="-1"></a>Then update with observations:</span>
+<span id="cb27-162"><a href="#cb27-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-165"><a href="#cb27-165" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-166"><a href="#cb27-166" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(</span>
+<span id="cb27-167"><a href="#cb27-167" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/risk_post causes=[0.3,0.2] given=[0.8,0.6] not_given=[0.2,0.4] observed=[1,null]"</span></span>
+<span id="cb27-168"><a href="#cb27-168" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-169"><a href="#cb27-169" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
+<span id="cb27-170"><a href="#cb27-170" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-171"><a href="#cb27-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-172"><a href="#cb27-172" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example: Second Moment Method</span></span>
+<span id="cb27-173"><a href="#cb27-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-176"><a href="#cb27-176" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-177"><a href="#cb27-177" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(<span class="st">"/smm means=[10,12,8] vars=[4,9,2]"</span>)</span>
+<span id="cb27-178"><a href="#cb27-178" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
+<span id="cb27-179"><a href="#cb27-179" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-180"><a href="#cb27-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-181"><a href="#cb27-181" aria-hidden="true" tabindex="-1"></a><span class="fu">### Input Validation</span></span>
+<span id="cb27-182"><a href="#cb27-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-183"><a href="#cb27-183" aria-hidden="true" tabindex="-1"></a>Missing or invalid arguments produce helpful error messages:</span>
+<span id="cb27-184"><a href="#cb27-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-187"><a href="#cb27-187" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-188"><a href="#cb27-188" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(<span class="st">"/risk causes=[0.3]"</span>)</span>
+<span id="cb27-189"><a href="#cb27-189" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
+<span id="cb27-190"><a href="#cb27-190" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb27-191"><a href="#cb27-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-192"><a href="#cb27-192" aria-hidden="true" tabindex="-1"></a>The chat interface routes queries through the LLM, which decides whether to call a tool or answer from the RAG knowledge base:</span>
+<span id="cb27-192"><a href="#cb27-192" aria-hidden="true" tabindex="-1"></a><span class="fu">## Chat Interface</span></span>
 <span id="cb27-193"><a href="#cb27-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-194"><a href="#cb27-194" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Numerical data** → LLM calls the appropriate tool and interprets the results</span>
-<span id="cb27-195"><a href="#cb27-195" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Conceptual questions** → LLM answers from the RAG knowledge base with source citations</span>
+<span id="cb27-194"><a href="#cb27-194" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb27-195"><a href="#cb27-195" aria-hidden="true" tabindex="-1"></a><span class="fu">## About `eval: false` in This Chapter</span></span>
 <span id="cb27-196"><a href="#cb27-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-199"><a href="#cb27-199" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-200"><a href="#cb27-200" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb27-201"><a href="#cb27-201" aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">pra_chat</span>(<span class="at">model =</span> <span class="st">"llama3.2"</span>)</span>
-<span id="cb27-202"><a href="#cb27-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-203"><a href="#cb27-203" aria-hidden="true" tabindex="-1"></a><span class="co"># Tool call: user provides numerical data</span></span>
-<span id="cb27-204"><a href="#cb27-204" aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">"Run a Monte Carlo simulation for a 3-task project with</span></span>
-<span id="cb27-205"><a href="#cb27-205" aria-hidden="true" tabindex="-1"></a><span class="st">  Task A ~ Normal(10, 2), Task B ~ Triangular(5, 10, 15),</span></span>
-<span id="cb27-206"><a href="#cb27-206" aria-hidden="true" tabindex="-1"></a><span class="st">  Task C ~ Uniform(8, 12). Use 10,000 simulations."</span>)</span>
-<span id="cb27-207"><a href="#cb27-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-208"><a href="#cb27-208" aria-hidden="true" tabindex="-1"></a><span class="co"># RAG: conceptual question</span></span>
-<span id="cb27-209"><a href="#cb27-209" aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">"What is the difference between SPI and CPI?"</span>)</span>
-<span id="cb27-210"><a href="#cb27-210" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-211"><a href="#cb27-211" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-212"><a href="#cb27-212" aria-hidden="true" tabindex="-1"></a><span class="fu">### Using Cloud Models</span></span>
-<span id="cb27-213"><a href="#cb27-213" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-214"><a href="#cb27-214" aria-hidden="true" tabindex="-1"></a>For better accuracy with complex queries:</span>
+<span id="cb27-197"><a href="#cb27-197" aria-hidden="true" tabindex="-1"></a>The Chat Interface, Shiny App, and MCP sections require a running Ollama server and cannot be evaluated during book rendering. Code blocks marked <span class="in">`eval: false`</span> show the correct syntax — to follow along interactively, start Ollama with <span class="in">`ollama serve`</span> before running them. The slash command examples above **are** fully evaluated and show actual output.</span>
+<span id="cb27-198"><a href="#cb27-198" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb27-199"><a href="#cb27-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-200"><a href="#cb27-200" aria-hidden="true" tabindex="-1"></a>The chat interface routes queries through the LLM, which decides whether to call a tool or answer from the RAG knowledge base:</span>
+<span id="cb27-201"><a href="#cb27-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-202"><a href="#cb27-202" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Numerical data** → LLM calls the appropriate tool and interprets the results</span>
+<span id="cb27-203"><a href="#cb27-203" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Conceptual questions** → LLM answers from the RAG knowledge base with source citations</span>
+<span id="cb27-204"><a href="#cb27-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-207"><a href="#cb27-207" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-208"><a href="#cb27-208" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb27-209"><a href="#cb27-209" aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">pra_chat</span>(<span class="at">model =</span> <span class="st">"llama3.2"</span>)</span>
+<span id="cb27-210"><a href="#cb27-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-211"><a href="#cb27-211" aria-hidden="true" tabindex="-1"></a><span class="co"># Tool call: user provides numerical data</span></span>
+<span id="cb27-212"><a href="#cb27-212" aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">"Run a Monte Carlo simulation for a 3-task project with</span></span>
+<span id="cb27-213"><a href="#cb27-213" aria-hidden="true" tabindex="-1"></a><span class="st">  Task A ~ Normal(10, 2), Task B ~ Triangular(5, 10, 15),</span></span>
+<span id="cb27-214"><a href="#cb27-214" aria-hidden="true" tabindex="-1"></a><span class="st">  Task C ~ Uniform(8, 12). Use 10,000 simulations."</span>)</span>
 <span id="cb27-215"><a href="#cb27-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-218"><a href="#cb27-218" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-219"><a href="#cb27-219" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb27-220"><a href="#cb27-220" aria-hidden="true" tabindex="-1"></a><span class="co"># Anthropic (replace with the current model ID from https://docs.anthropic.com/en/docs/about-claude/models)</span></span>
-<span id="cb27-221"><a href="#cb27-221" aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">pra_chat</span>(<span class="at">chat =</span> ellmer<span class="sc">::</span><span class="fu">chat_anthropic</span>(<span class="at">model =</span> <span class="st">"claude-sonnet-4-5"</span>))</span>
-<span id="cb27-222"><a href="#cb27-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-223"><a href="#cb27-223" aria-hidden="true" tabindex="-1"></a><span class="co"># OpenAI</span></span>
-<span id="cb27-224"><a href="#cb27-224" aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">pra_chat</span>(<span class="at">chat =</span> ellmer<span class="sc">::</span><span class="fu">chat_openai</span>(<span class="at">model =</span> <span class="st">"gpt-4o"</span>))</span>
-<span id="cb27-225"><a href="#cb27-225" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-226"><a href="#cb27-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-227"><a href="#cb27-227" aria-hidden="true" tabindex="-1"></a><span class="fu">## Interactive Shiny App</span></span>
-<span id="cb27-228"><a href="#cb27-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-229"><a href="#cb27-229" aria-hidden="true" tabindex="-1"></a>For a browser-based experience with streaming responses and inline visualizations:</span>
+<span id="cb27-216"><a href="#cb27-216" aria-hidden="true" tabindex="-1"></a><span class="co"># RAG: conceptual question</span></span>
+<span id="cb27-217"><a href="#cb27-217" aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">"What is the difference between SPI and CPI?"</span>)</span>
+<span id="cb27-218"><a href="#cb27-218" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-219"><a href="#cb27-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-220"><a href="#cb27-220" aria-hidden="true" tabindex="-1"></a><span class="fu">### Using Cloud Models</span></span>
+<span id="cb27-221"><a href="#cb27-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-222"><a href="#cb27-222" aria-hidden="true" tabindex="-1"></a>For better accuracy with complex queries:</span>
+<span id="cb27-223"><a href="#cb27-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-226"><a href="#cb27-226" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-227"><a href="#cb27-227" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb27-228"><a href="#cb27-228" aria-hidden="true" tabindex="-1"></a><span class="co"># Anthropic (replace with the current model ID from https://docs.anthropic.com/en/docs/about-claude/models)</span></span>
+<span id="cb27-229"><a href="#cb27-229" aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">pra_chat</span>(<span class="at">chat =</span> ellmer<span class="sc">::</span><span class="fu">chat_anthropic</span>(<span class="at">model =</span> <span class="st">"claude-sonnet-4-5"</span>))</span>
 <span id="cb27-230"><a href="#cb27-230" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-233"><a href="#cb27-233" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-234"><a href="#cb27-234" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb27-235"><a href="#cb27-235" aria-hidden="true" tabindex="-1"></a><span class="fu">pra_app</span>()</span>
-<span id="cb27-236"><a href="#cb27-236" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-237"><a href="#cb27-237" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-238"><a href="#cb27-238" aria-hidden="true" tabindex="-1"></a>The app supports all three input modes in the same chat panel:</span>
-<span id="cb27-239"><a href="#cb27-239" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-240"><a href="#cb27-240" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Type <span class="in">`/mcs tasks=[...]`</span> for **instant deterministic** results</span>
-<span id="cb27-241"><a href="#cb27-241" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Type "Simulate 3 tasks..." for **LLM tool calling**</span>
-<span id="cb27-242"><a href="#cb27-242" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Type "What is earned value?" for **RAG-powered answers**</span>
-<span id="cb27-243"><a href="#cb27-243" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-244"><a href="#cb27-244" aria-hidden="true" tabindex="-1"></a><span class="fu">### Features</span></span>
+<span id="cb27-231"><a href="#cb27-231" aria-hidden="true" tabindex="-1"></a><span class="co"># OpenAI</span></span>
+<span id="cb27-232"><a href="#cb27-232" aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">pra_chat</span>(<span class="at">chat =</span> ellmer<span class="sc">::</span><span class="fu">chat_openai</span>(<span class="at">model =</span> <span class="st">"gpt-4o"</span>))</span>
+<span id="cb27-233"><a href="#cb27-233" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-234"><a href="#cb27-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-235"><a href="#cb27-235" aria-hidden="true" tabindex="-1"></a><span class="fu">## Interactive Shiny App</span></span>
+<span id="cb27-236"><a href="#cb27-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-237"><a href="#cb27-237" aria-hidden="true" tabindex="-1"></a>For a browser-based experience with streaming responses and inline visualizations:</span>
+<span id="cb27-238"><a href="#cb27-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-241"><a href="#cb27-241" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-242"><a href="#cb27-242" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb27-243"><a href="#cb27-243" aria-hidden="true" tabindex="-1"></a><span class="fu">pra_app</span>()</span>
+<span id="cb27-244"><a href="#cb27-244" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb27-245"><a href="#cb27-245" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-246"><a href="#cb27-246" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Three input modes** in a single panel</span>
-<span id="cb27-247"><a href="#cb27-247" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Clickable example prompts** that execute <span class="in">`/commands`</span> on click</span>
-<span id="cb27-248"><a href="#cb27-248" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Streaming chat** with token-by-token responses</span>
-<span id="cb27-249"><a href="#cb27-249" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Inline tool results** as rich HTML tables and plots</span>
-<span id="cb27-250"><a href="#cb27-250" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RAG source citations** for conceptual answers</span>
-<span id="cb27-251"><a href="#cb27-251" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Export** — download the conversation as markdown</span>
-<span id="cb27-252"><a href="#cb27-252" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-253"><a href="#cb27-253" aria-hidden="true" tabindex="-1"></a><span class="fu">## RAG Knowledge Base</span></span>
-<span id="cb27-254"><a href="#cb27-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-255"><a href="#cb27-255" aria-hidden="true" tabindex="-1"></a>PRA includes a built-in knowledge base covering all the methods in this book:</span>
-<span id="cb27-256"><a href="#cb27-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-257"><a href="#cb27-257" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> File <span class="pp">|</span> Topics <span class="pp">|</span></span>
-<span id="cb27-258"><a href="#cb27-258" aria-hidden="true" tabindex="-1"></a><span class="pp">|------|--------|</span></span>
-<span id="cb27-259"><a href="#cb27-259" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`mcs_methods.md`</span> <span class="pp">|</span> Distribution selection, correlation, interpreting percentiles <span class="pp">|</span></span>
-<span id="cb27-260"><a href="#cb27-260" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`evm_standards.md`</span> <span class="pp">|</span> EVM metrics, performance indices, forecasting methods <span class="pp">|</span></span>
-<span id="cb27-261"><a href="#cb27-261" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`bayesian_risk.md`</span> <span class="pp">|</span> Prior/posterior risk, Bayes' theorem <span class="pp">|</span></span>
-<span id="cb27-262"><a href="#cb27-262" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`learning_curves.md`</span> <span class="pp">|</span> Sigmoidal models, curve fitting <span class="pp">|</span></span>
-<span id="cb27-263"><a href="#cb27-263" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`sensitivity_contingency.md`</span> <span class="pp">|</span> Variance decomposition, contingency reserves <span class="pp">|</span></span>
-<span id="cb27-264"><a href="#cb27-264" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra_functions.md`</span> <span class="pp">|</span> PRA package function reference <span class="pp">|</span></span>
-<span id="cb27-265"><a href="#cb27-265" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-266"><a href="#cb27-266" aria-hidden="true" tabindex="-1"></a><span class="fu">### Adding Your Own Documents</span></span>
-<span id="cb27-267"><a href="#cb27-267" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-270"><a href="#cb27-270" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-271"><a href="#cb27-271" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb27-272"><a href="#cb27-272" aria-hidden="true" tabindex="-1"></a>store <span class="ot">&lt;-</span> <span class="fu">build_knowledge_base</span>()</span>
-<span id="cb27-273"><a href="#cb27-273" aria-hidden="true" tabindex="-1"></a><span class="fu">add_documents</span>(store, <span class="st">"path/to/my_risk_register.md"</span>)</span>
-<span id="cb27-274"><a href="#cb27-274" aria-hidden="true" tabindex="-1"></a><span class="fu">add_documents</span>(store, <span class="st">"path/to/project_docs/"</span>)</span>
-<span id="cb27-275"><a href="#cb27-275" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-276"><a href="#cb27-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-277"><a href="#cb27-277" aria-hidden="true" tabindex="-1"></a><span class="fu">## MCP Integration</span></span>
-<span id="cb27-278"><a href="#cb27-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-279"><a href="#cb27-279" aria-hidden="true" tabindex="-1"></a>PRA can expose all its tools as an <span class="co">[</span><span class="ot">MCP (Model Context Protocol)</span><span class="co">](https://modelcontextprotocol.io)</span> server, letting Claude Desktop, Claude Code, or any MCP-compatible AI client call PRA functions directly.</span>
-<span id="cb27-280"><a href="#cb27-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-281"><a href="#cb27-281" aria-hidden="true" tabindex="-1"></a><span class="fu">### Starting the Server</span></span>
-<span id="cb27-282"><a href="#cb27-282" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-285"><a href="#cb27-285" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-286"><a href="#cb27-286" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb27-287"><a href="#cb27-287" aria-hidden="true" tabindex="-1"></a><span class="fu">pra_mcp_server</span>()</span>
-<span id="cb27-288"><a href="#cb27-288" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-289"><a href="#cb27-289" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-290"><a href="#cb27-290" aria-hidden="true" tabindex="-1"></a><span class="fu">### Connecting from Claude Code</span></span>
-<span id="cb27-291"><a href="#cb27-291" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-292"><a href="#cb27-292" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb27-293"><a href="#cb27-293" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add <span class="at">-s</span> project pra <span class="at">--</span> Rscript <span class="at">-e</span> <span class="st">"PRA::pra_mcp_server()"</span></span>
-<span id="cb27-294"><a href="#cb27-294" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-295"><a href="#cb27-295" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-296"><a href="#cb27-296" aria-hidden="true" tabindex="-1"></a>Once registered, Claude Code can call PRA tools in any conversation:</span>
+<span id="cb27-246"><a href="#cb27-246" aria-hidden="true" tabindex="-1"></a>The app supports all three input modes in the same chat panel:</span>
+<span id="cb27-247"><a href="#cb27-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-248"><a href="#cb27-248" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Type <span class="in">`/mcs tasks=[...]`</span> for **instant deterministic** results</span>
+<span id="cb27-249"><a href="#cb27-249" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Type "Simulate 3 tasks..." for **LLM tool calling**</span>
+<span id="cb27-250"><a href="#cb27-250" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Type "What is earned value?" for **RAG-powered answers**</span>
+<span id="cb27-251"><a href="#cb27-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-252"><a href="#cb27-252" aria-hidden="true" tabindex="-1"></a><span class="fu">### Features</span></span>
+<span id="cb27-253"><a href="#cb27-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-254"><a href="#cb27-254" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Three input modes** in a single panel</span>
+<span id="cb27-255"><a href="#cb27-255" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Clickable example prompts** that execute <span class="in">`/commands`</span> on click</span>
+<span id="cb27-256"><a href="#cb27-256" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Streaming chat** with token-by-token responses</span>
+<span id="cb27-257"><a href="#cb27-257" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Inline tool results** as rich HTML tables and plots</span>
+<span id="cb27-258"><a href="#cb27-258" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RAG source citations** for conceptual answers</span>
+<span id="cb27-259"><a href="#cb27-259" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Export** — download the conversation as markdown</span>
+<span id="cb27-260"><a href="#cb27-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-261"><a href="#cb27-261" aria-hidden="true" tabindex="-1"></a><span class="fu">## RAG Knowledge Base</span></span>
+<span id="cb27-262"><a href="#cb27-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-263"><a href="#cb27-263" aria-hidden="true" tabindex="-1"></a>PRA includes a built-in knowledge base covering all the methods in this book:</span>
+<span id="cb27-264"><a href="#cb27-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-265"><a href="#cb27-265" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> File <span class="pp">|</span> Topics <span class="pp">|</span></span>
+<span id="cb27-266"><a href="#cb27-266" aria-hidden="true" tabindex="-1"></a><span class="pp">|------|--------|</span></span>
+<span id="cb27-267"><a href="#cb27-267" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`mcs_methods.md`</span> <span class="pp">|</span> Distribution selection, correlation, interpreting percentiles <span class="pp">|</span></span>
+<span id="cb27-268"><a href="#cb27-268" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`evm_standards.md`</span> <span class="pp">|</span> EVM metrics, performance indices, forecasting methods <span class="pp">|</span></span>
+<span id="cb27-269"><a href="#cb27-269" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`bayesian_risk.md`</span> <span class="pp">|</span> Prior/posterior risk, Bayes' theorem <span class="pp">|</span></span>
+<span id="cb27-270"><a href="#cb27-270" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`learning_curves.md`</span> <span class="pp">|</span> Sigmoidal models, curve fitting <span class="pp">|</span></span>
+<span id="cb27-271"><a href="#cb27-271" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`sensitivity_contingency.md`</span> <span class="pp">|</span> Variance decomposition, contingency reserves <span class="pp">|</span></span>
+<span id="cb27-272"><a href="#cb27-272" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra_functions.md`</span> <span class="pp">|</span> PRA package function reference <span class="pp">|</span></span>
+<span id="cb27-273"><a href="#cb27-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-274"><a href="#cb27-274" aria-hidden="true" tabindex="-1"></a><span class="fu">### Adding Your Own Documents</span></span>
+<span id="cb27-275"><a href="#cb27-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-278"><a href="#cb27-278" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-279"><a href="#cb27-279" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb27-280"><a href="#cb27-280" aria-hidden="true" tabindex="-1"></a>store <span class="ot">&lt;-</span> <span class="fu">build_knowledge_base</span>()</span>
+<span id="cb27-281"><a href="#cb27-281" aria-hidden="true" tabindex="-1"></a><span class="fu">add_documents</span>(store, <span class="st">"path/to/my_risk_register.md"</span>)</span>
+<span id="cb27-282"><a href="#cb27-282" aria-hidden="true" tabindex="-1"></a><span class="fu">add_documents</span>(store, <span class="st">"path/to/project_docs/"</span>)</span>
+<span id="cb27-283"><a href="#cb27-283" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-284"><a href="#cb27-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-285"><a href="#cb27-285" aria-hidden="true" tabindex="-1"></a><span class="fu">## MCP Integration</span></span>
+<span id="cb27-286"><a href="#cb27-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-287"><a href="#cb27-287" aria-hidden="true" tabindex="-1"></a>PRA can expose all its tools as an <span class="co">[</span><span class="ot">MCP (Model Context Protocol)</span><span class="co">](https://modelcontextprotocol.io)</span> server, letting Claude Desktop, Claude Code, or any MCP-compatible AI client call PRA functions directly.</span>
+<span id="cb27-288"><a href="#cb27-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-289"><a href="#cb27-289" aria-hidden="true" tabindex="-1"></a><span class="fu">### Starting the Server</span></span>
+<span id="cb27-290"><a href="#cb27-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-293"><a href="#cb27-293" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-294"><a href="#cb27-294" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb27-295"><a href="#cb27-295" aria-hidden="true" tabindex="-1"></a><span class="fu">pra_mcp_server</span>()</span>
+<span id="cb27-296"><a href="#cb27-296" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb27-297"><a href="#cb27-297" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-298"><a href="#cb27-298" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; "Run a Monte Carlo simulation for three tasks: Task A normal(10, 2), Task B triangular(5, 10, 15), Task C uniform(8, 12). What is the contingency reserve at the 90th percentile?"</span></span>
+<span id="cb27-298"><a href="#cb27-298" aria-hidden="true" tabindex="-1"></a><span class="fu">### Connecting from Claude Code</span></span>
 <span id="cb27-299"><a href="#cb27-299" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-300"><a href="#cb27-300" aria-hidden="true" tabindex="-1"></a><span class="fu">### Connecting from Claude Desktop</span></span>
-<span id="cb27-301"><a href="#cb27-301" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-302"><a href="#cb27-302" aria-hidden="true" tabindex="-1"></a>Add the following to your Claude Desktop config file:</span>
+<span id="cb27-300"><a href="#cb27-300" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb27-301"><a href="#cb27-301" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add <span class="at">-s</span> project pra <span class="at">--</span> Rscript <span class="at">-e</span> <span class="st">"PRA::pra_mcp_server()"</span></span>
+<span id="cb27-302"><a href="#cb27-302" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb27-303"><a href="#cb27-303" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-304"><a href="#cb27-304" aria-hidden="true" tabindex="-1"></a><span class="in">```json</span></span>
-<span id="cb27-305"><a href="#cb27-305" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb27-306"><a href="#cb27-306" aria-hidden="true" tabindex="-1"></a>  <span class="st">"mcpServers"</span><span class="op">:</span> {</span>
-<span id="cb27-307"><a href="#cb27-307" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pra"</span><span class="op">:</span> {</span>
-<span id="cb27-308"><a href="#cb27-308" aria-hidden="true" tabindex="-1"></a>      <span class="st">"command"</span><span class="op">:</span> <span class="st">"Rscript"</span><span class="op">,</span></span>
-<span id="cb27-309"><a href="#cb27-309" aria-hidden="true" tabindex="-1"></a>      <span class="st">"args"</span><span class="op">:</span> [<span class="st">"-e"</span><span class="op">,</span> <span class="st">"PRA::pra_mcp_server()"</span>]</span>
-<span id="cb27-310"><a href="#cb27-310" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb27-311"><a href="#cb27-311" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb27-312"><a href="#cb27-312" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb27-313"><a href="#cb27-313" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-314"><a href="#cb27-314" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-315"><a href="#cb27-315" aria-hidden="true" tabindex="-1"></a><span class="fu">## Available Commands Reference</span></span>
-<span id="cb27-316"><a href="#cb27-316" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-317"><a href="#cb27-317" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Command <span class="pp">|</span> Description <span class="pp">|</span></span>
-<span id="cb27-318"><a href="#cb27-318" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|-------------|</span></span>
-<span id="cb27-319"><a href="#cb27-319" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/mcs`</span> <span class="pp">|</span> Monte Carlo simulation with task distributions <span class="pp">|</span></span>
-<span id="cb27-320"><a href="#cb27-320" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/smm`</span> <span class="pp">|</span> Second Moment Method (analytical estimate) <span class="pp">|</span></span>
-<span id="cb27-321"><a href="#cb27-321" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/contingency`</span> <span class="pp">|</span> Contingency reserve from last MCS <span class="pp">|</span></span>
-<span id="cb27-322"><a href="#cb27-322" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/sensitivity`</span> <span class="pp">|</span> Variance contribution per task <span class="pp">|</span></span>
-<span id="cb27-323"><a href="#cb27-323" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/evm`</span> <span class="pp">|</span> Full Earned Value Management analysis <span class="pp">|</span></span>
-<span id="cb27-324"><a href="#cb27-324" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/risk`</span> <span class="pp">|</span> Bayesian prior risk probability <span class="pp">|</span></span>
-<span id="cb27-325"><a href="#cb27-325" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/risk_post`</span> <span class="pp">|</span> Bayesian posterior risk after observations <span class="pp">|</span></span>
-<span id="cb27-326"><a href="#cb27-326" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/learning`</span> <span class="pp">|</span> Sigmoidal learning curve fit and prediction <span class="pp">|</span></span>
-<span id="cb27-327"><a href="#cb27-327" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/dsm`</span> <span class="pp">|</span> Design Structure Matrix <span class="pp">|</span></span>
-<span id="cb27-328"><a href="#cb27-328" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/help`</span> <span class="pp">|</span> List all commands or get help for one <span class="pp">|</span></span>
-<span id="cb27-329"><a href="#cb27-329" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-330"><a href="#cb27-330" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
-<span id="cb27-331"><a href="#cb27-331" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-332"><a href="#cb27-332" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
-<span id="cb27-333"><a href="#cb27-333" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
-<span id="cb27-334"><a href="#cb27-334" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-335"><a href="#cb27-335" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Slash commands (<span class="in">`/mcs`</span>, <span class="in">`/evm`</span>, <span class="in">`/risk`</span>, etc.) provide **deterministic, LLM-free** execution of every method covered in this book — use them when you need guaranteed reproducibility.</span>
-<span id="cb27-336"><a href="#cb27-336" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The chat interface routes input intelligently: numerical data → tool call; conceptual question → RAG. The LLM is a router, not a calculator.</span>
-<span id="cb27-337"><a href="#cb27-337" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RAG** (Retrieval-Augmented Generation) grounds LLM answers in the PRA knowledge base, reducing hallucination and enabling source citations.</span>
-<span id="cb27-338"><a href="#cb27-338" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The MCP server exposes all PRA tools to any MCP-compatible AI client — Claude Desktop, Claude Code, or custom agents — without requiring an R session on the user's end.</span>
-<span id="cb27-339"><a href="#cb27-339" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Small models (3B) handle simple single-tool queries; use larger models (8B+) or cloud models for multi-step chains and interpretation.</span>
-<span id="cb27-340"><a href="#cb27-340" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb27-341"><a href="#cb27-341" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-342"><a href="#cb27-342" aria-hidden="true" tabindex="-1"></a>Congratulations — you've completed the toolkit. You can now quantify project uncertainty (MCS, @sec-mcs; SMM, @sec-smm), track project performance (EVM, @sec-evm), update risk estimates with new evidence (Bayesian, @sec-bayes; Networks, @sec-network), model structural dependencies (DSM, @sec-dsm; Portfolio, @sec-network2), forecast learning (Sigmoidal, @sec-sigmoidal), and automate it all through an AI interface (@sec-agent). The rest is practice.</span>
-<span id="cb27-343"><a href="#cb27-343" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-344"><a href="#cb27-344" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
-<span id="cb27-345"><a href="#cb27-345" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-346"><a href="#cb27-346" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Slash vs. chat.** Run the same MCS problem using (a) a <span class="in">`/mcs`</span> slash command and (b) a natural language prompt through <span class="in">`pra_chat()`</span>. Do you get the same numerical results? If not, why might they differ?</span>
-<span id="cb27-347"><a href="#cb27-347" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-348"><a href="#cb27-348" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Command chaining.** Run <span class="in">`/mcs`</span> for a 3-task project of your choice, then immediately run <span class="in">`/contingency`</span> at P80 and P95. What is the difference between the two contingency values? Interpret this difference in plain English.</span>
+<span id="cb27-304"><a href="#cb27-304" aria-hidden="true" tabindex="-1"></a>Once registered, Claude Code can call PRA tools in any conversation:</span>
+<span id="cb27-305"><a href="#cb27-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-306"><a href="#cb27-306" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; "Run a Monte Carlo simulation for three tasks: Task A normal(10, 2), Task B triangular(5, 10, 15), Task C uniform(8, 12). What is the contingency reserve at the 90th percentile?"</span></span>
+<span id="cb27-307"><a href="#cb27-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-308"><a href="#cb27-308" aria-hidden="true" tabindex="-1"></a><span class="fu">### Connecting from Claude Desktop</span></span>
+<span id="cb27-309"><a href="#cb27-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-310"><a href="#cb27-310" aria-hidden="true" tabindex="-1"></a>Add the following to your Claude Desktop config file:</span>
+<span id="cb27-311"><a href="#cb27-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-312"><a href="#cb27-312" aria-hidden="true" tabindex="-1"></a><span class="in">```json</span></span>
+<span id="cb27-313"><a href="#cb27-313" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb27-314"><a href="#cb27-314" aria-hidden="true" tabindex="-1"></a>  <span class="st">"mcpServers"</span><span class="op">:</span> {</span>
+<span id="cb27-315"><a href="#cb27-315" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pra"</span><span class="op">:</span> {</span>
+<span id="cb27-316"><a href="#cb27-316" aria-hidden="true" tabindex="-1"></a>      <span class="st">"command"</span><span class="op">:</span> <span class="st">"Rscript"</span><span class="op">,</span></span>
+<span id="cb27-317"><a href="#cb27-317" aria-hidden="true" tabindex="-1"></a>      <span class="st">"args"</span><span class="op">:</span> [<span class="st">"-e"</span><span class="op">,</span> <span class="st">"PRA::pra_mcp_server()"</span>]</span>
+<span id="cb27-318"><a href="#cb27-318" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb27-319"><a href="#cb27-319" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb27-320"><a href="#cb27-320" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-321"><a href="#cb27-321" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-322"><a href="#cb27-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-323"><a href="#cb27-323" aria-hidden="true" tabindex="-1"></a><span class="fu">## Available Commands Reference</span></span>
+<span id="cb27-324"><a href="#cb27-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-325"><a href="#cb27-325" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Command <span class="pp">|</span> Description <span class="pp">|</span></span>
+<span id="cb27-326"><a href="#cb27-326" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|-------------|</span></span>
+<span id="cb27-327"><a href="#cb27-327" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/mcs`</span> <span class="pp">|</span> Monte Carlo simulation with task distributions <span class="pp">|</span></span>
+<span id="cb27-328"><a href="#cb27-328" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/smm`</span> <span class="pp">|</span> Second Moment Method (analytical estimate) <span class="pp">|</span></span>
+<span id="cb27-329"><a href="#cb27-329" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/contingency`</span> <span class="pp">|</span> Contingency reserve from last MCS <span class="pp">|</span></span>
+<span id="cb27-330"><a href="#cb27-330" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/sensitivity`</span> <span class="pp">|</span> Variance contribution per task <span class="pp">|</span></span>
+<span id="cb27-331"><a href="#cb27-331" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/evm`</span> <span class="pp">|</span> Full Earned Value Management analysis <span class="pp">|</span></span>
+<span id="cb27-332"><a href="#cb27-332" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/risk`</span> <span class="pp">|</span> Bayesian prior risk probability <span class="pp">|</span></span>
+<span id="cb27-333"><a href="#cb27-333" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/risk_post`</span> <span class="pp">|</span> Bayesian posterior risk after observations <span class="pp">|</span></span>
+<span id="cb27-334"><a href="#cb27-334" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/learning`</span> <span class="pp">|</span> Sigmoidal learning curve fit and prediction <span class="pp">|</span></span>
+<span id="cb27-335"><a href="#cb27-335" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/dsm`</span> <span class="pp">|</span> Design Structure Matrix <span class="pp">|</span></span>
+<span id="cb27-336"><a href="#cb27-336" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/help`</span> <span class="pp">|</span> List all commands or get help for one <span class="pp">|</span></span>
+<span id="cb27-337"><a href="#cb27-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-338"><a href="#cb27-338" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
+<span id="cb27-339"><a href="#cb27-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-340"><a href="#cb27-340" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
+<span id="cb27-341"><a href="#cb27-341" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
+<span id="cb27-342"><a href="#cb27-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-343"><a href="#cb27-343" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Slash commands (<span class="in">`/mcs`</span>, <span class="in">`/evm`</span>, <span class="in">`/risk`</span>, etc.) provide **deterministic, LLM-free** execution of every method covered in this book — use them when you need guaranteed reproducibility.</span>
+<span id="cb27-344"><a href="#cb27-344" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The chat interface routes input intelligently: numerical data → tool call; conceptual question → RAG. The LLM is a router, not a calculator.</span>
+<span id="cb27-345"><a href="#cb27-345" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RAG** (Retrieval-Augmented Generation) grounds LLM answers in the PRA knowledge base, reducing hallucination and enabling source citations.</span>
+<span id="cb27-346"><a href="#cb27-346" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The MCP server exposes all PRA tools to any MCP-compatible AI client — Claude Desktop, Claude Code, or custom agents — without requiring an R session on the user's end.</span>
+<span id="cb27-347"><a href="#cb27-347" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Small models (3B) handle simple single-tool queries; use larger models (8B+) or cloud models for multi-step chains and interpretation.</span>
+<span id="cb27-348"><a href="#cb27-348" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb27-349"><a href="#cb27-349" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-350"><a href="#cb27-350" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**EVM from a prompt.** Use <span class="in">`/evm`</span> with the following inputs: BAC = \$300K, schedule = <span class="co">[</span><span class="ot">0.2, 0.4, 0.6, 0.8, 1.0</span><span class="co">]</span>, period = 4, complete = 0.55, costs = <span class="co">[</span><span class="ot">\$55K, \$115K, \$175K, \$240K</span><span class="co">]</span>. Report CPI, SPI, and EAC (typical). Is the project in good shape?</span>
+<span id="cb27-350"><a href="#cb27-350" aria-hidden="true" tabindex="-1"></a>Congratulations — you've completed the toolkit. You can now quantify project uncertainty (MCS, @sec-mcs; SMM, @sec-smm), track project performance (EVM, @sec-evm), update risk estimates with new evidence (Bayesian, @sec-bayes; Networks, @sec-network), model structural dependencies (DSM, @sec-dsm; Portfolio, @sec-network2), forecast learning (Sigmoidal, @sec-sigmoidal), and automate it all through an AI interface (@sec-agent). The rest is practice.</span>
 <span id="cb27-351"><a href="#cb27-351" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-352"><a href="#cb27-352" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**RAG vs. tool call.** Ask <span class="in">`pra_chat()`</span> two questions: (a) "What distributions should I use for tasks with optimistic/likely/pessimistic estimates?" and (b) "Run a Monte Carlo simulation for Task A ~ Normal(10, 2) and Task B ~ Uniform(8, 12)." Identify which routing mode was used for each. How can you tell from the response?</span>
+<span id="cb27-352"><a href="#cb27-352" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
 <span id="cb27-353"><a href="#cb27-353" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-354"><a href="#cb27-354" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**MCP integration.** ★ If you have Claude Desktop or Claude Code installed, configure PRA as an MCP server using the instructions above. Ask Claude to run a Monte Carlo simulation and report the P95 duration. Then ask a conceptual question about EVM. Describe the experience: did the tool calls work? Was the RAG answer accurate?</span>
+<span id="cb27-354"><a href="#cb27-354" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Slash vs. chat.** Run the same MCS problem using (a) a <span class="in">`/mcs`</span> slash command and (b) a natural language prompt through <span class="in">`pra_chat()`</span>. Do you get the same numerical results? If not, why might they differ?</span>
+<span id="cb27-355"><a href="#cb27-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-356"><a href="#cb27-356" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Command chaining.** Run <span class="in">`/mcs`</span> for a 3-task project of your choice, then immediately run <span class="in">`/contingency`</span> at P80 and P95. What is the difference between the two contingency values? Interpret this difference in plain English.</span>
+<span id="cb27-357"><a href="#cb27-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-358"><a href="#cb27-358" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**EVM from a prompt.** Use <span class="in">`/evm`</span> with the following inputs: BAC = \$300K, schedule = <span class="co">[</span><span class="ot">0.2, 0.4, 0.6, 0.8, 1.0</span><span class="co">]</span>, period = 4, complete = 0.55, costs = <span class="co">[</span><span class="ot">\$55K, \$115K, \$175K, \$240K</span><span class="co">]</span>. Report CPI, SPI, and EAC (typical). Is the project in good shape?</span>
+<span id="cb27-359"><a href="#cb27-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-360"><a href="#cb27-360" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**RAG vs. tool call.** Ask <span class="in">`pra_chat()`</span> two questions: (a) "What distributions should I use for tasks with optimistic/likely/pessimistic estimates?" and (b) "Run a Monte Carlo simulation for Task A ~ Normal(10, 2) and Task B ~ Uniform(8, 12)." Identify which routing mode was used for each. How can you tell from the response?</span>
+<span id="cb27-361"><a href="#cb27-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-362"><a href="#cb27-362" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**MCP integration.** ★ If you have Claude Desktop or Claude Code installed, configure PRA as an MCP server using the instructions above. Ask Claude to run a Monte Carlo simulation and report the P95 duration. Then ask a conceptual question about EVM. Describe the experience: did the tool calls work? Was the RAG answer accurate?</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
