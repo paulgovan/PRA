@@ -1,11 +1,11 @@
-# Go Monte or Go Home: Monte Carlo Simulation {#sec-mcs}
+# Roll the Dice: Monte Carlo Simulation {#sec-mcs}
 
 > *"Anyone who considers arithmetical methods of producing random digits is, of course, in a state of sin."*
 > — John von Neumann
 
 Here is the core insight behind Monte Carlo simulation: instead of guessing a single answer, roll the dice thousands of times and let the distribution speak for itself. The method was named after the famous casino in Monaco — not because it involves gambling, but because it involves random sampling. If you can describe your uncertainty with a probability distribution, Monte Carlo can turn that uncertainty into a full picture of possible project outcomes.
 
-And unlike the casino, the odds are in your favor.
+Monte Carlo simulation turns that randomness into insight.
 
 ::: {.callout-note icon=false}
 ## Learning Objectives

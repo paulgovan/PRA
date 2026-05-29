@@ -1,8 +1,8 @@
 # Preface {.unnumbered}
 
-Every project starts with a plan. And then reality happens.
+Every project starts with a plan. Then the project starts.
 
-Deadlines slip. Costs creep. That one vendor who was "definitely going to deliver on time" ... doesn't. Risk is not an edge case in project management — it is the whole game. The question is not whether uncertainty will show up on your project, but whether you'll have the tools to quantify it, communicate it, and manage it before it manages you.
+Deadlines shift. Costs drift. Risks that seemed unlikely have a way of becoming very real. Uncertainty is not an edge case in project management — it is woven into the work itself. The question is not whether it will show up, but whether you'll have the tools to quantify it, communicate it, and manage it thoughtfully.
 
 This book is your toolkit.
 
@@ -10,7 +10,7 @@ This book is your toolkit.
 
 *Project Risk Analysis: A Practical Guide* is a hands-on introduction to quantitative methods for managing uncertainty in project schedules and costs. We cover the major techniques used by risk analysts, project managers, and engineers: Monte Carlo simulation, second moment methods, earned value management, Bayesian inference, learning curves, design structure matrices, probabilistic networks, and AI-powered risk analysis — all through working R code using the `PRA` package.
 
-The goal is not to overwhelm you with theory (though we won't shy away from the math when it helps). The goal is to make you dangerous: someone who can take a project estimate, ask the right "what if" questions, and produce defensible numbers for schedule and cost contingency.
+The goal is not to overwhelm you with theory (though we won't shy away from the math when it helps). The goal is to give you a real edge: the ability to take a project estimate, ask the right "what if" questions, and produce defensible numbers for schedule and cost contingency.
 
 ## Who This Book Is For
 
@@ -68,7 +68,7 @@ Most project risk analysis is done in spreadsheets. Spreadsheets work — until 
 - **Reproducible.** An R script is a record of exactly what you did. Share it, version-control it, re-run it six months later — it produces the same result.
 - **Composable.** The output of `mcs()` flows directly into `contingency()` and `sensitivity()`. Methods chain together naturally rather than requiring manual copy-paste between tabs.
 
-Learning risk analysis through a software package also enforces discipline: you have to be explicit about your assumptions. There is no "I eyeballed it" in code.
+Learning risk analysis through a software package also enforces discipline: you have to be explicit about your assumptions. Code makes assumptions explicit and verifiable.
 
 ## A Reproducible Book
 
@@ -115,6 +115,6 @@ This book is released under [CC BY 4.0](https://creativecommons.org/licenses/by/
 
 ## Acknowledgements
 
-The `PRA` package and this book grew out of research on the resource-based view of project risk management [@govan2016; @govan2014]. Thanks to the open-source R community for the packages that make quantitative risk analysis accessible, and to every project manager who has ever stared at a schedule baseline and thought "there's no way this is right."
+The `PRA` package and this book grew out of research on the resource-based view of project risk management [@govan2016; @govan2014]. Thanks to the open-source R community for the packages that make quantitative risk analysis accessible, and to every project manager who has ever looked at a schedule baseline and wondered whether the numbers were as solid as they looked.
 
-Let's find out how wrong it is — quantitatively.
+There is only one way to find out — quantitatively.

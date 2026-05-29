@@ -1,11 +1,11 @@
-# Welcome to the Jungle: An Introduction to Project Risk Analysis {#sec-intro}
+# Into the Unknown: An Introduction to Project Risk Analysis {#sec-intro}
 
 > *"In preparing for battle I have always found that plans are useless, but planning is indispensable."*
 > — Dwight D. Eisenhower
 
-Let's be honest: every project estimate is a fiction. Not a malicious one — your team genuinely believes the schedule when they write it. But the moment the project starts, reality begins editing the manuscript. Materials arrive late. Scope grows. That one team member who was supposed to do three things at once turns out to be merely human.
+Every project estimate is really a best guess. Your team genuinely believes the schedule when they write it — and that's the right attitude to have. But once the project starts, reality has a way of offering its own revisions. Materials arrive late. Scope grows. That team member who was penciled in for three concurrent tasks runs into the usual constraints of time and bandwidth.
 
-This is not a reason to despair. It is a reason to quantify.
+This is where quantitative methods come in.
 
 ## What Is Project Risk?
 
@@ -71,7 +71,7 @@ Once the project is underway and you have actual cost and schedule data, **Earne
 
 ### AI-Assisted Analysis
 
-Chapter @sec-agent introduces the `PRA` agentic framework: slash commands for instant deterministic analysis, a chat interface powered by a local or cloud LLM, and an MCP server that lets tools like Claude Code call `PRA` functions directly. Think of it as having a risk analyst who never sleeps and always remembers the EVM formulas.
+Chapter @sec-agent introduces the `PRA` agentic framework: slash commands for instant deterministic analysis, a chat interface powered by a local or cloud LLM, and an MCP server that lets tools like Claude Code call `PRA` functions directly. Think of it as having a risk analyst on call who always has the EVM formulas at hand.
 
 ## Installing the Package
 

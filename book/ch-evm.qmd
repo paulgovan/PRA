@@ -1,9 +1,9 @@
-# Show Me the Money: Earned Value Management {#sec-evm}
+# Keeping Score: Earned Value Management {#sec-evm}
 
 > *"What gets measured gets managed."*
 > — Peter Drucker
 
-Imagine you're three months into a six-month project and you've spent exactly half the budget. Great news, right? Not so fast. The real question is: how much work did you actually get done? If you've only completed 30% of the project, you've got a serious problem. If you've completed 55%, you're ahead of the game.
+Imagine you're three months into a six-month project and you've spent exactly half the budget. That might sound encouraging — but the more useful question is: how much work did you actually get done? If you've completed 30% of the project, the budget situation looks very different than if you've completed 55%.
 
 This is the fundamental insight behind **Earned Value Management** (EVM): you can't judge project health by money spent alone. You need to compare three things — what you planned, what you actually did, and what it cost you to do it.
 
@@ -19,7 +19,7 @@ By the end of this chapter, you will be able to:
 5. Read and construct an EVM trend chart
 :::
 
-## The Three Numbers That Rule Them All
+## The Three Core Numbers
 
 ::: {.callout-note}
 ## PV, EV, AC — The Foundation of Everything
