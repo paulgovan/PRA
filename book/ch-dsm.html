@@ -667,34 +667,46 @@ window.Quarto = {
 <section id="the-adjacency-matrix" class="level2" data-number="9.3">
 <h2 data-number="9.3" class="anchored" data-anchor-id="the-adjacency-matrix"><span class="header-section-number">9.3</span> The Adjacency Matrix</h2>
 <p>The <code>graph</code> object exposes a full 9×9 adjacency matrix — one row and column for every node. Because <code>prob_net()</code> treats the network as undirected for structural purposes, both directions of each edge are recorded: an entry of 1 at <code>[i, j]</code> also appears at <code>[j, i]</code>.</p>
+<p>Internally, <code>prob_net()</code> labels rows and columns with node IDs. For readability, we rename them with node labels before displaying or extracting:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>graph<span class="sc">$</span>adjacency_matrix</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>adj <span class="ot">&lt;-</span> graph<span class="sc">$</span>adjacency_matrix</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(adj) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(adj) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>adj</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  A B C D E F G H I
-A 0 0 1 0 0 0 0 0 0
-B 0 0 0 1 0 0 0 0 0
-C 1 0 0 0 0 1 0 0 0
-D 0 1 0 0 0 0 1 0 0
-E 0 0 0 0 0 0 0 1 0
-F 0 0 1 0 0 0 0 0 1
-G 0 0 0 1 0 0 0 0 1
-H 0 0 0 0 1 0 0 0 1
-I 0 0 0 0 0 1 1 1 0</code></pre>
+<pre><code>           Risk-1 Risk-2 Resource-1 Resource-2 Resource-3 Task-1 Task-2 Task-3
+Risk-1          0      0          1          0          0      0      0      0
+Risk-2          0      0          0          1          0      0      0      0
+Resource-1      1      0          0          0          0      1      0      0
+Resource-2      0      1          0          0          0      0      1      0
+Resource-3      0      0          0          0          0      0      0      1
+Task-1          0      0          1          0          0      0      0      0
+Task-2          0      0          0          1          0      0      0      0
+Task-3          0      0          0          0          1      0      0      0
+Project         0      0          0          0          0      1      1      1
+           Project
+Risk-1           0
+Risk-2           0
+Resource-1       0
+Resource-2       0
+Resource-3       0
+Task-1           1
+Task-2           1
+Task-3           1
+Project          0</code></pre>
 </div>
 </div>
-<p>The structural information we need — which resources connect to which tasks, and which risks connect to which resources — is already encoded here. We extract it by slicing the matrix using the <code>group</code> column of <code>graph$nodes</code>.</p>
+<p>The structural information we need — which resources connect to which tasks, and which risks connect to which resources — is already encoded here. We extract it by slicing <code>adj</code> using the <code>group</code> column of <code>graph$nodes</code>.</p>
 </section>
 <section id="the-resource-task-matrix" class="level2" data-number="9.4">
 <h2 data-number="9.4" class="anchored" data-anchor-id="the-resource-task-matrix"><span class="header-section-number">9.4</span> The Resource-Task Matrix</h2>
-<p>Rows are resource nodes (C, D, E); columns are task nodes (F, G, H). The slice gives a binary matrix <strong>S</strong> where <code>S[i, j] = 1</code> means resource <span class="math inline">\(i\)</span> is used by task <span class="math inline">\(j\)</span>.</p>
+<p>Rows are resource nodes (Resource-1, Resource-2, Resource-3); columns are task nodes (Task-1, Task-2, Task-3). The slice gives a binary matrix <strong>S</strong> where <code>S[i, j] = 1</code> means resource <span class="math inline">\(i\)</span> is used by task <span class="math inline">\(j\)</span>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>resource_ids <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>id[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Resource"</span>]</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>task_ids     <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>id[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Task"</span>]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>resource_labels <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Resource"</span>]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>task_labels     <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Task"</span>]</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> graph<span class="sc">$</span>adjacency_matrix[resource_ids, task_ids]</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(S) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Resource"</span>]</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(S) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Task"</span>]</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>S</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> adj[resource_labels, task_labels]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>S</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           Task-1 Task-2 Task-3
 Resource-1      1      0      0
@@ -735,14 +747,12 @@ Task-3      0      0      1</code></pre>
 </section>
 <section id="the-risk-resource-matrix" class="level2" data-number="9.6">
 <h2 data-number="9.6" class="anchored" data-anchor-id="the-risk-resource-matrix"><span class="header-section-number">9.6</span> The Risk-Resource Matrix</h2>
-<p>The Risk-Resource Matrix <strong>R</strong> adds a second layer. Rows represent risks (A, B) and columns represent resources (C, D, E). An entry <code>R[i, j] = 1</code> means risk <span class="math inline">\(i\)</span> affects resource <span class="math inline">\(j\)</span>.</p>
+<p>The Risk-Resource Matrix <strong>R</strong> adds a second layer. Rows represent risks (Risk-1, Risk-2) and columns represent resources (Resource-1, Resource-2, Resource-3). An entry <code>R[i, j] = 1</code> means risk <span class="math inline">\(i\)</span> affects resource <span class="math inline">\(j\)</span>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>risk_ids <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>id[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Risk"</span>]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>risk_labels <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Risk"</span>]</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> graph<span class="sc">$</span>adjacency_matrix[risk_ids, resource_ids]</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(R) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Risk"</span>]</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(R) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Resource"</span>]</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> adj[risk_labels, resource_labels]</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       Resource-1 Resource-2 Resource-3
 Risk-1          1          0          0
@@ -1473,162 +1483,163 @@ Steward, D. V. 1981. <em>Systems Analysis and Management: Structure, Strategy an
 <span id="cb18-96"><a href="#cb18-96" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-97"><a href="#cb18-97" aria-hidden="true" tabindex="-1"></a>The <span class="in">`graph`</span> object exposes a full 9×9 adjacency matrix — one row and column for every node. Because <span class="in">`prob_net()`</span> treats the network as undirected for structural purposes, both directions of each edge are recorded: an entry of 1 at <span class="in">`[i, j]`</span> also appears at <span class="in">`[j, i]`</span>.</span>
 <span id="cb18-98"><a href="#cb18-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-101"><a href="#cb18-101" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb18-102"><a href="#cb18-102" aria-hidden="true" tabindex="-1"></a>graph<span class="sc">$</span>adjacency_matrix</span>
-<span id="cb18-103"><a href="#cb18-103" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb18-104"><a href="#cb18-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-105"><a href="#cb18-105" aria-hidden="true" tabindex="-1"></a>The structural information we need — which resources connect to which tasks, and which risks connect to which resources — is already encoded here. We extract it by slicing the matrix using the <span class="in">`group`</span> column of <span class="in">`graph$nodes`</span>.</span>
-<span id="cb18-106"><a href="#cb18-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-107"><a href="#cb18-107" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Resource-Task Matrix</span></span>
-<span id="cb18-108"><a href="#cb18-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-109"><a href="#cb18-109" aria-hidden="true" tabindex="-1"></a>Rows are resource nodes (C, D, E); columns are task nodes (F, G, H). The slice gives a binary matrix **S** where <span class="in">`S[i, j] = 1`</span> means resource $i$ is used by task $j$.</span>
-<span id="cb18-110"><a href="#cb18-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-113"><a href="#cb18-113" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb18-114"><a href="#cb18-114" aria-hidden="true" tabindex="-1"></a>resource_ids <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>id[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Resource"</span>]</span>
-<span id="cb18-115"><a href="#cb18-115" aria-hidden="true" tabindex="-1"></a>task_ids     <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>id[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Task"</span>]</span>
-<span id="cb18-116"><a href="#cb18-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-117"><a href="#cb18-117" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> graph<span class="sc">$</span>adjacency_matrix[resource_ids, task_ids]</span>
-<span id="cb18-118"><a href="#cb18-118" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(S) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Resource"</span>]</span>
-<span id="cb18-119"><a href="#cb18-119" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(S) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Task"</span>]</span>
-<span id="cb18-120"><a href="#cb18-120" aria-hidden="true" tabindex="-1"></a>S</span>
-<span id="cb18-121"><a href="#cb18-121" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb18-122"><a href="#cb18-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-123"><a href="#cb18-123" aria-hidden="true" tabindex="-1"></a>The result is a 3×3 identity matrix: each resource is dedicated to exactly one task, with no cross-task sharing. This is a favorable project design — dedicated resources mean independent failure modes.</span>
-<span id="cb18-124"><a href="#cb18-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-125"><a href="#cb18-125" aria-hidden="true" tabindex="-1"></a><span class="fu">## Parent DSM</span></span>
-<span id="cb18-126"><a href="#cb18-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-127"><a href="#cb18-127" aria-hidden="true" tabindex="-1"></a>The Parent DSM **P** = t(**S**) %*% **S** is a tasks-by-tasks matrix. The diagonal entry <span class="in">`P[j, j]`</span> counts how many resources task $j$ uses. The off-diagonal entry <span class="in">`P[j, k]`</span> counts how many resources tasks $j$ and $k$ share.</span>
-<span id="cb18-128"><a href="#cb18-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-131"><a href="#cb18-131" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb18-132"><a href="#cb18-132" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">parent_dsm</span>(S)</span>
-<span id="cb18-133"><a href="#cb18-133" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p)</span>
-<span id="cb18-134"><a href="#cb18-134" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb18-135"><a href="#cb18-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-138"><a href="#cb18-138" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb18-139"><a href="#cb18-139" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Parent DSM heatmap. All coupling is on the diagonal: each task uses one dedicated resource and no two tasks compete for the same crew."</span></span>
-<span id="cb18-140"><a href="#cb18-140" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(p)</span>
-<span id="cb18-141"><a href="#cb18-141" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb18-142"><a href="#cb18-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-143"><a href="#cb18-143" aria-hidden="true" tabindex="-1"></a>All off-diagonal entries are zero: no two tasks share a resource. A disruption to the Business Analyst (Resource-1) hits Task-1 only — it does not propagate structurally into Task-2 or Task-3. This is the DSM's way of confirming what the Bayesian network showed probabilistically: the three risk paths are disjoint.</span>
-<span id="cb18-144"><a href="#cb18-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-145"><a href="#cb18-145" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Risk-Resource Matrix</span></span>
-<span id="cb18-146"><a href="#cb18-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-147"><a href="#cb18-147" aria-hidden="true" tabindex="-1"></a>The Risk-Resource Matrix **R** adds a second layer. Rows represent risks (A, B) and columns represent resources (C, D, E). An entry <span class="in">`R[i, j] = 1`</span> means risk $i$ affects resource $j$.</span>
-<span id="cb18-148"><a href="#cb18-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-151"><a href="#cb18-151" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb18-152"><a href="#cb18-152" aria-hidden="true" tabindex="-1"></a>risk_ids <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>id[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Risk"</span>]</span>
-<span id="cb18-153"><a href="#cb18-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-154"><a href="#cb18-154" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> graph<span class="sc">$</span>adjacency_matrix[risk_ids, resource_ids]</span>
-<span id="cb18-155"><a href="#cb18-155" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(R) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Risk"</span>]</span>
-<span id="cb18-156"><a href="#cb18-156" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(R) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Resource"</span>]</span>
-<span id="cb18-157"><a href="#cb18-157" aria-hidden="true" tabindex="-1"></a>R</span>
-<span id="cb18-158"><a href="#cb18-158" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb18-159"><a href="#cb18-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-160"><a href="#cb18-160" aria-hidden="true" tabindex="-1"></a>Risk-1 (Scope Creep) affects only Resource-1; Risk-2 (Technical Complexity) affects only Resource-2. Resource-3 (QA Engineer) is unaffected by either risk — consistent with the distributions in @sec-network.</span>
-<span id="cb18-161"><a href="#cb18-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-162"><a href="#cb18-162" aria-hidden="true" tabindex="-1"></a><span class="fu">## Grandparent DSM</span></span>
-<span id="cb18-163"><a href="#cb18-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-164"><a href="#cb18-164" aria-hidden="true" tabindex="-1"></a>The Grandparent DSM traces the dependency chain from risks through resources to tasks. The intermediate matrix **T** = **R** %*% **S** gives a risks-by-tasks mapping, and the Grandparent DSM is **G** = t(**T**) %*% **T**. Off-diagonal entries count how many risks are shared between each pair of tasks.</span>
-<span id="cb18-165"><a href="#cb18-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-168"><a href="#cb18-168" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb18-169"><a href="#cb18-169" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">grandparent_dsm</span>(S, R)</span>
-<span id="cb18-170"><a href="#cb18-170" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(g)</span>
-<span id="cb18-171"><a href="#cb18-171" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb18-172"><a href="#cb18-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-175"><a href="#cb18-175" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb18-176"><a href="#cb18-176" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Grandparent DSM heatmap. With each risk affecting a different resource, no two tasks share risk exposure: the structure is perfectly decoupled."</span></span>
-<span id="cb18-177"><a href="#cb18-177" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(g)</span>
-<span id="cb18-178"><a href="#cb18-178" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb18-179"><a href="#cb18-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-180"><a href="#cb18-180" aria-hidden="true" tabindex="-1"></a>The Grandparent DSM is also diagonal. Since each risk touches a different resource and each resource a different task, no two tasks share risk exposure through the resource layer. This clean structure is precisely what makes the Bayesian network's total cost distribution well-behaved: the heavy tail in @sec-network comes from the risks themselves, not from structural coupling amplifying them.</span>
-<span id="cb18-181"><a href="#cb18-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-182"><a href="#cb18-182" aria-hidden="true" tabindex="-1"></a><span class="fu">## Interpreting the DSM</span></span>
-<span id="cb18-183"><a href="#cb18-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-184"><a href="#cb18-184" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Diagonal values** indicate the total number of resources (Parent) or risks (Grandparent) associated with each task. Higher values mean a task has more dependencies.</span>
-<span id="cb18-185"><a href="#cb18-185" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Off-diagonal values** indicate coupling between task pairs. Higher values mean more shared dependencies and greater potential for correlated disruption.</span>
-<span id="cb18-186"><a href="#cb18-186" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Symmetric structure**: both DSMs are always symmetric since shared dependencies are bidirectional: if task A shares a resource with task B, then task B shares that resource with task A.</span>
-<span id="cb18-187"><a href="#cb18-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-188"><a href="#cb18-188" aria-hidden="true" tabindex="-1"></a>This project has zero coupling — an idealized structure that real projects rarely achieve. The exercises below introduce shared resources and cross-resource risks to show how off-diagonal entries appear and what they mean.</span>
-<span id="cb18-189"><a href="#cb18-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-190"><a href="#cb18-190" aria-hidden="true" tabindex="-1"></a><span class="fu">## From DSM to Decision</span></span>
-<span id="cb18-191"><a href="#cb18-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-192"><a href="#cb18-192" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb18-193"><a href="#cb18-193" aria-hidden="true" tabindex="-1"></a><span class="fu">## Using the DSM to Prioritize Mitigation</span></span>
-<span id="cb18-194"><a href="#cb18-194" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-195"><a href="#cb18-195" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Find the highest off-diagonal values** in the Parent DSM, as these task pairs share the most resources and are most likely to fail together.</span>
-<span id="cb18-196"><a href="#cb18-196" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Identify those shared resources**, the structural bottlenecks through which risk propagates.</span>
-<span id="cb18-197"><a href="#cb18-197" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Inspect the Grandparent DSM** for those same pairs; if they also share risks, the coupling is doubly reinforced.</span>
-<span id="cb18-198"><a href="#cb18-198" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Prioritize mitigation** on the shared resources with the highest combined Parent + Grandparent coupling: add contingency, build redundancy, or create buffers.</span>
-<span id="cb18-199"><a href="#cb18-199" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb18-200"><a href="#cb18-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-201"><a href="#cb18-201" aria-hidden="true" tabindex="-1"></a>The Grandparent DSM goes one level deeper: it shows which pairs of tasks are exposed to the same risks. If you can eliminate or mitigate a risk, you simultaneously reduce coupling between all tasks that share that risk.</span>
-<span id="cb18-202"><a href="#cb18-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-203"><a href="#cb18-203" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
-<span id="cb18-204"><a href="#cb18-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-205"><a href="#cb18-205" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
-<span id="cb18-206"><a href="#cb18-206" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
-<span id="cb18-207"><a href="#cb18-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-208"><a href="#cb18-208" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The DSM extracts **structural task dependencies** from the same adjacency matrix that defines the Bayesian network — no separate data entry required.</span>
-<span id="cb18-209"><a href="#cb18-209" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Parent DSM** (resource-based): <span class="in">`P = t(S) %*% S`</span>. Off-diagonal <span class="in">`P[j,k]`</span> = number of shared resources between tasks j and k.</span>
-<span id="cb18-210"><a href="#cb18-210" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Grandparent DSM** (risk-based): <span class="in">`G = t(T) %*% T`</span> where <span class="in">`T = R %*% S`</span>. Off-diagonal entries count shared risks via the resource layer.</span>
-<span id="cb18-211"><a href="#cb18-211" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Both DSMs are always **symmetric**, since shared dependencies are bidirectional.</span>
-<span id="cb18-212"><a href="#cb18-212" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>High off-diagonal values point directly to the resources and risks that deserve the most mitigation investment.</span>
-<span id="cb18-213"><a href="#cb18-213" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb18-214"><a href="#cb18-214" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-215"><a href="#cb18-215" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb18-216"><a href="#cb18-216" aria-hidden="true" tabindex="-1"></a><span class="fu">## DSM vs. Bayesian Network: When to Use Each</span></span>
-<span id="cb18-217"><a href="#cb18-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-218"><a href="#cb18-218" aria-hidden="true" tabindex="-1"></a>Both tools analyze the same project structure but answer different questions:</span>
-<span id="cb18-219"><a href="#cb18-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-220"><a href="#cb18-220" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Use the DSM** for rapid structural triage: which tasks are coupled? Which resources are bottlenecks? No distributions required — only the resource-task and risk-resource linkages extracted from <span class="in">`graph$adjacency_matrix`</span>.</span>
-<span id="cb18-221"><a href="#cb18-221" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Use a Bayesian network** when you need actual cost distributions, the ability to condition on observed evidence, or causal interventions (see @sec-network). The same <span class="in">`graph$adjacency_matrix`</span> is the structural skeleton of the Bayesian network.</span>
-<span id="cb18-222"><a href="#cb18-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-223"><a href="#cb18-223" aria-hidden="true" tabindex="-1"></a>A practical workflow: run the DSM first to identify high-coupling task pairs, then focus the Bayesian network analysis on those pairs to quantify the probabilistic consequences.</span>
-<span id="cb18-224"><a href="#cb18-224" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb18-225"><a href="#cb18-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-226"><a href="#cb18-226" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
-<span id="cb18-227"><a href="#cb18-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-228"><a href="#cb18-228" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Reading the DSM.** In the Parent DSM computed above, all off-diagonal entries are 0. What does this tell you about the software development project's resource structure? Is this a favorable or unfavorable project design from a risk-propagation standpoint? What would need to change in the project for a non-zero off-diagonal entry to appear?</span>
-<span id="cb18-229"><a href="#cb18-229" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-230"><a href="#cb18-230" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Extend the matrix.** A Project Manager is added to the project and assigned to both Task-1 and Task-2. Add this resource to **S** and recompute the Parent DSM. Which entries change, and why?</span>
-<span id="cb18-231"><a href="#cb18-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-232"><a href="#cb18-232" aria-hidden="true" tabindex="-1"></a>   <span class="in">```r</span></span>
-<span id="cb18-233"><a href="#cb18-233" aria-hidden="true" tabindex="-1"></a>   S2 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(S, <span class="st">"Project Manager"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb18-234"><a href="#cb18-234" aria-hidden="true" tabindex="-1"></a>   p2 <span class="ot">&lt;-</span> <span class="fu">parent_dsm</span>(S2)</span>
-<span id="cb18-235"><a href="#cb18-235" aria-hidden="true" tabindex="-1"></a>   <span class="fu">print</span>(p2)</span>
-<span id="cb18-236"><a href="#cb18-236" aria-hidden="true" tabindex="-1"></a>   <span class="in">```</span></span>
-<span id="cb18-237"><a href="#cb18-237" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-238"><a href="#cb18-238" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Risk propagation.** ★ Add a third risk (Risk-3, probability 0.40) that affects both Resource-2 (Developer) and Resource-3 (QA Engineer). Update **R** and recompute the Grandparent DSM. Which task pair now shares a risk? Describe in plain English the scenario where this coupling causes the most damage.</span>
-<span id="cb18-239"><a href="#cb18-239" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-240"><a href="#cb18-240" aria-hidden="true" tabindex="-1"></a>   <span class="in">```r</span></span>
-<span id="cb18-241"><a href="#cb18-241" aria-hidden="true" tabindex="-1"></a>   R2 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(R, <span class="st">"Risk-3"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb18-242"><a href="#cb18-242" aria-hidden="true" tabindex="-1"></a>   g2 <span class="ot">&lt;-</span> <span class="fu">grandparent_dsm</span>(S, R2)</span>
-<span id="cb18-243"><a href="#cb18-243" aria-hidden="true" tabindex="-1"></a>   <span class="fu">print</span>(g2)</span>
-<span id="cb18-244"><a href="#cb18-244" aria-hidden="true" tabindex="-1"></a>   <span class="in">```</span></span>
-<span id="cb18-245"><a href="#cb18-245" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-246"><a href="#cb18-246" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**DSM symmetry.** Both the Parent and Grandparent DSMs are symmetric. Why? Is there a project structure where the DSM would not be symmetric? (Hint: think about directed dependencies; what if one task uses a resource but another task produces it?)</span>
-<span id="cb18-247"><a href="#cb18-247" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-248"><a href="#cb18-248" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**From DSM to Monte Carlo.** ★ Use the Parent DSM to derive a correlation matrix for MCS. With this project's base **S**, `cor_from_dsm` equals `diag(3)` — verify that the total variance under DSM-derived correlation matches the zero-correlation case. Then repeat the analysis using the extended **S2** from Exercise 2, and compare the total standard deviation. What did adding the shared Project Manager add to the risk picture?</span>
-<span id="cb18-249"><a href="#cb18-249" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-250"><a href="#cb18-250" aria-hidden="true" tabindex="-1"></a>   <span class="in">```r</span></span>
-<span id="cb18-251"><a href="#cb18-251" aria-hidden="true" tabindex="-1"></a>   p  <span class="ot">&lt;-</span> <span class="fu">parent_dsm</span>(S2)</span>
-<span id="cb18-252"><a href="#cb18-252" aria-hidden="true" tabindex="-1"></a>   P  <span class="ot">&lt;-</span> p<span class="sc">$</span>matrix</span>
-<span id="cb18-253"><a href="#cb18-253" aria-hidden="true" tabindex="-1"></a>   d  <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(P))</span>
-<span id="cb18-254"><a href="#cb18-254" aria-hidden="true" tabindex="-1"></a>   cor_from_dsm <span class="ot">&lt;-</span> P <span class="sc">/</span> <span class="fu">outer</span>(d, d)</span>
-<span id="cb18-255"><a href="#cb18-255" aria-hidden="true" tabindex="-1"></a>   <span class="fu">diag</span>(cor_from_dsm) <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb18-256"><a href="#cb18-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-257"><a href="#cb18-257" aria-hidden="true" tabindex="-1"></a>   task_dists <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb18-258"><a href="#cb18-258" aria-hidden="true" tabindex="-1"></a>     <span class="st">"Task-1"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">20250</span>, <span class="at">sd =</span> <span class="dv">5900</span>),</span>
-<span id="cb18-259"><a href="#cb18-259" aria-hidden="true" tabindex="-1"></a>     <span class="st">"Task-2"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">62000</span>, <span class="at">sd =</span> <span class="dv">16000</span>),</span>
-<span id="cb18-260"><a href="#cb18-260" aria-hidden="true" tabindex="-1"></a>     <span class="st">"Task-3"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">20000</span>, <span class="at">sd =</span> <span class="dv">4000</span>)</span>
-<span id="cb18-261"><a href="#cb18-261" aria-hidden="true" tabindex="-1"></a>   )</span>
-<span id="cb18-262"><a href="#cb18-262" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-263"><a href="#cb18-263" aria-hidden="true" tabindex="-1"></a>   res_zero <span class="ot">&lt;-</span> <span class="fu">mcs</span>(<span class="dv">10000</span>, task_dists, <span class="fu">diag</span>(<span class="dv">3</span>))</span>
-<span id="cb18-264"><a href="#cb18-264" aria-hidden="true" tabindex="-1"></a>   res_dsm  <span class="ot">&lt;-</span> <span class="fu">mcs</span>(<span class="dv">10000</span>, task_dists, cor_from_dsm)</span>
-<span id="cb18-265"><a href="#cb18-265" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-266"><a href="#cb18-266" aria-hidden="true" tabindex="-1"></a>   <span class="fu">cat</span>(<span class="st">"SD (zero correlation):"</span>, <span class="fu">round</span>(res_zero<span class="sc">$</span>total_sd, <span class="dv">0</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb18-267"><a href="#cb18-267" aria-hidden="true" tabindex="-1"></a>   <span class="fu">cat</span>(<span class="st">"SD (DSM correlation): "</span>, <span class="fu">round</span>(res_dsm<span class="sc">$</span>total_sd,  <span class="dv">0</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb18-268"><a href="#cb18-268" aria-hidden="true" tabindex="-1"></a>   <span class="in">```</span></span>
+<span id="cb18-99"><a href="#cb18-99" aria-hidden="true" tabindex="-1"></a>Internally, <span class="in">`prob_net()`</span> labels rows and columns with node IDs. For readability, we rename them with node labels before displaying or extracting:</span>
+<span id="cb18-100"><a href="#cb18-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-103"><a href="#cb18-103" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-104"><a href="#cb18-104" aria-hidden="true" tabindex="-1"></a>adj <span class="ot">&lt;-</span> graph<span class="sc">$</span>adjacency_matrix</span>
+<span id="cb18-105"><a href="#cb18-105" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(adj) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label</span>
+<span id="cb18-106"><a href="#cb18-106" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(adj) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label</span>
+<span id="cb18-107"><a href="#cb18-107" aria-hidden="true" tabindex="-1"></a>adj</span>
+<span id="cb18-108"><a href="#cb18-108" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-109"><a href="#cb18-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-110"><a href="#cb18-110" aria-hidden="true" tabindex="-1"></a>The structural information we need — which resources connect to which tasks, and which risks connect to which resources — is already encoded here. We extract it by slicing <span class="in">`adj`</span> using the <span class="in">`group`</span> column of <span class="in">`graph$nodes`</span>.</span>
+<span id="cb18-111"><a href="#cb18-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-112"><a href="#cb18-112" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Resource-Task Matrix</span></span>
+<span id="cb18-113"><a href="#cb18-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-114"><a href="#cb18-114" aria-hidden="true" tabindex="-1"></a>Rows are resource nodes (Resource-1, Resource-2, Resource-3); columns are task nodes (Task-1, Task-2, Task-3). The slice gives a binary matrix **S** where <span class="in">`S[i, j] = 1`</span> means resource $i$ is used by task $j$.</span>
+<span id="cb18-115"><a href="#cb18-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-118"><a href="#cb18-118" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-119"><a href="#cb18-119" aria-hidden="true" tabindex="-1"></a>resource_labels <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Resource"</span>]</span>
+<span id="cb18-120"><a href="#cb18-120" aria-hidden="true" tabindex="-1"></a>task_labels     <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Task"</span>]</span>
+<span id="cb18-121"><a href="#cb18-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-122"><a href="#cb18-122" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> adj[resource_labels, task_labels]</span>
+<span id="cb18-123"><a href="#cb18-123" aria-hidden="true" tabindex="-1"></a>S</span>
+<span id="cb18-124"><a href="#cb18-124" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-125"><a href="#cb18-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-126"><a href="#cb18-126" aria-hidden="true" tabindex="-1"></a>The result is a 3×3 identity matrix: each resource is dedicated to exactly one task, with no cross-task sharing. This is a favorable project design — dedicated resources mean independent failure modes.</span>
+<span id="cb18-127"><a href="#cb18-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-128"><a href="#cb18-128" aria-hidden="true" tabindex="-1"></a><span class="fu">## Parent DSM</span></span>
+<span id="cb18-129"><a href="#cb18-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-130"><a href="#cb18-130" aria-hidden="true" tabindex="-1"></a>The Parent DSM **P** = t(**S**) %*% **S** is a tasks-by-tasks matrix. The diagonal entry <span class="in">`P[j, j]`</span> counts how many resources task $j$ uses. The off-diagonal entry <span class="in">`P[j, k]`</span> counts how many resources tasks $j$ and $k$ share.</span>
+<span id="cb18-131"><a href="#cb18-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-134"><a href="#cb18-134" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-135"><a href="#cb18-135" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">parent_dsm</span>(S)</span>
+<span id="cb18-136"><a href="#cb18-136" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p)</span>
+<span id="cb18-137"><a href="#cb18-137" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-138"><a href="#cb18-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-141"><a href="#cb18-141" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-142"><a href="#cb18-142" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Parent DSM heatmap. All coupling is on the diagonal: each task uses one dedicated resource and no two tasks compete for the same crew."</span></span>
+<span id="cb18-143"><a href="#cb18-143" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(p)</span>
+<span id="cb18-144"><a href="#cb18-144" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-145"><a href="#cb18-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-146"><a href="#cb18-146" aria-hidden="true" tabindex="-1"></a>All off-diagonal entries are zero: no two tasks share a resource. A disruption to the Business Analyst (Resource-1) hits Task-1 only — it does not propagate structurally into Task-2 or Task-3. This is the DSM's way of confirming what the Bayesian network showed probabilistically: the three risk paths are disjoint.</span>
+<span id="cb18-147"><a href="#cb18-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-148"><a href="#cb18-148" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Risk-Resource Matrix</span></span>
+<span id="cb18-149"><a href="#cb18-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-150"><a href="#cb18-150" aria-hidden="true" tabindex="-1"></a>The Risk-Resource Matrix **R** adds a second layer. Rows represent risks (Risk-1, Risk-2) and columns represent resources (Resource-1, Resource-2, Resource-3). An entry <span class="in">`R[i, j] = 1`</span> means risk $i$ affects resource $j$.</span>
+<span id="cb18-151"><a href="#cb18-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-154"><a href="#cb18-154" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-155"><a href="#cb18-155" aria-hidden="true" tabindex="-1"></a>risk_labels <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Risk"</span>]</span>
+<span id="cb18-156"><a href="#cb18-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-157"><a href="#cb18-157" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> adj[risk_labels, resource_labels]</span>
+<span id="cb18-158"><a href="#cb18-158" aria-hidden="true" tabindex="-1"></a>R</span>
+<span id="cb18-159"><a href="#cb18-159" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-160"><a href="#cb18-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-161"><a href="#cb18-161" aria-hidden="true" tabindex="-1"></a>Risk-1 (Scope Creep) affects only Resource-1; Risk-2 (Technical Complexity) affects only Resource-2. Resource-3 (QA Engineer) is unaffected by either risk — consistent with the distributions in @sec-network.</span>
+<span id="cb18-162"><a href="#cb18-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-163"><a href="#cb18-163" aria-hidden="true" tabindex="-1"></a><span class="fu">## Grandparent DSM</span></span>
+<span id="cb18-164"><a href="#cb18-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-165"><a href="#cb18-165" aria-hidden="true" tabindex="-1"></a>The Grandparent DSM traces the dependency chain from risks through resources to tasks. The intermediate matrix **T** = **R** %*% **S** gives a risks-by-tasks mapping, and the Grandparent DSM is **G** = t(**T**) %*% **T**. Off-diagonal entries count how many risks are shared between each pair of tasks.</span>
+<span id="cb18-166"><a href="#cb18-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-169"><a href="#cb18-169" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-170"><a href="#cb18-170" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">grandparent_dsm</span>(S, R)</span>
+<span id="cb18-171"><a href="#cb18-171" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(g)</span>
+<span id="cb18-172"><a href="#cb18-172" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-173"><a href="#cb18-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-176"><a href="#cb18-176" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-177"><a href="#cb18-177" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Grandparent DSM heatmap. With each risk affecting a different resource, no two tasks share risk exposure: the structure is perfectly decoupled."</span></span>
+<span id="cb18-178"><a href="#cb18-178" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(g)</span>
+<span id="cb18-179"><a href="#cb18-179" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-180"><a href="#cb18-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-181"><a href="#cb18-181" aria-hidden="true" tabindex="-1"></a>The Grandparent DSM is also diagonal. Since each risk touches a different resource and each resource a different task, no two tasks share risk exposure through the resource layer. This clean structure is precisely what makes the Bayesian network's total cost distribution well-behaved: the heavy tail in @sec-network comes from the risks themselves, not from structural coupling amplifying them.</span>
+<span id="cb18-182"><a href="#cb18-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-183"><a href="#cb18-183" aria-hidden="true" tabindex="-1"></a><span class="fu">## Interpreting the DSM</span></span>
+<span id="cb18-184"><a href="#cb18-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-185"><a href="#cb18-185" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Diagonal values** indicate the total number of resources (Parent) or risks (Grandparent) associated with each task. Higher values mean a task has more dependencies.</span>
+<span id="cb18-186"><a href="#cb18-186" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Off-diagonal values** indicate coupling between task pairs. Higher values mean more shared dependencies and greater potential for correlated disruption.</span>
+<span id="cb18-187"><a href="#cb18-187" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Symmetric structure**: both DSMs are always symmetric since shared dependencies are bidirectional: if task A shares a resource with task B, then task B shares that resource with task A.</span>
+<span id="cb18-188"><a href="#cb18-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-189"><a href="#cb18-189" aria-hidden="true" tabindex="-1"></a>This project has zero coupling — an idealized structure that real projects rarely achieve. The exercises below introduce shared resources and cross-resource risks to show how off-diagonal entries appear and what they mean.</span>
+<span id="cb18-190"><a href="#cb18-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-191"><a href="#cb18-191" aria-hidden="true" tabindex="-1"></a><span class="fu">## From DSM to Decision</span></span>
+<span id="cb18-192"><a href="#cb18-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-193"><a href="#cb18-193" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb18-194"><a href="#cb18-194" aria-hidden="true" tabindex="-1"></a><span class="fu">## Using the DSM to Prioritize Mitigation</span></span>
+<span id="cb18-195"><a href="#cb18-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-196"><a href="#cb18-196" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Find the highest off-diagonal values** in the Parent DSM, as these task pairs share the most resources and are most likely to fail together.</span>
+<span id="cb18-197"><a href="#cb18-197" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Identify those shared resources**, the structural bottlenecks through which risk propagates.</span>
+<span id="cb18-198"><a href="#cb18-198" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Inspect the Grandparent DSM** for those same pairs; if they also share risks, the coupling is doubly reinforced.</span>
+<span id="cb18-199"><a href="#cb18-199" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Prioritize mitigation** on the shared resources with the highest combined Parent + Grandparent coupling: add contingency, build redundancy, or create buffers.</span>
+<span id="cb18-200"><a href="#cb18-200" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb18-201"><a href="#cb18-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-202"><a href="#cb18-202" aria-hidden="true" tabindex="-1"></a>The Grandparent DSM goes one level deeper: it shows which pairs of tasks are exposed to the same risks. If you can eliminate or mitigate a risk, you simultaneously reduce coupling between all tasks that share that risk.</span>
+<span id="cb18-203"><a href="#cb18-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-204"><a href="#cb18-204" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
+<span id="cb18-205"><a href="#cb18-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-206"><a href="#cb18-206" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
+<span id="cb18-207"><a href="#cb18-207" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
+<span id="cb18-208"><a href="#cb18-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-209"><a href="#cb18-209" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The DSM extracts **structural task dependencies** from the same adjacency matrix that defines the Bayesian network — no separate data entry required.</span>
+<span id="cb18-210"><a href="#cb18-210" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Parent DSM** (resource-based): <span class="in">`P = t(S) %*% S`</span>. Off-diagonal <span class="in">`P[j,k]`</span> = number of shared resources between tasks j and k.</span>
+<span id="cb18-211"><a href="#cb18-211" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Grandparent DSM** (risk-based): <span class="in">`G = t(T) %*% T`</span> where <span class="in">`T = R %*% S`</span>. Off-diagonal entries count shared risks via the resource layer.</span>
+<span id="cb18-212"><a href="#cb18-212" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Both DSMs are always **symmetric**, since shared dependencies are bidirectional.</span>
+<span id="cb18-213"><a href="#cb18-213" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>High off-diagonal values point directly to the resources and risks that deserve the most mitigation investment.</span>
+<span id="cb18-214"><a href="#cb18-214" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb18-215"><a href="#cb18-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-216"><a href="#cb18-216" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb18-217"><a href="#cb18-217" aria-hidden="true" tabindex="-1"></a><span class="fu">## DSM vs. Bayesian Network: When to Use Each</span></span>
+<span id="cb18-218"><a href="#cb18-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-219"><a href="#cb18-219" aria-hidden="true" tabindex="-1"></a>Both tools analyze the same project structure but answer different questions:</span>
+<span id="cb18-220"><a href="#cb18-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-221"><a href="#cb18-221" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Use the DSM** for rapid structural triage: which tasks are coupled? Which resources are bottlenecks? No distributions required — only the resource-task and risk-resource linkages extracted from <span class="in">`graph$adjacency_matrix`</span>.</span>
+<span id="cb18-222"><a href="#cb18-222" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Use a Bayesian network** when you need actual cost distributions, the ability to condition on observed evidence, or causal interventions (see @sec-network). The same <span class="in">`graph$adjacency_matrix`</span> is the structural skeleton of the Bayesian network.</span>
+<span id="cb18-223"><a href="#cb18-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-224"><a href="#cb18-224" aria-hidden="true" tabindex="-1"></a>A practical workflow: run the DSM first to identify high-coupling task pairs, then focus the Bayesian network analysis on those pairs to quantify the probabilistic consequences.</span>
+<span id="cb18-225"><a href="#cb18-225" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb18-226"><a href="#cb18-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-227"><a href="#cb18-227" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
+<span id="cb18-228"><a href="#cb18-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-229"><a href="#cb18-229" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Reading the DSM.** In the Parent DSM computed above, all off-diagonal entries are 0. What does this tell you about the software development project's resource structure? Is this a favorable or unfavorable project design from a risk-propagation standpoint? What would need to change in the project for a non-zero off-diagonal entry to appear?</span>
+<span id="cb18-230"><a href="#cb18-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-231"><a href="#cb18-231" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Extend the matrix.** A Project Manager is added to the project and assigned to both Task-1 and Task-2. Add this resource to **S** and recompute the Parent DSM. Which entries change, and why?</span>
+<span id="cb18-232"><a href="#cb18-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-233"><a href="#cb18-233" aria-hidden="true" tabindex="-1"></a>   <span class="in">```r</span></span>
+<span id="cb18-234"><a href="#cb18-234" aria-hidden="true" tabindex="-1"></a>   S2 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(S, <span class="st">"Project Manager"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb18-235"><a href="#cb18-235" aria-hidden="true" tabindex="-1"></a>   p2 <span class="ot">&lt;-</span> <span class="fu">parent_dsm</span>(S2)</span>
+<span id="cb18-236"><a href="#cb18-236" aria-hidden="true" tabindex="-1"></a>   <span class="fu">print</span>(p2)</span>
+<span id="cb18-237"><a href="#cb18-237" aria-hidden="true" tabindex="-1"></a>   <span class="in">```</span></span>
+<span id="cb18-238"><a href="#cb18-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-239"><a href="#cb18-239" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Risk propagation.** ★ Add a third risk (Risk-3, probability 0.40) that affects both Resource-2 (Developer) and Resource-3 (QA Engineer). Update **R** and recompute the Grandparent DSM. Which task pair now shares a risk? Describe in plain English the scenario where this coupling causes the most damage.</span>
+<span id="cb18-240"><a href="#cb18-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-241"><a href="#cb18-241" aria-hidden="true" tabindex="-1"></a>   <span class="in">```r</span></span>
+<span id="cb18-242"><a href="#cb18-242" aria-hidden="true" tabindex="-1"></a>   R2 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(R, <span class="st">"Risk-3"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb18-243"><a href="#cb18-243" aria-hidden="true" tabindex="-1"></a>   g2 <span class="ot">&lt;-</span> <span class="fu">grandparent_dsm</span>(S, R2)</span>
+<span id="cb18-244"><a href="#cb18-244" aria-hidden="true" tabindex="-1"></a>   <span class="fu">print</span>(g2)</span>
+<span id="cb18-245"><a href="#cb18-245" aria-hidden="true" tabindex="-1"></a>   <span class="in">```</span></span>
+<span id="cb18-246"><a href="#cb18-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-247"><a href="#cb18-247" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**DSM symmetry.** Both the Parent and Grandparent DSMs are symmetric. Why? Is there a project structure where the DSM would not be symmetric? (Hint: think about directed dependencies; what if one task uses a resource but another task produces it?)</span>
+<span id="cb18-248"><a href="#cb18-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-249"><a href="#cb18-249" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**From DSM to Monte Carlo.** ★ Use the Parent DSM to derive a correlation matrix for MCS. With this project's base **S**, `cor_from_dsm` equals `diag(3)` — verify that the total variance under DSM-derived correlation matches the zero-correlation case. Then repeat the analysis using the extended **S2** from Exercise 2, and compare the total standard deviation. What did adding the shared Project Manager add to the risk picture?</span>
+<span id="cb18-250"><a href="#cb18-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-251"><a href="#cb18-251" aria-hidden="true" tabindex="-1"></a>   <span class="in">```r</span></span>
+<span id="cb18-252"><a href="#cb18-252" aria-hidden="true" tabindex="-1"></a>   p  <span class="ot">&lt;-</span> <span class="fu">parent_dsm</span>(S2)</span>
+<span id="cb18-253"><a href="#cb18-253" aria-hidden="true" tabindex="-1"></a>   P  <span class="ot">&lt;-</span> p<span class="sc">$</span>matrix</span>
+<span id="cb18-254"><a href="#cb18-254" aria-hidden="true" tabindex="-1"></a>   d  <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(P))</span>
+<span id="cb18-255"><a href="#cb18-255" aria-hidden="true" tabindex="-1"></a>   cor_from_dsm <span class="ot">&lt;-</span> P <span class="sc">/</span> <span class="fu">outer</span>(d, d)</span>
+<span id="cb18-256"><a href="#cb18-256" aria-hidden="true" tabindex="-1"></a>   <span class="fu">diag</span>(cor_from_dsm) <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb18-257"><a href="#cb18-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-258"><a href="#cb18-258" aria-hidden="true" tabindex="-1"></a>   task_dists <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb18-259"><a href="#cb18-259" aria-hidden="true" tabindex="-1"></a>     <span class="st">"Task-1"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">20250</span>, <span class="at">sd =</span> <span class="dv">5900</span>),</span>
+<span id="cb18-260"><a href="#cb18-260" aria-hidden="true" tabindex="-1"></a>     <span class="st">"Task-2"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">62000</span>, <span class="at">sd =</span> <span class="dv">16000</span>),</span>
+<span id="cb18-261"><a href="#cb18-261" aria-hidden="true" tabindex="-1"></a>     <span class="st">"Task-3"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">20000</span>, <span class="at">sd =</span> <span class="dv">4000</span>)</span>
+<span id="cb18-262"><a href="#cb18-262" aria-hidden="true" tabindex="-1"></a>   )</span>
+<span id="cb18-263"><a href="#cb18-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-264"><a href="#cb18-264" aria-hidden="true" tabindex="-1"></a>   res_zero <span class="ot">&lt;-</span> <span class="fu">mcs</span>(<span class="dv">10000</span>, task_dists, <span class="fu">diag</span>(<span class="dv">3</span>))</span>
+<span id="cb18-265"><a href="#cb18-265" aria-hidden="true" tabindex="-1"></a>   res_dsm  <span class="ot">&lt;-</span> <span class="fu">mcs</span>(<span class="dv">10000</span>, task_dists, cor_from_dsm)</span>
+<span id="cb18-266"><a href="#cb18-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-267"><a href="#cb18-267" aria-hidden="true" tabindex="-1"></a>   <span class="fu">cat</span>(<span class="st">"SD (zero correlation):"</span>, <span class="fu">round</span>(res_zero<span class="sc">$</span>total_sd, <span class="dv">0</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb18-268"><a href="#cb18-268" aria-hidden="true" tabindex="-1"></a>   <span class="fu">cat</span>(<span class="st">"SD (DSM correlation): "</span>, <span class="fu">round</span>(res_dsm<span class="sc">$</span>total_sd,  <span class="dv">0</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb18-269"><a href="#cb18-269" aria-hidden="true" tabindex="-1"></a>   <span class="in">```</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
