@@ -94,23 +94,26 @@ graph <- prob_net(nodes, links, distributions = distributions)
 
 The `graph` object exposes a full 9×9 adjacency matrix — one row and column for every node. Because `prob_net()` treats the network as undirected for structural purposes, both directions of each edge are recorded: an entry of 1 at `[i, j]` also appears at `[j, i]`.
 
+Internally, `prob_net()` labels rows and columns with node IDs. For readability, we rename them with node labels before displaying or extracting:
+
 ```{r}
-graph$adjacency_matrix
+adj <- graph$adjacency_matrix
+rownames(adj) <- graph$nodes$label
+colnames(adj) <- graph$nodes$label
+adj
 ```
 
-The structural information we need — which resources connect to which tasks, and which risks connect to which resources — is already encoded here. We extract it by slicing the matrix using the `group` column of `graph$nodes`.
+The structural information we need — which resources connect to which tasks, and which risks connect to which resources — is already encoded here. We extract it by slicing `adj` using the `group` column of `graph$nodes`.
 
 ## The Resource-Task Matrix
 
-Rows are resource nodes (C, D, E); columns are task nodes (F, G, H). The slice gives a binary matrix **S** where `S[i, j] = 1` means resource $i$ is used by task $j$.
+Rows are resource nodes (Resource-1, Resource-2, Resource-3); columns are task nodes (Task-1, Task-2, Task-3). The slice gives a binary matrix **S** where `S[i, j] = 1` means resource $i$ is used by task $j$.
 
 ```{r}
-resource_ids <- graph$nodes$id[graph$nodes$group == "Resource"]
-task_ids     <- graph$nodes$id[graph$nodes$group == "Task"]
+resource_labels <- graph$nodes$label[graph$nodes$group == "Resource"]
+task_labels     <- graph$nodes$label[graph$nodes$group == "Task"]
 
-S <- graph$adjacency_matrix[resource_ids, task_ids]
-rownames(S) <- graph$nodes$label[graph$nodes$group == "Resource"]
-colnames(S) <- graph$nodes$label[graph$nodes$group == "Task"]
+S <- adj[resource_labels, task_labels]
 S
 ```
 
@@ -134,14 +137,12 @@ All off-diagonal entries are zero: no two tasks share a resource. A disruption t
 
 ## The Risk-Resource Matrix
 
-The Risk-Resource Matrix **R** adds a second layer. Rows represent risks (A, B) and columns represent resources (C, D, E). An entry `R[i, j] = 1` means risk $i$ affects resource $j$.
+The Risk-Resource Matrix **R** adds a second layer. Rows represent risks (Risk-1, Risk-2) and columns represent resources (Resource-1, Resource-2, Resource-3). An entry `R[i, j] = 1` means risk $i$ affects resource $j$.
 
 ```{r}
-risk_ids <- graph$nodes$id[graph$nodes$group == "Risk"]
+risk_labels <- graph$nodes$label[graph$nodes$group == "Risk"]
 
-R <- graph$adjacency_matrix[risk_ids, resource_ids]
-rownames(R) <- graph$nodes$label[graph$nodes$group == "Risk"]
-colnames(R) <- graph$nodes$label[graph$nodes$group == "Resource"]
+R <- adj[risk_labels, resource_labels]
 R
 ```
 
