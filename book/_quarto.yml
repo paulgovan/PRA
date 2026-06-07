@@ -23,8 +23,8 @@ book:
     - ch-evm.qmd
     - ch-bayes.qmd
     - ch-sigmoidal.qmd
-    - ch-dsm.qmd
     - ch-network.qmd
+    - ch-dsm.qmd
     - ch-network2.qmd
     - ch-agent.qmd
   appendices:

@@ -324,45 +324,60 @@ The model is useful here because productivity is bounded (even expert crews have
 
 ### Exercise 3 ★: Risk Propagation
 
-*Which task pair shares the most risks in the Grandparent DSM? Describe the worst-case scenario.*
+*Add Risk-3 (probability 0.40) affecting Resource-2 and Resource-3. Which task pair now shares a risk? Describe the worst-case scenario.*
 
 ```{r}
-S <- matrix(c(
-  1, 0, 1, 0,
-  1, 1, 0, 0,
-  0, 1, 0, 1,
-  0, 0, 1, 1,
-  0, 1, 1, 0
-), nrow = 4, ncol = 5)
-rownames(S) <- paste0("R", 1:4)
-colnames(S) <- paste0("T", 1:5)
+library(PRA)
 
-R <- matrix(c(
-  1, 0, 1,
-  1, 1, 0,
-  0, 1, 0,
-  0, 0, 1
-), nrow = 3, ncol = 4)
-rownames(R) <- paste0("Risk", 1:3)
-colnames(R) <- paste0("R", 1:4)
+nodes <- data.frame(
+  id    = c("A", "B", "C", "D", "E", "F", "G", "H", "I"),
+  label = c("Risk-1", "Risk-2",
+            "Resource-1", "Resource-2", "Resource-3",
+            "Task-1", "Task-2", "Task-3", "Project"),
+  group = c("Risk", "Risk",
+            "Resource", "Resource", "Resource",
+            "Task", "Task", "Task", "Project"),
+  stringsAsFactors = FALSE
+)
+links <- data.frame(
+  source = c("A", "B", "C", "D", "E", "F", "G", "H"),
+  target = c("C", "D", "F", "G", "H", "I", "I", "I"),
+  value  = rep(1, 8),
+  stringsAsFactors = FALSE
+)
+graph <- prob_net(nodes, links)
 
-g <- grandparent_dsm(S, R)
-print(g)
+resource_ids <- graph$nodes$id[graph$nodes$group == "Resource"]
+task_ids     <- graph$nodes$id[graph$nodes$group == "Task"]
+risk_ids     <- graph$nodes$id[graph$nodes$group == "Risk"]
+
+S <- graph$adjacency_matrix[resource_ids, task_ids]
+rownames(S) <- graph$nodes$label[graph$nodes$group == "Resource"]
+colnames(S) <- graph$nodes$label[graph$nodes$group == "Task"]
+
+R <- graph$adjacency_matrix[risk_ids, resource_ids]
+rownames(R) <- graph$nodes$label[graph$nodes$group == "Risk"]
+colnames(R) <- graph$nodes$label[graph$nodes$group == "Resource"]
+
+R2 <- rbind(R, "Risk-3" = c(0, 1, 1))
+g2 <- grandparent_dsm(S, R2)
+print(g2)
 ```
 
-**Worst-case scenario.** Look for the highest off-diagonal entry. Suppose it is T2–T5: both share the maximum number of risks through overlapping resource dependencies. The worst-case scenario: a single risk event strikes one of those shared resources (say, R2, used by both tasks). Because Risk2 affects R2, and R2 is used by T2 and T5 simultaneously, the risk delays both tasks at once. The coupling means the project cannot recover from one task while the other runs normally; both are blocked. The Grandparent DSM quantifies this: the higher the off-diagonal entry, the more "failure modes" connect the pair.
+**Worst-case scenario.** The off-diagonal entry `G[Task-2, Task-3]` (and its mirror) is now 1: Task-2 and Task-3 share one risk (Risk-3). The worst-case scenario: Risk-3 materialises and simultaneously escalates the Developer (Resource-2) and QA Engineer (Resource-3) costs. Both Task-2 and Task-3 are hit at the same time. The coupling means the project cannot recover one task while the other runs normally — both are delayed together. The Grandparent DSM entry of 1 quantifies exactly this: one shared risk exposure connects the pair.
 
 ---
 
 ### Exercise 5 ★: From DSM to Monte Carlo
 
-*Normalize Parent DSM off-diagonal values to [0, 1] and use them as MCS correlation coefficients.*
+*Use the extended S2 (with a shared Project Manager) to derive a correlation matrix for MCS. Compare total SD under zero and DSM-derived correlation.*
 
 ```{r}
-p <- parent_dsm(S)
-P <- p$matrix
+S2 <- rbind(S, "Project Manager" = c(1, 1, 0))
 
-d <- sqrt(diag(P))
+p2 <- parent_dsm(S2)
+P  <- p2$matrix
+d  <- sqrt(diag(P))
 cor_from_dsm <- P / outer(d, d)
 diag(cor_from_dsm) <- 1
 
@@ -371,25 +386,24 @@ print(round(cor_from_dsm, 2))
 ```
 
 ```{r}
-task_dists_5 <- list(
-  T1 = list(type = "normal", mean = 10, sd = 2),
-  T2 = list(type = "normal", mean = 12, sd = 3),
-  T3 = list(type = "normal", mean = 8,  sd = 2),
-  T4 = list(type = "normal", mean = 9,  sd = 2),
-  T5 = list(type = "normal", mean = 11, sd = 2.5)
+task_dists <- list(
+  "Task-1" = list(type = "normal", mean = 20250, sd = 5900),
+  "Task-2" = list(type = "normal", mean = 62000, sd = 16000),
+  "Task-3" = list(type = "normal", mean = 20000, sd = 4000)
 )
 
-res_zero <- mcs(10000, task_dists_5, diag(5))
-res_dsm  <- mcs(10000, task_dists_5, cor_from_dsm)
+set.seed(42)
+res_zero <- mcs(10000, task_dists, diag(3))
+res_dsm  <- mcs(10000, task_dists, cor_from_dsm)
 
-cat("SD (zero correlation):  ", round(res_zero$total_sd, 2), "\n")
-cat("SD (DSM correlation):   ", round(res_dsm$total_sd, 2), "\n")
+cat("SD (zero correlation):  ", round(res_zero$total_sd, 0), "\n")
+cat("SD (DSM correlation):   ", round(res_dsm$total_sd,  0), "\n")
 cat("Variance inflation:     ",
     round((res_dsm$total_sd^2 - res_zero$total_sd^2) / res_zero$total_sd^2 * 100, 1),
     "%\n")
 ```
 
-**What structural coupling adds.** The DSM-derived correlation inflates total variance above the independent baseline. The magnitude depends on which task pairs have high coupling, as heavily coupled pairs have high correlations, which propagate correlated delays. This exercise demonstrates that the structural analysis (DSM) and the probabilistic analysis (MCS) are complementary: DSM reveals *which* tasks are coupled; MCS quantifies *how much* that coupling increases risk.
+**What structural coupling adds.** The base project (dedicated resources) yields `cor_from_dsm == diag(3)` — no coupling, no variance inflation. Adding the shared Project Manager introduces a non-zero correlation between Task-1 and Task-2, inflating total standard deviation above the independent baseline. DSM reveals *which* tasks are coupled; MCS quantifies *how much* that coupling increases risk.
 
 ---
 
