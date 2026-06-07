@@ -409,14 +409,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
+  <a href="./ch-network.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-network.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></span></a>
+  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -844,13 +844,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><code>parent_dsm(S*)</code></td>
 <td>Resource-Task matrix S (resources × tasks, binary)</td>
 <td>S3 object of class <code>parent_dsm</code>; <code>$matrix</code> is tasks × tasks</td>
-<td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 8</span></a></td>
+<td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a></td>
 </tr>
 <tr class="even">
 <td><code>grandparent_dsm(S*, R*)</code></td>
 <td>Resource-Task matrix S; Risk-Resource matrix R (risks × resources, binary)</td>
 <td>S3 object of class <code>grandparent_dsm</code>; <code>$matrix</code> is tasks × tasks</td>
-<td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 8</span></a></td>
+<td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a></td>
 </tr>
 </tbody>
 </table>
@@ -879,25 +879,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><code>prob_net(nodes*, links*, distributions*)</code></td>
 <td>Data frames of nodes (id, label, group) and links (source, target, value); named list of distributions</td>
 <td>Graph object (list of nodes, links, distributions)</td>
-<td><a href="ch-network.html" class="quarto-xref"><span>Chapter 9</span></a></td>
+<td><a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a></td>
 </tr>
 <tr class="even">
 <td><code>prob_net_sim(graph*, num_samples)</code></td>
 <td>Graph from <code>prob_net()</code>; number of simulations (default 10 000)</td>
 <td>Named list of sample vectors, one per node</td>
-<td><a href="ch-network.html" class="quarto-xref"><span>Chapter 9</span></a></td>
+<td><a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a></td>
 </tr>
 <tr class="odd">
 <td><code>prob_net_learn(graph*, observations*, num_samples)</code></td>
 <td>Graph; named list of clamped observations e.g.&nbsp;<code>list(B = "No")</code>; sample count</td>
 <td>Named list of sample vectors with upstream nodes clamped</td>
-<td><a href="ch-network.html" class="quarto-xref"><span>Chapter 9</span></a></td>
+<td><a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a></td>
 </tr>
 <tr class="even">
 <td><code>prob_net_update(graph*, remove_links, update_distributions)</code></td>
 <td>Graph; data frame of edges to remove; named list of replacement distributions</td>
 <td>Modified graph object</td>
-<td><a href="ch-network.html" class="quarto-xref"><span>Chapter 9</span></a></td>
+<td><a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a></td>
 </tr>
 </tbody>
 </table>

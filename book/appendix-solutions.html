@@ -438,14 +438,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
+  <a href="./ch-network.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-network.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></span></a>
+  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -546,12 +546,12 @@ window.Quarto = {
   <li><a href="#exercise-3-confidence-band-width" id="toc-exercise-3-confidence-band-width" class="nav-link" data-scroll-target="#exercise-3-confidence-band-width"><span class="header-section-number">E.6.1</span> Exercise 3 ★: Confidence Band Width</a></li>
   <li><a href="#exercise-5-beyond-completion-percentages" id="toc-exercise-5-beyond-completion-percentages" class="nav-link" data-scroll-target="#exercise-5-beyond-completion-percentages"><span class="header-section-number">E.6.2</span> Exercise 5 ★: Beyond Completion Percentages</a></li>
   </ul></li>
-  <li><a href="#design-structure-matrices-sec-dsm" id="toc-design-structure-matrices-sec-dsm" class="nav-link" data-scroll-target="#design-structure-matrices-sec-dsm"><span class="header-section-number">E.7</span> Design Structure Matrices (<span>Chapter 8</span>)</a>
+  <li><a href="#design-structure-matrices-sec-dsm" id="toc-design-structure-matrices-sec-dsm" class="nav-link" data-scroll-target="#design-structure-matrices-sec-dsm"><span class="header-section-number">E.7</span> Design Structure Matrices (<span>Chapter 9</span>)</a>
   <ul class="collapse">
   <li><a href="#exercise-3-risk-propagation" id="toc-exercise-3-risk-propagation" class="nav-link" data-scroll-target="#exercise-3-risk-propagation"><span class="header-section-number">E.7.1</span> Exercise 3 ★: Risk Propagation</a></li>
   <li><a href="#exercise-5-from-dsm-to-monte-carlo" id="toc-exercise-5-from-dsm-to-monte-carlo" class="nav-link" data-scroll-target="#exercise-5-from-dsm-to-monte-carlo"><span class="header-section-number">E.7.2</span> Exercise 5 ★: From DSM to Monte Carlo</a></li>
   </ul></li>
-  <li><a href="#probabilistic-networks-sec-network" id="toc-probabilistic-networks-sec-network" class="nav-link" data-scroll-target="#probabilistic-networks-sec-network"><span class="header-section-number">E.8</span> Probabilistic Networks (<span>Chapter 9</span>)</a>
+  <li><a href="#probabilistic-networks-sec-network" id="toc-probabilistic-networks-sec-network" class="nav-link" data-scroll-target="#probabilistic-networks-sec-network"><span class="header-section-number">E.8</span> Probabilistic Networks (<span>Chapter 8</span>)</a>
   <ul class="collapse">
   <li><a href="#exercise-3-add-a-qa-risk" id="toc-exercise-3-add-a-qa-risk" class="nav-link" data-scroll-target="#exercise-3-add-a-qa-risk"><span class="header-section-number">E.8.1</span> Exercise 3 ★: Add a QA Risk</a></li>
   <li><a href="#exercise-5-two-risks-one-resource" id="toc-exercise-5-two-risks-one-resource" class="nav-link" data-scroll-target="#exercise-5-two-risks-one-resource"><span class="header-section-number">E.8.2</span> Exercise 5 ★: Two Risks, One Resource</a></li>
@@ -933,105 +933,115 @@ Week 12: predicted:  87.8</code></pre>
 </section>
 </section>
 <section id="design-structure-matrices-sec-dsm" class="level2" data-number="E.7">
-<h2 data-number="E.7" class="anchored" data-anchor-id="design-structure-matrices-sec-dsm"><span class="header-section-number">E.7</span> Design Structure Matrices (<a href="ch-dsm.html" class="quarto-xref"><span>Chapter 8</span></a>)</h2>
+<h2 data-number="E.7" class="anchored" data-anchor-id="design-structure-matrices-sec-dsm"><span class="header-section-number">E.7</span> Design Structure Matrices (<a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a>)</h2>
 <section id="exercise-3-risk-propagation" class="level3" data-number="E.7.1">
 <h3 data-number="E.7.1" class="anchored" data-anchor-id="exercise-3-risk-propagation"><span class="header-section-number">E.7.1</span> Exercise 3 ★: Risk Propagation</h3>
-<p><em>Which task pair shares the most risks in the Grandparent DSM? Describe the worst-case scenario.</em></p>
+<p><em>Add Risk-3 (probability 0.40) affecting Resource-2 and Resource-3. Which task pair now shares a risk? Describe the worst-case scenario.</em></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>,</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>,</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>,</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>), <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">ncol =</span> <span class="dv">5</span>)</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(S) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"R"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(S) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"T"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
-<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>,</span>
-<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>,</span>
-<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>,</span>
-<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span></span>
-<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">4</span>)</span>
-<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(R) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"Risk"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
-<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(R) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"R"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
-<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">grandparent_dsm</span>(S, R)</span>
-<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(g)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">id    =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>, <span class="st">"I"</span>),</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"Risk-1"</span>, <span class="st">"Risk-2"</span>,</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Resource-1"</span>, <span class="st">"Resource-2"</span>, <span class="st">"Resource-3"</span>,</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Task-1"</span>, <span class="st">"Task-2"</span>, <span class="st">"Task-3"</span>, <span class="st">"Project"</span>),</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"Risk"</span>, <span class="st">"Risk"</span>,</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Resource"</span>, <span class="st">"Resource"</span>, <span class="st">"Resource"</span>,</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Task"</span>, <span class="st">"Task"</span>, <span class="st">"Task"</span>, <span class="st">"Project"</span>),</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>links <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">source =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>),</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="fu">c</span>(<span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>, <span class="st">"I"</span>, <span class="st">"I"</span>, <span class="st">"I"</span>),</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">value  =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">8</span>),</span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>graph <span class="ot">&lt;-</span> <span class="fu">prob_net</span>(nodes, links)</span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>resource_ids <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>id[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Resource"</span>]</span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>task_ids     <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>id[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Task"</span>]</span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>risk_ids     <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>id[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Risk"</span>]</span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> graph<span class="sc">$</span>adjacency_matrix[resource_ids, task_ids]</span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(S) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Resource"</span>]</span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(S) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Task"</span>]</span>
+<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> graph<span class="sc">$</span>adjacency_matrix[risk_ids, resource_ids]</span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(R) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Risk"</span>]</span>
+<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(R) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Resource"</span>]</span>
+<span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-33"><a href="#cb38-33" aria-hidden="true" tabindex="-1"></a>R2 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(R, <span class="st">"Risk-3"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb38-34"><a href="#cb38-34" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">grandparent_dsm</span>(S, R2)</span>
+<span id="cb38-35"><a href="#cb38-35" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(g2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Risk-based 'Grandparent' Design Structure Matrix
-Tasks: 5  Resources: 4  Risks: 3
+Tasks: 3  Resources: 3  Risks: 3
 
-   T1 T2 T3 T4 T5
-T1  3  4  3  2  3
-T2  4  6  4  2  4
-T3  3  4  3  2  3
-T4  2  2  2  2  2
-T5  3  4  3  2  5</code></pre>
+       Task-1 Task-2 Task-3
+Task-1      1      0      0
+Task-2      0      2      1
+Task-3      0      1      1</code></pre>
 </div>
 </div>
-<p><strong>Worst-case scenario.</strong> Look for the highest off-diagonal entry. Suppose it is T2–T5: both share the maximum number of risks through overlapping resource dependencies. The worst-case scenario: a single risk event strikes one of those shared resources (say, R2, used by both tasks). Because Risk2 affects R2, and R2 is used by T2 and T5 simultaneously, the risk delays both tasks at once. The coupling means the project cannot recover from one task while the other runs normally; both are blocked. The Grandparent DSM quantifies this: the higher the off-diagonal entry, the more “failure modes” connect the pair.</p>
+<p><strong>Worst-case scenario.</strong> The off-diagonal entry <code>G[Task-2, Task-3]</code> (and its mirror) is now 1: Task-2 and Task-3 share one risk (Risk-3). The worst-case scenario: Risk-3 materialises and simultaneously escalates the Developer (Resource-2) and QA Engineer (Resource-3) costs. Both Task-2 and Task-3 are hit at the same time. The coupling means the project cannot recover one task while the other runs normally — both are delayed together. The Grandparent DSM entry of 1 quantifies exactly this: one shared risk exposure connects the pair.</p>
 <hr>
 </section>
 <section id="exercise-5-from-dsm-to-monte-carlo" class="level3" data-number="E.7.2">
 <h3 data-number="E.7.2" class="anchored" data-anchor-id="exercise-5-from-dsm-to-monte-carlo"><span class="header-section-number">E.7.2</span> Exercise 5 ★: From DSM to Monte Carlo</h3>
-<p><em>Normalize Parent DSM off-diagonal values to [0, 1] and use them as MCS correlation coefficients.</em></p>
+<p><em>Use the extended S2 (with a shared Project Manager) to derive a correlation matrix for MCS. Compare total SD under zero and DSM-derived correlation.</em></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">parent_dsm</span>(S)</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>P <span class="ot">&lt;-</span> p<span class="sc">$</span>matrix</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(P))</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>cor_from_dsm <span class="ot">&lt;-</span> P <span class="sc">/</span> <span class="fu">outer</span>(d, d)</span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(cor_from_dsm) <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"DSM-derived correlation matrix:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>S2 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(S, <span class="st">"Project Manager"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">parent_dsm</span>(S2)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>P  <span class="ot">&lt;-</span> p2<span class="sc">$</span>matrix</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>d  <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(P))</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>cor_from_dsm <span class="ot">&lt;-</span> P <span class="sc">/</span> <span class="fu">outer</span>(d, d)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(cor_from_dsm) <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"DSM-derived correlation matrix:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>DSM-derived correlation matrix:</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">round</span>(cor_from_dsm, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>    T1  T2  T3  T4  T5
-T1 1.0 0.5 0.0 0.5 0.5
-T2 0.5 1.0 0.5 0.0 0.5
-T3 0.0 0.5 1.0 0.5 0.5
-T4 0.5 0.0 0.5 1.0 0.5
-T5 0.5 0.5 0.5 0.5 1.0</code></pre>
+<pre><code>       Task-1 Task-2 Task-3
+Task-1    1.0    0.5      0
+Task-2    0.5    1.0      0
+Task-3    0.0    0.0      1</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>task_dists_5 <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">T1 =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>),</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">T2 =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">12</span>, <span class="at">sd =</span> <span class="dv">3</span>),</span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">T3 =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">8</span>,  <span class="at">sd =</span> <span class="dv">2</span>),</span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">T4 =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">9</span>,  <span class="at">sd =</span> <span class="dv">2</span>),</span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">T5 =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">11</span>, <span class="at">sd =</span> <span class="fl">2.5</span>)</span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>res_zero <span class="ot">&lt;-</span> <span class="fu">mcs</span>(<span class="dv">10000</span>, task_dists_5, <span class="fu">diag</span>(<span class="dv">5</span>))</span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>res_dsm  <span class="ot">&lt;-</span> <span class="fu">mcs</span>(<span class="dv">10000</span>, task_dists_5, cor_from_dsm)</span>
-<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"SD (zero correlation):  "</span>, <span class="fu">round</span>(res_zero<span class="sc">$</span>total_sd, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>task_dists <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Task-1"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">20250</span>, <span class="at">sd =</span> <span class="dv">5900</span>),</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Task-2"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">62000</span>, <span class="at">sd =</span> <span class="dv">16000</span>),</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Task-3"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">20000</span>, <span class="at">sd =</span> <span class="dv">4000</span>)</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>res_zero <span class="ot">&lt;-</span> <span class="fu">mcs</span>(<span class="dv">10000</span>, task_dists, <span class="fu">diag</span>(<span class="dv">3</span>))</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>res_dsm  <span class="ot">&lt;-</span> <span class="fu">mcs</span>(<span class="dv">10000</span>, task_dists, cor_from_dsm)</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"SD (zero correlation):  "</span>, <span class="fu">round</span>(res_zero<span class="sc">$</span>total_sd, <span class="dv">0</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>SD (zero correlation):   5.25 </code></pre>
+<pre><code>SD (zero correlation):   17655 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"SD (DSM correlation):   "</span>, <span class="fu">round</span>(res_dsm<span class="sc">$</span>total_sd, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"SD (DSM correlation):   "</span>, <span class="fu">round</span>(res_dsm<span class="sc">$</span>total_sd,  <span class="dv">0</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>SD (DSM correlation):    7.91 </code></pre>
+<pre><code>SD (DSM correlation):    16798 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Variance inflation:     "</span>,</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>((res_dsm<span class="sc">$</span>total_sd<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> res_zero<span class="sc">$</span>total_sd<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> res_zero<span class="sc">$</span>total_sd<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"%</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Variance inflation:      127 %</code></pre>
+<pre><code>Variance inflation:      -9.5 %</code></pre>
 </div>
 </div>
-<p><strong>What structural coupling adds.</strong> The DSM-derived correlation inflates total variance above the independent baseline. The magnitude depends on which task pairs have high coupling, as heavily coupled pairs have high correlations, which propagate correlated delays. This exercise demonstrates that the structural analysis (DSM) and the probabilistic analysis (MCS) are complementary: DSM reveals <em>which</em> tasks are coupled; MCS quantifies <em>how much</em> that coupling increases risk.</p>
+<p><strong>What structural coupling adds.</strong> The base project (dedicated resources) yields <code>cor_from_dsm == diag(3)</code> — no coupling, no variance inflation. Adding the shared Project Manager introduces a non-zero correlation between Task-1 and Task-2, inflating total standard deviation above the independent baseline. DSM reveals <em>which</em> tasks are coupled; MCS quantifies <em>how much</em> that coupling increases risk.</p>
 <hr>
 </section>
 </section>
 <section id="probabilistic-networks-sec-network" class="level2" data-number="E.8">
-<h2 data-number="E.8" class="anchored" data-anchor-id="probabilistic-networks-sec-network"><span class="header-section-number">E.8</span> Probabilistic Networks (<a href="ch-network.html" class="quarto-xref"><span>Chapter 9</span></a>)</h2>
+<h2 data-number="E.8" class="anchored" data-anchor-id="probabilistic-networks-sec-network"><span class="header-section-number">E.8</span> Probabilistic Networks (<a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a>)</h2>
 <section id="exercise-3-add-a-qa-risk" class="level3" data-number="E.8.1">
 <h3 data-number="E.8.1" class="anchored" data-anchor-id="exercise-3-add-a-qa-risk"><span class="header-section-number">E.8.1</span> Exercise 3 ★: Add a QA Risk</h3>
 <p><em>Add Risk-3 (p = 0.40) affecting QA Engineer, increasing cost from $20K to $35K.</em></p>
@@ -1077,12 +1087,12 @@ T5 0.5 0.5 0.5 0.5 1.0</code></pre>
 <span id="cb50-39"><a href="#cb50-39" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb50-40"><a href="#cb50-40" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Mean total cost (with QA risk):"</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">mean</span>(sim_new<span class="sc">$</span>I)), <span class="at">big.mark=</span><span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Mean total cost (with QA risk): 119,818 </code></pre>
+<pre><code>Mean total cost (with QA risk): 119,402 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Expected QA cost increase:"</span>,</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">mean</span>(sim_new<span class="sc">$</span>H) <span class="sc">-</span> <span class="dv">20000</span>), <span class="at">big.mark=</span><span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Expected QA cost increase: 6,048 </code></pre>
+<pre><code>Expected QA cost increase: 5,777 </code></pre>
 </div>
 </div>
 <p><strong>Interpretation.</strong> The expected project cost rises by the probability-weighted cost increase for the QA Engineer: <span class="math inline">\(0.40 \times (35{,}000 - 20{,}000) = \$6{,}000\)</span>. The actual simulated increase will be close to this but not exact due to the variance in the conditional distributions.</p>
@@ -1128,7 +1138,7 @@ T5 0.5 0.5 0.5 0.5 1.0</code></pre>
 <pre><code>Correlation between T1 and T2: 1 </code></pre>
 </div>
 </div>
-<p><strong>Interpretation.</strong> Two tasks that <em>both</em> depend on the same resource share all of that resource’s uncertainty. When a risk strikes the shared resource, both tasks are affected simultaneously and in the same direction, creating perfect positive correlation within the resource node. This is exactly what the DSM predicts structurally (<a href="ch-dsm.html" class="quarto-xref"><span>Chapter 8</span></a>): a high off-diagonal Parent DSM entry between these two tasks.</p>
+<p><strong>Interpretation.</strong> Two tasks that <em>both</em> depend on the same resource share all of that resource’s uncertainty. When a risk strikes the shared resource, both tasks are affected simultaneously and in the same direction, creating perfect positive correlation within the resource node. This is exactly what the DSM predicts structurally (<a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a>): a high off-diagonal Parent DSM entry between these two tasks.</p>
 <hr>
 </section>
 </section>
@@ -1997,243 +2007,257 @@ T5 0.5 0.5 0.5 0.5 1.0</code></pre>
 <span id="cb59-342"><a href="#cb59-342" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-343"><a href="#cb59-343" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exercise 3 ★: Risk Propagation</span></span>
 <span id="cb59-344"><a href="#cb59-344" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-345"><a href="#cb59-345" aria-hidden="true" tabindex="-1"></a>*Which task pair shares the most risks in the Grandparent DSM? Describe the worst-case scenario.*</span>
+<span id="cb59-345"><a href="#cb59-345" aria-hidden="true" tabindex="-1"></a>*Add Risk-3 (probability 0.40) affecting Resource-2 and Resource-3. Which task pair now shares a risk? Describe the worst-case scenario.*</span>
 <span id="cb59-346"><a href="#cb59-346" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-349"><a href="#cb59-349" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-350"><a href="#cb59-350" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
-<span id="cb59-351"><a href="#cb59-351" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>,</span>
-<span id="cb59-352"><a href="#cb59-352" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
-<span id="cb59-353"><a href="#cb59-353" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>,</span>
-<span id="cb59-354"><a href="#cb59-354" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>,</span>
-<span id="cb59-355"><a href="#cb59-355" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span></span>
-<span id="cb59-356"><a href="#cb59-356" aria-hidden="true" tabindex="-1"></a>), <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">ncol =</span> <span class="dv">5</span>)</span>
-<span id="cb59-357"><a href="#cb59-357" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(S) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"R"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
-<span id="cb59-358"><a href="#cb59-358" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(S) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"T"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
-<span id="cb59-359"><a href="#cb59-359" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-360"><a href="#cb59-360" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
-<span id="cb59-361"><a href="#cb59-361" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>,</span>
-<span id="cb59-362"><a href="#cb59-362" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>,</span>
-<span id="cb59-363"><a href="#cb59-363" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>,</span>
-<span id="cb59-364"><a href="#cb59-364" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span></span>
-<span id="cb59-365"><a href="#cb59-365" aria-hidden="true" tabindex="-1"></a>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">4</span>)</span>
-<span id="cb59-366"><a href="#cb59-366" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(R) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"Risk"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
-<span id="cb59-367"><a href="#cb59-367" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(R) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"R"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
-<span id="cb59-368"><a href="#cb59-368" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-369"><a href="#cb59-369" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">grandparent_dsm</span>(S, R)</span>
-<span id="cb59-370"><a href="#cb59-370" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(g)</span>
-<span id="cb59-371"><a href="#cb59-371" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb59-372"><a href="#cb59-372" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-373"><a href="#cb59-373" aria-hidden="true" tabindex="-1"></a>**Worst-case scenario.** Look for the highest off-diagonal entry. Suppose it is T2–T5: both share the maximum number of risks through overlapping resource dependencies. The worst-case scenario: a single risk event strikes one of those shared resources (say, R2, used by both tasks). Because Risk2 affects R2, and R2 is used by T2 and T5 simultaneously, the risk delays both tasks at once. The coupling means the project cannot recover from one task while the other runs normally; both are blocked. The Grandparent DSM quantifies this: the higher the off-diagonal entry, the more "failure modes" connect the pair.</span>
-<span id="cb59-374"><a href="#cb59-374" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-375"><a href="#cb59-375" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb59-376"><a href="#cb59-376" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-377"><a href="#cb59-377" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exercise 5 ★: From DSM to Monte Carlo</span></span>
-<span id="cb59-378"><a href="#cb59-378" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-379"><a href="#cb59-379" aria-hidden="true" tabindex="-1"></a>*Normalize Parent DSM off-diagonal values to [0, 1] and use them as MCS correlation coefficients.*</span>
-<span id="cb59-380"><a href="#cb59-380" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-383"><a href="#cb59-383" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-384"><a href="#cb59-384" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">parent_dsm</span>(S)</span>
-<span id="cb59-385"><a href="#cb59-385" aria-hidden="true" tabindex="-1"></a>P <span class="ot">&lt;-</span> p<span class="sc">$</span>matrix</span>
+<span id="cb59-350"><a href="#cb59-350" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
+<span id="cb59-351"><a href="#cb59-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-352"><a href="#cb59-352" aria-hidden="true" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb59-353"><a href="#cb59-353" aria-hidden="true" tabindex="-1"></a>  <span class="at">id    =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>, <span class="st">"I"</span>),</span>
+<span id="cb59-354"><a href="#cb59-354" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"Risk-1"</span>, <span class="st">"Risk-2"</span>,</span>
+<span id="cb59-355"><a href="#cb59-355" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Resource-1"</span>, <span class="st">"Resource-2"</span>, <span class="st">"Resource-3"</span>,</span>
+<span id="cb59-356"><a href="#cb59-356" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Task-1"</span>, <span class="st">"Task-2"</span>, <span class="st">"Task-3"</span>, <span class="st">"Project"</span>),</span>
+<span id="cb59-357"><a href="#cb59-357" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"Risk"</span>, <span class="st">"Risk"</span>,</span>
+<span id="cb59-358"><a href="#cb59-358" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Resource"</span>, <span class="st">"Resource"</span>, <span class="st">"Resource"</span>,</span>
+<span id="cb59-359"><a href="#cb59-359" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Task"</span>, <span class="st">"Task"</span>, <span class="st">"Task"</span>, <span class="st">"Project"</span>),</span>
+<span id="cb59-360"><a href="#cb59-360" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb59-361"><a href="#cb59-361" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb59-362"><a href="#cb59-362" aria-hidden="true" tabindex="-1"></a>links <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb59-363"><a href="#cb59-363" aria-hidden="true" tabindex="-1"></a>  <span class="at">source =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>),</span>
+<span id="cb59-364"><a href="#cb59-364" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="fu">c</span>(<span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>, <span class="st">"I"</span>, <span class="st">"I"</span>, <span class="st">"I"</span>),</span>
+<span id="cb59-365"><a href="#cb59-365" aria-hidden="true" tabindex="-1"></a>  <span class="at">value  =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">8</span>),</span>
+<span id="cb59-366"><a href="#cb59-366" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb59-367"><a href="#cb59-367" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb59-368"><a href="#cb59-368" aria-hidden="true" tabindex="-1"></a>graph <span class="ot">&lt;-</span> <span class="fu">prob_net</span>(nodes, links)</span>
+<span id="cb59-369"><a href="#cb59-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-370"><a href="#cb59-370" aria-hidden="true" tabindex="-1"></a>resource_ids <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>id[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Resource"</span>]</span>
+<span id="cb59-371"><a href="#cb59-371" aria-hidden="true" tabindex="-1"></a>task_ids     <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>id[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Task"</span>]</span>
+<span id="cb59-372"><a href="#cb59-372" aria-hidden="true" tabindex="-1"></a>risk_ids     <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>id[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Risk"</span>]</span>
+<span id="cb59-373"><a href="#cb59-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-374"><a href="#cb59-374" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> graph<span class="sc">$</span>adjacency_matrix[resource_ids, task_ids]</span>
+<span id="cb59-375"><a href="#cb59-375" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(S) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Resource"</span>]</span>
+<span id="cb59-376"><a href="#cb59-376" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(S) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Task"</span>]</span>
+<span id="cb59-377"><a href="#cb59-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-378"><a href="#cb59-378" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> graph<span class="sc">$</span>adjacency_matrix[risk_ids, resource_ids]</span>
+<span id="cb59-379"><a href="#cb59-379" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(R) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Risk"</span>]</span>
+<span id="cb59-380"><a href="#cb59-380" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(R) <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Resource"</span>]</span>
+<span id="cb59-381"><a href="#cb59-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-382"><a href="#cb59-382" aria-hidden="true" tabindex="-1"></a>R2 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(R, <span class="st">"Risk-3"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb59-383"><a href="#cb59-383" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">grandparent_dsm</span>(S, R2)</span>
+<span id="cb59-384"><a href="#cb59-384" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(g2)</span>
+<span id="cb59-385"><a href="#cb59-385" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb59-386"><a href="#cb59-386" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-387"><a href="#cb59-387" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(P))</span>
-<span id="cb59-388"><a href="#cb59-388" aria-hidden="true" tabindex="-1"></a>cor_from_dsm <span class="ot">&lt;-</span> P <span class="sc">/</span> <span class="fu">outer</span>(d, d)</span>
-<span id="cb59-389"><a href="#cb59-389" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(cor_from_dsm) <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb59-387"><a href="#cb59-387" aria-hidden="true" tabindex="-1"></a>**Worst-case scenario.** The off-diagonal entry <span class="in">`G[Task-2, Task-3]`</span> (and its mirror) is now 1: Task-2 and Task-3 share one risk (Risk-3). The worst-case scenario: Risk-3 materialises and simultaneously escalates the Developer (Resource-2) and QA Engineer (Resource-3) costs. Both Task-2 and Task-3 are hit at the same time. The coupling means the project cannot recover one task while the other runs normally — both are delayed together. The Grandparent DSM entry of 1 quantifies exactly this: one shared risk exposure connects the pair.</span>
+<span id="cb59-388"><a href="#cb59-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-389"><a href="#cb59-389" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb59-390"><a href="#cb59-390" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-391"><a href="#cb59-391" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"DSM-derived correlation matrix:</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb59-392"><a href="#cb59-392" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">round</span>(cor_from_dsm, <span class="dv">2</span>))</span>
-<span id="cb59-393"><a href="#cb59-393" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-391"><a href="#cb59-391" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exercise 5 ★: From DSM to Monte Carlo</span></span>
+<span id="cb59-392"><a href="#cb59-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-393"><a href="#cb59-393" aria-hidden="true" tabindex="-1"></a>*Use the extended S2 (with a shared Project Manager) to derive a correlation matrix for MCS. Compare total SD under zero and DSM-derived correlation.*</span>
 <span id="cb59-394"><a href="#cb59-394" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-397"><a href="#cb59-397" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-398"><a href="#cb59-398" aria-hidden="true" tabindex="-1"></a>task_dists_5 <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb59-399"><a href="#cb59-399" aria-hidden="true" tabindex="-1"></a>  <span class="at">T1 =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>),</span>
-<span id="cb59-400"><a href="#cb59-400" aria-hidden="true" tabindex="-1"></a>  <span class="at">T2 =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">12</span>, <span class="at">sd =</span> <span class="dv">3</span>),</span>
-<span id="cb59-401"><a href="#cb59-401" aria-hidden="true" tabindex="-1"></a>  <span class="at">T3 =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">8</span>,  <span class="at">sd =</span> <span class="dv">2</span>),</span>
-<span id="cb59-402"><a href="#cb59-402" aria-hidden="true" tabindex="-1"></a>  <span class="at">T4 =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">9</span>,  <span class="at">sd =</span> <span class="dv">2</span>),</span>
-<span id="cb59-403"><a href="#cb59-403" aria-hidden="true" tabindex="-1"></a>  <span class="at">T5 =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">11</span>, <span class="at">sd =</span> <span class="fl">2.5</span>)</span>
-<span id="cb59-404"><a href="#cb59-404" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb59-398"><a href="#cb59-398" aria-hidden="true" tabindex="-1"></a>S2 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(S, <span class="st">"Project Manager"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb59-399"><a href="#cb59-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-400"><a href="#cb59-400" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">parent_dsm</span>(S2)</span>
+<span id="cb59-401"><a href="#cb59-401" aria-hidden="true" tabindex="-1"></a>P  <span class="ot">&lt;-</span> p2<span class="sc">$</span>matrix</span>
+<span id="cb59-402"><a href="#cb59-402" aria-hidden="true" tabindex="-1"></a>d  <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(P))</span>
+<span id="cb59-403"><a href="#cb59-403" aria-hidden="true" tabindex="-1"></a>cor_from_dsm <span class="ot">&lt;-</span> P <span class="sc">/</span> <span class="fu">outer</span>(d, d)</span>
+<span id="cb59-404"><a href="#cb59-404" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(cor_from_dsm) <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb59-405"><a href="#cb59-405" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-406"><a href="#cb59-406" aria-hidden="true" tabindex="-1"></a>res_zero <span class="ot">&lt;-</span> <span class="fu">mcs</span>(<span class="dv">10000</span>, task_dists_5, <span class="fu">diag</span>(<span class="dv">5</span>))</span>
-<span id="cb59-407"><a href="#cb59-407" aria-hidden="true" tabindex="-1"></a>res_dsm  <span class="ot">&lt;-</span> <span class="fu">mcs</span>(<span class="dv">10000</span>, task_dists_5, cor_from_dsm)</span>
-<span id="cb59-408"><a href="#cb59-408" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-409"><a href="#cb59-409" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"SD (zero correlation):  "</span>, <span class="fu">round</span>(res_zero<span class="sc">$</span>total_sd, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb59-410"><a href="#cb59-410" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"SD (DSM correlation):   "</span>, <span class="fu">round</span>(res_dsm<span class="sc">$</span>total_sd, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb59-411"><a href="#cb59-411" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Variance inflation:     "</span>,</span>
-<span id="cb59-412"><a href="#cb59-412" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>((res_dsm<span class="sc">$</span>total_sd<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> res_zero<span class="sc">$</span>total_sd<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> res_zero<span class="sc">$</span>total_sd<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
-<span id="cb59-413"><a href="#cb59-413" aria-hidden="true" tabindex="-1"></a>    <span class="st">"%</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb59-414"><a href="#cb59-414" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb59-415"><a href="#cb59-415" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-416"><a href="#cb59-416" aria-hidden="true" tabindex="-1"></a>**What structural coupling adds.** The DSM-derived correlation inflates total variance above the independent baseline. The magnitude depends on which task pairs have high coupling, as heavily coupled pairs have high correlations, which propagate correlated delays. This exercise demonstrates that the structural analysis (DSM) and the probabilistic analysis (MCS) are complementary: DSM reveals *which* tasks are coupled; MCS quantifies *how much* that coupling increases risk.</span>
-<span id="cb59-417"><a href="#cb59-417" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-418"><a href="#cb59-418" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb59-419"><a href="#cb59-419" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-420"><a href="#cb59-420" aria-hidden="true" tabindex="-1"></a><span class="fu">## Probabilistic Networks (@sec-network)</span></span>
-<span id="cb59-421"><a href="#cb59-421" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-422"><a href="#cb59-422" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exercise 3 ★: Add a QA Risk</span></span>
-<span id="cb59-423"><a href="#cb59-423" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-424"><a href="#cb59-424" aria-hidden="true" tabindex="-1"></a>*Add Risk-3 (p = 0.40) affecting QA Engineer, increasing cost from $20K to $35K.*</span>
-<span id="cb59-425"><a href="#cb59-425" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-428"><a href="#cb59-428" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-429"><a href="#cb59-429" aria-hidden="true" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb59-430"><a href="#cb59-430" aria-hidden="true" tabindex="-1"></a>  <span class="at">id    =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C_new"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>, <span class="st">"I"</span>),</span>
-<span id="cb59-431"><a href="#cb59-431" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"Risk-1"</span>, <span class="st">"Risk-2"</span>, <span class="st">"Risk-3"</span>,</span>
-<span id="cb59-432"><a href="#cb59-432" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Resource-1"</span>, <span class="st">"Resource-2"</span>, <span class="st">"Resource-3"</span>,</span>
-<span id="cb59-433"><a href="#cb59-433" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Task-1"</span>, <span class="st">"Task-2"</span>, <span class="st">"Task-3"</span>, <span class="st">"Project"</span>),</span>
-<span id="cb59-434"><a href="#cb59-434" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"Risk"</span>,<span class="st">"Risk"</span>,<span class="st">"Risk"</span>,<span class="st">"Resource"</span>,<span class="st">"Resource"</span>,<span class="st">"Resource"</span>,</span>
-<span id="cb59-435"><a href="#cb59-435" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Task"</span>,<span class="st">"Task"</span>,<span class="st">"Task"</span>,<span class="st">"Project"</span>),</span>
-<span id="cb59-436"><a href="#cb59-436" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
-<span id="cb59-437"><a href="#cb59-437" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb59-438"><a href="#cb59-438" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-439"><a href="#cb59-439" aria-hidden="true" tabindex="-1"></a>links <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb59-440"><a href="#cb59-440" aria-hidden="true" tabindex="-1"></a>  <span class="at">source =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C_new"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>),</span>
-<span id="cb59-441"><a href="#cb59-441" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="fu">c</span>(<span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>,     <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>, <span class="st">"I"</span>, <span class="st">"I"</span>, <span class="st">"I"</span>),</span>
-<span id="cb59-442"><a href="#cb59-442" aria-hidden="true" tabindex="-1"></a>  <span class="at">value  =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">9</span>),</span>
-<span id="cb59-443"><a href="#cb59-443" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
-<span id="cb59-444"><a href="#cb59-444" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb59-445"><a href="#cb59-445" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-446"><a href="#cb59-446" aria-hidden="true" tabindex="-1"></a>distributions <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb59-447"><a href="#cb59-447" aria-hidden="true" tabindex="-1"></a>  <span class="at">A     =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>,   <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.70</span>, <span class="fl">0.30</span>)),</span>
-<span id="cb59-448"><a href="#cb59-448" aria-hidden="true" tabindex="-1"></a>  <span class="at">B     =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>,   <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.60</span>, <span class="fl">0.40</span>)),</span>
-<span id="cb59-449"><a href="#cb59-449" aria-hidden="true" tabindex="-1"></a>  <span class="at">C_new =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>,   <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.40</span>, <span class="fl">0.60</span>)),</span>
-<span id="cb59-450"><a href="#cb59-450" aria-hidden="true" tabindex="-1"></a>  <span class="at">C     =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>, <span class="at">condition =</span> <span class="st">"A"</span>,</span>
-<span id="cb59-451"><a href="#cb59-451" aria-hidden="true" tabindex="-1"></a>    <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">30000</span>, <span class="at">sd =</span> <span class="dv">8000</span>),</span>
-<span id="cb59-452"><a href="#cb59-452" aria-hidden="true" tabindex="-1"></a>    <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">15000</span>, <span class="at">sd =</span> <span class="dv">3000</span>)),</span>
-<span id="cb59-453"><a href="#cb59-453" aria-hidden="true" tabindex="-1"></a>  <span class="at">D     =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>, <span class="at">condition =</span> <span class="st">"B"</span>,</span>
-<span id="cb59-454"><a href="#cb59-454" aria-hidden="true" tabindex="-1"></a>    <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">80000</span>, <span class="at">sd =</span> <span class="dv">20000</span>),</span>
-<span id="cb59-455"><a href="#cb59-455" aria-hidden="true" tabindex="-1"></a>    <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">50000</span>, <span class="at">sd =</span> <span class="dv">10000</span>)),</span>
-<span id="cb59-456"><a href="#cb59-456" aria-hidden="true" tabindex="-1"></a>  <span class="at">E     =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>, <span class="at">condition =</span> <span class="st">"C_new"</span>,</span>
-<span id="cb59-457"><a href="#cb59-457" aria-hidden="true" tabindex="-1"></a>    <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">35000</span>, <span class="at">sd =</span> <span class="dv">7000</span>),</span>
-<span id="cb59-458"><a href="#cb59-458" aria-hidden="true" tabindex="-1"></a>    <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">20000</span>, <span class="at">sd =</span> <span class="dv">4000</span>)),</span>
-<span id="cb59-459"><a href="#cb59-459" aria-hidden="true" tabindex="-1"></a>  <span class="at">F     =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"C"</span>)),</span>
-<span id="cb59-460"><a href="#cb59-460" aria-hidden="true" tabindex="-1"></a>  <span class="at">G     =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"D"</span>)),</span>
-<span id="cb59-461"><a href="#cb59-461" aria-hidden="true" tabindex="-1"></a>  <span class="at">H     =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"E"</span>)),</span>
-<span id="cb59-462"><a href="#cb59-462" aria-hidden="true" tabindex="-1"></a>  <span class="at">I     =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>))</span>
-<span id="cb59-463"><a href="#cb59-463" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb59-464"><a href="#cb59-464" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-465"><a href="#cb59-465" aria-hidden="true" tabindex="-1"></a>graph_new <span class="ot">&lt;-</span> <span class="fu">prob_net</span>(nodes, links, <span class="at">distributions =</span> distributions)</span>
-<span id="cb59-466"><a href="#cb59-466" aria-hidden="true" tabindex="-1"></a>sim_new   <span class="ot">&lt;-</span> <span class="fu">prob_net_sim</span>(graph_new, <span class="at">num_samples =</span> <span class="dv">10000</span>)</span>
-<span id="cb59-467"><a href="#cb59-467" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-468"><a href="#cb59-468" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Mean total cost (with QA risk):"</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">mean</span>(sim_new<span class="sc">$</span>I)), <span class="at">big.mark=</span><span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb59-469"><a href="#cb59-469" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Expected QA cost increase:"</span>,</span>
-<span id="cb59-470"><a href="#cb59-470" aria-hidden="true" tabindex="-1"></a>    <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">mean</span>(sim_new<span class="sc">$</span>H) <span class="sc">-</span> <span class="dv">20000</span>), <span class="at">big.mark=</span><span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb59-471"><a href="#cb59-471" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb59-472"><a href="#cb59-472" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-473"><a href="#cb59-473" aria-hidden="true" tabindex="-1"></a>**Interpretation.** The expected project cost rises by the probability-weighted cost increase for the QA Engineer: $0.40 \times (35{,}000 - 20{,}000) = \$6{,}000$. The actual simulated increase will be close to this but not exact due to the variance in the conditional distributions.</span>
-<span id="cb59-474"><a href="#cb59-474" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-475"><a href="#cb59-475" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb59-476"><a href="#cb59-476" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-477"><a href="#cb59-477" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exercise 5 ★: Two Risks, One Resource</span></span>
+<span id="cb59-406"><a href="#cb59-406" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"DSM-derived correlation matrix:</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb59-407"><a href="#cb59-407" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">round</span>(cor_from_dsm, <span class="dv">2</span>))</span>
+<span id="cb59-408"><a href="#cb59-408" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-409"><a href="#cb59-409" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-412"><a href="#cb59-412" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb59-413"><a href="#cb59-413" aria-hidden="true" tabindex="-1"></a>task_dists <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb59-414"><a href="#cb59-414" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Task-1"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">20250</span>, <span class="at">sd =</span> <span class="dv">5900</span>),</span>
+<span id="cb59-415"><a href="#cb59-415" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Task-2"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">62000</span>, <span class="at">sd =</span> <span class="dv">16000</span>),</span>
+<span id="cb59-416"><a href="#cb59-416" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Task-3"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">20000</span>, <span class="at">sd =</span> <span class="dv">4000</span>)</span>
+<span id="cb59-417"><a href="#cb59-417" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb59-418"><a href="#cb59-418" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-419"><a href="#cb59-419" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb59-420"><a href="#cb59-420" aria-hidden="true" tabindex="-1"></a>res_zero <span class="ot">&lt;-</span> <span class="fu">mcs</span>(<span class="dv">10000</span>, task_dists, <span class="fu">diag</span>(<span class="dv">3</span>))</span>
+<span id="cb59-421"><a href="#cb59-421" aria-hidden="true" tabindex="-1"></a>res_dsm  <span class="ot">&lt;-</span> <span class="fu">mcs</span>(<span class="dv">10000</span>, task_dists, cor_from_dsm)</span>
+<span id="cb59-422"><a href="#cb59-422" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-423"><a href="#cb59-423" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"SD (zero correlation):  "</span>, <span class="fu">round</span>(res_zero<span class="sc">$</span>total_sd, <span class="dv">0</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb59-424"><a href="#cb59-424" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"SD (DSM correlation):   "</span>, <span class="fu">round</span>(res_dsm<span class="sc">$</span>total_sd,  <span class="dv">0</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb59-425"><a href="#cb59-425" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Variance inflation:     "</span>,</span>
+<span id="cb59-426"><a href="#cb59-426" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>((res_dsm<span class="sc">$</span>total_sd<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> res_zero<span class="sc">$</span>total_sd<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> res_zero<span class="sc">$</span>total_sd<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
+<span id="cb59-427"><a href="#cb59-427" aria-hidden="true" tabindex="-1"></a>    <span class="st">"%</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb59-428"><a href="#cb59-428" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-429"><a href="#cb59-429" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-430"><a href="#cb59-430" aria-hidden="true" tabindex="-1"></a>**What structural coupling adds.** The base project (dedicated resources) yields <span class="in">`cor_from_dsm == diag(3)`</span> — no coupling, no variance inflation. Adding the shared Project Manager introduces a non-zero correlation between Task-1 and Task-2, inflating total standard deviation above the independent baseline. DSM reveals *which* tasks are coupled; MCS quantifies *how much* that coupling increases risk.</span>
+<span id="cb59-431"><a href="#cb59-431" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-432"><a href="#cb59-432" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb59-433"><a href="#cb59-433" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-434"><a href="#cb59-434" aria-hidden="true" tabindex="-1"></a><span class="fu">## Probabilistic Networks (@sec-network)</span></span>
+<span id="cb59-435"><a href="#cb59-435" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-436"><a href="#cb59-436" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exercise 3 ★: Add a QA Risk</span></span>
+<span id="cb59-437"><a href="#cb59-437" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-438"><a href="#cb59-438" aria-hidden="true" tabindex="-1"></a>*Add Risk-3 (p = 0.40) affecting QA Engineer, increasing cost from $20K to $35K.*</span>
+<span id="cb59-439"><a href="#cb59-439" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-442"><a href="#cb59-442" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb59-443"><a href="#cb59-443" aria-hidden="true" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb59-444"><a href="#cb59-444" aria-hidden="true" tabindex="-1"></a>  <span class="at">id    =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C_new"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>, <span class="st">"I"</span>),</span>
+<span id="cb59-445"><a href="#cb59-445" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"Risk-1"</span>, <span class="st">"Risk-2"</span>, <span class="st">"Risk-3"</span>,</span>
+<span id="cb59-446"><a href="#cb59-446" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Resource-1"</span>, <span class="st">"Resource-2"</span>, <span class="st">"Resource-3"</span>,</span>
+<span id="cb59-447"><a href="#cb59-447" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Task-1"</span>, <span class="st">"Task-2"</span>, <span class="st">"Task-3"</span>, <span class="st">"Project"</span>),</span>
+<span id="cb59-448"><a href="#cb59-448" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"Risk"</span>,<span class="st">"Risk"</span>,<span class="st">"Risk"</span>,<span class="st">"Resource"</span>,<span class="st">"Resource"</span>,<span class="st">"Resource"</span>,</span>
+<span id="cb59-449"><a href="#cb59-449" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Task"</span>,<span class="st">"Task"</span>,<span class="st">"Task"</span>,<span class="st">"Project"</span>),</span>
+<span id="cb59-450"><a href="#cb59-450" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb59-451"><a href="#cb59-451" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb59-452"><a href="#cb59-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-453"><a href="#cb59-453" aria-hidden="true" tabindex="-1"></a>links <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb59-454"><a href="#cb59-454" aria-hidden="true" tabindex="-1"></a>  <span class="at">source =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C_new"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>),</span>
+<span id="cb59-455"><a href="#cb59-455" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="fu">c</span>(<span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>,     <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>, <span class="st">"I"</span>, <span class="st">"I"</span>, <span class="st">"I"</span>),</span>
+<span id="cb59-456"><a href="#cb59-456" aria-hidden="true" tabindex="-1"></a>  <span class="at">value  =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">9</span>),</span>
+<span id="cb59-457"><a href="#cb59-457" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb59-458"><a href="#cb59-458" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb59-459"><a href="#cb59-459" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-460"><a href="#cb59-460" aria-hidden="true" tabindex="-1"></a>distributions <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb59-461"><a href="#cb59-461" aria-hidden="true" tabindex="-1"></a>  <span class="at">A     =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>,   <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.70</span>, <span class="fl">0.30</span>)),</span>
+<span id="cb59-462"><a href="#cb59-462" aria-hidden="true" tabindex="-1"></a>  <span class="at">B     =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>,   <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.60</span>, <span class="fl">0.40</span>)),</span>
+<span id="cb59-463"><a href="#cb59-463" aria-hidden="true" tabindex="-1"></a>  <span class="at">C_new =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>,   <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.40</span>, <span class="fl">0.60</span>)),</span>
+<span id="cb59-464"><a href="#cb59-464" aria-hidden="true" tabindex="-1"></a>  <span class="at">C     =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>, <span class="at">condition =</span> <span class="st">"A"</span>,</span>
+<span id="cb59-465"><a href="#cb59-465" aria-hidden="true" tabindex="-1"></a>    <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">30000</span>, <span class="at">sd =</span> <span class="dv">8000</span>),</span>
+<span id="cb59-466"><a href="#cb59-466" aria-hidden="true" tabindex="-1"></a>    <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">15000</span>, <span class="at">sd =</span> <span class="dv">3000</span>)),</span>
+<span id="cb59-467"><a href="#cb59-467" aria-hidden="true" tabindex="-1"></a>  <span class="at">D     =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>, <span class="at">condition =</span> <span class="st">"B"</span>,</span>
+<span id="cb59-468"><a href="#cb59-468" aria-hidden="true" tabindex="-1"></a>    <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">80000</span>, <span class="at">sd =</span> <span class="dv">20000</span>),</span>
+<span id="cb59-469"><a href="#cb59-469" aria-hidden="true" tabindex="-1"></a>    <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">50000</span>, <span class="at">sd =</span> <span class="dv">10000</span>)),</span>
+<span id="cb59-470"><a href="#cb59-470" aria-hidden="true" tabindex="-1"></a>  <span class="at">E     =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>, <span class="at">condition =</span> <span class="st">"C_new"</span>,</span>
+<span id="cb59-471"><a href="#cb59-471" aria-hidden="true" tabindex="-1"></a>    <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">35000</span>, <span class="at">sd =</span> <span class="dv">7000</span>),</span>
+<span id="cb59-472"><a href="#cb59-472" aria-hidden="true" tabindex="-1"></a>    <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">20000</span>, <span class="at">sd =</span> <span class="dv">4000</span>)),</span>
+<span id="cb59-473"><a href="#cb59-473" aria-hidden="true" tabindex="-1"></a>  <span class="at">F     =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"C"</span>)),</span>
+<span id="cb59-474"><a href="#cb59-474" aria-hidden="true" tabindex="-1"></a>  <span class="at">G     =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"D"</span>)),</span>
+<span id="cb59-475"><a href="#cb59-475" aria-hidden="true" tabindex="-1"></a>  <span class="at">H     =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"E"</span>)),</span>
+<span id="cb59-476"><a href="#cb59-476" aria-hidden="true" tabindex="-1"></a>  <span class="at">I     =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>))</span>
+<span id="cb59-477"><a href="#cb59-477" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb59-478"><a href="#cb59-478" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-479"><a href="#cb59-479" aria-hidden="true" tabindex="-1"></a>*Design a network where two risks both affect the same resource. What happens to task correlation?*</span>
-<span id="cb59-480"><a href="#cb59-480" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-483"><a href="#cb59-483" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-484"><a href="#cb59-484" aria-hidden="true" tabindex="-1"></a>nodes2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb59-485"><a href="#cb59-485" aria-hidden="true" tabindex="-1"></a>  <span class="at">id    =</span> <span class="fu">c</span>(<span class="st">"R1"</span>, <span class="st">"R2"</span>, <span class="st">"Res"</span>, <span class="st">"T1"</span>, <span class="st">"T2"</span>, <span class="st">"P"</span>),</span>
-<span id="cb59-486"><a href="#cb59-486" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"Risk-1"</span>, <span class="st">"Risk-2"</span>, <span class="st">"Shared Resource"</span>,</span>
-<span id="cb59-487"><a href="#cb59-487" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Task-1"</span>, <span class="st">"Task-2"</span>, <span class="st">"Project"</span>),</span>
-<span id="cb59-488"><a href="#cb59-488" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"Risk"</span>,<span class="st">"Risk"</span>,<span class="st">"Resource"</span>,<span class="st">"Task"</span>,<span class="st">"Task"</span>,<span class="st">"Project"</span>),</span>
-<span id="cb59-489"><a href="#cb59-489" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
-<span id="cb59-490"><a href="#cb59-490" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb59-491"><a href="#cb59-491" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-492"><a href="#cb59-492" aria-hidden="true" tabindex="-1"></a>links2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb59-493"><a href="#cb59-493" aria-hidden="true" tabindex="-1"></a>  <span class="at">source =</span> <span class="fu">c</span>(<span class="st">"R1"</span>,<span class="st">"R2"</span>,<span class="st">"Res"</span>,<span class="st">"Res"</span>,<span class="st">"T1"</span>,<span class="st">"T2"</span>),</span>
-<span id="cb59-494"><a href="#cb59-494" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="fu">c</span>(<span class="st">"Res"</span>,<span class="st">"Res"</span>,<span class="st">"T1"</span>,<span class="st">"T2"</span>,<span class="st">"P"</span>,<span class="st">"P"</span>),</span>
-<span id="cb59-495"><a href="#cb59-495" aria-hidden="true" tabindex="-1"></a>  <span class="at">value  =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">6</span>),</span>
-<span id="cb59-496"><a href="#cb59-496" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
-<span id="cb59-497"><a href="#cb59-497" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb59-498"><a href="#cb59-498" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-499"><a href="#cb59-499" aria-hidden="true" tabindex="-1"></a>distributions2 <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb59-500"><a href="#cb59-500" aria-hidden="true" tabindex="-1"></a>  <span class="at">R1  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.50</span>, <span class="fl">0.50</span>)),</span>
-<span id="cb59-501"><a href="#cb59-501" aria-hidden="true" tabindex="-1"></a>  <span class="at">R2  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.40</span>, <span class="fl">0.60</span>)),</span>
-<span id="cb59-502"><a href="#cb59-502" aria-hidden="true" tabindex="-1"></a>  <span class="at">Res =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>, <span class="at">condition =</span> <span class="st">"R1"</span>,</span>
-<span id="cb59-503"><a href="#cb59-503" aria-hidden="true" tabindex="-1"></a>    <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">80000</span>, <span class="at">sd =</span> <span class="dv">15000</span>),</span>
-<span id="cb59-504"><a href="#cb59-504" aria-hidden="true" tabindex="-1"></a>    <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">40000</span>, <span class="at">sd =</span> <span class="dv">8000</span>)),</span>
-<span id="cb59-505"><a href="#cb59-505" aria-hidden="true" tabindex="-1"></a>  <span class="at">T1  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"Res"</span>)),</span>
-<span id="cb59-506"><a href="#cb59-506" aria-hidden="true" tabindex="-1"></a>  <span class="at">T2  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"Res"</span>)),</span>
-<span id="cb59-507"><a href="#cb59-507" aria-hidden="true" tabindex="-1"></a>  <span class="at">P   =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"T1"</span>, <span class="st">"T2"</span>))</span>
-<span id="cb59-508"><a href="#cb59-508" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb59-509"><a href="#cb59-509" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb59-510"><a href="#cb59-510" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-511"><a href="#cb59-511" aria-hidden="true" tabindex="-1"></a>Note: in this simplified network both tasks draw from the *same* resource node. Because T1 and T2 both equal Res, their simulated values will be perfectly correlated (correlation = 1). In a more realistic model, each task would have *additional* independent cost components, reducing the correlation below 1.</span>
+<span id="cb59-479"><a href="#cb59-479" aria-hidden="true" tabindex="-1"></a>graph_new <span class="ot">&lt;-</span> <span class="fu">prob_net</span>(nodes, links, <span class="at">distributions =</span> distributions)</span>
+<span id="cb59-480"><a href="#cb59-480" aria-hidden="true" tabindex="-1"></a>sim_new   <span class="ot">&lt;-</span> <span class="fu">prob_net_sim</span>(graph_new, <span class="at">num_samples =</span> <span class="dv">10000</span>)</span>
+<span id="cb59-481"><a href="#cb59-481" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-482"><a href="#cb59-482" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Mean total cost (with QA risk):"</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">mean</span>(sim_new<span class="sc">$</span>I)), <span class="at">big.mark=</span><span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb59-483"><a href="#cb59-483" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Expected QA cost increase:"</span>,</span>
+<span id="cb59-484"><a href="#cb59-484" aria-hidden="true" tabindex="-1"></a>    <span class="fu">format</span>(<span class="fu">round</span>(<span class="fu">mean</span>(sim_new<span class="sc">$</span>H) <span class="sc">-</span> <span class="dv">20000</span>), <span class="at">big.mark=</span><span class="st">","</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb59-485"><a href="#cb59-485" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-486"><a href="#cb59-486" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-487"><a href="#cb59-487" aria-hidden="true" tabindex="-1"></a>**Interpretation.** The expected project cost rises by the probability-weighted cost increase for the QA Engineer: $0.40 \times (35{,}000 - 20{,}000) = \$6{,}000$. The actual simulated increase will be close to this but not exact due to the variance in the conditional distributions.</span>
+<span id="cb59-488"><a href="#cb59-488" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-489"><a href="#cb59-489" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb59-490"><a href="#cb59-490" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-491"><a href="#cb59-491" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exercise 5 ★: Two Risks, One Resource</span></span>
+<span id="cb59-492"><a href="#cb59-492" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-493"><a href="#cb59-493" aria-hidden="true" tabindex="-1"></a>*Design a network where two risks both affect the same resource. What happens to task correlation?*</span>
+<span id="cb59-494"><a href="#cb59-494" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-497"><a href="#cb59-497" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb59-498"><a href="#cb59-498" aria-hidden="true" tabindex="-1"></a>nodes2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb59-499"><a href="#cb59-499" aria-hidden="true" tabindex="-1"></a>  <span class="at">id    =</span> <span class="fu">c</span>(<span class="st">"R1"</span>, <span class="st">"R2"</span>, <span class="st">"Res"</span>, <span class="st">"T1"</span>, <span class="st">"T2"</span>, <span class="st">"P"</span>),</span>
+<span id="cb59-500"><a href="#cb59-500" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"Risk-1"</span>, <span class="st">"Risk-2"</span>, <span class="st">"Shared Resource"</span>,</span>
+<span id="cb59-501"><a href="#cb59-501" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Task-1"</span>, <span class="st">"Task-2"</span>, <span class="st">"Project"</span>),</span>
+<span id="cb59-502"><a href="#cb59-502" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"Risk"</span>,<span class="st">"Risk"</span>,<span class="st">"Resource"</span>,<span class="st">"Task"</span>,<span class="st">"Task"</span>,<span class="st">"Project"</span>),</span>
+<span id="cb59-503"><a href="#cb59-503" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb59-504"><a href="#cb59-504" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb59-505"><a href="#cb59-505" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-506"><a href="#cb59-506" aria-hidden="true" tabindex="-1"></a>links2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb59-507"><a href="#cb59-507" aria-hidden="true" tabindex="-1"></a>  <span class="at">source =</span> <span class="fu">c</span>(<span class="st">"R1"</span>,<span class="st">"R2"</span>,<span class="st">"Res"</span>,<span class="st">"Res"</span>,<span class="st">"T1"</span>,<span class="st">"T2"</span>),</span>
+<span id="cb59-508"><a href="#cb59-508" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="fu">c</span>(<span class="st">"Res"</span>,<span class="st">"Res"</span>,<span class="st">"T1"</span>,<span class="st">"T2"</span>,<span class="st">"P"</span>,<span class="st">"P"</span>),</span>
+<span id="cb59-509"><a href="#cb59-509" aria-hidden="true" tabindex="-1"></a>  <span class="at">value  =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">6</span>),</span>
+<span id="cb59-510"><a href="#cb59-510" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb59-511"><a href="#cb59-511" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb59-512"><a href="#cb59-512" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-515"><a href="#cb59-515" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-516"><a href="#cb59-516" aria-hidden="true" tabindex="-1"></a>graph2 <span class="ot">&lt;-</span> <span class="fu">prob_net</span>(nodes2, links2, <span class="at">distributions =</span> distributions2)</span>
-<span id="cb59-517"><a href="#cb59-517" aria-hidden="true" tabindex="-1"></a>sim2   <span class="ot">&lt;-</span> <span class="fu">prob_net_sim</span>(graph2, <span class="at">num_samples =</span> <span class="dv">10000</span>)</span>
-<span id="cb59-518"><a href="#cb59-518" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-519"><a href="#cb59-519" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Correlation between T1 and T2:"</span>, <span class="fu">round</span>(<span class="fu">cor</span>(sim2<span class="sc">$</span>T1, sim2<span class="sc">$</span>T2), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb59-520"><a href="#cb59-520" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb59-521"><a href="#cb59-521" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-522"><a href="#cb59-522" aria-hidden="true" tabindex="-1"></a>**Interpretation.** Two tasks that *both* depend on the same resource share all of that resource's uncertainty. When a risk strikes the shared resource, both tasks are affected simultaneously and in the same direction, creating perfect positive correlation within the resource node. This is exactly what the DSM predicts structurally (@sec-dsm): a high off-diagonal Parent DSM entry between these two tasks.</span>
-<span id="cb59-523"><a href="#cb59-523" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-524"><a href="#cb59-524" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb59-525"><a href="#cb59-525" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-526"><a href="#cb59-526" aria-hidden="true" tabindex="-1"></a><span class="fu">## Portfolio Networks (@sec-network2)</span></span>
-<span id="cb59-527"><a href="#cb59-527" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-528"><a href="#cb59-528" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exercise 4 ★: Add a Fourth Project</span></span>
-<span id="cb59-529"><a href="#cb59-529" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-530"><a href="#cb59-530" aria-hidden="true" tabindex="-1"></a>This exercise requires reading <span class="in">`ch-network2.qmd`</span> to obtain the existing three-project network structure. The solution below shows the pattern for extending the portfolio.</span>
-<span id="cb59-531"><a href="#cb59-531" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-534"><a href="#cb59-534" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb59-535"><a href="#cb59-535" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb59-536"><a href="#cb59-536" aria-hidden="true" tabindex="-1"></a><span class="co"># Pattern for adding a fourth project (Bridge Inspection) to the portfolio</span></span>
-<span id="cb59-537"><a href="#cb59-537" aria-hidden="true" tabindex="-1"></a><span class="co"># Assumes nodes A, B, C are enterprise risks already in the network</span></span>
-<span id="cb59-538"><a href="#cb59-538" aria-hidden="true" tabindex="-1"></a><span class="co"># New nodes: L4 (Labor-4), M4 (Materials-4), E4 (Equipment-4),</span></span>
-<span id="cb59-539"><a href="#cb59-539" aria-hidden="true" tabindex="-1"></a><span class="co">#            W4 (Work-4), X (Portfolio total)</span></span>
-<span id="cb59-540"><a href="#cb59-540" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-541"><a href="#cb59-541" aria-hidden="true" tabindex="-1"></a><span class="co"># Add to nodes data frame:</span></span>
-<span id="cb59-542"><a href="#cb59-542" aria-hidden="true" tabindex="-1"></a>new_nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb59-543"><a href="#cb59-543" aria-hidden="true" tabindex="-1"></a>  <span class="at">id    =</span> <span class="fu">c</span>(<span class="st">"L4"</span>, <span class="st">"M4"</span>, <span class="st">"E4"</span>, <span class="st">"W4"</span>),</span>
-<span id="cb59-544"><a href="#cb59-544" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"Labor-4"</span>,<span class="st">"Materials-4"</span>,<span class="st">"Equipment-4"</span>,<span class="st">"Bridge Inspection"</span>),</span>
-<span id="cb59-545"><a href="#cb59-545" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"Resource"</span>,<span class="st">"Resource"</span>,<span class="st">"Resource"</span>,<span class="st">"Project"</span>),</span>
-<span id="cb59-546"><a href="#cb59-546" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
-<span id="cb59-547"><a href="#cb59-547" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb59-548"><a href="#cb59-548" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-549"><a href="#cb59-549" aria-hidden="true" tabindex="-1"></a><span class="co"># Add edges: enterprise risks → new resources, new resources → W4, W4 → portfolio</span></span>
-<span id="cb59-550"><a href="#cb59-550" aria-hidden="true" tabindex="-1"></a>new_links <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb59-551"><a href="#cb59-551" aria-hidden="true" tabindex="-1"></a>  <span class="at">source =</span> <span class="fu">c</span>(<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"C"</span>,<span class="st">"L4"</span>,<span class="st">"M4"</span>,<span class="st">"E4"</span>,<span class="st">"W4"</span>),</span>
-<span id="cb59-552"><a href="#cb59-552" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="fu">c</span>(<span class="st">"L4"</span>,<span class="st">"M4"</span>,<span class="st">"E4"</span>,<span class="st">"W4"</span>,<span class="st">"W4"</span>,<span class="st">"W4"</span>,<span class="st">"Y"</span>),</span>
-<span id="cb59-553"><a href="#cb59-553" aria-hidden="true" tabindex="-1"></a>  <span class="at">value  =</span> <span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">7</span>),</span>
-<span id="cb59-554"><a href="#cb59-554" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
-<span id="cb59-555"><a href="#cb59-555" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb59-556"><a href="#cb59-556" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb59-557"><a href="#cb59-557" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-558"><a href="#cb59-558" aria-hidden="true" tabindex="-1"></a>**Expected result.** Adding a fourth project sharing the same enterprise risks increases total portfolio variance by more than the fourth project's standalone variance, since the covariance terms between the new project and the existing three add to the total. The risk importance ranking is unlikely to shift dramatically, but any enterprise risk that was already dominant (highest contribution to existing portfolio variance) will become even more dominant in the extended portfolio.</span>
-<span id="cb59-559"><a href="#cb59-559" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-560"><a href="#cb59-560" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb59-561"><a href="#cb59-561" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-562"><a href="#cb59-562" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exercise 5 ★: Causal Graph Design</span></span>
-<span id="cb59-563"><a href="#cb59-563" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-564"><a href="#cb59-564" aria-hidden="true" tabindex="-1"></a>*Add SC → C edge: Supply Chain Disruption also affects Weather Delay through logistics.*</span>
-<span id="cb59-565"><a href="#cb59-565" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-566"><a href="#cb59-566" aria-hidden="true" tabindex="-1"></a>This exercise is primarily conceptual; the answer requires reasoning about the see-versus-do distinction.</span>
-<span id="cb59-567"><a href="#cb59-567" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-568"><a href="#cb59-568" aria-hidden="true" tabindex="-1"></a>**Answer.** Adding SC → C means that C (Weather Delay) is no longer a root variable; it becomes conditional on SC. When you *see* C = Yes, you're now also updating your belief about SC, which in turn shifts your beliefs about A (Labor Shortage) and B (Material Price Spike), because all three share SC as a parent. This creates *explaining away*: if you observe C and you know that SC explains it, you become less certain that some independent weather phenomenon caused C.</span>
-<span id="cb59-569"><a href="#cb59-569" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-570"><a href="#cb59-570" aria-hidden="true" tabindex="-1"></a>The do-calculus implication: <span class="in">`prob_net_update()`</span> (graph surgery) would remove the SC → C edge when computing $P(Y | \text{do}(C = \text{No}))$, preventing the intervention from propagating back up to SC and then down to A and B. In contrast, <span class="in">`prob_net_learn()`</span> (conditioning) would propagate through all paths, including the SC back-channel. The see-versus-do distinction becomes consequential precisely because of this shared upstream cause.</span>
+<span id="cb59-513"><a href="#cb59-513" aria-hidden="true" tabindex="-1"></a>distributions2 <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb59-514"><a href="#cb59-514" aria-hidden="true" tabindex="-1"></a>  <span class="at">R1  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.50</span>, <span class="fl">0.50</span>)),</span>
+<span id="cb59-515"><a href="#cb59-515" aria-hidden="true" tabindex="-1"></a>  <span class="at">R2  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.40</span>, <span class="fl">0.60</span>)),</span>
+<span id="cb59-516"><a href="#cb59-516" aria-hidden="true" tabindex="-1"></a>  <span class="at">Res =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>, <span class="at">condition =</span> <span class="st">"R1"</span>,</span>
+<span id="cb59-517"><a href="#cb59-517" aria-hidden="true" tabindex="-1"></a>    <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">80000</span>, <span class="at">sd =</span> <span class="dv">15000</span>),</span>
+<span id="cb59-518"><a href="#cb59-518" aria-hidden="true" tabindex="-1"></a>    <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">40000</span>, <span class="at">sd =</span> <span class="dv">8000</span>)),</span>
+<span id="cb59-519"><a href="#cb59-519" aria-hidden="true" tabindex="-1"></a>  <span class="at">T1  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"Res"</span>)),</span>
+<span id="cb59-520"><a href="#cb59-520" aria-hidden="true" tabindex="-1"></a>  <span class="at">T2  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"Res"</span>)),</span>
+<span id="cb59-521"><a href="#cb59-521" aria-hidden="true" tabindex="-1"></a>  <span class="at">P   =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"T1"</span>, <span class="st">"T2"</span>))</span>
+<span id="cb59-522"><a href="#cb59-522" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb59-523"><a href="#cb59-523" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-524"><a href="#cb59-524" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-525"><a href="#cb59-525" aria-hidden="true" tabindex="-1"></a>Note: in this simplified network both tasks draw from the *same* resource node. Because T1 and T2 both equal Res, their simulated values will be perfectly correlated (correlation = 1). In a more realistic model, each task would have *additional* independent cost components, reducing the correlation below 1.</span>
+<span id="cb59-526"><a href="#cb59-526" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-529"><a href="#cb59-529" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb59-530"><a href="#cb59-530" aria-hidden="true" tabindex="-1"></a>graph2 <span class="ot">&lt;-</span> <span class="fu">prob_net</span>(nodes2, links2, <span class="at">distributions =</span> distributions2)</span>
+<span id="cb59-531"><a href="#cb59-531" aria-hidden="true" tabindex="-1"></a>sim2   <span class="ot">&lt;-</span> <span class="fu">prob_net_sim</span>(graph2, <span class="at">num_samples =</span> <span class="dv">10000</span>)</span>
+<span id="cb59-532"><a href="#cb59-532" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-533"><a href="#cb59-533" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Correlation between T1 and T2:"</span>, <span class="fu">round</span>(<span class="fu">cor</span>(sim2<span class="sc">$</span>T1, sim2<span class="sc">$</span>T2), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb59-534"><a href="#cb59-534" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-535"><a href="#cb59-535" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-536"><a href="#cb59-536" aria-hidden="true" tabindex="-1"></a>**Interpretation.** Two tasks that *both* depend on the same resource share all of that resource's uncertainty. When a risk strikes the shared resource, both tasks are affected simultaneously and in the same direction, creating perfect positive correlation within the resource node. This is exactly what the DSM predicts structurally (@sec-dsm): a high off-diagonal Parent DSM entry between these two tasks.</span>
+<span id="cb59-537"><a href="#cb59-537" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-538"><a href="#cb59-538" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb59-539"><a href="#cb59-539" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-540"><a href="#cb59-540" aria-hidden="true" tabindex="-1"></a><span class="fu">## Portfolio Networks (@sec-network2)</span></span>
+<span id="cb59-541"><a href="#cb59-541" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-542"><a href="#cb59-542" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exercise 4 ★: Add a Fourth Project</span></span>
+<span id="cb59-543"><a href="#cb59-543" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-544"><a href="#cb59-544" aria-hidden="true" tabindex="-1"></a>This exercise requires reading <span class="in">`ch-network2.qmd`</span> to obtain the existing three-project network structure. The solution below shows the pattern for extending the portfolio.</span>
+<span id="cb59-545"><a href="#cb59-545" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-548"><a href="#cb59-548" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb59-549"><a href="#cb59-549" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb59-550"><a href="#cb59-550" aria-hidden="true" tabindex="-1"></a><span class="co"># Pattern for adding a fourth project (Bridge Inspection) to the portfolio</span></span>
+<span id="cb59-551"><a href="#cb59-551" aria-hidden="true" tabindex="-1"></a><span class="co"># Assumes nodes A, B, C are enterprise risks already in the network</span></span>
+<span id="cb59-552"><a href="#cb59-552" aria-hidden="true" tabindex="-1"></a><span class="co"># New nodes: L4 (Labor-4), M4 (Materials-4), E4 (Equipment-4),</span></span>
+<span id="cb59-553"><a href="#cb59-553" aria-hidden="true" tabindex="-1"></a><span class="co">#            W4 (Work-4), X (Portfolio total)</span></span>
+<span id="cb59-554"><a href="#cb59-554" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-555"><a href="#cb59-555" aria-hidden="true" tabindex="-1"></a><span class="co"># Add to nodes data frame:</span></span>
+<span id="cb59-556"><a href="#cb59-556" aria-hidden="true" tabindex="-1"></a>new_nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb59-557"><a href="#cb59-557" aria-hidden="true" tabindex="-1"></a>  <span class="at">id    =</span> <span class="fu">c</span>(<span class="st">"L4"</span>, <span class="st">"M4"</span>, <span class="st">"E4"</span>, <span class="st">"W4"</span>),</span>
+<span id="cb59-558"><a href="#cb59-558" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"Labor-4"</span>,<span class="st">"Materials-4"</span>,<span class="st">"Equipment-4"</span>,<span class="st">"Bridge Inspection"</span>),</span>
+<span id="cb59-559"><a href="#cb59-559" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="st">"Resource"</span>,<span class="st">"Resource"</span>,<span class="st">"Resource"</span>,<span class="st">"Project"</span>),</span>
+<span id="cb59-560"><a href="#cb59-560" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb59-561"><a href="#cb59-561" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb59-562"><a href="#cb59-562" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-563"><a href="#cb59-563" aria-hidden="true" tabindex="-1"></a><span class="co"># Add edges: enterprise risks → new resources, new resources → W4, W4 → portfolio</span></span>
+<span id="cb59-564"><a href="#cb59-564" aria-hidden="true" tabindex="-1"></a>new_links <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb59-565"><a href="#cb59-565" aria-hidden="true" tabindex="-1"></a>  <span class="at">source =</span> <span class="fu">c</span>(<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"C"</span>,<span class="st">"L4"</span>,<span class="st">"M4"</span>,<span class="st">"E4"</span>,<span class="st">"W4"</span>),</span>
+<span id="cb59-566"><a href="#cb59-566" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="fu">c</span>(<span class="st">"L4"</span>,<span class="st">"M4"</span>,<span class="st">"E4"</span>,<span class="st">"W4"</span>,<span class="st">"W4"</span>,<span class="st">"W4"</span>,<span class="st">"Y"</span>),</span>
+<span id="cb59-567"><a href="#cb59-567" aria-hidden="true" tabindex="-1"></a>  <span class="at">value  =</span> <span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">7</span>),</span>
+<span id="cb59-568"><a href="#cb59-568" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb59-569"><a href="#cb59-569" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb59-570"><a href="#cb59-570" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb59-571"><a href="#cb59-571" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-572"><a href="#cb59-572" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb59-572"><a href="#cb59-572" aria-hidden="true" tabindex="-1"></a>**Expected result.** Adding a fourth project sharing the same enterprise risks increases total portfolio variance by more than the fourth project's standalone variance, since the covariance terms between the new project and the existing three add to the total. The risk importance ranking is unlikely to shift dramatically, but any enterprise risk that was already dominant (highest contribution to existing portfolio variance) will become even more dominant in the extended portfolio.</span>
 <span id="cb59-573"><a href="#cb59-573" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-574"><a href="#cb59-574" aria-hidden="true" tabindex="-1"></a><span class="fu">## Agentic Risk Analysis (@sec-agent)</span></span>
+<span id="cb59-574"><a href="#cb59-574" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb59-575"><a href="#cb59-575" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-576"><a href="#cb59-576" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exercise 5 ★: MCP Integration</span></span>
+<span id="cb59-576"><a href="#cb59-576" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exercise 5 ★: Causal Graph Design</span></span>
 <span id="cb59-577"><a href="#cb59-577" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-578"><a href="#cb59-578" aria-hidden="true" tabindex="-1"></a>This exercise is environment-dependent and cannot be evaluated in the rendered book. Below is a description of the expected experience and how to verify it.</span>
+<span id="cb59-578"><a href="#cb59-578" aria-hidden="true" tabindex="-1"></a>*Add SC → C edge: Supply Chain Disruption also affects Weather Delay through logistics.*</span>
 <span id="cb59-579"><a href="#cb59-579" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-580"><a href="#cb59-580" aria-hidden="true" tabindex="-1"></a>**Setup.** Follow the MCP registration steps in @sec-agent:</span>
+<span id="cb59-580"><a href="#cb59-580" aria-hidden="true" tabindex="-1"></a>This exercise is primarily conceptual; the answer requires reasoning about the see-versus-do distinction.</span>
 <span id="cb59-581"><a href="#cb59-581" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-582"><a href="#cb59-582" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb59-583"><a href="#cb59-583" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add <span class="at">-s</span> project pra <span class="at">--</span> Rscript <span class="at">-e</span> <span class="st">"PRA::pra_mcp_server()"</span></span>
-<span id="cb59-584"><a href="#cb59-584" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-582"><a href="#cb59-582" aria-hidden="true" tabindex="-1"></a>**Answer.** Adding SC → C means that C (Weather Delay) is no longer a root variable; it becomes conditional on SC. When you *see* C = Yes, you're now also updating your belief about SC, which in turn shifts your beliefs about A (Labor Shortage) and B (Material Price Spike), because all three share SC as a parent. This creates *explaining away*: if you observe C and you know that SC explains it, you become less certain that some independent weather phenomenon caused C.</span>
+<span id="cb59-583"><a href="#cb59-583" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-584"><a href="#cb59-584" aria-hidden="true" tabindex="-1"></a>The do-calculus implication: <span class="in">`prob_net_update()`</span> (graph surgery) would remove the SC → C edge when computing $P(Y | \text{do}(C = \text{No}))$, preventing the intervention from propagating back up to SC and then down to A and B. In contrast, <span class="in">`prob_net_learn()`</span> (conditioning) would propagate through all paths, including the SC back-channel. The see-versus-do distinction becomes consequential precisely because of this shared upstream cause.</span>
 <span id="cb59-585"><a href="#cb59-585" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-586"><a href="#cb59-586" aria-hidden="true" tabindex="-1"></a>**Expected tool-call behavior.** When you ask "Run a Monte Carlo simulation for three tasks: Task A Normal(10, 2), Task B Triangular(5, 10, 15), Task C Uniform(8, 12). What is the P95 duration?", Claude should:</span>
+<span id="cb59-586"><a href="#cb59-586" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb59-587"><a href="#cb59-587" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-588"><a href="#cb59-588" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Identify this as a numerical query requiring the <span class="in">`mcs`</span> tool</span>
-<span id="cb59-589"><a href="#cb59-589" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Format the task distributions as JSON and call the tool</span>
-<span id="cb59-590"><a href="#cb59-590" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Return the P95 from the simulation result (approximately 33–34 weeks for this input with default settings)</span>
-<span id="cb59-591"><a href="#cb59-591" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Optionally suggest a contingency reserve</span>
-<span id="cb59-592"><a href="#cb59-592" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-593"><a href="#cb59-593" aria-hidden="true" tabindex="-1"></a>**Expected RAG behavior.** When you ask a conceptual question like "What is earned value?", Claude should answer from the PRA knowledge base rather than calling a tool. The response should reference EV as $\text{BAC} \times \% \text{complete}$ and mention CPI and SPI.</span>
-<span id="cb59-594"><a href="#cb59-594" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-595"><a href="#cb59-595" aria-hidden="true" tabindex="-1"></a>**Signs of success:** Tool calls appear in the Claude interface as structured results (not just text). RAG answers cite the knowledge base source. The P95 matches what you get running the same command via <span class="in">`/mcs`</span> directly.</span>
+<span id="cb59-588"><a href="#cb59-588" aria-hidden="true" tabindex="-1"></a><span class="fu">## Agentic Risk Analysis (@sec-agent)</span></span>
+<span id="cb59-589"><a href="#cb59-589" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-590"><a href="#cb59-590" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exercise 5 ★: MCP Integration</span></span>
+<span id="cb59-591"><a href="#cb59-591" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-592"><a href="#cb59-592" aria-hidden="true" tabindex="-1"></a>This exercise is environment-dependent and cannot be evaluated in the rendered book. Below is a description of the expected experience and how to verify it.</span>
+<span id="cb59-593"><a href="#cb59-593" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-594"><a href="#cb59-594" aria-hidden="true" tabindex="-1"></a>**Setup.** Follow the MCP registration steps in @sec-agent:</span>
+<span id="cb59-595"><a href="#cb59-595" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-596"><a href="#cb59-596" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb59-597"><a href="#cb59-597" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add <span class="at">-s</span> project pra <span class="at">--</span> Rscript <span class="at">-e</span> <span class="st">"PRA::pra_mcp_server()"</span></span>
+<span id="cb59-598"><a href="#cb59-598" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb59-599"><a href="#cb59-599" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-600"><a href="#cb59-600" aria-hidden="true" tabindex="-1"></a>**Expected tool-call behavior.** When you ask "Run a Monte Carlo simulation for three tasks: Task A Normal(10, 2), Task B Triangular(5, 10, 15), Task C Uniform(8, 12). What is the P95 duration?", Claude should:</span>
+<span id="cb59-601"><a href="#cb59-601" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-602"><a href="#cb59-602" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Identify this as a numerical query requiring the <span class="in">`mcs`</span> tool</span>
+<span id="cb59-603"><a href="#cb59-603" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Format the task distributions as JSON and call the tool</span>
+<span id="cb59-604"><a href="#cb59-604" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Return the P95 from the simulation result (approximately 33–34 weeks for this input with default settings)</span>
+<span id="cb59-605"><a href="#cb59-605" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Optionally suggest a contingency reserve</span>
+<span id="cb59-606"><a href="#cb59-606" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-607"><a href="#cb59-607" aria-hidden="true" tabindex="-1"></a>**Expected RAG behavior.** When you ask a conceptual question like "What is earned value?", Claude should answer from the PRA knowledge base rather than calling a tool. The response should reference EV as $\text{BAC} \times \% \text{complete}$ and mention CPI and SPI.</span>
+<span id="cb59-608"><a href="#cb59-608" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-609"><a href="#cb59-609" aria-hidden="true" tabindex="-1"></a>**Signs of success:** Tool calls appear in the Claude interface as structured results (not just text). RAG answers cite the knowledge base source. The P95 matches what you get running the same command via <span class="in">`/mcs`</span> directly.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

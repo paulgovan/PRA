@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>9&nbsp; It’s a Small World After All: Probabilistic Networks – Project Risk Analysis: A Practical Guide</title>
+<title>8&nbsp; It’s a Small World After All: Probabilistic Networks – Project Risk Analysis: A Practical Guide</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -87,8 +87,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./ch-network2.html" rel="next">
-<link href="./ch-dsm.html" rel="prev">
+<link href="./ch-dsm.html" rel="next">
+<link href="./ch-sigmoidal.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -309,7 +309,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch-network.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch-network.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -432,14 +432,14 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
+  <a href="./ch-network.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-network.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></span></a>
+  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -511,26 +511,26 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#what-is-a-bayesian-network" id="toc-what-is-a-bayesian-network" class="nav-link active" data-scroll-target="#what-is-a-bayesian-network"><span class="header-section-number">9.1</span> What Is a Bayesian Network?</a></li>
-  <li><a href="#project-setup" id="toc-project-setup" class="nav-link" data-scroll-target="#project-setup"><span class="header-section-number">9.2</span> Project Setup</a>
+  <li><a href="#what-is-a-bayesian-network" id="toc-what-is-a-bayesian-network" class="nav-link active" data-scroll-target="#what-is-a-bayesian-network"><span class="header-section-number">8.1</span> What Is a Bayesian Network?</a></li>
+  <li><a href="#project-setup" id="toc-project-setup" class="nav-link" data-scroll-target="#project-setup"><span class="header-section-number">8.2</span> Project Setup</a>
   <ul class="collapse">
-  <li><a href="#tasks" id="toc-tasks" class="nav-link" data-scroll-target="#tasks"><span class="header-section-number">9.2.1</span> Tasks</a></li>
-  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="header-section-number">9.2.2</span> Resources</a></li>
-  <li><a href="#risks" id="toc-risks" class="nav-link" data-scroll-target="#risks"><span class="header-section-number">9.2.3</span> Risks</a></li>
+  <li><a href="#tasks" id="toc-tasks" class="nav-link" data-scroll-target="#tasks"><span class="header-section-number">8.2.1</span> Tasks</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="header-section-number">8.2.2</span> Resources</a></li>
+  <li><a href="#risks" id="toc-risks" class="nav-link" data-scroll-target="#risks"><span class="header-section-number">8.2.3</span> Risks</a></li>
   </ul></li>
-  <li><a href="#building-the-bayesian-network" id="toc-building-the-bayesian-network" class="nav-link" data-scroll-target="#building-the-bayesian-network"><span class="header-section-number">9.3</span> Building the Bayesian Network</a>
+  <li><a href="#building-the-bayesian-network" id="toc-building-the-bayesian-network" class="nav-link" data-scroll-target="#building-the-bayesian-network"><span class="header-section-number">8.3</span> Building the Bayesian Network</a>
   <ul class="collapse">
-  <li><a href="#nodes" id="toc-nodes" class="nav-link" data-scroll-target="#nodes"><span class="header-section-number">9.3.1</span> Nodes</a></li>
-  <li><a href="#edges" id="toc-edges" class="nav-link" data-scroll-target="#edges"><span class="header-section-number">9.3.2</span> Edges</a></li>
-  <li><a href="#distributions" id="toc-distributions" class="nav-link" data-scroll-target="#distributions"><span class="header-section-number">9.3.3</span> Distributions</a></li>
-  <li><a href="#build-the-graph" id="toc-build-the-graph" class="nav-link" data-scroll-target="#build-the-graph"><span class="header-section-number">9.3.4</span> Build the Graph</a></li>
+  <li><a href="#nodes" id="toc-nodes" class="nav-link" data-scroll-target="#nodes"><span class="header-section-number">8.3.1</span> Nodes</a></li>
+  <li><a href="#edges" id="toc-edges" class="nav-link" data-scroll-target="#edges"><span class="header-section-number">8.3.2</span> Edges</a></li>
+  <li><a href="#distributions" id="toc-distributions" class="nav-link" data-scroll-target="#distributions"><span class="header-section-number">8.3.3</span> Distributions</a></li>
+  <li><a href="#build-the-graph" id="toc-build-the-graph" class="nav-link" data-scroll-target="#build-the-graph"><span class="header-section-number">8.3.4</span> Build the Graph</a></li>
   </ul></li>
-  <li><a href="#inference-forward-simulation" id="toc-inference-forward-simulation" class="nav-link" data-scroll-target="#inference-forward-simulation"><span class="header-section-number">9.4</span> Inference: Forward Simulation</a></li>
-  <li><a href="#learning-incorporating-new-evidence" id="toc-learning-incorporating-new-evidence" class="nav-link" data-scroll-target="#learning-incorporating-new-evidence"><span class="header-section-number">9.5</span> Learning: Incorporating New Evidence</a></li>
-  <li><a href="#updating-modifying-the-network" id="toc-updating-modifying-the-network" class="nav-link" data-scroll-target="#updating-modifying-the-network"><span class="header-section-number">9.6</span> Updating: Modifying the Network</a></li>
-  <li><a href="#the-four-core-functions" id="toc-the-four-core-functions" class="nav-link" data-scroll-target="#the-four-core-functions"><span class="header-section-number">9.7</span> The Four Core Functions</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">9.8</span> Summary</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">9.9</span> Exercises</a></li>
+  <li><a href="#inference-forward-simulation" id="toc-inference-forward-simulation" class="nav-link" data-scroll-target="#inference-forward-simulation"><span class="header-section-number">8.4</span> Inference: Forward Simulation</a></li>
+  <li><a href="#learning-incorporating-new-evidence" id="toc-learning-incorporating-new-evidence" class="nav-link" data-scroll-target="#learning-incorporating-new-evidence"><span class="header-section-number">8.5</span> Learning: Incorporating New Evidence</a></li>
+  <li><a href="#updating-modifying-the-network" id="toc-updating-modifying-the-network" class="nav-link" data-scroll-target="#updating-modifying-the-network"><span class="header-section-number">8.6</span> Updating: Modifying the Network</a></li>
+  <li><a href="#the-four-core-functions" id="toc-the-four-core-functions" class="nav-link" data-scroll-target="#the-four-core-functions"><span class="header-section-number">8.7</span> The Four Core Functions</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">8.8</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">8.9</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/paulgovan/PRA/edit/main/ch-network.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulgovan/PRA/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -540,7 +540,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span id="sec-network" class="quarto-section-identifier"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-network" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -582,8 +582,8 @@ div.csl-indent {
 </ol>
 </div>
 </div>
-<section id="what-is-a-bayesian-network" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="what-is-a-bayesian-network"><span class="header-section-number">9.1</span> What Is a Bayesian Network?</h2>
+<section id="what-is-a-bayesian-network" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="what-is-a-bayesian-network"><span class="header-section-number">8.1</span> What Is a Bayesian Network?</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -594,7 +594,7 @@ div.csl-indent {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The Design Structure Matrix (<a href="ch-dsm.html" class="quarto-xref"><span>Chapter 8</span></a>) shows <em>structural</em> coupling, specifically how many resources two tasks share. A Bayesian network goes further: it encodes <strong>probabilistic dependencies</strong>, meaning the actual conditional distributions of costs given risk states. Where the DSM counts connections, the network simulates consequences.</p>
+<p>The Design Structure Matrix (<a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a>) shows <em>structural</em> coupling, specifically how many resources two tasks share. A Bayesian network goes further: it encodes <strong>probabilistic dependencies</strong>, meaning the actual conditional distributions of costs given risk states. Where the DSM counts connections, the network simulates consequences.</p>
 <p>Use a DSM for rapid structural triage. Use a Bayesian network when you need actual cost distributions and the ability to condition on observed evidence.</p>
 </div>
 </div>
@@ -607,10 +607,10 @@ div.csl-indent {
 <p>Bayesian networks are well-suited to project risk analysis because they explicitly model how risk events propagate through resources and tasks to affect total project cost <span class="citation" data-cites="govan2014">(<a href="references.html#ref-govan2014" role="doc-biblioref">Govan 2014</a>)</span>.</p>
 <p>For a more advanced example covering causal inference, graph surgery, and the see-versus-do distinction across a full project portfolio, see <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a>.</p>
 </section>
-<section id="project-setup" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="project-setup"><span class="header-section-number">9.2</span> Project Setup</h2>
-<section id="tasks" class="level3" data-number="9.2.1">
-<h3 data-number="9.2.1" class="anchored" data-anchor-id="tasks"><span class="header-section-number">9.2.1</span> Tasks</h3>
+<section id="project-setup" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="project-setup"><span class="header-section-number">8.2</span> Project Setup</h2>
+<section id="tasks" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="tasks"><span class="header-section-number">8.2.1</span> Tasks</h3>
 <p>Consider a small software development project with three tasks.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
@@ -654,8 +654,8 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="resources" class="level3" data-number="9.2.2">
-<h3 data-number="9.2.2" class="anchored" data-anchor-id="resources"><span class="header-section-number">9.2.2</span> Resources</h3>
+<section id="resources" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="resources"><span class="header-section-number">8.2.2</span> Resources</h3>
 <p>Each task draws on one primary resource. The table below shows the baseline cost estimate for each resource.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>resources <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -710,8 +710,8 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="risks" class="level3" data-number="9.2.3">
-<h3 data-number="9.2.3" class="anchored" data-anchor-id="risks"><span class="header-section-number">9.2.3</span> Risks</h3>
+<section id="risks" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="risks"><span class="header-section-number">8.2.3</span> Risks</h3>
 <p>Two risk events can escalate resource costs if they occur.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>risks <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -768,10 +768,10 @@ div.csl-indent {
 <p>If Risk-1 (Requirements Scope Creep) occurs, the Business Analyst cost rises from $15,000 to $30,000. If Risk-2 (Technical Complexity) occurs, the Developer cost rises from $50,000 to $80,000. The QA Engineer is unaffected by either risk.</p>
 </section>
 </section>
-<section id="building-the-bayesian-network" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="building-the-bayesian-network"><span class="header-section-number">9.3</span> Building the Bayesian Network</h2>
-<section id="nodes" class="level3" data-number="9.3.1">
-<h3 data-number="9.3.1" class="anchored" data-anchor-id="nodes"><span class="header-section-number">9.3.1</span> Nodes</h3>
+<section id="building-the-bayesian-network" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="building-the-bayesian-network"><span class="header-section-number">8.3</span> Building the Bayesian Network</h2>
+<section id="nodes" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="nodes"><span class="header-section-number">8.3.1</span> Nodes</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id    =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>, <span class="st">"I"</span>),</span>
@@ -791,8 +791,8 @@ div.csl-indent {
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="edges" class="level3" data-number="9.3.2">
-<h3 data-number="9.3.2" class="anchored" data-anchor-id="edges"><span class="header-section-number">9.3.2</span> Edges</h3>
+<section id="edges" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="edges"><span class="header-section-number">8.3.2</span> Edges</h3>
 <p>Edges encode the causal dependencies: risks affect resources, resources drive tasks, and tasks roll up to the project total.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>links <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -803,8 +803,8 @@ div.csl-indent {
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="distributions" class="level3" data-number="9.3.3">
-<h3 data-number="9.3.3" class="anchored" data-anchor-id="distributions"><span class="header-section-number">9.3.3</span> Distributions</h3>
+<section id="distributions" class="level3" data-number="8.3.3">
+<h3 data-number="8.3.3" class="anchored" data-anchor-id="distributions"><span class="header-section-number">8.3.3</span> Distributions</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>distributions <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">A =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.70</span>, <span class="fl">0.30</span>)),</span>
@@ -827,8 +827,8 @@ div.csl-indent {
 <span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="build-the-graph" class="level3" data-number="9.3.4">
-<h3 data-number="9.3.4" class="anchored" data-anchor-id="build-the-graph"><span class="header-section-number">9.3.4</span> Build the Graph</h3>
+<section id="build-the-graph" class="level3" data-number="8.3.4">
+<h3 data-number="8.3.4" class="anchored" data-anchor-id="build-the-graph"><span class="header-section-number">8.3.4</span> Build the Graph</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>graph <span class="ot">&lt;-</span> <span class="fu">prob_net</span>(nodes, links, <span class="at">distributions =</span> distributions)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -861,8 +861,8 @@ div.csl-indent {
 </div>
 </section>
 </section>
-<section id="inference-forward-simulation" class="level2" data-number="9.4">
-<h2 data-number="9.4" class="anchored" data-anchor-id="inference-forward-simulation"><span class="header-section-number">9.4</span> Inference: Forward Simulation</h2>
+<section id="inference-forward-simulation" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="inference-forward-simulation"><span class="header-section-number">8.4</span> Inference: Forward Simulation</h2>
 <p>Use <code>prob_net_sim()</code> to forward-simulate the network and estimate the total project cost distribution.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sim_results <span class="ot">&lt;-</span> <span class="fu">prob_net_sim</span>(graph, <span class="at">num_samples =</span> <span class="dv">10000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -882,8 +882,8 @@ div.csl-indent {
 </div>
 <p>The spread reflects compounded uncertainty from both risk events. The right tail represents the worst case: both risks occur.</p>
 </section>
-<section id="learning-incorporating-new-evidence" class="level2" data-number="9.5">
-<h2 data-number="9.5" class="anchored" data-anchor-id="learning-incorporating-new-evidence"><span class="header-section-number">9.5</span> Learning: Incorporating New Evidence</h2>
+<section id="learning-incorporating-new-evidence" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="learning-incorporating-new-evidence"><span class="header-section-number">8.5</span> Learning: Incorporating New Evidence</h2>
 <p>Use <code>prob_net_learn()</code> to clamp one or more nodes to observed values and re-simulate. This shows the downstream effect of new information, for example, learning that Technical Complexity (Risk-2) did not materialize.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>learn_results <span class="ot">&lt;-</span> <span class="fu">prob_net_learn</span>(</span>
@@ -919,8 +919,8 @@ div.csl-indent {
 </div>
 <p>With Risk-2 ruled out, the Developer cost collapses to the lower baseline distribution, and the total project cost shifts left accordingly.</p>
 </section>
-<section id="updating-modifying-the-network" class="level2" data-number="9.6">
-<h2 data-number="9.6" class="anchored" data-anchor-id="updating-modifying-the-network"><span class="header-section-number">9.6</span> Updating: Modifying the Network</h2>
+<section id="updating-modifying-the-network" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="updating-modifying-the-network"><span class="header-section-number">8.6</span> Updating: Modifying the Network</h2>
 <p>Use <code>prob_net_update()</code> to modify the network structure or distributions. Suppose a design review eliminates Requirements Scope Creep as a concern: remove the arc from Risk-1 to Resource-1 and replace the conditional distribution with a fixed normal.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>updated_graph <span class="ot">&lt;-</span> <span class="fu">prob_net_update</span>(</span>
@@ -958,8 +958,8 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="the-four-core-functions" class="level2" data-number="9.7">
-<h2 data-number="9.7" class="anchored" data-anchor-id="the-four-core-functions"><span class="header-section-number">9.7</span> The Four Core Functions</h2>
+<section id="the-four-core-functions" class="level2" data-number="8.7">
+<h2 data-number="8.7" class="anchored" data-anchor-id="the-four-core-functions"><span class="header-section-number">8.7</span> The Four Core Functions</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 43%">
@@ -991,8 +991,8 @@ div.csl-indent {
 </tbody>
 </table>
 </section>
-<section id="summary" class="level2" data-number="9.8">
-<h2 data-number="9.8" class="anchored" data-anchor-id="summary"><span class="header-section-number">9.8</span> Summary</h2>
+<section id="summary" class="level2" data-number="8.8">
+<h2 data-number="8.8" class="anchored" data-anchor-id="summary"><span class="header-section-number">8.8</span> Summary</h2>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1013,8 +1013,8 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="exercises" class="level2" data-number="9.9">
-<h2 data-number="9.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">9.9</span> Exercises</h2>
+<section id="exercises" class="level2" data-number="8.9">
+<h2 data-number="8.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">8.9</span> Exercises</h2>
 <ol type="1">
 <li><p><strong>Learning effect.</strong> In the example, we observed Risk-2 = No.&nbsp;What do you expect happens to the total project cost distribution (node I) when Risk-2 is observed as “Yes” instead? Test your prediction by running <code>prob_net_learn()</code> with <code>list(B = "Yes")</code> and plotting the result.</p></li>
 <li><p><strong>Modify a risk.</strong> Change the probability of Risk-1 from 0.70 to 0.30. How does this affect the mean total project cost from <code>prob_net_sim()</code>? Is the change proportional to the probability change?</p></li>
@@ -1500,13 +1500,13 @@ Govan, Paul. 2014. <span>“A Resource-Based View on Project Risk Management.”
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./ch-dsm.html" class="pagination-link" aria-label="Everything Is Connected: Design Structure Matrices">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span>
+      <a href="./ch-sigmoidal.html" class="pagination-link" aria-label="S Is for Success: Sigmoidal Learning Curves">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">S Is for Success: Sigmoidal Learning Curves</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./ch-network2.html" class="pagination-link" aria-label="The Portfolio Problem: When Risks Are Shared">
-        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Portfolio Problem: When Risks Are Shared</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./ch-dsm.html" class="pagination-link" aria-label="Everything Is Connected: Design Structure Matrices">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">

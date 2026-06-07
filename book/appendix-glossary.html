@@ -438,14 +438,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
+  <a href="./ch-network.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-network.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></span></a>
+  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -619,13 +619,13 @@ window.Quarto = {
 </section>
 <section id="structural-methods" class="level2" data-number="A.7">
 <h2 data-number="A.7" class="anchored" data-anchor-id="structural-methods"><span class="header-section-number">A.7</span> Structural Methods</h2>
-<p><strong>Bayesian network</strong> A directed acyclic graph (DAG) in which nodes represent random variables and edges represent conditional dependencies. Used in <code>PRA</code> to model how risk events propagate through resources and tasks to project cost. See <a href="ch-network.html" class="quarto-xref"><span>Chapter 9</span></a>.</p>
-<p><strong>DAG (Directed Acyclic Graph)</strong> A graph of nodes and directed edges with no cycles; you cannot return to a starting node by following edges in their directed direction. The required structure for Bayesian networks. See <a href="ch-network.html" class="quarto-xref"><span>Chapter 9</span></a>.</p>
-<p><strong>Design Structure Matrix (DSM)</strong> A square matrix that encodes task-to-task dependencies. In <code>PRA</code>, DSMs are derived from shared resource and risk structures, making hidden coupling between tasks visible and quantifiable. See <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 8</span></a>.</p>
-<p><strong>Grandparent DSM</strong> A tasks-by-tasks matrix derived from the chain Risk → Resource → Task. Off-diagonal entries count the number of risks shared between each pair of tasks via the intermediate resource layer. Computed by <code>grandparent_dsm()</code>. See <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 8</span></a>.</p>
-<p><strong>Parent DSM</strong> A tasks-by-tasks matrix derived directly from the Resource-Task matrix. Off-diagonal entry <span class="math inline">\(P[j,k]\)</span> counts the number of resources shared by tasks <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>. Computed by <code>parent_dsm()</code>. See <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 8</span></a>.</p>
-<p><strong>Resource-Task matrix (S)</strong> A binary matrix with resources as rows and tasks as columns. Entry <span class="math inline">\(S[i,j] = 1\)</span> means resource <span class="math inline">\(i\)</span> is used by task <span class="math inline">\(j\)</span>. The primary input to <code>parent_dsm()</code>. See <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 8</span></a>.</p>
-<p><strong>Risk-Resource matrix (R)</strong> A binary matrix with risks as rows and resources as columns. Entry <span class="math inline">\(R[i,j] = 1\)</span> means risk <span class="math inline">\(i\)</span> affects resource <span class="math inline">\(j\)</span>. Used together with <strong>S</strong> in <code>grandparent_dsm()</code>. See <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 8</span></a>.</p>
+<p><strong>Bayesian network</strong> A directed acyclic graph (DAG) in which nodes represent random variables and edges represent conditional dependencies. Used in <code>PRA</code> to model how risk events propagate through resources and tasks to project cost. See <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a>.</p>
+<p><strong>DAG (Directed Acyclic Graph)</strong> A graph of nodes and directed edges with no cycles; you cannot return to a starting node by following edges in their directed direction. The required structure for Bayesian networks. See <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a>.</p>
+<p><strong>Design Structure Matrix (DSM)</strong> A square matrix that encodes task-to-task dependencies. In <code>PRA</code>, DSMs are derived from shared resource and risk structures, making hidden coupling between tasks visible and quantifiable. See <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a>.</p>
+<p><strong>Grandparent DSM</strong> A tasks-by-tasks matrix derived from the chain Risk → Resource → Task. Off-diagonal entries count the number of risks shared between each pair of tasks via the intermediate resource layer. Computed by <code>grandparent_dsm()</code>. See <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a>.</p>
+<p><strong>Parent DSM</strong> A tasks-by-tasks matrix derived directly from the Resource-Task matrix. Off-diagonal entry <span class="math inline">\(P[j,k]\)</span> counts the number of resources shared by tasks <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>. Computed by <code>parent_dsm()</code>. See <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a>.</p>
+<p><strong>Resource-Task matrix (S)</strong> A binary matrix with resources as rows and tasks as columns. Entry <span class="math inline">\(S[i,j] = 1\)</span> means resource <span class="math inline">\(i\)</span> is used by task <span class="math inline">\(j\)</span>. The primary input to <code>parent_dsm()</code>. See <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a>.</p>
+<p><strong>Risk-Resource matrix (R)</strong> A binary matrix with risks as rows and resources as columns. Entry <span class="math inline">\(R[i,j] = 1\)</span> means risk <span class="math inline">\(i\)</span> affects resource <span class="math inline">\(j\)</span>. Used together with <strong>S</strong> in <code>grandparent_dsm()</code>. See <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a>.</p>
 <hr>
 </section>
 <section id="agentic-framework" class="level2" data-number="A.8">
