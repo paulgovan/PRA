@@ -1,7 +1,7 @@
 # Your AI Co-Pilot: Agentic Risk Analysis {#sec-agent}
 
-> *"The best tool for the job is the one you'll actually use."*
-> — P.G.
+> *"The best way to predict the future is to invent it."*
+> — Alan Kay
 
 You've made it through eight chapters of quantitative risk analysis. You know Monte Carlo, SMM, EVM, Bayesian inference, learning curves, design structure matrices, and probabilistic networks. Now imagine not having to remember the syntax for all of them.
 

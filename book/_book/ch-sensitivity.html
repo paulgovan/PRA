@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Who’s Driving? Sensitivity Analysis – Project Risk Analysis: A Practical Guide</title>
+<title>4&nbsp; Who’s Driving? Sensitivity Analysis – Project Risk Analysis: A Practical Guide</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -68,18 +68,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./ch-smm.html" rel="next">
-<link href="./ch-mcs.html" rel="prev">
+<link href="./ch-evm.html" rel="next">
+<link href="./ch-smm.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-a06763021a52c43c40a351ac8b799b8f.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-a06763021a52c43c40a351ac8b799b8f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-dbc92dda8186f57fa2e333fbb71d6a9d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-a06763021a52c43c40a351ac8b799b8f.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-abfa4615eba2ed0d4bb7fb949ed9c296.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-abfa4615eba2ed0d4bb7fb949ed9c296.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-ded87e99f929cbe3c176321ddefb79bd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-abfa4615eba2ed0d4bb7fb949ed9c296.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -140,7 +144,169 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -149,7 +315,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch-sensitivity.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Who’s Driving? Sensitivity Analysis</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch-sensitivity.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Who’s Driving? Sensitivity Analysis</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -169,8 +335,49 @@ window.Quarto = {
       </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Project Risk Analysis: A Practical Guide</a> 
-        <div class="sidebar-tools-main">
+        <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/paulgovan/PRA" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Project-Risk-Analysis--A-Practical-Guide.pdf">
+              <i class="bi bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Project-Risk-Analysis--A-Practical-Guide.epub">
+              <i class="bi bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-1" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-1">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
     </div>
       </div>
@@ -190,31 +397,31 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to the Jungle: An Introduction to Project Risk Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Into the Unknown: An Introduction to Project Risk Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-mcs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Go Monte or Go Home: Monte Carlo Simulation</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./ch-sensitivity.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Who’s Driving? Sensitivity Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Roll the Dice: Monte Carlo Simulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-smm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">May I Have a (Second) Moment? The Second Moment Method</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">May I Have a (Second) Moment? The Second Moment Method</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-sensitivity.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Who’s Driving? Sensitivity Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-evm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Show Me the Money: Earned Value Management</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Keeping Score: Earned Value Management</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -231,26 +438,32 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
+  <a href="./ch-network.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-network.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></span></a>
+  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-network2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Portfolio Problems? The Network Has Entered the Chat</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Portfolio Problem: When Risks Are Shared</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Write Once, Trust Always: Reproducible Risk Analysis with Quarto</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-agent.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -264,26 +477,26 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./appendix-casestudy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Case Study: Riverside Bridge Replacement</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./appendix-ref.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Quick Reference</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./appendix-glossary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./appendix-math.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Mathematical Derivations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Mathematical Derivations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-ref.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Quick Reference</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-casestudy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Case Study: Riverside Bridge Replacement</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -310,28 +523,29 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#what-is-sensitivity-analysis" id="toc-what-is-sensitivity-analysis" class="nav-link active" data-scroll-target="#what-is-sensitivity-analysis"><span class="header-section-number">3.1</span> What Is Sensitivity Analysis?</a>
+  <li><a href="#what-is-sensitivity-analysis" id="toc-what-is-sensitivity-analysis" class="nav-link active" data-scroll-target="#what-is-sensitivity-analysis"><span class="header-section-number">4.1</span> What Is Sensitivity Analysis?</a>
   <ul class="collapse">
-  <li><a href="#variance-decomposition" id="toc-variance-decomposition" class="nav-link" data-scroll-target="#variance-decomposition"><span class="header-section-number">3.1.1</span> Variance Decomposition</a></li>
+  <li><a href="#variance-decomposition" id="toc-variance-decomposition" class="nav-link" data-scroll-target="#variance-decomposition"><span class="header-section-number">4.1.1</span> Variance Decomposition</a></li>
   </ul></li>
-  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup"><span class="header-section-number">3.2</span> Setup</a></li>
-  <li><a href="#computing-sensitivity" id="toc-computing-sensitivity" class="nav-link" data-scroll-target="#computing-sensitivity"><span class="header-section-number">3.3</span> Computing Sensitivity</a>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup"><span class="header-section-number">4.2</span> Setup</a></li>
+  <li><a href="#computing-sensitivity" id="toc-computing-sensitivity" class="nav-link" data-scroll-target="#computing-sensitivity"><span class="header-section-number">4.3</span> Computing Sensitivity</a>
   <ul class="collapse">
-  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation"><span class="header-section-number">3.3.1</span> Interpretation</a></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation"><span class="header-section-number">4.3.1</span> Interpretation</a></li>
   </ul></li>
-  <li><a href="#tornado-chart" id="toc-tornado-chart" class="nav-link" data-scroll-target="#tornado-chart"><span class="header-section-number">3.4</span> Tornado Chart</a></li>
-  <li><a href="#with-correlated-tasks" id="toc-with-correlated-tasks" class="nav-link" data-scroll-target="#with-correlated-tasks"><span class="header-section-number">3.5</span> With Correlated Tasks</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">3.6</span> Summary</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">3.7</span> Exercises</a></li>
+  <li><a href="#tornado-chart" id="toc-tornado-chart" class="nav-link" data-scroll-target="#tornado-chart"><span class="header-section-number">4.4</span> Tornado Chart</a></li>
+  <li><a href="#with-correlated-tasks" id="toc-with-correlated-tasks" class="nav-link" data-scroll-target="#with-correlated-tasks"><span class="header-section-number">4.5</span> With Correlated Tasks</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">4.6</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">4.7</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/paulgovan/PRA/edit/main/ch-sensitivity.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulgovan/PRA/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span id="sec-sensitivity" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Who’s Driving? Sensitivity Analysis</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-sensitivity" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Who’s Driving? Sensitivity Analysis</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -349,9 +563,9 @@ window.Quarto = {
 
 
 <blockquote class="blockquote">
-<p><em>“Not all uncertainty is created equal. Some tasks keep you up at night for good reason.”</em></p>
+<p><em>“Not all uncertainty is created equal. Some tasks keep you up at night for good reason.”</em> — P.G.</p>
 </blockquote>
-<p>You’ve run a Monte Carlo simulation and you have a P95 schedule. Now your project sponsor asks: “Which task should we focus on? Where should we spend our mitigation budget?” Looking at the total distribution doesn’t answer that — it just tells you how uncertain the total is. Sensitivity analysis tells you <em>why</em>.</p>
+<p>You’ve run a Monte Carlo simulation and you have a P95 schedule. Now your project sponsor asks: “Which task should we focus on? Where should we spend our mitigation budget?” Looking at the total distribution doesn’t answer that; it just tells you how uncertain the total is. Sensitivity analysis tells you <em>why</em>.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -372,19 +586,19 @@ window.Quarto = {
 </ol>
 </div>
 </div>
-<section id="what-is-sensitivity-analysis" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="what-is-sensitivity-analysis"><span class="header-section-number">3.1</span> What Is Sensitivity Analysis?</h2>
+<section id="what-is-sensitivity-analysis" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="what-is-sensitivity-analysis"><span class="header-section-number">4.1</span> What Is Sensitivity Analysis?</h2>
 <p>Sensitivity analysis answers the question: “If I could reduce uncertainty in one task, which task would have the greatest effect on total project variance?”</p>
-<p>The answer is not always the task with the longest expected duration. A short task with extremely high variance — say, a procurement step that might take anywhere from 1 to 20 weeks — can dominate the project’s total uncertainty even though its mean duration is modest.</p>
-<section id="variance-decomposition" class="level3" data-number="3.1.1">
-<h3 data-number="3.1.1" class="anchored" data-anchor-id="variance-decomposition"><span class="header-section-number">3.1.1</span> Variance Decomposition</h3>
+<p>The answer is not always the task with the longest expected duration. A short task with extremely high variance, say, a procurement step that might take anywhere from 1 to 20 weeks, can dominate the project’s total uncertainty even though its mean duration is modest.</p>
+<section id="variance-decomposition" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="variance-decomposition"><span class="header-section-number">4.1.1</span> Variance Decomposition</h3>
 <p>For a project with <span class="math inline">\(n\)</span> independent tasks, total variance is simply the sum of individual variances:</p>
 <p><span class="math display">\[\sigma^2_\text{total} = \sum_{i=1}^n \sigma^2_i\]</span></p>
 <p>When tasks are correlated, covariance terms appear:</p>
 <p><span class="math display">\[\sigma^2_\text{total} = \sum_{i=1}^n \sigma^2_i + 2\sum_{i &lt; j} \text{cov}(i, j)\]</span></p>
-<p>The <strong>sensitivity index</strong> for task <span class="math inline">\(i\)</span> quantifies how much its variance — including its covariance with all other tasks — contributes to the total:</p>
+<p>The <strong>sensitivity index</strong> for task <span class="math inline">\(i\)</span> quantifies how much its variance, including its covariance with all other tasks, contributes to the total:</p>
 <p><span class="math display">\[s_i = 1 + 2 \sum_{j \neq i} \frac{\text{cov}_{ij}}{\sqrt{\sigma^2_i \cdot \sigma^2_j}}\]</span></p>
-<p>For independent tasks, all covariance terms are zero and <span class="math inline">\(s_i = 1\)</span> for every task — the tasks contribute proportionally to their variance. Positive correlations push dominant tasks’ indices above 1 and amplify them relative to smaller-variance tasks.</p>
+<p>For independent tasks, all covariance terms are zero and <span class="math inline">\(s_i = 1\)</span> for every task, meaning the tasks contribute proportionally to their variance. Positive correlations push dominant tasks’ indices above 1 and amplify them relative to smaller-variance tasks.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -400,23 +614,23 @@ window.Quarto = {
 </div>
 </section>
 </section>
-<section id="setup" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="setup"><span class="header-section-number">3.2</span> Setup</h2>
+<section id="setup" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="setup"><span class="header-section-number">4.2</span> Setup</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>We use the same three tasks from <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a> — a three-task project with mixed distribution types — so you can see the complementary view.</p>
+<p>We use the same three tasks from <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>, a three-task project with mixed distribution types, so you can see the complementary view.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>task_dists <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">TaskA =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>,     <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>),</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">TaskA =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>,     <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">4</span>),</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">TaskB =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"triangular"</span>, <span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">10</span>, <span class="at">c =</span> <span class="dv">15</span>),</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">TaskC =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"uniform"</span>,    <span class="at">min =</span> <span class="dv">8</span>, <span class="at">max =</span> <span class="dv">12</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">TaskC =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"uniform"</span>,    <span class="at">min =</span> <span class="fl">9.5</span>, <span class="at">max =</span> <span class="fl">10.5</span>)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="computing-sensitivity" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="computing-sensitivity"><span class="header-section-number">3.3</span> Computing Sensitivity</h2>
+<section id="computing-sensitivity" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="computing-sensitivity"><span class="header-section-number">4.3</span> Computing Sensitivity</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sens <span class="ot">&lt;-</span> <span class="fu">sensitivity</span>(task_dists)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>sens</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -424,21 +638,21 @@ window.Quarto = {
 <pre><code>[1] 1 1 1</code></pre>
 </div>
 </div>
-<p>The output is a named vector — one sensitivity index per task. A higher value means that task’s variance has a larger proportional effect on total project variance.</p>
-<section id="interpretation" class="level3" data-number="3.3.1">
-<h3 data-number="3.3.1" class="anchored" data-anchor-id="interpretation"><span class="header-section-number">3.3.1</span> Interpretation</h3>
+<p>The output is a named vector with one sensitivity index per task. A higher value means that task’s variance has a larger proportional effect on total project variance.</p>
+<section id="interpretation" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="interpretation"><span class="header-section-number">4.3.1</span> Interpretation</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(sens <span class="sc">/</span> <span class="fu">sum</span>(sens) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 33.3 33.3 33.3</code></pre>
 </div>
 </div>
-<p>Expressing the indices as percentages makes the picture clear: Task B (triangular) carries the largest share of total project variance. This is the task where mitigation effort pays off most.</p>
+<p>Expressing the indices as percentages makes the picture clear: Task A (normal, sd = 4) dominates total project variance, accounting for the majority of total uncertainty. Task B is a secondary contributor, while Task C barely registers. Task A is the task where mitigation effort pays off most.</p>
 </section>
 </section>
-<section id="tornado-chart" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="tornado-chart"><span class="header-section-number">3.4</span> Tornado Chart</h2>
-<p>A horizontal bar chart sorted by sensitivity index is the standard way to communicate this finding — it’s called a tornado chart because the bars narrow from top to bottom.</p>
+<section id="tornado-chart" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="tornado-chart"><span class="header-section-number">4.4</span> Tornado Chart</h2>
+<p>A horizontal bar chart sorted by sensitivity index is the standard way to communicate this finding; it’s called a tornado chart because the bars narrow from top to bottom.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sorted_sens <span class="ot">&lt;-</span> <span class="fu">sort</span>(sens, <span class="at">decreasing =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(</span>
@@ -456,27 +670,27 @@ window.Quarto = {
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="ch-sensitivity_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Tornado chart of task sensitivity indices. The tallest bar is the dominant risk driver — the task where reducing variance has the greatest effect on total project uncertainty.</figcaption>
+<figcaption>Tornado chart of task sensitivity indices. The tallest bar is the dominant risk driver, the task where reducing variance has the greatest effect on total project uncertainty.</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <p>The dashed red line at <span class="math inline">\(s = 1\)</span> marks the neutral baseline. Tasks above 1 are amplified by positive correlation with other tasks; tasks below 1 are damped by negative correlation (or simply have lower variance).</p>
 </section>
-<section id="with-correlated-tasks" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="with-correlated-tasks"><span class="header-section-number">3.5</span> With Correlated Tasks</h2>
-<p>Real projects have correlated tasks — they share resources, face the same weather, or depend on the same supplier. Positive correlation amplifies the dominant driver; it becomes even more important to get that task right.</p>
+<section id="with-correlated-tasks" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="with-correlated-tasks"><span class="header-section-number">4.5</span> With Correlated Tasks</h2>
+<p>Real projects have correlated tasks, sharing resources, face the same weather, or depend on the same supplier. Positive correlation amplifies the dominant driver; it becomes even more important to get that task right.</p>
 <p>Use <code>cor_matrix()</code> to build a correlation matrix from sampled distributions:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">cor_matrix</span>(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">num_samples =</span> <span class="dv">10000</span>,</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">num_vars    =</span> <span class="dv">3</span>,</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">dists =</span> <span class="fu">list</span>(</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">TaskA =</span> <span class="cf">function</span>(n) <span class="fu">rnorm</span>(n, <span class="dv">10</span>, <span class="dv">2</span>),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">TaskA =</span> <span class="cf">function</span>(n) <span class="fu">rnorm</span>(n, <span class="dv">10</span>, <span class="dv">4</span>),</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">TaskB =</span> <span class="cf">function</span>(n) {</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>      mc2d<span class="sc">::</span><span class="fu">rtriang</span>(n, <span class="at">min =</span> <span class="dv">5</span>, <span class="at">mode =</span> <span class="dv">10</span>, <span class="at">max =</span> <span class="dv">15</span>)</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">TaskC =</span> <span class="cf">function</span>(n) <span class="fu">runif</span>(n, <span class="dv">8</span>, <span class="dv">12</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">TaskC =</span> <span class="cf">function</span>(n) <span class="fu">runif</span>(n, <span class="fl">9.5</span>, <span class="fl">10.5</span>)</span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>cm</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -507,7 +721,7 @@ window.Quarto = {
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="ch-sensitivity_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Sensitivity indices when tasks are correlated. Positive correlations amplify the dominant driver (Task B) and increase total project variance.</figcaption>
+<figcaption>Sensitivity indices when tasks are correlated. Positive correlations amplify the dominant driver (Task A) and increase total project variance.</figcaption>
 </figure>
 </div>
 </div>
@@ -515,8 +729,8 @@ window.Quarto = {
 </div>
 <p>Comparing the two panels: when tasks are positively correlated, the dominant task’s index rises. Ignoring correlations understates the risk concentration.</p>
 </section>
-<section id="summary" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">3.6</span> Summary</h2>
+<section id="summary" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">4.6</span> Summary</h2>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -528,21 +742,21 @@ window.Quarto = {
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li><strong>Sensitivity analysis</strong> decomposes total project variance into per-task contributions. The result is an index, not a probability — it shows relative importance, not absolute risk.</li>
+<li><strong>Sensitivity analysis</strong> decomposes total project variance into per-task contributions. The result is an index, not a probability; it shows relative importance, not absolute risk.</li>
 <li><strong><code>sensitivity(task_dists)</code></strong> takes the same distribution specs as <code>mcs()</code> and returns a named vector of sensitivity indices.</li>
 <li>The task with the highest sensitivity index is the one where reducing variance has the greatest effect on the total project distribution. That is where to spend mitigation budget.</li>
 <li><strong>Positive correlations amplify the dominant driver.</strong> A task that leads in the independent case leads by an even larger margin when it is positively correlated with its neighbours.</li>
 <li>A tornado chart (sorted horizontal bar plot) is the standard deliverable for communicating sensitivity results to stakeholders.</li>
 </ul>
-<p>For a fast analytical estimate of total mean and variance — without the index-level decomposition — see <a href="ch-smm.html" class="quarto-xref"><span>Chapter 4</span></a>. For the simulation that produced the total distribution these indices decompose, see <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>.</p>
+<p>For a fast analytical estimate of total mean and variance, without the index-level decomposition, see <a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a>. For the simulation that produced the total distribution these indices decompose, see <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>.</p>
 </div>
 </div>
 </section>
-<section id="exercises" class="level2" data-number="3.7">
-<h2 data-number="3.7" class="anchored" data-anchor-id="exercises"><span class="header-section-number">3.7</span> Exercises</h2>
+<section id="exercises" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="exercises"><span class="header-section-number">4.7</span> Exercises</h2>
 <ol type="1">
 <li><p><strong>Reading the chart.</strong> In the tornado chart above, which task contributes the least to total variance? What property of its distribution explains this?</p></li>
-<li><p><strong>Change the spread.</strong> Replace Task B’s triangular distribution with <code>Triangular(8, 10, 12)</code> — a tighter spread. How do the sensitivity indices change? Does Task B still dominate?</p></li>
+<li><p><strong>Change the spread.</strong> Replace Task B’s triangular distribution with <code>Triangular(8, 10, 12)</code>, a tighter spread. How do the sensitivity indices change? Does Task B still dominate?</p></li>
 <li><p><strong>High-variance newcomer.</strong> Add a fourth task, Task D ~ <code>Normal(5, 6)</code> (very high variance relative to its mean). Recompute the sensitivity indices. Does Task D become the dominant driver?</p></li>
 <li><p><strong>Correlation direction.</strong> ★ Construct a correlation matrix where Task A and Task B are negatively correlated (−0.5). What happens to their sensitivity indices relative to the independent case? Explain the result in terms of the covariance formula.</p></li>
 <li><p><strong>From sensitivity to contingency.</strong> ★ Run <code>mcs()</code> on the same three tasks, then run <code>sensitivity()</code>. The task with the highest sensitivity index should also be responsible for the widest spread in the simulation. Verify this by plotting the individual task distributions from the MCS output alongside the sensitivity indices. Do they tell a consistent story?</p></li>
@@ -556,6 +770,19 @@ window.Quarto = {
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {
@@ -678,7 +905,7 @@ window.Quarto = {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/paulgovan\.github\.io\/PRA\/book\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1007,188 +1234,189 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./ch-mcs.html" class="pagination-link" aria-label="Go Monte or Go Home: Monte Carlo Simulation">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Go Monte or Go Home: Monte Carlo Simulation</span></span>
+      <a href="./ch-smm.html" class="pagination-link" aria-label="May I Have a (Second) Moment? The Second Moment Method">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">May I Have a (Second) Moment? The Second Moment Method</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./ch-smm.html" class="pagination-link" aria-label="May I Have a (Second) Moment? The Second Moment Method">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">May I Have a (Second) Moment? The Second Moment Method</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./ch-evm.html" class="pagination-link" aria-label="Keeping Score: Earned Value Management">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Keeping Score: Earned Value Management</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Who's Driving? Sensitivity Analysis {#sec-sensitivity}</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"Not all uncertainty is created equal. Some tasks keep you up at night for good reason."*</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>You've run a Monte Carlo simulation and you have a P95 schedule. Now your project sponsor asks: "Which task should we focus on? Where should we spend our mitigation budget?" Looking at the total distribution doesn't answer that — it just tells you how uncertain the total is. Sensitivity analysis tells you *why*.</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning Objectives</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>By the end of this chapter, you will be able to:</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Explain variance decomposition and how it differs from percentile analysis</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Interpret a sensitivity index and identify the dominant risk driver in a project</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Call <span class="in">`sensitivity()`</span> with the three standard distribution types</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Produce a tornado chart that ranks tasks by their contribution to total variance</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Extend the analysis to correlated tasks using a correlation matrix</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="fu">## What Is Sensitivity Analysis?</span></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>Sensitivity analysis answers the question: "If I could reduce uncertainty in one task, which task would have the greatest effect on total project variance?"</span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>The answer is not always the task with the longest expected duration. A short task with extremely high variance — say, a procurement step that might take anywhere from 1 to 20 weeks — can dominate the project's total uncertainty even though its mean duration is modest.</span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="fu">### Variance Decomposition</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>For a project with $n$ independent tasks, total variance is simply the sum of individual variances:</span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>$$\sigma^2_\text{total} = \sum_{i=1}^n \sigma^2_i$$</span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>When tasks are correlated, covariance terms appear:</span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>$$\sigma^2_\text{total} = \sum_{i=1}^n \sigma^2_i + 2\sum_{i &lt; j} \text{cov}(i, j)$$</span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>The **sensitivity index** for task $i$ quantifies how much its variance — including its covariance with all other tasks — contributes to the total:</span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>$$s_i = 1 + 2 \sum_{j \neq i} \frac{\text{cov}_{ij}}{\sqrt{\sigma^2_i \cdot \sigma^2_j}}$$</span>
-<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>For independent tasks, all covariance terms are zero and $s_i = 1$ for every task — the tasks contribute proportionally to their variance. Positive correlations push dominant tasks' indices above 1 and amplify them relative to smaller-variance tasks.</span>
-<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sensitivity vs. Percentiles</span></span>
-<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>Monte Carlo gives you *how bad* the total outcome could be (P95 = 38 weeks). Sensitivity analysis gives you *which task is responsible* (Task B drives 60% of total variance). Use both: percentiles for the headline number, sensitivity for the "where do we focus?" conversation.</span>
-<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a><span class="fu">## Setup</span></span>
-<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup}</span></span>
-<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: false</span></span>
-<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
-<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>We use the same three tasks from @sec-mcs — a three-task project with mixed distribution types — so you can see the complementary view.</span>
-<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>task_dists <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>  <span class="at">TaskA =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>,     <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>),</span>
-<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>  <span class="at">TaskB =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"triangular"</span>, <span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">10</span>, <span class="at">c =</span> <span class="dv">15</span>),</span>
-<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>  <span class="at">TaskC =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"uniform"</span>,    <span class="at">min =</span> <span class="dv">8</span>, <span class="at">max =</span> <span class="dv">12</span>)</span>
-<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a><span class="fu">## Computing Sensitivity</span></span>
-<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>sens <span class="ot">&lt;-</span> <span class="fu">sensitivity</span>(task_dists)</span>
-<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>sens</span>
-<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>The output is a named vector — one sensitivity index per task. A higher value means that task's variance has a larger proportional effect on total project variance.</span>
-<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interpretation</span></span>
-<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(sens <span class="sc">/</span> <span class="fu">sum</span>(sens) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
-<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a>Expressing the indices as percentages makes the picture clear: Task B (triangular) carries the largest share of total project variance. This is the task where mitigation effort pays off most.</span>
-<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a><span class="fu">## Tornado Chart</span></span>
-<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a>A horizontal bar chart sorted by sensitivity index is the standard way to communicate this finding — it's called a tornado chart because the bars narrow from top to bottom.</span>
-<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Tornado chart of task sensitivity indices. The tallest bar is the dominant risk driver — the task where reducing variance has the greatest effect on total project uncertainty."</span></span>
-<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a>sorted_sens <span class="ot">&lt;-</span> <span class="fu">sort</span>(sens, <span class="at">decreasing =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(</span>
-<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a>  sorted_sens,</span>
-<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a>  <span class="at">horiz  =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb12-100"><a href="#cb12-100" aria-hidden="true" tabindex="-1"></a>  <span class="at">names.arg =</span> <span class="fu">names</span>(sorted_sens),</span>
-<span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab   =</span> <span class="st">"Sensitivity Index"</span>,</span>
-<span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a>  <span class="at">main   =</span> <span class="st">"Task Sensitivity"</span>,</span>
-<span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a>  <span class="at">col    =</span> <span class="st">"#18bc9c"</span>,</span>
-<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a>  <span class="at">border =</span> <span class="st">"white"</span>,</span>
-<span id="cb12-105"><a href="#cb12-105" aria-hidden="true" tabindex="-1"></a>  <span class="at">las    =</span> <span class="dv">1</span></span>
-<span id="cb12-106"><a href="#cb12-106" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-107"><a href="#cb12-107" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"#e74c3c"</span>)</span>
-<span id="cb12-108"><a href="#cb12-108" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-109"><a href="#cb12-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-110"><a href="#cb12-110" aria-hidden="true" tabindex="-1"></a>The dashed red line at $s = 1$ marks the neutral baseline. Tasks above 1 are amplified by positive correlation with other tasks; tasks below 1 are damped by negative correlation (or simply have lower variance).</span>
-<span id="cb12-111"><a href="#cb12-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-112"><a href="#cb12-112" aria-hidden="true" tabindex="-1"></a><span class="fu">## With Correlated Tasks</span></span>
-<span id="cb12-113"><a href="#cb12-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-114"><a href="#cb12-114" aria-hidden="true" tabindex="-1"></a>Real projects have correlated tasks — they share resources, face the same weather, or depend on the same supplier. Positive correlation amplifies the dominant driver; it becomes even more important to get that task right.</span>
-<span id="cb12-115"><a href="#cb12-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-116"><a href="#cb12-116" aria-hidden="true" tabindex="-1"></a>Use <span class="in">`cor_matrix()`</span> to build a correlation matrix from sampled distributions:</span>
-<span id="cb12-117"><a href="#cb12-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-120"><a href="#cb12-120" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-121"><a href="#cb12-121" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">cor_matrix</span>(</span>
-<span id="cb12-122"><a href="#cb12-122" aria-hidden="true" tabindex="-1"></a>  <span class="at">num_samples =</span> <span class="dv">10000</span>,</span>
-<span id="cb12-123"><a href="#cb12-123" aria-hidden="true" tabindex="-1"></a>  <span class="at">num_vars    =</span> <span class="dv">3</span>,</span>
-<span id="cb12-124"><a href="#cb12-124" aria-hidden="true" tabindex="-1"></a>  <span class="at">dists =</span> <span class="fu">list</span>(</span>
-<span id="cb12-125"><a href="#cb12-125" aria-hidden="true" tabindex="-1"></a>    <span class="at">TaskA =</span> <span class="cf">function</span>(n) <span class="fu">rnorm</span>(n, <span class="dv">10</span>, <span class="dv">2</span>),</span>
-<span id="cb12-126"><a href="#cb12-126" aria-hidden="true" tabindex="-1"></a>    <span class="at">TaskB =</span> <span class="cf">function</span>(n) {</span>
-<span id="cb12-127"><a href="#cb12-127" aria-hidden="true" tabindex="-1"></a>      mc2d<span class="sc">::</span><span class="fu">rtriang</span>(n, <span class="at">min =</span> <span class="dv">5</span>, <span class="at">mode =</span> <span class="dv">10</span>, <span class="at">max =</span> <span class="dv">15</span>)</span>
-<span id="cb12-128"><a href="#cb12-128" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb12-129"><a href="#cb12-129" aria-hidden="true" tabindex="-1"></a>    <span class="at">TaskC =</span> <span class="cf">function</span>(n) <span class="fu">runif</span>(n, <span class="dv">8</span>, <span class="dv">12</span>)</span>
-<span id="cb12-130"><a href="#cb12-130" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb12-131"><a href="#cb12-131" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-132"><a href="#cb12-132" aria-hidden="true" tabindex="-1"></a>cm</span>
-<span id="cb12-133"><a href="#cb12-133" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-134"><a href="#cb12-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-137"><a href="#cb12-137" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-138"><a href="#cb12-138" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Sensitivity indices when tasks are correlated. Positive correlations amplify the dominant driver (Task B) and increase total project variance."</span></span>
-<span id="cb12-139"><a href="#cb12-139" aria-hidden="true" tabindex="-1"></a>sens_corr <span class="ot">&lt;-</span> <span class="fu">sensitivity</span>(task_dists, <span class="at">cor_mat =</span> cm)</span>
-<span id="cb12-140"><a href="#cb12-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-141"><a href="#cb12-141" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb12-142"><a href="#cb12-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-143"><a href="#cb12-143" aria-hidden="true" tabindex="-1"></a>sorted_base <span class="ot">&lt;-</span> <span class="fu">sort</span>(sens, <span class="at">decreasing =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb12-144"><a href="#cb12-144" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(sorted_base, <span class="at">horiz =</span> <span class="cn">TRUE</span>, <span class="at">names.arg =</span> <span class="fu">names</span>(sorted_base),</span>
-<span id="cb12-145"><a href="#cb12-145" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Sensitivity Index"</span>, <span class="at">main =</span> <span class="st">"Independent"</span>,</span>
-<span id="cb12-146"><a href="#cb12-146" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"#18bc9c"</span>, <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">las =</span> <span class="dv">1</span>)</span>
-<span id="cb12-147"><a href="#cb12-147" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"#e74c3c"</span>)</span>
-<span id="cb12-148"><a href="#cb12-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-149"><a href="#cb12-149" aria-hidden="true" tabindex="-1"></a>sorted_corr <span class="ot">&lt;-</span> <span class="fu">sort</span>(sens_corr, <span class="at">decreasing =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb12-150"><a href="#cb12-150" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(sorted_corr, <span class="at">horiz =</span> <span class="cn">TRUE</span>, <span class="at">names.arg =</span> <span class="fu">names</span>(sorted_corr),</span>
-<span id="cb12-151"><a href="#cb12-151" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Sensitivity Index"</span>, <span class="at">main =</span> <span class="st">"Correlated"</span>,</span>
-<span id="cb12-152"><a href="#cb12-152" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"#3498db"</span>, <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">las =</span> <span class="dv">1</span>)</span>
-<span id="cb12-153"><a href="#cb12-153" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"#e74c3c"</span>)</span>
-<span id="cb12-154"><a href="#cb12-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-155"><a href="#cb12-155" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb12-156"><a href="#cb12-156" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-157"><a href="#cb12-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-158"><a href="#cb12-158" aria-hidden="true" tabindex="-1"></a>Comparing the two panels: when tasks are positively correlated, the dominant task's index rises. Ignoring correlations understates the risk concentration.</span>
-<span id="cb12-159"><a href="#cb12-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-160"><a href="#cb12-160" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
-<span id="cb12-161"><a href="#cb12-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-162"><a href="#cb12-162" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
-<span id="cb12-163"><a href="#cb12-163" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
-<span id="cb12-164"><a href="#cb12-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-165"><a href="#cb12-165" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sensitivity analysis** decomposes total project variance into per-task contributions. The result is an index, not a probability — it shows relative importance, not absolute risk.</span>
-<span id="cb12-166"><a href="#cb12-166" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**`sensitivity(task_dists)`** takes the same distribution specs as <span class="in">`mcs()`</span> and returns a named vector of sensitivity indices.</span>
-<span id="cb12-167"><a href="#cb12-167" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The task with the highest sensitivity index is the one where reducing variance has the greatest effect on the total project distribution. That is where to spend mitigation budget.</span>
-<span id="cb12-168"><a href="#cb12-168" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Positive correlations amplify the dominant driver.** A task that leads in the independent case leads by an even larger margin when it is positively correlated with its neighbours.</span>
-<span id="cb12-169"><a href="#cb12-169" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A tornado chart (sorted horizontal bar plot) is the standard deliverable for communicating sensitivity results to stakeholders.</span>
-<span id="cb12-170"><a href="#cb12-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-171"><a href="#cb12-171" aria-hidden="true" tabindex="-1"></a>For a fast analytical estimate of total mean and variance — without the index-level decomposition — see @sec-smm. For the simulation that produced the total distribution these indices decompose, see @sec-mcs.</span>
-<span id="cb12-172"><a href="#cb12-172" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb12-173"><a href="#cb12-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-174"><a href="#cb12-174" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
-<span id="cb12-175"><a href="#cb12-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-176"><a href="#cb12-176" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Reading the chart.** In the tornado chart above, which task contributes the least to total variance? What property of its distribution explains this?</span>
-<span id="cb12-177"><a href="#cb12-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-178"><a href="#cb12-178" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Change the spread.** Replace Task B's triangular distribution with <span class="in">`Triangular(8, 10, 12)`</span> — a tighter spread. How do the sensitivity indices change? Does Task B still dominate?</span>
-<span id="cb12-179"><a href="#cb12-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-180"><a href="#cb12-180" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**High-variance newcomer.** Add a fourth task, Task D ~ <span class="in">`Normal(5, 6)`</span> (very high variance relative to its mean). Recompute the sensitivity indices. Does Task D become the dominant driver?</span>
-<span id="cb12-181"><a href="#cb12-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-182"><a href="#cb12-182" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Correlation direction.** ★ Construct a correlation matrix where Task A and Task B are negatively correlated (−0.5). What happens to their sensitivity indices relative to the independent case? Explain the result in terms of the covariance formula.</span>
-<span id="cb12-183"><a href="#cb12-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-184"><a href="#cb12-184" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**From sensitivity to contingency.** ★ Run <span class="in">`mcs()`</span> on the same three tasks, then run <span class="in">`sensitivity()`</span>. The task with the highest sensitivity index should also be responsible for the widest spread in the simulation. Verify this by plotting the individual task distributions from the MCS output alongside the sensitivity indices. Do they tell a consistent story?</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; — P.G.</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>You've run a Monte Carlo simulation and you have a P95 schedule. Now your project sponsor asks: "Which task should we focus on? Where should we spend our mitigation budget?" Looking at the total distribution doesn't answer that; it just tells you how uncertain the total is. Sensitivity analysis tells you *why*.</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning Objectives</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>By the end of this chapter, you will be able to:</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Explain variance decomposition and how it differs from percentile analysis</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Interpret a sensitivity index and identify the dominant risk driver in a project</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Call <span class="in">`sensitivity()`</span> with the three standard distribution types</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Produce a tornado chart that ranks tasks by their contribution to total variance</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Extend the analysis to correlated tasks using a correlation matrix</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## What Is Sensitivity Analysis?</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>Sensitivity analysis answers the question: "If I could reduce uncertainty in one task, which task would have the greatest effect on total project variance?"</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>The answer is not always the task with the longest expected duration. A short task with extremely high variance, say, a procurement step that might take anywhere from 1 to 20 weeks, can dominate the project's total uncertainty even though its mean duration is modest.</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="fu">### Variance Decomposition</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>For a project with $n$ independent tasks, total variance is simply the sum of individual variances:</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>$$\sigma^2_\text{total} = \sum_{i=1}^n \sigma^2_i$$</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>When tasks are correlated, covariance terms appear:</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>$$\sigma^2_\text{total} = \sum_{i=1}^n \sigma^2_i + 2\sum_{i &lt; j} \text{cov}(i, j)$$</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>The **sensitivity index** for task $i$ quantifies how much its variance, including its covariance with all other tasks, contributes to the total:</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>$$s_i = 1 + 2 \sum_{j \neq i} \frac{\text{cov}_{ij}}{\sqrt{\sigma^2_i \cdot \sigma^2_j}}$$</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>For independent tasks, all covariance terms are zero and $s_i = 1$ for every task, meaning the tasks contribute proportionally to their variance. Positive correlations push dominant tasks' indices above 1 and amplify them relative to smaller-variance tasks.</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sensitivity vs. Percentiles</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>Monte Carlo gives you *how bad* the total outcome could be (P95 = 38 weeks). Sensitivity analysis gives you *which task is responsible* (Task B drives 60% of total variance). Use both: percentiles for the headline number, sensitivity for the "where do we focus?" conversation.</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a><span class="fu">## Setup</span></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup}</span></span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>We use the same three tasks from @sec-mcs, a three-task project with mixed distribution types, so you can see the complementary view.</span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>task_dists <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>  <span class="at">TaskA =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>,     <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">4</span>),</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>  <span class="at">TaskB =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"triangular"</span>, <span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">10</span>, <span class="at">c =</span> <span class="dv">15</span>),</span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>  <span class="at">TaskC =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"uniform"</span>,    <span class="at">min =</span> <span class="fl">9.5</span>, <span class="at">max =</span> <span class="fl">10.5</span>)</span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a><span class="fu">## Computing Sensitivity</span></span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>sens <span class="ot">&lt;-</span> <span class="fu">sensitivity</span>(task_dists)</span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a>sens</span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>The output is a named vector with one sensitivity index per task. A higher value means that task's variance has a larger proportional effect on total project variance.</span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interpretation</span></span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(sens <span class="sc">/</span> <span class="fu">sum</span>(sens) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
+<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a>Expressing the indices as percentages makes the picture clear: Task A (normal, sd = 4) dominates total project variance, accounting for the majority of total uncertainty. Task B is a secondary contributor, while Task C barely registers. Task A is the task where mitigation effort pays off most.</span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a><span class="fu">## Tornado Chart</span></span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a>A horizontal bar chart sorted by sensitivity index is the standard way to communicate this finding; it's called a tornado chart because the bars narrow from top to bottom.</span>
+<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Tornado chart of task sensitivity indices. The tallest bar is the dominant risk driver, the task where reducing variance has the greatest effect on total project uncertainty."</span></span>
+<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a>sorted_sens <span class="ot">&lt;-</span> <span class="fu">sort</span>(sens, <span class="at">decreasing =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(</span>
+<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a>  sorted_sens,</span>
+<span id="cb12-100"><a href="#cb12-100" aria-hidden="true" tabindex="-1"></a>  <span class="at">horiz  =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a>  <span class="at">names.arg =</span> <span class="fu">names</span>(sorted_sens),</span>
+<span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab   =</span> <span class="st">"Sensitivity Index"</span>,</span>
+<span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a>  <span class="at">main   =</span> <span class="st">"Task Sensitivity"</span>,</span>
+<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a>  <span class="at">col    =</span> <span class="st">"#18bc9c"</span>,</span>
+<span id="cb12-105"><a href="#cb12-105" aria-hidden="true" tabindex="-1"></a>  <span class="at">border =</span> <span class="st">"white"</span>,</span>
+<span id="cb12-106"><a href="#cb12-106" aria-hidden="true" tabindex="-1"></a>  <span class="at">las    =</span> <span class="dv">1</span></span>
+<span id="cb12-107"><a href="#cb12-107" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-108"><a href="#cb12-108" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"#e74c3c"</span>)</span>
+<span id="cb12-109"><a href="#cb12-109" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-110"><a href="#cb12-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-111"><a href="#cb12-111" aria-hidden="true" tabindex="-1"></a>The dashed red line at $s = 1$ marks the neutral baseline. Tasks above 1 are amplified by positive correlation with other tasks; tasks below 1 are damped by negative correlation (or simply have lower variance).</span>
+<span id="cb12-112"><a href="#cb12-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-113"><a href="#cb12-113" aria-hidden="true" tabindex="-1"></a><span class="fu">## With Correlated Tasks</span></span>
+<span id="cb12-114"><a href="#cb12-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-115"><a href="#cb12-115" aria-hidden="true" tabindex="-1"></a>Real projects have correlated tasks, sharing resources, face the same weather, or depend on the same supplier. Positive correlation amplifies the dominant driver; it becomes even more important to get that task right.</span>
+<span id="cb12-116"><a href="#cb12-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-117"><a href="#cb12-117" aria-hidden="true" tabindex="-1"></a>Use <span class="in">`cor_matrix()`</span> to build a correlation matrix from sampled distributions:</span>
+<span id="cb12-118"><a href="#cb12-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-121"><a href="#cb12-121" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-122"><a href="#cb12-122" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">cor_matrix</span>(</span>
+<span id="cb12-123"><a href="#cb12-123" aria-hidden="true" tabindex="-1"></a>  <span class="at">num_samples =</span> <span class="dv">10000</span>,</span>
+<span id="cb12-124"><a href="#cb12-124" aria-hidden="true" tabindex="-1"></a>  <span class="at">num_vars    =</span> <span class="dv">3</span>,</span>
+<span id="cb12-125"><a href="#cb12-125" aria-hidden="true" tabindex="-1"></a>  <span class="at">dists =</span> <span class="fu">list</span>(</span>
+<span id="cb12-126"><a href="#cb12-126" aria-hidden="true" tabindex="-1"></a>    <span class="at">TaskA =</span> <span class="cf">function</span>(n) <span class="fu">rnorm</span>(n, <span class="dv">10</span>, <span class="dv">4</span>),</span>
+<span id="cb12-127"><a href="#cb12-127" aria-hidden="true" tabindex="-1"></a>    <span class="at">TaskB =</span> <span class="cf">function</span>(n) {</span>
+<span id="cb12-128"><a href="#cb12-128" aria-hidden="true" tabindex="-1"></a>      mc2d<span class="sc">::</span><span class="fu">rtriang</span>(n, <span class="at">min =</span> <span class="dv">5</span>, <span class="at">mode =</span> <span class="dv">10</span>, <span class="at">max =</span> <span class="dv">15</span>)</span>
+<span id="cb12-129"><a href="#cb12-129" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb12-130"><a href="#cb12-130" aria-hidden="true" tabindex="-1"></a>    <span class="at">TaskC =</span> <span class="cf">function</span>(n) <span class="fu">runif</span>(n, <span class="fl">9.5</span>, <span class="fl">10.5</span>)</span>
+<span id="cb12-131"><a href="#cb12-131" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-132"><a href="#cb12-132" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-133"><a href="#cb12-133" aria-hidden="true" tabindex="-1"></a>cm</span>
+<span id="cb12-134"><a href="#cb12-134" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-135"><a href="#cb12-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-138"><a href="#cb12-138" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-139"><a href="#cb12-139" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Sensitivity indices when tasks are correlated. Positive correlations amplify the dominant driver (Task A) and increase total project variance."</span></span>
+<span id="cb12-140"><a href="#cb12-140" aria-hidden="true" tabindex="-1"></a>sens_corr <span class="ot">&lt;-</span> <span class="fu">sensitivity</span>(task_dists, <span class="at">cor_mat =</span> cm)</span>
+<span id="cb12-141"><a href="#cb12-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-142"><a href="#cb12-142" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb12-143"><a href="#cb12-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-144"><a href="#cb12-144" aria-hidden="true" tabindex="-1"></a>sorted_base <span class="ot">&lt;-</span> <span class="fu">sort</span>(sens, <span class="at">decreasing =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-145"><a href="#cb12-145" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(sorted_base, <span class="at">horiz =</span> <span class="cn">TRUE</span>, <span class="at">names.arg =</span> <span class="fu">names</span>(sorted_base),</span>
+<span id="cb12-146"><a href="#cb12-146" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Sensitivity Index"</span>, <span class="at">main =</span> <span class="st">"Independent"</span>,</span>
+<span id="cb12-147"><a href="#cb12-147" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"#18bc9c"</span>, <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">las =</span> <span class="dv">1</span>)</span>
+<span id="cb12-148"><a href="#cb12-148" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"#e74c3c"</span>)</span>
+<span id="cb12-149"><a href="#cb12-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-150"><a href="#cb12-150" aria-hidden="true" tabindex="-1"></a>sorted_corr <span class="ot">&lt;-</span> <span class="fu">sort</span>(sens_corr, <span class="at">decreasing =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-151"><a href="#cb12-151" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(sorted_corr, <span class="at">horiz =</span> <span class="cn">TRUE</span>, <span class="at">names.arg =</span> <span class="fu">names</span>(sorted_corr),</span>
+<span id="cb12-152"><a href="#cb12-152" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Sensitivity Index"</span>, <span class="at">main =</span> <span class="st">"Correlated"</span>,</span>
+<span id="cb12-153"><a href="#cb12-153" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="st">"#3498db"</span>, <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">las =</span> <span class="dv">1</span>)</span>
+<span id="cb12-154"><a href="#cb12-154" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"#e74c3c"</span>)</span>
+<span id="cb12-155"><a href="#cb12-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-156"><a href="#cb12-156" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb12-157"><a href="#cb12-157" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-158"><a href="#cb12-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-159"><a href="#cb12-159" aria-hidden="true" tabindex="-1"></a>Comparing the two panels: when tasks are positively correlated, the dominant task's index rises. Ignoring correlations understates the risk concentration.</span>
+<span id="cb12-160"><a href="#cb12-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-161"><a href="#cb12-161" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
+<span id="cb12-162"><a href="#cb12-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-163"><a href="#cb12-163" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
+<span id="cb12-164"><a href="#cb12-164" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
+<span id="cb12-165"><a href="#cb12-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-166"><a href="#cb12-166" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sensitivity analysis** decomposes total project variance into per-task contributions. The result is an index, not a probability; it shows relative importance, not absolute risk.</span>
+<span id="cb12-167"><a href="#cb12-167" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**`sensitivity(task_dists)`** takes the same distribution specs as <span class="in">`mcs()`</span> and returns a named vector of sensitivity indices.</span>
+<span id="cb12-168"><a href="#cb12-168" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The task with the highest sensitivity index is the one where reducing variance has the greatest effect on the total project distribution. That is where to spend mitigation budget.</span>
+<span id="cb12-169"><a href="#cb12-169" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Positive correlations amplify the dominant driver.** A task that leads in the independent case leads by an even larger margin when it is positively correlated with its neighbours.</span>
+<span id="cb12-170"><a href="#cb12-170" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A tornado chart (sorted horizontal bar plot) is the standard deliverable for communicating sensitivity results to stakeholders.</span>
+<span id="cb12-171"><a href="#cb12-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-172"><a href="#cb12-172" aria-hidden="true" tabindex="-1"></a>For a fast analytical estimate of total mean and variance, without the index-level decomposition, see @sec-smm. For the simulation that produced the total distribution these indices decompose, see @sec-mcs.</span>
+<span id="cb12-173"><a href="#cb12-173" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-174"><a href="#cb12-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-175"><a href="#cb12-175" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
+<span id="cb12-176"><a href="#cb12-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-177"><a href="#cb12-177" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Reading the chart.** In the tornado chart above, which task contributes the least to total variance? What property of its distribution explains this?</span>
+<span id="cb12-178"><a href="#cb12-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-179"><a href="#cb12-179" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Change the spread.** Replace Task B's triangular distribution with <span class="in">`Triangular(8, 10, 12)`</span>, a tighter spread. How do the sensitivity indices change? Does Task B still dominate?</span>
+<span id="cb12-180"><a href="#cb12-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-181"><a href="#cb12-181" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**High-variance newcomer.** Add a fourth task, Task D ~ <span class="in">`Normal(5, 6)`</span> (very high variance relative to its mean). Recompute the sensitivity indices. Does Task D become the dominant driver?</span>
+<span id="cb12-182"><a href="#cb12-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-183"><a href="#cb12-183" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Correlation direction.** ★ Construct a correlation matrix where Task A and Task B are negatively correlated (−0.5). What happens to their sensitivity indices relative to the independent case? Explain the result in terms of the covariance formula.</span>
+<span id="cb12-184"><a href="#cb12-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-185"><a href="#cb12-185" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**From sensitivity to contingency.** ★ Run <span class="in">`mcs()`</span> on the same three tasks, then run <span class="in">`sensitivity()`</span>. The task with the highest sensitivity index should also be responsible for the widest spread in the simulation. Verify this by plotting the individual task distributions from the MCS output alongside the sensitivity indices. Do they tell a consistent story?</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

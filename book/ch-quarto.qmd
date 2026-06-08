@@ -1,0 +1,364 @@
+# Write Once, Trust Always: Reproducible Risk Analysis with Quarto {#sec-quarto}
+
+> *"The first principle is that you must not fool yourself — and you are the easiest person to fool."*
+> — Richard Feynman
+
+You've just run a Monte Carlo simulation, computed a P80 schedule, and printed the contingency reserve for your project. Now imagine sending that result to a colleague, then trying to recreate it six months later. The spreadsheet is gone. The file is named "Final_v3_REVISED_use_this_one.xlsx." Three cells have broken formulas and nobody remembers which inputs were authoritative.
+
+This is the reproducibility gap in project risk analysis, and it is more common than anyone likes to admit.
+
+Quarto closes that gap. It lets you write your analysis and your prose in the same document, so that when the document renders, R executes the code and embeds the actual output: the numbers, the plots, the tables. Not a screenshot. Not a copy-paste. The live result, freshly computed, every time.
+
+This chapter teaches you how to build reproducible risk reports with Quarto and the `PRA` package. By the end, you will have a workflow you can hand to a colleague, run on a new project, or re-execute in two years and get the same answer.
+
+::: {.callout-note icon=false}
+## Learning Objectives
+
+By the end of this chapter, you will be able to:
+
+1. Explain why reproducibility is a professional standard in quantitative risk analysis
+2. Create a Quarto document that embeds live `PRA` code and narrative prose
+3. Use parameterized reports to run the same analysis across multiple project scenarios
+4. Version-control a risk analysis workflow with Git
+5. Describe how this book itself is built using the same Quarto framework
+:::
+
+## The Spreadsheet Problem
+
+Spreadsheets are the default tool for project risk analysis. They are flexible, familiar, and require no installation. They are also, quietly, one of the biggest threats to analytical credibility.
+
+Here is a realistic timeline:
+
+1. A risk analyst builds a Monte Carlo model in Excel. It works. The P90 cost is $4.2M.
+2. The file is emailed, renamed, and forwarded. Three versions exist by Tuesday.
+3. Six months later, the project is audited. The analyst is on a new project. Nobody can open the file without `#REF!` errors.
+4. The P90 estimate can no longer be verified. The basis of the contingency reserve is, in practice, lost.
+
+This is not a spreadsheet problem specifically — it is a **reproducibility problem**. The analysis was never in a form that could be reliably re-executed.
+
+::: {.callout-note}
+## Reproducible vs. Repeatable
+
+**Reproducible** means the same analyst, on the same machine, can re-run the analysis and get the same result.
+
+**Repeatable** means a *different* analyst, on a *different* machine, can run the analysis and get the same result, given the same inputs.
+
+A Quarto document checked into version control with a declared package environment achieves both. A spreadsheet achieves neither reliably.
+:::
+
+The alternative is to make your analysis a **document that also runs**. That is what Quarto does.
+
+## What is Quarto?
+
+Quarto is an open-source publishing system that combines prose and executable code in a single `.qmd` file. You write in Markdown. You embed code chunks in R, Python, Julia, or Observable. When you render the document, Quarto runs the code and weaves the results into the output — HTML, PDF, Word, or a full website or book.
+
+::: {.callout-note}
+## Quarto vs. R Markdown
+
+If you have used R Markdown (`.Rmd`), Quarto will feel immediately familiar. Quarto is the next-generation version: it supports multiple languages, has a cleaner YAML syntax, and produces higher-quality output formats out of the box.
+
+If you have not used either: Quarto is where to start. Install it once from [quarto.org](https://quarto.org) and it works with RStudio, VS Code, or any text editor.
+:::
+
+A minimal Quarto document looks like this:
+
+```yaml
+---
+title: "Bridge Rehabilitation: Schedule Risk Analysis"
+author: "Your Name"
+date: today
+format: html
+---
+```
+
+````markdown
+## Overview
+
+This report summarizes the Monte Carlo schedule simulation for the
+bridge rehabilitation project.
+
+```{{r}}
+library(PRA)
+
+tasks <- list(
+  list(dist = "normal",   params = list(mean = 30, sd = 4)),
+  list(dist = "lognormal", params = list(meanlog = log(20), sdlog = 0.2)),
+  list(dist = "uniform",   params = list(min = 10, max = 25))
+)
+
+results <- mcs(tasks)
+print(results)
+```
+````
+
+Run `quarto render report.qmd` in your terminal and you have a finished HTML report, numbers and all, generated from a single source file.
+
+## Your First Risk Report
+
+Let us build one from scratch.
+
+### Step 1: Install Quarto
+
+Download and install Quarto from [quarto.org](https://quarto.org/docs/get-started/). If you use RStudio, version 2022.07 or later includes Quarto support out of the box.
+
+### Step 2: Create the Document
+
+Create a new file called `risk_report.qmd` and add this header:
+
+```yaml
+---
+title: "Project Schedule Risk Analysis"
+author: "Risk Analyst"
+date: today
+format:
+  html:
+    toc: true
+    code-fold: false
+execute:
+  warning: false
+  message: false
+---
+```
+
+### Step 3: Write the Analysis
+
+Below the YAML header, write your prose and embed your R code:
+
+````markdown
+## Background
+
+This analysis quantifies schedule uncertainty for a three-phase
+infrastructure project using Monte Carlo simulation.
+
+```{{r}}
+library(PRA)
+
+task_dists <- list(
+  list(type = "normal",     mean = 45, sd = 6),          # Design
+  list(type = "triangular", a = 20, b = 30, c = 50),     # Permits
+  list(type = "uniform",    min = 50, max = 80)           # Construction
+)
+
+set.seed(42)
+results <- mcs(10000, task_dists)
+print(results)
+```
+
+## Contingency Reserve
+
+At the P80 confidence level, the recommended contingency is:
+
+```{{r}}
+contingency(results, phigh = 0.80, pbase = 0.50)
+```
+````
+
+### Step 4: Render
+
+From your terminal:
+
+```bash
+quarto render risk_report.qmd
+```
+
+Or from RStudio, click **Render**. Quarto runs both code chunks, embeds the output inline, and writes `risk_report.html`. Open it in any browser.
+
+Here is what the embedded output looks like when you run those chunks live:
+
+```{r}
+#| label: first-report
+library(PRA)
+
+task_dists <- list(
+  list(type = "normal",     mean = 45, sd = 6),
+  list(type = "triangular", a = 20, b = 30, c = 50),
+  list(type = "uniform",    min = 50, max = 80)
+)
+
+set.seed(42)
+results <- mcs(10000, task_dists)
+print(results)
+```
+
+```{r}
+#| label: contingency-result
+contingency(results, phigh = 0.80, pbase = 0.50)
+```
+
+That output was not typed by hand. It was computed when this book was built.
+
+## Parameterized Reports
+
+So far the analysis is fixed to one project. Real workflows require running the same model against multiple scenarios — different task durations, different confidence targets, different projects entirely.
+
+Quarto's `params:` block makes this straightforward.
+
+### Defining Parameters
+
+Add a `params:` section to your YAML header:
+
+```yaml
+---
+title: "Schedule Risk Analysis"
+format: html
+params:
+  mean_design:   45
+  mean_permits:  30
+  mean_construct: 60
+  confidence:    0.80
+---
+```
+
+### Using Parameters in Code
+
+Inside any code chunk, access parameters via `params$`:
+
+````markdown
+```{{r}}
+library(PRA)
+
+task_dists <- list(
+  list(type = "normal",     mean = params$mean_design,   sd = 6),
+  list(type = "normal",     mean = params$mean_permits,  sd = 4),
+  list(type = "normal",     mean = params$mean_construct, sd = 8)
+)
+
+set.seed(42)
+results <- mcs(10000, task_dists)
+contingency(results, phigh = params$confidence, pbase = 0.50)
+```
+````
+
+### Rendering Multiple Scenarios
+
+You can render the same `.qmd` with different parameter values from the command line:
+
+```bash
+# Optimistic scenario
+quarto render risk_report.qmd \
+  -P mean_design:35 -P mean_permits:22 -P mean_construct:50 \
+  --output optimistic.html
+
+# Conservative scenario
+quarto render risk_report.qmd \
+  -P mean_design:55 -P mean_permits:40 -P mean_construct:75 \
+  --output conservative.html
+```
+
+Two reports, one template, zero copy-paste. The same audit trail applies to both.
+
+::: {.callout-note}
+## Parametric Reporting in Practice
+
+A common workflow on large programs is to maintain one `risk_template.qmd` and a small data file (CSV or JSON) that drives scenario generation. A short R script loops over the data file and calls `quarto render` once per row. You end up with one authoritative report per project phase or scenario, all traceable to the same model.
+:::
+
+## Version Control with Git
+
+A reproducible analysis that lives only on your laptop is not fully reproducible — it is one hard drive failure away from being lost. The second half of the reproducibility story is **version control**.
+
+### What to Commit
+
+The rule of thumb for a Quarto risk analysis:
+
+| File | Commit? | Reason |
+|------|---------|--------|
+| `risk_report.qmd` | **Yes** | This is the source of truth |
+| `data/inputs.csv` | **Yes** | Inputs must be versioned with the analysis |
+| `risk_report.html` | No | Derived output; regenerate on demand |
+| `risk_report_files/` | No | Auto-generated by Quarto |
+| `.Rprofile`, `renv.lock` | **Yes** | Locks package versions for repeatability |
+
+The `.qmd` file and its inputs are the authoritative record. Everything else is a by-product.
+
+### A Minimal Workflow
+
+```bash
+git init
+echo "*.html" >> .gitignore
+echo "*_files/" >> .gitignore
+
+git add risk_report.qmd data/inputs.csv renv.lock
+git commit -m "Initial Monte Carlo schedule analysis, P80 = 142 days"
+```
+
+When you update the analysis — new task added, input data revised — commit again:
+
+```bash
+git add -A
+git commit -m "Add permits phase; P80 increases to 158 days"
+```
+
+The git log becomes an audit trail. Anyone can check out any prior commit and re-render the analysis to verify a historical result.
+
+::: {.callout-note}
+## Package Environments with renv
+
+Reproducibility also requires locking the versions of R packages your analysis depends on. The `renv` package does this automatically:
+
+```r
+install.packages("renv")
+renv::init()   # creates renv.lock — commit this file
+renv::restore() # anyone can restore the exact same packages later
+```
+
+Without `renv`, an analysis that ran on `PRA` version 0.3.0 might silently produce different results on version 0.4.0 if a function changes behavior.
+:::
+
+## This Book as a Living Example
+
+This book is itself a Quarto project built on exactly the framework described in this chapter.
+
+Every code block you have read throughout this book — the `mcs()` call in @sec-mcs, the `evm` calculations in @sec-evm, the Bayesian updates in @sec-bayes — was executed when the book was built. There is no "trust us, this is what you'd see." The numbers are real, freshly computed from the current version of the `PRA` package.
+
+The book's source is a directory of `.qmd` files coordinated by a single `_quarto.yml`:
+
+```yaml
+project:
+  type: book
+
+book:
+  title: "Project Risk Analysis: A Practical Guide"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - ch-mcs.qmd
+    - ch-smm.qmd
+    # ... one file per chapter ...
+    - ch-quarto.qmd   # this chapter
+    - ch-agent.qmd
+```
+
+To reproduce the entire book from scratch:
+
+```bash
+git clone https://github.com/paulgovan/PRA
+cd PRA
+quarto render book/
+```
+
+That single command runs every code chunk in every chapter, in a clean R session, and writes the full HTML site, PDF, and EPUB to `book/_book/`. If any code breaks — because a function changed behavior or a dependency was removed — the render fails loudly. The book cannot silently go out of date.
+
+::: {.callout-note}
+## What "Live Book" Means for You
+
+Because the book is reproducible, you can:
+
+- **Verify any result.** Copy a code chunk, change a parameter, and see immediately how the output shifts.
+- **Trust the numbers.** They were not typed by hand and are not screenshots from an old run.
+- **Adapt the structure.** The chapter files are plain Markdown with embedded R. Clone the repo, swap in your project's data, and render your own custom risk analysis book.
+
+The same `.qmd` + `PRA` + `quarto render` workflow that produced this book can produce your project's quarterly risk report.
+:::
+
+## Exercises
+
+1. **Create a minimal report.** Write a `risk_report.qmd` with a YAML header, a one-paragraph background section, and a single code chunk that runs `mcs()` on three tasks of your choice. Render it to HTML and verify the output appears inline.
+
+2. **Add parameterization.** Extend the report from Exercise 1 with a `params:` block. Define `confidence` as a parameter (default `0.80`). Use `params$confidence` in the `contingency()` call. Re-render with `-P confidence:0.90` from the terminal and confirm the contingency increases.
+
+3. **Render to PDF.** Add `pdf: default` to your `format:` block and re-render. Open the PDF. Note any differences in how the plots and tables appear. Try the `geometry: margin=1in` option to control margins.
+
+4. **Inspect this book's source.** Clone the `PRA` repository from GitHub and open `book/ch-mcs.qmd` in a text editor. Identify: (a) the YAML header, (b) the learning objectives callout, (c) the code chunk that calls `mcs()`, and (d) the exercises section. Then run `quarto render book/ch-mcs.qmd` and compare the rendered output to the source. ★
+
+5. **Version-control your analysis.** Initialize a Git repository in the folder containing your `risk_report.qmd`. Commit the `.qmd` file. Make a change (add a task, adjust a parameter) and make a second commit. Run `git log` and confirm you have a two-commit history that documents what changed and when. ★

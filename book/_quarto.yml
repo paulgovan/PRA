@@ -26,6 +26,7 @@ book:
     - ch-network.qmd
     - ch-dsm.qmd
     - ch-network2.qmd
+    - ch-quarto.qmd
     - ch-agent.qmd
   appendices:
     - appendix-glossary.qmd

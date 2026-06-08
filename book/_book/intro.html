@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; Welcome to the Jungle: An Introduction to Project Risk Analysis – Project Risk Analysis: A Practical Guide</title>
+<title>1&nbsp; Into the Unknown: An Introduction to Project Risk Analysis – Project Risk Analysis: A Practical Guide</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -76,10 +76,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-a06763021a52c43c40a351ac8b799b8f.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-a06763021a52c43c40a351ac8b799b8f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-dbc92dda8186f57fa2e333fbb71d6a9d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-a06763021a52c43c40a351ac8b799b8f.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-abfa4615eba2ed0d4bb7fb949ed9c296.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-abfa4615eba2ed0d4bb7fb949ed9c296.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-ded87e99f929cbe3c176321ddefb79bd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-abfa4615eba2ed0d4bb7fb949ed9c296.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -140,7 +144,169 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -149,7 +315,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to the Jungle: An Introduction to Project Risk Analysis</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Into the Unknown: An Introduction to Project Risk Analysis</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -162,11 +328,56 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./cover.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./cover.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Project Risk Analysis: A Practical Guide</a> 
-        <div class="sidebar-tools-main">
+        <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/paulgovan/PRA" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Project-Risk-Analysis--A-Practical-Guide.pdf">
+              <i class="bi bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Project-Risk-Analysis--A-Practical-Guide.epub">
+              <i class="bi bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-1" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-1">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
     </div>
       </div>
@@ -186,31 +397,31 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to the Jungle: An Introduction to Project Risk Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Into the Unknown: An Introduction to Project Risk Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-mcs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Go Monte or Go Home: Monte Carlo Simulation</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./ch-sensitivity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Who’s Driving? Sensitivity Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Roll the Dice: Monte Carlo Simulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-smm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">May I Have a (Second) Moment? The Second Moment Method</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">May I Have a (Second) Moment? The Second Moment Method</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-sensitivity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Who’s Driving? Sensitivity Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-evm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Show Me the Money: Earned Value Management</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Keeping Score: Earned Value Management</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -227,26 +438,32 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
+  <a href="./ch-network.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-network.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></span></a>
+  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-network2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Portfolio Problems? The Network Has Entered the Chat</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Portfolio Problem: When Risks Are Shared</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Write Once, Trust Always: Reproducible Risk Analysis with Quarto</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-agent.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -260,26 +477,26 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./appendix-casestudy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Case Study: Riverside Bridge Replacement</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./appendix-ref.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Quick Reference</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./appendix-glossary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./appendix-math.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Mathematical Derivations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Mathematical Derivations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-ref.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Quick Reference</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-casestudy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Case Study: Riverside Bridge Replacement</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -325,9 +542,10 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span id="sec-intro" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to the Jungle: An Introduction to Project Risk Analysis</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-intro" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Into the Unknown: An Introduction to Project Risk Analysis</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -347,17 +565,17 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p><em>“In preparing for battle I have always found that plans are useless, but planning is indispensable.”</em> — Dwight D. Eisenhower</p>
 </blockquote>
-<p>Let’s be honest: every project estimate is a fiction. Not a malicious one — your team genuinely believes the schedule when they write it. But the moment the project starts, reality begins editing the manuscript. Materials arrive late. Scope grows. That one team member who was supposed to do three things at once turns out to be merely human.</p>
-<p>This is not a reason to despair. It is a reason to quantify.</p>
+<p>Every project estimate is really a best guess. Your team genuinely believes the schedule when they write it, and that’s the right attitude to have. But once the project starts, reality has a way of offering its own revisions. Materials arrive late. Scope grows. That team member who was penciled in for three concurrent tasks runs into the usual constraints of time and bandwidth.</p>
+<p>This is where quantitative methods come in.</p>
 <section id="what-is-project-risk" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="what-is-project-risk"><span class="header-section-number">1.1</span> What Is Project Risk?</h2>
-<p>Risk, in the technical sense, is uncertainty that matters. Not all uncertainty is risk — we don’t worry about the exact number of paperclips in the supply closet — but uncertainty about task durations, resource availability, weather, regulatory approvals, and supplier performance absolutely is. Risk has two components:</p>
+<p>Risk, in the technical sense, is uncertainty that matters. Not all uncertainty is risk; we don’t worry about the exact number of paperclips in the supply closet, but uncertainty about task durations, resource availability, weather, regulatory approvals, and supplier performance absolutely is. Risk has two components:</p>
 <ol type="1">
-<li><strong>Probability</strong> — How likely is this uncertain event to occur?</li>
-<li><strong>Impact</strong> — If it does occur, how much does it affect cost or schedule?</li>
+<li><strong>Probability</strong>: How likely is this uncertain event to occur?</li>
+<li><strong>Impact</strong>: If it does occur, how much does it affect cost or schedule?</li>
 </ol>
 <p>Traditional project management often handles risk qualitatively: a risk register with “High / Medium / Low” likelihood and impact ratings, maybe a <span class="math inline">\(10\%\)</span> contingency tacked onto the budget because that’s what was done last time. This approach is comfortable, but it lacks precision. It cannot tell you whether your P80 schedule estimate is 3 weeks or 3 months above the base estimate. It cannot tell you which risk deserves the most mitigation dollars.</p>
-<p>Quantitative risk analysis — the subject of this book — can.</p>
+<p>Quantitative risk analysis, the subject of this book, can.</p>
 </section>
 <section id="the-quantitative-toolkit" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="the-quantitative-toolkit"><span class="header-section-number">1.2</span> The Quantitative Toolkit</h2>
@@ -382,14 +600,14 @@ window.Quarto = {
 <td>What is the full distribution of possible outcomes?</td>
 </tr>
 <tr class="even">
-<td><a href="ch-sensitivity.html" class="quarto-xref"><span>Chapter 3</span></a></td>
-<td>Sensitivity Analysis</td>
-<td>Which task drives the most variance?</td>
-</tr>
-<tr class="odd">
-<td><a href="ch-smm.html" class="quarto-xref"><span>Chapter 4</span></a></td>
+<td><a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a></td>
 <td>Second Moment Method</td>
 <td>What are the mean and variance quickly, analytically?</td>
+</tr>
+<tr class="odd">
+<td><a href="ch-sensitivity.html" class="quarto-xref"><span>Chapter 4</span></a></td>
+<td>Sensitivity Analysis</td>
+<td>Which task drives the most variance?</td>
 </tr>
 <tr class="even">
 <td><a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a></td>
@@ -407,12 +625,12 @@ window.Quarto = {
 <td>When will the team reach full productivity?</td>
 </tr>
 <tr class="odd">
-<td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 8</span></a></td>
+<td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a></td>
 <td>Design Structure Matrices</td>
 <td>Which tasks are most tightly coupled through shared resources?</td>
 </tr>
 <tr class="even">
-<td><a href="ch-network.html" class="quarto-xref"><span>Chapter 9</span></a></td>
+<td><a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a></td>
 <td>Probabilistic Networks</td>
 <td>How do risks propagate through the project?</td>
 </tr>
@@ -422,17 +640,17 @@ window.Quarto = {
 <td>How do shared risks affect multiple projects at once?</td>
 </tr>
 <tr class="even">
-<td><a href="ch-agent.html" class="quarto-xref"><span>Chapter 11</span></a></td>
+<td><a href="ch-agent.html" class="quarto-xref"><span>Chapter 12</span></a></td>
 <td>Agentic Risk Analysis</td>
 <td>Can I just ask an AI to run all of this?</td>
 </tr>
 </tbody>
 </table>
-<p>These methods are not competing alternatives — they are a progression. You might use the Second Moment Method for a quick back-of-the-envelope estimate, then Monte Carlo for the formal risk report, and a Bayesian network when you need to understand how one risk cascades into others.</p>
+<p>These methods are not competing alternatives; they are a progression. You might use the Second Moment Method for a quick back-of-the-envelope estimate, then Monte Carlo for the formal risk report, and a Bayesian network when you need to understand how one risk cascades into others.</p>
 </section>
 <section id="how-to-navigate-this-book" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="how-to-navigate-this-book"><span class="header-section-number">1.3</span> How to Navigate This Book</h2>
-<p>Each chapter is self-contained — feel free to jump to the method you need. That said, there are natural dependencies: Monte Carlo (<a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>) and the Second Moment Method (<a href="ch-smm.html" class="quarto-xref"><span>Chapter 4</span></a>) build on the same uncertainty concepts; probabilistic networks (<a href="ch-network.html" class="quarto-xref"><span>Chapter 9</span></a>, <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a>) extend Bayesian inference (<a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a>); and the agent chapter (<a href="ch-agent.html" class="quarto-xref"><span>Chapter 11</span></a>) assumes familiarity with all prior methods.</p>
+<p>Each chapter is self-contained; feel free to jump to the method you need. That said, there are natural dependencies: Monte Carlo (<a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>) and the Second Moment Method (<a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a>) build on the same uncertainty concepts; probabilistic networks (<a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a>, <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a>) extend Bayesian inference (<a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a>); and the agent chapter (<a href="ch-agent.html" class="quarto-xref"><span>Chapter 12</span></a>) assumes familiarity with all prior methods.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 57%">
@@ -447,7 +665,7 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td>Building an initial schedule or cost estimate</td>
-<td><a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a> or <a href="ch-smm.html" class="quarto-xref"><span>Chapter 4</span></a></td>
+<td><a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a> or <a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a></td>
 </tr>
 <tr class="even">
 <td>Project underway; need to assess performance</td>
@@ -459,7 +677,7 @@ window.Quarto = {
 </tr>
 <tr class="even">
 <td>Tasks keep failing together; want to understand why</td>
-<td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 8</span></a> or <a href="ch-network.html" class="quarto-xref"><span>Chapter 9</span></a></td>
+<td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a> or <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a></td>
 </tr>
 <tr class="odd">
 <td>Managing a portfolio of projects with shared resources</td>
@@ -471,7 +689,7 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td>Want AI-assisted analysis without writing code every time</td>
-<td><a href="ch-agent.html" class="quarto-xref"><span>Chapter 11</span></a></td>
+<td><a href="ch-agent.html" class="quarto-xref"><span>Chapter 12</span></a></td>
 </tr>
 </tbody>
 </table>
@@ -480,7 +698,7 @@ window.Quarto = {
 <h2 data-number="1.4" class="anchored" data-anchor-id="a-map-of-the-methods"><span class="header-section-number">1.4</span> A Map of the Methods</h2>
 <section id="early-estimation" class="level3" data-number="1.4.1">
 <h3 data-number="1.4.1" class="anchored" data-anchor-id="early-estimation"><span class="header-section-number">1.4.1</span> Early Estimation</h3>
-<p>When you are building the initial project estimate, you have distributions but no data yet. The <strong>Second Moment Method</strong> (Chapter <a href="ch-smm.html" class="quarto-xref"><span>Chapter 4</span></a>) and <strong>Monte Carlo Simulation</strong> (Chapter <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>) are your tools here. SMM is fast and analytical — it gives you a mean and variance in seconds using only the mean and variance of each task. MCS is slower but more powerful — it can use any distribution shape and handles correlations between tasks.</p>
+<p>When you are building the initial project estimate, you have distributions but no data yet. The <strong>Second Moment Method</strong> (Chapter <a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a>) and <strong>Monte Carlo Simulation</strong> (Chapter <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>) are your tools here. SMM is fast and analytical, giving you a mean and variance in seconds using only the mean and variance of each task. MCS is slower but more powerful, able to use any distribution shape and handling correlations between tasks.</p>
 </section>
 <section id="during-execution" class="level3" data-number="1.4.2">
 <h3 data-number="1.4.2" class="anchored" data-anchor-id="during-execution"><span class="header-section-number">1.4.2</span> During Execution</h3>
@@ -492,11 +710,11 @@ window.Quarto = {
 </section>
 <section id="understanding-structure" class="level3" data-number="1.4.4">
 <h3 data-number="1.4.4" class="anchored" data-anchor-id="understanding-structure"><span class="header-section-number">1.4.4</span> Understanding Structure</h3>
-<p><strong>Design Structure Matrices</strong> (Chapter <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 8</span></a>) and <strong>Probabilistic Networks</strong> (Chapters <a href="ch-network.html" class="quarto-xref"><span>Chapter 9</span></a> and <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a>) address the question of <em>why</em> risks correlate. When two tasks both depend on the same crew, a labor shortage affects them both simultaneously. These methods make that structure explicit and quantifiable. <strong>Learning Curves</strong> (Chapter <a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a>) capture a different kind of structure: how a team’s productivity evolves over time.</p>
+<p><strong>Design Structure Matrices</strong> (Chapter <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a>) and <strong>Probabilistic Networks</strong> (Chapters <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a> and <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a>) address the question of <em>why</em> risks correlate. When two tasks both depend on the same crew, a labor shortage affects them both simultaneously. These methods make that structure explicit and quantifiable. <strong>Learning Curves</strong> (Chapter <a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a>) capture a different kind of structure: how a team’s productivity evolves over time.</p>
 </section>
 <section id="ai-assisted-analysis" class="level3" data-number="1.4.5">
 <h3 data-number="1.4.5" class="anchored" data-anchor-id="ai-assisted-analysis"><span class="header-section-number">1.4.5</span> AI-Assisted Analysis</h3>
-<p>Chapter <a href="ch-agent.html" class="quarto-xref"><span>Chapter 11</span></a> introduces the <code>PRA</code> agentic framework: slash commands for instant deterministic analysis, a chat interface powered by a local or cloud LLM, and an MCP server that lets tools like Claude Code call <code>PRA</code> functions directly. Think of it as having a risk analyst who never sleeps and always remembers the EVM formulas.</p>
+<p>Chapter <a href="ch-agent.html" class="quarto-xref"><span>Chapter 12</span></a> introduces the <code>PRA</code> agentic framework: slash commands for instant deterministic analysis, a chat interface powered by a local or cloud LLM, and an MCP server that lets tools like Claude Code call <code>PRA</code> functions directly. Think of it as having a risk analyst on call who always has the EVM formulas at hand.</p>
 </section>
 </section>
 <section id="installing-the-package" class="level2" data-number="1.5">
@@ -525,17 +743,17 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Quantitative risk analysis can give a false sense of precision. The output of a Monte Carlo simulation — “P95 = 47.3 weeks” — sounds authoritative. But that number is only as good as the distributions you fed it.</p>
+<p>Quantitative risk analysis can give a false sense of precision. The output of a Monte Carlo simulation, “P95 = 47.3 weeks”, sounds authoritative. But that number is only as good as the distributions you fed it.</p>
 <p>The skill is not in running the software. The skill is in:</p>
 <ol type="1">
 <li><strong>Choosing distributions</strong> that honestly represent what you know and don’t know</li>
 <li><strong>Identifying correlations</strong> that actually exist in your project</li>
 <li><strong>Communicating results</strong> in a way that drives good decisions rather than false confidence</li>
 </ol>
-<p>Every chapter in this book includes exercises that push you to think critically about these choices — not just to run the code, but to question whether the inputs are defensible.</p>
+<p>Every chapter in this book includes exercises that push you to think critically about these choices, not just to run the code, but to question whether the inputs are defensible.</p>
 </div>
 </div>
-<p>With that caveat in mind — let’s run some simulations.</p>
+<p>With that caveat in mind, let’s run some simulations.</p>
 
 
 <!-- -->
@@ -545,6 +763,19 @@ window.Quarto = {
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {
@@ -667,7 +898,7 @@ window.Quarto = {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/paulgovan\.github\.io\/PRA\/book\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1001,30 +1232,30 @@ window.Quarto = {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./ch-mcs.html" class="pagination-link" aria-label="Go Monte or Go Home: Monte Carlo Simulation">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Go Monte or Go Home: Monte Carlo Simulation</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./ch-mcs.html" class="pagination-link" aria-label="Roll the Dice: Monte Carlo Simulation">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Roll the Dice: Monte Carlo Simulation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Welcome to the Jungle: An Introduction to Project Risk Analysis {#sec-intro}</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Into the Unknown: An Introduction to Project Risk Analysis {#sec-intro}</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"In preparing for battle I have always found that plans are useless, but planning is indispensable."*</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; — Dwight D. Eisenhower</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>Let's be honest: every project estimate is a fiction. Not a malicious one — your team genuinely believes the schedule when they write it. But the moment the project starts, reality begins editing the manuscript. Materials arrive late. Scope grows. That one team member who was supposed to do three things at once turns out to be merely human.</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>Every project estimate is really a best guess. Your team genuinely believes the schedule when they write it, and that's the right attitude to have. But once the project starts, reality has a way of offering its own revisions. Materials arrive late. Scope grows. That team member who was penciled in for three concurrent tasks runs into the usual constraints of time and bandwidth.</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>This is not a reason to despair. It is a reason to quantify.</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>This is where quantitative methods come in.</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## What Is Project Risk?</span></span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>Risk, in the technical sense, is uncertainty that matters. Not all uncertainty is risk — we don't worry about the exact number of paperclips in the supply closet — but uncertainty about task durations, resource availability, weather, regulatory approvals, and supplier performance absolutely is. Risk has two components:</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>Risk, in the technical sense, is uncertainty that matters. Not all uncertainty is risk; we don't worry about the exact number of paperclips in the supply closet, but uncertainty about task durations, resource availability, weather, regulatory approvals, and supplier performance absolutely is. Risk has two components:</span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Probability** — How likely is this uncertain event to occur?</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Impact** — If it does occur, how much does it affect cost or schedule?</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Probability**: How likely is this uncertain event to occur?</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Impact**: If it does occur, how much does it affect cost or schedule?</span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>Traditional project management often handles risk qualitatively: a risk register with "High / Medium / Low" likelihood and impact ratings, maybe a $10\%$ contingency tacked onto the budget because that's what was done last time. This approach is comfortable, but it lacks precision. It cannot tell you whether your P80 schedule estimate is 3 weeks or 3 months above the base estimate. It cannot tell you which risk deserves the most mitigation dollars.</span>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>Quantitative risk analysis — the subject of this book — can.</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>Quantitative risk analysis, the subject of this book, can.</span>
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Quantitative Toolkit</span></span>
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
@@ -1033,8 +1264,8 @@ window.Quarto = {
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Chapter <span class="pp">|</span> Method <span class="pp">|</span> What it answers <span class="pp">|</span></span>
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|--------|----------------|</span></span>
 <span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> @sec-mcs <span class="pp">|</span> Monte Carlo Simulation <span class="pp">|</span> What is the full distribution of possible outcomes? <span class="pp">|</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> @sec-sensitivity <span class="pp">|</span> Sensitivity Analysis <span class="pp">|</span> Which task drives the most variance? <span class="pp">|</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> @sec-smm <span class="pp">|</span> Second Moment Method <span class="pp">|</span> What are the mean and variance quickly, analytically? <span class="pp">|</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> @sec-smm <span class="pp">|</span> Second Moment Method <span class="pp">|</span> What are the mean and variance quickly, analytically? <span class="pp">|</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> @sec-sensitivity <span class="pp">|</span> Sensitivity Analysis <span class="pp">|</span> Which task drives the most variance? <span class="pp">|</span></span>
 <span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> @sec-evm <span class="pp">|</span> Earned Value Management <span class="pp">|</span> How is the project actually performing right now? <span class="pp">|</span></span>
 <span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> @sec-bayes <span class="pp">|</span> Bayesian Inference <span class="pp">|</span> How should I update my risk estimate given new evidence? <span class="pp">|</span></span>
 <span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> @sec-sigmoidal <span class="pp">|</span> Learning Curves <span class="pp">|</span> When will the team reach full productivity? <span class="pp">|</span></span>
@@ -1043,11 +1274,11 @@ window.Quarto = {
 <span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> @sec-network2 <span class="pp">|</span> Portfolio Networks <span class="pp">|</span> How do shared risks affect multiple projects at once? <span class="pp">|</span></span>
 <span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> @sec-agent <span class="pp">|</span> Agentic Risk Analysis <span class="pp">|</span> Can I just ask an AI to run all of this? <span class="pp">|</span></span>
 <span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>These methods are not competing alternatives — they are a progression. You might use the Second Moment Method for a quick back-of-the-envelope estimate, then Monte Carlo for the formal risk report, and a Bayesian network when you need to understand how one risk cascades into others.</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>These methods are not competing alternatives; they are a progression. You might use the Second Moment Method for a quick back-of-the-envelope estimate, then Monte Carlo for the formal risk report, and a Bayesian network when you need to understand how one risk cascades into others.</span>
 <span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## How to Navigate This Book</span></span>
 <span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>Each chapter is self-contained — feel free to jump to the method you need. That said, there are natural dependencies: Monte Carlo (@sec-mcs) and the Second Moment Method (@sec-smm) build on the same uncertainty concepts; probabilistic networks (@sec-network, @sec-network2) extend Bayesian inference (@sec-bayes); and the agent chapter (@sec-agent) assumes familiarity with all prior methods.</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>Each chapter is self-contained; feel free to jump to the method you need. That said, there are natural dependencies: Monte Carlo (@sec-mcs) and the Second Moment Method (@sec-smm) build on the same uncertainty concepts; probabilistic networks (@sec-network, @sec-network2) extend Bayesian inference (@sec-bayes); and the agent chapter (@sec-agent) assumes familiarity with all prior methods.</span>
 <span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Your situation <span class="pp">|</span> Start here <span class="pp">|</span></span>
 <span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------------|-----------|</span></span>
@@ -1063,7 +1294,7 @@ window.Quarto = {
 <span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="fu">### Early Estimation</span></span>
 <span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>When you are building the initial project estimate, you have distributions but no data yet. The **Second Moment Method** (Chapter @sec-smm) and **Monte Carlo Simulation** (Chapter @sec-mcs) are your tools here. SMM is fast and analytical — it gives you a mean and variance in seconds using only the mean and variance of each task. MCS is slower but more powerful — it can use any distribution shape and handles correlations between tasks.</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>When you are building the initial project estimate, you have distributions but no data yet. The **Second Moment Method** (Chapter @sec-smm) and **Monte Carlo Simulation** (Chapter @sec-mcs) are your tools here. SMM is fast and analytical, giving you a mean and variance in seconds using only the mean and variance of each task. MCS is slower but more powerful, able to use any distribution shape and handling correlations between tasks.</span>
 <span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="fu">### During Execution</span></span>
 <span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a></span>
@@ -1079,7 +1310,7 @@ window.Quarto = {
 <span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a><span class="fu">### AI-Assisted Analysis</span></span>
 <span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>Chapter @sec-agent introduces the <span class="in">`PRA`</span> agentic framework: slash commands for instant deterministic analysis, a chat interface powered by a local or cloud LLM, and an MCP server that lets tools like Claude Code call <span class="in">`PRA`</span> functions directly. Think of it as having a risk analyst who never sleeps and always remembers the EVM formulas.</span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>Chapter @sec-agent introduces the <span class="in">`PRA`</span> agentic framework: slash commands for instant deterministic analysis, a chat interface powered by a local or cloud LLM, and an MCP server that lets tools like Claude Code call <span class="in">`PRA`</span> functions directly. Think of it as having a risk analyst on call who always has the EVM formulas at hand.</span>
 <span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a><span class="fu">## Installing the Package</span></span>
 <span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a></span>
@@ -1106,7 +1337,7 @@ window.Quarto = {
 <span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
 <span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a><span class="fu">## Garbage In, Garbage Out</span></span>
 <span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>Quantitative risk analysis can give a false sense of precision. The output of a Monte Carlo simulation — "P95 = 47.3 weeks" — sounds authoritative. But that number is only as good as the distributions you fed it.</span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>Quantitative risk analysis can give a false sense of precision. The output of a Monte Carlo simulation, "P95 = 47.3 weeks", sounds authoritative. But that number is only as good as the distributions you fed it.</span>
 <span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a>The skill is not in running the software. The skill is in:</span>
 <span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a></span>
@@ -1114,10 +1345,10 @@ window.Quarto = {
 <span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Identifying correlations** that actually exist in your project</span>
 <span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Communicating results** in a way that drives good decisions rather than false confidence</span>
 <span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>Every chapter in this book includes exercises that push you to think critically about these choices — not just to run the code, but to question whether the inputs are defensible.</span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>Every chapter in this book includes exercises that push you to think critically about these choices, not just to run the code, but to question whether the inputs are defensible.</span>
 <span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a>With that caveat in mind — let's run some simulations.</span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a>With that caveat in mind, let's run some simulations.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
