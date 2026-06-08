@@ -579,7 +579,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Six months later, the project is audited. The analyst is on a new project. Nobody can open the file without <code>#REF!</code> errors.</li>
 <li>The P90 estimate can no longer be verified. The basis of the contingency reserve is, in practice, lost.</li>
 </ol>
-<p>This is not a spreadsheet problem specifically — it is a <strong>reproducibility problem</strong>. The analysis was never in a form that could be reliably re-executed.</p>
+<p>This is not a spreadsheet problem specifically, but a <strong>reproducibility problem</strong>. The analysis was never in a form that could be reliably re-executed.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -599,7 +599,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="what-is-quarto" class="level2" data-number="11.2">
 <h2 data-number="11.2" class="anchored" data-anchor-id="what-is-quarto"><span class="header-section-number">11.2</span> What is Quarto?</h2>
-<p>Quarto is an open-source publishing system that combines prose and executable code in a single <code>.qmd</code> file. You write in Markdown. You embed code chunks in R, Python, Julia, or Observable. When you render the document, Quarto runs the code and weaves the results into the output — HTML, PDF, Word, or a full website or book.</p>
+<p>Quarto is an open-source publishing system that combines prose and executable code in a single <code>.qmd</code> file. You write in Markdown. You embed code chunks in R, Python, Julia, or Observable. When you render the document, Quarto runs the code and weaves the results into the output: HTML, PDF, Word, or a full website or book.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -733,7 +733,7 @@ Percentiles:
 </section>
 <section id="parameterized-reports" class="level2" data-number="11.4">
 <h2 data-number="11.4" class="anchored" data-anchor-id="parameterized-reports"><span class="header-section-number">11.4</span> Parameterized Reports</h2>
-<p>So far the analysis is fixed to one project. Real workflows require running the same model against multiple scenarios — different task durations, different confidence targets, different projects entirely.</p>
+<p>So far the analysis is fixed to one project. Real workflows require running the same model against multiple scenarios, with different task durations, different confidence targets, or different projects entirely.</p>
 <p>Quarto’s <code>params:</code> block makes this straightforward.</p>
 <section id="defining-parameters" class="level3" data-number="11.4.1">
 <h3 data-number="11.4.1" class="anchored" data-anchor-id="defining-parameters"><span class="header-section-number">11.4.1</span> Defining Parameters</h3>
@@ -795,7 +795,7 @@ Percentiles:
 </section>
 <section id="version-control-with-git" class="level2" data-number="11.5">
 <h2 data-number="11.5" class="anchored" data-anchor-id="version-control-with-git"><span class="header-section-number">11.5</span> Version Control with Git</h2>
-<p>A reproducible analysis that lives only on your laptop is not fully reproducible — it is one hard drive failure away from being lost. The second half of the reproducibility story is <strong>version control</strong>.</p>
+<p>A reproducible analysis that lives only on your laptop is not fully reproducible, just one hard drive failure away from being lost. The second half of the reproducibility story is <strong>version control</strong>.</p>
 <section id="what-to-commit" class="level3" data-number="11.5.1">
 <h3 data-number="11.5.1" class="anchored" data-anchor-id="what-to-commit"><span class="header-section-number">11.5.1</span> What to Commit</h3>
 <p>The rule of thumb for a Quarto risk analysis:</p>
@@ -850,7 +850,7 @@ Percentiles:
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add risk_report.qmd data/inputs.csv renv.lock</span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Initial Monte Carlo schedule analysis, P80 = 142 days"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>When you update the analysis — new task added, input data revised — commit again:</p>
+<p>When you update the analysis, adding a task or revising input data, commit again:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add <span class="at">-A</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add permits phase; P80 increases to 158 days"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The git log becomes an audit trail. Anyone can check out any prior commit and re-render the analysis to verify a historical result.</p>
@@ -876,7 +876,7 @@ Percentiles:
 <section id="this-book-as-a-living-example" class="level2" data-number="11.6">
 <h2 data-number="11.6" class="anchored" data-anchor-id="this-book-as-a-living-example"><span class="header-section-number">11.6</span> This Book as a Living Example</h2>
 <p>This book is itself a Quarto project built on exactly the framework described in this chapter.</p>
-<p>Every code block you have read throughout this book — the <code>mcs()</code> call in <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>, the <code>evm</code> calculations in <a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a>, the Bayesian updates in <a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a> — was executed when the book was built. There is no “trust us, this is what you’d see.” The numbers are real, freshly computed from the current version of the <code>PRA</code> package.</p>
+<p>Every code block you have read throughout this book, including the <code>mcs()</code> call in <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>, the <code>evm</code> calculations in <a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a>, and the Bayesian updates in <a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a>, was executed when the book was built. There is no “trust us, this is what you’d see.” The numbers are real, freshly computed from the current version of the <code>PRA</code> package.</p>
 <p>The book’s source is a directory of <code>.qmd</code> files coordinated by a single <code>_quarto.yml</code>:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">project</span><span class="kw">:</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> book</span></span>
@@ -895,7 +895,7 @@ Percentiles:
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/paulgovan/PRA</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> PRA</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>That single command runs every code chunk in every chapter, in a clean R session, and writes the full HTML site, PDF, and EPUB to <code>book/_book/</code>. If any code breaks — because a function changed behavior or a dependency was removed — the render fails loudly. The book cannot silently go out of date.</p>
+<p>That single command runs every code chunk in every chapter, in a clean R session, and writes the full HTML site, PDF, and EPUB to <code>book/_book/</code>. If any code breaks, because a function changed behavior or a dependency was removed, the render fails loudly. The book cannot silently go out of date.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1444,7 +1444,7 @@ Percentiles:
 <span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Six months later, the project is audited. The analyst is on a new project. Nobody can open the file without <span class="in">`#REF!`</span> errors.</span>
 <span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>The P90 estimate can no longer be verified. The basis of the contingency reserve is, in practice, lost.</span>
 <span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>This is not a spreadsheet problem specifically — it is a **reproducibility problem**. The analysis was never in a form that could be reliably re-executed.</span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>This is not a spreadsheet problem specifically, but a **reproducibility problem**. The analysis was never in a form that could be reliably re-executed.</span>
 <span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
 <span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reproducible vs. Repeatable</span></span>
@@ -1460,7 +1460,7 @@ Percentiles:
 <span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is Quarto?</span></span>
 <span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>Quarto is an open-source publishing system that combines prose and executable code in a single <span class="in">`.qmd`</span> file. You write in Markdown. You embed code chunks in R, Python, Julia, or Observable. When you render the document, Quarto runs the code and weaves the results into the output — HTML, PDF, Word, or a full website or book.</span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>Quarto is an open-source publishing system that combines prose and executable code in a single <span class="in">`.qmd`</span> file. You write in Markdown. You embed code chunks in R, Python, Julia, or Observable. When you render the document, Quarto runs the code and weaves the results into the output: HTML, PDF, Word, or a full website or book.</span>
 <span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
 <span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a><span class="fu">## Quarto vs. R Markdown</span></span>
@@ -1599,7 +1599,7 @@ Percentiles:
 <span id="cb18-193"><a href="#cb18-193" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-194"><a href="#cb18-194" aria-hidden="true" tabindex="-1"></a><span class="fu">## Parameterized Reports</span></span>
 <span id="cb18-195"><a href="#cb18-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-196"><a href="#cb18-196" aria-hidden="true" tabindex="-1"></a>So far the analysis is fixed to one project. Real workflows require running the same model against multiple scenarios — different task durations, different confidence targets, different projects entirely.</span>
+<span id="cb18-196"><a href="#cb18-196" aria-hidden="true" tabindex="-1"></a>So far the analysis is fixed to one project. Real workflows require running the same model against multiple scenarios, with different task durations, different confidence targets, or different projects entirely.</span>
 <span id="cb18-197"><a href="#cb18-197" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-198"><a href="#cb18-198" aria-hidden="true" tabindex="-1"></a>Quarto's <span class="in">`params:`</span> block makes this straightforward.</span>
 <span id="cb18-199"><a href="#cb18-199" aria-hidden="true" tabindex="-1"></a></span>
@@ -1665,7 +1665,7 @@ Percentiles:
 <span id="cb18-259"><a href="#cb18-259" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-260"><a href="#cb18-260" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version Control with Git</span></span>
 <span id="cb18-261"><a href="#cb18-261" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-262"><a href="#cb18-262" aria-hidden="true" tabindex="-1"></a>A reproducible analysis that lives only on your laptop is not fully reproducible — it is one hard drive failure away from being lost. The second half of the reproducibility story is **version control**.</span>
+<span id="cb18-262"><a href="#cb18-262" aria-hidden="true" tabindex="-1"></a>A reproducible analysis that lives only on your laptop is not fully reproducible, just one hard drive failure away from being lost. The second half of the reproducibility story is **version control**.</span>
 <span id="cb18-263"><a href="#cb18-263" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-264"><a href="#cb18-264" aria-hidden="true" tabindex="-1"></a><span class="fu">### What to Commit</span></span>
 <span id="cb18-265"><a href="#cb18-265" aria-hidden="true" tabindex="-1"></a></span>
@@ -1692,7 +1692,7 @@ Percentiles:
 <span id="cb18-286"><a href="#cb18-286" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Initial Monte Carlo schedule analysis, P80 = 142 days"</span></span>
 <span id="cb18-287"><a href="#cb18-287" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb18-288"><a href="#cb18-288" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-289"><a href="#cb18-289" aria-hidden="true" tabindex="-1"></a>When you update the analysis — new task added, input data revised — commit again:</span>
+<span id="cb18-289"><a href="#cb18-289" aria-hidden="true" tabindex="-1"></a>When you update the analysis, adding a task or revising input data, commit again:</span>
 <span id="cb18-290"><a href="#cb18-290" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-291"><a href="#cb18-291" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
 <span id="cb18-292"><a href="#cb18-292" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add <span class="at">-A</span></span>
@@ -1719,7 +1719,7 @@ Percentiles:
 <span id="cb18-313"><a href="#cb18-313" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-314"><a href="#cb18-314" aria-hidden="true" tabindex="-1"></a>This book is itself a Quarto project built on exactly the framework described in this chapter.</span>
 <span id="cb18-315"><a href="#cb18-315" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-316"><a href="#cb18-316" aria-hidden="true" tabindex="-1"></a>Every code block you have read throughout this book — the <span class="in">`mcs()`</span> call in @sec-mcs, the <span class="in">`evm`</span> calculations in @sec-evm, the Bayesian updates in @sec-bayes — was executed when the book was built. There is no "trust us, this is what you'd see." The numbers are real, freshly computed from the current version of the <span class="in">`PRA`</span> package.</span>
+<span id="cb18-316"><a href="#cb18-316" aria-hidden="true" tabindex="-1"></a>Every code block you have read throughout this book, including the <span class="in">`mcs()`</span> call in @sec-mcs, the <span class="in">`evm`</span> calculations in @sec-evm, and the Bayesian updates in @sec-bayes, was executed when the book was built. There is no "trust us, this is what you'd see." The numbers are real, freshly computed from the current version of the <span class="in">`PRA`</span> package.</span>
 <span id="cb18-317"><a href="#cb18-317" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-318"><a href="#cb18-318" aria-hidden="true" tabindex="-1"></a>The book's source is a directory of <span class="in">`.qmd`</span> files coordinated by a single <span class="in">`_quarto.yml`</span>:</span>
 <span id="cb18-319"><a href="#cb18-319" aria-hidden="true" tabindex="-1"></a></span>
@@ -1747,7 +1747,7 @@ Percentiles:
 <span id="cb18-341"><a href="#cb18-341" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book/</span>
 <span id="cb18-342"><a href="#cb18-342" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb18-343"><a href="#cb18-343" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-344"><a href="#cb18-344" aria-hidden="true" tabindex="-1"></a>That single command runs every code chunk in every chapter, in a clean R session, and writes the full HTML site, PDF, and EPUB to <span class="in">`book/_book/`</span>. If any code breaks — because a function changed behavior or a dependency was removed — the render fails loudly. The book cannot silently go out of date.</span>
+<span id="cb18-344"><a href="#cb18-344" aria-hidden="true" tabindex="-1"></a>That single command runs every code chunk in every chapter, in a clean R session, and writes the full HTML site, PDF, and EPUB to <span class="in">`book/_book/`</span>. If any code breaks, because a function changed behavior or a dependency was removed, the render fails loudly. The book cannot silently go out of date.</span>
 <span id="cb18-345"><a href="#cb18-345" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-346"><a href="#cb18-346" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
 <span id="cb18-347"><a href="#cb18-347" aria-hidden="true" tabindex="-1"></a><span class="fu">## What "Live Book" Means for You</span></span>
