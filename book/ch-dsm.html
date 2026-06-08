@@ -475,8 +475,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./ch-quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Write Once, Trust Always: Reproducible Risk Analysis with Quarto</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./ch-agent.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -574,7 +580,7 @@ window.Quarto = {
 
 
 <blockquote class="blockquote">
-<p><em>“You can’t just fix Task 7. Task 7 shares three resources with Tasks 2, 4, and 9.”</em> — P.G.</p>
+<p><em>“A complex system that works is invariably found to have evolved from a simple system that worked.”</em> — John Gall</p>
 </blockquote>
 <p>The previous chapter built a probabilistic network that showed <em>how</em> risk flows through resources into task costs. But the Bayesian network is a rich machine — conditional distributions, sampling, belief propagation. Sometimes you want a simpler question: <em>which tasks are structurally coupled?</em> Which pairs of tasks would fail together purely because they share the same crew, equipment, or material — regardless of the probability distributions involved?</p>
 <p>The Design Structure Matrix (DSM) answers that question <span class="citation" data-cites="browning2001 steward1981">(<a href="references.html#ref-browning2001" role="doc-biblioref">Browning 2001</a>; <a href="references.html#ref-steward1981" role="doc-biblioref">Steward 1981</a>)</span>. And because this project’s structure already lives in the <code>graph</code> object built in the previous chapter, there is no need to construct the resource and risk matrices by hand — they can be derived directly from the network’s adjacency matrix.</p>
@@ -1389,8 +1395,8 @@ Steward, D. V. 1981. <em>Systems Analysis and Management: Structure, Strategy an
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Everything Is Connected: Design Structure Matrices {#sec-dsm}</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"You can't just fix Task 7. Task 7 shares three resources with Tasks 2, 4, and 9."*</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; — P.G.</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"A complex system that works is invariably found to have evolved from a simple system that worked."*</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; — John Gall</span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>The previous chapter built a probabilistic network that showed *how* risk flows through resources into task costs. But the Bayesian network is a rich machine — conditional distributions, sampling, belief propagation. Sometimes you want a simpler question: *which tasks are structurally coupled?* Which pairs of tasks would fail together purely because they share the same crew, equipment, or material — regardless of the probability distributions involved?</span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>11&nbsp; Your AI Co-Pilot: Agentic Risk Analysis – Project Risk Analysis: A Practical Guide</title>
+<title>12&nbsp; Your AI Co-Pilot: Agentic Risk Analysis – Project Risk Analysis: A Practical Guide</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -69,7 +69,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./appendix-glossary.html" rel="next">
-<link href="./ch-network2.html" rel="prev">
+<link href="./ch-quarto.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -286,7 +286,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch-agent.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch-agent.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -427,8 +427,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./ch-quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Write Once, Trust Always: Reproducible Risk Analysis with Quarto</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./ch-agent.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -488,43 +494,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-three-routing-modes" id="toc-the-three-routing-modes" class="nav-link active" data-scroll-target="#the-three-routing-modes"><span class="header-section-number">11.1</span> The Three Routing Modes</a></li>
-  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites"><span class="header-section-number">11.2</span> Prerequisites</a>
+  <li><a href="#the-three-routing-modes" id="toc-the-three-routing-modes" class="nav-link active" data-scroll-target="#the-three-routing-modes"><span class="header-section-number">12.1</span> The Three Routing Modes</a></li>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites"><span class="header-section-number">12.2</span> Prerequisites</a>
   <ul class="collapse">
-  <li><a href="#install-ollama" id="toc-install-ollama" class="nav-link" data-scroll-target="#install-ollama"><span class="header-section-number">11.2.1</span> Install Ollama</a></li>
-  <li><a href="#install-r-dependencies" id="toc-install-r-dependencies" class="nav-link" data-scroll-target="#install-r-dependencies"><span class="header-section-number">11.2.2</span> Install R dependencies</a></li>
+  <li><a href="#install-ollama" id="toc-install-ollama" class="nav-link" data-scroll-target="#install-ollama"><span class="header-section-number">12.2.1</span> Install Ollama</a></li>
+  <li><a href="#install-r-dependencies" id="toc-install-r-dependencies" class="nav-link" data-scroll-target="#install-r-dependencies"><span class="header-section-number">12.2.2</span> Install R dependencies</a></li>
   </ul></li>
-  <li><a href="#slash-commands" id="toc-slash-commands" class="nav-link" data-scroll-target="#slash-commands"><span class="header-section-number">11.3</span> Slash Commands</a>
+  <li><a href="#slash-commands" id="toc-slash-commands" class="nav-link" data-scroll-target="#slash-commands"><span class="header-section-number">12.3</span> Slash Commands</a>
   <ul class="collapse">
-  <li><a href="#available-commands" id="toc-available-commands" class="nav-link" data-scroll-target="#available-commands"><span class="header-section-number">11.3.1</span> Available Commands</a></li>
-  <li><a href="#example-monte-carlo-simulation" id="toc-example-monte-carlo-simulation" class="nav-link" data-scroll-target="#example-monte-carlo-simulation"><span class="header-section-number">11.3.2</span> Example: Monte Carlo Simulation</a></li>
-  <li><a href="#example-chaining-mcs-to-contingency" id="toc-example-chaining-mcs-to-contingency" class="nav-link" data-scroll-target="#example-chaining-mcs-to-contingency"><span class="header-section-number">11.3.3</span> Example: Chaining MCS to Contingency</a></li>
-  <li><a href="#example-earned-value-management" id="toc-example-earned-value-management" class="nav-link" data-scroll-target="#example-earned-value-management"><span class="header-section-number">11.3.4</span> Example: Earned Value Management</a></li>
-  <li><a href="#example-bayesian-risk-probability" id="toc-example-bayesian-risk-probability" class="nav-link" data-scroll-target="#example-bayesian-risk-probability"><span class="header-section-number">11.3.5</span> Example: Bayesian Risk Probability</a></li>
-  <li><a href="#example-second-moment-method" id="toc-example-second-moment-method" class="nav-link" data-scroll-target="#example-second-moment-method"><span class="header-section-number">11.3.6</span> Example: Second Moment Method</a></li>
-  <li><a href="#input-validation" id="toc-input-validation" class="nav-link" data-scroll-target="#input-validation"><span class="header-section-number">11.3.7</span> Input Validation</a></li>
+  <li><a href="#available-commands" id="toc-available-commands" class="nav-link" data-scroll-target="#available-commands"><span class="header-section-number">12.3.1</span> Available Commands</a></li>
+  <li><a href="#example-monte-carlo-simulation" id="toc-example-monte-carlo-simulation" class="nav-link" data-scroll-target="#example-monte-carlo-simulation"><span class="header-section-number">12.3.2</span> Example: Monte Carlo Simulation</a></li>
+  <li><a href="#example-chaining-mcs-to-contingency" id="toc-example-chaining-mcs-to-contingency" class="nav-link" data-scroll-target="#example-chaining-mcs-to-contingency"><span class="header-section-number">12.3.3</span> Example: Chaining MCS to Contingency</a></li>
+  <li><a href="#example-earned-value-management" id="toc-example-earned-value-management" class="nav-link" data-scroll-target="#example-earned-value-management"><span class="header-section-number">12.3.4</span> Example: Earned Value Management</a></li>
+  <li><a href="#example-bayesian-risk-probability" id="toc-example-bayesian-risk-probability" class="nav-link" data-scroll-target="#example-bayesian-risk-probability"><span class="header-section-number">12.3.5</span> Example: Bayesian Risk Probability</a></li>
+  <li><a href="#example-second-moment-method" id="toc-example-second-moment-method" class="nav-link" data-scroll-target="#example-second-moment-method"><span class="header-section-number">12.3.6</span> Example: Second Moment Method</a></li>
+  <li><a href="#input-validation" id="toc-input-validation" class="nav-link" data-scroll-target="#input-validation"><span class="header-section-number">12.3.7</span> Input Validation</a></li>
   </ul></li>
-  <li><a href="#chat-interface" id="toc-chat-interface" class="nav-link" data-scroll-target="#chat-interface"><span class="header-section-number">11.4</span> Chat Interface</a>
+  <li><a href="#chat-interface" id="toc-chat-interface" class="nav-link" data-scroll-target="#chat-interface"><span class="header-section-number">12.4</span> Chat Interface</a>
   <ul class="collapse">
-  <li><a href="#using-cloud-models" id="toc-using-cloud-models" class="nav-link" data-scroll-target="#using-cloud-models"><span class="header-section-number">11.4.1</span> Using Cloud Models</a></li>
+  <li><a href="#using-cloud-models" id="toc-using-cloud-models" class="nav-link" data-scroll-target="#using-cloud-models"><span class="header-section-number">12.4.1</span> Using Cloud Models</a></li>
   </ul></li>
-  <li><a href="#interactive-shiny-app" id="toc-interactive-shiny-app" class="nav-link" data-scroll-target="#interactive-shiny-app"><span class="header-section-number">11.5</span> Interactive Shiny App</a>
+  <li><a href="#interactive-shiny-app" id="toc-interactive-shiny-app" class="nav-link" data-scroll-target="#interactive-shiny-app"><span class="header-section-number">12.5</span> Interactive Shiny App</a>
   <ul class="collapse">
-  <li><a href="#features" id="toc-features" class="nav-link" data-scroll-target="#features"><span class="header-section-number">11.5.1</span> Features</a></li>
+  <li><a href="#features" id="toc-features" class="nav-link" data-scroll-target="#features"><span class="header-section-number">12.5.1</span> Features</a></li>
   </ul></li>
-  <li><a href="#rag-knowledge-base" id="toc-rag-knowledge-base" class="nav-link" data-scroll-target="#rag-knowledge-base"><span class="header-section-number">11.6</span> RAG Knowledge Base</a>
+  <li><a href="#rag-knowledge-base" id="toc-rag-knowledge-base" class="nav-link" data-scroll-target="#rag-knowledge-base"><span class="header-section-number">12.6</span> RAG Knowledge Base</a>
   <ul class="collapse">
-  <li><a href="#adding-your-own-documents" id="toc-adding-your-own-documents" class="nav-link" data-scroll-target="#adding-your-own-documents"><span class="header-section-number">11.6.1</span> Adding Your Own Documents</a></li>
+  <li><a href="#adding-your-own-documents" id="toc-adding-your-own-documents" class="nav-link" data-scroll-target="#adding-your-own-documents"><span class="header-section-number">12.6.1</span> Adding Your Own Documents</a></li>
   </ul></li>
-  <li><a href="#mcp-integration" id="toc-mcp-integration" class="nav-link" data-scroll-target="#mcp-integration"><span class="header-section-number">11.7</span> MCP Integration</a>
+  <li><a href="#mcp-integration" id="toc-mcp-integration" class="nav-link" data-scroll-target="#mcp-integration"><span class="header-section-number">12.7</span> MCP Integration</a>
   <ul class="collapse">
-  <li><a href="#starting-the-server" id="toc-starting-the-server" class="nav-link" data-scroll-target="#starting-the-server"><span class="header-section-number">11.7.1</span> Starting the Server</a></li>
-  <li><a href="#connecting-from-claude-code" id="toc-connecting-from-claude-code" class="nav-link" data-scroll-target="#connecting-from-claude-code"><span class="header-section-number">11.7.2</span> Connecting from Claude Code</a></li>
-  <li><a href="#connecting-from-claude-desktop" id="toc-connecting-from-claude-desktop" class="nav-link" data-scroll-target="#connecting-from-claude-desktop"><span class="header-section-number">11.7.3</span> Connecting from Claude Desktop</a></li>
+  <li><a href="#starting-the-server" id="toc-starting-the-server" class="nav-link" data-scroll-target="#starting-the-server"><span class="header-section-number">12.7.1</span> Starting the Server</a></li>
+  <li><a href="#connecting-from-claude-code" id="toc-connecting-from-claude-code" class="nav-link" data-scroll-target="#connecting-from-claude-code"><span class="header-section-number">12.7.2</span> Connecting from Claude Code</a></li>
+  <li><a href="#connecting-from-claude-desktop" id="toc-connecting-from-claude-desktop" class="nav-link" data-scroll-target="#connecting-from-claude-desktop"><span class="header-section-number">12.7.3</span> Connecting from Claude Desktop</a></li>
   </ul></li>
-  <li><a href="#available-commands-reference" id="toc-available-commands-reference" class="nav-link" data-scroll-target="#available-commands-reference"><span class="header-section-number">11.8</span> Available Commands Reference</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">11.9</span> Summary</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">11.10</span> Exercises</a></li>
+  <li><a href="#available-commands-reference" id="toc-available-commands-reference" class="nav-link" data-scroll-target="#available-commands-reference"><span class="header-section-number">12.8</span> Available Commands Reference</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">12.9</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">12.10</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/paulgovan/PRA/edit/main/ch-agent.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulgovan/PRA/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -534,7 +540,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span id="sec-agent" class="quarto-section-identifier"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-agent" class="quarto-section-identifier"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -552,7 +558,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <blockquote class="blockquote">
-<p><em>“The best tool for the job is the one you’ll actually use.”</em> — P.G.</p>
+<p><em>“The best way to predict the future is to invent it.”</em> — Alan Kay</p>
 </blockquote>
 <p>You’ve made it through eight chapters of quantitative risk analysis. You know Monte Carlo, SMM, EVM, Bayesian inference, learning curves, design structure matrices, and probabilistic networks. Now imagine not having to remember the syntax for all of them.</p>
 <p>Imagine a project manager typing “run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)” and getting back a P95 date, a contingency reserve, and a tornado chart, all in ten seconds, without opening R. That’s the promise of the <code>PRA</code> agentic framework: a layer of intelligence on top of all the methods you’ve learned.</p>
@@ -576,8 +582,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 </div>
 </div>
-<section id="the-three-routing-modes" class="level2" data-number="11.1">
-<h2 data-number="11.1" class="anchored" data-anchor-id="the-three-routing-modes"><span class="header-section-number">11.1</span> The Three Routing Modes</h2>
+<section id="the-three-routing-modes" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="the-three-routing-modes"><span class="header-section-number">12.1</span> The Three Routing Modes</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -634,27 +640,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Shiny app</strong> (<code>pra_app()</code>): browser-based experience combining all three modes</li>
 </ol>
 </section>
-<section id="prerequisites" class="level2" data-number="11.2">
-<h2 data-number="11.2" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">11.2</span> Prerequisites</h2>
-<section id="install-ollama" class="level3" data-number="11.2.1">
-<h3 data-number="11.2.1" class="anchored" data-anchor-id="install-ollama"><span class="header-section-number">11.2.1</span> Install Ollama</h3>
+<section id="prerequisites" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">12.2</span> Prerequisites</h2>
+<section id="install-ollama" class="level3" data-number="12.2.1">
+<h3 data-number="12.2.1" class="anchored" data-anchor-id="install-ollama"><span class="header-section-number">12.2.1</span> Install Ollama</h3>
 <p>Download from <a href="https://ollama.com" class="uri">https://ollama.com</a>, then pull a model:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> serve</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> pull llama3.2</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> pull nomic-embed-text  <span class="co"># for RAG embeddings</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="install-r-dependencies" class="level3" data-number="11.2.2">
-<h3 data-number="11.2.2" class="anchored" data-anchor-id="install-r-dependencies"><span class="header-section-number">11.2.2</span> Install R dependencies</h3>
+<section id="install-r-dependencies" class="level3" data-number="12.2.2">
+<h3 data-number="12.2.2" class="anchored" data-anchor-id="install-r-dependencies"><span class="header-section-number">12.2.2</span> Install R dependencies</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"ellmer"</span>, <span class="st">"ragnar"</span>, <span class="st">"shiny"</span>, <span class="st">"bslib"</span>, <span class="st">"shinychat"</span>, <span class="st">"jsonlite"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 </section>
-<section id="slash-commands" class="level2" data-number="11.3">
-<h2 data-number="11.3" class="anchored" data-anchor-id="slash-commands"><span class="header-section-number">11.3</span> Slash Commands</h2>
+<section id="slash-commands" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="slash-commands"><span class="header-section-number">12.3</span> Slash Commands</h2>
 <p>Slash commands provide deterministic tool execution with no LLM required. Type <code>/help</code> to see all available commands, or <code>/help &lt;command&gt;</code> for detailed usage.</p>
-<section id="available-commands" class="level3" data-number="11.3.1">
-<h3 data-number="11.3.1" class="anchored" data-anchor-id="available-commands"><span class="header-section-number">11.3.1</span> Available Commands</h3>
+<section id="available-commands" class="level3" data-number="12.3.1">
+<h3 data-number="12.3.1" class="anchored" data-anchor-id="available-commands"><span class="header-section-number">12.3.1</span> Available Commands</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(PRA<span class="sc">:::</span><span class="fu">format_help_overview</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -677,8 +683,8 @@ Type `/help` for this overview.</code></pre>
 </div>
 </div>
 </section>
-<section id="example-monte-carlo-simulation" class="level3" data-number="11.3.2">
-<h3 data-number="11.3.2" class="anchored" data-anchor-id="example-monte-carlo-simulation"><span class="header-section-number">11.3.2</span> Example: Monte Carlo Simulation</h3>
+<section id="example-monte-carlo-simulation" class="level3" data-number="12.3.2">
+<h3 data-number="12.3.2" class="anchored" data-anchor-id="example-monte-carlo-simulation"><span class="header-section-number">12.3.2</span> Example: Monte Carlo Simulation</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cmd <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
@@ -739,8 +745,8 @@ Percentiles:
 </div>
 </div>
 </section>
-<section id="example-chaining-mcs-to-contingency" class="level3" data-number="11.3.3">
-<h3 data-number="11.3.3" class="anchored" data-anchor-id="example-chaining-mcs-to-contingency"><span class="header-section-number">11.3.3</span> Example: Chaining MCS to Contingency</h3>
+<section id="example-chaining-mcs-to-contingency" class="level3" data-number="12.3.3">
+<h3 data-number="12.3.3" class="anchored" data-anchor-id="example-chaining-mcs-to-contingency"><span class="header-section-number">12.3.3</span> Example: Chaining MCS to Contingency</h3>
 <p>After running <code>/mcs</code>, chain to <code>/contingency</code> for the reserve estimate:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(<span class="st">"/contingency phigh=0.95 pbase=0.50"</span>)</span>
@@ -754,8 +760,8 @@ Percentiles:
 </div>
 </div>
 </section>
-<section id="example-earned-value-management" class="level3" data-number="11.3.4">
-<h3 data-number="11.3.4" class="anchored" data-anchor-id="example-earned-value-management"><span class="header-section-number">11.3.4</span> Example: Earned Value Management</h3>
+<section id="example-earned-value-management" class="level3" data-number="12.3.4">
+<h3 data-number="12.3.4" class="anchored" data-anchor-id="example-earned-value-management"><span class="header-section-number">12.3.4</span> Example: Earned Value Management</h3>
 <p>Full EVM analysis with a single command:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>cmd <span class="ot">&lt;-</span> <span class="fu">paste</span>(</span>
@@ -792,8 +798,8 @@ Forecasts:
 </div>
 </div>
 </section>
-<section id="example-bayesian-risk-probability" class="level3" data-number="11.3.5">
-<h3 data-number="11.3.5" class="anchored" data-anchor-id="example-bayesian-risk-probability"><span class="header-section-number">11.3.5</span> Example: Bayesian Risk Probability</h3>
+<section id="example-bayesian-risk-probability" class="level3" data-number="12.3.5">
+<h3 data-number="12.3.5" class="anchored" data-anchor-id="example-bayesian-risk-probability"><span class="header-section-number">12.3.5</span> Example: Bayesian Risk Probability</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/risk causes=[0.3,0.2] given=[0.8,0.6] not_given=[0.2,0.4]"</span></span>
@@ -825,8 +831,8 @@ Observations:
 </div>
 </div>
 </section>
-<section id="example-second-moment-method" class="level3" data-number="11.3.6">
-<h3 data-number="11.3.6" class="anchored" data-anchor-id="example-second-moment-method"><span class="header-section-number">11.3.6</span> Example: Second Moment Method</h3>
+<section id="example-second-moment-method" class="level3" data-number="12.3.6">
+<h3 data-number="12.3.6" class="anchored" data-anchor-id="example-second-moment-method"><span class="header-section-number">12.3.6</span> Example: Second Moment Method</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(<span class="st">"/smm means=[10,12,8] vars=[4,9,2]"</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -839,8 +845,8 @@ Observations:
 </div>
 </div>
 </section>
-<section id="input-validation" class="level3" data-number="11.3.7">
-<h3 data-number="11.3.7" class="anchored" data-anchor-id="input-validation"><span class="header-section-number">11.3.7</span> Input Validation</h3>
+<section id="input-validation" class="level3" data-number="12.3.7">
+<h3 data-number="12.3.7" class="anchored" data-anchor-id="input-validation"><span class="header-section-number">12.3.7</span> Input Validation</h3>
 <p>Missing or invalid arguments produce helpful error messages:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(<span class="st">"/risk causes=[0.3]"</span>)</span>
@@ -863,8 +869,8 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 </div>
 </section>
 </section>
-<section id="chat-interface" class="level2" data-number="11.4">
-<h2 data-number="11.4" class="anchored" data-anchor-id="chat-interface"><span class="header-section-number">11.4</span> Chat Interface</h2>
+<section id="chat-interface" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="chat-interface"><span class="header-section-number">12.4</span> Chat Interface</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -894,8 +900,8 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># RAG: conceptual question</span></span>
 <span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">"What is the difference between SPI and CPI?"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<section id="using-cloud-models" class="level3" data-number="11.4.1">
-<h3 data-number="11.4.1" class="anchored" data-anchor-id="using-cloud-models"><span class="header-section-number">11.4.1</span> Using Cloud Models</h3>
+<section id="using-cloud-models" class="level3" data-number="12.4.1">
+<h3 data-number="12.4.1" class="anchored" data-anchor-id="using-cloud-models"><span class="header-section-number">12.4.1</span> Using Cloud Models</h3>
 <p>For better accuracy with complex queries:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Anthropic (replace with the current model ID from https://docs.anthropic.com/en/docs/about-claude/models)</span></span>
@@ -906,8 +912,8 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 </div>
 </section>
 </section>
-<section id="interactive-shiny-app" class="level2" data-number="11.5">
-<h2 data-number="11.5" class="anchored" data-anchor-id="interactive-shiny-app"><span class="header-section-number">11.5</span> Interactive Shiny App</h2>
+<section id="interactive-shiny-app" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="interactive-shiny-app"><span class="header-section-number">12.5</span> Interactive Shiny App</h2>
 <p>For a browser-based experience with streaming responses and inline visualizations:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pra_app</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -918,8 +924,8 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 <li>Type “Simulate 3 tasks…” for <strong>LLM tool calling</strong></li>
 <li>Type “What is earned value?” for <strong>RAG-powered answers</strong></li>
 </ul>
-<section id="features" class="level3" data-number="11.5.1">
-<h3 data-number="11.5.1" class="anchored" data-anchor-id="features"><span class="header-section-number">11.5.1</span> Features</h3>
+<section id="features" class="level3" data-number="12.5.1">
+<h3 data-number="12.5.1" class="anchored" data-anchor-id="features"><span class="header-section-number">12.5.1</span> Features</h3>
 <ul>
 <li><strong>Three input modes</strong> in a single panel</li>
 <li><strong>Clickable example prompts</strong> that execute <code>/commands</code> on click</li>
@@ -930,8 +936,8 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 </ul>
 </section>
 </section>
-<section id="rag-knowledge-base" class="level2" data-number="11.6">
-<h2 data-number="11.6" class="anchored" data-anchor-id="rag-knowledge-base"><span class="header-section-number">11.6</span> RAG Knowledge Base</h2>
+<section id="rag-knowledge-base" class="level2" data-number="12.6">
+<h2 data-number="12.6" class="anchored" data-anchor-id="rag-knowledge-base"><span class="header-section-number">12.6</span> RAG Knowledge Base</h2>
 <p>PRA includes a built-in knowledge base covering all the methods in this book:</p>
 <table class="caption-top table">
 <colgroup>
@@ -971,8 +977,8 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 </tr>
 </tbody>
 </table>
-<section id="adding-your-own-documents" class="level3" data-number="11.6.1">
-<h3 data-number="11.6.1" class="anchored" data-anchor-id="adding-your-own-documents"><span class="header-section-number">11.6.1</span> Adding Your Own Documents</h3>
+<section id="adding-your-own-documents" class="level3" data-number="12.6.1">
+<h3 data-number="12.6.1" class="anchored" data-anchor-id="adding-your-own-documents"><span class="header-section-number">12.6.1</span> Adding Your Own Documents</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>store <span class="ot">&lt;-</span> <span class="fu">build_knowledge_base</span>()</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">add_documents</span>(store, <span class="st">"path/to/my_risk_register.md"</span>)</span>
@@ -980,25 +986,25 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 </div>
 </section>
 </section>
-<section id="mcp-integration" class="level2" data-number="11.7">
-<h2 data-number="11.7" class="anchored" data-anchor-id="mcp-integration"><span class="header-section-number">11.7</span> MCP Integration</h2>
+<section id="mcp-integration" class="level2" data-number="12.7">
+<h2 data-number="12.7" class="anchored" data-anchor-id="mcp-integration"><span class="header-section-number">12.7</span> MCP Integration</h2>
 <p>PRA can expose all its tools as an <a href="https://modelcontextprotocol.io">MCP (Model Context Protocol)</a> server, letting Claude Desktop, Claude Code, or any MCP-compatible AI client call PRA functions directly.</p>
-<section id="starting-the-server" class="level3" data-number="11.7.1">
-<h3 data-number="11.7.1" class="anchored" data-anchor-id="starting-the-server"><span class="header-section-number">11.7.1</span> Starting the Server</h3>
+<section id="starting-the-server" class="level3" data-number="12.7.1">
+<h3 data-number="12.7.1" class="anchored" data-anchor-id="starting-the-server"><span class="header-section-number">12.7.1</span> Starting the Server</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pra_mcp_server</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="connecting-from-claude-code" class="level3" data-number="11.7.2">
-<h3 data-number="11.7.2" class="anchored" data-anchor-id="connecting-from-claude-code"><span class="header-section-number">11.7.2</span> Connecting from Claude Code</h3>
+<section id="connecting-from-claude-code" class="level3" data-number="12.7.2">
+<h3 data-number="12.7.2" class="anchored" data-anchor-id="connecting-from-claude-code"><span class="header-section-number">12.7.2</span> Connecting from Claude Code</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add <span class="at">-s</span> project pra <span class="at">--</span> Rscript <span class="at">-e</span> <span class="st">"PRA::pra_mcp_server()"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Once registered, Claude Code can call PRA tools in any conversation:</p>
 <blockquote class="blockquote">
 <p>“Run a Monte Carlo simulation for three tasks: Task A normal(10, 2), Task B triangular(5, 10, 15), Task C uniform(8, 12). What is the contingency reserve at the 90th percentile?”</p>
 </blockquote>
 </section>
-<section id="connecting-from-claude-desktop" class="level3" data-number="11.7.3">
-<h3 data-number="11.7.3" class="anchored" data-anchor-id="connecting-from-claude-desktop"><span class="header-section-number">11.7.3</span> Connecting from Claude Desktop</h3>
+<section id="connecting-from-claude-desktop" class="level3" data-number="12.7.3">
+<h3 data-number="12.7.3" class="anchored" data-anchor-id="connecting-from-claude-desktop"><span class="header-section-number">12.7.3</span> Connecting from Claude Desktop</h3>
 <p>Add the following to your Claude Desktop config file:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"mcpServers"</span><span class="fu">:</span> <span class="fu">{</span></span>
@@ -1010,8 +1016,8 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 <span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
-<section id="available-commands-reference" class="level2" data-number="11.8">
-<h2 data-number="11.8" class="anchored" data-anchor-id="available-commands-reference"><span class="header-section-number">11.8</span> Available Commands Reference</h2>
+<section id="available-commands-reference" class="level2" data-number="12.8">
+<h2 data-number="12.8" class="anchored" data-anchor-id="available-commands-reference"><span class="header-section-number">12.8</span> Available Commands Reference</h2>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1063,8 +1069,8 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 </tbody>
 </table>
 </section>
-<section id="summary" class="level2" data-number="11.9">
-<h2 data-number="11.9" class="anchored" data-anchor-id="summary"><span class="header-section-number">11.9</span> Summary</h2>
+<section id="summary" class="level2" data-number="12.9">
+<h2 data-number="12.9" class="anchored" data-anchor-id="summary"><span class="header-section-number">12.9</span> Summary</h2>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1084,10 +1090,10 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 </ul>
 </div>
 </div>
-<p>Congratulations, you’ve completed the toolkit. You can now quantify project uncertainty (MCS, <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>; SMM, <a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a>), track project performance (EVM, <a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a>), update risk estimates with new evidence (Bayesian, <a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a>; Networks, <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a>), model structural dependencies (DSM, <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a>; Portfolio, <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a>), forecast learning (Sigmoidal, <a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a>), and automate it all through an AI interface (<a href="#sec-agent" class="quarto-xref"><span>Chapter 11</span></a>). The rest is practice.</p>
+<p>Congratulations, you’ve completed the toolkit. You can now quantify project uncertainty (MCS, <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>; SMM, <a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a>), track project performance (EVM, <a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a>), update risk estimates with new evidence (Bayesian, <a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a>; Networks, <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a>), model structural dependencies (DSM, <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a>; Portfolio, <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a>), forecast learning (Sigmoidal, <a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a>), and automate it all through an AI interface (<a href="#sec-agent" class="quarto-xref"><span>Chapter 12</span></a>). The rest is practice.</p>
 </section>
-<section id="exercises" class="level2" data-number="11.10">
-<h2 data-number="11.10" class="anchored" data-anchor-id="exercises"><span class="header-section-number">11.10</span> Exercises</h2>
+<section id="exercises" class="level2" data-number="12.10">
+<h2 data-number="12.10" class="anchored" data-anchor-id="exercises"><span class="header-section-number">12.10</span> Exercises</h2>
 <ol type="1">
 <li><p><strong>Slash vs.&nbsp;chat.</strong> Run the same MCS problem using (a) a <code>/mcs</code> slash command and (b) a natural language prompt through <code>pra_chat()</code>. Do you get the same numerical results? If not, why might they differ?</p></li>
 <li><p><strong>Command chaining.</strong> Run <code>/mcs</code> for a 3-task project of your choice, then immediately run <code>/contingency</code> at P80 and P95. What is the difference between the two contingency values? Interpret this difference in plain English.</p></li>
@@ -1568,8 +1574,8 @@ Calculate prior risk probability from root causes using Bayes' theorem.
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./ch-network2.html" class="pagination-link" aria-label="The Portfolio Problem: When Risks Are Shared">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Portfolio Problem: When Risks Are Shared</span></span>
+      <a href="./ch-quarto.html" class="pagination-link" aria-label="Write Once, Trust Always: Reproducible Risk Analysis with Quarto">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Write Once, Trust Always: Reproducible Risk Analysis with Quarto</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
@@ -1580,8 +1586,8 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Your AI Co-Pilot: Agentic Risk Analysis {#sec-agent}</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"The best tool for the job is the one you'll actually use."*</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; — P.G.</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"The best way to predict the future is to invent it."*</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; — Alan Kay</span></span>
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>You've made it through eight chapters of quantitative risk analysis. You know Monte Carlo, SMM, EVM, Bayesian inference, learning curves, design structure matrices, and probabilistic networks. Now imagine not having to remember the syntax for all of them.</span>
 <span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>

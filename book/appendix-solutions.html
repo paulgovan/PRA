@@ -456,8 +456,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./ch-quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Write Once, Trust Always: Reproducible Risk Analysis with Quarto</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./ch-agent.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -561,7 +567,7 @@ window.Quarto = {
   <li><a href="#exercise-4-add-a-fourth-project" id="toc-exercise-4-add-a-fourth-project" class="nav-link" data-scroll-target="#exercise-4-add-a-fourth-project"><span class="header-section-number">E.9.1</span> Exercise 4 ★: Add a Fourth Project</a></li>
   <li><a href="#exercise-5-causal-graph-design" id="toc-exercise-5-causal-graph-design" class="nav-link" data-scroll-target="#exercise-5-causal-graph-design"><span class="header-section-number">E.9.2</span> Exercise 5 ★: Causal Graph Design</a></li>
   </ul></li>
-  <li><a href="#agentic-risk-analysis-sec-agent" id="toc-agentic-risk-analysis-sec-agent" class="nav-link" data-scroll-target="#agentic-risk-analysis-sec-agent"><span class="header-section-number">E.10</span> Agentic Risk Analysis (<span>Chapter 11</span>)</a>
+  <li><a href="#agentic-risk-analysis-sec-agent" id="toc-agentic-risk-analysis-sec-agent" class="nav-link" data-scroll-target="#agentic-risk-analysis-sec-agent"><span class="header-section-number">E.10</span> Agentic Risk Analysis (<span>Chapter 12</span>)</a>
   <ul class="collapse">
   <li><a href="#exercise-5-mcp-integration" id="toc-exercise-5-mcp-integration" class="nav-link" data-scroll-target="#exercise-5-mcp-integration"><span class="header-section-number">E.10.1</span> Exercise 5 ★: MCP Integration</a></li>
   </ul></li>
@@ -1182,11 +1188,11 @@ Task-3    0.0    0.0      1</code></pre>
 </section>
 </section>
 <section id="agentic-risk-analysis-sec-agent" class="level2" data-number="E.10">
-<h2 data-number="E.10" class="anchored" data-anchor-id="agentic-risk-analysis-sec-agent"><span class="header-section-number">E.10</span> Agentic Risk Analysis (<a href="ch-agent.html" class="quarto-xref"><span>Chapter 11</span></a>)</h2>
+<h2 data-number="E.10" class="anchored" data-anchor-id="agentic-risk-analysis-sec-agent"><span class="header-section-number">E.10</span> Agentic Risk Analysis (<a href="ch-agent.html" class="quarto-xref"><span>Chapter 12</span></a>)</h2>
 <section id="exercise-5-mcp-integration" class="level3" data-number="E.10.1">
 <h3 data-number="E.10.1" class="anchored" data-anchor-id="exercise-5-mcp-integration"><span class="header-section-number">E.10.1</span> Exercise 5 ★: MCP Integration</h3>
 <p>This exercise is environment-dependent and cannot be evaluated in the rendered book. Below is a description of the expected experience and how to verify it.</p>
-<p><strong>Setup.</strong> Follow the MCP registration steps in <a href="ch-agent.html" class="quarto-xref"><span>Chapter 11</span></a>:</p>
+<p><strong>Setup.</strong> Follow the MCP registration steps in <a href="ch-agent.html" class="quarto-xref"><span>Chapter 12</span></a>:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb58"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add <span class="at">-s</span> project pra <span class="at">--</span> Rscript <span class="at">-e</span> <span class="st">"PRA::pra_mcp_server()"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Expected tool-call behavior.</strong> When you ask “Run a Monte Carlo simulation for three tasks: Task A Normal(10, 2), Task B Triangular(5, 10, 15), Task C Uniform(8, 12). What is the P95 duration?”, Claude should:</p>
 <ol type="1">
