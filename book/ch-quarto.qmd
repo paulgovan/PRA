@@ -34,7 +34,7 @@ Here is a realistic timeline:
 3. Six months later, the project is audited. The analyst is on a new project. Nobody can open the file without `#REF!` errors.
 4. The P90 estimate can no longer be verified. The basis of the contingency reserve is, in practice, lost.
 
-This is not a spreadsheet problem specifically — it is a **reproducibility problem**. The analysis was never in a form that could be reliably re-executed.
+This is not a spreadsheet problem specifically, but a **reproducibility problem**. The analysis was never in a form that could be reliably re-executed.
 
 ::: {.callout-note}
 ## Reproducible vs. Repeatable
@@ -50,7 +50,7 @@ The alternative is to make your analysis a **document that also runs**. That is 
 
 ## What is Quarto?
 
-Quarto is an open-source publishing system that combines prose and executable code in a single `.qmd` file. You write in Markdown. You embed code chunks in R, Python, Julia, or Observable. When you render the document, Quarto runs the code and weaves the results into the output — HTML, PDF, Word, or a full website or book.
+Quarto is an open-source publishing system that combines prose and executable code in a single `.qmd` file. You write in Markdown. You embed code chunks in R, Python, Julia, or Observable. When you render the document, Quarto runs the code and weaves the results into the output: HTML, PDF, Word, or a full website or book.
 
 ::: {.callout-note}
 ## Quarto vs. R Markdown
@@ -189,7 +189,7 @@ That output was not typed by hand. It was computed when this book was built.
 
 ## Parameterized Reports
 
-So far the analysis is fixed to one project. Real workflows require running the same model against multiple scenarios — different task durations, different confidence targets, different projects entirely.
+So far the analysis is fixed to one project. Real workflows require running the same model against multiple scenarios, with different task durations, different confidence targets, or different projects entirely.
 
 Quarto's `params:` block makes this straightforward.
 
@@ -255,7 +255,7 @@ A common workflow on large programs is to maintain one `risk_template.qmd` and a
 
 ## Version Control with Git
 
-A reproducible analysis that lives only on your laptop is not fully reproducible — it is one hard drive failure away from being lost. The second half of the reproducibility story is **version control**.
+A reproducible analysis that lives only on your laptop is not fully reproducible, just one hard drive failure away from being lost. The second half of the reproducibility story is **version control**.
 
 ### What to Commit
 
@@ -282,7 +282,7 @@ git add risk_report.qmd data/inputs.csv renv.lock
 git commit -m "Initial Monte Carlo schedule analysis, P80 = 142 days"
 ```
 
-When you update the analysis — new task added, input data revised — commit again:
+When you update the analysis, adding a task or revising input data, commit again:
 
 ```bash
 git add -A
@@ -309,7 +309,7 @@ Without `renv`, an analysis that ran on `PRA` version 0.3.0 might silently produ
 
 This book is itself a Quarto project built on exactly the framework described in this chapter.
 
-Every code block you have read throughout this book — the `mcs()` call in @sec-mcs, the `evm` calculations in @sec-evm, the Bayesian updates in @sec-bayes — was executed when the book was built. There is no "trust us, this is what you'd see." The numbers are real, freshly computed from the current version of the `PRA` package.
+Every code block you have read throughout this book, including the `mcs()` call in @sec-mcs, the `evm` calculations in @sec-evm, and the Bayesian updates in @sec-bayes, was executed when the book was built. There is no "trust us, this is what you'd see." The numbers are real, freshly computed from the current version of the `PRA` package.
 
 The book's source is a directory of `.qmd` files coordinated by a single `_quarto.yml`:
 
@@ -337,7 +337,7 @@ cd PRA
 quarto render book/
 ```
 
-That single command runs every code chunk in every chapter, in a clean R session, and writes the full HTML site, PDF, and EPUB to `book/_book/`. If any code breaks — because a function changed behavior or a dependency was removed — the render fails loudly. The book cannot silently go out of date.
+That single command runs every code chunk in every chapter, in a clean R session, and writes the full HTML site, PDF, and EPUB to `book/_book/`. If any code breaks, because a function changed behavior or a dependency was removed, the render fails loudly. The book cannot silently go out of date.
 
 ::: {.callout-note}
 ## What "Live Book" Means for You
