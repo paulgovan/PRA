@@ -26,13 +26,15 @@ learning curves, and design structure matrices (DSM). Building on prior
 theoretical work that introduced causal networks and structural network
 measures for project risk (Govan 2014; Govan and Damnjanovic 2016,
 2020), \pkg{PRA} operationalizes these frameworks in a minimal,
-well-tested \proglang{R} package available on CRAN. Version 0.4.0 adds
-an AI agent layer that exposes all analytical functions as tools
-callable by large language models via slash commands, natural language
-queries, and a retrieval-augmented generation knowledge base. The
-package adheres to rOpenSci Statistical Software Review standards and is
-supported by a 640-test suite running on continuous integration across
-macOS, Windows, and Ubuntu.
+well-tested \proglang{R} package available on CRAN. Version 0.4.0
+further adds an experimental probabilistic network module for forward
+simulation and Bayesian conditioning along causal chains, and an AI
+agent layer that exposes all analytical functions as tools callable by
+large language models via slash commands, natural language queries, and
+a retrieval-augmented generation knowledge base. The package adheres to
+rOpenSci Statistical Software Review standards and is supported by a
+640-test suite running on continuous integration across macOS, Windows,
+and Ubuntu.
 }
 
 \Keywords{project risk analysis, Monte Carlo simulation, earned value
@@ -111,6 +113,43 @@ adheres to rOpenSci Statistical Software Review (SRR) standards
 capabilities (AI agent, Shiny app, MCP server) activate through optional
 \code{Suggests}-only dependencies.
 
+The following table summarizes how \pkg{PRA} compares with the most
+closely related \proglang{R} packages and the dominant commercial
+platform.
+
+\begin{CodeChunk}
+
+
+Table: Comparison of \pkg{PRA} with related \proglang{R} packages and commercial tools. ``Exp.'' = experimental feature; ``---'' = not supported.
+
+|Feature                   | PRA  |  mc2d   | sensitivity | rstan/brms | @RISK |
+|:-------------------------|:----:|:-------:|:-----------:|:----------:|:-----:|
+|MCS schedule risk         | Yes  | Partial |     ---     |    ---     |  Yes  |
+|EVM (11 metrics)          | Yes  |   ---   |     ---     |    ---     |  Yes  |
+|Bayesian updating         | Yes  |   ---   |     ---     |    Yes     |  ---  |
+|Sigmoidal learning curves | Yes  |   ---   |     ---     |    ---     |  ---  |
+|Design structure matrices | Yes  |   ---   |     ---     |    ---     |  ---  |
+|Probabilistic networks    | Exp. |   ---   |     ---     |    Yes     |  ---  |
+|AI agent layer            | Yes  |   ---   |     ---     |    ---     |  ---  |
+|Open-source (CRAN)        | Yes  |   Yes   |     Yes     |    Yes     |  ---  |
+|SRR-compliant             | Yes  |   ---   |     ---     |    ---     |  ---  |
+
+\end{CodeChunk}
+
+The package is installed from CRAN in the standard way:
+
+\begin{CodeChunk}
+\begin{CodeInput}
+R> install.packages("PRA")
+R> library("PRA")
+\end{CodeInput}
+\end{CodeChunk}
+
+Optional dependencies for the AI agent layer---\pkg{ellmer},
+\pkg{ragnar}, \pkg{shiny}, \pkg{shinychat}, and \pkg{jsonlite}---are
+only required for \code{pra\_chat()}, \code{pra\_app()}, and
+\code{pra\_mcp\_server()}.
+
 The remainder of this article describes each analytical module in turn,
 with working code examples drawn from the same \proglang{R} session.
 Section\textasciitilde{}\ref{sec-uncertainty} covers schedule and cost
@@ -119,8 +158,9 @@ Section\textasciitilde{}\ref{sec-evm} describes earned value management.
 Section\textasciitilde{}\ref{sec-bayes} covers Bayesian risk inference
 and updating. Section\textasciitilde{}\ref{sec-learning} describes
 sigmoidal learning curves. Section\textasciitilde{}\ref{sec-dsm} covers
-design structure matrices and probabilistic networks.
-Section\textasciitilde{}\ref{sec-agent} briefly introduces the AI agent
+design structure matrices. Section\textasciitilde{}\ref{sec-network}
+introduces the experimental probabilistic network module.
+Section\textasciitilde{}\ref{sec-agent} describes the AI agent
 framework. Section\textasciitilde{}\ref{sec-casestudy} presents an
 integrated case study. Section\textasciitilde{}\ref{sec-summary}
 concludes.
@@ -216,7 +256,11 @@ Simulated SD:   4.47 weeks
 The \code{mcs()} function returns an S3 object of class \code{"mcs"}
 with a \code{print()} method that summarizes percentiles. The full
 simulated distribution is available in
-\code{results\$total\_distribution}.
+\code{results\$total\_distribution}. On a modern laptop, 10,000
+simulations of a 10-task network complete in under one second;
+increasing \code{num\_simulations} to 100,000 provides more precise tail
+estimates at roughly ten-fold additional runtime. The default of 10,000
+balances accuracy and speed for most practical analyses.
 
 \begin{CodeChunk}
 \begin{CodeInput}
@@ -674,11 +718,136 @@ Task pairs with high off-diagonal values in the Grandparent DSM
 represent concentrated risk exposure; these pairs are prime candidates
 for contingency buffering or resource decoupling.
 
+\section{Probabilistic Networks}\label{sec-network}
+
+\textbf{Experimental.} The probabilistic network module extends DSM
+structural analysis by attaching probability distributions to each node,
+enabling forward simulation of cost uncertainty and Bayesian
+conditioning on observed evidence. A probabilistic network is a directed
+acyclic graph in which nodes represent project variables (risks,
+resources, tasks, and the project total) and edges encode conditional
+dependencies \citep{Pearl2009, Govan2014}. Where a DSM counts shared
+resources between task pairs, a probabilistic network propagates
+distributions through the causal chain from risks to total project cost.
+
+\subsection{Building a Network}\label{building-a-network}
+
+\code{prob\_net()} constructs the network from a node data frame, a
+links data frame, and a named list of distributions. Distributions may
+be \code{normal}, \code{lognormal}, \code{uniform}, \code{discrete}, or
+\code{conditional} (switching between two sub-distributions depending on
+a discrete parent node); \code{aggregate} nodes sum their parents.
+
+\begin{CodeChunk}
+\begin{CodeInput}
+R> nodes <- data.frame(
++   id = c("A","B","C","D","E","F","G","H","I"),
++   label = c("Risk-1","Risk-2","Resource-1","Resource-2","Resource-3",
++             "Task-1","Task-2","Task-3","Project"),
++   stringsAsFactors = FALSE
++ )
+R> links <- data.frame(
++   source = c("A","B","C","D","E","F","G","H"),
++   target = c("C","D","F","G","H","I","I","I"),
++   stringsAsFactors = FALSE
++ )
+R> distributions <- list(
++   A = list(type = "discrete", values = c(1, 0), probs = c(0.70, 0.30)),
++   B = list(type = "discrete", values = c(1, 0), probs = c(0.60, 0.40)),
++   C = list(type = "conditional", condition = "A",
++     true_dist  = list(type = "normal", mean = 30000, sd = 8000),
++     false_dist = list(type = "normal", mean = 15000, sd = 3000)),
++   D = list(type = "conditional", condition = "B",
++     true_dist  = list(type = "normal", mean = 80000, sd = 20000),
++     false_dist = list(type = "normal", mean = 50000, sd = 10000)),
++   E = list(type = "normal", mean = 20000, sd = 4000),
++   F = list(type = "aggregate", nodes = "C"),
++   G = list(type = "aggregate", nodes = "D"),
++   H = list(type = "aggregate", nodes = "E"),
++   I = list(type = "aggregate", nodes = c("F","G","H"))
++ )
+R> net <- prob_net(nodes, links, distributions = distributions)
+\end{CodeInput}
+\end{CodeChunk}
+
+\subsection{Forward Simulation}\label{forward-simulation}
+
+\code{prob\_net\_sim()} draws samples from every node in topological
+order and returns a data frame with one column per node.
+
+\begin{CodeChunk}
+\begin{CodeInput}
+R> sim_net <- prob_net_sim(net, num_samples = 10000)
+R> cat("Mean project cost: $", format(round(mean(sim_net$I)), big.mark = ","), "\n")
+\end{CodeInput}
+\begin{CodeOutput}
+Mean project cost: $ 113,125 
+\end{CodeOutput}
+\begin{CodeInput}
+R> cat("P80 project cost:  $", format(round(quantile(sim_net$I, 0.80)),
++     big.mark = ","), "\n")
+\end{CodeInput}
+\begin{CodeOutput}
+P80 project cost:  $ 134,681 
+\end{CodeOutput}
+\end{CodeChunk}
+
+\subsection{Learning: Conditioning on
+Evidence}\label{learning-conditioning-on-evidence}
+
+\code{prob\_net\_learn()} clamps observed nodes to fixed values and
+re-simulates the downstream distribution---an observational update in
+the sense of \citet{Pearl2009}. The following call fixes Risk-2 (node B)
+to absent (value 0), ruling out Technical Complexity as a concern:
+
+\begin{CodeChunk}
+\begin{CodeInput}
+R> learn_net <- prob_net_learn(net, observations = list(B = 0),
++                             num_samples = 10000)
+R> 
+R> plot(density(sim_net$I),   col = "steelblue", lwd = 2,
++      main = "Total Project Cost: Prior vs. Posterior",
++      xlab = "Cost ($)")
+R> lines(density(learn_net$I), col = "tomato", lwd = 2)
+R> legend("topright",
++   legend = c("Prior (Risk-2 uncertain)", "Posterior (Risk-2 = 0)"),
++   col = c("steelblue", "tomato"), lwd = 2, bty = "n")
+\end{CodeInput}
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{pra-jss_files/figure-latex/net-learn-1} 
+
+}
+
+\caption[Total project cost before and after observing that Risk-2 (Technical Complexity) did not occur]{Total project cost before and after observing that Risk-2 (Technical Complexity) did not occur. Conditioning on Risk-2 = 0 eliminates the heavy upper tail and shifts the distribution leftward by roughly \$30,000 in expectation.}\label{fig:net-learn}
+\end{figure}
+\end{CodeChunk}
+
+\code{prob\_net\_update()} performs structural surgery on the network by
+adding or removing edges and replacing node distributions, corresponding
+to the \emph{do}-operator in Pearl's causal calculus
+\citep{Pearl2009}---distinct from \code{prob\_net\_learn()}, which
+conditions without altering the graph. The probabilistic network API is
+marked experimental and may evolve in future releases.
+
 \section{AI Agent Framework}\label{sec-agent}
 
 Version 0.4.0 of \pkg{PRA} includes an optional AI agent layer that
 wraps all analytical functions as tools callable by large language
-models. Three interaction modes are supported:
+models. Three interaction modes are supported, summarized below.
+
+\begin{CodeChunk}
+
+
+Table: Agent routing modes in \pkg{PRA}.
+
+|Input type             |Route                  |Example                                |
+|:----------------------|:----------------------|:--------------------------------------|
+|\code{/command} syntax |Deterministic (no LLM) |\code{/mcs n=10000 tasks=[\ldots]}     |
+|Numerical data         |LLM tool call          |"Simulate 3 tasks: Normal(10,2)\ldots" |
+|Conceptual question    |RAG knowledge base     |"What is earned value?"                |
+
+\end{CodeChunk}
 
 \begin{enumerate}
   \item \textbf{Slash commands} (\code{/mcs}, \code{/evm}, \code{/risk}, etc.)
@@ -696,9 +865,40 @@ An interactive Shiny application (\code{pra\_app()}) integrates all
 three modes with a chat interface, data upload, and inline plots.
 \code{pra\_mcp\_server()} exposes all tools via the Model Context
 Protocol \citep{MCP2024}, enabling integration with Claude, Claude Code,
-and other MCP-compatible clients.
+and other MCP-compatible clients. The server is registered in Claude
+Code with a single shell command:
 
-The AI layer is strictly optional: the 36 exported analytical functions
+\begin{CodeChunk}
+\begin{CodeInput}
+R> claude mcp add -s project pra -- Rscript -e "PRA::pra_mcp_server()"
+\end{CodeInput}
+\end{CodeChunk}
+
+For Claude Desktop, add the following block to the MCP configuration
+file:
+
+\begin{verbatim}
+{
+  "mcpServers": {
+    "pra": { "command": "Rscript",
+             "args": ["-e", "PRA::pra_mcp_server()"] }
+  }
+}
+\end{verbatim}
+
+The bundled knowledge base covers all core methods. Analysts can extend
+it with project-specific documents using \code{build\_knowledge\_base()}
+and \code{add\_documents()}:
+
+\begin{CodeChunk}
+\begin{CodeInput}
+R> store <- build_knowledge_base()
+R> add_documents(store, "path/to/risk_register.md")
+R> add_documents(store, "path/to/project_docs/")
+\end{CodeInput}
+\end{CodeChunk}
+
+The AI layer is strictly optional: all 36 exported analytical functions
 operate without any AI dependency. Tool definitions built with
 \code{ellmer::tool()} are reused identically for both the chat interface
 and the MCP server, eliminating duplication. A preliminary evaluation of
@@ -747,7 +947,7 @@ P80 schedule: NA weeks
 R> cat("Contingency (P80-P50):", round(res, 2), "weeks\n")
 \end{CodeInput}
 \begin{CodeOutput}
-Contingency (P80-P50): 4.31 weeks
+Contingency (P80-P50): 4.29 weeks
 \end{CodeOutput}
 \end{CodeChunk}
 
@@ -838,6 +1038,8 @@ network frameworks developed in Govan (2014) and Govan and Damnjanovic
 contingency analysis, sensitivity analysis, EVM (11 metrics), Bayesian
 risk inference and updating, cost risk distributions, sigmoidal learning
 curves, correlation matrix construction, and design structure matrices.
+An experimental eleventh module provides probabilistic networks with
+forward simulation and Bayesian conditioning.
 
 Version 0.4.0 adds an AI agent layer that exposes all functions as tools
 callable via slash commands, natural language, and RAG-powered queries
@@ -847,6 +1049,22 @@ correctness, edge-case handling, and numerical stability across three
 operating systems. The package is licensed under MIT and the source is
 available at \url{https://github.com/paulgovan/PRA}; documentation and a
 companion online book are at \url{https://paulgovan.github.io/PRA/}.
+
+\subsection{Limitations and Future
+Work}\label{limitations-and-future-work}
+
+Several limitations apply. First, \pkg{PRA} focuses on quantitative
+uncertainty propagation; it does not model schedule logic (critical
+path, activity dependencies, or resource leveling), which remain the
+domain of dedicated scheduling engines. Second, the probabilistic
+network module is experimental: the API may change and no convergence
+diagnostics are provided for the Monte Carlo estimators. Third, AI agent
+accuracy (72.0\% on 25 scenarios) is preliminary; the evaluation set is
+small and the routing heuristics have not been stress-tested on large or
+ambiguous inputs. Fourth, the package currently accepts data as
+\proglang{R} vectors and lists; direct import from project management
+file formats (Microsoft Project, Primavera P6, CSV exports from Jira or
+Asana) is not supported and is planned for a future release.
 
 A forthcoming companion article in \emph{Risk Analysis} presents a full
 empirical evaluation of the AI agent framework, including a 25-scenario
