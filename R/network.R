@@ -226,8 +226,12 @@ prob_net_sim <- function(network, num_samples = 1000) {
         # Apply condition (assumes binary condition with value 1 == true)
         samples[[node]] <- ifelse(condition_values == 1, true_samples, false_samples)
       } else if (dist$type == "aggregate") {
-        component_samples <- sapply(dist$nodes, function(p) samples[[p]])
-        samples[[node]] <- rowSums(component_samples)
+        if (length(dist$nodes) == 0) {
+          samples[[node]] <- rep(0, num_samples)
+        } else {
+          component_samples <- sapply(dist$nodes, function(p) samples[[p]])
+          samples[[node]] <- rowSums(component_samples)
+        }
       } else {
         samples[[node]] <- sample_from_dist(dist, num_samples)
       }

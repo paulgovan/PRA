@@ -242,3 +242,28 @@ test_that("pra_shiny_app returns a shiny app object", {
   app <- PRA:::pra_shiny_app(model = "llama3.2", rag = FALSE)
   expect_s3_class(app, "shiny.appobj")
 })
+
+test_that("pra_chat with rag=TRUE warns and continues when RAG build fails", {
+  skip_if_not_installed("ellmer")
+
+  mock_chat <- local({
+    env <- new.env(parent = emptyenv())
+    env$set_system_prompt <- function(p) NULL
+    env$register_tool <- function(t) NULL
+    env
+  })
+
+  old_fn <- getFromNamespace("build_knowledge_base", "PRA")
+  assignInNamespace("build_knowledge_base", function(...) stop("forced failure"), "PRA")
+  on.exit(assignInNamespace("build_knowledge_base", old_fn, "PRA"), add = TRUE)
+
+  agent_env <- getFromNamespace(".pra_agent_env", "PRA")
+  old_store <- agent_env$rag_store
+  agent_env$rag_store <- NULL
+  on.exit(agent_env$rag_store <- old_store, add = TRUE)
+
+  expect_warning(
+    pra_chat(chat = mock_chat, rag = TRUE),
+    "Could not build RAG knowledge base"
+  )
+})

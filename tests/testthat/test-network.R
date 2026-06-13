@@ -480,3 +480,50 @@ test_that("full workflow prob_net → sim → learn → update → sim succeeds"
   expect_equal(nrow(sim2), 500)
   expect_false(anyNA(sim2))
 })
+
+# ── Additional coverage tests ──────────────────────────────────────────────────
+
+test_that("prob_net rejects discrete conditional missing values/probs", {
+  n2 <- data.frame(id = c("A", "B"), stringsAsFactors = FALSE)
+  l2 <- data.frame(source = "A", target = "B", stringsAsFactors = FALSE)
+  bad_dists <- list(
+    A = list(type = "discrete", values = c(0, 1), probs = c(0.5, 0.5)),
+    B = list(
+      type = "conditional", condition = "A",
+      true_dist  = list(type = "discrete"),
+      false_dist = list(type = "discrete", values = c(0, 1), probs = c(0.3, 0.7))
+    )
+  )
+  expect_error(
+    prob_net(n2, l2, distributions = bad_dists),
+    "Both discrete conditional distributions must specify"
+  )
+})
+
+test_that("prob_net_update rejects conditional dist whose condition node is continuous", {
+  bad_update <- list(
+    B = list(
+      type = "conditional", condition = "B",
+      true_dist  = list(type = "normal", mean = 1, sd = 0.1),
+      false_dist = list(type = "normal", mean = 2, sd = 0.1)
+    )
+  )
+  expect_error(
+    prob_net_update(graph, update_distributions = bad_update),
+    "The 'condition' must be a discrete or conditional node"
+  )
+})
+
+test_that("prob_net_sim handles aggregate node with no component nodes", {
+  n2 <- data.frame(id = c("X", "Y"), stringsAsFactors = FALSE)
+  l2 <- data.frame(source = character(0), target = character(0), stringsAsFactors = FALSE)
+  d2 <- list(
+    X = list(type = "normal", mean = 0, sd = 1),
+    Y = list(type = "aggregate", nodes = character(0))
+  )
+  net2 <- prob_net(n2, l2, distributions = d2)
+  set.seed(42)
+  result <- prob_net_sim(net2, num_samples = 10)
+  expect_equal(nrow(result), 10)
+  expect_true(all(result$Y == 0))
+})
