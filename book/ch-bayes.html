@@ -702,7 +702,7 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>prior_risk <span class="ot">&lt;-</span> <span class="fu">risk_prob</span>(cause_probs, risks_given_causes, risks_given_not_causes)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Prior probability of risk event R:"</span>, <span class="fu">round</span>(prior_risk, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Prior probability of risk event R: 0.82 </code></pre>
+<pre><code>Prior probability of risk event R: 0.653 </code></pre>
 </div>
 </div>
 <p>This is your starting point, an estimate of how likely the risk event is before you’ve looked at anything on site.</p>
@@ -740,7 +740,7 @@ window.Quarto = {
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Posterior probability of risk event R:"</span>, <span class="fu">round</span>(posterior_risk, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Posterior probability of risk event R: 0.632 </code></pre>
+<pre><code>Posterior probability of risk event R: 0.888 </code></pre>
 </div>
 </div>
 <p>Observing Cause 1 (which has a strong link to R) raises the risk probability substantially. The NA for Cause 2 is simply ignored; only confirmed observations drive the update.</p>

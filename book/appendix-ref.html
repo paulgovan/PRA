@@ -935,18 +935,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>pra_chat(model, chat)</code></td>
-<td><code>model</code> Ollama model name (default “llama3.2”); or <code>chat</code> an ellmer chat object for cloud models</td>
-<td>Chat object; call <code>$chat("...")</code> to converse</td>
+<td><code>pra_tools()</code></td>
+<td>None</td>
+<td>List of <code>ellmer</code> tool definitions wrapping the PRA functions</td>
 <td><a href="ch-agent.html" class="quarto-xref"><span>Chapter 12</span></a></td>
 </tr>
 <tr class="even">
-<td><code>pra_app()</code></td>
-<td>None</td>
-<td>Launches Shiny app in browser (requires Ollama)</td>
-<td><a href="ch-agent.html" class="quarto-xref"><span>Chapter 12</span></a></td>
-</tr>
-<tr class="odd">
 <td><code>pra_mcp_server()</code></td>
 <td>None</td>
 <td>Starts MCP server; register with <code>claude mcp add</code></td>
@@ -1560,9 +1554,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
 <span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
-<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra_chat(model, chat)`</span> <span class="pp">|</span> <span class="in">`model`</span> Ollama model name (default "llama3.2"); or <span class="in">`chat`</span> an ellmer chat object for cloud models <span class="pp">|</span> Chat object; call <span class="in">`$chat("...")`</span> to converse <span class="pp">|</span> @sec-agent <span class="pp">|</span></span>
-<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra_app()`</span> <span class="pp">|</span> None <span class="pp">|</span> Launches Shiny app in browser (requires Ollama) <span class="pp">|</span> @sec-agent <span class="pp">|</span></span>
-<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra_mcp_server()`</span> <span class="pp">|</span> None <span class="pp">|</span> Starts MCP server; register with <span class="in">`claude mcp add`</span> <span class="pp">|</span> @sec-agent <span class="pp">|</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra_tools()`</span> <span class="pp">|</span> None <span class="pp">|</span> List of <span class="in">`ellmer`</span> tool definitions wrapping the PRA functions <span class="pp">|</span> @sec-agent <span class="pp">|</span></span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra_mcp_server()`</span> <span class="pp">|</span> None <span class="pp">|</span> Starts MCP server; register with <span class="in">`claude mcp add`</span> <span class="pp">|</span> @sec-agent <span class="pp">|</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

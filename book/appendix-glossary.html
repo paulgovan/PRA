@@ -637,9 +637,8 @@ window.Quarto = {
 <section id="agentic-framework" class="level2" data-number="A.8">
 <h2 data-number="A.8" class="anchored" data-anchor-id="agentic-framework"><span class="header-section-number">A.8</span> Agentic Framework</h2>
 <p><strong>MCP (Model Context Protocol)</strong> An open protocol that allows AI clients (such as Claude Desktop or Claude Code) to call external tools, including <code>PRA</code> functions, directly from a conversation. See <a href="ch-agent.html" class="quarto-xref"><span>Chapter 12</span></a>.</p>
-<p><strong>RAG (Retrieval-Augmented Generation)</strong> A technique that augments an LLM’s response by first retrieving relevant documents from a knowledge base. In <code>PRA</code>, RAG grounds conceptual answers in the built-in methods documentation, reducing hallucination. See <a href="ch-agent.html" class="quarto-xref"><span>Chapter 12</span></a>.</p>
-<p><strong>Slash command</strong> A deterministic command prefix (e.g., <code>/mcs</code>, <code>/evm</code>) that bypasses the LLM and executes a <code>PRA</code> function directly. Guarantees reproducible results regardless of model. See <a href="ch-agent.html" class="quarto-xref"><span>Chapter 12</span></a>.</p>
-<p><strong>Tool call</strong> An LLM action where the model selects and invokes an external function (tool) to answer a user query. In <code>PRA</code>, tool calls route numerical queries to the appropriate analysis function. See <a href="ch-agent.html" class="quarto-xref"><span>Chapter 12</span></a>.</p>
+<p><strong>Skill (Agent Skill)</strong> A <code>SKILL.md</code> file that documents, for an AI agent, when to use a method, which tool to call, the argument format, and how to interpret the result. <code>PRA</code> bundles one skill per analytical area under <code>inst/skills/</code>. See <a href="ch-agent.html" class="quarto-xref"><span>Chapter 12</span></a>.</p>
+<p><strong>Tool call</strong> An LLM action where the model selects and invokes an external function (tool) to answer a user query. In <code>PRA</code>, an agent calls tools such as <code>mcs_tool</code> and <code>evm_analysis_tool</code> over the MCP server. See <a href="ch-agent.html" class="quarto-xref"><span>Chapter 12</span></a>.</p>
 
 
 <!-- -->
@@ -1303,14 +1302,11 @@ window.Quarto = {
 <span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a>**MCP (Model Context Protocol)**</span>
 <span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a>An open protocol that allows AI clients (such as Claude Desktop or Claude Code) to call external tools, including <span class="in">`PRA`</span> functions, directly from a conversation. See @sec-agent.</span>
 <span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a>**RAG (Retrieval-Augmented Generation)**</span>
-<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a>A technique that augments an LLM's response by first retrieving relevant documents from a knowledge base. In <span class="in">`PRA`</span>, RAG grounds conceptual answers in the built-in methods documentation, reducing hallucination. See @sec-agent.</span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a>**Skill (Agent Skill)**</span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a>A <span class="in">`SKILL.md`</span> file that documents, for an AI agent, when to use a method, which tool to call, the argument format, and how to interpret the result. <span class="in">`PRA`</span> bundles one skill per analytical area under <span class="in">`inst/skills/`</span>. See @sec-agent.</span>
 <span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a>**Slash command**</span>
-<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a>A deterministic command prefix (e.g., <span class="in">`/mcs`</span>, <span class="in">`/evm`</span>) that bypasses the LLM and executes a <span class="in">`PRA`</span> function directly. Guarantees reproducible results regardless of model. See @sec-agent.</span>
-<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a>**Tool call**</span>
-<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a>An LLM action where the model selects and invokes an external function (tool) to answer a user query. In <span class="in">`PRA`</span>, tool calls route numerical queries to the appropriate analysis function. See @sec-agent.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a>**Tool call**</span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a>An LLM action where the model selects and invokes an external function (tool) to answer a user query. In <span class="in">`PRA`</span>, an agent calls tools such as <span class="in">`mcs_tool`</span> and <span class="in">`evm_analysis_tool`</span> over the MCP server. See @sec-agent.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
