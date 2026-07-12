@@ -4,10 +4,8 @@
 
 - [`ac()`](https://paulgovan.github.io/PRA/reference/ac.md) : Actual
   Cost (AC).
-- [`add_documents()`](https://paulgovan.github.io/PRA/reference/add_documents.md)
-  : Add Custom Documents to the PRA Knowledge Base
-- [`build_knowledge_base()`](https://paulgovan.github.io/PRA/reference/build_knowledge_base.md)
-  : Build the PRA Knowledge Base for RAG Retrieval
+- [`building_project`](https://paulgovan.github.io/PRA/reference/building_project.md)
+  : Mid-Rise Commercial Building Construction Project
 - [`contingency()`](https://paulgovan.github.io/PRA/reference/contingency.md)
   : Contingency Calculation.
 - [`cor_matrix()`](https://paulgovan.github.io/PRA/reference/cor_matrix.md)
@@ -38,10 +36,6 @@
   : Plot a DSM heatmap.
 - [`plot_sigmoidal()`](https://paulgovan.github.io/PRA/reference/plot_sigmoidal.md)
   : Plot a Fitted Sigmoidal Model.
-- [`pra_app()`](https://paulgovan.github.io/PRA/reference/pra_app.md) :
-  Launch the PRA Risk Analysis Agent App
-- [`pra_chat()`](https://paulgovan.github.io/PRA/reference/pra_chat.md)
-  : Create a PRA Risk Analysis Chat Agent
 - [`pra_mcp_server()`](https://paulgovan.github.io/PRA/reference/pra_mcp_server.md)
   : Start a PRA MCP Server
 - [`pra_tools()`](https://paulgovan.github.io/PRA/reference/pra_tools.md)
@@ -67,8 +61,6 @@
   : Update a Probabilistic Network of Project Risks.
 - [`pv()`](https://paulgovan.github.io/PRA/reference/pv.md) : Planned
   Value (PV).
-- [`retrieve_context()`](https://paulgovan.github.io/PRA/reference/retrieve_context.md)
-  : Retrieve Relevant Context for a Query
 - [`risk_post_prob()`](https://paulgovan.github.io/PRA/reference/risk_post_prob.md)
   : Posterior Risk Probability.
 - [`risk_prob()`](https://paulgovan.github.io/PRA/reference/risk_prob.md)

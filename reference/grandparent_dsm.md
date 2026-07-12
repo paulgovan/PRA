@@ -58,31 +58,39 @@ risk management." Journal of construction engineering and management
 
 ``` r
 # Set the S and R matrices and print the results.
-S <- matrix(c(1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1), nrow = 3, ncol = 4)
-R <- matrix(c(1, 1, 0, 1, 0, 0), nrow = 2, ncol = 3)
+S <- matrix(c(1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1), nrow = 3, ncol = 4,
+            dimnames = list(
+              c("Resource-1", "Resource-2", "Resource-3"),
+              c("Task-1", "Task-2", "Task-3", "Task-4")
+            ))
+R <- matrix(c(1, 1, 0, 1, 0, 0), nrow = 2, ncol = 3,
+            dimnames = list(
+              c("Risk-1", "Risk-2"),
+              c("Resource-1", "Resource-2", "Resource-3")
+            ))
 cat("Resource-Task Matrix (3 resources x 4 tasks):\n")
 #> Resource-Task Matrix (3 resources x 4 tasks):
 print(S)
-#>      [,1] [,2] [,3] [,4]
-#> [1,]    1    0    1    0
-#> [2,]    1    1    0    1
-#> [3,]    0    0    0    1
+#>            Task-1 Task-2 Task-3 Task-4
+#> Resource-1      1      0      1      0
+#> Resource-2      1      1      0      1
+#> Resource-3      0      0      0      1
 cat("\nRisk-Resource Matrix (2 risks x 3 resources):\n")
 #> 
 #> Risk-Resource Matrix (2 risks x 3 resources):
 print(R)
-#>      [,1] [,2] [,3]
-#> [1,]    1    0    0
-#> [2,]    1    1    0
+#>        Resource-1 Resource-2 Resource-3
+#> Risk-1          1          0          0
+#> Risk-2          1          1          0
 # Calculate the Risk-based Grandparent Matrix and print the results.
 risk_dsm <- grandparent_dsm(S, R)
 print(risk_dsm)
 #> Risk-based 'Grandparent' Design Structure Matrix
 #> Tasks: 4  Resources: 3  Risks: 2
 #> 
-#>      [,1] [,2] [,3] [,4]
-#> [1,]    5    2    3    2
-#> [2,]    2    1    1    1
-#> [3,]    3    1    2    1
-#> [4,]    2    1    1    1
+#>        Task-1 Task-2 Task-3 Task-4
+#> Task-1      5      2      3      2
+#> Task-2      2      1      1      1
+#> Task-3      3      1      2      1
+#> Task-4      2      1      1      1
 ```

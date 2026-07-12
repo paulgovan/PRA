@@ -9,7 +9,7 @@ based on the probabilities of multiple root causes and their associated conditio
 
     <a class="navbar-brand me-2" href="../index.html">PRA</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,6 +66,15 @@ based on the probabilities of multiple root causes and their associated conditio
     <p>The function returns a numeric value for the probability of risk event 'R'.</p>
     </div>
     <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Each cause contributes a marginal probability
+\(P(R \mid C_i) P(C_i) + P(R \mid \bar{C}_i) P(\bar{C}_i)\) via the law of
+total probability. Independent causes are combined with a noisy-OR — the
+probability that the risk event is triggered by at least one cause — so the
+result always lies in \([0, 1]\) and reduces to the single-cause marginal
+when there is one cause.</p>
+    </div>
+    <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
 construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.</p>
@@ -78,7 +87,7 @@ construction project risk management. No. 172534. Cham, Switzerland: Springer, 2
 <span class="r-in"><span><span class="va">risks_given_not_causes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.4</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">risk_prob_value</span> <span class="op">&lt;-</span> <span class="fu">risk_prob</span><span class="op">(</span><span class="va">cause_probs</span>, <span class="va">risks_given_causes</span>, <span class="va">risks_given_not_causes</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">risk_prob_value</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.82</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6528</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -91,7 +100,7 @@ construction project risk management. No. 172534. Cham, Switzerland: Springer, 2
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

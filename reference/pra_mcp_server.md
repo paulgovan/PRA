@@ -23,7 +23,9 @@ The server communicates over stdio by default, which is the standard
 transport for local MCP servers. It reuses the same tool definitions
 from
 [`pra_tools()`](https://paulgovan.github.io/PRA/reference/pra_tools.md),
-so any tool updates are automatically reflected.
+so any tool updates are automatically reflected. The bundled Agent
+Skills in `inst/skills/` document when and how an agent should call each
+tool.
 
 ## Examples
 

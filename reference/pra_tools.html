@@ -11,7 +11,7 @@ select the appropriate analysis method and properly format parameters."><meta pr
 
     <a class="navbar-brand me-2" href="../index.html">PRA</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,16 +62,17 @@ internally.</p>
 to mean, sd, and key percentiles rather than returning the full vector to
 the LLM. The full results are stored in the package environment for use by
 downstream tools (e.g., contingency analysis needs the full distribution).</p>
-<p>When used with shinychat, tool results include rich HTML display with inline
-plots via <code><a href="https://ellmer.tidyverse.org/reference/Content.html" class="external-link">ellmer::ContentToolResult</a></code>.</p>
+<p>Tool results carry rich HTML display with inline plots via
+<code><a href="https://ellmer.tidyverse.org/reference/Content.html" class="external-link">ellmer::ContentToolResult</a></code> for MCP clients that render it, and degrade
+gracefully to plain text otherwise.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># The tool set is served to MCP clients by pra_mcp_server().</span></span></span>
 <span class="r-in"><span><span class="va">tools</span> <span class="op">&lt;-</span> <span class="fu">pra_tools</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">chat</span> <span class="op">&lt;-</span> <span class="fu">ellmer</span><span class="fu">::</span><span class="fu"><a href="https://ellmer.tidyverse.org/reference/chat_ollama.html" class="external-link">chat_ollama</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"llama3.2"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">tool</span> <span class="kw">in</span> <span class="va">tools</span><span class="op">)</span> <span class="va">chat</span><span class="op">$</span><span class="fu">register_tool</span><span class="op">(</span><span class="va">tool</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="pra_mcp_server.html">pra_mcp_server</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
@@ -85,7 +86,7 @@ plots via <code><a href="https://ellmer.tidyverse.org/reference/Content.html" cl
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

@@ -37,6 +37,17 @@ mcs(num_sims, task_dists, cor_mat = NULL)
 The function returns a list of the total mean, variance, standard
 deviation, and percentiles for the project.
 
+## Note
+
+When a correlation matrix is supplied, correlation is induced by
+applying a Cholesky factor to the sampled task values. This reproduces
+the target correlation but distorts the marginal means of the totals.
+For correlation-sensitive analyses prefer
+[`smm()`](https://paulgovan.github.io/PRA/reference/smm.md), which
+handles correlation analytically; a copula-based implementation that
+preserves the marginals is planned. See the package's design-structure
+tools for modeling structural dependence directly.
+
 ## References
 
 Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for
@@ -64,17 +75,17 @@ cor_mat <- matrix(c(
 # Run the Monte Carlo sumulation and print the results.
 results <- mcs(num_sims, task_dists, cor_mat)
 cat("Mean Total Duration:", results$total_mean, "\n")
-#> Mean Total Duration: 38.61296 
+#> Mean Total Duration: 38.6533 
 cat("Variance of Total Variance:", results$total_variance, "\n")
-#> Variance of Total Variance: 19.89063 
+#> Variance of Total Variance: 19.97396 
 cat("Standard Deviation of Total Duration:", results$total_sd, "\n")
-#> Standard Deviation of Total Duration: 4.459891 
+#> Standard Deviation of Total Duration: 4.469223 
 cat("5th Percentile:", results$percentiles[1], "\n")
-#> 5th Percentile: 31.20758 
+#> 5th Percentile: 31.22454 
 cat("Median (50th Percentile):", results$percentiles[2], "\n")
-#> Median (50th Percentile): 38.63446 
+#> Median (50th Percentile): 38.7074 
 cat("95th Percentile:", results$percentiles[3], "\n")
-#> 95th Percentile: 46.00121 
+#> 95th Percentile: 45.99066 
 hist(results$total_distribution,
   breaks = 50, main = "Distribution of Total Project Duration",
   xlab = "Total Duration", col = "skyblue", border = "white"

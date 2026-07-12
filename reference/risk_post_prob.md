@@ -41,6 +41,16 @@ risk_post_prob(
 A numeric value for the posterior probability of the risk event given
 the observed causes.
 
+## Details
+
+Observed causes are fixed to their conditional probability (\\P(R \mid
+C_i)\\ if present, \\P(R \mid \bar{C}\_i)\\ if absent) while unobserved
+causes (`NA`) keep their marginal contribution. The causes are then
+combined with the same noisy-OR as
+[`risk_prob()`](https://paulgovan.github.io/PRA/reference/risk_prob.md),
+so the posterior is on the same scale as the prior and observing an
+aggravating cause raises it.
+
 ## References
 
 Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for
@@ -59,5 +69,5 @@ risk_post_prob <- risk_post_prob(
   risks_given_not_causes, observed_causes
 )
 print(risk_post_prob)
-#> [1] 0.6315789
+#> [1] 0.888
 ```

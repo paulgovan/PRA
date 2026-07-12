@@ -49,14 +49,18 @@ risk management." Journal of construction engineering and management
 
 ``` r
 # Set the S matrix for a toy project (3 resources x 4 tasks).
-s <- matrix(c(1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1), nrow = 3, ncol = 4)
+s <- matrix(c(1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1), nrow = 3, ncol = 4,
+            dimnames = list(
+              c("Resource-1", "Resource-2", "Resource-3"),
+              c("Task-1", "Task-2", "Task-3", "Task-4")
+            ))
 cat("Resource-Task Matrix:\n")
 #> Resource-Task Matrix:
 print(s)
-#>      [,1] [,2] [,3] [,4]
-#> [1,]    1    0    1    0
-#> [2,]    1    1    0    1
-#> [3,]    0    0    0    1
+#>            Task-1 Task-2 Task-3 Task-4
+#> Resource-1      1      0      1      0
+#> Resource-2      1      1      0      1
+#> Resource-3      0      0      0      1
 
 # Calculate the Resource-based Parent DSM and print the results.
 resource_dsm <- parent_dsm(s)
@@ -64,9 +68,9 @@ print(resource_dsm)
 #> Resource-based 'Parent' Design Structure Matrix
 #> Tasks: 4  Resources: 3
 #> 
-#>      [,1] [,2] [,3] [,4]
-#> [1,]    2    1    1    1
-#> [2,]    1    1    0    1
-#> [3,]    1    0    1    0
-#> [4,]    1    1    0    2
+#>        Task-1 Task-2 Task-3 Task-4
+#> Task-1      2      1      1      1
+#> Task-2      1      1      0      1
+#> Task-3      1      0      1      0
+#> Task-4      1      1      0      2
 ```

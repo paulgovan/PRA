@@ -28,16 +28,17 @@ full vector to the LLM. The full results are stored in the package
 environment for use by downstream tools (e.g., contingency analysis
 needs the full distribution).
 
-When used with shinychat, tool results include rich HTML display with
-inline plots via
-[`ellmer::ContentToolResult`](https://ellmer.tidyverse.org/reference/Content.html).
+Tool results carry rich HTML display with inline plots via
+[`ellmer::ContentToolResult`](https://ellmer.tidyverse.org/reference/Content.html)
+for MCP clients that render it, and degrade gracefully to plain text
+otherwise.
 
 ## Examples
 
 ``` r
 if (FALSE) { # \dontrun{
+# The tool set is served to MCP clients by pra_mcp_server().
 tools <- pra_tools()
-chat <- ellmer::chat_ollama(model = "llama3.2")
-for (tool in tools) chat$register_tool(tool)
+pra_mcp_server()
 } # }
 ```
