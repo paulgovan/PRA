@@ -121,6 +121,5 @@ list(type = "aggregate",    nodes = c("F", "G", "H"))
 
 | Function | Key Arguments | Returns | Chapter |
 |----------|--------------|---------|---------|
-| `pra_chat(model, chat)` | `model` Ollama model name (default "llama3.2"); or `chat` an ellmer chat object for cloud models | Chat object; call `$chat("...")` to converse | @sec-agent |
-| `pra_app()` | None | Launches Shiny app in browser (requires Ollama) | @sec-agent |
+| `pra_tools()` | None | List of `ellmer` tool definitions wrapping the PRA functions | @sec-agent |
 | `pra_mcp_server()` | None | Starts MCP server; register with `claude mcp add` | @sec-agent |

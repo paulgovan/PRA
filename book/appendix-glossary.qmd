@@ -178,11 +178,8 @@ A binary matrix with risks as rows and resources as columns. Entry $R[i,j] = 1$ 
 **MCP (Model Context Protocol)**
 An open protocol that allows AI clients (such as Claude Desktop or Claude Code) to call external tools, including `PRA` functions, directly from a conversation. See @sec-agent.
 
-**RAG (Retrieval-Augmented Generation)**
-A technique that augments an LLM's response by first retrieving relevant documents from a knowledge base. In `PRA`, RAG grounds conceptual answers in the built-in methods documentation, reducing hallucination. See @sec-agent.
-
-**Slash command**
-A deterministic command prefix (e.g., `/mcs`, `/evm`) that bypasses the LLM and executes a `PRA` function directly. Guarantees reproducible results regardless of model. See @sec-agent.
+**Skill (Agent Skill)**
+A `SKILL.md` file that documents, for an AI agent, when to use a method, which tool to call, the argument format, and how to interpret the result. `PRA` bundles one skill per analytical area under `inst/skills/`. See @sec-agent.
 
 **Tool call**
-An LLM action where the model selects and invokes an external function (tool) to answer a user query. In `PRA`, tool calls route numerical queries to the appropriate analysis function. See @sec-agent.
+An LLM action where the model selects and invokes an external function (tool) to answer a user query. In `PRA`, an agent calls tools such as `mcs_tool` and `evm_analysis_tool` over the MCP server. See @sec-agent.

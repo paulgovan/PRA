@@ -31,8 +31,16 @@ tasks in a project.
 }
 \examples{
 # Set the S and R matrices and print the results.
-S <- matrix(c(1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1), nrow = 3, ncol = 4)
-R <- matrix(c(1, 1, 0, 1, 0, 0), nrow = 2, ncol = 3)
+S <- matrix(c(1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1), nrow = 3, ncol = 4,
+            dimnames = list(
+              c("Resource-1", "Resource-2", "Resource-3"),
+              c("Task-1", "Task-2", "Task-3", "Task-4")
+            ))
+R <- matrix(c(1, 1, 0, 1, 0, 0), nrow = 2, ncol = 3,
+            dimnames = list(
+              c("Risk-1", "Risk-2"),
+              c("Resource-1", "Resource-2", "Resource-3")
+            ))
 cat("Resource-Task Matrix (3 resources x 4 tasks):\n")
 print(S)
 cat("\nRisk-Resource Matrix (2 risks x 3 resources):\n")

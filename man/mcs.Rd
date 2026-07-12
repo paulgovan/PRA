@@ -31,6 +31,15 @@ and percentiles for the project.
 This function performs a Monte Carlo simulation to estimate the total duration of a project
 based on individual task distributions and an optional correlation matrix.
 }
+\note{
+When a correlation matrix is supplied, correlation is induced by
+applying a Cholesky factor to the sampled task values. This reproduces the
+target correlation but distorts the marginal means of the totals. For
+correlation-sensitive analyses prefer \code{\link[=smm]{smm()}}, which handles correlation
+analytically; a copula-based implementation that preserves the marginals is
+planned. See the package's design-structure tools for modeling structural
+dependence directly.
+}
 \examples{
 # Set the number of simulations and task distributions for a toy project.
 num_sims <- 10000

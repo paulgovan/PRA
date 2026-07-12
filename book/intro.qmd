@@ -71,7 +71,7 @@ Once the project is underway and you have actual cost and schedule data, **Earne
 
 ### AI-Assisted Analysis
 
-Chapter @sec-agent introduces the `PRA` agentic framework: slash commands for instant deterministic analysis, a chat interface powered by a local or cloud LLM, and an MCP server that lets tools like Claude Code call `PRA` functions directly. Think of it as having a risk analyst on call who always has the EVM formulas at hand.
+Chapter @sec-agent introduces the `PRA` agentic layer: an MCP server that exposes every `PRA` function as a tool for AI agents like Claude Code, together with a set of Agent Skills that tell the agent when and how to use each one. Think of it as having a risk analyst on call who always has the EVM formulas at hand.
 
 ## Installing the Package
 

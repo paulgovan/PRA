@@ -20,6 +20,14 @@ The function returns a numeric value for the probability of risk event 'R'.
 This function calculates the overall probability of a risk event 'R' occurring
 based on the probabilities of multiple root causes and their associated conditional probabilities.
 }
+\details{
+Each cause contributes a marginal probability
+\eqn{P(R \mid C_i) P(C_i) + P(R \mid \bar{C}_i) P(\bar{C}_i)} via the law of
+total probability. Independent causes are combined with a noisy-OR --- the
+probability that the risk event is triggered by at least one cause --- so the
+result always lies in \eqn{[0, 1]} and reduces to the single-cause marginal
+when there is one cause.
+}
 \examples{
 cause_probs <- c(0.3, 0.2)
 risks_given_causes <- c(0.8, 0.6)

@@ -306,40 +306,22 @@ Conditioning on the observed ground conditions (confirmed by the clay layers in 
 
 ## Step 9: Agentic Analysis {#sec-cs-agent}
 
-All of the above can also be run via slash commands, no function-by-function scripting required.
+All of the above can also be driven by an AI agent through the PRA MCP server (@sec-agent), with no function-by-function scripting required. Once `pra_mcp_server()` is registered with Claude Code or Claude Desktop, the agent calls the same tools you used in Steps 1–4. For example, the Monte Carlo simulation from Step 1 corresponds to `mcs_tool` with this `task_dists_json`:
 
-```{r}
-#| eval: false
-r <- PRA:::execute_command(
-  '/mcs n=10000 tasks=[
-    {"type":"triangular","a":2,"b":3,"c":5},
-    {"type":"normal","mean":8,"sd":1.5},
-    {"type":"triangular","a":10,"b":14,"c":20},
-    {"type":"normal","mean":4,"sd":0.8},
-    {"type":"uniform","min":1,"max":3}
-  ]'
-)
-cat(r$result)
+```json
+[{"type":"triangular","a":2,"b":3,"c":5},
+ {"type":"normal","mean":8,"sd":1.5},
+ {"type":"triangular","a":10,"b":14,"c":20},
+ {"type":"normal","mean":4,"sd":0.8},
+ {"type":"uniform","min":1,"max":3}]
 ```
 
-```{r}
-#| eval: false
-r <- PRA:::execute_command("/contingency phigh=0.80 pbase=0.50")
-cat(r$result)
-```
-
-```{r}
-#| eval: false
-r <- PRA:::execute_command(
-  "/evm bac=2500000 schedule=[0.15,0.35,0.65,0.85,1.0] period=3 complete=0.48 costs=[350000,810000,1350000]"
-)
-cat(r$result)
-```
+The follow-up steps map to `contingency_tool` (`phigh=0.80, pbase=0.50`) and `evm_analysis_tool` (`bac=2500000`, `schedule=[0.15,0.35,0.65,0.85,1.0]`, `period=3`, `complete=0.48`, `costs=[350000,810000,1350000]`). Because these tools wrap the same functions used in Steps 1–4, they reproduce the identical numbers.
 
 ::: {.callout-note}
-## About `eval: false` above
+## Driving the tools from natural language
 
-The slash-command blocks above use internal PRA functions that produce the same results as the code in Steps 1–4. They are marked `eval: false` to avoid duplicate output in the rendered book. Run them interactively to verify the commands reproduce the same numbers.
+With the MCP server connected, you could instead simply ask: "Run a Monte Carlo simulation for these five tasks, give me the P80 contingency, and run a full EVM analysis." The agent selects the tools and fills in the arguments, guided by the bundled Agent Skills.
 :::
 
 ---

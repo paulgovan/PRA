@@ -22,8 +22,11 @@ test_that("risk_prob calculates correct risk probabilities", {
   risks_given_not_causes <- c(0.2, 0.4)
 
   result <- risk_prob(cause_probs, risks_given_causes, risks_given_not_causes)
-  expected <- (0.3 * 0.8) + ((1 - 0.3) * 0.2) + (0.2 * 0.6) + ((1 - 0.2) * 0.4)
+  # Noisy-OR of the two independent cause marginals.
+  marginals <- c(0.3 * 0.8 + 0.7 * 0.2, 0.2 * 0.6 + 0.8 * 0.4)
+  expected <- 1 - prod(1 - marginals)
   expect_equal(result, expected)
+  expect_true(result >= 0 && result <= 1)
 })
 
 test_that("risk_prob handles input validation correctly", {
@@ -244,11 +247,12 @@ test_that("risk_prob recovers known probability from manual calculation", {
 
   result <- risk_prob(cause_probs, risks_given_causes, risks_given_not_causes)
 
-  # Manual calculation using law of total probability:
-  # P(R) = P(R|C1)*P(C1) + P(R|¬C1)*P(¬C1) + P(R|C2)*P(C2) + P(R|¬C2)*P(¬C2)
-  #      = 0.8*0.3 + 0.2*0.7 + 0.6*0.2 + 0.4*0.8
-  #      = 0.24 + 0.14 + 0.12 + 0.32 = 0.82
-  expected <- 0.8 * 0.3 + 0.2 * 0.7 + 0.6 * 0.2 + 0.4 * 0.8
+  # Each cause's marginal via the law of total probability, combined with a
+  # noisy-OR over the two independent causes:
+  # m1 = 0.8*0.3 + 0.2*0.7 = 0.38; m2 = 0.6*0.2 + 0.4*0.8 = 0.44
+  # P(R) = 1 - (1 - m1)(1 - m2) = 0.6528
+  marginals <- c(0.8 * 0.3 + 0.2 * 0.7, 0.6 * 0.2 + 0.4 * 0.8)
+  expected <- 1 - prod(1 - marginals)
 
   expect_equal(result, expected, tolerance = 1e-10)
 })
