@@ -35,6 +35,13 @@
 #' tasks are assumed to be independent.
 #' @return The function returns a list of the total mean, variance, standard deviation,
 #' and percentiles for the project.
+#' @note When a correlation matrix is supplied, correlation is induced by
+#' applying a Cholesky factor to the sampled task values. This reproduces the
+#' target correlation but distorts the marginal means of the totals. For
+#' correlation-sensitive analyses prefer [smm()], which handles correlation
+#' analytically; a copula-based implementation that preserves the marginals is
+#' planned. See the package's design-structure tools for modeling structural
+#' dependence directly.
 #' @references
 #' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
 #' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.

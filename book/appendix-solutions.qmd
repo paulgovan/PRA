@@ -555,23 +555,39 @@ The do-calculus implication: `prob_net_update()` (graph surgery) would remove th
 
 ## Agentic Risk Analysis (@sec-agent)
 
-### Exercise 5 ★: MCP Integration
+### Exercise 5 ★: Skill Authoring
 
-This exercise is environment-dependent and cannot be evaluated in the rendered book. Below is a description of the expected experience and how to verify it.
+This exercise is open-ended; below is a worked example of what a good project-specific skill looks like and how to verify it.
 
-**Setup.** Follow the MCP registration steps in @sec-agent:
+**Setup.** Register the MCP server, then read one of the bundled skills as a template:
 
 ```bash
 claude mcp add -s project pra -- Rscript -e "PRA::pra_mcp_server()"
 ```
 
-**Expected tool-call behavior.** When you ask "Run a Monte Carlo simulation for three tasks: Task A Normal(10, 2), Task B Triangular(5, 10, 15), Task C Uniform(8, 12). What is the P95 duration?", Claude should:
+```r
+readLines(system.file("skills", "pra-monte-carlo", "SKILL.md", package = "PRA"))
+```
 
-1. Identify this as a numerical query requiring the `mcs` tool
-2. Format the task distributions as JSON and call the tool
-3. Return the P95 from the simulation result (approximately 33–34 weeks for this input with default settings)
-4. Optionally suggest a contingency reserve
+**A worked skill.** Suppose your organization always sizes reserves at the 80th percentile. A skill capturing that policy might read:
 
-**Expected RAG behavior.** When you ask a conceptual question like "What is earned value?", Claude should answer from the PRA knowledge base rather than calling a tool. The response should reference EV as $\text{BAC} \times \% \text{complete}$ and mention CPI and SPI.
+```markdown
+---
+name: pra-p80-reserve
+description: >
+  Apply the organization's standard P80 contingency policy. Use whenever a
+  user asks for a reserve, buffer, or contingency on a simulated project.
+---
 
-**Signs of success:** Tool calls appear in the Claude interface as structured results (not just text). RAG answers cite the knowledge base source. The P95 matches what you get running the same command via `/mcs` directly.
+# When to use
+Any request for a contingency reserve on a project with task-level
+uncertainty distributions.
+
+# How to run it
+1. Call `mcs_tool` with the task distributions (and a correlation matrix if
+   tasks are correlated).
+2. Call `contingency_tool` with `phigh = 0.80, pbase = 0.50`.
+3. Report the reserve and note that the P80 policy was applied.
+```
+
+**Signs of success.** A well-formed skill has valid YAML frontmatter (a `name` matching its folder and a `description` written for trigger accuracy), states clearly *when* to apply it, and maps each step to a specific tool and its arguments. Verify it by giving the agent a matching request and confirming it calls `mcs_tool` then `contingency_tool` at `phigh = 0.80`, reproducing the reserve you would get from `contingency(sims, phigh = 0.80, pbase = 0.50)` directly.

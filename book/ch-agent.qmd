@@ -5,265 +5,50 @@
 
 You've made it through eight chapters of quantitative risk analysis. You know Monte Carlo, SMM, EVM, Bayesian inference, learning curves, design structure matrices, and probabilistic networks. Now imagine not having to remember the syntax for all of them.
 
-Imagine a project manager typing "run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)" and getting back a P95 date, a contingency reserve, and a tornado chart, all in ten seconds, without opening R. That's the promise of the `PRA` agentic framework: a layer of intelligence on top of all the methods you've learned.
+Imagine asking an AI assistant to "run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)" and getting back a P95 date, a contingency reserve, and a tornado chart. That's the promise of the `PRA` agentic layer: every analytical function in this book is exposed as a tool that an AI agent can call directly, guided by a set of skills that tell it *when* and *how* to use each one.
 
 ::: {.callout-note icon=false}
 ## Learning Objectives
 
 By the end of this chapter, you will be able to:
 
-1. Distinguish the three routing modes (slash commands, LLM tool calls, RAG)
-2. Run any PRA method via a slash command and chain results across commands
-3. Use `pra_chat()` to interact with PRA methods through natural language
-4. Explain how RAG augments the LLM with domain-specific knowledge
-5. Configure PRA as an MCP server for Claude Desktop or Claude Code
+1. Explain how PRA exposes its functions as tools over the Model Context Protocol (MCP)
+2. Start the PRA MCP server and register it with Claude Code or Claude Desktop
+3. Describe what Agent Skills are and how they guide tool use
+4. Map a natural-language request to the underlying PRA tool and its arguments
 :::
 
-## The Three Routing Modes
+## How PRA Talks to AI Agents
 
-::: {.callout-note}
-## How PRA Routes Your Input
+Rather than embedding a language model inside the package, PRA takes a simpler and more portable approach: it publishes its analytical functions as **tools** that any capable AI agent can call. Two pieces make this work:
 
-| Input type | Route | Example |
-|------------|-------|---------|
-| `/command` | **Deterministic**: executes the tool directly, no LLM | `/mcs tasks=[...]` |
-| Numerical data | **LLM tool call**: the model selects and calls the right tool | "Simulate 3 tasks: Normal(10,2)..." |
-| Conceptual question | **RAG**: answered from the knowledge base | "What is earned value?" |
+1. **An MCP server** (`pra_mcp_server()`) that advertises each PRA function — Monte Carlo simulation, EVM, Bayesian risk, learning curves, DSM, and the rest — as a callable tool over the [Model Context Protocol](https://modelcontextprotocol.io).
+2. **Agent Skills** — bundled `SKILL.md` files that document, in plain language, when to use each method, which tool to call, the argument format, and how to read the result.
 
-**When to use each:**
-
-- Use **slash commands** when you need guaranteed, reproducible results; they bypass the LLM entirely.
-- Use the **chat interface** for exploratory questions and interpretation, especially with larger models.
-- Use **RAG** for conceptual questions; it retrieves the most relevant knowledge base content and cites sources.
-:::
-
-Three interfaces expose these modes:
-
-1. **Slash commands**: deterministic tool calls that bypass the LLM for instant, reliable results
-2. **Chat interface** (`pra_chat()`): programmatic R chat powered by ellmer
-3. **Shiny app** (`pra_app()`): browser-based experience combining all three modes
+The agent (Claude Code, Claude Desktop, or any MCP-compatible client) supplies the intelligence; PRA supplies the trustworthy, validated computation. Because the tools are the same functions you've used throughout the book, the numbers are identical whether you call `mcs()` yourself or ask an agent to run it.
 
 ## Prerequisites
 
-### Install Ollama
-
-Download from <https://ollama.com>, then pull a model:
-
-```bash
-ollama serve
-ollama pull llama3.2
-ollama pull nomic-embed-text  # for RAG embeddings
-```
-
-### Install R dependencies
+The MCP server relies on a few optional packages:
 
 ```{r}
 #| eval: false
-install.packages(c("ellmer", "ragnar", "shiny", "bslib", "shinychat", "jsonlite"))
+install.packages(c("ellmer", "mcptools", "jsonlite"))
 ```
 
-## Slash Commands
+The analytical functions themselves need none of these — they are required only to serve the tools to an agent.
 
-Slash commands provide deterministic tool execution with no LLM required. Type `/help` to see all available commands, or `/help <command>` for detailed usage.
+## The MCP Server
 
-### Available Commands
+### Starting the server
 
 ```{r}
+#| eval: false
 library(PRA)
-cat(PRA:::format_help_overview())
-```
-
-### Example: Monte Carlo Simulation
-
-```{r}
-set.seed(42)
-cmd <- paste0(
-  '/mcs n=10000 tasks=[',
-  '{"type":"normal","mean":10,"sd":2},',
-  '{"type":"triangular","a":5,"b":10,"c":15},',
-  '{"type":"uniform","min":8,"max":12}]'
-)
-r <- PRA:::execute_command(cmd)
-cat(r$result)
-```
-
-```{r}
-#| fig-cap: "MCS results via slash command. The /mcs command stores results for downstream chaining."
-result <- PRA:::.pra_agent_env$last_mcs
-hist(result$total_distribution,
-  freq = FALSE, breaks = 50,
-  main = "Monte Carlo Simulation Results",
-  xlab = "Total Project Duration/Cost",
-  col  = "#18bc9c80", border = "white"
-)
-curve(dnorm(x, mean = result$total_mean, sd = result$total_sd),
-  add = TRUE, col = "#2c3e50", lwd = 2
-)
-abline(
-  v   = quantile(result$total_distribution, c(0.50, 0.95)),
-  col = c("#3498db", "#e74c3c"), lty = 2, lwd = 1.5
-)
-legend("topright",
-  legend = c("Normal fit", "P50", "P95"),
-  col    = c("#2c3e50", "#3498db", "#e74c3c"),
-  lty    = c(1, 2, 2), lwd = c(2, 1.5, 1.5),
-  cex    = 0.8, bg = "white"
-)
-```
-
-### Example: Chaining MCS to Contingency
-
-After running `/mcs`, chain to `/contingency` for the reserve estimate:
-
-```{r}
-r <- PRA:::execute_command("/contingency phigh=0.95 pbase=0.50")
-cat(r$result)
-```
-
-### Example: Earned Value Management
-
-Full EVM analysis with a single command:
-
-```{r}
-cmd <- paste(
-  "/evm bac=500000",
-  "schedule=[0.2,0.4,0.6,0.8,1.0]",
-  "period=3 complete=0.35",
-  "costs=[90000,195000,310000]"
-)
-r <- PRA:::execute_command(cmd)
-cat(r$result)
-```
-
-### Example: Bayesian Risk Probability
-
-```{r}
-r <- PRA:::execute_command(
-  "/risk causes=[0.3,0.2] given=[0.8,0.6] not_given=[0.2,0.4]"
-)
-cat(r$result)
-```
-
-Then update with observations:
-
-```{r}
-r <- PRA:::execute_command(
-  "/risk_post causes=[0.3,0.2] given=[0.8,0.6] not_given=[0.2,0.4] observed=[1,null]"
-)
-cat(r$result)
-```
-
-### Example: Second Moment Method
-
-```{r}
-r <- PRA:::execute_command("/smm means=[10,12,8] vars=[4,9,2]")
-cat(r$result)
-```
-
-### Input Validation
-
-Missing or invalid arguments produce helpful error messages:
-
-```{r}
-r <- PRA:::execute_command("/risk causes=[0.3]")
-cat(r$result)
-```
-
-## Chat Interface
-
-::: {.callout-note}
-## About `eval: false` in This Chapter
-
-The Chat Interface, Shiny App, and MCP sections require a running Ollama server and cannot be evaluated during book rendering. Code blocks marked `eval: false` show the correct syntax; to follow along interactively, start Ollama with `ollama serve` before running them. The slash command examples above **are** fully evaluated and show actual output.
-:::
-
-The chat interface routes queries through the LLM, which decides whether to call a tool or answer from the RAG knowledge base:
-
-- **Numerical data** → LLM calls the appropriate tool and interprets the results
-- **Conceptual questions** → LLM answers from the RAG knowledge base with source citations
-
-```{r}
-#| eval: false
-chat <- pra_chat(model = "llama3.2")
-
-# Tool call: user provides numerical data
-chat$chat("Run a Monte Carlo simulation for a 3-task project with
-  Task A ~ Normal(10, 2), Task B ~ Triangular(5, 10, 15),
-  Task C ~ Uniform(8, 12). Use 10,000 simulations.")
-
-# RAG: conceptual question
-chat$chat("What is the difference between SPI and CPI?")
-```
-
-### Using Cloud Models
-
-For better accuracy with complex queries:
-
-```{r}
-#| eval: false
-# Anthropic (replace with the current model ID from https://docs.anthropic.com/en/docs/about-claude/models)
-chat <- pra_chat(chat = ellmer::chat_anthropic(model = "claude-sonnet-4-5"))
-
-# OpenAI
-chat <- pra_chat(chat = ellmer::chat_openai(model = "gpt-4o"))
-```
-
-## Interactive Shiny App
-
-For a browser-based experience with streaming responses and inline visualizations:
-
-```{r}
-#| eval: false
-pra_app()
-```
-
-The app supports all three input modes in the same chat panel:
-
-- Type `/mcs tasks=[...]` for **instant deterministic** results
-- Type "Simulate 3 tasks..." for **LLM tool calling**
-- Type "What is earned value?" for **RAG-powered answers**
-
-### Features
-
-- **Three input modes** in a single panel
-- **Clickable example prompts** that execute `/commands` on click
-- **Streaming chat** with token-by-token responses
-- **Inline tool results** as rich HTML tables and plots
-- **RAG source citations** for conceptual answers
-- **Export**: download the conversation as markdown
-
-## RAG Knowledge Base
-
-PRA includes a built-in knowledge base covering all the methods in this book:
-
-| File | Topics |
-|------|--------|
-| `mcs_methods.md` | Distribution selection, correlation, interpreting percentiles |
-| `evm_standards.md` | EVM metrics, performance indices, forecasting methods |
-| `bayesian_risk.md` | Prior/posterior risk, Bayes' theorem |
-| `learning_curves.md` | Sigmoidal models, curve fitting |
-| `sensitivity_contingency.md` | Variance decomposition, contingency reserves |
-| `pra_functions.md` | PRA package function reference |
-
-### Adding Your Own Documents
-
-```{r}
-#| eval: false
-store <- build_knowledge_base()
-add_documents(store, "path/to/my_risk_register.md")
-add_documents(store, "path/to/project_docs/")
-```
-
-## MCP Integration
-
-PRA can expose all its tools as an [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server, letting Claude Desktop, Claude Code, or any MCP-compatible AI client call PRA functions directly.
-
-### Starting the Server
-
-```{r}
-#| eval: false
 pra_mcp_server()
 ```
+
+The server communicates over stdio, the standard transport for local MCP servers, and reuses the tool definitions from `pra_tools()` so any update to a tool is reflected automatically.
 
 ### Connecting from Claude Code
 
@@ -290,43 +75,111 @@ Add the following to your Claude Desktop config file:
 }
 ```
 
-## Available Commands Reference
+## Agent Skills
 
-| Command | Description |
-|---------|-------------|
-| `/mcs` | Monte Carlo simulation with task distributions |
-| `/smm` | Second Moment Method (analytical estimate) |
-| `/contingency` | Contingency reserve from last MCS |
-| `/sensitivity` | Variance contribution per task |
-| `/evm` | Full Earned Value Management analysis |
-| `/risk` | Bayesian prior risk probability |
-| `/risk_post` | Bayesian posterior risk after observations |
-| `/learning` | Sigmoidal learning curve fit and prediction |
-| `/dsm` | Design Structure Matrix |
-| `/help` | List all commands or get help for one |
+An agent works best when it knows not just *what* tools exist but *when* to reach for each one. PRA ships a set of Agent Skills for exactly this. Each is a `SKILL.md` file with structured guidance — when to use the method, which tool to call, the JSON argument format, and how to interpret the result.
+
+Find the installed skills with:
+
+```{r}
+#| eval: false
+list.files(system.file("skills", package = "PRA"))
+```
+
+| Skill | Covers | Primary tools |
+|-------|--------|---------------|
+| `pra-overview` | Routing / entry point | (directs to the others) |
+| `pra-monte-carlo` | Schedule/cost uncertainty | `mcs_tool`, `smm_tool` |
+| `pra-sensitivity-contingency` | Reserves & risk drivers | `contingency_tool`, `sensitivity_tool` |
+| `pra-earned-value` | Performance & forecasting | `evm_analysis_tool` |
+| `pra-bayesian-risk` | Risk probability & cost | `risk_prob_tool`, `risk_post_prob_tool`, `cost_pdf_tool`, `cost_post_pdf_tool` |
+| `pra-learning-curves` | S-curve fitting/forecasts | `fit_and_predict_sigmoidal_tool` |
+| `pra-dsm` | Task dependency structure | `parent_dsm_tool`, `grandparent_dsm_tool` |
+
+## From Request to Tool Call
+
+When you ask an agent to run an analysis, it selects a tool and fills in the arguments. All array and matrix arguments are passed as JSON strings. For example, the request "simulate three tasks — Normal(10,2), Triangular(5,10,15), Uniform(8,12), 10,000 runs" maps to `mcs_tool` with a `task_dists_json` of:
+
+```json
+[{"type":"normal","mean":10,"sd":2},
+ {"type":"triangular","a":5,"b":10,"c":15},
+ {"type":"uniform","min":8,"max":12}]
+```
+
+Under the hood, that is exactly the `mcs()` call you already know:
+
+```{r}
+library(PRA)
+set.seed(42)
+task_distributions <- list(
+  list(type = "normal",     mean = 10, sd = 2),
+  list(type = "triangular", a = 5, b = 10, c = 15),
+  list(type = "uniform",    min = 8, max = 12)
+)
+result <- mcs(10000, task_distributions)
+```
+
+```{r}
+#| fig-cap: "Monte Carlo results. The same output an agent receives when it calls `mcs_tool`."
+hist(result$total_distribution,
+  freq = FALSE, breaks = 50,
+  main = "Monte Carlo Simulation Results",
+  xlab = "Total Project Duration/Cost",
+  col  = "#18bc9c80", border = "white"
+)
+curve(dnorm(x, mean = result$total_mean, sd = result$total_sd),
+  add = TRUE, col = "#2c3e50", lwd = 2
+)
+abline(
+  v   = quantile(result$total_distribution, c(0.50, 0.95)),
+  col = c("#3498db", "#e74c3c"), lty = 2, lwd = 1.5
+)
+legend("topright",
+  legend = c("Normal fit", "P50", "P95"),
+  col    = c("#2c3e50", "#3498db", "#e74c3c"),
+  lty    = c(1, 2, 2), lwd = c(2, 1.5, 1.5),
+  cex    = 0.8, bg = "white"
+)
+```
+
+A typical agent workflow chains tools the same way you would chain functions: `mcs_tool` to simulate, then `contingency_tool` for the reserve and `sensitivity_tool` for the risk drivers. The `pra-overview` skill lists these common workflows so the agent knows what to do next.
+
+## Tool Reference
+
+| Tool | Description |
+|------|-------------|
+| `mcs_tool` | Monte Carlo simulation with task distributions |
+| `smm_tool` | Second Moment Method (analytical estimate) |
+| `contingency_tool` | Contingency reserve from the last MCS |
+| `sensitivity_tool` | Variance contribution per task |
+| `evm_analysis_tool` | Full Earned Value Management analysis |
+| `risk_prob_tool` | Bayesian prior risk probability |
+| `risk_post_prob_tool` | Bayesian posterior risk after observations |
+| `cost_pdf_tool` / `cost_post_pdf_tool` | Prior / posterior cost distributions |
+| `fit_and_predict_sigmoidal_tool` | Sigmoidal learning curve fit and prediction |
+| `parent_dsm_tool` / `grandparent_dsm_tool` | Design Structure Matrices |
 
 ## Summary
 
 ::: {.callout-tip icon=false}
 ## Key Takeaways
 
-- Slash commands (`/mcs`, `/evm`, `/risk`, etc.) provide **deterministic, LLM-free** execution of every method covered in this book; use them when you need guaranteed reproducibility.
-- The chat interface routes input intelligently: numerical data → tool call; conceptual question → RAG. The LLM is a router, not a calculator.
-- **RAG** (Retrieval-Augmented Generation) grounds LLM answers in the PRA knowledge base, reducing hallucination and enabling source citations.
-- The MCP server exposes all PRA tools to any MCP-compatible AI client (Claude Desktop, Claude Code, or custom agents) without requiring an R session on the user's end.
-- Small models (3B) handle simple single-tool queries; use larger models (8B+) or cloud models for multi-step chains and interpretation.
+- PRA exposes every analytical function as a **tool over MCP** via `pra_mcp_server()`; the numbers are identical to calling the functions directly.
+- **Agent Skills** (`SKILL.md` files under `system.file("skills", package = "PRA")`) tell an agent when and how to use each tool, including the JSON argument format.
+- The package embeds **no language model** — only the MCP server needs the optional `ellmer`, `mcptools`, and `jsonlite` packages.
+- Agents chain tools just as you chain functions: `mcs_tool` → `contingency_tool` + `sensitivity_tool`.
 :::
 
-Congratulations, you've completed the toolkit. You can now quantify project uncertainty (MCS, @sec-mcs; SMM, @sec-smm), track project performance (EVM, @sec-evm), update risk estimates with new evidence (Bayesian, @sec-bayes; Networks, @sec-network), model structural dependencies (DSM, @sec-dsm; Portfolio, @sec-network2), forecast learning (Sigmoidal, @sec-sigmoidal), and automate it all through an AI interface (@sec-agent). The rest is practice.
+Congratulations, you've completed the toolkit. You can now quantify project uncertainty (MCS, @sec-mcs; SMM, @sec-smm), track project performance (EVM, @sec-evm), update risk estimates with new evidence (Bayesian, @sec-bayes; Networks, @sec-network), model structural dependencies (DSM, @sec-dsm; Portfolio, @sec-network2), forecast learning (Sigmoidal, @sec-sigmoidal), and hand it all to an AI agent through MCP (@sec-agent). The rest is practice.
 
 ## Exercises
 
-1. **Slash vs. chat.** Run the same MCS problem using (a) a `/mcs` slash command and (b) a natural language prompt through `pra_chat()`. Do you get the same numerical results? If not, why might they differ?
+1. **Set up the server.** Install `ellmer`, `mcptools`, and `jsonlite`, then start `pra_mcp_server()` and register it with Claude Code or Claude Desktop using the instructions above. Confirm the client lists the PRA tools.
 
-2. **Command chaining.** Run `/mcs` for a 3-task project of your choice, then immediately run `/contingency` at P80 and P95. What is the difference between the two contingency values? Interpret this difference in plain English.
+2. **Request to arguments.** For the request "simulate two tasks, Normal(20,4) and Uniform(10,15), with 5,000 runs," write out the `mcs_tool` call and its `task_dists_json` argument by hand. Then run the equivalent `mcs()` in R and compare.
 
-3. **EVM from a prompt.** Use `/evm` with the following inputs: BAC = \$300K, schedule = [0.2, 0.4, 0.6, 0.8, 1.0], period = 4, complete = 0.55, costs = [\$55K, \$115K, \$175K, \$240K]. Report CPI, SPI, and EAC (typical). Is the project in good shape?
+3. **Chaining.** Ask an agent (or reason it out yourself) how to produce a P80 contingency reserve and a tornado chart for a 3-task project. Which tools are called, and in what order? Which skill documents that workflow?
 
-4. **RAG vs. tool call.** Ask `pra_chat()` two questions: (a) "What distributions should I use for tasks with optimistic/likely/pessimistic estimates?" and (b) "Run a Monte Carlo simulation for Task A ~ Normal(10, 2) and Task B ~ Uniform(8, 12)." Identify which routing mode was used for each. How can you tell from the response?
+4. **EVM from a prompt.** Using `evm_analysis_tool`'s arguments, translate this into a tool call: BAC = \$300K, schedule = [0.2, 0.4, 0.6, 0.8, 1.0], period = 4, complete = 0.55, costs = [\$55K, \$115K, \$175K, \$240K]. Then verify with the EVM functions from @sec-evm.
 
-5. **MCP integration.** ★ If you have Claude Desktop or Claude Code installed, configure PRA as an MCP server using the instructions above. Ask Claude to run a Monte Carlo simulation and report the P95 duration. Then ask a conceptual question about EVM. Describe the experience: did the tool calls work? Was the RAG answer accurate?
+5. **Skill authoring.** ★ Read one of the bundled `SKILL.md` files, then draft a short skill for a project-specific workflow of your own (for example, a standard reserve policy). What guidance would an agent need to apply it correctly?

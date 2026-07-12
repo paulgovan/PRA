@@ -3,6 +3,12 @@
 #' This function calculates the posterior probability of a risk event 'R' occurring
 #' based on observations of multiple root causes and their associated conditional probabilities.
 #'
+#' @details Observed causes are fixed to their conditional probability
+#' (\eqn{P(R \mid C_i)} if present, \eqn{P(R \mid \bar{C}_i)} if absent) while
+#' unobserved causes (\code{NA}) keep their marginal contribution. The causes are
+#' then combined with the same noisy-OR as [risk_prob()], so the posterior is on
+#' the same scale as the prior and observing an aggravating cause raises it.
+#'
 #' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
 #' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
 #' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
@@ -67,26 +73,24 @@ risk_post_prob <- function(cause_probs, risks_given_causes, risks_given_not_caus
     stop("All values in observed_causes must be 0, 1, or NA.")
   }
 
-  # Initialize posterior probability of the risk event
-  numerator <- 1
-  denominator <- 1
-
+  # Contribution of each cause to the risk event. An observed cause is fixed
+  # to its conditional probability P(R | C_i) (present) or P(R | not C_i)
+  # (absent); an unobserved cause (NA) uses its marginal, as in risk_prob().
+  contributions <- numeric(length(cause_probs))
   for (i in seq_along(cause_probs)) {
-    if (!is.na(observed_causes[i])) {
-      if (observed_causes[i] == 1) {
-        numerator <- numerator * risks_given_causes[i] * cause_probs[i]
-        denominator <- denominator * (risks_given_causes[i] * cause_probs[i] +
-          risks_given_not_causes[i] * (1 - cause_probs[i]))
-      } else {
-        numerator <- numerator * risks_given_not_causes[i] * (1 - cause_probs[i])
-        denominator <- denominator * (risks_given_causes[i] * cause_probs[i] +
-          risks_given_not_causes[i] * (1 - cause_probs[i]))
-      }
+    if (is.na(observed_causes[i])) {
+      contributions[i] <- risks_given_causes[i] * cause_probs[i] +
+        risks_given_not_causes[i] * (1 - cause_probs[i])
+    } else if (observed_causes[i] == 1) {
+      contributions[i] <- risks_given_causes[i]
+    } else {
+      contributions[i] <- risks_given_not_causes[i]
     }
   }
 
-  # Return the normalized posterior probability
-  return(numerator / denominator)
+  # Combine via the noisy-OR, on the same scale as risk_prob(), so that
+  # observing an aggravating cause raises the posterior risk probability.
+  return(1 - prod(1 - contributions))
 }
 
 #' Posterior Cost Probability Density.

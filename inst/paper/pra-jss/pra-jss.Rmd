@@ -16,18 +16,16 @@ abstract: >
   risk analysis: the Second Moment Method (SMM), Monte Carlo simulation (MCS),
   earned value management (EVM), contingency and sensitivity analysis,
   Bayesian risk inference and updating, sigmoidal learning curves,
-  and design structure matrices (DSM). Building on prior theoretical work
-  that introduced causal networks and structural network measures for project
-  risk (Govan 2014; Govan and Damnjanovic 2016, 2020), \pkg{PRA} operationalizes
-  these frameworks in a minimal, well-tested \proglang{R} package available on
-  CRAN. Version 0.4.0 further adds an experimental probabilistic network
-  module for forward simulation and Bayesian conditioning along causal chains,
-  and an AI agent layer that exposes all analytical functions as tools callable
-  by large language models via slash commands, natural language queries, and a
-  retrieval-augmented generation knowledge base.
-  The package adheres to rOpenSci Statistical Software Review standards and is
-  supported by a 640-test suite running on continuous integration across
-  macOS, Windows, and Ubuntu.
+  and design structure matrices (DSM). It operationalizes causal-network and
+  structural-network frameworks for project risk in a dependency-light
+  \proglang{R} package available on CRAN. Version 0.5.0 further adds an
+  experimental probabilistic network module for forward simulation and
+  Bayesian conditioning along causal chains, and exposes every analytical
+  function as a tool over the Model Context Protocol (MCP), so that
+  large-language-model agents can run project risk analyses through a
+  documented set of skills. The package adheres to rOpenSci Statistical
+  Software Review standards and is supported by a continuous-integration test
+  suite running across macOS, Windows, and Ubuntu.
 keywords:
   formatted: [project risk analysis, Monte Carlo simulation, earned value management,
               "Bayesian inference", "design structure matrix", "\\proglang{R}"]
@@ -71,13 +69,14 @@ schedule risk, earned value management, Bayesian risk inference, sigmoidal
 learning curves, and dependency structure analysis under a common API.
 The \pkg{mc2d} package \citep{mc2d} provides general-purpose two-dimensional
 Monte Carlo simulation but has no project-specific constructs.
-The \pkg{sensitivity} package implements variance-based indices for general
-functions but does not integrate with schedule or cost models. EVM metrics
-are absent from CRAN entirely. Bayesian packages such as \pkg{rstan} and
-\pkg{brms} operate at a high level of generality and require substantial
-expertise to apply in project risk contexts.
+The \pkg{sensitivity} package \citep{sensitivity} implements variance-based
+indices for general functions but does not integrate with schedule or cost
+models. EVM metrics are absent from CRAN entirely. Bayesian packages such as
+\pkg{rstan} \citep{rstan} and \pkg{brms} \citep{brms} operate at a high level
+of generality and require substantial expertise to apply in project risk
+contexts.
 
-\pkg{PRA} fills this gap. It provides a coherent, CRAN-validated framework
+\pkg{PRA} addresses this gap. It provides a coherent, CRAN-validated framework
 of ten analytical modules covering the full quantitative project risk
 workflow---from uncertainty characterization and simulation to performance
 monitoring and Bayesian updating---while operationalizing the causal and
@@ -88,8 +87,8 @@ standard reporting pipelines. It adheres to rOpenSci Statistical Software
 Review (SRR) standards \citep{rOpenSciStats2021} and uses minimal hard
 dependencies: \pkg{mc2d} \citep{mc2d} for triangular distribution families
 and \pkg{minpack.lm} \citep{Elzhov2016} for nonlinear least squares fitting.
-All other capabilities (AI agent, Shiny app, MCP server) activate through
-optional \code{Suggests}-only dependencies.
+The optional Model Context Protocol (MCP) server activates through
+\code{Suggests}-only dependencies.
 
 The following table summarizes how \pkg{PRA} compares with the most
 closely related \proglang{R} packages and the dominant commercial
@@ -100,7 +99,7 @@ comp <- data.frame(
   Feature = c(
     "MCS schedule risk", "EVM (11 metrics)", "Bayesian updating",
     "Sigmoidal learning curves", "Design structure matrices",
-    "Probabilistic networks", "AI agent layer",
+    "Probabilistic networks", "MCP tool server",
     "Open-source (CRAN)", "SRR-compliant"
   ),
   PRA         = c("Yes","Yes","Yes","Yes","Yes","Exp.","Yes","Yes","Yes"),
@@ -126,9 +125,8 @@ install.packages("PRA")
 library("PRA")
 ```
 
-Optional dependencies for the AI agent layer---\pkg{ellmer}, \pkg{ragnar},
-\pkg{shiny}, \pkg{shinychat}, and \pkg{jsonlite}---are only required for
-\code{pra\_chat()}, \code{pra\_app()}, and \code{pra\_mcp\_server()}.
+Optional dependencies---\pkg{ellmer} \citep{ellmer}, \pkg{mcptools}, and
+\pkg{jsonlite}---are only required for the MCP server, \code{pra\_mcp\_server()}.
 
 The remainder of this article describes each analytical module in turn,
 with working code examples drawn from the same \proglang{R} session.
@@ -138,8 +136,8 @@ earned value management. Section~\ref{sec-bayes} covers Bayesian risk
 inference and updating. Section~\ref{sec-learning} describes sigmoidal
 learning curves. Section~\ref{sec-dsm} covers design structure matrices.
 Section~\ref{sec-network} introduces the experimental probabilistic
-network module. Section~\ref{sec-agent} describes the AI agent framework.
-Section~\ref{sec-casestudy} presents an integrated case study.
+network module. Section~\ref{sec-agent} describes the Model Context Protocol
+integration. Section~\ref{sec-casestudy} presents an integrated case study.
 Section~\ref{sec-summary} concludes.
 
 
@@ -150,6 +148,16 @@ uncertainty: the Second Moment Method for rapid analytical estimates, and
 Monte Carlo simulation for full distributional analysis. Contingency
 extraction and sensitivity analysis complete the workflow.
 
+We illustrate the workflow with \code{building\_project}, a bundled example
+dataset describing a mid-rise commercial building with six work packages,
+adapted from the construction-project examples in \citet{Damnjanovic2020}.
+
+```{r bp-load}
+data("building_project", package = "PRA")
+bp <- building_project
+bp$task_names
+```
+
 ## Second Moment Method
 
 The Second Moment Method (SMM) propagates task-level means and variances to
@@ -157,23 +165,27 @@ project-level estimates using the Central Limit Theorem \citep{Benjamin2000}.
 For a project with $n$ tasks:
 $$E[X] = \sum_{i=1}^{n} E[X_i], \quad
   \text{Var}(X) = \sum_{i=1}^{n}\text{Var}(X_i) + 2\sum_{i<j}\rho_{ij}\sigma_i\sigma_j$$
-The \code{smm()} function takes vectors of task means and variances plus a
-correlation matrix and returns the total mean, variance, and standard deviation.
+The six task durations are triangular, so we obtain their means and variances
+in closed form and propagate them with \code{smm()}:
 
 ```{r smm-example}
-task_means <- c(10, 15, 20)   # weeks
-task_vars  <- c(4,  9,  16)
-cor_mat <- matrix(c(
-  1.0, 0.5, 0.3,
-  0.5, 1.0, 0.4,
-  0.3, 0.4, 1.0
-), nrow = 3, byrow = TRUE)
+tri_mean <- function(d) (d$a + d$b + d$c) / 3
+tri_var  <- function(d) (d$a^2 + d$b^2 + d$c^2 -
+                         d$a * d$b - d$a * d$c - d$b * d$c) / 18
+task_means <- vapply(bp$task_distributions, tri_mean, numeric(1))
+task_vars  <- vapply(bp$task_distributions, tri_var,  numeric(1))
 
-result <- smm(task_means, task_vars, cor_mat)
+result <- smm(task_means, task_vars)   # independent tasks
 cat("Total mean:", round(result$total_mean, 2), "weeks\n")
 cat("Total SD:  ", round(result$total_std,  2), "weeks\n")
-ci <- result$total_mean + c(-1, 1) * 1.96 * result$total_std
-cat("95% CI:    [", round(ci[1], 1), ",", round(ci[2], 1), "] weeks\n")
+```
+
+Positive correlation between tasks inflates the total variance; \code{smm()}
+accepts a correlation matrix and adds the covariance terms analytically:
+
+```{r smm-cor}
+result_cor <- smm(task_means, task_vars, bp$cor_mat)
+cat("Total SD (correlated):", round(result_cor$total_std, 2), "weeks\n")
 ```
 
 SMM is useful when only first and second moments are available and a rapid
@@ -184,20 +196,13 @@ behavior is required, Monte Carlo simulation is preferred.
 
 \code{mcs()} propagates uncertainty through a project network by drawing
 samples from user-specified task distributions---triangular, normal, or
-uniform---over a large number of iterations \citep{Vose2008}. Task correlations
-are incorporated via Cholesky decomposition of the supplied correlation matrix.
-
-```{r mcs-setup}
-num_simulations   <- 10000
-task_distributions <- list(
-  list(type = "normal",     mean = 10, sd = 2),
-  list(type = "triangular", a = 5, b = 10, c = 15),
-  list(type = "uniform",    min = 8, max = 12)
-)
-```
+uniform---over a large number of iterations \citep{Vose2008}. By default the
+tasks are sampled independently; an optional correlation matrix is supported,
+though its current handling is approximate (Section~\ref{sec-summary}).
 
 ```{r mcs-run}
-results <- mcs(num_simulations, task_distributions, cor_mat)
+set.seed(42)
+results <- mcs(10000, bp$task_distributions)
 cat("Simulated mean:", round(results$total_mean, 2), "weeks\n")
 cat("Simulated SD:  ", round(results$total_sd,   2), "weeks\n")
 ```
@@ -205,10 +210,24 @@ cat("Simulated SD:  ", round(results$total_sd,   2), "weeks\n")
 The \code{mcs()} function returns an S3 object of class \code{"mcs"} with
 a \code{print()} method that summarizes percentiles. The full simulated
 distribution is available in \code{results\$total\_distribution}.
-On a modern laptop, 10,000 simulations of a 10-task network complete in
-under one second; increasing \code{num\_simulations} to 100,000 provides
-more precise tail estimates at roughly ten-fold additional runtime.
-The default of 10,000 balances accuracy and speed for most practical analyses.
+On a modern laptop, 10,000 simulations of a six-task network complete in
+under one second; increasing the count to 100,000 provides more precise tail
+estimates at roughly ten-fold additional runtime. The default of 10,000
+balances accuracy and speed for most practical analyses.
+
+### Numerical Validation
+
+For independent tasks, the Central Limit Theorem makes the SMM estimates the
+exact moments of the total, so the Monte Carlo simulation should reproduce
+them. The two agree to within Monte Carlo error, validating the sampling
+engine:
+
+```{r validation}
+cat(sprintf("Mean:  SMM %.2f  vs  MCS %.2f\n",
+            result$total_mean, results$total_mean))
+cat(sprintf("SD:    SMM %.2f  vs  MCS %.2f\n",
+            result$total_std,  results$total_sd))
+```
 
 ```{r mcs-hist, fig.cap="Distribution of simulated total project durations. The dashed vertical line marks the mean."}
 hist(results$total_distribution,
@@ -237,7 +256,8 @@ cat("Schedule contingency (P80 - P50):", round(reserve, 2), "weeks\n")
 using rank correlation, producing the inputs for a Tornado chart.
 
 ```{r sensitivity, fig.cap="Tornado chart: each bar shows a task's rank correlation with total project duration."}
-sens <- sensitivity(task_distributions, cor_mat)
+sens <- sensitivity(bp$task_distributions)
+names(sens) <- paste0("T", seq_along(sens))
 barplot(sort(sens),
   horiz = TRUE, col = "steelblue",
   main = "Sensitivity: Task Contributions",
@@ -320,35 +340,39 @@ observations become available \citep{Gelman2013,Pearl2009}.
 
 ## Prior Risk Probability
 
-\code{risk\_prob()} computes the marginal probability of a risk event $R$
-from multiple independent root causes using the total probability theorem:
-$$P(R) = \sum_{i} P(R \mid C_i)\,P(C_i) + P(R \mid \bar{C}_i)\,P(\bar{C}_i)$$
+\code{risk\_prob()} computes the probability of a risk event $R$ from multiple
+independent root causes. Each cause contributes a marginal probability by the
+law of total probability, and the causes are combined with a noisy-OR---the
+probability that at least one cause triggers $R$---so the result always lies in
+$[0,1]$:
+$$P(R) = 1 - \prod_{i}\Bigl[1 - \bigl(P(R \mid C_i)\,P(C_i)
+  + P(R \mid \bar{C}_i)\,P(\bar{C}_i)\bigr)\Bigr]$$
+For the \code{building\_project} schedule-delay risk with two root causes
+(adverse weather and late design changes):
 
 ```{r prior-risk}
-cause_probs            <- c(0.30, 0.20)
-risks_given_causes     <- c(0.80, 0.60)
-risks_given_not_causes <- c(0.20, 0.40)
-
-prior <- risk_prob(cause_probs, risks_given_causes, risks_given_not_causes)
-cat("Prior P(R):", round(prior, 3), "\n")
+prior <- risk_prob(bp$cause_probs, bp$risks_given_causes,
+                   bp$risks_given_not_causes)
+cat("Prior P(delay):", round(prior, 3), "\n")
 ```
 
 ## Bayesian Updating
 
 \code{risk\_post\_prob()} updates the risk probability after observing cause
-status on site. Unobserved causes are passed as \code{NA} and are excluded
-from the update.
+status on site. An observed cause is fixed to its conditional probability;
+unobserved causes are passed as \code{NA} and retain their prior (marginal)
+contribution.
 
 ```{r posterior-risk}
-observed_causes <- c(1, NA)  # Cause 1 present; Cause 2 not yet assessed
-post <- risk_post_prob(cause_probs, risks_given_causes,
-                       risks_given_not_causes, observed_causes)
-cat("Posterior P(R):", round(post, 3), "\n")
-cat("Change:        ", round(post - prior, 3), "\n")
+# Weather observed to have occurred; design changes not yet assessed
+post <- risk_post_prob(bp$cause_probs, bp$risks_given_causes,
+                       bp$risks_given_not_causes, bp$observed_causes)
+cat("Posterior P(delay):", round(post, 3), "\n")
+cat("Change:            ", round(post - prior, 3), "\n")
 ```
 
-Observing Cause~1 (which has a strong link to $R$) raises the risk probability
-substantially. The posterior informs contingency updates mid-project.
+Confirming that adverse weather has occurred raises the delay probability
+relative to the prior. The posterior informs contingency updates mid-project.
 
 ## Cost Risk Distributions
 
@@ -581,47 +605,14 @@ conditions without altering the graph. The probabilistic network API
 is marked experimental and may evolve in future releases.
 
 
-# AI Agent Framework {#sec-agent}
+# Model Context Protocol Integration {#sec-agent}
 
-Version 0.4.0 of \pkg{PRA} includes an optional AI agent layer that wraps
-all analytical functions as tools callable by large language models. Three
-interaction modes are supported, summarized below.
-
-```{r routing-table, echo=FALSE}
-routing <- data.frame(
-  `Input type`   = c("\\code{/command} syntax", "Numerical data",
-                     "Conceptual question"),
-  Route          = c("Deterministic (no LLM)", "LLM tool call",
-                     "RAG knowledge base"),
-  Example        = c("\\code{/mcs n=10000 tasks=[\\ldots]}",
-                     "\"Simulate 3 tasks: Normal(10,2)\\ldots\"",
-                     "\"What is earned value?\""),
-  check.names    = FALSE
-)
-knitr::kable(
-  routing,
-  caption = "Agent routing modes in \\pkg{PRA}.",
-  booktabs = TRUE, escape = FALSE
-)
-```
-
-\begin{enumerate}
-  \item \textbf{Slash commands} (\code{/mcs}, \code{/evm}, \code{/risk}, etc.)
-    for deterministic, LLM-free execution via \code{PRA:::execute\_command()}.
-  \item \textbf{Natural language} through \code{pra\_chat()}, which connects
-    to a local Ollama model (default: \code{llama3.2}) and uses
-    \pkg{ellmer} \citep{ellmer} tool-calling to route queries to the
-    appropriate analytical function.
-  \item \textbf{Retrieval-augmented generation (RAG)} via \pkg{ragnar}
-    \citep{ragnar}: conceptual questions are answered from a bundled domain
-    knowledge base with hybrid BM25 + vector search and source attribution.
-\end{enumerate}
-
-An interactive Shiny application (\code{pra\_app()}) integrates all three
-modes with a chat interface, data upload, and inline plots.
-\code{pra\_mcp\_server()} exposes all tools via the Model Context Protocol
-\citep{MCP2024}, enabling integration with Claude, Claude Code, and other
-MCP-compatible clients. The server is registered in Claude Code with a
+Version 0.5.0 of \pkg{PRA} exposes all analytical functions as tools callable
+by large-language-model (LLM) agents through the Model Context Protocol (MCP)
+\citep{MCP2024}. \code{pra\_mcp\_server()} starts a server that advertises each
+tool---Monte Carlo simulation, EVM, Bayesian risk, learning curves, DSM, and
+the rest---so that Claude, Claude Code, and other MCP-compatible clients can
+invoke them as native tools. The server is registered in Claude Code with a
 single shell command:
 
 ```{r mcp-code, eval=FALSE, engine="bash"}
@@ -639,95 +630,76 @@ For Claude Desktop, add the following block to the MCP configuration file:
 }
 \end{verbatim}
 
-The bundled knowledge base covers all core methods. Analysts can extend it
-with project-specific documents using \code{build\_knowledge\_base()} and
-\code{add\_documents()}:
+The tool definitions are built once with \code{ellmer::tool()} \citep{ellmer}
+and served by \pkg{mcptools}. Each tool validates its JSON inputs and returns a
+plain-text summary for the LLM together with, where applicable, a rich HTML
+result with inline plots for clients that render it.
 
-```{r rag-extend, eval=FALSE}
-store <- build_knowledge_base()
-add_documents(store, "path/to/risk_register.md")
-add_documents(store, "path/to/project_docs/")
-```
+To help an agent decide \emph{when} and \emph{how} to call each tool,
+\pkg{PRA} bundles a set of Agent Skills under
+\code{system.file("skills", package = "PRA")}. Each skill is a \code{SKILL.md}
+file with structured guidance---when to use the method, which tool to call, the
+JSON argument format, and how to interpret the result---covering Monte Carlo
+simulation, sensitivity and contingency, EVM, Bayesian risk, learning curves,
+and dependency structure analysis, plus a routing overview. Pairing the skills
+with the MCP server lets an agent carry out a complete project risk workflow
+(for example, \code{mcs\_tool} followed by \code{contingency\_tool} and
+\code{sensitivity\_tool}) from a natural-language request, without embedding an
+LLM in the package itself.
 
-The AI layer is strictly optional: all 36 exported analytical functions
-operate without any AI dependency. Tool definitions built with
-\code{ellmer::tool()} are reused identically for both the chat interface and
-the MCP server, eliminating duplication. A preliminary evaluation of 25
-scenarios across single-tool, multi-tool, and open-ended query tiers
-yielded 72.0\% overall accuracy (87.5\% single-tool, 55.6\% multi-tool,
-75.0\% open-ended), with the RAG layer providing the largest accuracy gain
-on open-ended conceptual queries. A full empirical evaluation is the subject
-of a forthcoming publication in \emph{Risk Analysis}.
+The MCP layer is strictly optional: every analytical function operates without
+any optional dependency. Only \code{pra\_mcp\_server()} requires \pkg{ellmer},
+\pkg{mcptools}, and \pkg{jsonlite}.
 
 
 # Illustrative Case Study {#sec-casestudy}
 
 This section demonstrates an integrated, end-to-end project risk analysis
-for a three-task construction project, progressing through uncertainty
+for the \code{building\_project} dataset introduced in
+Section~\ref{sec-uncertainty}, progressing through uncertainty
 quantification, performance monitoring, Bayesian risk updating, and
 dependency structure analysis in a single \proglang{R} session.
 
 ## Step 1: Characterize Task Uncertainty
 
 ```{r cs-mcs}
-tasks <- list(
-  list(type = "triangular", a = 8,  b = 12, c = 18),   # earthworks
-  list(type = "normal",     mean = 20, sd = 3),          # structural frame
-  list(type = "triangular", a = 5,  b = 8,  c = 12)    # MEP
-)
-C_proj <- matrix(c(1, 0.4, 0.2,
-                   0.4, 1, 0.3,
-                   0.2, 0.3, 1), nrow = 3, byrow = TRUE)
-
-sim <- mcs(10000, tasks, C_proj)
+bp <- building_project
+set.seed(42)
+sim <- mcs(10000, bp$task_distributions)
 res <- contingency(sim, phigh = 0.80, pbase = 0.50)
-cat("P50 schedule:", round(sim$percentiles["50%"], 1), "weeks\n")
-cat("P80 schedule:", round(sim$percentiles["80%"], 1), "weeks\n")
+cat("P50 schedule:", round(quantile(sim$total_distribution, 0.50), 1), "weeks\n")
+cat("P80 schedule:", round(quantile(sim$total_distribution, 0.80), 1), "weeks\n")
 cat("Contingency (P80-P50):", round(res, 2), "weeks\n")
 ```
 
 ## Step 2: Monitor Earned Value at Mid-Project
 
 ```{r cs-evm}
-bac_cs   <- 1200000
-sched_cs <- c(0.15, 0.35, 0.60, 0.85, 1.00)
-pv_cs    <- pv(bac_cs, sched_cs, time_period = 3)
-ev_cs    <- ev(bac_cs, actual_per_complete = 0.50)
-ac_cs    <- ac(c(180000, 250000, 310000), time_period = 3, cumulative = FALSE)
+pv_cs <- pv(bp$bac, bp$schedule, bp$time_period)
+ev_cs <- ev(bp$bac, bp$actual_per_complete)
+ac_cs <- ac(bp$actual_costs, bp$time_period, cumulative = FALSE)
 
 cat("SPI:", round(spi(ev_cs, pv_cs), 3),
     " CPI:", round(cpi(ev_cs, ac_cs), 3), "\n")
-cat("EAC (typical): $", format(round(eac(bac_cs,
+cat("EAC (typical): $", format(round(eac(bp$bac,
     method = "typical", cpi = cpi(ev_cs, ac_cs))), big.mark = ","), "\n")
 ```
 
 ## Step 3: Update Risk Probability After Site Inspection
 
 ```{r cs-bayes}
-prior_r <- risk_prob(c(0.25, 0.15), c(0.70, 0.50), c(0.15, 0.30))
-post_r  <- risk_post_prob(c(0.25, 0.15), c(0.70, 0.50),
-                          c(0.15, 0.30), observed_causes = c(1, NA))
-cat("Prior P(R):", round(prior_r, 3),
-    "-> Posterior P(R):", round(post_r, 3), "\n")
+prior_r <- risk_prob(bp$cause_probs, bp$risks_given_causes,
+                     bp$risks_given_not_causes)
+post_r  <- risk_post_prob(bp$cause_probs, bp$risks_given_causes,
+                          bp$risks_given_not_causes, bp$observed_causes)
+cat("Prior P(delay):", round(prior_r, 3),
+    "-> Posterior P(delay):", round(post_r, 3), "\n")
 ```
 
 ## Step 4: Identify Coupled Tasks via DSM
 
-```{r cs-dsm, fig.cap="Grandparent DSM for the case-study project. Task pairs T3--T5 share the most risk exposure through common resources."}
-S_cs <- matrix(c(
-  1, 1, 0, 0,
-  0, 1, 1, 0,
-  1, 0, 0, 1,
-  0, 0, 1, 1,
-  0, 1, 0, 1
-), nrow = 4, ncol = 5)
-R_cs <- matrix(c(
-  1, 0, 1,
-  0, 1, 0,
-  1, 1, 0,
-  0, 0, 1
-), nrow = 3, ncol = 4)
-g_cs <- grandparent_dsm(S_cs, R_cs)
+```{r cs-dsm, fig.cap="Grandparent DSM for the case-study project, showing which task pairs share the most risk exposure through common resources."}
+g_cs <- grandparent_dsm(bp$resource_task, bp$risk_resource)
 plot(g_cs)
 ```
 
@@ -749,10 +721,10 @@ construction, and design structure matrices. An experimental eleventh
 module provides probabilistic networks with forward simulation and
 Bayesian conditioning.
 
-Version 0.4.0 adds an AI agent layer that exposes all functions as tools
-callable via slash commands, natural language, and RAG-powered queries
-through a local Shiny application and an MCP server. All 36 exported
-functions adhere to rOpenSci SRR standards, with 640+ tests verifying
+Version 0.5.0 exposes every analytical function as a tool over the Model
+Context Protocol, complemented by a bundled set of Agent Skills, so that
+LLM agents can drive the package without any embedded model. All exported
+functions adhere to rOpenSci SRR standards, with a test suite verifying
 correctness, edge-case handling, and numerical stability across three
 operating systems. The package is licensed under MIT and the source is
 available at \url{https://github.com/paulgovan/PRA}; documentation and
@@ -763,19 +735,28 @@ a companion online book are at \url{https://paulgovan.github.io/PRA/}.
 Several limitations apply. First, \pkg{PRA} focuses on quantitative
 uncertainty propagation; it does not model schedule logic (critical path,
 activity dependencies, or resource leveling), which remain the domain of
-dedicated scheduling engines. Second, the probabilistic network module is
-experimental: the API may change and no convergence diagnostics are
-provided for the Monte Carlo estimators. Third, AI agent accuracy (72.0\%
-on 25 scenarios) is preliminary; the evaluation set is small and the
-routing heuristics have not been stress-tested on large or ambiguous inputs.
-Fourth, the package currently accepts data as \proglang{R} vectors and lists;
-direct import from project management file formats (Microsoft Project,
-Primavera P6, CSV exports from Jira or Asana) is not supported and is
-planned for a future release.
+dedicated scheduling engines. Second, \code{mcs()} induces task correlation by
+applying a Cholesky factor to the sampled values, which reproduces the target
+rank correlation but distorts the marginal means; the examples in this article
+therefore treat tasks as independent for Monte Carlo simulation and use
+\code{smm()}, which handles correlation analytically, when correlation matters.
+A copula-based implementation that preserves the marginals is planned. Third,
+the probabilistic network module is experimental: the API may change and no
+convergence diagnostics are provided for the Monte Carlo estimators. Fourth,
+the package currently accepts data as \proglang{R} vectors and lists; direct
+import from project management file formats (Microsoft Project, Primavera P6,
+CSV exports from Jira or Asana) is not supported and is planned for a future
+release.
 
-A forthcoming companion article in \emph{Risk Analysis} presents a full
-empirical evaluation of the AI agent framework, including a 25-scenario
-benchmark, RAG retrieval quality analysis, and a comparison to purely
-LLM-based assistants.
+# Computational details {-}
+
+The results in this article were produced using \proglang{R} \citep{RCore}
+with the \pkg{PRA} package (version 0.5.0) and its hard dependencies
+\pkg{mc2d} \citep{mc2d} and \pkg{minpack.lm} \citep{Elzhov2016}. The optional
+Model Context Protocol server additionally uses \pkg{ellmer} \citep{ellmer},
+\pkg{mcptools}, and \pkg{jsonlite}. \proglang{R} itself and all packages used
+are available from the Comprehensive \proglang{R} Archive Network (CRAN) at
+\url{https://CRAN.R-project.org/}. A random seed of 42 is set at the start of
+the session so that the simulation output is reproducible.
 
 # References {-}

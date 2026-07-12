@@ -27,6 +27,13 @@ A numeric value for the posterior probability of the risk event given the observ
 This function calculates the posterior probability of a risk event 'R' occurring
 based on observations of multiple root causes and their associated conditional probabilities.
 }
+\details{
+Observed causes are fixed to their conditional probability
+(\eqn{P(R \mid C_i)} if present, \eqn{P(R \mid \bar{C}_i)} if absent) while
+unobserved causes (\code{NA}) keep their marginal contribution. The causes are
+then combined with the same noisy-OR as \code{\link[=risk_prob]{risk_prob()}}, so the posterior is on
+the same scale as the prior and observing an aggravating cause raises it.
+}
 \examples{
 cause_probs <- c(0.3, 0.2)
 risks_given_causes <- c(0.8, 0.6)

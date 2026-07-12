@@ -53,7 +53,7 @@ Then load it at the start of any session:
 library(PRA)
 ```
 
-Some chapters (especially the network chapters) use additional packages like `igraph` and `networkD3`, and the agentic chapter requires Ollama for local AI models. Prerequisites are listed at the top of each chapter.
+Some chapters (especially the network chapters) use additional packages like `igraph` and `networkD3`, and the agentic chapter uses `ellmer`, `mcptools`, and `jsonlite` for the MCP server. Prerequisites are listed at the top of each chapter.
 
 ## A Note on Tone
 

@@ -3,6 +3,13 @@
 #' This function calculates the overall probability of a risk event 'R' occurring
 #' based on the probabilities of multiple root causes and their associated conditional probabilities.
 #'
+#' @details Each cause contributes a marginal probability
+#' \eqn{P(R \mid C_i) P(C_i) + P(R \mid \bar{C}_i) P(\bar{C}_i)} via the law of
+#' total probability. Independent causes are combined with a noisy-OR --- the
+#' probability that the risk event is triggered by at least one cause --- so the
+#' result always lies in \eqn{[0, 1]} and reduces to the single-cause marginal
+#' when there is one cause.
+#'
 #' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
 #' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
 #' @srrstats {G1.4} *Software uses [`roxygen2`](https://roxygen2.r-lib.org/) to document all functions.*
@@ -53,14 +60,15 @@ risk_prob <- function(cause_probs, risks_given_causes, risks_given_not_causes) {
     stop("All values in risks_given_not_causes must be between 0 and 1.")
   }
 
-  # Calculate P(R) using the law of total probability
-  total_risk_prob <- 0
-  for (i in seq_along(cause_probs)) {
-    not_cause_prob <- 1 - cause_probs[i]
-    total_risk_prob <- total_risk_prob +
-      (risks_given_causes[i] * cause_probs[i]) +
-      (risks_given_not_causes[i] * not_cause_prob)
-  }
+  # Marginal probability that each independent cause triggers the risk event,
+  # via the law of total probability: P(R | C_i) P(C_i) + P(R | not C_i) P(not C_i).
+  marginals <- risks_given_causes * cause_probs +
+    risks_given_not_causes * (1 - cause_probs)
+
+  # Combine independent causes with a noisy-OR: the probability that the risk
+  # event is triggered by at least one cause. This reduces to the single-cause
+  # marginal when there is one cause and always lies in [0, 1].
+  total_risk_prob <- 1 - prod(1 - marginals)
 
   return(total_risk_prob)
 }

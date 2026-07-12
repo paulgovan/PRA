@@ -26,7 +26,11 @@ shared between each pair of tasks in a project.
 }
 \examples{
 # Set the S matrix for a toy project (3 resources x 4 tasks).
-s <- matrix(c(1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1), nrow = 3, ncol = 4)
+s <- matrix(c(1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1), nrow = 3, ncol = 4,
+            dimnames = list(
+              c("Resource-1", "Resource-2", "Resource-3"),
+              c("Task-1", "Task-2", "Task-3", "Task-4")
+            ))
 cat("Resource-Task Matrix:\n")
 print(s)
 
