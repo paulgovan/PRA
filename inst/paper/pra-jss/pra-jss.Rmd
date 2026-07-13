@@ -3,9 +3,9 @@ documentclass: jss
 author:
   - name: Paul Govan
     orcid: 0000-0002-1821-8492
-    affiliation: Independent Researcher
+    affiliation: GE Aerospace
     email: \email{paul.govan2@gmail.com}
-    url: https://paulgovan.github.io/PRA/
+    url: paulgovan.com
 title:
   formatted: "\\pkg{PRA}: Quantitative Project Risk Analysis in \\proglang{R}"
   plain:     "PRA: Quantitative Project Risk Analysis in R"
