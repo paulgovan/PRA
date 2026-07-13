@@ -17,8 +17,9 @@ provided, tasks are assumed to be independent.}
 }
 \value{
 The function returns a vector of sensitivity results with respect to
-each task. Each element in the vector corresponds to the sensitivity of the variance
-in total project cost with respect to the variance in the respective task's cost.
+each task. Each element is that task's contribution (own variance plus its
+covariance with all other tasks) to total project variance, expressed as a
+proportion of total variance.
 }
 \description{
 This function performs sensitivity analysis on a project with multiple tasks,

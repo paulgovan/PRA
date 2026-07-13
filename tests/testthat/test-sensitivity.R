@@ -24,12 +24,12 @@ test_that("sensitivity function calculates correctly for normal distributions", 
   expect_true(is.numeric(result))
   expect_length(result, 2)
 
-  # Expected variances
+  # Expected variances and total (independent tasks: cov_matrix is diagonal)
   expected_variances <- sapply(normal_dists, function(dist) dist$sd^2)
-  expected_sensitivity <- 1 + 2 * 0 # Since there is no correlation matrix provided
+  total_variance <- sum(expected_variances)
 
-  expect_equal(result[1], expected_sensitivity)
-  expect_equal(result[2], expected_sensitivity)
+  expect_equal(result[1], unname(expected_variances[1] / total_variance))
+  expect_equal(result[2], unname(expected_variances[2] / total_variance))
 })
 
 test_that("sensitivity function calculates correctly for triangular distributions", {
@@ -166,8 +166,9 @@ test_that("sensitivity recovers known values for independent tasks", {
 
   result <- sensitivity(task_dists)
 
-  # For independent tasks, sensitivity should be 1.0 for all tasks
-  expect_equal(result, c(1, 1), tolerance = 1e-10)
+  # For independent tasks, sensitivity is each task's variance divided by
+  # total variance (proportion of variance attributable to that task).
+  expect_equal(result, c(4 / 13, 9 / 13), tolerance = 1e-10)
 })
 
 # ============================================================================

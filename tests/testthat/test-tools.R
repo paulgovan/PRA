@@ -358,23 +358,32 @@ test_that("risk_post_prob_tool with all causes observed", {
   expect_true(grepl("Did not occur", text))
 })
 
-test_that("sensitivity_tool returns 1.0 for independent tasks", {
+test_that("sensitivity_tool returns variance-proportional values for independent tasks", {
   skip_if_not_installed("jsonlite")
-  # For independent tasks, sensitivity = 1 for all tasks
+  # For independent tasks, sensitivity[i] = task_variances[i] / total_variance
   task_json <- '[{"type":"normal","mean":10,"sd":2},{"type":"triangular","a":5,"b":15,"c":10},{"type":"uniform","min":8,"max":12}]'
   result <- PRA:::sensitivity_tool(task_json)
   text <- tool_text(result)
   expect_true(grepl("Task 1", text))
   expect_true(grepl("Task 2", text))
   expect_true(grepl("Task 3", text))
-  # All sensitivities should be 1.0 for independent tasks
-  # Extract the numeric values — each "1" or "1.0000" after task names
+
+  expected_variances <- c(
+    2^2,
+    (5^2 + 15^2 + 10^2 - 5 * 15 - 5 * 10 - 15 * 10) / 18,
+    (12 - 8)^2 / 12
+  )
+  expected <- expected_variances / sum(expected_variances)
+
+  # Extract the numeric values after each task name
   lines <- strsplit(text, "\n")[[1]]
   task_lines <- lines[grepl("Task [0-9]", lines)]
-  for (line in task_lines) {
-    val <- as.numeric(trimws(sub(".*Task [0-9]+\\s+", "", line)))
-    expect_equal(val, 1.0, tolerance = 0.001)
-  }
+  vals <- vapply(task_lines, function(line) {
+    as.numeric(trimws(sub(".*Task [0-9]+\\s+", "", line)))
+  }, numeric(1), USE.NAMES = FALSE)
+  expect_equal(vals, expected, tolerance = 0.001)
+  # Sanity check: sensitivities sum to 1 for independent tasks
+  expect_equal(sum(vals), 1, tolerance = 0.001)
 })
 
 test_that("parent_dsm_tool computes correct S * t(S)", {

@@ -14,6 +14,13 @@
   multiple independent causes with a noisy-OR, so the result always lies in
   `[0, 1]`, the posterior is on the same scale as the prior, and observing an
   aggravating cause raises the posterior. Single-cause results are unchanged.
+- **Sensitivity analysis (breaking):** `sensitivity()` no longer returns a
+  constant value for every task when no correlation matrix is supplied. Each
+  task's index is now that task's own variance plus its covariance with all
+  other tasks, expressed as a proportion of total project variance —
+  differentiating tasks by actual contribution and summing to 1 across all
+  tasks. Previously, independent-task results were always 1.0 regardless of
+  variance, which was a bug.
 - Added the `building_project` example dataset: a mid-rise commercial building
   used to demonstrate the full workflow (MCS, SMM, EVM, Bayesian risk, DSM).
 - Documented a known limitation of `mcs()` correlation handling (distorts

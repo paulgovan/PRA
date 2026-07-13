@@ -26,8 +26,9 @@
 #' should be a square matrix with dimensions equal to the number of tasks. If not
 #' provided, tasks are assumed to be independent.
 #' @return The function returns a vector of sensitivity results with respect to
-#' each task. Each element in the vector corresponds to the sensitivity of the variance
-#' in total project cost with respect to the variance in the respective task's cost.
+#' each task. Each element is that task's contribution (own variance plus its
+#' covariance with all other tasks) to total project variance, expressed as a
+#' proportion of total variance.
 #' @references
 #' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
 #' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
@@ -134,9 +135,10 @@ sensitivity <- function(task_dists, cor_mat = NULL) {
   # Initialize sensitivity vector
   sensitivity <- numeric(num_tasks)
 
-  # Calculate the sensitivity of the total variance with respect to each task's variance
+  # Calculate each task's contribution to total variance (own variance plus
+  # its covariance with every other task), as a proportion of total variance.
   for (i in seq_len(num_tasks)) {
-    sensitivity[i] <- 1 + 2 * sum(cov_matrix[i, -i] / sqrt(task_variances[i] * task_variances[-i]))
+    sensitivity[i] <- (task_variances[i] + sum(cov_matrix[i, -i])) / total_variance
   }
 
   # Return the sensitivity vector
