@@ -35,8 +35,8 @@ A list with:
 }
 }
 \description{
-\strong{Experimental.} This function is part of the experimental probabilistic
-network module and the API may change in future versions.
+This function is part of the probabilistic network module, whose API may
+still evolve in future versions.
 }
 \details{
 This function creates a probabilistic network graph representation of project risks

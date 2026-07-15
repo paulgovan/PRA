@@ -43,7 +43,9 @@ test_that("mcs function handles correlation matrix correctly", {
     list(type = "normal", mean = 20, sd = 3)
   )
   cor_mat <- matrix(c(1, 0.8, 0.8, 1), nrow = 2)
-  result <- mcs(1000, normal_dist, cor_mat)
+  # Supplying a correlation matrix warns about marginal-mean distortion
+  expect_warning(result <- mcs(1000, normal_dist, cor_mat),
+                 "distorts the marginal task means")
   expect_true(is.list(result))
 })
 
@@ -275,7 +277,7 @@ test_that("mcs with high correlation produces higher variance", {
   # High correlation (0.99 instead of 1.0 to avoid singularity)
   cor_mat <- matrix(c(1, 0.99, 0.99, 1), nrow = 2)
 
-  result <- mcs(num_sims, task_dists, cor_mat)
+  result <- suppressWarnings(mcs(num_sims, task_dists, cor_mat))
 
   # With high correlation, variance should be larger than independent case
   # Var(X + Y) = Var(X) + Var(Y) + 2*Cov(X,Y)

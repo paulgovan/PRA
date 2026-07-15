@@ -713,7 +713,8 @@ test_that("mcs_tool with correlation matrix produces valid results", {
   set.seed(42)
   task_json <- '[{"type":"normal","mean":10,"sd":2},{"type":"normal","mean":12,"sd":3}]'
   cor_json <- "[[1,0.5],[0.5,1]]"
-  result <- PRA:::mcs_tool(10000, task_json, cor_json)
+  # mcs() warns that Cholesky-induced correlation distorts marginal means
+  suppressWarnings(result <- PRA:::mcs_tool(10000, task_json, cor_json))
   text <- tool_text(result)
   expect_true(grepl("Monte Carlo Simulation", text))
 

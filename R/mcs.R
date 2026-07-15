@@ -135,6 +135,12 @@ mcs <- function(num_sims, task_dists, cor_mat = NULL) {
     if (any(is.infinite(cor_mat))) {
       stop("cor_mat must not contain infinite values")
     }
+    warning(paste(
+      "Correlation is induced by applying a Cholesky factor to the sampled",
+      "task values, which reproduces the target correlation but distorts the",
+      "marginal task means. For correlation-sensitive analyses prefer smm(),",
+      "which handles correlation analytically."
+    ), call. = FALSE)
     cholesky_decomp <- chol(cor_mat)
     correlated_samples <- uncorrelated_samples %*% cholesky_decomp
   } else {

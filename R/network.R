@@ -1,7 +1,7 @@
 #' Probabilistic Network of Project Risks.
 #'
-#' **Experimental.** This function is part of the experimental probabilistic
-#' network module and the API may change in future versions.
+#' This function is part of the probabilistic network module, whose API may
+#' still evolve in future versions.
 #'
 #' This function creates a probabilistic network graph representation of project risks
 #' that supports discrete and continuous probability distributions.
@@ -125,8 +125,8 @@ prob_net <- function(nodes, links, distributions = NULL) {
 
 #' Perform Inference on a Probabilistic Network of Project Risks.
 #'
-#' **Experimental.** This function is part of the experimental probabilistic
-#' network module and the API may change in future versions.
+#' This function is part of the probabilistic network module, whose API may
+#' still evolve in future versions.
 #'
 #' This function performs inference on a probabilistic network of project risks by simulating random samples
 #' from the distribution of each node. The function supports normal, uniform, lognormal, discrete, conditional distributions,
@@ -244,8 +244,8 @@ prob_net_sim <- function(network, num_samples = 1000) {
 
 #' Perform Bayesian Learning on a Probabilistic Network of Project Risks.
 #'
-#' **Experimental.** This function is part of the experimental probabilistic
-#' network module and the API may change in future versions.
+#' This function is part of the probabilistic network module, whose API may
+#' still evolve in future versions.
 #'
 #' This function updates a probabilistic network of project risks with observed values for certain nodes
 #' and then performs inference to generate posterior distributions for unobserved nodes.
@@ -259,13 +259,21 @@ prob_net_sim <- function(network, num_samples = 1000) {
 #' @return A data frame with `num_samples` rows and one column per node containing the simulated posterior samples.
 #'
 #' @details
-#' Normal nodes are sampled from a normal distribution using the specified mean and sd.
-#' Uniform nodes are sampled from a uniform distribution between the specified min and max values.
-#' Lognormal nodes are sampled from a lognormal distribution with specified meanlog and sdlog.
-#' Conditional nodes depend on a discrete conditional node; if the condition is TRUE (value = 1), the node follows
-#' the `true_dist`, otherwise it follows the `false_dist` (value = 0). Conditional distributions can be normal, lognormal, uniform, or discrete.
-#' Discrete nodes are sampled using `sample()`, and aggregate nodes are computed as the sum of values from the specified nodes.
-#' Observed nodes are fixed at their given values.
+#' Conditioning is performed by rejection sampling: the network is simulated
+#' forward from its priors (as in [prob_net_sim()]) and only the draws whose
+#' observed nodes equal the supplied values are retained, repeating until
+#' `num_samples` matching draws are collected. Because whole joint draws are
+#' filtered, evidence propagates to *upstream* (parent and confounding) nodes as
+#' well as downstream ones. This distinguishes observational conditioning
+#' ("seeing", the sense of \[Pearl 2009\]) from intervention ("doing"): only
+#' when the observed node is a root cause with no shared ancestry do
+#' `prob_net_learn()` and [prob_net_update()] induce the same distribution.
+#'
+#' Because matches are exact, observations are supported on discrete (or
+#' discrete-conditional) nodes; observing a continuous node has probability zero
+#' of an exact match and will raise an error. Nodes not listed in
+#' `observations` retain their model distributions. If `observations` is empty
+#' the result is a plain forward simulation.
 #'
 #' @examples
 #' # Define nodes
@@ -313,63 +321,59 @@ prob_net_learn <- function(network, observations = list(), num_samples = 1000) {
   nodes <- network$nodes
   distributions <- network$distributions
 
-  samples <- list()
-
-  # Helper function to sample from any supported distribution
-  sample_from_dist <- function(dist, n) {
-    if (dist$type == "normal") {
-      return(rnorm(n, mean = dist$mean, sd = dist$sd))
-    } else if (dist$type == "uniform") {
-      return(runif(n, min = dist$min, max = dist$max))
-    } else if (dist$type == "lognormal") {
-      return(rlnorm(n, meanlog = dist$meanlog, sdlog = dist$sdlog))
-    } else if (dist$type == "discrete") {
-      return(sample(dist$values, size = n, replace = TRUE, prob = dist$probs))
-    } else {
-      stop(paste("Unsupported distribution type:", dist$type))
-    }
-  }
-
+  # Every node must be either observed or have a model distribution.
   for (node in nodes$id) {
-    if (node %in% names(observations)) {
-      # Use observed value replicated across samples
-      samples[[node]] <- rep(observations[[node]], num_samples)
-    } else if (!is.null(distributions) && node %in% names(distributions)) {
-      dist <- distributions[[node]]
-
-      if (dist$type == "conditional") {
-        if (is.null(samples[[dist$condition]])) {
-          stop(paste("Conditional dependency on unsampled or unobserved node:", dist$condition))
-        }
-
-        condition_values <- samples[[dist$condition]]
-        true_dist <- dist$true_dist
-        false_dist <- dist$false_dist
-
-        # Sample both true and false branches
-        true_samples <- sample_from_dist(true_dist, num_samples)
-        false_samples <- sample_from_dist(false_dist, num_samples)
-
-        # Apply condition (assumes binary condition where 1 = TRUE)
-        samples[[node]] <- ifelse(condition_values == 1, true_samples, false_samples)
-      } else if (dist$type == "aggregate") {
-        component_samples <- sapply(dist$nodes, function(p) samples[[p]])
-        samples[[node]] <- rowSums(component_samples)
-      } else {
-        samples[[node]] <- sample_from_dist(dist, num_samples)
-      }
-    } else {
+    if (!(node %in% names(observations)) &&
+        (is.null(distributions) || !(node %in% names(distributions)))) {
       stop(paste("No distribution or observation provided for node", node))
     }
   }
 
-  return(as.data.frame(samples))
+  # With no observations, conditioning reduces to plain forward simulation.
+  if (length(observations) == 0) {
+    return(prob_net_sim(network, num_samples = num_samples))
+  }
+
+  # Observational conditioning via rejection sampling. Drawing whole joint
+  # samples from the prior and retaining those consistent with the observed
+  # values propagates evidence to upstream (parent and confounding) nodes,
+  # unlike clamping a node and forward-sampling, which leaves ancestors at their
+  # priors. This is what makes "seeing" differ from "doing" under confounding.
+  accepted <- NULL
+  batch <- max(as.integer(num_samples) * 2L, 1000L)
+  max_iter <- 200L
+
+  for (iter in seq_len(max_iter)) {
+    sim <- prob_net_sim(network, num_samples = batch)
+    keep <- rep(TRUE, nrow(sim))
+    for (obs_node in names(observations)) {
+      keep <- keep & (sim[[obs_node]] == observations[[obs_node]])
+    }
+    matched <- sim[keep, , drop = FALSE]
+    if (nrow(matched) > 0L) {
+      accepted <- if (is.null(accepted)) matched else rbind(accepted, matched)
+    }
+    if (!is.null(accepted) && nrow(accepted) >= num_samples) break
+  }
+
+  if (is.null(accepted) || nrow(accepted) < num_samples) {
+    stop(paste0(
+      "Observational conditioning could not collect ", num_samples,
+      " samples matching the observations. The observed event may be too rare, ",
+      "or an observed node may be continuous (exact matches have probability ",
+      "zero). For interventions on continuous nodes use prob_net_update()."
+    ))
+  }
+
+  accepted <- accepted[seq_len(num_samples), , drop = FALSE]
+  rownames(accepted) <- NULL
+  return(accepted)
 }
 
 #' Update a Probabilistic Network of Project Risks.
 #'
-#' **Experimental.** This function is part of the experimental probabilistic
-#' network module and the API may change in future versions.
+#' This function is part of the probabilistic network module, whose API may
+#' still evolve in future versions.
 #'
 #' This function updates an existing probabilistic network by adding or removing dependencies (edges)
 #' and updating probability distributions for nodes.

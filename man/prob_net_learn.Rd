@@ -17,8 +17,8 @@ prob_net_learn(network, observations = list(), num_samples = 1000)
 A data frame with \code{num_samples} rows and one column per node containing the simulated posterior samples.
 }
 \description{
-\strong{Experimental.} This function is part of the experimental probabilistic
-network module and the API may change in future versions.
+This function is part of the probabilistic network module, whose API may
+still evolve in future versions.
 }
 \details{
 This function updates a probabilistic network of project risks with observed values for certain nodes
@@ -26,13 +26,21 @@ and then performs inference to generate posterior distributions for unobserved n
 The function supports normal, uniform, lognormal, conditional continuous, conditional discrete, discrete,
 and aggregate (summation) node types.
 
-Normal nodes are sampled from a normal distribution using the specified mean and sd.
-Uniform nodes are sampled from a uniform distribution between the specified min and max values.
-Lognormal nodes are sampled from a lognormal distribution with specified meanlog and sdlog.
-Conditional nodes depend on a discrete conditional node; if the condition is TRUE (value = 1), the node follows
-the \code{true_dist}, otherwise it follows the \code{false_dist} (value = 0). Conditional distributions can be normal, lognormal, uniform, or discrete.
-Discrete nodes are sampled using \code{sample()}, and aggregate nodes are computed as the sum of values from the specified nodes.
-Observed nodes are fixed at their given values.
+Conditioning is performed by rejection sampling: the network is simulated
+forward from its priors (as in \code{\link[=prob_net_sim]{prob_net_sim()}}) and only the draws whose
+observed nodes equal the supplied values are retained, repeating until
+\code{num_samples} matching draws are collected. Because whole joint draws are
+filtered, evidence propagates to \emph{upstream} (parent and confounding) nodes as
+well as downstream ones. This distinguishes observational conditioning
+("seeing", the sense of [Pearl 2009]) from intervention ("doing"): only
+when the observed node is a root cause with no shared ancestry do
+\code{prob_net_learn()} and \code{\link[=prob_net_update]{prob_net_update()}} induce the same distribution.
+
+Because matches are exact, observations are supported on discrete (or
+discrete-conditional) nodes; observing a continuous node has probability zero
+of an exact match and will raise an error. Nodes not listed in
+\code{observations} retain their model distributions. If \code{observations} is empty
+the result is a plain forward simulation.
 }
 \examples{
 # Define nodes
