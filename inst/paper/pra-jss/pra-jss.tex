@@ -117,11 +117,11 @@ distribution families and \pkg{minpack.lm} \citep{Elzhov2016} for
 nonlinear least squares fitting.
 
 As a secondary contribution, \pkg{PRA} provides an open-source
-\proglang{R} implementation---to the author's knowledge the first---of
+\proglang{R} implementation, to the author's knowledge the first, of
 the causal- and probabilistic-network methods for project risk
 introduced by \citet{Govan2014} and \citet{Govan2016}. That work grounds
 causal networks in the resource-based view, showing that organizational
-capabilities and shared resources---not schedule uncertainty alone---are
+capabilities and shared resources, not schedule uncertainty alone, are
 the structural pathways through which risks propagate across project
 tasks. \citet{Govan2020} extend the approach with structural network
 measures that quantify the topology of project risk networks. The
@@ -170,8 +170,8 @@ A small number of CRAN packages do target project management
 specifically, but each addresses a single slice of the workflow rather
 than the integrated whole. The \pkg{ProjectManagement} package
 \citep{ProjectManagement} is the closest in spirit: it implements
-deterministic and stochastic scheduling---PERT/CPM, critical-path
-identification, and Monte Carlo simulation over activity durations---and
+deterministic and stochastic scheduling, PERT/CPM, critical-path
+identification, and Monte Carlo simulation over activity durations, and
 is complementary to the schedule-network extension planned for \pkg{PRA}
 (Section\textasciitilde{}\ref{sec-summary}), but it does not provide
 earned value management, Bayesian risk updating, learning curves,
@@ -182,7 +182,7 @@ decision-analysis packages such as \pkg{decisionSupport}
 \citep{decisionSupport} apply Monte Carlo simulation to cost--benefit
 models under uncertainty, but are not organized around project-schedule
 or earned-value constructs. To the author's knowledge, none of these
-packages---nor any single package on CRAN---spans the foundational
+packages, nor any single package on CRAN, spans the foundational
 project risk workflow that \pkg{PRA} unifies; this survey is not
 exhaustive, and a formal systematic review of the ecosystem remains
 future work.
@@ -196,8 +196,8 @@ R> library("PRA")
 \end{CodeInput}
 \end{CodeChunk}
 
-Optional dependencies---\pkg{ellmer} \citep{ellmer}, \pkg{mcptools}, and
-\pkg{jsonlite}---are only required for the MCP server,
+Optional dependencies, \pkg{ellmer} \citep{ellmer}, \pkg{mcptools}, and
+\pkg{jsonlite}, are only required for the MCP server,
 \code{pra\_mcp\_server()}.
 
 The remainder of this article describes each analytical module in turn,
@@ -678,9 +678,9 @@ Prior P(schedule delay): 0.578
 \subsection{Posterior Risk
 Probability}\label{posterior-risk-probability}
 
-When some causes are subsequently observed---for example, a site
+When some causes are subsequently observed, for example, a site
 inspection confirms one cause is present while the other remains
-unknown---\code{risk\_post\_prob()} updates the estimate. An observed
+unknown, \code{risk\_post\_prob()} updates the estimate. An observed
 cause is fixed to its conditional probability, while an unobserved cause
 (coded \code{NA}) retains its marginal contribution \(m_i\); the causes
 are recombined with the same noisy-OR, so prior and posterior share a
@@ -724,7 +724,7 @@ The \textbf{Parent DSM} is derived from the Resource--Task matrix
 \(\mathbf{S}\) (rows = resources, columns = tasks) as
 \(\mathbf{P} = \mathbf{S}^\top\mathbf{S}\). Off-diagonal entry
 \(P_{jk}\) counts the number of resources shared between tasks \(j\) and
-\(k\)---the structural pathway through which disruptions propagate
+\(k\), the structural pathway through which disruptions propagate
 \citep{Govan2016}.
 
 \begin{CodeChunk}
@@ -759,7 +759,7 @@ R> plot(p)
 The \textbf{Grandparent DSM} adds a risk layer via the Risk--Resource
 matrix \(\mathbf{R}\), tracing dependencies from risks through resources
 to tasks. Off-diagonal entry \(G_{jk}\) counts the number of risks
-shared between task \(j\) and task \(k\) through the resource chain---a
+shared between task \(j\) and task \(k\) through the resource chain, a
 direct operationalization of the structural network measures developed
 in \citet{Govan2020}.
 
@@ -798,7 +798,7 @@ for contingency buffering or resource decoupling.
 \section{Probabilistic Networks}\label{sec-network}
 
 This module is the secondary contribution of \pkg{PRA}: an open-source
-implementation---to the author's knowledge the first---of the
+implementation, to the author's knowledge the first, of the
 causal-network methods for project risk introduced by \citet{Govan2014}
 and \citet{Govan2016, Govan2020}. The probabilistic network module
 extends DSM structural analysis by attaching probability distributions
@@ -915,8 +915,8 @@ do-Operator}\label{intervention-the-do-operator}
 Conditioning answers ``what if we \emph{observe} that a risk did not
 occur.'' A distinct question is ``what if we \emph{act} to eliminate
 it.'' \code{prob\_net\_update()} performs structural surgery on the
-network---adding or removing edges and replacing node
-distributions---which corresponds to the \emph{do}-operator in Pearl's
+network, adding or removing edges and replacing node
+distributions, which corresponds to the \emph{do}-operator in Pearl's
 causal calculus \citep{Pearl2009}, as opposed to
 \code{prob\_net\_learn()}, which conditions without altering the graph.
 Suppose management funds a mitigation that decouples Resource-2 from
@@ -962,7 +962,7 @@ as the next example shows.
 \subsection{When Seeing and Doing
 Diverge}\label{when-seeing-and-doing-diverge}
 
-Suppose a latent common cause---adverse site conditions---drives both a
+Suppose a latent common cause, adverse site conditions, drives both a
 rework risk and, through a separate pathway, the foundation cost.
 Observing that rework did \emph{not} occur is evidence that site
 conditions were favorable, which in turn lowers the expected foundation
@@ -1024,9 +1024,9 @@ Doing  do(Rk = 0) mean:  $ 49,798   E[U] = 0.49
 \end{CodeOutput}
 \end{CodeChunk}
 
-Conditioning propagates the evidence back through the shared cause---the
+Conditioning propagates the evidence back through the shared cause, the
 expected site-condition indicator falls from its prior of 0.5 to about
-0.1---so \emph{seeing} that rework did not occur pulls the foundation
+0.1, so \emph{seeing} that rework did not occur pulls the foundation
 cost down as well and yields a markedly lower expected total than
 \emph{doing}. Because \code{prob\_net\_learn()} conditions by rejection
 sampling over whole joint draws, it captures this backdoor propagation
@@ -1039,7 +1039,7 @@ Intervention}\label{ranking-risks-by-intervention}
 
 Repeating the intervention for each root risk and measuring the
 reduction in project-cost variance yields a principled, network-level
-mitigation ranking---a causal analog of the Tornado chart of
+mitigation ranking, a causal analog of the Tornado chart of
 Section\textasciitilde{}\ref{sec-uncertainty}:
 
 \begin{CodeChunk}
@@ -1077,7 +1077,7 @@ its API may still evolve in future releases.
 Version 0.5.0 of \pkg{PRA} exposes all analytical functions as tools
 callable by large-language-model (LLM) agents through the Model Context
 Protocol (MCP) \citep{MCP2024}. \code{pra\_mcp\_server()} starts a
-server that advertises each tool---Monte Carlo simulation, EVM, Bayesian
+server that advertises each tool, Monte Carlo simulation, EVM, Bayesian
 risk, learning curves, DSM, and the rest, so that Claude, Claude Code,
 and other MCP-compatible clients can invoke them as native tools. The
 server is registered in Claude Code with a single shell command:
@@ -1140,9 +1140,9 @@ analysis.
 Uncertainty}\label{step-1-characterize-task-uncertainty}
 
 Combine the rapid analytical estimate from the Second Moment
-Method---reusing the closed-form triangular moments \code{task\_means}
+Method, reusing the closed-form triangular moments \code{task\_means}
 and \code{task\_vars} from Section\textasciitilde{}\ref{sec-uncertainty}
-with the dataset correlation matrix---with the full simulated
+with the dataset correlation matrix, with the full simulated
 distribution from Monte Carlo simulation:
 
 \begin{CodeChunk}
@@ -1331,7 +1331,7 @@ analysis, sensitivity analysis, EVM (11 metrics), Bayesian risk
 inference and updating, cost risk distributions, sigmoidal learning
 curves, correlation matrix construction, and design structure matrices.
 As a secondary contribution, an eleventh module delivers an open-source
-implementation---to the author's knowledge the first---of the
+implementation, to the author's knowledge the first, of the
 causal-network and probabilistic-network methods for project risk
 developed in \citet{Govan2014} and \citet{Govan2016, Govan2020}, with
 forward simulation and Bayesian conditioning.
@@ -1339,7 +1339,7 @@ forward simulation and Bayesian conditioning.
 As a third contribution, version 0.5.0 exposes every analytical function
 as a tool over the Model Context Protocol, complemented by a bundled set
 of Agent Skills, so that LLM agents can drive the package without any
-embedded model---the first project risk analysis package to do so. All
+embedded model, the first project risk analysis package to do so. All
 exported functions adhere to rOpenSci SRR standards, with a test suite
 verifying correctness, edge-case handling, and numerical stability
 across three operating systems. The package is licensed under MIT and
@@ -1352,7 +1352,7 @@ Work}\label{limitations-and-future-work}
 
 Several limitations apply. First, \pkg{PRA} currently propagates
 uncertainty at the task level and does not yet model schedule
-logic---critical path, activity precedence, and resource leveling. Full
+logic, critical path, activity precedence, and resource leveling. Full
 schedule-network risk analysis, in which schedule Monte Carlo runs over
 an activity-precedence network, such as Program Evaluation and Review
 Technique / Critical Path Method (PERT/CPM) to identify the critical

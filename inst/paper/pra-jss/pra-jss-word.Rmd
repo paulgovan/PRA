@@ -45,9 +45,9 @@ Quantitative risk analysis is a foundational discipline in project management,
 enabling organizations to assess schedule and cost uncertainty, identify
 high-impact risk drivers, and set evidence-based contingency reserves.
 This article presents **PRA**, an open-source R package that
-unifies the core quantitative methods of project risk analysis---schedule and
+unifies the core quantitative methods of project risk analysis, schedule and
 cost uncertainty, earned value management, sensitivity and contingency
-analysis, learning curves, and dependency structure analysis---under a single,
+analysis, learning curves, and dependency structure analysis, under a single,
 reproducible, CRAN-validated API.
 
 Despite broad industry adoption of quantitative methods, open-source tooling
@@ -68,9 +68,9 @@ contexts.
 
 **PRA** makes three contributions. The primary contribution addresses the gap
 above directly: **PRA** is the first package of its kind to unify the
-foundational methods of quantitative project risk analysis---from uncertainty
+foundational methods of quantitative project risk analysis, from uncertainty
 characterization and simulation through performance monitoring, Bayesian
-updating, and dependency structure analysis---in a single, coherent,
+updating, and dependency structure analysis, in a single, coherent,
 CRAN-validated framework of ten analytical modules. Where the existing
 ecosystem is fragmented across general-purpose packages, none project-specific,
 **PRA** provides one reproducible, auditable API for the full workflow. The
@@ -84,10 +84,10 @@ fitting.
 As a secondary contribution, **PRA** provides the first software
 implementation of the experimental causal- and probabilistic-network methods
 for project risk introduced by Govan (2014) and Govan and Damnjanovic (2016),
-who grounded causal networks in the resource-based view---demonstrating that
+who grounded causal networks in the resource-based view, demonstrating that
 organizational capabilities and shared resources, not just schedule
 uncertainty, are the structural pathways through which risks propagate across
-project tasks---and extended by Govan and Damnjanovic (2020) with structural
+project tasks, and extended by Govan and Damnjanovic (2020) with structural
 network measures that quantify the topology of project risk networks. The
 experimental probabilistic network module (Section \@ref(sec-network))
 operationalizes these ideas, propagating distributions through the causal chain
@@ -138,8 +138,8 @@ install.packages("PRA")
 library("PRA")
 ```
 
-Optional dependencies---**ellmer** [@ellmer], **mcptools**, and
-**jsonlite**---are only required for the MCP server, `pra_mcp_server()`.
+Optional dependencies, **ellmer** [@ellmer], **mcptools**, and
+**jsonlite**, are only required for the MCP server, `pra_mcp_server()`.
 
 The remainder of this article describes each analytical module in turn,
 with working code examples drawn from the same R session.
@@ -415,7 +415,7 @@ structural coupling between project tasks through shared resources and risks.
 The **Parent DSM** is derived from the Resource--Task matrix $\mathbf{S}$
 (rows = resources, columns = tasks) as $\mathbf{P} = \mathbf{S}^\top\mathbf{S}$.
 Off-diagonal entry $P_{jk}$ counts the number of resources shared between
-tasks $j$ and $k$---the structural pathway through which disruptions propagate
+tasks $j$ and $k$, the structural pathway through which disruptions propagate
 [@Govan2016].
 
 ```{r dsm-S}
@@ -438,7 +438,7 @@ plot(p)
 The **Grandparent DSM** adds a risk layer via the Risk--Resource matrix
 $\mathbf{R}$, tracing dependencies from risks through resources to tasks.
 Off-diagonal entry $G_{jk}$ counts the number of risks shared between
-task $j$ and task $k$ through the resource chain---a direct operationalization
+task $j$ and task $k$ through the resource chain, a direct operationalization
 of the structural network measures developed in Govan and Damnjanovic (2020).
 
 ```{r dsm-R}
@@ -557,7 +557,7 @@ legend("topright",
 Conditioning answers "what if we *observe* that a risk did not occur."
 A distinct question is "what if we *act* to eliminate it."
 `prob_net_update()` performs structural surgery on the
-network---adding or removing edges and replacing node distributions---which
+network, adding or removing edges and replacing node distributions, which
 corresponds to the *do*-operator in Pearl's causal calculus
 [@Pearl2009], as opposed to `prob_net_learn()`, which conditions
 without altering the graph. Suppose management funds a mitigation that
@@ -582,15 +582,15 @@ Here *seeing* (`prob_net_learn()`) and *doing*
 (`prob_net_update()`) coincide because Risk-2 is an independent root
 cause with no shared upstream confounder, so conditioning on it and
 intervening on it induce the same downstream distribution. The two diverge
-when risks share a common cause---intervening severs the upstream pathway
-while observing propagates back through it---which is where the
+when risks share a common cause, intervening severs the upstream pathway
+while observing propagates back through it, which is where the
 *do*-operator becomes indispensable.
 
 ## Ranking Risks by Intervention
 
 Repeating the intervention for each root risk and measuring the reduction in
 project-cost variance yields a principled, network-level mitigation
-ranking---a causal analog of the Tornado chart of
+ranking, a causal analog of the Tornado chart of
 Section \@ref(sec-uncertainty):
 
 ```{r net-importance, fig.cap="Risk importance for the probabilistic network: the reduction in total project-cost variance achieved by intervening to eliminate each root risk. Taller bars indicate higher-priority mitigation targets."}
@@ -619,7 +619,7 @@ releases.
 Version 0.5.0 of **PRA** exposes all analytical functions as tools callable
 by large-language-model (LLM) agents through the Model Context Protocol (MCP)
 [@MCP2024]. `pra_mcp_server()` starts a server that advertises each
-tool---Monte Carlo simulation, EVM, Bayesian risk, learning curves, DSM, and
+tool, Monte Carlo simulation, EVM, Bayesian risk, learning curves, DSM, and
 the rest, so that Claude, Claude Code, and other MCP-compatible clients can
 invoke them as native tools. The server is registered in Claude Code with a
 single shell command:
@@ -675,9 +675,9 @@ illustrating how the modules compose within one analysis.
 
 ## Step 1: Characterize Task Uncertainty
 
-Combine the rapid analytical estimate from the Second Moment Method---reusing
+Combine the rapid analytical estimate from the Second Moment Method, reusing
 the closed-form triangular moments `task_means` and `task_vars`
-from Section \@ref(sec-uncertainty) with the dataset correlation matrix---with
+from Section \@ref(sec-uncertainty) with the dataset correlation matrix, with
 the full simulated distribution from Monte Carlo simulation:
 
 ```{r cs-mcs}
@@ -790,7 +790,7 @@ and Bayesian conditioning.
 As a third contribution, version 0.5.0 exposes every analytical function as a
 tool over the Model Context Protocol, complemented by a bundled set of Agent
 Skills, so that LLM agents can drive the package without any embedded
-model---the first project risk analysis package to do so. All exported
+model, the first project risk analysis package to do so. All exported
 functions adhere to rOpenSci SRR standards, with a test suite verifying
 correctness, edge-case handling, and numerical stability across three
 operating systems. The package is licensed under MIT and the source is
@@ -800,7 +800,7 @@ a companion online book are at <https://paulgovan.github.io/PRA/>.
 ## Limitations and Future Work
 
 Several limitations apply. First, **PRA** currently propagates uncertainty
-at the task level and does not yet model schedule logic---critical path,
+at the task level and does not yet model schedule logic, critical path,
 activity precedence, and resource leveling. Full schedule-network risk
 analysis, in which schedule Monte Carlo runs over an activity-precedence
 network (PERT/CPM) to identify the critical path and criticality indices
