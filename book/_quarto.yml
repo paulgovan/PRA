@@ -12,7 +12,6 @@ book:
   site-url: https://paulgovan.github.io/PRA/book/
   repo-url: https://github.com/paulgovan/PRA
   repo-actions: [edit, issue]
-  downloads: [pdf, epub]
   sharing: [twitter, linkedin, facebook]
   chapters:
     - index.qmd

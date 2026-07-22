@@ -37,18 +37,6 @@ In project risk terms:
 Observing a root cause *always* moves the posterior. The direction and magnitude depend on how strongly that cause is linked to the risk event.
 :::
 
-Bayes' theorem states:
-
-$$P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)}$$
-
-In English: the probability of your hypothesis ($H$) given new evidence ($E$) equals the likelihood of seeing that evidence if the hypothesis were true, times your prior probability, divided by the total probability of the evidence. The result is the **posterior** probability, your updated belief.
-
-In project risk terms:
-
-- **Prior**: Your initial estimate of risk probability before any field observations
-- **Evidence**: Observations about root causes (is the labor market tight? is weather bad?)
-- **Posterior**: Your updated estimate after incorporating those observations
-
 The PRA package provides four Bayesian functions organized into two stages:
 
 | Stage | Function | Purpose |
@@ -224,7 +212,7 @@ legend("topright",
 
 **Interpretation:** The posterior distribution is narrower and shifted upward, as observing which risks materialized eliminates uncertainty about some cost components while raising the estimated exposure from confirmed events. The remaining spread reflects uncertainty from the unobserved risk and cost variability in the confirmed ones.
 
-## Summary
+## The Workflow
 
 The Bayesian workflow in PRA follows a natural before-and-after structure:
 

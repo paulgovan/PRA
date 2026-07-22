@@ -367,7 +367,7 @@ knitr::kable(stats_df, caption = "Portfolio cost statistics across all scenarios
 ::: {.callout-tip icon=false}
 ## Key Takeaways
 
-- Shared enterprise risks create **positive correlation across all projects** that share those resources, driving portfolio variance is always larger than the naive sum of individual project variances.
+- Shared enterprise risks create **positive correlation across all projects** that share those resources, so portfolio variance is always larger than the naive sum of individual project variances.
 - The **task-cost correlation matrix** reveals the block structure of risk sharing: tasks driven by the same enterprise risk cluster together, while tasks driven by different risks are near-zero.
 - **Seeing** conditions on evidence in the original graph; it propagates upstream through shared root causes, raising the probability of sibling risks as a side-effect.
 - **Doing** (graph surgery) severs incoming edges of the intervened node; it changes only what the intervention directly controls, without raising posteriors about shared root causes.

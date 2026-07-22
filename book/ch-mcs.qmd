@@ -79,7 +79,7 @@ cat("Std Dev of Duration:  ", round(results$total_sd, 2), "weeks\n")
 
 ### Distribution of Outcomes
 
-The histogram below shows all 10,000 simulated total durations. The overlaid density curve reveals the shape of the distribution, notice the slight right skew from the triangular task.
+The histogram below shows all 10,000 simulated total durations. The overlaid density curve reveals the shape of the distribution — notice the slight right skew from the triangular task.
 
 ```{r}
 #| fig-cap: "Monte Carlo simulation results showing the full distribution of possible total project durations."

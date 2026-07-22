@@ -83,7 +83,7 @@ sens <- sensitivity(task_dists)
 ```
 
 ```{r}
-#| fig-cap: "Tornado chart. T3 (Structural Steel & Deck) dominates schedule variance, with its wide triangular distribution swamps the other tasks."
+#| fig-cap: "Tornado chart. T3 (Structural Steel & Deck) dominates schedule variance, its wide triangular distribution swamping the other tasks."
 sorted_sens <- sort(sens, decreasing = FALSE)
 barplot(sorted_sens, horiz = TRUE,
   names.arg = names(sorted_sens),

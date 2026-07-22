@@ -159,7 +159,7 @@ The Logistic and Pearl models share the same mathematical formula and will produ
 Gompertz is genuinely different: its inflection point occurs earlier and the curve is asymmetric, making it better suited for processes that accelerate quickly before plateauing slowly.
 :::
 
-## Summary
+## The Workflow
 
 The sigmoidal workflow in PRA:
 
