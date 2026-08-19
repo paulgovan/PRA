@@ -9,7 +9,13 @@
   `pra_mcp_server()`, complemented by bundled Agent Skills (`SKILL.md` files)
   under `inst/skills/`.
 - Dropped the optional `ragnar`, `shiny`, `shinychat`, `bslib`, `vitals`, and
-  `mockr` dependencies.
+  `mockr` dependencies. Added `corrplot`, `igraph`, `networkD3`, `devtools`,
+  `remotes`, and `mcptools` to Suggests.
+- **New (experimental) probabilistic network module:** `prob_net()`,
+  `prob_net_sim()`, `prob_net_learn()`, and `prob_net_update()` model project
+  risks as a network of discrete and continuous nodes — including conditional
+  and aggregate distributions — with simulation, Bayesian updating, and
+  learning over the graph. The API may still evolve in future versions.
 - **Bayesian risk (breaking):** `risk_prob()` and `risk_post_prob()` now combine
   multiple independent causes with a noisy-OR, so the result always lies in
   `[0, 1]`, the posterior is on the same scale as the prior, and observing an
@@ -23,8 +29,13 @@
   variance, which was a bug.
 - Added the `building_project` example dataset: a mid-rise commercial building
   used to demonstrate the full workflow (MCS, SMM, EVM, Bayesian risk, DSM).
-- Documented a known limitation of `mcs()` correlation handling (distorts
-  marginal means); prefer `smm()` when correlation matters.
+- `mcs()` now emits a warning when a correlation matrix is supplied, noting
+  that the Cholesky-based approach distorts marginal task means; prefer
+  `smm()` when correlation matters.
+- Vignettes have been removed from the package and migrated to a companion
+  Quarto book, alongside a new Journal of Statistical Software paper under
+  `inst/paper/pra-jss/`.
+- Package license changed from CC BY 4.0 to MIT + file LICENSE.
 
 ## v0.4.0
 - DSM Improvements
