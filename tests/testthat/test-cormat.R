@@ -111,7 +111,7 @@ test_that("cor_matrix has unit diagonal", {
   result <- cor_matrix(num_samples = 10000, num_vars = 2, dists = dist_list)
 
   # Diagonal elements must be 1 (correlation with self)
-  expect_equal(diag(result), c(1, 1), tolerance = 1e-10)
+  expect_equal(unname(diag(result)), c(1, 1), tolerance = 1e-10)
 })
 
 test_that("cor_matrix is symmetric", {
@@ -151,9 +151,9 @@ test_that("cor_matrix estimates improve with sample size", {
   result_10000 <- cor_matrix(num_samples = 10000, num_vars = 2, dists = dist_list)
 
   # Diagonal should always be 1
-  expect_equal(diag(result_100), c(1, 1), tolerance = 1e-10)
-  expect_equal(diag(result_1000), c(1, 1), tolerance = 1e-10)
-  expect_equal(diag(result_10000), c(1, 1), tolerance = 1e-10)
+  expect_equal(unname(diag(result_100)), c(1, 1), tolerance = 1e-10)
+  expect_equal(unname(diag(result_1000)), c(1, 1), tolerance = 1e-10)
+  expect_equal(unname(diag(result_10000)), c(1, 1), tolerance = 1e-10)
 
   # Off-diagonal correlation should stabilize (be more consistent)
   # For independent normals, correlation should be near 0
@@ -196,4 +196,35 @@ test_that("cor_matrix produces consistent estimates across seeds", {
   # For independent normals, should all be near 0
   expect_equal(result_1[1, 2], result_2[1, 2], tolerance = 0.1)
   expect_equal(result_2[1, 2], result_3[1, 2], tolerance = 0.1)
+})
+
+
+test_that("cor_matrix maps column i to distribution i and labels the result", {
+  # Column i must come from distribution i: previously a distribution was drawn
+  # at random with replacement for each column, so the labels were meaningless.
+  dist_list <- list(
+    small = function(n) rnorm(n, mean = 0,    sd = 1),
+    large = function(n) rnorm(n, mean = 1000, sd = 1)
+  )
+  set.seed(1)
+  result <- cor_matrix(num_samples = 200, num_vars = 2, dists = dist_list)
+  expect_equal(dimnames(result), list(c("small", "large"), c("small", "large")))
+})
+
+test_that("cor_matrix is deterministic given a seed", {
+  dist_list <- list(
+    a = function(n) rnorm(n, 0, 1),
+    b = function(n) rnorm(n, 0, 1),
+    c = function(n) rnorm(n, 0, 1)
+  )
+  set.seed(3); first  <- cor_matrix(num_samples = 200, num_vars = 3, dists = dist_list)
+  set.seed(3); second <- cor_matrix(num_samples = 200, num_vars = 3, dists = dist_list)
+  expect_equal(first, second)
+})
+
+test_that("cor_matrix labels unnamed distributions positionally", {
+  dist_list <- list(function(n) rnorm(n), function(n) rnorm(n))
+  set.seed(5)
+  result <- cor_matrix(num_samples = 100, num_vars = 2, dists = dist_list)
+  expect_equal(colnames(result), c("V1", "V2"))
 })

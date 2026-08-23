@@ -506,8 +506,9 @@ test_that("cost_pdf -> cost_post_pdf chain works", {
   expect_true(grepl("Prior Cost Distribution", prior_text))
   expect_false(is.null(PRA:::.pra_agent_env$last_cost_pdf))
 
-  # Step 2: Posterior cost (risk 1 occurred, risk 2 unknown)
-  post_result <- PRA:::cost_post_pdf_tool(10000, "[true, null]", "[50000, 30000]", "[10000, 5000]", 100000)
+  # Step 2: Posterior cost (risk 1 occurred, risk 2 unknown, drawn from its prior)
+  post_result <- PRA:::cost_post_pdf_tool(10000, "[true, null]", "[50000, 30000]",
+                                          "[10000, 5000]", 100000, "[0.3, 0.5]")
   post_text <- tool_text(post_result)
   expect_true(grepl("Posterior Cost Distribution", post_text))
 

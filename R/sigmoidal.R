@@ -188,6 +188,17 @@ predict_sigmoidal <- function(fit, x_range, model_type, conf_level = NULL) {
     stop("Invalid model type. Choose 'pearl', 'gompertz', or 'logistic'.")
   }
 
+  # The gradient below is built from model_type while the prediction comes from
+  # the fit, so a mismatch between the two would silently produce NA confidence
+  # bounds. Check the fitted parameters name the model actually requested.
+  expected <- if (model_type == "gompertz") c("A", "b", "c") else c("K", "r", "t0")
+  if (!all(expected %in% names(stats::coef(fit)))) {
+    stop(paste0(
+      "model_type '", model_type, "' does not match the fitted model, whose ",
+      "parameters are: ", paste(names(stats::coef(fit)), collapse = ", "), "."
+    ))
+  }
+
   new_data$pred <- stats::predict(fit, newdata = new_data)
 
   # Compute confidence bounds if requested

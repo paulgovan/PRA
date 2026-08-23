@@ -9,14 +9,20 @@ cor_matrix(num_samples = 100, num_vars = 5, dists)
 \arguments{
 \item{num_samples}{The number of samples to generate.}
 
-\item{num_vars}{The number of distributions to sample.}
+\item{num_vars}{The number of distributions to sample. The first \code{num_vars}
+elements of \code{dists} are used.}
 
 \item{dists}{A list describing each distribution. Each element should be a function
-that generates random samples. The names of the list elements will be used to
-identify the distributions.}
+that generates random samples. The names of the list elements are used to
+label the rows and columns of the result.}
 }
 \value{
-The function returns the correlation matrix for the distributions.
+The function returns the correlation matrix for the distributions,
+with rows and columns named after the distributions they were drawn from.
+Because the columns are sampled independently, the off-diagonal entries are
+sampling noise about zero: this generates correctly shaped, positive-definite
+input for testing and for a near-independent baseline, and is not an
+estimator of dependence between tasks.
 }
 \description{
 This function generates random samples from specified probability distributions

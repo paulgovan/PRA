@@ -106,18 +106,7 @@ sensitivity <- function(task_dists, cor_mat = NULL) {
 
   # Create the covariance matrix
   if (!is.null(cor_mat)) {
-    if (!is.matrix(cor_mat) || nrow(cor_mat) != num_tasks || ncol(cor_mat) != num_tasks) {
-      stop("The correlation matrix must be square and match the number of tasks.")
-    }
-    if (any(is.nan(cor_mat))) {
-      stop("cor_mat must not contain NaN values")
-    }
-    if (anyNA(cor_mat)) {
-      stop("cor_mat must not contain NA values")
-    }
-    if (any(is.infinite(cor_mat))) {
-      stop("cor_mat must not contain infinite values")
-    }
+    validate_cor_mat(cor_mat, num_tasks)
 
     cov_matrix <- matrix(0, nrow = num_tasks, ncol = num_tasks)
     for (i in seq_len(num_tasks)) {
@@ -139,6 +128,18 @@ sensitivity <- function(task_dists, cor_mat = NULL) {
   # its covariance with every other task), as a proportion of total variance.
   for (i in seq_len(num_tasks)) {
     sensitivity[i] <- (task_variances[i] + sum(cov_matrix[i, -i])) / total_variance
+  }
+
+  # A task negatively correlated with the rest can lower total project variance,
+  # giving a negative share. The indices still sum to 1, but a negative bar has
+  # no Tornado-chart reading, so say so rather than let it pass silently.
+  if (any(sensitivity < 0)) {
+    warning(
+      "At least one sensitivity index is negative, which happens when a task ",
+      "is negatively correlated with the others and so reduces total project ",
+      "variance. The indices still sum to 1, but negative values have no ",
+      "Tornado-chart interpretation."
+    )
   }
 
   # Return the sensitivity vector

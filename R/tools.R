@@ -150,7 +150,8 @@ pra_tools <- function() {
         observed_risks_json = ellmer::type_string("JSON array of observed risk states: true (occurred), false (did not), null (unknown)."),
         means_given_risks_json = ellmer::type_string("JSON array of mean additional cost if risk occurs."),
         sds_given_risks_json = ellmer::type_string("JSON array of SD of additional cost if risk occurs."),
-        base_cost = ellmer::type_number("Baseline project cost (default 0).")
+        base_cost = ellmer::type_number("Baseline project cost (default 0)."),
+        risk_probs_json = ellmer::type_string("JSON array of prior probabilities, used to draw the risks left unknown (null) in observed_risks. Omit to treat unknown risks as not occurring.")
       ),
       annotations = ellmer::tool_annotations(title = "Posterior Cost Distribution")
     ),
@@ -929,14 +930,20 @@ cost_pdf_tool <- function(num_sims, risk_probs_json, means_given_risks_json,
 
 #' @keywords internal
 cost_post_pdf_tool <- function(num_sims, observed_risks_json, means_given_risks_json,
-                               sds_given_risks_json, base_cost = 0) {
+                               sds_given_risks_json, base_cost = 0,
+                               risk_probs_json = NULL) {
   num_sims <- as.integer(unlist(num_sims))[1]
   base_cost <- as.numeric(unlist(base_cost))[1]
   observed <- as_r_input(observed_risks_json)
   observed <- ifelse(is.na(observed), NA, as.logical(observed))
   means <- as_numeric_input(means_given_risks_json)
   sds <- as_numeric_input(sds_given_risks_json)
-  result <- cost_post_pdf(num_sims, observed, means, sds, base_cost)
+  risk_probs <- if (is.null(risk_probs_json)) {
+    NULL
+  } else {
+    as_numeric_input(risk_probs_json)
+  }
+  result <- cost_post_pdf(num_sims, observed, means, sds, base_cost, risk_probs)
   .pra_agent_env$last_cost_post_pdf <- result
 
   text <- paste0(

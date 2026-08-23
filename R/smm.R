@@ -98,18 +98,7 @@ smm <- function(mean, var, cor_mat = NULL) {
 
   # Calculate the covariance matrix
   if (!is.null(cor_mat)) {
-    if (!is.matrix(cor_mat) || nrow(cor_mat) != num_tasks || ncol(cor_mat) != num_tasks) {
-      stop("The correlation matrix must be square and match the number of tasks.")
-    }
-    if (any(is.nan(cor_mat))) {
-      stop("cor_mat must not contain NaN values")
-    }
-    if (anyNA(cor_mat)) {
-      stop("cor_mat must not contain NA values")
-    }
-    if (any(is.infinite(cor_mat))) {
-      stop("cor_mat must not contain infinite values")
-    }
+    validate_cor_mat(cor_mat, num_tasks)
 
     cov_matrix <- matrix(0, nrow = num_tasks, ncol = num_tasks)
     for (i in seq_len(num_tasks)) {

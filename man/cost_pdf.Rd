@@ -15,7 +15,8 @@ cost_pdf(
 \arguments{
 \item{num_sims}{Number of random samples to draw from the mixture model.}
 
-\item{risk_probs}{A vector of probabilities for each risk event 'R_i'.}
+\item{risk_probs}{A vector of probabilities for each risk event 'R_i'. The
+risks are independent, so these need not sum to 1.}
 
 \item{means_given_risks}{A vector of means of the normal distribution for cost 'A' given each risk event 'R_i'.}
 
@@ -31,6 +32,11 @@ This function generates random samples from a mixture model representing the cos
 associated with multiple risk events 'R_i'. Each risk event has its own probability,
 mean, and standard deviation for the cost distribution. The function also accounts for a baseline cost
 when no risk event occurs.
+}
+\details{
+The risk events are independent Bernoulli draws, so any number of
+them may occur in the same simulation and their probabilities need not sum to
+one. Each risk that occurs contributes a normal cost on top of \code{base_cost}.
 }
 \examples{
 # Example with three risk events

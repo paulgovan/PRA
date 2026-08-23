@@ -114,18 +114,7 @@ mcs <- function(num_sims, task_dists, cor_mat = NULL) {
 
   # Validate the correlation matrix before drawing any samples
   if (!is.null(cor_mat)) {
-    if (!is.matrix(cor_mat) || nrow(cor_mat) != num_tasks || ncol(cor_mat) != num_tasks) {
-      stop("The correlation matrix must be square and match the number of tasks.")
-    }
-    if (any(is.nan(cor_mat))) {
-      stop("cor_mat must not contain NaN values")
-    }
-    if (anyNA(cor_mat)) {
-      stop("cor_mat must not contain NA values")
-    }
-    if (any(is.infinite(cor_mat))) {
-      stop("cor_mat must not contain infinite values")
-    }
+    validate_cor_mat(cor_mat, num_tasks)
   }
 
   task_samples <- matrix(NA, nrow = num_sims, ncol = num_tasks)
