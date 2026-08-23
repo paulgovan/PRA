@@ -102,11 +102,10 @@ established \proglang{R} tools: \pkg{bnlearn} provides structure and
 parameter learning along with graph-surgery interventions through
 \code{mutilated()}, and \pkg{gRain} performs exact junction-tree
 inference. Both are more general and more capable inference engines than
-the sampling-based module of Section \ref{sec-network}. Neither,
-however, carries a project-risk vocabulary of risks, resources, and
-tasks, and neither connects to schedule, cost, or earned value;
-\pkg{PRA}'s contribution here is that project layer rather than the
-underlying inference.
+the sampling-based module of Section \ref{sec-network}. However, neither
+carries a project-risk vocabulary of risks, resources, and tasks, and
+neither connects to schedule, cost, or earned value; \pkg{PRA}'s
+contribution is that project layer rather than the underlying inference.
 
 \pkg{PRA} is the first package available on CRAN to integrate these
 project risk analysis methods in a single API. The comparison in Table
@@ -272,8 +271,8 @@ to project-level estimates using the Central Limit Theorem
 \[E[X] = \sum_{i=1}^{n} E[X_i], \quad
   \text{Var}(X) = \sum_{i=1}^{n}\text{Var}(X_i) + 2\sum_{i<j}\rho_{ij}\sigma_i\sigma_j\]
 The six task durations are triangular, so their means and variances may
-be obtained closed-form and propagated with \code{smm()} at the project
-level.
+be obtained in closed-form and propagated with \code{smm()} at the
+project level.
 
 \begin{CodeChunk}
 \begin{CodeInput}
@@ -444,18 +443,14 @@ R> abline(v = results$total_mean, lty = 2, lwd = 1.5)
 Construction}\label{correlation-matrix-construction}
 
 Both \code{smm()} and \code{mcs()} accept a correlation matrix to model
-dependence between tasks. \code{cor\_matrix()} returns the empirical
-Pearson correlation matrix of \(m\) columns sampled from a supplied set
-of task distributions. Because the columns are drawn independently, the
-off-diagonal entries are sampling noise of order \(N^{-1/2}\) about
-zero: the function is a generator of correctly shaped, positive-definite
-correlation input for testing and for establishing the near-independent
-baseline, not an estimator of dependence between tasks. Correlations
-that reflect genuine shared drivers must come from historical data or
-expert elicitation. For samples \(x_{ki}\), \(k = 1,\ldots,N\), drawn
-from each of \(m\) task distributions \(i = 1,\ldots,m\),
-\code{cor\_matrix()} returns the empirical Pearson correlation matrix
-\(\mathbf{C}\) with entries
+dependence between tasks. \code{cor\_matrix()} supplies one by sampling
+from a set of task distributions, giving a correctly shaped,
+positive-definite baseline for testing; correlations reflecting genuine
+shared drivers are best drawn from historical data or expert
+elicitation. For samples \(x_{ki}\), \(k = 1,\ldots,N\), drawn from each
+of \(m\) task distributions \(i = 1,\ldots,m\), \code{cor\_matrix()}
+returns the empirical Pearson correlation matrix \(\mathbf{C}\) with
+entries
 \[C_{ij} = \frac{\sum_{k=1}^{N}(x_{ki}-\bar{x}_i)(x_{kj}-\bar{x}_j)}
   {\sqrt{\sum_{k=1}^{N}(x_{ki}-\bar{x}_i)^2}\;\sqrt{\sum_{k=1}^{N}(x_{kj}-\bar{x}_j)^2}}.\]
 
@@ -725,7 +720,7 @@ The Gompertz model has the lower residual standard error of the two
 here, reflecting the asymmetric approach to the 90\% plateau in the
 observed data, and is therefore carried forward for the confidence band
 and forecasts below. The Logistic form remains available via
-\code{fit\_sigmoidal()}; its symmetric acceleration and deceleration is
+\code{fit\_sigmoidal()}. Its symmetric acceleration and deceleration is
 the more common default assumption for project progress curves, and
 comparing the two residual standard errors is the recommended way to
 choose between them in practice.
@@ -766,33 +761,27 @@ R> print(round(preds, 1))
 \end{CodeOutput}
 \end{CodeChunk}
 
-The forecast extends the fitted curve past the last observed week (9) to
-weeks 10 through 12. The point estimates rise only slightly across that
-span, because the curve has already reached the neighborhood of its
-fitted asymptote \(\hat{A} \approx 87\). The interval is symmetric about
-the point estimate, \(\text{pred} \pm t\,\text{se}\), and widens in both
-directions with the horizon as extrapolation uncertainty grows; the
-lower bound only appears flat because the point estimate climbs at
-almost exactly the rate the half-width does. A plateau below the last
-observed value is a real property of these nine observations, which are
-still climbing roughly linearly at week 9: the data do not yet identify
-where the S-curve turns over, and the fitted asymptote should be treated
-as a lower bound on eventual completion rather than a prediction of it.
+The forecast extends the fitted curve past the last observed week (9)
+out to week 12, with intervals of the form
+\(\text{pred} \pm t\,\text{se}\) that widen with the horizon. The point
+estimates rise only slightly across that span, since the curve is
+already near its fitted asymptote \(\hat{A} \approx 87\), which on nine
+observations is best read as a lower bound on eventual completion.
 
 \section{Noisy-OR Risk Inference}\label{sec-bayes}
 
 Project risks are frequently triggered by one or more underlying root
 causes whose presence is uncertain. \pkg{PRA} models this with a
-noisy-OR risk network \citep{Pearl2009}: each root cause \(C_i\) acts on
-a risk event \(R\) independently, and \(R\) occurs if it is triggered by
-at least one cause. Write \(q_i^{+}\) for the probability that cause
-\(i\) alone triggers \(R\) when it is present and \(q_i^{-}\) for the
-corresponding probability when it is absent; these are the link
-probabilities supplied as \code{risks\_given\_causes} and
-\code{risks\_given\_not\_causes}. Note that \(q_i^{+}\) is not the
-model's conditional \(P(R \mid C_i)\), which is larger because the
-remaining causes may also fire. We illustrate with the schedule-delay
-risk in \code{building\_project}, which has two candidate causes.
+noisy-OR risk network \citep{Pearl1988}: each root cause \(C_i\) acts
+on a risk event \(R\) independently, and \(R\) occurs if it is
+triggered by at least one cause. Write \(q_i^{+}\) for the probability that cause \(i\) alone
+triggers \(R\) when it is present and \(q_i^{-}\) for the corresponding
+probability when it is absent; these are the link probabilities supplied
+as \code{risks\_given\_causes} and \code{risks\_given\_not\_causes}.
+Note that \(q_i^{+}\) is not the model's conditional \(P(R \mid C_i)\),
+which is larger because the remaining causes may also fire. We
+illustrate with the schedule-delay risk in \code{building\_project},
+which has two candidate causes.
 
 \subsection{Prior Risk Probability}\label{prior-risk-probability}
 
@@ -858,12 +847,11 @@ on full cost distributions rather than event probabilities.
 \section{Probabilistic Networks}\label{sec-network}
 
 This module is an implementation of probabilistic-network methods for
-project risk \citep{Govan2014, Govan2016, Govan2020}. It is not a
-general Bayesian-network engine, and does not aim to be one:
-\pkg{bnlearn} and \pkg{gRain} already fill that role in \proglang{R},
-with exact inference and structure learning. What follows is the
-project-risk layer, in which nodes are risks, resources, tasks, and the
-project total, and in which the quantity propagated is cost. A
+project risk \citep{Govan2014, Govan2016, Govan2020}. The module is not
+a general Bayesian-network engine, since other packages alreaddy fill
+that role in \proglang{R} \pkg{bnlearn} and \pkg{gRain}. What follows is
+the project-risk layer, in which nodes are risks, resources, tasks, and
+the project total, and in which the quantity propagated is cost. The
 probabilistic network is a directed acyclic graph in which nodes
 represent project variables (risks, resources, tasks, and the project
 total) and edges encode conditional dependencies \citep{Pearl2009},
@@ -1383,12 +1371,12 @@ Contingency (P80-P50): 5.82 weeks
 The P50 estimate is the schedule a planner would commit to with even
 odds of meeting it; the contingency buffer above it is the additional
 duration needed to raise that confidence to 80\%, and is the reserve a
-project manager would add to the baseline schedule. Correlation matters
-here in practical terms: treating the six work packages as independent
-shrinks the same reserve to 3.98 weeks, because independent overruns
-partially cancel. Shared crews, weather, and a common supply chain make
-that assumption optimistic, and the correlated reserve is the defensible
-one.
+project manager would add to the baseline schedule. Correlation is
+important in practical terms: treating the six work packages as
+independent shrinks the same reserve to 3.98 weeks, because independent
+overruns partially cancel. Shared crews, weather, and a common supply
+chain make that assumption optimistic, and the correlated reserve is the
+defensible one.
 
 \subsection{Step 2: Rank Risk Drivers}\label{step-2-rank-risk-drivers}
 
@@ -1584,8 +1572,7 @@ updating, cost risk distributions, sigmoidal learning curves,
 correlation matrix construction, and design structure matrices. The
 eleventh module applies probabilistic network methods to project risk,
 with forward simulation and Bayesian conditioning over a network of
-risks, resources, and tasks; general-purpose Bayesian network inference
-in \proglang{R} remains the province of \pkg{bnlearn} and \pkg{gRain}.
+risks, resources, and tasks.
 
 \pkg{PRA} also exposes every analytical function as a tool over the
 Model Context Protocol, so that LLM agents can drive the package without
