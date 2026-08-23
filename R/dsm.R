@@ -85,8 +85,11 @@ parent_dsm <- function(S) {
 #'
 #' This function computes the Risk-based 'Grandparent' Design Structure Matrix (DSM)
 #' from given Resource-Task Matrix 'S' and Risk-Resource Matrix 'R'.
-#' The 'Grandparent' DSM indicates the number of risks shared between each pair of
-#' tasks in a project.
+#' The 'Grandparent' DSM scores the risk exposure that each pair of tasks shares
+#' through the resource chain. Entry \eqn{G_{jk}} sums, over risks, the product of
+#' the risk-to-task path counts \eqn{(RS)_{ij}} and \eqn{(RS)_{ik}}, so a shared
+#' risk is weighted by the number of common resources carrying it; this reduces to
+#' a plain count of shared risks only when \eqn{RS} is binary.
 #'
 #' @srrstats {G1.0} *Software lists primary reference from published academic literature.*
 #' @srrstats {G1.1} *Software is the first implementation within **R** of the algorithm which has previously been implemented in other languages or contexts.*
@@ -106,7 +109,7 @@ parent_dsm <- function(S) {
 #' Rows represent risks and columns represent resources.
 #' @return An S3 object of class `"dsm"` with the following components:
 #' \describe{
-#'   \item{matrix}{The Risk-based 'Grandparent' DSM giving the number of risks shared between each task.}
+#'   \item{matrix}{The Risk-based 'Grandparent' DSM giving the shared risk-exposure score for each task pair.}
 #'   \item{type}{Character string `"grandparent"`.}
 #'   \item{n_tasks}{Number of tasks (columns in S).}
 #'   \item{n_resources}{Number of resources (rows in S).}

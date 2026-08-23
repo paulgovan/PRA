@@ -1,3 +1,113 @@
+# Internal: derive each node's declared parents from the distribution list.
+# A conditional node depends on its `condition`; an aggregate node depends on
+# every node it sums. Any other node type declares no parents.
+declared_parents <- function(distributions) {
+  parents <- list()
+  for (node in names(distributions)) {
+    dist <- distributions[[node]]
+    from <- if (identical(dist$type, "conditional")) {
+      as.character(dist$condition)
+    } else if (identical(dist$type, "aggregate")) {
+      as.character(dist$nodes)
+    } else {
+      character(0)
+    }
+    # An aggregate over no components declares no parents.
+    if (length(from) > 0) {
+      parents[[node]] <- from
+    }
+  }
+  parents
+}
+
+# Internal: check that the links and the distributions describe the same DAG.
+# The links are load-bearing: the dependency structure declared by the
+# distributions must match the edges exactly, so a network whose graph disagrees
+# with its distributions is rejected rather than silently simulated. Requiring
+# every edge to run forward through `nodes$id` both guarantees acyclicity and
+# confirms that the supplied node order is a topological order, which is the
+# order [prob_net_sim()] samples in.
+validate_prob_net <- function(nodes, links, distributions) {
+  node_ids <- as.character(nodes$id)
+
+  if (anyDuplicated(node_ids)) {
+    stop("The nodes data frame must not contain duplicate ids.")
+  }
+
+  sources <- as.character(links$source)
+  targets <- as.character(links$target)
+  unknown <- setdiff(c(sources, targets), node_ids)
+  if (length(unknown) > 0) {
+    stop(paste(
+      "Every link source and target must be a node id. Unknown:",
+      paste(unique(unknown), collapse = ", ")
+    ))
+  }
+
+  if (any(sources == targets)) {
+    stop("The links data frame must not contain self-loops.")
+  }
+
+  link_edges <- paste(sources, targets, sep = " -> ")
+
+  if (!is.null(distributions)) {
+    extra <- setdiff(names(distributions), node_ids)
+    if (length(extra) > 0) {
+      stop(paste(
+        "Distributions must be named for nodes in the network. Unknown:",
+        paste(extra, collapse = ", ")
+      ))
+    }
+
+    parents <- declared_parents(distributions)
+    parent_ids <- unique(unlist(parents))
+    missing_parents <- setdiff(parent_ids, node_ids)
+    if (length(missing_parents) > 0) {
+      stop(paste(
+        "Every node a distribution depends on must be a node in the network.",
+        "Unknown:", paste(missing_parents, collapse = ", ")
+      ))
+    }
+
+    declared_edges <- character(0)
+    for (node in names(parents)) {
+      declared_edges <- c(declared_edges, paste(parents[[node]], node, sep = " -> "))
+    }
+    declared_edges <- unique(declared_edges)
+
+    undeclared <- setdiff(unique(link_edges), declared_edges)
+    if (length(undeclared) > 0) {
+      stop(paste(
+        "Every link must correspond to a dependency declared by the",
+        "distributions. Links with no matching dependency:",
+        paste(undeclared, collapse = "; ")
+      ))
+    }
+
+    unlinked <- setdiff(declared_edges, unique(link_edges))
+    if (length(unlinked) > 0) {
+      stop(paste(
+        "Every dependency declared by the distributions must appear in the",
+        "links. Dependencies with no matching link:",
+        paste(unlinked, collapse = "; ")
+      ))
+    }
+  }
+
+  position <- stats::setNames(seq_along(node_ids), node_ids)
+  backward <- position[sources] >= position[targets]
+  if (any(backward)) {
+    stop(paste(
+      "The nodes must be supplied in a topological order, with every link",
+      "running from an earlier node to a later one; a graph containing a cycle",
+      "can never satisfy this. Offending links:",
+      paste(link_edges[backward], collapse = "; ")
+    ))
+  }
+
+  invisible(TRUE)
+}
+
 #' Probabilistic Network of Project Risks.
 #'
 #' This function is part of the probabilistic network module, whose API may
@@ -20,25 +130,38 @@
 #'     The conditional distributions can themselves be discrete or continuous.
 #'   - "aggregate": Specifies `nodes` (a list of continuous node IDs to sum).
 #'
+#' @details
+#' The links are load-bearing. A conditional node depends on its `condition` and
+#' an aggregate node depends on every node it sums, and `prob_net()` requires the
+#' edges in `links` to match that declared structure exactly: an edge with no
+#' corresponding dependency, or a dependency with no corresponding edge, is an
+#' error rather than a silently ignored inconsistency. Nodes must additionally be
+#' supplied in a topological order, with every link running from an earlier node
+#' to a later one, which is the order [prob_net_sim()] samples in and which also
+#' guarantees the graph is acyclic.
+#'
 #' @return A list with:
 #' - `nodes`: The input `nodes` data frame.
 #' - `links`: The input `links` data frame.
-#' - `adjacency_matrix`: A matrix representing connections between nodes.
+#' - `adjacency_matrix`: A directed matrix with a 1 in `[source, target]` for
+#'   every edge.
 #' - `distributions`: The input `distributions` list.
 #'
 #' @examples
 #' nodes <- data.frame(id = c("A", "B", "C", "D"))
-#' links <- data.frame(source = c("A", "B", "C"), target = c("B", "C", "D"))
+#' links <- data.frame(
+#'   source = c("A", "B", "C"),
+#'   target = c("B", "D", "D")
+#' )
 #' distributions <- list(
-#'   A = list(type = "discrete", values = c(0, 1), probs = c(0.5, 0.5)),
-#'   B = list(type = "normal", mean = 0, sd = 1),
-#'   C = list(type = "lognormal", meanlog = 0, sdlog = 0.5),
-#'   D = list(type = "uniform", min = 1, max = 5),
-#'   E = list(
+#'   A = list(type = "discrete", values = c(1, 0), probs = c(0.5, 0.5)),
+#'   B = list(
 #'     type = "conditional", condition = "A",
-#'     true_dist = list(type = "normal", mean = 1, sd = 0.5),
+#'     true_dist  = list(type = "normal", mean = 1, sd = 0.5),
 #'     false_dist = list(type = "lognormal", meanlog = -1, sdlog = 0.5)
-#'   )
+#'   ),
+#'   C = list(type = "uniform", min = 1, max = 5),
+#'   D = list(type = "aggregate", nodes = c("B", "C"))
 #' )
 #' graph <- prob_net(nodes, links, distributions = distributions)
 #'
@@ -96,7 +219,11 @@ prob_net <- function(nodes, links, distributions = NULL) {
     }
   }
 
-  # Create an adjacency matrix
+  # The graph and the distributions must describe the same DAG, and the node
+  # order must be the topological order prob_net_sim() samples in.
+  validate_prob_net(nodes, links, distributions)
+
+  # Create a directed adjacency matrix
   node_ids <- nodes$id
   adjacency_matrix <- matrix(0,
                              nrow = length(node_ids), ncol = length(node_ids),
@@ -104,11 +231,9 @@ prob_net <- function(nodes, links, distributions = NULL) {
   )
 
   for (i in seq_len(nrow(links))) {
-    source <- links$source[i]
-    target <- links$target[i]
-
-    adjacency_matrix[source, target] <- adjacency_matrix[source, target] + 1
-    adjacency_matrix[target, source] <- adjacency_matrix[target, source] + 1
+    adjacency_matrix[
+      as.character(links$source[i]), as.character(links$target[i])
+    ] <- 1
   }
 
   # Return as a list object
@@ -153,9 +278,9 @@ prob_net <- function(nodes, links, distributions = NULL) {
 #'
 #' # Define links
 #' links <- data.frame(
-#'   source = c("A", "A", "B", "C"),
-#'   target = c("B", "C", "D", "D"),
-#'   weight = c(1, 2, 3, 4),
+#'   source = c("A", "B", "C"),
+#'   target = c("C", "D", "D"),
+#'   weight = c(1, 2, 3),
 #'   stringsAsFactors = FALSE
 #' )
 #'
@@ -285,9 +410,9 @@ prob_net_sim <- function(network, num_samples = 1000) {
 #'
 #' # Define links
 #' links <- data.frame(
-#'   source = c("A", "A", "B", "C"),
-#'   target = c("B", "C", "D", "D"),
-#'   weight = c(1, 2, 3, 4),
+#'   source = c("A", "B", "C"),
+#'   target = c("C", "D", "D"),
+#'   weight = c(1, 2, 3),
 #'   stringsAsFactors = FALSE
 #' )
 #'
@@ -382,24 +507,34 @@ prob_net_learn <- function(network, observations = list(), num_samples = 1000) {
 #' @param add_links Optional. A data frame with columns `source` and `target` to add new links.
 #' @param remove_links Optional. A data frame with columns `source` and `target` to remove existing links.
 #' @param update_distributions Optional. A named list of distributions to update. Format follows `prob_net()`.
+#'
+#' @details
+#' The updated network is re-validated with the same rules `prob_net()` applies,
+#' so the edge changes and the distribution changes must agree. Removing the edge
+#' into a conditional node without also replacing that node's distribution is an
+#' error, which is what makes `remove_links` structurally meaningful: an
+#' intervention that severs a dependency has to sever it in both the graph and
+#' the distribution list.
+#'
 #' @examples
 #' nodes <- data.frame(id = c("A", "B", "C"))
 #' links <- data.frame(source = c("A", "B"), target = c("B", "C"))
 #' distributions <- list(
-#'  A = list(type = "discrete", values = c(0, 1), probs = c(0.5, 0.5)),
-#'  B = list(type = "normal", mean = 0, sd = 1),
-#'  C = list(type = "uniform", min = 1, max = 5)
+#'   A = list(type = "discrete", values = c(1, 0), probs = c(0.5, 0.5)),
+#'   B = list(
+#'     type = "conditional", condition = "A",
+#'     true_dist  = list(type = "normal", mean = 5, sd = 1),
+#'     false_dist = list(type = "normal", mean = 1, sd = 1)
+#'   ),
+#'   C = list(type = "aggregate", nodes = "B")
 #' )
 #' graph <- prob_net(nodes, links, distributions)
-#' # Update the network
-#' new_links <- data.frame(source = c("A"), target = c("C"))
-#' updated_distributions <- list(
-#'  B = list(type = "lognormal", meanlog = 0, sdlog = 0.5)
-#' )
+#'
+#' # Intervene on B: sever its dependence on A and fix it to the baseline cost.
 #' updated_graph <- prob_net_update(
-#'  graph,
-#'  add_links = new_links,
-#'  update_distributions = updated_distributions
+#'   graph,
+#'   remove_links = data.frame(source = "A", target = "B"),
+#'   update_distributions = list(B = list(type = "normal", mean = 1, sd = 1))
 #' )
 #'
 #' @return An updated `prob_net` object with modified links and/or distributions.
@@ -471,7 +606,11 @@ prob_net_update <- function(graph, add_links = NULL, remove_links = NULL, update
     }
   }
 
-  # Recreate adjacency matrix
+  # The edge changes and the distribution changes must leave the network
+  # consistent, so an intervention has to sever a dependency in both.
+  validate_prob_net(nodes, links, distributions)
+
+  # Recreate the directed adjacency matrix
   node_ids <- nodes$id
   adjacency_matrix <- matrix(0,
                              nrow = length(node_ids), ncol = length(node_ids),
@@ -479,11 +618,9 @@ prob_net_update <- function(graph, add_links = NULL, remove_links = NULL, update
   )
 
   for (i in seq_len(nrow(links))) {
-    source <- links$source[i]
-    target <- links$target[i]
-
-    adjacency_matrix[source, target] <- adjacency_matrix[source, target] + 1
-    adjacency_matrix[target, source] <- adjacency_matrix[target, source] + 1
+    adjacency_matrix[
+      as.character(links$source[i]), as.character(links$target[i])
+    ] <- 1
   }
 
   updated_graph <- list(

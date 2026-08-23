@@ -556,7 +556,7 @@ test_that("fit_sigmoidal fails gracefully with all identical y values", {
 
   # Test passes if either:
   # 1. An error was thrown (success = FALSE), OR
-  # 2. The fit succeeded but is degenerate (all predictions ≈ constant)
+  # 2. The fit succeeded but is degenerate (all predictions ~= constant)
   if (result$success) {
     # Check that the fit is degenerate (predictions are essentially constant)
     preds <- predict(result$fit, newdata = data_constant)

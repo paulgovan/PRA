@@ -52,9 +52,9 @@ nodes <- data.frame(
 
 # Define links
 links <- data.frame(
-  source = c("A", "A", "B", "C"),
-  target = c("B", "C", "D", "D"),
-  weight = c(1, 2, 3, 4),
+  source = c("A", "B", "C"),
+  target = c("C", "D", "D"),
+  weight = c(1, 2, 3),
   stringsAsFactors = FALSE
 )
 

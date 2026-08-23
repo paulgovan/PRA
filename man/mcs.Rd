@@ -32,12 +32,18 @@ This function performs a Monte Carlo simulation to estimate the total duration o
 based on individual task distributions and an optional correlation matrix.
 }
 \note{
-When a correlation matrix is supplied, correlation is induced by
-applying a Cholesky factor to the sampled task values. This reproduces the
-target correlation but distorts the marginal means of the totals. For
-correlation-sensitive analyses prefer \code{\link[=smm]{smm()}}, which handles correlation
-analytically; a copula-based implementation that preserves the marginals is
-planned. See the package's design-structure tools for modeling structural
+When a correlation matrix is supplied, dependence is induced by
+Cholesky decomposition. The correlation matrix is factored, independent
+standard normal scores are multiplied by the Cholesky factor to carry the
+target correlation, and each column is then returned to its own scale through
+the normal CDF and that task's inverse CDF. Applying the factor to standard
+normal scores rather than to the raw task draws is required for the
+factorization to be valid, since it presumes unit-variance inputs. Every
+marginal distribution is therefore preserved exactly. The sampled rank
+correlation matches the target matrix, while the product-moment correlation
+is approximate: it is attenuated for strongly skewed marginals, an inherent
+property of the transform. \code{\link[=smm]{smm()}} remains available when only first and second moments are
+needed; see the package's design-structure tools for modeling structural
 dependence directly.
 }
 \examples{

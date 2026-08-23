@@ -1,52 +1,73 @@
-## ----setup, include=FALSE-----------------------------------------------------
+## ---------------------------------------------------------------------
+## Replication script for:
+##   "Quantitative Project Risk Analysis with PRA"
+##   Paul Govan, Journal of Statistical Software
+##
+## This standalone script reproduces every numerical result, table and
+## figure in the manuscript, in the order they appear.
+##
+## Requirements:
+##   install.packages(c("PRA", "knitr"))
+## PRA >= 0.5.0 is required. All random results use set.seed(42).
+##
+## Run with:  Rscript --vanilla pra-jss-replication.R
+## Or render code + output:  knitr::spin("pra-jss-replication.R")
+## ---------------------------------------------------------------------
+
+## --- setup ---
+#+ setup
 options(prompt = "R> ", continue = "+  ", width = 70, useFancyQuotes = FALSE)
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center",
-                      fig.width = 5, fig.height = 3.5,
-                      out.width = "80%")
 set.seed(42)
 library(PRA)
 
 
-## ----comparison-table, echo=FALSE, results="asis"-----------------------------
+## --- comparison-table ---
+#+ comparison-table
 comp <- data.frame(
   Feature = c(
-    "MCS schedule risk", "EVM (11 metrics)", "Bayesian updating",
-    "Sigmoidal learning curves", "Design structure matrices",
+    "MCS schedule risk", "EVM (11 metrics)", "Noisy-OR updating",
+    "Learning curves", "Design structure matrices",
     "Probabilistic networks", "MCP tool server",
-    "Open-source (CRAN)", "SRR-compliant"
+    "Open-source (CRAN)", "SRR general standards"
   ),
   PRA         = c("Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes"),
   mc2d        = c("Partial","---","---","---","---","---","---","Yes","---"),
   sensitivity = c("---","---","---","---","---","---","---","Yes","---"),
   `rstan/brms`= c("---","---","Yes","---","---","Partial","---","Yes","---"),
+  `bnlearn/gRain` = c("---","---","Partial","---","---","Yes","---",
+                      "Yes","---"),
   `@RISK`     = c("Yes","Yes","---","---","---","---","---","---","---"),
   check.names = FALSE
 )
-knitr::kable(
+tab <- knitr::kable(
   comp,
   format = "latex",
-  caption = paste0("\\label{tab:comparison}Comparison of \\pkg{PRA} with related",
+  caption = paste0("\\label{tab:comparison}Comparison of \\pkg{PRA} with",
+    " related",
     " \\proglang{R} packages and commercial tools. ``Partial'' = only",
     " general-purpose support, requiring custom modeling and not",
-    " project-specific; ``---'' = not supported. \\pkg{PRA}'s MCS supports task",
-    " correlation, but its current handling is approximate",
-    " (Section~\\ref{sec-summary})."),
-  booktabs = TRUE, align = "lccccc"
+    " project-specific; ``---'' = not supported."),
+  booktabs = TRUE, align = "lcccccc"
 )
+# Seven columns overrun the JSS text width at the default size.
+cat(sub("\\centering", "\\centering\n\\small", tab, fixed = TRUE))
 
 
-## ----install, eval=FALSE------------------------------------------------------
+## --- install ---
+#+ install
 # install.packages("PRA")
 # library("PRA")
 
 
-## ----bp-load------------------------------------------------------------------
+## --- bp-load ---
+#+ bp-load
 data("building_project", package = "PRA")
 bp <- building_project
 bp$task_names
 
 
-## ----smm-example--------------------------------------------------------------
+## --- smm-example ---
+#+ smm-example
 tri_mean <- function(d) (d$a + d$b + d$c) / 3
 tri_var  <- function(d) (d$a^2 + d$b^2 + d$c^2 -
                          d$a * d$b - d$a * d$c - d$b * d$c) / 18
@@ -58,26 +79,39 @@ cat("Total mean:", round(result$total_mean, 2), "weeks\n")
 cat("Total SD:  ", round(result$total_std,  2), "weeks\n")
 
 
-## ----smm-cor------------------------------------------------------------------
+## --- smm-cor ---
+#+ smm-cor
 result_cor <- smm(task_means, task_vars, bp$cor_mat)
 cat("Total SD (correlated):", round(result_cor$total_std, 2), "weeks\n")
 
 
-## ----mcs-run------------------------------------------------------------------
+## --- mcs-run ---
+#+ mcs-run
 set.seed(42)
 results <- mcs(10000, bp$task_distributions)
 cat("Simulated mean:", round(results$total_mean, 2), "weeks\n")
 cat("Simulated SD:  ", round(results$total_sd,   2), "weeks\n")
 
 
-## ----validation---------------------------------------------------------------
-cat(sprintf("Mean:  SMM %.2f  vs  MCS %.2f\n",
+## --- mcs-cor ---
+#+ mcs-cor
+set.seed(42)
+results_cor <- mcs(10000, bp$task_distributions, bp$cor_mat)
+cat("Simulated SD (correlated):", round(results_cor$total_sd, 2), "weeks\n")
+
+
+## --- validation ---
+#+ validation
+cat(sprintf("Mean:            SMM %.2f  vs  MCS %.2f\n",
             result$total_mean, results$total_mean))
-cat(sprintf("SD:    SMM %.2f  vs  MCS %.2f\n",
+cat(sprintf("SD:              SMM %.2f  vs  MCS %.2f\n",
             result$total_std,  results$total_sd))
+cat(sprintf("SD (correlated): SMM %.2f  vs  MCS %.2f\n",
+            result_cor$total_std, results_cor$total_sd))
 
 
-## ----mcs-hist, fig.cap="Distribution of simulated total project durations. The dashed vertical line marks the mean."----
+## --- mcs-hist ---
+#+ mcs-hist
 hist(results$total_distribution,
   breaks = 50, freq = FALSE,
   main = "MCS: Total Project Duration",
@@ -87,7 +121,9 @@ lines(density(results$total_distribution), col = "tomato", lwd = 2)
 abline(v = results$total_mean, lty = 2, lwd = 1.5)
 
 
-## ----cor-matrix---------------------------------------------------------------
+## --- cor-matrix ---
+#+ cor-matrix
+set.seed(42)
 dists <- list(
   normal  = function(n) rnorm(n, mean = 10, sd = 2),
   triang  = function(n) mc2d::rpert(n, min = 5, mode = 10, max = 15),
@@ -97,12 +133,14 @@ C_emp <- cor_matrix(num_samples = 1000, num_vars = 3, dists = dists)
 print(round(C_emp, 3))
 
 
-## ----contingency--------------------------------------------------------------
+## --- contingency ---
+#+ contingency
 reserve <- contingency(results, phigh = 0.80, pbase = 0.50)
 cat("Schedule contingency (P80 - P50):", round(reserve, 2), "weeks\n")
 
 
-## ----sensitivity, fig.cap="Tornado chart: each bar shows a task's share of total project duration variance, sorted ascending so the largest driver appears at the top."----
+## --- sensitivity ---
+#+ sensitivity
 sens <- sensitivity(bp$task_distributions)
 names(sens) <- paste0("T", seq_along(sens))
 barplot(sort(sens),
@@ -112,13 +150,15 @@ barplot(sort(sens),
 )
 
 
-## ----evm-setup----------------------------------------------------------------
+## --- evm-setup ---
+#+ evm-setup
 bac         <- 500000
 schedule    <- c(0.10, 0.25, 0.50, 0.75, 1.00)
 time_period <- 3
 
 
-## ----evm-core-----------------------------------------------------------------
+## --- evm-core ---
+#+ evm-core
 pv_val <- pv(bac, schedule, time_period)
 ev_val <- ev(bac, actual_per_complete = 0.40)
 ac_val <- ac(c(45000, 110000, 135000), time_period, cumulative = FALSE)
@@ -128,7 +168,8 @@ cat("EV: $", format(ev_val, big.mark = ","), "\n")
 cat("AC: $", format(ac_val, big.mark = ","), "\n")
 
 
-## ----evm-indices--------------------------------------------------------------
+## --- evm-indices ---
+#+ evm-indices
 spi_val  <- spi(ev_val, pv_val)
 cpi_val  <- cpi(ev_val, ac_val)
 sv_val   <- sv(ev_val,  pv_val)
@@ -139,7 +180,8 @@ cat("SV: $", format(round(sv_val), big.mark = ","),
     "  CV: $", format(round(cv_val), big.mark = ","), "\n")
 
 
-## ----evm-eac------------------------------------------------------------------
+## --- evm-eac ---
+#+ evm-eac
 cat("EAC (typical):  $", format(round(eac(bac, method = "typical",
     cpi = cpi_val)), big.mark = ","), "\n")
 cat("EAC (atypical): $", format(round(eac(bac, method = "atypical",
@@ -149,7 +191,8 @@ cat("EAC (combined): $", format(round(eac(bac, method = "combined",
     big.mark = ","), "\n")
 
 
-## ----evm-remaining------------------------------------------------------------
+## --- evm-remaining ---
+#+ evm-remaining
 eac_typ <- eac(bac, method = "typical", cpi = cpi_val)
 cat("ETC:  $",
     format(round(etc(bac, ev_val, cpi = cpi_val)), big.mark = ","), "\n")
@@ -157,14 +200,16 @@ cat("TCPI:", round(tcpi(bac, ev_val, ac_val), 3), "\n")
 cat("VAC:  $", format(round(vac(bac, eac_typ)), big.mark = ","), "\n")
 
 
-## ----sigmoidal-data-----------------------------------------------------------
+## --- sigmoidal-data ---
+#+ sigmoidal-data
 progress <- data.frame(
   time       = 1:9,
   completion = c(5, 15, 40, 60, 70, 75, 80, 85, 90)
 )
 
 
-## ----sigmoidal-fit------------------------------------------------------------
+## --- sigmoidal-fit ---
+#+ sigmoidal-fit
 fit_log  <- fit_sigmoidal(progress, "time", "completion", "logistic")
 fit_gomp <- fit_sigmoidal(progress, "time", "completion", "gompertz")
 
@@ -172,27 +217,31 @@ cat("Logistic RSE: ", round(summary(fit_log)$sigma,  2), "\n")
 cat("Gompertz RSE: ", round(summary(fit_gomp)$sigma, 2), "\n")
 
 
-## ----sigmoidal-plot, fig.cap="Logistic learning curve with 95\\% confidence band. The shaded region widens as extrapolation extends beyond the observed data range."----
-plot_sigmoidal(fit_log, progress, "time", "completion", "logistic",
+## --- sigmoidal-plot ---
+#+ sigmoidal-plot
+plot_sigmoidal(fit_gomp, progress, "time", "completion", "gompertz",
                conf_level = 0.95,
-               main = "Logistic Learning Curve",
+               main = "Gompertz Learning Curve",
                xlab = "Week", ylab = "Completion (%)")
 
 
-## ----sigmoidal-predict--------------------------------------------------------
-preds <- predict_sigmoidal(fit_log, seq(10, 12, by = 0.5),
-                            "logistic", conf_level = 0.95)
+## --- sigmoidal-predict ---
+#+ sigmoidal-predict
+preds <- predict_sigmoidal(fit_gomp, seq(10, 12, by = 0.5),
+                            "gompertz", conf_level = 0.95)
 print(round(preds, 1))
 
 
-## ----bayes-prior--------------------------------------------------------------
+## --- bayes-prior ---
+#+ bayes-prior
 bp <- building_project
 prior_delay <- risk_prob(bp$cause_probs, bp$risks_given_causes,
                          bp$risks_given_not_causes)
 cat("Prior P(schedule delay):", round(prior_delay, 3), "\n")
 
 
-## ----bayes-post---------------------------------------------------------------
+## --- bayes-post ---
+#+ bayes-post
 post_delay <- risk_post_prob(
   bp$cause_probs, bp$risks_given_causes,
   bp$risks_given_not_causes, bp$observed_causes
@@ -201,7 +250,8 @@ cat("Posterior P(schedule delay):", round(post_delay, 3),
     " (observed causes:", paste(bp$observed_causes, collapse = ", "), ")\n")
 
 
-## ----net-setup----------------------------------------------------------------
+## --- net-setup ---
+#+ net-setup
 nodes <- data.frame(
   id = c("A","B","C","D","E","F","G","H","I"),
   label = c("Risk-1","Risk-2","Resource-1","Resource-2","Resource-3",
@@ -231,7 +281,9 @@ distributions <- list(
 net <- prob_net(nodes, links, distributions = distributions)
 
 
-## ----net-sim------------------------------------------------------------------
+## --- net-sim ---
+#+ net-sim
+set.seed(42)
 sim_net <- prob_net_sim(net, num_samples = 10000)
 cat("Mean project cost: $",
     format(round(mean(sim_net$I)), big.mark = ","), "\n")
@@ -239,7 +291,8 @@ cat("P80 project cost:  $", format(round(quantile(sim_net$I, 0.80)),
     big.mark = ","), "\n")
 
 
-## ----net-learn, fig.cap="Total project cost before and after observing that Risk-2 (Technical Complexity) did not occur. Conditioning on Risk-2 = 0 eliminates the heavy upper tail and shifts the distribution leftward by roughly \\$18,000 in expectation."----
+## --- net-learn ---
+#+ net-learn
 learn_net <- prob_net_learn(net, observations = list(B = 0),
                             num_samples = 10000)
 
@@ -257,7 +310,8 @@ legend("topright",
   col = c("steelblue", "tomato"), lwd = 2, bty = "n")
 
 
-## ----net-do-------------------------------------------------------------------
+## --- net-do ---
+#+ net-do
 inter_net <- prob_net_update(net,
   remove_links = data.frame(source = "B", target = "D"),
   update_distributions = list(
@@ -274,7 +328,8 @@ cat("Doing  (do(Risk-2=0)): $",
     format(round(mean(do_net$I)),    big.mark = ","), "\n")
 
 
-## ----net-confound-------------------------------------------------------------
+## --- net-confound ---
+#+ net-confound
 set.seed(42)
 cf_nodes <- data.frame(
   id = c("U", "Rk", "Wf", "Vs", "Tc"), stringsAsFactors = FALSE)
@@ -316,7 +371,8 @@ cat("Doing  do(Rk = 0) mean:  $",
     "  E[U] =", round(mean(cf_do$U), 2), "\n")
 
 
-## ----net-importance, fig.cap="Risk importance for the probabilistic network: the reduction in total project-cost variance achieved by intervening to eliminate each root risk. Taller bars indicate higher-priority mitigation targets."----
+## --- net-importance ---
+#+ net-importance
 base_var <- var(sim_net$I)
 
 do_A <- prob_net_sim(prob_net_update(net,
@@ -334,7 +390,8 @@ barplot(sort(importance), horiz = TRUE, col = "steelblue",
   xlab = "Reduction in Project-Cost Variance")
 
 
-## ----dsm-S--------------------------------------------------------------------
+## --- dsm-S ---
+#+ dsm-S
 S <- matrix(c(
   1, 0, 0,
   0, 1, 0,
@@ -344,12 +401,14 @@ rownames(S) <- c("Resource-1", "Resource-2", "Resource-3")
 colnames(S) <- c("Task-1", "Task-2", "Task-3")
 
 
-## ----parent-dsm, fig.cap="Parent DSM heatmap for the probabilistic network example above. Every task pair shares Resource-3, the common structural bottleneck."----
+## --- parent-dsm ---
+#+ parent-dsm
 p <- parent_dsm(S)
 plot(p)
 
 
-## ----dsm-R--------------------------------------------------------------------
+## --- dsm-R ---
+#+ dsm-R
 R_mat <- matrix(c(
   1, 0, 1,
   0, 1, 1
@@ -358,17 +417,19 @@ rownames(R_mat) <- c("Risk-1", "Risk-2")
 colnames(R_mat) <- c("Resource-1", "Resource-2", "Resource-3")
 
 
-## ----grandparent-dsm, fig.cap="Grandparent DSM heatmap for the probabilistic network example above. Task pairs inherit shared risk exposure through Resource-3."----
+## --- grandparent-dsm ---
+#+ grandparent-dsm
 g <- grandparent_dsm(S, R_mat)
 plot(g)
 
 
-## ----cs-mcs-------------------------------------------------------------------
+## --- cs-mcs ---
+#+ cs-mcs
 bp <- building_project
 set.seed(42)
 
 smm_cs <- smm(task_means, task_vars, bp$cor_mat)
-sim     <- mcs(10000, bp$task_distributions)
+sim     <- mcs(10000, bp$task_distributions, bp$cor_mat)
 res     <- contingency(sim, phigh = 0.80, pbase = 0.50)
 
 cat("SMM total (correlated): mean", round(smm_cs$total_mean, 1),
@@ -380,13 +441,15 @@ cat("P80 schedule:",
 cat("Contingency (P80-P50):", round(res, 2), "weeks\n")
 
 
-## ----cs-sens------------------------------------------------------------------
+## --- cs-sens ---
+#+ cs-sens
 drivers <- sensitivity(bp$task_distributions)
 names(drivers) <- bp$task_names
 print(round(sort(drivers, decreasing = TRUE), 3))
 
 
-## ----cs-evm-------------------------------------------------------------------
+## --- cs-evm ---
+#+ cs-evm
 pv_cs <- pv(bp$bac, bp$schedule, bp$time_period)
 ev_cs <- ev(bp$bac, bp$actual_per_complete)
 ac_cs <- ac(bp$actual_costs, bp$time_period, cumulative = FALSE)
@@ -397,13 +460,19 @@ cat("EAC (typical): $", format(round(eac(bp$bac,
     method = "typical", cpi = cpi(ev_cs, ac_cs))), big.mark = ","), "\n")
 
 
-## ----cs-forecast--------------------------------------------------------------
-preds_cs <- predict_sigmoidal(fit_log, seq(10, 12, by = 1),
-                              "logistic", conf_level = 0.95)
-print(round(preds_cs, 1))
+## --- cs-forecast ---
+#+ cs-forecast
+cpi_cs  <- cpi(ev_cs, ac_cs)
+eac_cs  <- eac(bp$bac, method = "typical", cpi = cpi_cs)
+
+cat("ETC:  $", format(round(etc(bp$bac, ev_cs, cpi = cpi_cs)),
+    big.mark = ","), "\n")
+cat("TCPI:", round(tcpi(bp$bac, ev_cs, ac_cs), 3), "\n")
+cat("VAC:  $", format(round(vac(bp$bac, eac_cs)), big.mark = ","), "\n")
 
 
-## ----cs-bayes-----------------------------------------------------------------
+## --- cs-bayes ---
+#+ cs-bayes
 prior_r <- risk_prob(bp$cause_probs, bp$risks_given_causes,
                      bp$risks_given_not_causes)
 post_r  <- risk_post_prob(bp$cause_probs, bp$risks_given_causes,
@@ -412,7 +481,8 @@ cat("Prior P(delay):", round(prior_r, 3),
     "-> Posterior P(delay):", round(post_r, 3), "\n")
 
 
-## ----cs-net-------------------------------------------------------------------
+## --- cs-net ---
+#+ cs-net
 cat("Prior mean project cost: $",
     format(round(mean(sim_net$I)), big.mark = ","), "\n")
 cat("Prior P80 project cost:  $",
@@ -421,7 +491,13 @@ cat("Posterior mean (Risk-2 = 0): $",
     format(round(mean(learn_net$I)), big.mark = ","), "\n")
 
 
-## ----cs-dsm, fig.cap="Grandparent DSM for the case-study project, showing which task pairs share the most risk exposure through common resources."----
+## --- cs-dsm ---
+#+ cs-dsm
 g_cs <- grandparent_dsm(bp$resource_task, bp$risk_resource)
 plot(g_cs)
+
+
+## --- session-info ---
+#+ session-info
+sessionInfo()
 

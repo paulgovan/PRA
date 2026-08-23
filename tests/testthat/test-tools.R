@@ -200,7 +200,7 @@ test_that("contingency_tool errors without prior MCS", {
 })
 
 # ============================================================================
-# Numerical Correctness Tests — Tool wrappers produce correct values
+# Numerical Correctness Tests -- Tool wrappers produce correct values
 # ============================================================================
 
 test_that("smm_tool computes correct total mean, variance, and std dev", {
@@ -446,14 +446,14 @@ test_that("contingency_tool computes correct reserve from MCS", {
   expect_true(grepl("P95", text))
   expect_true(grepl("P50", text))
 
-  # For Normal(100,10): P95 - P50 ≈ 1.645*10 = 16.45
+  # For Normal(100,10): P95 - P50 ~= 1.645*10 = 16.45
   dist <- PRA:::.pra_agent_env$last_mcs$total_distribution
   expected_contingency <- unname(quantile(dist, 0.95) - quantile(dist, 0.50))
   expect_true(grepl(format(round(expected_contingency, 4), big.mark = ","), text))
 })
 
 # ============================================================================
-# Multi-Tool Chain Tests — Verify chaining state
+# Multi-Tool Chain Tests -- Verify chaining state
 # ============================================================================
 
 test_that("MCS -> contingency chain produces consistent results", {
@@ -518,7 +518,7 @@ test_that("cost_pdf -> cost_post_pdf chain works", {
 })
 
 # ============================================================================
-# LLM-Style Input Pipeline Tests — Simulate realistic LLM tool calls
+# LLM-Style Input Pipeline Tests -- Simulate realistic LLM tool calls
 # ============================================================================
 
 test_that("pipeline: LLM sends string-wrapped numbers for EVM", {
