@@ -466,10 +466,10 @@ R> C_emp <- cor_matrix(num_samples = 1000, num_vars = 3, dists = dists)
 R> print(round(C_emp, 3))
 \end{CodeInput}
 \begin{CodeOutput}
-       [,1]   [,2]  [,3]
-[1,]  1.000 -0.047 0.004
-[2,] -0.047  1.000 0.018
-[3,]  0.004  0.018 1.000
+        normal triang uniform
+normal   1.000 -0.038  -0.019
+triang  -0.038  1.000   0.053
+uniform -0.019  0.053   1.000
 \end{CodeOutput}
 \end{CodeChunk}
 
@@ -772,16 +772,16 @@ observations is best read as a lower bound on eventual completion.
 
 Project risks are frequently triggered by one or more underlying root
 causes whose presence is uncertain. \pkg{PRA} models this with a
-noisy-OR risk network \citep{Pearl1988}: each root cause \(C_i\) acts
-on a risk event \(R\) independently, and \(R\) occurs if it is
-triggered by at least one cause. Write \(q_i^{+}\) for the probability that cause \(i\) alone
-triggers \(R\) when it is present and \(q_i^{-}\) for the corresponding
-probability when it is absent; these are the link probabilities supplied
-as \code{risks\_given\_causes} and \code{risks\_given\_not\_causes}.
-Note that \(q_i^{+}\) is not the model's conditional \(P(R \mid C_i)\),
-which is larger because the remaining causes may also fire. We
-illustrate with the schedule-delay risk in \code{building\_project},
-which has two candidate causes.
+noisy-OR risk network \citep{Pearl1988}: each root cause \(C_i\) acts on
+a risk event \(R\) independently, and \(R\) occurs if it is triggered by
+at least one cause. Write \(q_i^{+}\) for the probability that cause
+\(i\) alone triggers \(R\) when it is present and \(q_i^{-}\) for the
+corresponding probability when it is absent; these are the link
+probabilities supplied as \code{risks\_given\_causes} and
+\code{risks\_given\_not\_causes}. Note that \(q_i^{+}\) is not the
+model's conditional \(P(R \mid C_i)\), which is larger because the
+remaining causes may also fire. We illustrate with the schedule-delay
+risk in \code{building\_project}, which has two candidate causes.
 
 \subsection{Prior Risk Probability}\label{prior-risk-probability}
 
