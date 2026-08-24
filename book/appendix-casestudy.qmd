@@ -293,7 +293,7 @@ hist(sim_net$E, breaks = 60,
 
 ```{r}
 learn_net <- prob_net_learn(graph,
-  observations = list(B = "Yes"),
+  observations = list(B = 1),
   num_samples  = 10000)
 
 cat("Mean cost (prior):", format(round(mean(sim_net$E)), big.mark = ","), "\n")

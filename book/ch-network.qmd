@@ -217,7 +217,7 @@ Use `prob_net_learn()` to clamp one or more nodes to observed values and re-simu
 ```{r}
 learn_results <- prob_net_learn(
   graph,
-  observations = list(B = "No"),
+  observations = list(B = 0),
   num_samples  = 10000
 )
 ```
@@ -300,12 +300,12 @@ legend(
 
 ## Exercises
 
-1. **Learning effect.** In the example, we observed Risk-2 = No. What do you expect happens to the total project cost distribution (node I) when Risk-2 is observed as "Yes" instead? Test your prediction by running `prob_net_learn()` with `list(B = "Yes")` and plotting the result.
+1. **Learning effect.** In the example, we observed Risk-2 = No (`B = 0`). What do you expect happens to the total project cost distribution (node I) when Risk-2 is observed as occurring instead? Test your prediction by running `prob_net_learn()` with `list(B = 1)` and plotting the result.
 
 2. **Modify a risk.** Change the probability of Risk-1 from 0.70 to 0.30. How does this affect the mean total project cost from `prob_net_sim()`? Is the change proportional to the probability change?
 
 3. **Add a QA risk.** Modify the network so that a new Risk-3 (with probability 0.40) affects the QA Engineer (Resource-3), increasing their cost from a mean of \$20K to \$35K if it occurs. Update the distributions and re-simulate. How much does this add to the expected project cost? ★
 
-4. **Seeing vs. doing.** Explain the difference between `prob_net_learn(observations = list(B = "No"))` and `prob_net_update(remove_links = ...)`. When would you use each? Which corresponds to "seeing" and which to "doing" in the causal inference sense? (See @sec-network2 for the full treatment.)
+4. **Seeing vs. doing.** Explain the difference between `prob_net_learn(observations = list(B = 0))` and `prob_net_update(remove_links = ...)`. When would you use each? Which corresponds to "seeing" and which to "doing" in the causal inference sense? (See @sec-network2 for the full treatment.)
 
 5. **Project structure.** ★ This example has a simple layered structure (Risk → Resource → Task → Project). Design a more complex network with two risks that both affect the same resource. What does that mean for the correlation between the two downstream tasks? Build the network and verify with a correlation matrix of `sim_results`.

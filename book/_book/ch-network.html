@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -95,9 +95,9 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-a06763021a52c43c40a351ac8b799b8f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-dbc92dda8186f57fa2e333fbb71d6a9d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-a06763021a52c43c40a351ac8b799b8f.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-6b6957c917596b414ec0b78690761e87.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-abfa4615eba2ed0d4bb7fb949ed9c296.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -332,25 +332,8 @@ div.csl-indent {
         <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/paulgovan/PRA" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
     <div class="dropdown">
-      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Download"><i class="bi bi-download"></i></a>
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
-          <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="./Project-Risk-Analysis--A-Practical-Guide.pdf">
-              <i class="bi bi-file-pdf pe-1"></i>
-            Download PDF
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="./Project-Risk-Analysis--A-Practical-Guide.epub">
-              <i class="bi bi-journal pe-1"></i>
-            Download ePub
-            </a>
-          </li>
-      </ul>
-    </div>
-    <div class="dropdown">
-      <a href="" title="Share" id="quarto-navigation-tool-dropdown-1" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
-      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-1">
           <li>
             <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
               <i class="bi bi-twitter pe-1"></i>
@@ -894,7 +877,7 @@ div.csl-indent {
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>learn_results <span class="ot">&lt;-</span> <span class="fu">prob_net_learn</span>(</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  graph,</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">observations =</span> <span class="fu">list</span>(<span class="at">B =</span> <span class="st">"No"</span>),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">observations =</span> <span class="fu">list</span>(<span class="at">B =</span> <span class="dv">0</span>),</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">num_samples  =</span> <span class="dv">10000</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1022,10 +1005,10 @@ div.csl-indent {
 <section id="exercises" class="level2" data-number="8.9">
 <h2 data-number="8.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">8.9</span> Exercises</h2>
 <ol type="1">
-<li><p><strong>Learning effect.</strong> In the example, we observed Risk-2 = No.&nbsp;What do you expect happens to the total project cost distribution (node I) when Risk-2 is observed as “Yes” instead? Test your prediction by running <code>prob_net_learn()</code> with <code>list(B = "Yes")</code> and plotting the result.</p></li>
+<li><p><strong>Learning effect.</strong> In the example, we observed Risk-2 = No (<code>B = 0</code>). What do you expect happens to the total project cost distribution (node I) when Risk-2 is observed as occurring instead? Test your prediction by running <code>prob_net_learn()</code> with <code>list(B = 1)</code> and plotting the result.</p></li>
 <li><p><strong>Modify a risk.</strong> Change the probability of Risk-1 from 0.70 to 0.30. How does this affect the mean total project cost from <code>prob_net_sim()</code>? Is the change proportional to the probability change?</p></li>
 <li><p><strong>Add a QA risk.</strong> Modify the network so that a new Risk-3 (with probability 0.40) affects the QA Engineer (Resource-3), increasing their cost from a mean of $20K to $35K if it occurs. Update the distributions and re-simulate. How much does this add to the expected project cost? ★</p></li>
-<li><p><strong>Seeing vs.&nbsp;doing.</strong> Explain the difference between <code>prob_net_learn(observations = list(B = "No"))</code> and <code>prob_net_update(remove_links = ...)</code>. When would you use each? Which corresponds to “seeing” and which to “doing” in the causal inference sense? (See <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a> for the full treatment.)</p></li>
+<li><p><strong>Seeing vs.&nbsp;doing.</strong> Explain the difference between <code>prob_net_learn(observations = list(B = 0))</code> and <code>prob_net_update(remove_links = ...)</code>. When would you use each? Which corresponds to “seeing” and which to “doing” in the causal inference sense? (See <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a> for the full treatment.)</p></li>
 <li><p><strong>Project structure.</strong> ★ This example has a simple layered structure (Risk → Resource → Task → Project). Design a more complex network with two risks that both affect the same resource. What does that mean for the correlation between the two downstream tasks? Build the network and verify with a correlation matrix of <code>sim_results</code>.</p></li>
 </ol>
 
@@ -1735,7 +1718,7 @@ Govan, Paul. 2014. <span>“A Resource-Based View on Project Risk Management.”
 <span id="cb18-243"><a href="#cb18-243" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb18-244"><a href="#cb18-244" aria-hidden="true" tabindex="-1"></a>learn_results <span class="ot">&lt;-</span> <span class="fu">prob_net_learn</span>(</span>
 <span id="cb18-245"><a href="#cb18-245" aria-hidden="true" tabindex="-1"></a>  graph,</span>
-<span id="cb18-246"><a href="#cb18-246" aria-hidden="true" tabindex="-1"></a>  <span class="at">observations =</span> <span class="fu">list</span>(<span class="at">B =</span> <span class="st">"No"</span>),</span>
+<span id="cb18-246"><a href="#cb18-246" aria-hidden="true" tabindex="-1"></a>  <span class="at">observations =</span> <span class="fu">list</span>(<span class="at">B =</span> <span class="dv">0</span>),</span>
 <span id="cb18-247"><a href="#cb18-247" aria-hidden="true" tabindex="-1"></a>  <span class="at">num_samples  =</span> <span class="dv">10000</span></span>
 <span id="cb18-248"><a href="#cb18-248" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb18-249"><a href="#cb18-249" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
@@ -1818,13 +1801,13 @@ Govan, Paul. 2014. <span>“A Resource-Based View on Project Risk Management.”
 <span id="cb18-332"><a href="#cb18-332" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-333"><a href="#cb18-333" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
 <span id="cb18-334"><a href="#cb18-334" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-335"><a href="#cb18-335" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Learning effect.** In the example, we observed Risk-2 = No. What do you expect happens to the total project cost distribution (node I) when Risk-2 is observed as "Yes" instead? Test your prediction by running <span class="in">`prob_net_learn()`</span> with <span class="in">`list(B = "Yes")`</span> and plotting the result.</span>
+<span id="cb18-335"><a href="#cb18-335" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Learning effect.** In the example, we observed Risk-2 = No (<span class="in">`B = 0`</span>). What do you expect happens to the total project cost distribution (node I) when Risk-2 is observed as occurring instead? Test your prediction by running <span class="in">`prob_net_learn()`</span> with <span class="in">`list(B = 1)`</span> and plotting the result.</span>
 <span id="cb18-336"><a href="#cb18-336" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-337"><a href="#cb18-337" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Modify a risk.** Change the probability of Risk-1 from 0.70 to 0.30. How does this affect the mean total project cost from <span class="in">`prob_net_sim()`</span>? Is the change proportional to the probability change?</span>
 <span id="cb18-338"><a href="#cb18-338" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-339"><a href="#cb18-339" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Add a QA risk.** Modify the network so that a new Risk-3 (with probability 0.40) affects the QA Engineer (Resource-3), increasing their cost from a mean of \$20K to \$35K if it occurs. Update the distributions and re-simulate. How much does this add to the expected project cost? ★</span>
 <span id="cb18-340"><a href="#cb18-340" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-341"><a href="#cb18-341" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Seeing vs. doing.** Explain the difference between <span class="in">`prob_net_learn(observations = list(B = "No"))`</span> and <span class="in">`prob_net_update(remove_links = ...)`</span>. When would you use each? Which corresponds to "seeing" and which to "doing" in the causal inference sense? (See @sec-network2 for the full treatment.)</span>
+<span id="cb18-341"><a href="#cb18-341" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Seeing vs. doing.** Explain the difference between <span class="in">`prob_net_learn(observations = list(B = 0))`</span> and <span class="in">`prob_net_update(remove_links = ...)`</span>. When would you use each? Which corresponds to "seeing" and which to "doing" in the causal inference sense? (See @sec-network2 for the full treatment.)</span>
 <span id="cb18-342"><a href="#cb18-342" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-343"><a href="#cb18-343" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Project structure.** ★ This example has a simple layered structure (Risk → Resource → Task → Project). Design a more complex network with two risks that both affect the same resource. What does that mean for the correlation between the two downstream tasks? Build the network and verify with a correlation matrix of <span class="in">`sim_results`</span>.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
