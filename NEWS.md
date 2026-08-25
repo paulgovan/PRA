@@ -1,5 +1,32 @@
 # NEWS
 
+## v0.6.0
+- **`cor_matrix()` now draws column `i` from distribution `i`.** It previously
+  sampled a distribution at random, with replacement, for each column, so a
+  column did not necessarily correspond to its input distribution — with three
+  distributions, roughly half of all runs sampled one of them twice and
+  omitted another entirely. Output columns are now labelled with the
+  distribution names, as the documentation already claimed. Results from
+  `cor_matrix()` will differ from earlier versions.
+- Correlation-matrix validation is now shared across `mcs()`, `smm()`, and
+  `sensitivity()` through a new internal `validate_cor_mat()`, which adds the
+  previously missing symmetry, `[-1, 1]` range, and unit-diagonal checks. A
+  non-symmetric matrix was previously accepted silently.
+- `sensitivity()` now warns when a task's index comes out negative, which can
+  happen under negative correlation; indices still sum to 1, but a negative
+  bar has no Tornado-chart reading.
+- `cost_pdf()` no longer requires `sum(risk_probs) <= 1`; the risks are
+  independent Bernoulli events, so any number of them may occur together and
+  the probabilities need not sum to 1.
+- `cost_post_pdf()` gained a `risk_probs` argument. An unobserved (`NA`) risk
+  is now drawn from its prior when supplied, rather than always treated as
+  absent — matching how `risk_post_prob()` already treats an unobserved
+  cause. Warns when `risk_probs` is omitted and `NA`s are present, since
+  dropping them understates cost. Threaded through `cost_post_pdf_tool()` and
+  its MCP schema.
+- `predict_sigmoidal()` now errors on a `model_type`/`fit` mismatch instead of
+  silently producing `NA` confidence bounds.
+
 ## v0.5.0
 - **`mcs()` now applies the Cholesky decomposition correctly for correlated
   tasks.** The Cholesky factor is applied to independent standard normal scores,

@@ -12,13 +12,13 @@ title:
   plain:     "Quantitative Project Risk Analysis with PRA"
   short:     "\\pkg{PRA}: Project Risk Analysis"
 abstract: >
-  The \pkg{PRA} package for \proglang{R} is the first package to unify a core set of widely adopted quantitative project risk analysis methods in a single, open-source implementation: the Second Moment Method (SMM), Monte Carlo simulation (MCS), earned value management (EVM), contingency and sensitivity analysis, noisy-OR risk inference and updating, sigmoidal learning curves, and design structure matrices (DSM). Beyond this foundational core, \pkg{PRA} provides an open-source implementation of probabilistic network methods for project risk, supporting the forward simulation of cost uncertainty and Bayesian conditioning along causal chains. \pkg{PRA} also exposes every analytical function as a tool over the Model Context Protocol (MCP), paired with a documented set of Agent Skills, so that large-language-model (LLM) agents can run project risk analyses directly. The package is annotated against the rOpenSci general standards for statistical software and is supported by a continuous integration test suite running on macOS, Windows, and Ubuntu.
+  The \pkg{PRA} package for \proglang{R} is the first package to unify a core set of widely adopted quantitative project risk analysis methods in a single, open-source implementation: the Second Moment Method (SMM), Monte Carlo simulation (MCS), earned value management (EVM), contingency and sensitivity analysis, noisy-OR risk inference and updating, sigmoidal learning curves, and design structure matrices (DSM). Beyond this foundational core, \pkg{PRA} provides an open-source implementation of probabilistic network methods for project risk, supporting the forward simulation of cost uncertainty and Bayesian conditioning along causal chains. \pkg{PRA} also exposes every analytical function as a tool over the Model Context Protocol (MCP) so that large-language-model (LLM) agents can run project risk analyses directly. The package is annotated against the rOpenSci general standards for statistical software and is supported by a continuous integration test suite running on macOS, Windows, and Ubuntu.
   
 keywords:
   formatted: [project risk analysis, Monte Carlo simulation, earned value management,
-              "Bayesian inference", "design structure matrix", "\\proglang{R}"]
+              "noisy-OR inference", "design structure matrix", "\\proglang{R}"]
   plain:     [project risk analysis, Monte Carlo simulation, earned value management,
-              Bayesian inference, design structure matrix, R]
+              noisy-OR inference, design structure matrix, R]
 preamble: >
   \usepackage{amsmath}
   \usepackage{amssymb}
@@ -29,7 +29,8 @@ bibliography: pra-jss.bib
 ---
 
 ```{r setup, include=FALSE}
-options(prompt = "R> ", continue = "+  ", width = 70, useFancyQuotes = FALSE)
+options(prompt = "R> ", continue = "+  ", width = 70, useFancyQuotes = FALSE,
+        scipen = 999)
 knitr::opts_chunk$set(echo = TRUE, fig.align = "center",
                       fig.width = 5, fig.height = 3.5,
                       out.width = "80%")

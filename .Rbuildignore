@@ -19,3 +19,6 @@
 ^CITATION\.cff$
 ^book$
 ^data-raw$
+^dev-notes$
+^jss-submission$
+^inst/paper$

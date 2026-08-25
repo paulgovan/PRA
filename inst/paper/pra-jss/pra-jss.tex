@@ -27,18 +27,17 @@ this foundational core, \pkg{PRA} provides an open-source implementation
 of probabilistic network methods for project risk, supporting the
 forward simulation of cost uncertainty and Bayesian conditioning along
 causal chains. \pkg{PRA} also exposes every analytical function as a
-tool over the Model Context Protocol (MCP), paired with a documented set
-of Agent Skills, so that large-language-model (LLM) agents can run
-project risk analyses directly. The package is annotated against the
-rOpenSci general standards for statistical software and is supported by
-a continuous integration test suite running on macOS, Windows, and
-Ubuntu.
+tool over the Model Context Protocol (MCP) so that large-language-model
+(LLM) agents can run project risk analyses directly. The package is
+annotated against the rOpenSci general standards for statistical
+software and is supported by a continuous integration test suite running
+on macOS, Windows, and Ubuntu.
 }
 
 \Keywords{project risk analysis, Monte Carlo simulation, earned value
-management, Bayesian inference, design structure matrix, \proglang{R}}
+management, noisy-OR inference, design structure matrix, \proglang{R}}
 \Plainkeywords{project risk analysis, Monte Carlo simulation, earned
-value management, Bayesian inference, design structure matrix, R}
+value management, noisy-OR inference, design structure matrix, R}
 
 %% publication information
 %% \Volume{50}
@@ -567,7 +566,7 @@ PV: $ 250,000
 R> cat("EV: $", format(ev_val, big.mark = ","), "\n")
 \end{CodeInput}
 \begin{CodeOutput}
-EV: $ 2e+05 
+EV: $ 200,000 
 \end{CodeOutput}
 \begin{CodeInput}
 R> cat("AC: $", format(ac_val, big.mark = ","), "\n")
