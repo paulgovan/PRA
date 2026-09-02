@@ -1,52 +1,73 @@
 ---
 title: "Quantitative Project Risk Analysis with PRA"
-author: "Paul Govan"
-date: "`r Sys.Date()`"
+author: |
+  | Paul Govan
+  | GE Aerospace, 3290 Patterson Ave SE, Grand Rapids, MI 49512, USA
+  | ORCID: [0000-0002-1821-8492](https://orcid.org/0000-0002-1821-8492)
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+abstract: |
+  The PRA package for R unifies a core set of widely adopted quantitative
+  project risk analysis methods in a single, open-source implementation: the
+  Second Moment Method (SMM), Monte Carlo simulation (MCS), earned value
+  management (EVM), contingency and sensitivity analysis, noisy-OR risk
+  inference and updating, sigmoidal learning curves, and design structure
+  matrices (DSM). Beyond this foundational core, PRA provides an open-source
+  implementation of probabilistic network methods for project risk, supporting
+  the forward simulation of cost uncertainty and Bayesian conditioning along
+  causal chains. PRA also exposes its core analytical functions as tools over
+  the Model Context Protocol (MCP) so that large-language-model (LLM) agents
+  can run project risk analyses directly. The package is annotated against the
+  rOpenSci general standards for statistical software and is supported by a
+  continuous integration test suite running on macOS, Windows, and Ubuntu.
+keywords_line: "project risk analysis, Monte Carlo simulation, earned value management, noisy-OR inference, design structure matrix, R"
 output:
-  rmarkdown::html_vignette:
-    toc: true
-    toc_depth: 2
-bibliography: pra.bib
+  pdf_document:
+    number_sections: true
+    toc: false
+    keep_tex: false
+    latex_engine: pdflatex
+documentclass: article
+fontsize: 11pt
+geometry: margin=1in
+linkcolor: black
+urlcolor: blue
+citecolor: black
+bibliography: ../vignettes/pra.bib
 link-citations: true
-vignette: >
-  %\VignetteIndexEntry{Quantitative Project Risk Analysis with PRA}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+header-includes:
+  - \usepackage{amsmath}
+  - \usepackage{amssymb}
+  - \usepackage{booktabs}
+  - \usepackage{longtable}
+  - \usepackage{float}
+  - \renewcommand{\abstractname}{Abstract}
 ---
+
+```{r keywords, echo=FALSE, results="asis"}
+cat("\\begin{center}\n\\textbf{Keywords:} ",
+    rmarkdown::metadata$keywords_line, "\n\\end{center}\n\n")
+```
+
 
 
 ```{r setup, include=FALSE}
 # Render large currency values in full, not scientific notation.
-options(width = 80, scipen = 999)
+options(width = 72, scipen = 999)
 knitr::opts_chunk$set(
   echo = TRUE, collapse = TRUE, comment = "#>",
-  fig.align = "center", fig.width = 6, fig.height = 4,
-  out.width = "100%"
+  fig.align = "center", fig.width = 5, fig.height = 3.5,
+  out.width = "80%", fig.pos = "H", out.extra = ""
 )
 set.seed(42)
 library(PRA)
 ```
-
-**PRA** unifies a core set of widely adopted quantitative project risk analysis
-methods in a single, open-source implementation: the Second Moment Method
-(SMM), Monte Carlo simulation (MCS), earned value management (EVM), contingency
-and sensitivity analysis, noisy-OR risk inference and updating, sigmoidal
-learning curves, and design structure matrices (DSM). Beyond this foundational
-core, **PRA** implements probabilistic network methods for project risk,
-supporting the forward simulation of cost uncertainty and Bayesian conditioning
-along causal chains. **PRA** also exposes its core analytical functions as
-tools over the Model Context Protocol (MCP), so that large-language-model
-agents can run project risk analyses directly.
-
-This vignette walks through every module in turn, with working code drawn from
-a single R session, and closes with an integrated case study.
 
 # Introduction
 
 Quantitative risk analysis is a foundational discipline in project management,
 enabling organizations to assess schedule and cost uncertainty, identify
 high-impact risk drivers, and set evidence-based contingency reserves.
-This vignette presents **PRA**, an open-source R package that
+This paper presents **PRA**, an open-source R package that
 unifies the core quantitative methods of project risk analysis, schedule and
 cost uncertainty, earned value management, sensitivity and contingency
 analysis, learning curves, and dependency structure analysis, under a single,
@@ -103,16 +124,18 @@ comp <- data.frame(
   `rstan/brms`= c("---","---","Yes","---","---","Partial","---","Yes","---"),
   `bnlearn/gRain` = c("---","---","Partial","---","---","Yes","---",
                       "Yes","---"),
-  `\\@RISK`   = c("Yes","Yes","---","---","---","---","---","---","---"),
+  `@RISK`     = c("Yes","Yes","---","---","---","---","---","---","---"),
   check.names = FALSE
 )
-knitr::kable(
+tab <- knitr::kable(
   comp,
+  format = "latex", booktabs = TRUE, align = "lcccccc",
   caption = paste0("Comparison of PRA with related R packages and commercial",
-    " tools. 'Partial' = only general-purpose support, requiring custom",
-    " modeling and not project-specific; '---' = not supported."),
-  align = "lcccccc"
+    " tools. ``Partial'' = only general-purpose support, requiring custom",
+    " modeling and not project-specific; ``---'' = not supported.")
 )
+# Seven columns overrun the text width at the default size.
+cat(sub("\\centering", "\\centering\n\\small", tab, fixed = TRUE))
 ```
 
 A small number of CRAN packages do target project management specifically, but
@@ -160,7 +183,7 @@ library("PRA")
 Optional dependencies, **ellmer** [@ellmer], **mcptools** [@mcptools], and
 **jsonlite** [@jsonlite], are only required for the MCP server, `pra_mcp_server()`.
 
-The remainder of this vignette describes each analytical module in turn,
+The remainder of this paper describes each analytical module in turn,
 with working code examples drawn from the same R session.
 
 - [Schedule and Cost Uncertainty](#sec-uncertainty) covers SMM, MCS,
@@ -302,7 +325,7 @@ cat(sprintf("SD (correlated): SMM %.2f  vs  MCS %.2f\n",
             result_cor$total_std, results_cor$total_sd))
 ```
 
-```{r mcs-hist, fig.cap="Distribution of simulated total project durations, drawn by the `plot` method for `mcs` objects. The solid curve is the moment-matched normal; the dashed lines mark the median and the 95th percentile."}
+```{r mcs-hist, fig.cap="Distribution of simulated total project durations, drawn by the \\texttt{plot} method for \\texttt{mcs} objects. The solid curve is the moment-matched normal; the dashed lines mark the median and the 95th percentile."}
 plot(results, main = "MCS: Total Project Duration",
      xlab = "Duration (weeks)")
 ```
@@ -498,7 +521,7 @@ acceleration and deceleration is the more common default assumption for project
 progress curves, and comparing the two residual standard errors is the
 recommended way to choose between them in practice.
 
-```{r sigmoidal-plot, fig.cap="Gompertz learning curve over the observed data range, with a 95% confidence band. The band is narrowest in the middle of the range, where the observations most tightly constrain the fit, and widens toward both ends."}
+```{r sigmoidal-plot, fig.cap="Gompertz learning curve over the observed data range, with a 95\\% confidence band. The band is narrowest in the middle of the range, where the observations most tightly constrain the fit, and widens toward both ends."}
 plot_sigmoidal(fit_gomp, progress, "time", "completion", "gompertz",
                conf_level = 0.95,
                main = "Gompertz Learning Curve",
@@ -668,7 +691,7 @@ with its layer, its parents and the distribution it carries; the
 `plot()` method lays the network out by longest path from a root, so
 causes appear above the effects they propagate into.
 
-```{r net-plot, fig.cap="The project risk network, drawn by the `plot` method for `prob_net` objects. Layers run from the root risks at the top to the total project cost at the bottom.", fig.width=5.5, fig.height=4}
+```{r net-plot, fig.cap="The project risk network, drawn by the \\texttt{plot} method for \\texttt{prob\\_net} objects. Layers run from the root risks at the top to the total project cost at the bottom.", fig.width=5.5, fig.height=4}
 plot(net)
 ```
 
@@ -706,7 +729,7 @@ $$\widehat{E}\bigl[g(X) \mid X_E = e\bigr] =
 The following call conditions on Risk-2 (node B) being
 absent (value 0), ruling out Technical Complexity as a concern:
 
-```{r net-learn, fig.cap="Total project cost before and after observing that Risk-2 (Technical Complexity) did not occur. Conditioning on Risk-2 = 0 eliminates the heavy upper tail and shifts the distribution leftward by roughly $18,000 in expectation."}
+```{r net-learn, fig.cap="Total project cost before and after observing that Risk-2 (Technical Complexity) did not occur. Conditioning on Risk-2 = 0 eliminates the heavy upper tail and shifts the distribution leftward by roughly \\$18,000 in expectation."}
 learn_net <- prob_net_learn(net, observations = list(B = 0),
                             num_samples = 10000)
 
@@ -1146,7 +1169,7 @@ release.
 
 # Computational details {-}
 
-The results in this vignette were produced using R [@RCore]
+The results in this paper were produced using R [@RCore]
 with the **PRA** package (version 0.5.0) and its hard dependencies
 **mc2d** [@mc2d] and **minpack.lm** [@Elzhov2016]. The optional
 Model Context Protocol server additionally uses **ellmer** [@ellmer],
