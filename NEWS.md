@@ -65,8 +65,7 @@
   each task's actual variance contribution instead of always returning 1.0
   for independent tasks.
 - Added the `building_project` example dataset.
-- Vignettes migrated to a companion Quarto book and a new JSS paper
-  (`inst/paper/pra-jss/`).
+- Vignettes migrated to a companion Quarto book and a standalone manuscript.
 - License changed from CC BY 4.0 to MIT + file LICENSE.
 
 ## v0.4.0

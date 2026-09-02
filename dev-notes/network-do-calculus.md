@@ -1,7 +1,7 @@
 # Probabilistic network module: equation/implementation gaps
 
 **Status:** documented, not fixed. Raised 2026-08-22 while checking the §6
-equations in `inst/paper/pra-jss/pra-jss.Rmd` against `R/network.R` and against
+equations in the manuscript (now `vignettes/pra.Rmd`) against `R/network.R` and against
 Pearl (2009).
 
 ## Verdict
