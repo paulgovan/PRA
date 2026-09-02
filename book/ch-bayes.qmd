@@ -48,6 +48,8 @@ The PRA package provides four Bayesian functions organized into two stages:
 
 ```{r setup}
 #| code-fold: false
+# Render large currency values in full, not scientific notation.
+options(scipen = 999)
 library(PRA)
 set.seed(42)
 ```

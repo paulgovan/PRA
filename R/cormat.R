@@ -2,7 +2,8 @@
 # and sensitivity() so the same matrix is accepted or rejected identically
 # wherever it is used, and so a matrix that is not a correlation matrix is
 # caught here rather than surfacing later as a cryptic Cholesky failure.
-validate_cor_mat <- function(cor_mat, num_tasks) {
+validate_cor_mat <- function(cor_mat, num_tasks,
+                             require_positive_definite = FALSE) {
   if (!is.matrix(cor_mat) || nrow(cor_mat) != num_tasks ||
       ncol(cor_mat) != num_tasks) {
     stop("The correlation matrix must be square and match the number of tasks.")
@@ -24,6 +25,27 @@ validate_cor_mat <- function(cor_mat, num_tasks) {
   }
   if (!isTRUE(all.equal(as.numeric(diag(cor_mat)), rep(1, num_tasks)))) {
     stop("cor_mat must have ones on the diagonal")
+  }
+  # A symmetric, unit-diagonal matrix with entries in [-1, 1] can still fail to
+  # be a correlation matrix. Without this check smm() silently returns a
+  # negative total variance and a NaN standard deviation.
+  #
+  # Positive semi-definiteness is the real requirement: a perfectly correlated
+  # matrix is singular but is a valid correlation matrix, and smm() handles it
+  # analytically. Only callers that factorize the matrix need strict positive
+  # definiteness, and they ask for it.
+  if (num_tasks > 1) {
+    eigenvalues <- eigen(cor_mat, symmetric = TRUE, only.values = TRUE)$values
+    tol <- num_tasks * .Machine$double.eps * max(abs(eigenvalues))
+    if (min(eigenvalues) < -tol) {
+      stop("cor_mat must be positive semi-definite")
+    }
+    if (require_positive_definite && min(eigenvalues) <= tol) {
+      stop(paste(
+        "cor_mat must be positive definite for simulation; it is singular,",
+        "which happens when tasks are perfectly correlated"
+      ))
+    }
   }
   invisible(TRUE)
 }

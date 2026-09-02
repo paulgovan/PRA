@@ -832,18 +832,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td><code>parent_dsm(S*)</code></td>
 <td>Resource-Task matrix S (resources × tasks, binary)</td>
-<td>S3 object of class <code>parent_dsm</code>; <code>$matrix</code> is tasks × tasks</td>
+<td>S3 object of class <code>dsm</code> (<code>$type</code> is <code>"parent"</code>); <code>$matrix</code> is tasks × tasks</td>
 <td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a></td>
 </tr>
 <tr class="even">
 <td><code>grandparent_dsm(S*, R*)</code></td>
 <td>Resource-Task matrix S; Risk-Resource matrix R (risks × resources, binary)</td>
-<td>S3 object of class <code>grandparent_dsm</code>; <code>$matrix</code> is tasks × tasks</td>
+<td>S3 object of class <code>dsm</code> (<code>$type</code> is <code>"grandparent"</code>); <code>$matrix</code> is tasks × tasks</td>
 <td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a></td>
 </tr>
 </tbody>
 </table>
-<p>Both objects have <code>print()</code> and <code>plot()</code> methods.</p>
+<p>Both constructors return an object of class <code>dsm</code>, which has <code>print()</code>, <code>summary()</code> and <code>plot()</code> methods.</p>
 <hr>
 </section>
 <section id="probabilistic-networks" class="level2" data-number="C.9">
@@ -1504,10 +1504,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
 <span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
-<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`parent_dsm(S*)`</span> <span class="pp">|</span> Resource-Task matrix S (resources × tasks, binary) <span class="pp">|</span> S3 object of class <span class="in">`parent_dsm`</span>; <span class="in">`$matrix`</span> is tasks × tasks <span class="pp">|</span> @sec-dsm <span class="pp">|</span></span>
-<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`grandparent_dsm(S*, R*)`</span> <span class="pp">|</span> Resource-Task matrix S; Risk-Resource matrix R (risks × resources, binary) <span class="pp">|</span> S3 object of class <span class="in">`grandparent_dsm`</span>; <span class="in">`$matrix`</span> is tasks × tasks <span class="pp">|</span> @sec-dsm <span class="pp">|</span></span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`parent_dsm(S*)`</span> <span class="pp">|</span> Resource-Task matrix S (resources × tasks, binary) <span class="pp">|</span> S3 object of class <span class="in">`dsm`</span> (<span class="in">`$type`</span> is <span class="in">`"parent"`</span>); <span class="in">`$matrix`</span> is tasks × tasks <span class="pp">|</span> @sec-dsm <span class="pp">|</span></span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`grandparent_dsm(S*, R*)`</span> <span class="pp">|</span> Resource-Task matrix S; Risk-Resource matrix R (risks × resources, binary) <span class="pp">|</span> S3 object of class <span class="in">`dsm`</span> (<span class="in">`$type`</span> is <span class="in">`"grandparent"`</span>); <span class="in">`$matrix`</span> is tasks × tasks <span class="pp">|</span> @sec-dsm <span class="pp">|</span></span>
 <span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>Both objects have <span class="in">`print()`</span> and <span class="in">`plot()`</span> methods.</span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>Both constructors return an object of class <span class="in">`dsm`</span>, which has <span class="in">`print()`</span>, <span class="in">`summary()`</span> and <span class="in">`plot()`</span> methods.</span>
 <span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a></span>

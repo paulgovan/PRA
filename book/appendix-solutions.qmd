@@ -4,6 +4,8 @@ Reference solutions for all ★-marked exercises. Computational solutions are fu
 
 ```{r setup}
 #| code-fold: false
+# Render large currency values in full, not scientific notation.
+options(scipen = 999)
 library(PRA)
 set.seed(42)
 ```

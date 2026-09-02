@@ -253,3 +253,143 @@ plot.dsm <- function(x, main = NULL, col = NULL, ...) {
   graphics::axis(2, at = seq_len(n), labels = rev(labels))
   invisible(x)
 }
+
+
+#' Summarize a DSM object.
+#'
+#' Summarizes the coupling structure of a Design Structure Matrix: how densely
+#' the tasks are connected, how much coupling each task carries, and which task
+#' pairs share the most resources (parent) or risks (grandparent).
+#'
+#' @param object A `dsm` object returned by [parent_dsm()] or [grandparent_dsm()].
+#' @param n_top Number of most strongly coupled task pairs to report. Defaults
+#'   to 5.
+#' @param ... Additional arguments (not used).
+#' @return An object of class `"summary.dsm"`, a list with components:
+#'   \describe{
+#'     \item{type}{Either `"parent"` or `"grandparent"`.}
+#'     \item{n_tasks, n_resources, n_risks}{Dimensions of the underlying
+#'       incidence matrices. `n_risks` is `NULL` for a parent DSM.}
+#'     \item{density}{Proportion of off-diagonal cells that are non-zero.}
+#'     \item{total_coupling}{Sum of the upper triangle, the total number of
+#'       shared dependencies across all task pairs.}
+#'     \item{own}{Named numeric vector: the diagonal, each task's own count of
+#'       resources (parent) or risks (grandparent).}
+#'     \item{degree}{Named numeric vector: each task's total coupling to the
+#'       other tasks.}
+#'     \item{top_pairs}{Data frame of the `n_top` most strongly coupled task
+#'       pairs, with columns `task_a`, `task_b` and `shared`.}
+#'   }
+#' @srrstats {G1.4} *Documented with roxygen2.*
+#' @examples
+#' # A project with 3 tasks and 2 shared resources.
+#' S <- matrix(c(
+#'   1, 1, 0,
+#'   0, 1, 1
+#' ), nrow = 2, byrow = TRUE)
+#' colnames(S) <- c("Design", "Build", "Test")
+#' p <- parent_dsm(S)
+#' summary(p)
+#' @export
+#' @method summary dsm
+summary.dsm <- function(object, n_top = 5, ...) {
+  m <- object$matrix
+  n <- nrow(m)
+
+  labels <- colnames(m)
+  if (is.null(labels)) labels <- paste("Task", seq_len(n))
+
+  if (n == 0) {
+    own <- stats::setNames(numeric(0), character(0))
+    degree <- own
+    density <- NA_real_
+    total_coupling <- 0
+    top_pairs <- data.frame(
+      task_a = character(0), task_b = character(0), shared = numeric(0),
+      stringsAsFactors = FALSE
+    )
+  } else {
+    own <- stats::setNames(diag(m), labels)
+    degree <- stats::setNames(rowSums(m) - diag(m), labels)
+    n_off <- n * (n - 1)
+    density <- if (n_off == 0) NA_real_ else sum(m != 0 & row(m) != col(m)) / n_off
+    upper <- upper.tri(m)
+    total_coupling <- sum(m[upper])
+    idx <- which(upper & m > 0, arr.ind = TRUE)
+    if (nrow(idx) == 0) {
+      top_pairs <- data.frame(
+        task_a = character(0), task_b = character(0), shared = numeric(0),
+        stringsAsFactors = FALSE
+      )
+    } else {
+      shared <- m[idx]
+      ord <- order(shared, decreasing = TRUE)[seq_len(min(n_top, length(shared)))]
+      top_pairs <- data.frame(
+        task_a = labels[idx[ord, 1]],
+        task_b = labels[idx[ord, 2]],
+        shared = shared[ord],
+        stringsAsFactors = FALSE
+      )
+    }
+  }
+
+  result <- list(
+    type = object$type,
+    n_tasks = object$n_tasks,
+    n_resources = object$n_resources,
+    n_risks = object$n_risks,
+    density = density,
+    total_coupling = total_coupling,
+    own = own,
+    degree = degree,
+    top_pairs = top_pairs
+  )
+  class(result) <- "summary.dsm"
+  result
+}
+
+
+#' Print a DSM summary.
+#'
+#' @param x An object of class `"summary.dsm"` returned by [summary.dsm()].
+#' @param ... Additional arguments (not used).
+#' @return Invisibly returns `x`.
+#' @examples
+#' S <- matrix(c(
+#'   1, 1, 0,
+#'   0, 1, 1
+#' ), nrow = 2, byrow = TRUE)
+#' colnames(S) <- c("Design", "Build", "Test")
+#' print(summary(parent_dsm(S)))
+#' @export
+#' @method print summary.dsm
+print.summary.dsm <- function(x, ...) {
+  type_label <- if (x$type == "parent") {
+    "Resource-based 'Parent'"
+  } else {
+    "Risk-based 'Grandparent'"
+  }
+  cat(type_label, "Design Structure Matrix\n")
+  cat("------------------------------\n")
+  cat("Tasks:", x$n_tasks, " Resources:", x$n_resources)
+  if (!is.null(x$n_risks)) cat("  Risks:", x$n_risks)
+  cat("\n")
+  cat("Coupling density:", format(round(x$density, 3), scientific = FALSE), "\n")
+  cat("Total shared dependencies:",
+      format(x$total_coupling, big.mark = ",", scientific = FALSE), "\n\n")
+
+  if (length(x$degree) > 0) {
+    cat("Coupling by task:\n")
+    print(x$degree)
+    cat("\n")
+  }
+
+  if (nrow(x$top_pairs) > 0) {
+    unit <- if (x$type == "parent") "resources" else "risks"
+    cat("Most coupled task pairs (shared", paste0(unit, "):\n"))
+    print(x$top_pairs, row.names = FALSE)
+  } else {
+    cat("No task pairs share dependencies.\n")
+  }
+  invisible(x)
+}

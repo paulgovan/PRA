@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 
 Welcome to **PRA**! This project provides a set of tools for performing Project Risk Analysis (PRA) using various quantitative methods. It is designed to help project analysts assess and manage risks associated with project schedules, costs, and performance.
 
-PRA can be used as a traditional R package with direct function calls, or driven by AI agents: every analytical function is exposed as a tool over the [Model Context Protocol (MCP)](https://modelcontextprotocol.io), and the package ships a set of Agent Skills that tell an agent when and how to call each tool.
+PRA can be used as a traditional R package with direct function calls, or driven by AI agents: the core analytical functions are exposed as tools over the [Model Context Protocol (MCP)](https://modelcontextprotocol.io), and the package ships a set of Agent Skills that tell an agent when and how to call each tool.
 
 ## Key Features
 
@@ -48,7 +48,7 @@ PRA can be used as a traditional R package with direct function calls, or driven
 
 ### AI Agent Integration
 
-* **MCP server** — `pra_mcp_server()` exposes every analytical function as a tool over the [Model Context Protocol](https://modelcontextprotocol.io), callable from Claude, Claude Code, and other MCP-compatible clients
+* **MCP server** — `pra_mcp_server()` exposes the core analytical functions (Monte Carlo simulation, the second moment method, contingency and sensitivity analysis, earned value management, noisy-OR risk inference and updating, cost distributions, learning curves, and design structure matrices) as tools over the [Model Context Protocol](https://modelcontextprotocol.io), callable from Claude, Claude Code, and other MCP-compatible clients
 * **Agent Skills** — bundled `SKILL.md` files (under `system.file("skills", package = "PRA")`) document when to use each method, which tool to call, the JSON argument format, and how to interpret results
 * **No embedded model** — all analytical functions run without any AI dependency; only the MCP server needs the optional `ellmer`, `mcptools`, and `jsonlite` packages
 

@@ -140,12 +140,15 @@ validate_prob_net <- function(nodes, links, distributions) {
 #' to a later one, which is the order [prob_net_sim()] samples in and which also
 #' guarantees the graph is acyclic.
 #'
-#' @return A list with:
+#' @return An S3 object of class `"prob_net"`: a list with
 #' - `nodes`: The input `nodes` data frame.
 #' - `links`: The input `links` data frame.
 #' - `adjacency_matrix`: A directed matrix with a 1 in `[source, target]` for
 #'   every edge.
 #' - `distributions`: The input `distributions` list.
+#'
+#' Objects of this class have [print.prob_net()], [summary.prob_net()] and
+#' [plot.prob_net()] methods.
 #'
 #' @examples
 #' nodes <- data.frame(id = c("A", "B", "C", "D"))
@@ -632,4 +635,415 @@ prob_net_update <- function(graph, add_links = NULL, remove_links = NULL, update
 
   class(updated_graph) <- "prob_net"
   return(updated_graph)
+}
+
+
+# Internal: assign each node its longest-path layer. The node order is a
+# topological order (guaranteed by validate_prob_net), so one forward pass is
+# enough and no cycle detection is needed.
+prob_net_layers <- function(x) {
+  a <- x$adjacency_matrix
+  n <- nrow(a)
+  layer <- integer(n)
+  if (n == 0) return(stats::setNames(layer, character(0)))
+  for (i in seq_len(n)) {
+    parents <- which(a[, i] == 1)
+    layer[i] <- if (length(parents) == 0) 0L else max(layer[parents]) + 1L
+  }
+  stats::setNames(layer, rownames(a))
+}
+
+
+# Internal: render a node's distribution spec as a short readable string.
+format_node_dist <- function(dist, width = 40) {
+  if (is.null(dist)) return(NA_character_)
+  txt <- switch(dist$type,
+    normal = paste0("normal(mean = ", dist$mean, ", sd = ", dist$sd, ")"),
+    lognormal = paste0("lognormal(meanlog = ", dist$meanlog,
+                       ", sdlog = ", dist$sdlog, ")"),
+    uniform = paste0("uniform(", dist$min, ", ", dist$max, ")"),
+    discrete = paste0("discrete{",
+                      paste(dist$values, dist$probs, sep = ":", collapse = ", "),
+                      "}"),
+    conditional = paste0("if ", dist$condition,
+                         " then ", format_node_dist(dist$true_dist, width = Inf),
+                         " else ", format_node_dist(dist$false_dist, width = Inf)),
+    aggregate = paste0("sum(", paste(dist$nodes, collapse = ", "), ")"),
+    dist$type
+  )
+  if (is.finite(width) && nchar(txt) > width) {
+    txt <- paste0(substr(txt, 1, width - 3), "...")
+  }
+  txt
+}
+
+
+#' Print a probabilistic network.
+#'
+#' Displays the size and shape of the network: node and edge counts, how many
+#' nodes are roots or terminal, the depth of the causal chain, and which
+#' distribution types are in use.
+#'
+#' @param x An object of class `"prob_net"` returned by [prob_net()] or
+#'   [prob_net_update()].
+#' @param ... Additional arguments (not used).
+#' @return Invisibly returns `x`.
+#' @srrstats {G1.4} *Documented with roxygen2.*
+#' @examples
+#' nodes <- data.frame(id = c("Risk", "Task"), stringsAsFactors = FALSE)
+#' links <- data.frame(source = "Risk", target = "Task", stringsAsFactors = FALSE)
+#' dists <- list(
+#'   Risk = list(type = "discrete", values = c(0, 1), probs = c(0.7, 0.3)),
+#'   Task = list(
+#'     type = "conditional", condition = "Risk",
+#'     true_dist = list(type = "normal", mean = 20, sd = 4),
+#'     false_dist = list(type = "normal", mean = 10, sd = 2)
+#'   )
+#' )
+#' net <- prob_net(nodes, links, distributions = dists)
+#' print(net)
+#' @export
+#' @method print prob_net
+print.prob_net <- function(x, ...) {
+  a <- x$adjacency_matrix
+  n <- nrow(a)
+  cat("Probabilistic Network of Project Risks\n")
+
+  if (n == 0) {
+    cat("Nodes: 0   Edges: 0\n")
+    cat("The network is empty.\n")
+    return(invisible(x))
+  }
+
+  layers <- prob_net_layers(x)
+  cat("Nodes:", n,
+      "  Edges:", sum(a),
+      "  Roots:", sum(colSums(a) == 0),
+      "  Terminal:", sum(rowSums(a) == 0),
+      "  Depth:", max(layers) + 1L, "layers\n")
+
+  if (!is.null(x$distributions)) {
+    types <- vapply(x$distributions, function(d) d$type, character(1))
+    counts <- table(types)
+    cat("Node types: ",
+        paste0(names(counts), " (", as.integer(counts), ")", collapse = ", "),
+        "\n", sep = "")
+    missing <- setdiff(rownames(a), names(x$distributions))
+    if (length(missing) > 0) {
+      cat("Distributions: missing for ", length(missing), " node(s): ",
+          paste(missing, collapse = ", "), "\n", sep = "")
+    } else {
+      cat("Distributions: complete\n")
+    }
+  } else {
+    cat("Distributions: none declared\n")
+  }
+  cat("Use summary() for per-node detail and plot() for the network graph.\n")
+  invisible(x)
+}
+
+
+#' Summarize a probabilistic network.
+#'
+#' Builds a per-node table describing the causal structure: each node's layer in
+#' the network, its parents, and the distribution it carries.
+#'
+#' @param object An object of class `"prob_net"`.
+#' @param ... Additional arguments (not used).
+#' @return An object of class `"summary.prob_net"`, a list with components:
+#'   \describe{
+#'     \item{n_nodes, n_edges, n_roots, n_terminals, depth}{Structural counts.
+#'       `depth` is the number of layers in the longest causal chain.}
+#'     \item{type_counts}{A table of distribution types in use, or `NULL`.}
+#'     \item{missing_distributions}{Character vector of node ids with no
+#'       declared distribution.}
+#'     \item{node_table}{Data frame with one row per node, in topological order,
+#'       with columns `id`, `label`, `group`, `layer`, `type`, `n_parents`,
+#'       `parents` and `parameters`. `label` and `group` are present only when
+#'       the nodes data frame carries them.}
+#'   }
+#' @srrstats {G1.4} *Documented with roxygen2.*
+#' @examples
+#' nodes <- data.frame(id = c("Risk", "Task"), stringsAsFactors = FALSE)
+#' links <- data.frame(source = "Risk", target = "Task", stringsAsFactors = FALSE)
+#' dists <- list(
+#'   Risk = list(type = "discrete", values = c(0, 1), probs = c(0.7, 0.3)),
+#'   Task = list(
+#'     type = "conditional", condition = "Risk",
+#'     true_dist = list(type = "normal", mean = 20, sd = 4),
+#'     false_dist = list(type = "normal", mean = 10, sd = 2)
+#'   )
+#' )
+#' summary(prob_net(nodes, links, distributions = dists))
+#' @export
+#' @method summary prob_net
+summary.prob_net <- function(object, ...) {
+  a <- object$adjacency_matrix
+  n <- nrow(a)
+  ids <- rownames(a)
+
+  if (n == 0) {
+    node_table <- data.frame(
+      id = character(0), layer = integer(0), type = character(0),
+      n_parents = integer(0), parents = character(0),
+      parameters = character(0), stringsAsFactors = FALSE
+    )
+    result <- list(
+      n_nodes = 0L, n_edges = 0L, n_roots = 0L, n_terminals = 0L, depth = 0L,
+      type_counts = NULL, missing_distributions = character(0),
+      node_table = node_table
+    )
+    class(result) <- "summary.prob_net"
+    return(result)
+  }
+
+  layers <- prob_net_layers(object)
+  parents_of <- lapply(seq_len(n), function(i) ids[which(a[, i] == 1)])
+
+  dists <- object$distributions
+  node_table <- data.frame(
+    id = ids,
+    layer = as.integer(layers) + 1L,
+    type = vapply(ids, function(id) {
+      d <- if (!is.null(dists)) dists[[id]] else NULL
+      if (is.null(d)) NA_character_ else d$type
+    }, character(1)),
+    n_parents = vapply(parents_of, length, integer(1)),
+    parents = vapply(parents_of, function(p) {
+      if (length(p) == 0) "" else paste(p, collapse = ", ")
+    }, character(1)),
+    parameters = vapply(ids, function(id) {
+      format_node_dist(if (!is.null(dists)) dists[[id]] else NULL)
+    }, character(1)),
+    stringsAsFactors = FALSE
+  )
+  row.names(node_table) <- NULL
+
+  # Carry through the optional descriptive columns when the caller supplied them.
+  for (extra in c("label", "group")) {
+    if (extra %in% colnames(object$nodes)) {
+      node_table[[extra]] <- as.character(
+        object$nodes[[extra]][match(ids, as.character(object$nodes$id))]
+      )
+    }
+  }
+  ordered_cols <- intersect(
+    c("id", "label", "group", "layer", "type", "n_parents", "parents",
+      "parameters"),
+    colnames(node_table)
+  )
+  node_table <- node_table[, ordered_cols, drop = FALSE]
+
+  result <- list(
+    n_nodes = n,
+    n_edges = sum(a),
+    n_roots = sum(colSums(a) == 0),
+    n_terminals = sum(rowSums(a) == 0),
+    depth = max(layers) + 1L,
+    type_counts = if (!is.null(dists)) {
+      table(vapply(dists, function(d) d$type, character(1)))
+    } else {
+      NULL
+    },
+    missing_distributions = if (!is.null(dists)) {
+      setdiff(ids, names(dists))
+    } else {
+      ids
+    },
+    node_table = node_table
+  )
+  class(result) <- "summary.prob_net"
+  result
+}
+
+
+#' Print a probabilistic network summary.
+#'
+#' @param x An object of class `"summary.prob_net"` returned by
+#'   [summary.prob_net()].
+#' @param ... Additional arguments (not used).
+#' @return Invisibly returns `x`.
+#' @examples
+#' nodes <- data.frame(id = c("Risk", "Task"), stringsAsFactors = FALSE)
+#' links <- data.frame(source = "Risk", target = "Task", stringsAsFactors = FALSE)
+#' dists <- list(
+#'   Risk = list(type = "discrete", values = c(0, 1), probs = c(0.7, 0.3)),
+#'   Task = list(
+#'     type = "conditional", condition = "Risk",
+#'     true_dist = list(type = "normal", mean = 20, sd = 4),
+#'     false_dist = list(type = "normal", mean = 10, sd = 2)
+#'   )
+#' )
+#' print(summary(prob_net(nodes, links, distributions = dists)))
+#' @export
+#' @method print summary.prob_net
+print.summary.prob_net <- function(x, ...) {
+  cat("Probabilistic Network of Project Risks\n")
+  cat("------------------------------\n")
+  if (x$n_nodes == 0) {
+    cat("The network is empty.\n")
+    return(invisible(x))
+  }
+  cat("Nodes:", x$n_nodes, "  Edges:", x$n_edges,
+      "  Roots:", x$n_roots, "  Terminal:", x$n_terminals,
+      "  Depth:", x$depth, "layers\n")
+  if (length(x$missing_distributions) > 0) {
+    cat("Missing distributions:",
+        paste(x$missing_distributions, collapse = ", "), "\n")
+  }
+  cat("\nNodes (in topological order):\n")
+  print(x$node_table, row.names = FALSE)
+  invisible(x)
+}
+
+
+#' Plot a probabilistic network.
+#'
+#' Draws the network as a layered directed graph: nodes are placed by their
+#' longest-path distance from a root, so causes sit above the effects they
+#' propagate into. Within-layer ordering is refined by barycenter sweeps to
+#' reduce edge crossings.
+#'
+#' This is a readable layout for the small-to-moderate networks the module is
+#' designed for, implemented in base graphics so that no optional dependency is
+#' required. It does not route long edges around intervening layers the way a
+#' full Sugiyama implementation does. For large or dense graphs, pass the
+#' network to a dedicated graph package, for example
+#' `igraph::graph_from_data_frame(x$links, vertices = x$nodes)`.
+#'
+#' @param x An object of class `"prob_net"`.
+#' @param main Optional plot title. If `NULL`, a default title is generated.
+#' @param col Node fill color or vector of colors. If `NULL`, nodes are colored
+#'   by their `group` column when present, and uniformly otherwise.
+#' @param vertical Logical. If `TRUE` (default), layers run top to bottom;
+#'   otherwise left to right.
+#' @param node_cex Node symbol size, passed to [graphics::points()].
+#' @param label_cex Node label size, passed to [graphics::text()].
+#' @param ... Additional arguments passed to [graphics::plot()].
+#' @return Invisibly returns `x`.
+#' @importFrom graphics arrows text points legend
+#' @importFrom grDevices colorRampPalette
+#' @srrstats {G1.4} *Documented with roxygen2.*
+#' @examples
+#' nodes <- data.frame(id = c("Risk", "Task"), stringsAsFactors = FALSE)
+#' links <- data.frame(source = "Risk", target = "Task", stringsAsFactors = FALSE)
+#' dists <- list(
+#'   Risk = list(type = "discrete", values = c(0, 1), probs = c(0.7, 0.3)),
+#'   Task = list(
+#'     type = "conditional", condition = "Risk",
+#'     true_dist = list(type = "normal", mean = 20, sd = 4),
+#'     false_dist = list(type = "normal", mean = 10, sd = 2)
+#'   )
+#' )
+#' plot(prob_net(nodes, links, distributions = dists))
+#' @export
+#' @method plot prob_net
+plot.prob_net <- function(x, main = NULL, col = NULL, vertical = TRUE,
+                          node_cex = 3, label_cex = 0.7, ...) {
+  a <- x$adjacency_matrix
+  n <- nrow(a)
+  if (n == 0) {
+    message("Nothing to plot: the network has no nodes.")
+    return(invisible(x))
+  }
+  if (is.null(main)) main <- "Probabilistic Network of Project Risks"
+
+  layer <- prob_net_layers(x)
+  ids <- rownames(a)
+
+  # Within-layer ordering: start from topological order, then alternate
+  # downward and upward barycenter sweeps to reduce edge crossings.
+  pos <- rep(NA_real_, n)
+  for (lv in sort(unique(layer))) {
+    idx <- which(layer == lv)
+    pos[idx] <- seq_along(idx) - (length(idx) + 1) / 2
+  }
+  for (sweep in seq_len(2)) {
+    levels_order <- sort(unique(layer))
+    if (sweep == 2) levels_order <- rev(levels_order)
+    for (lv in levels_order) {
+      idx <- which(layer == lv)
+      if (length(idx) < 2) next
+      bary <- vapply(idx, function(i) {
+        neighbours <- if (sweep == 1) which(a[, i] == 1) else which(a[i, ] == 1)
+        if (length(neighbours) == 0) pos[i] else mean(pos[neighbours])
+      }, numeric(1))
+      ord <- order(bary, pos[idx])
+      pos[idx[ord]] <- seq_along(idx) - (length(idx) + 1) / 2
+    }
+  }
+
+  xs <- pos
+  ys <- -as.numeric(layer)
+  if (!vertical) {
+    tmp <- xs
+    xs <- -ys
+    ys <- tmp
+  }
+
+  # Node colors: by group when available, otherwise the package fill.
+  pal <- pra_cols()
+  groups <- NULL
+  if (is.null(col)) {
+    if ("group" %in% colnames(x$nodes)) {
+      groups <- factor(
+        as.character(x$nodes$group[match(ids, as.character(x$nodes$id))])
+      )
+      ramp <- grDevices::colorRampPalette(
+        c("#18bc9c", "#3498db", "#e74c3c", "#2c3e50")
+      )(nlevels(groups))
+      fill <- ramp[as.integer(groups)]
+    } else {
+      fill <- rep(unname(pal["fill"]), n)
+    }
+  } else {
+    fill <- rep(col, length.out = n)
+  }
+
+  graphics::plot(xs, ys,
+    type = "n", axes = FALSE, xlab = "", ylab = "", main = main,
+    xlim = range(xs) + c(-1, 1), ylim = range(ys) + c(-1, 1), ...
+  )
+
+  # Edges, shortened at both ends so arrowheads land on the node boundary.
+  edges <- which(a == 1, arr.ind = TRUE)
+  if (nrow(edges) > 0) {
+    radius <- 0.18
+    for (k in seq_len(nrow(edges))) {
+      i <- edges[k, 1]
+      j <- edges[k, 2]
+      dx <- xs[j] - xs[i]
+      dy <- ys[j] - ys[i]
+      len <- sqrt(dx^2 + dy^2)
+      if (len == 0) next
+      ux <- dx / len
+      uy <- dy / len
+      graphics::arrows(
+        xs[i] + ux * radius, ys[i] + uy * radius,
+        xs[j] - ux * radius, ys[j] - uy * radius,
+        length = 0.08, col = unname(pal["ink"])
+      )
+    }
+  }
+
+  graphics::points(xs, ys,
+    pch = 21, bg = fill, col = unname(pal["ink"]), cex = node_cex
+  )
+
+  labels <- ids
+  if ("label" %in% colnames(x$nodes)) {
+    labels <- as.character(x$nodes$label[match(ids, as.character(x$nodes$id))])
+  }
+  graphics::text(xs, ys - 0.4, labels = labels, cex = label_cex)
+
+  if (!is.null(groups) && nlevels(groups) > 1) {
+    ramp <- grDevices::colorRampPalette(
+      c("#18bc9c", "#3498db", "#e74c3c", "#2c3e50")
+    )(nlevels(groups))
+    graphics::legend("topright",
+      legend = levels(groups), pt.bg = ramp, pch = 21,
+      col = unname(pal["ink"]), cex = 0.8, bg = "white"
+    )
+  }
+  invisible(x)
 }

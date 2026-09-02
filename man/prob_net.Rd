@@ -26,7 +26,7 @@ The conditional distributions can themselves be discrete or continuous.
 }}
 }
 \value{
-A list with:
+An S3 object of class \code{"prob_net"}: a list with
 \itemize{
 \item \code{nodes}: The input \code{nodes} data frame.
 \item \code{links}: The input \code{links} data frame.
@@ -34,6 +34,9 @@ A list with:
 every edge.
 \item \code{distributions}: The input \code{distributions} list.
 }
+
+Objects of this class have \code{\link[=print.prob_net]{print.prob_net()}}, \code{\link[=summary.prob_net]{summary.prob_net()}} and
+\code{\link[=plot.prob_net]{plot.prob_net()}} methods.
 }
 \description{
 This function is part of the probabilistic network module, whose API may

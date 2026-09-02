@@ -15,10 +15,12 @@ Earned Value Management, Learning Curves, Bayesian Methods, and more.
 \describe{
 \item{\strong{Monte Carlo Simulation} (\code{mcs()})}{
 Propagates schedule or cost uncertainty through a triangular distribution
-model using \code{mc2d}. Returns an S3 object with a \code{print} method.}
+model using \code{mc2d}. Returns an S3 object with \code{print}, \code{summary} and
+\code{plot} methods.}
 \item{\strong{Second Moment Method} (\code{smm()})}{
 Analytical first- and second-moment propagation of uncertainty without
-simulation. Returns an S3 object with a \code{print} method.}
+simulation. Returns an S3 object with \code{print}, \code{summary} and \code{plot}
+methods.}
 \item{\strong{Earned Value Management} (\code{pv()}, \code{ev()}, \code{ac()}, \code{sv()}, \code{cv()},
 \code{spi()}, \code{cpi()}, \code{eac()}, \code{etc()}, \code{tcpi()}, \code{vac()})}{
 Full suite of EVM performance metrics and forecasting functions.}
@@ -39,7 +41,13 @@ Constructs valid positive-definite correlation matrices for use in
 multivariate simulations.}
 \item{\strong{Design Structure Matrix} (\code{parent_dsm()}, \code{grandparent_dsm()})}{
 Derives direct (parent) and indirect (grandparent) dependency structure
-matrices from a binary adjacency matrix.}
+matrices from a binary adjacency matrix. Returns an S3 object with
+\code{print}, \code{summary} and \code{plot} methods.}
+\item{\strong{Probabilistic Networks} (\code{prob_net()}, \code{prob_net_sim()},
+\code{prob_net_learn()}, \code{prob_net_update()})}{
+Forward simulation and Bayesian conditioning over a causal network of
+risks, resources and tasks. \code{prob_net()} returns an S3 object with
+\code{print}, \code{summary} and \code{plot} methods.}
 }
 }
 

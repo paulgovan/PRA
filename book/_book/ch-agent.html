@@ -520,7 +520,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><em>“The best way to predict the future is to invent it.”</em> — Alan Kay</p>
 </blockquote>
 <p>You’ve made it through eight chapters of quantitative risk analysis. You know Monte Carlo, SMM, EVM, Bayesian inference, learning curves, design structure matrices, and probabilistic networks. Now imagine not having to remember the syntax for all of them.</p>
-<p>Imagine asking an AI assistant to “run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)” and getting back a P95 date, a contingency reserve, and a tornado chart. That’s the promise of the <code>PRA</code> agentic layer: every analytical function in this book is exposed as a tool that an AI agent can call directly, guided by a set of skills that tell it <em>when</em> and <em>how</em> to use each one.</p>
+<p>Imagine asking an AI assistant to “run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)” and getting back a P95 date, a contingency reserve, and a tornado chart. That’s the promise of the <code>PRA</code> agentic layer: the core analytical functions in this book are exposed as tools that an AI agent can call directly, guided by a set of skills that tell it <em>when</em> and <em>how</em> to use each one.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -765,7 +765,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>PRA exposes every analytical function as a <strong>tool over MCP</strong> via <code>pra_mcp_server()</code>; the numbers are identical to calling the functions directly.</li>
+<li>PRA exposes its core analytical functions as <strong>tools over MCP</strong> via <code>pra_mcp_server()</code>; the numbers are identical to calling the functions directly. The probabilistic network functions are not currently exposed as tools.</li>
 <li><strong>Agent Skills</strong> (<code>SKILL.md</code> files under <code>system.file("skills", package = "PRA")</code>) tell an agent when and how to use each tool, including the JSON argument format.</li>
 <li>The package embeds <strong>no language model</strong> — only the MCP server needs the optional <code>ellmer</code>, <code>mcptools</code>, and <code>jsonlite</code> packages.</li>
 <li>Agents chain tools just as you chain functions: <code>mcs_tool</code> → <code>contingency_tool</code> + <code>sensitivity_tool</code>.</li>
@@ -1273,7 +1273,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>You've made it through eight chapters of quantitative risk analysis. You know Monte Carlo, SMM, EVM, Bayesian inference, learning curves, design structure matrices, and probabilistic networks. Now imagine not having to remember the syntax for all of them.</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>Imagine asking an AI assistant to "run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)" and getting back a P95 date, a contingency reserve, and a tornado chart. That's the promise of the <span class="in">`PRA`</span> agentic layer: every analytical function in this book is exposed as a tool that an AI agent can call directly, guided by a set of skills that tell it *when* and *how* to use each one.</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>Imagine asking an AI assistant to "run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)" and getting back a P95 date, a contingency reserve, and a tornado chart. That's the promise of the <span class="in">`PRA`</span> agentic layer: the core analytical functions in this book are exposed as tools that an AI agent can call directly, guided by a set of skills that tell it *when* and *how* to use each one.</span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning Objectives</span></span>
@@ -1432,7 +1432,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
 <span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
 <span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>PRA exposes every analytical function as a **tool over MCP** via <span class="in">`pra_mcp_server()`</span>; the numbers are identical to calling the functions directly.</span>
+<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>PRA exposes its core analytical functions as **tools over MCP** via <span class="in">`pra_mcp_server()`</span>; the numbers are identical to calling the functions directly. The probabilistic network functions are not currently exposed as tools.</span>
 <span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Agent Skills** (<span class="in">`SKILL.md`</span> files under <span class="in">`system.file("skills", package = "PRA")`</span>) tell an agent when and how to use each tool, including the JSON argument format.</span>
 <span id="cb9-179"><a href="#cb9-179" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The package embeds **no language model** — only the MCP server needs the optional <span class="in">`ellmer`</span>, <span class="in">`mcptools`</span>, and <span class="in">`jsonlite`</span> packages.</span>
 <span id="cb9-180"><a href="#cb9-180" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Agents chain tools just as you chain functions: <span class="in">`mcs_tool`</span> → <span class="in">`contingency_tool`</span> + <span class="in">`sensitivity_tool`</span>.</span>

@@ -1,5 +1,29 @@
 # NEWS
 
+## v0.7.0
+
+* Completed the S3 method surface: `mcs`, `smm`, `dsm`, `prob_net` and
+  `pra_sigmoidal_fit` objects now all have `print()`, `summary()` and `plot()`
+  methods. `prob_net` previously had none and fell through to `print.default()`.
+* `plot.prob_net()` draws the network as a layered DAG in base graphics, with
+  no optional dependency required.
+* `plot.pra_sigmoidal_fit()` recovers the data, column names and model type
+  from the fitted object, so `plot(fit)` works with no further arguments.
+  `plot_sigmoidal()` is unchanged and still supported.
+* `validate_cor_mat()` now rejects a correlation matrix that is not positive
+  semi-definite. Such a matrix previously made `smm()` return a negative
+  variance and a `NaN` standard deviation, and made `mcs()` fail inside
+  `chol()` with an opaque message. `mcs()` additionally requires strict
+  positive definiteness, since it factorizes the matrix.
+* `print.mcs()` and `print.smm()` now return their input invisibly.
+* Fixed scientific notation in MCP tool output, where values such as `200000`
+  rendered as `2e+05` and the thousands separator was silently dropped.
+* Added `graphics`, `grDevices` and `tools` to `Imports`; all three were
+  already in use but undeclared. Dropped the unused `corrplot` suggestion.
+* Documentation: `pra_mcp_server()` and the README no longer claim that every
+  analytical function is exposed over MCP. The probabilistic network functions
+  are not among the twelve tools the server advertises.
+
 ## v0.6.0
 - **`cor_matrix()` now draws column `i` from distribution `i`** (previously
   random with replacement, so columns could repeat or omit inputs); columns

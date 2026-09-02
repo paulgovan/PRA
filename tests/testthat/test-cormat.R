@@ -228,3 +228,66 @@ test_that("cor_matrix labels unnamed distributions positionally", {
   result <- cor_matrix(num_samples = 100, num_vars = 2, dists = dist_list)
   expect_equal(colnames(result), c("V1", "V2"))
 })
+
+
+# ---- validate_cor_mat: shape and definiteness ----
+# These cover the checks added in v0.6.0, which had no regression tests, plus
+# the positive-definiteness check.
+
+test_that("validate_cor_mat rejects a non-symmetric matrix (G5.2a)", {
+  cor_mat <- matrix(c(1, 0.5, 0.9, 1), nrow = 2)
+  expect_error(validate_cor_mat(cor_mat, 2), "cor_mat must be symmetric")
+})
+
+test_that("validate_cor_mat rejects out-of-range values (G5.2a)", {
+  cor_mat <- matrix(c(1, 1.5, 1.5, 1), nrow = 2)
+  expect_error(validate_cor_mat(cor_mat, 2), "between -1 and 1")
+})
+
+test_that("validate_cor_mat rejects a non-unit diagonal (G5.2a)", {
+  cor_mat <- matrix(c(0.9, 0.5, 0.5, 0.9), nrow = 2)
+  expect_error(validate_cor_mat(cor_mat, 2), "ones on the diagonal")
+})
+
+test_that("validate_cor_mat rejects an indefinite matrix (G5.2a)", {
+  cor_mat <- matrix(c(
+    1, -0.99, -0.99,
+    -0.99, 1, -0.99,
+    -0.99, -0.99, 1
+  ), nrow = 3)
+  expect_error(validate_cor_mat(cor_mat, 3), "positive semi-definite")
+})
+
+test_that("validate_cor_mat accepts a singular matrix unless PD is required", {
+  cor_mat <- matrix(1, nrow = 3, ncol = 3)
+  expect_true(validate_cor_mat(cor_mat, 3))
+  expect_error(
+    validate_cor_mat(cor_mat, 3, require_positive_definite = TRUE),
+    "positive definite"
+  )
+})
+
+test_that("smm returns a finite variance for every accepted matrix (G5.3)", {
+  # The indefinite matrix that previously produced a negative variance and a
+  # NaN standard deviation is now rejected up front.
+  bad <- matrix(c(
+    1, -0.99, -0.99,
+    -0.99, 1, -0.99,
+    -0.99, -0.99, 1
+  ), nrow = 3)
+  expect_error(smm(c(1, 1, 1), c(1, 1, 1), bad), "positive semi-definite")
+
+  ok <- matrix(1, nrow = 3, ncol = 3)
+  result <- smm(c(10, 15, 20), c(4, 9, 16), ok)
+  expect_true(is.finite(result$total_var))
+  expect_true(is.finite(result$total_std))
+  expect_gte(result$total_var, 0)
+})
+
+test_that("mcs rejects a singular matrix before reaching chol() (G5.2a)", {
+  task_dists <- rep(list(list(type = "normal", mean = 10, sd = 2)), 3)
+  expect_error(
+    mcs(100, task_dists, matrix(1, nrow = 3, ncol = 3)),
+    "positive definite"
+  )
+})

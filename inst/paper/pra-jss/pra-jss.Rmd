@@ -12,7 +12,7 @@ title:
   plain:     "Quantitative Project Risk Analysis with PRA"
   short:     "\\pkg{PRA}: Project Risk Analysis"
 abstract: >
-  The \pkg{PRA} package for \proglang{R} is the first package to unify a core set of widely adopted quantitative project risk analysis methods in a single, open-source implementation: the Second Moment Method (SMM), Monte Carlo simulation (MCS), earned value management (EVM), contingency and sensitivity analysis, noisy-OR risk inference and updating, sigmoidal learning curves, and design structure matrices (DSM). Beyond this foundational core, \pkg{PRA} provides an open-source implementation of probabilistic network methods for project risk, supporting the forward simulation of cost uncertainty and Bayesian conditioning along causal chains. \pkg{PRA} also exposes every analytical function as a tool over the Model Context Protocol (MCP) so that large-language-model (LLM) agents can run project risk analyses directly. The package is annotated against the rOpenSci general standards for statistical software and is supported by a continuous integration test suite running on macOS, Windows, and Ubuntu.
+  The \pkg{PRA} package for \proglang{R} is the first package to unify a core set of widely adopted quantitative project risk analysis methods in a single, open-source implementation: the Second Moment Method (SMM), Monte Carlo simulation (MCS), earned value management (EVM), contingency and sensitivity analysis, noisy-OR risk inference and updating, sigmoidal learning curves, and design structure matrices (DSM). Beyond this foundational core, \pkg{PRA} provides an open-source implementation of probabilistic network methods for project risk, supporting the forward simulation of cost uncertainty and Bayesian conditioning along causal chains. \pkg{PRA} also exposes its core analytical functions as tools over the Model Context Protocol (MCP) so that large-language-model (LLM) agents can run project risk analyses directly. The package is annotated against the rOpenSci general standards for statistical software and is supported by a continuous integration test suite running on macOS, Windows, and Ubuntu.
   
 keywords:
   formatted: [project risk analysis, Monte Carlo simulation, earned value management,
@@ -78,7 +78,7 @@ the underlying inference.
 
 \pkg{PRA} also provides an \proglang{R} implementation of probabilistic-network methods for project risk that grounds causal networks in the resource-based view, showing that organizational capabilities and shared resources, not schedule uncertainty alone, are the structural pathways through which risks propagate across project tasks \citep{Govan2014, Govan2016}. This approach is extended with structural network measures that quantify the topology of project risk networks \citep{Govan2020}. The probabilistic network module (Section \ref{sec-network}) operationalizes these ideas by propagating distributions through the causal chain from risks to the total project risk.
 
-\pkg{PRA} is the first project risk analysis package to expose its analytical methods as tools callable by LLM agents over the Model Context Protocol (MCP). The optional MCP server is activated through \code{Suggests}-only dependencies; therefore, the analytical core incurs no additional runtime cost.
+\pkg{PRA} is the first project risk analysis package to expose its core analytical methods as tools callable by LLM agents over the Model Context Protocol (MCP). The optional MCP server is activated through \code{Suggests}-only dependencies; therefore, the analytical core incurs no additional runtime cost.
 
 The following table underscores the primary contribution: no existing
 \proglang{R} package or commercial platform covers the foundational project
@@ -262,8 +262,12 @@ cat("Simulated SD:  ", round(results$total_sd,   2), "weeks\n")
 ```
 
 The \code{mcs()} function returns an S3 object of class \code{"mcs"} with
-a \code{print()} method that summarizes percentiles. The full simulated
-distribution is available in \code{results\$total\_distribution}.
+\code{print()}, \code{summary()} and \code{plot()} methods. Every class
+\pkg{PRA} returns implements all three. The \code{summary()} method reports a
+wider percentile grid than \code{print()} does, and returns it as a
+\code{"summary.mcs"} object so the values can be used programmatically. The
+full simulated distribution is available in
+\code{results\$total\_distribution}.
 On a modern laptop, 10,000 simulations of a six-task network complete in
 under one second; increasing the count to 100,000 provides more precise tail
 estimates at roughly ten-fold additional runtime. The default of 10,000
@@ -299,14 +303,9 @@ cat(sprintf("SD (correlated): SMM %.2f  vs  MCS %.2f\n",
             result_cor$total_std, results_cor$total_sd))
 ```
 
-```{r mcs-hist, fig.cap="Distribution of simulated total project durations. The dashed vertical line marks the mean."}
-hist(results$total_distribution,
-  breaks = 50, freq = FALSE,
-  main = "MCS: Total Project Duration",
-  xlab = "Duration (weeks)", col = "steelblue", border = "white"
-)
-lines(density(results$total_distribution), col = "tomato", lwd = 2)
-abline(v = results$total_mean, lty = 2, lwd = 1.5)
+```{r mcs-hist, fig.cap="Distribution of simulated total project durations, drawn by the \\code{plot} method for \\code{mcs} objects. The solid curve is the moment-matched normal; the dashed lines mark the median and the 95th percentile."}
+plot(results, main = "MCS: Total Project Duration",
+     xlab = "Duration (weeks)")
 ```
 
 ## Correlation Matrix Construction
@@ -664,6 +663,16 @@ distributions <- list(
 net <- prob_net(nodes, links, distributions = distributions)
 ```
 
+Objects of class \code{"prob_net"} carry \code{print()}, \code{summary()}
+and \code{plot()} methods. The \code{summary()} method tabulates each node
+with its layer, its parents and the distribution it carries; the
+\code{plot()} method lays the network out by longest path from a root, so
+causes appear above the effects they propagate into.
+
+```{r net-plot, fig.cap="The project risk network, drawn by the \\code{plot} method for \\code{prob\\_net} objects. Layers run from the root risks at the top to the total project cost at the bottom.", fig.width=5.5, fig.height=4}
+plot(net)
+```
+
 ## Forward Simulation
 
 \code{prob\_net\_sim()} draws samples from every node in the order the nodes are
@@ -921,12 +930,15 @@ resource to at least one of the three tasks.
 
 # Model Context Protocol Integration {#sec-agent}
 
-\pkg{PRA} exposes all analytical functions as tools callable
+\pkg{PRA} exposes its core analytical functions as tools callable
 by large-language-model (LLM) agents through the Model Context Protocol (MCP)
-\citep{MCP2024}. \code{pra\_mcp\_server()} starts a server that advertises each
-tool, Monte Carlo simulation, EVM, noisy-OR risk, learning curves, DSM, and
-the rest, so that MCP-compatible clients can
-invoke them as native tools. The server is registered in Claude Code with a
+\citep{MCP2024}. \code{pra\_mcp\_server()} starts a server that advertises
+twelve tools spanning Monte Carlo simulation, the second moment method,
+contingency and sensitivity analysis, EVM, noisy-OR risk inference and
+updating, cost distributions, learning curves, and DSM, so that
+MCP-compatible clients can invoke them as native tools. The probabilistic
+network functions of Section \ref{sec-network} are not currently exposed as
+tools and are called directly from \proglang{R}. The server is registered in Claude Code with a
 single shell command:
 
 \begin{verbatim}
@@ -1116,7 +1128,7 @@ decoupling decisions.
 
 \pkg{PRA} is an \proglang{R} package whose primary contribution is being the first package to unify the foundational methods of quantitative project risk analysis in a single, open-source framework of ten integrated analytical modules: SMM, MCS, contingency analysis, sensitivity analysis, EVM (11 metrics), noisy-OR risk inference and updating, cost risk distributions, sigmoidal learning curves, correlation matrix construction, and design structure matrices. The eleventh module applies probabilistic network methods to project risk, with forward simulation and Bayesian conditioning over a network of risks, resources, and tasks. 
 
-\pkg{PRA} also exposes every analytical function as a tool over the Model Context Protocol, so that LLM agents can drive the package without any embedded model, the first project risk analysis package to do so. All exported functions are annotated against the rOpenSci SRR general standards, with a test suite verifying correctness, edge-case handling, and numerical stability across three operating systems. The package is licensed under MIT and the source is available at \url{https://github.com/paulgovan/PRA}; documentation and a companion online book are at \url{https://paulgovan.github.io/PRA/}.
+\pkg{PRA} also exposes its core analytical functions as tools over the Model Context Protocol, so that LLM agents can drive the package without any embedded model, the first project risk analysis package to do so. All exported functions are annotated against the rOpenSci SRR general standards, with a test suite verifying correctness, edge-case handling, and numerical stability across three operating systems. The package is licensed under MIT and the source is available at \url{https://github.com/paulgovan/PRA}; documentation and a companion online book are at \url{https://paulgovan.github.io/PRA/}.
 
 ## Limitations and Future Work
 

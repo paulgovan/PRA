@@ -32,6 +32,8 @@ The **Riverside Bridge Replacement** is a design-bid-build infrastructure projec
 
 ```{r setup}
 #| code-fold: false
+# Render large currency values in full, not scientific notation.
+options(scipen = 999)
 library(PRA)
 set.seed(42)
 ```

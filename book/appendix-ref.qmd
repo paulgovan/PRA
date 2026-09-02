@@ -88,10 +88,10 @@ All EVM functions accept numeric scalars or vectors as noted.
 
 | Function | Key Arguments | Returns | Chapter |
 |----------|--------------|---------|---------|
-| `parent_dsm(S*)` | Resource-Task matrix S (resources × tasks, binary) | S3 object of class `parent_dsm`; `$matrix` is tasks × tasks | @sec-dsm |
-| `grandparent_dsm(S*, R*)` | Resource-Task matrix S; Risk-Resource matrix R (risks × resources, binary) | S3 object of class `grandparent_dsm`; `$matrix` is tasks × tasks | @sec-dsm |
+| `parent_dsm(S*)` | Resource-Task matrix S (resources × tasks, binary) | S3 object of class `dsm` (`$type` is `"parent"`); `$matrix` is tasks × tasks | @sec-dsm |
+| `grandparent_dsm(S*, R*)` | Resource-Task matrix S; Risk-Resource matrix R (risks × resources, binary) | S3 object of class `dsm` (`$type` is `"grandparent"`); `$matrix` is tasks × tasks | @sec-dsm |
 
-Both objects have `print()` and `plot()` methods.
+Both constructors return an object of class `dsm`, which has `print()`, `summary()` and `plot()` methods.
 
 ---
 

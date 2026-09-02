@@ -489,7 +489,7 @@ mcs_tool <- function(num_sims, task_dists_json, cor_mat_json = "null") {
 
   # Plain text for LLM
   text <- paste0(
-    "Monte Carlo Simulation Results (n = ", format(num_sims, big.mark = ","), "):\n\n",
+    "Monte Carlo Simulation Results (n = ", format(num_sims, big.mark = ",", scientific = FALSE), "):\n\n",
     format_distribution(result$total_distribution)
   )
 
@@ -503,24 +503,10 @@ mcs_tool <- function(num_sims, task_dists_json, cor_mat_json = "null") {
         P90 = s$percentiles$P90, P95 = s$percentiles$P95
       )
       plot_img <- plot_to_html(function() {
-        graphics::hist(result$total_distribution,
-          freq = FALSE, breaks = 50,
+        pra_plot_distribution(result$total_distribution,
+          mean = result$total_mean, sd = result$total_sd,
           main = "Monte Carlo Simulation Results",
-          xlab = "Total Project Duration/Cost",
-          col = "#18bc9c80", border = "white"
-        )
-        graphics::curve(stats::dnorm(x, mean = result$total_mean, sd = result$total_sd),
-          add = TRUE, col = "#2c3e50", lwd = 2
-        )
-        graphics::abline(
-          v = stats::quantile(result$total_distribution, c(0.50, 0.95)),
-          col = c("#3498db", "#e74c3c"), lty = 2, lwd = 1.5
-        )
-        graphics::legend("topright",
-          legend = c("Normal fit", "P50", "P95"),
-          col = c("#2c3e50", "#3498db", "#e74c3c"),
-          lty = c(1, 2, 2), lwd = c(2, 1.5, 1.5),
-          cex = 0.8, bg = "white"
+          xlab = "Total Project Duration/Cost"
         )
       })
       paste0(stats_html, plot_img)
@@ -606,7 +592,9 @@ sensitivity_tool <- function(task_dists_json, cor_mat_json = "null") {
   result <- sensitivity(task_dists, cor_mat)
   names(result) <- paste("Task", seq_along(result))
 
-  vals <- vapply(result, function(v) format(round(v, 4), big.mark = ","), character(1))
+  vals <- vapply(result, function(v) {
+    format(round(v, 4), big.mark = ",", scientific = FALSE)
+  }, character(1))
   lines <- paste0("  ", formatC(names(result), width = -10), vals)
   text <- paste0(
     "Sensitivity Analysis (variance contribution per task):\n\n",
@@ -622,13 +610,9 @@ sensitivity_tool <- function(task_dists_json, cor_mat_json = "null") {
 
       # Tornado chart
       plot_img <- plot_to_html(function() {
-        sorted <- sort(result)
-        graphics::barplot(sorted,
-          horiz = TRUE, las = 1,
+        pra_plot_tornado(result,
           main = "Sensitivity Analysis",
-          xlab = "Variance Contribution",
-          col = grDevices::colorRampPalette(c("#18bc9c", "#e74c3c"))(length(sorted)),
-          border = "white"
+          xlab = "Variance Contribution"
         )
       })
       paste0(tbl_html, plot_img)
@@ -732,7 +716,7 @@ evm_analysis_tool <- function(bac, schedule_json, time_period, actual_per_comple
           ylim = c(0, max(vals) * 1.15)
         )
         graphics::text(seq(0.7, by = 1.2, length.out = 3), vals,
-          labels = format(round(vals), big.mark = ","),
+          labels = format(round(vals), big.mark = ",", scientific = FALSE),
           pos = 3, cex = 0.85, font = 2
         )
       })
@@ -908,7 +892,7 @@ cost_pdf_tool <- function(num_sims, risk_probs_json, means_given_risks_json,
   .pra_agent_env$last_cost_pdf <- result
 
   text <- paste0(
-    "Prior Cost Distribution (n = ", format(num_sims, big.mark = ","),
+    "Prior Cost Distribution (n = ", format(num_sims, big.mark = ",", scientific = FALSE),
     ", base cost = ", format(base_cost, big.mark = ",", scientific = FALSE), "):\n\n",
     format_distribution(result)
   )
@@ -947,7 +931,7 @@ cost_post_pdf_tool <- function(num_sims, observed_risks_json, means_given_risks_
   .pra_agent_env$last_cost_post_pdf <- result
 
   text <- paste0(
-    "Posterior Cost Distribution (n = ", format(num_sims, big.mark = ","),
+    "Posterior Cost Distribution (n = ", format(num_sims, big.mark = ",", scientific = FALSE),
     ", base cost = ", format(base_cost, big.mark = ",", scientific = FALSE), "):\n\n",
     format_distribution(result)
   )
@@ -989,7 +973,7 @@ fit_and_predict_sigmoidal_tool <- function(x_json, y_json, model_type,
   # Format coefficients
   coef_lines <- paste0(
     "  ", formatC(names(coefficients), width = -10),
-    format(round(unname(coefficients), 6), big.mark = ",")
+    format(round(unname(coefficients), 6), big.mark = ",", scientific = FALSE)
   )
 
   # Format predictions table

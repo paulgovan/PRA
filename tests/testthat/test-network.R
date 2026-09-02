@@ -705,3 +705,144 @@ test_that("prob_net_sim handles aggregate node with no component nodes", {
   expect_equal(nrow(result), 10)
   expect_true(all(result$Y == 0))
 })
+
+
+# ---- S3 methods ----
+
+make_test_net <- function() {
+  nodes <- data.frame(
+    id = c("R1", "Res", "T1", "T2", "Total"),
+    label = c("Weather", "Crew", "Foundation", "Framing", "Total"),
+    group = c("risk", "resource", "task", "task", "total"),
+    stringsAsFactors = FALSE
+  )
+  links <- data.frame(
+    source = c("R1", "Res", "Res", "T1", "T2"),
+    target = c("Res", "T1", "T2", "Total", "Total"),
+    stringsAsFactors = FALSE
+  )
+  dists <- list(
+    R1 = list(type = "discrete", values = c(0, 1), probs = c(0.7, 0.3)),
+    Res = list(
+      type = "conditional", condition = "R1",
+      true_dist = list(type = "discrete", values = c(0, 1), probs = c(0.4, 0.6)),
+      false_dist = list(type = "discrete", values = c(0, 1), probs = c(0.9, 0.1))
+    ),
+    T1 = list(
+      type = "conditional", condition = "Res",
+      true_dist = list(type = "normal", mean = 5, sd = 1),
+      false_dist = list(type = "normal", mean = 3, sd = 1)
+    ),
+    T2 = list(
+      type = "conditional", condition = "Res",
+      true_dist = list(type = "normal", mean = 8, sd = 2),
+      false_dist = list(type = "normal", mean = 4, sd = 1)
+    ),
+    Total = list(type = "aggregate", nodes = c("T1", "T2"))
+  )
+  prob_net(nodes, links, distributions = dists)
+}
+
+test_that("print.prob_net reports node and edge counts (G5.3)", {
+  out <- capture.output(print(make_test_net()))
+  expect_true(any(grepl("Nodes: 5", out)))
+  expect_true(any(grepl("Edges: 5", out)))
+  expect_true(any(grepl("Distributions: complete", out)))
+  # The default dump is replaced, so the raw adjacency matrix is not printed.
+  expect_false(any(grepl("attr\\(,\"class\"\\)", out)))
+})
+
+test_that("print.prob_net returns its input invisibly (G5.3)", {
+  expect_output(expect_invisible(print(make_test_net())))
+})
+
+test_that("prob_net_layers assigns longest-path layers (G5.3)", {
+  layers <- prob_net_layers(make_test_net())
+  expect_equal(unname(layers[["R1"]]), 0)
+  expect_equal(unname(layers[["Res"]]), 1)
+  expect_equal(unname(layers[["T1"]]), 2)
+  expect_equal(unname(layers[["T2"]]), 2)
+  expect_equal(unname(layers[["Total"]]), 3)
+})
+
+test_that("summary.prob_net returns one row per node in topological order (G5.3)", {
+  s <- summary(make_test_net())
+
+  expect_s3_class(s, "summary.prob_net")
+  expect_equal(s$n_nodes, 5)
+  expect_equal(s$n_edges, 5)
+  expect_equal(s$n_roots, 1)
+  expect_equal(s$n_terminals, 1)
+  expect_equal(s$depth, 4)
+  expect_equal(nrow(s$node_table), 5)
+  expect_equal(s$node_table$id, c("R1", "Res", "T1", "T2", "Total"))
+  # Layers are non-decreasing down the table, which is what topological order means.
+  expect_false(is.unsorted(s$node_table$layer))
+  expect_equal(s$node_table$parents[[1]], "")
+  expect_equal(s$node_table$parents[[5]], "T1, T2")
+  expect_length(s$missing_distributions, 0)
+})
+
+test_that("summary.prob_net carries label and group when supplied (G5.3)", {
+  s <- summary(make_test_net())
+  expect_true(all(c("label", "group") %in% colnames(s$node_table)))
+  expect_equal(s$node_table$label[[1]], "Weather")
+})
+
+test_that("format_node_dist renders every supported type (G5.7)", {
+  expect_match(
+    format_node_dist(list(type = "normal", mean = 2, sd = 0.5)),
+    "^normal\\(mean = 2, sd = 0.5\\)$"
+  )
+  expect_match(
+    format_node_dist(list(type = "lognormal", meanlog = 0, sdlog = 0.2)),
+    "^lognormal"
+  )
+  expect_match(
+    format_node_dist(list(type = "uniform", min = 1, max = 5)),
+    "^uniform\\(1, 5\\)$"
+  )
+  expect_match(
+    format_node_dist(list(type = "discrete", values = c(0, 1), probs = c(0.5, 0.5))),
+    "^discrete\\{0:0.5, 1:0.5\\}$"
+  )
+  expect_match(
+    format_node_dist(list(type = "aggregate", nodes = c("B", "C"))),
+    "^sum\\(B, C\\)$"
+  )
+  expect_true(is.na(format_node_dist(NULL)))
+})
+
+test_that("format_node_dist truncates without emitting non-ASCII (G5.7)", {
+  long <- format_node_dist(list(
+    type = "aggregate", nodes = paste0("Node", 1:20)
+  ))
+  expect_lte(nchar(long), 40)
+  expect_match(long, "\\.\\.\\.$")
+  expect_false(grepl("[^\x01-\x7F]", long))
+})
+
+test_that("plot.prob_net runs without error (G5.8)", {
+  withr::local_pdf(NULL)
+  net <- make_test_net()
+  expect_no_error(plot(net))
+  expect_no_error(plot(net, vertical = FALSE))
+  expect_invisible(plot(net))
+})
+
+test_that("prob_net methods handle an empty network (G5.8)", {
+  withr::local_pdf(NULL)
+  empty <- prob_net(
+    data.frame(id = character(0), stringsAsFactors = FALSE),
+    data.frame(source = character(0), target = character(0),
+               stringsAsFactors = FALSE)
+  )
+  out <- capture.output(print(empty))
+  expect_true(any(grepl("empty", out)))
+
+  s <- summary(empty)
+  expect_equal(s$n_nodes, 0)
+  expect_equal(nrow(s$node_table), 0)
+
+  expect_message(plot(empty), "Nothing to plot")
+})

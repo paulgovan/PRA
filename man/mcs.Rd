@@ -24,8 +24,10 @@ list(type = "uniform", min = 8, max = 12)
 tasks are assumed to be independent.}
 }
 \value{
-The function returns a list of the total mean, variance, standard deviation,
-and percentiles for the project.
+An S3 object of class \code{"mcs"}: a list of the total mean, variance,
+standard deviation, percentiles, and the simulated total distribution.
+Objects of this class have \code{\link[=print.mcs]{print.mcs()}}, \code{\link[=summary.mcs]{summary.mcs()}} and \code{\link[=plot.mcs]{plot.mcs()}}
+methods.
 }
 \description{
 This function performs a Monte Carlo simulation to estimate the total duration of a project

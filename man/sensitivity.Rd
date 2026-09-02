@@ -19,7 +19,11 @@ provided, tasks are assumed to be independent.}
 The function returns a vector of sensitivity results with respect to
 each task. Each element is that task's contribution (own variance plus its
 covariance with all other tasks) to total project variance, expressed as a
-proportion of total variance.
+proportion of total variance. The elements sum to 1 by construction.
+Individual elements can be negative when a task is negatively correlated
+with the others, because its covariance term then offsets its own variance;
+a warning is issued when this occurs, and such an index has no tornado-chart
+reading.
 }
 \description{
 This function performs sensitivity analysis on a project with multiple tasks,

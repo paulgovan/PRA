@@ -189,3 +189,24 @@ test_that("sensitivity handles all identical distributions", {
   expect_equal(result[1], result[2], tolerance = 1e-10)
   expect_equal(result[2], result[3], tolerance = 1e-10)
 })
+
+
+test_that("sensitivity warns when an index is negative (G5.2a)", {
+  task_dists <- list(
+    list(type = "normal", mean = 10, sd = 1),
+    list(type = "normal", mean = 10, sd = 3),
+    list(type = "normal", mean = 10, sd = 3)
+  )
+  cor_mat <- matrix(c(
+    1, -0.9, -0.9,
+    -0.9, 1, 0.9,
+    -0.9, 0.9, 1
+  ), nrow = 3)
+  expect_warning(
+    result <- sensitivity(task_dists, cor_mat),
+    "negative"
+  )
+  expect_true(any(result < 0))
+  # The indices are shares of the total variance and still sum to one.
+  expect_equal(sum(result), 1, tolerance = 1e-8)
+})
