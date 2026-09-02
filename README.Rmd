@@ -150,6 +150,16 @@ list.files(system.file("skills", package = "PRA"))
 
 ## More Resources
 
+For a complete walkthrough of every module, with worked examples and an
+end-to-end case study, see the vignette:
+
+``` r
+vignette("pra", package = "PRA")
+```
+
+It is also available online at
+<https://paulgovan.github.io/PRA/articles/pra.html>.
+
 This project was inspired by the book [Data Analysis for Engineering and Project Risk Managment](https://doi.org/10.1007/978-3-030-14251-3) by Ivan Damnjanovic and Ken Reinschmidt and is highly recommended.
 
 ## Code of Conduct

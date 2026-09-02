@@ -6,3 +6,6 @@ docs
 inst/doc
 jss-submission/
 Rplots.pdf
+vignettes/*.html
+vignettes/*_files/
+inst/doc

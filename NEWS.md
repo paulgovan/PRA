@@ -23,6 +23,10 @@
 * Documentation: `pra_mcp_server()` and the README no longer claim that every
   analytical function is exposed over MCP. The probabilistic network functions
   are not among the twelve tools the server advertises.
+* Added a long-form vignette, `vignette("pra", package = "PRA")`, covering
+  every analytical module with worked examples and an end-to-end case study.
+* `inst/CITATION` now reads the version from `DESCRIPTION` instead of naming a
+  hard-coded one, which had gone stale at 0.4.0.
 
 ## v0.6.0
 - **`cor_matrix()` now draws column `i` from distribution `i`** (previously
