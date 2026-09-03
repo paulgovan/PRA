@@ -44,7 +44,7 @@ prob_net(nodes, links, distributions = NULL)
 
 ## Value
 
-An S3 object of class `"prob_net"`: a list with
+A list with:
 
 - `nodes`: The input `nodes` data frame.
 
@@ -54,13 +54,6 @@ An S3 object of class `"prob_net"`: a list with
   for every edge.
 
 - `distributions`: The input `distributions` list.
-
-Objects of this class have
-[`print.prob_net()`](https://paulgovan.github.io/PRA/reference/print.prob_net.md),
-[`summary.prob_net()`](https://paulgovan.github.io/PRA/reference/summary.prob_net.md)
-and
-[`plot.prob_net()`](https://paulgovan.github.io/PRA/reference/plot.prob_net.md)
-methods.
 
 ## Details
 

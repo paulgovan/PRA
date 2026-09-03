@@ -28,14 +28,8 @@ smm(mean, var, cor_mat = NULL)
 
 ## Value
 
-An S3 object of class `"smm"`: a list of the total mean (`total_mean`),
-variance (`total_var`) and standard deviation (`total_std`) for the
-project. Objects of this class have
-[`print.smm()`](https://paulgovan.github.io/PRA/reference/print.smm.md),
-[`summary.smm()`](https://paulgovan.github.io/PRA/reference/summary.smm.md)
-and
-[`plot.smm()`](https://paulgovan.github.io/PRA/reference/plot.smm.md)
-methods.
+The function returns a list of the total mean, variance, and standard
+deviation for the project.
 
 ## References
 

@@ -15,7 +15,7 @@ is provided."><meta property="og:image" content="https://paulgovan.github.io/PRA
 
     <a class="navbar-brand me-2" href="../index.html">PRA</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,10 +24,6 @@ is provided."><meta property="og:image" content="https://paulgovan.github.io/PRA
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/pra.html">Quantitative Project Risk Analysis with PRA</a></li>
-  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="nav-link btn btn-warning text-dark ms-2" href="https://paulgovan.github.io/PRA/book/"><span class="fa fa-book"></span> Read the Book</a></li>
 <li class="nav-item"><form class="form-inline" role="search">
@@ -41,7 +37,7 @@ is provided."><meta property="og:image" content="https://paulgovan.github.io/PRA
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Sensitivity Analysis.</h1>
-      <small class="dont-index">Source: <a href="https://github.com/paulgovan/PRA/blob/main/R/sensitivity.R" class="external-link"><code>R/sensitivity.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/paulgovan/PRA/blob/v0.6.0/R/sensitivity.R" class="external-link"><code>R/sensitivity.R</code></a></small>
       <div class="d-none name"><code>sensitivity.Rd</code></div>
     </div>
 
@@ -79,11 +75,7 @@ provided, tasks are assumed to be independent.</p></dd>
     <p>The function returns a vector of sensitivity results with respect to
 each task. Each element is that task's contribution (own variance plus its
 covariance with all other tasks) to total project variance, expressed as a
-proportion of total variance. The elements sum to 1 by construction.
-Individual elements can be negative when a task is negatively correlated
-with the others, because its covariance term then offsets its own variance;
-a warning is issued when this occurs, and such an index has no tornado-chart
-reading.</p>
+proportion of total variance.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

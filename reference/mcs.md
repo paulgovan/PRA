@@ -34,14 +34,8 @@ mcs(num_sims, task_dists, cor_mat = NULL)
 
 ## Value
 
-An S3 object of class `"mcs"`: a list of the total mean, variance,
-standard deviation, percentiles, and the simulated total distribution.
-Objects of this class have
-[`print.mcs()`](https://paulgovan.github.io/PRA/reference/print.mcs.md),
-[`summary.mcs()`](https://paulgovan.github.io/PRA/reference/summary.mcs.md)
-and
-[`plot.mcs()`](https://paulgovan.github.io/PRA/reference/plot.mcs.md)
-methods.
+The function returns a list of the total mean, variance, standard
+deviation, and percentiles for the project.
 
 ## Note
 

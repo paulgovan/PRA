@@ -9,7 +9,7 @@ still evolve in future versions."><meta property="og:image" content="https://pau
 
     <a class="navbar-brand me-2" href="../index.html">PRA</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,10 +18,6 @@ still evolve in future versions."><meta property="og:image" content="https://pau
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/pra.html">Quantitative Project Risk Analysis with PRA</a></li>
-  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="nav-link btn btn-warning text-dark ms-2" href="https://paulgovan.github.io/PRA/book/"><span class="fa fa-book"></span> Read the Book</a></li>
 <li class="nav-item"><form class="form-inline" role="search">
@@ -35,7 +31,7 @@ still evolve in future versions."><meta property="og:image" content="https://pau
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Perform Bayesian Learning on a Probabilistic Network of Project Risks.</h1>
-      <small class="dont-index">Source: <a href="https://github.com/paulgovan/PRA/blob/main/R/network.R" class="external-link"><code>R/network.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/paulgovan/PRA/blob/v0.6.0/R/network.R" class="external-link"><code>R/network.R</code></a></small>
       <div class="d-none name"><code>prob_net_learn.Rd</code></div>
     </div>
 
@@ -127,13 +123,13 @@ the result is a plain forward simulation.</p>
 <span class="r-in"><span><span class="va">observations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">updated_results</span> <span class="op">&lt;-</span> <span class="fu">prob_net_learn</span><span class="op">(</span><span class="va">graph</span>, <span class="va">observations</span>, num_samples <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">updated_results</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   A        B        C        D</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1 2.103534 1.161956 3.265489</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1 1.053238 1.395591 2.448829</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 1 2.355251 0.577767 2.933018</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 1 1.899903 1.503502 3.403405</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 1 1.966782 1.190242 3.157024</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 1 1.869244 1.288280 3.157524</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A        B         C        D</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1 2.429225 0.4910396 2.920265</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1 1.254075 1.0101766 2.264252</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 1 1.461305 0.1216377 1.582942</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 1 2.424495 1.1902248 3.614720</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 1 2.538347 1.3652248 3.903572</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 1 1.898325 0.6298804 2.528205</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

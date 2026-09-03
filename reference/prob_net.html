@@ -9,7 +9,7 @@ still evolve in future versions."><meta property="og:image" content="https://pau
 
     <a class="navbar-brand me-2" href="../index.html">PRA</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,10 +18,6 @@ still evolve in future versions."><meta property="og:image" content="https://pau
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/pra.html">Quantitative Project Risk Analysis with PRA</a></li>
-  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="nav-link btn btn-warning text-dark ms-2" href="https://paulgovan.github.io/PRA/book/"><span class="fa fa-book"></span> Read the Book</a></li>
 <li class="nav-item"><form class="form-inline" role="search">
@@ -35,7 +31,7 @@ still evolve in future versions."><meta property="og:image" content="https://pau
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Probabilistic Network of Project Risks.</h1>
-      <small class="dont-index">Source: <a href="https://github.com/paulgovan/PRA/blob/main/R/network.R" class="external-link"><code>R/network.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/paulgovan/PRA/blob/v0.6.0/R/network.R" class="external-link"><code>R/network.R</code></a></small>
       <div class="d-none name"><code>prob_net.Rd</code></div>
     </div>
 
@@ -77,14 +73,12 @@ The conditional distributions can themselves be discrete or continuous.</p></li>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An S3 object of class <code>"prob_net"</code>: a list with</p><ul><li><p><code>nodes</code>: The input <code>nodes</code> data frame.</p></li>
+    <p>A list with:</p><ul><li><p><code>nodes</code>: The input <code>nodes</code> data frame.</p></li>
 <li><p><code>links</code>: The input <code>links</code> data frame.</p></li>
 <li><p><code>adjacency_matrix</code>: A directed matrix with a 1 in <code>[source, target]</code> for
 every edge.</p></li>
 <li><p><code>distributions</code>: The input <code>distributions</code> list.</p></li>
-</ul><p>Objects of this class have <code><a href="print.prob_net.html">print.prob_net()</a></code>, <code><a href="summary.prob_net.html">summary.prob_net()</a></code> and
-<code><a href="plot.prob_net.html">plot.prob_net()</a></code> methods.</p>
-    </div>
+</ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function creates a probabilistic network graph representation of project risks
