@@ -45,6 +45,39 @@ test_that("mcs function handles correlation matrix correctly", {
   cor_mat <- matrix(c(1, 0.8, 0.8, 1), nrow = 2)
   result <- mcs(1000, normal_dist, cor_mat)
   expect_true(is.list(result))
+
+  # The Cholesky construction must reproduce the target correlation and preserve
+  # the marginal means, so the total mean tracks the sum of the task means and
+  # the total variance matches the analytic correlated variance from smm().
+  expect_equal(result$total_mean, 30, tolerance = 0.05)
+  analytic_var <- 4 + 9 + 2 * 0.8 * sqrt(4 * 9)
+  expect_equal(result$total_variance, analytic_var, tolerance = 0.1)
+})
+
+test_that("mcs reproduces the target correlation via Cholesky decomposition", {
+  set.seed(99)
+  task_dists <- list(
+    list(type = "normal", mean = 10, sd = 2),
+    list(type = "triangular", a = 5, b = 10, c = 15),
+    list(type = "uniform", min = 8, max = 12)
+  )
+  cor_mat <- matrix(c(
+    1, 0.6, 0.3,
+    0.6, 1, 0.4,
+    0.3, 0.4, 1
+  ), nrow = 3, byrow = TRUE)
+
+  # The independent path is the reference for the marginal means.
+  indep <- mcs(50000, task_dists)
+  corr <- mcs(50000, task_dists, cor_mat)
+
+  # Inducing correlation must not shift the total mean.
+  expect_equal(corr$total_mean, indep$total_mean, tolerance = 0.02)
+
+  # Correlation inflates the total variance to the analytic value.
+  task_var <- c(4, (5^2 + 10^2 + 15^2 - 5 * 10 - 5 * 15 - 10 * 15) / 18, (12 - 8)^2 / 12)
+  cov_mat <- outer(sqrt(task_var), sqrt(task_var)) * cor_mat
+  expect_equal(corr$total_variance, sum(cov_mat), tolerance = 0.1)
 })
 
 test_that("mcs function calculates statistics correctly", {
@@ -275,12 +308,12 @@ test_that("mcs with high correlation produces higher variance", {
   # High correlation (0.99 instead of 1.0 to avoid singularity)
   cor_mat <- matrix(c(1, 0.99, 0.99, 1), nrow = 2)
 
-  result <- mcs(num_sims, task_dists, cor_mat)
+  result <- suppressWarnings(mcs(num_sims, task_dists, cor_mat))
 
   # With high correlation, variance should be larger than independent case
   # Var(X + Y) = Var(X) + Var(Y) + 2*Cov(X,Y)
-  # When cor=0.99: Cov(X,Y) ≈ SD(X)*SD(Y)*0.99 = 2*3*0.99 = 5.94
-  expected_var_approx <- 4 + 9 + 2 * 5.94 # ≈ 24.88
+  # When cor=0.99: Cov(X,Y) ~= SD(X)*SD(Y)*0.99 = 2*3*0.99 = 5.94
+  expected_var_approx <- 4 + 9 + 2 * 5.94 # ~= 24.88
 
   expect_equal(result$total_variance, expected_var_approx, tolerance = 0.5)
 })

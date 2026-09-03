@@ -4,6 +4,8 @@ Reference solutions for all ★-marked exercises. Computational solutions are fu
 
 ```{r setup}
 #| code-fold: false
+# Render large currency values in full, not scientific notation.
+options(scipen = 999)
 library(PRA)
 set.seed(42)
 ```
@@ -466,35 +468,41 @@ cat("Expected QA cost increase:",
 
 *Design a network where two risks both affect the same resource. What happens to task correlation?*
 
+A single `conditional` node can only key off one condition node, so "two risks both affect the same resource" is expressed as two risk-driven cost components (`Res1` for R1's effect, `Res2` for R2's effect) that are summed into the shared resource node `Res`:
+
 ```{r}
 nodes2 <- data.frame(
-  id    = c("R1", "R2", "Res", "T1", "T2", "P"),
-  label = c("Risk-1", "Risk-2", "Shared Resource",
-            "Task-1", "Task-2", "Project"),
-  group = c("Risk","Risk","Resource","Task","Task","Project"),
+  id    = c("R1", "R2", "Res1", "Res2", "Res", "T1", "T2", "P"),
+  label = c("Risk-1", "Risk-2", "Resource Cost (R1 effect)", "Resource Cost (R2 effect)",
+            "Shared Resource", "Task-1", "Task-2", "Project"),
+  group = c("Risk","Risk","Resource","Resource","Resource","Task","Task","Project"),
   stringsAsFactors = FALSE
 )
 
 links2 <- data.frame(
-  source = c("R1","R2","Res","Res","T1","T2"),
-  target = c("Res","Res","T1","T2","P","P"),
-  value  = rep(1, 6),
+  source = c("R1","R2","Res1","Res2","Res","Res","T1","T2"),
+  target = c("Res1","Res2","Res","Res","T1","T2","P","P"),
+  value  = rep(1, 8),
   stringsAsFactors = FALSE
 )
 
 distributions2 <- list(
-  R1  = list(type = "discrete", values = c(1,0), probs = c(0.50, 0.50)),
-  R2  = list(type = "discrete", values = c(1,0), probs = c(0.40, 0.60)),
-  Res = list(type = "conditional", condition = "R1",
-    true_dist  = list(type = "normal", mean = 80000, sd = 15000),
-    false_dist = list(type = "normal", mean = 40000, sd = 8000)),
-  T1  = list(type = "aggregate", nodes = c("Res")),
-  T2  = list(type = "aggregate", nodes = c("Res")),
-  P   = list(type = "aggregate", nodes = c("T1", "T2"))
+  R1   = list(type = "discrete", values = c(1,0), probs = c(0.50, 0.50)),
+  R2   = list(type = "discrete", values = c(1,0), probs = c(0.40, 0.60)),
+  Res1 = list(type = "conditional", condition = "R1",
+    true_dist  = list(type = "normal", mean = 50000, sd = 10000),
+    false_dist = list(type = "normal", mean = 25000, sd = 5000)),
+  Res2 = list(type = "conditional", condition = "R2",
+    true_dist  = list(type = "normal", mean = 30000, sd = 8000),
+    false_dist = list(type = "normal", mean = 15000, sd = 3000)),
+  Res  = list(type = "aggregate", nodes = c("Res1", "Res2")),
+  T1   = list(type = "aggregate", nodes = c("Res")),
+  T2   = list(type = "aggregate", nodes = c("Res")),
+  P    = list(type = "aggregate", nodes = c("T1", "T2"))
 )
 ```
 
-Note: in this simplified network both tasks draw from the *same* resource node. Because T1 and T2 both equal Res, their simulated values will be perfectly correlated (correlation = 1). In a more realistic model, each task would have *additional* independent cost components, reducing the correlation below 1.
+Note: in this simplified network both tasks draw from the *same* resource node, and that resource's cost responds to *both* risks. Because T1 and T2 both equal Res, their simulated values will be perfectly correlated (correlation = 1). In a more realistic model, each task would have *additional* independent cost components, reducing the correlation below 1.
 
 ```{r}
 graph2 <- prob_net(nodes2, links2, distributions = distributions2)

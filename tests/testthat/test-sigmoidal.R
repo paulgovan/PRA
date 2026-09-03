@@ -556,7 +556,7 @@ test_that("fit_sigmoidal fails gracefully with all identical y values", {
 
   # Test passes if either:
   # 1. An error was thrown (success = FALSE), OR
-  # 2. The fit succeeded but is degenerate (all predictions ≈ constant)
+  # 2. The fit succeeded but is degenerate (all predictions ~= constant)
   if (result$success) {
     # Check that the fit is degenerate (predictions are essentially constant)
     preds <- predict(result$fit, newdata = data_constant)
@@ -634,4 +634,74 @@ test_that("fit_sigmoidal assigns pra_sigmoidal_fit class", {
   expect_s3_class(fit, "nls")
   # Class should have pra_sigmoidal_fit as first element
   expect_equal(class(fit)[1], "pra_sigmoidal_fit")
+})
+
+
+test_that("predict_sigmoidal rejects a mismatched model_type (G5.2a)", {
+  data <- data.frame(time = 1:10, completion = c(
+    5, 15, 40, 60, 70, 75, 80, 85, 90, 95
+  ))
+  fit <- fit_sigmoidal(data, "time", "completion", "gompertz")
+  expect_error(
+    predict_sigmoidal(fit, 1:5, "logistic"),
+    "does not match the fitted model"
+  )
+})
+
+
+test_that("summary.pra_sigmoidal_fit extends the nls summary (G5.3)", {
+  data <- data.frame(time = 1:10, completion = c(
+    5, 15, 40, 60, 70, 75, 80, 85, 90, 95
+  ))
+  fit <- fit_sigmoidal(data, "time", "completion", "gompertz")
+  s <- summary(fit)
+
+  expect_s3_class(s, "summary.pra_sigmoidal_fit")
+  expect_s3_class(s, "summary.nls")
+  expect_equal(s$model_type, "gompertz")
+  # Gompertz names its asymptote A.
+  expect_equal(s$asymptote, unname(stats::coef(fit)[["A"]]))
+  expect_true(!is.null(s$coefficients))
+
+  out <- capture.output(print(s))
+  expect_true(any(grepl("Gompertz", out)))
+})
+
+test_that("plot.pra_sigmoidal_fit recovers its context from the fit (G5.8)", {
+  withr::local_pdf(NULL)
+  data <- data.frame(time = 1:10, completion = c(
+    5, 15, 40, 60, 70, 75, 80, 85, 90, 95
+  ))
+  fit <- fit_sigmoidal(data, "time", "completion", "logistic")
+
+  # No data, column names or model type need to be supplied.
+  expect_no_error(plot(fit))
+  expect_no_error(plot(fit, conf_level = 0.95))
+  expect_invisible(plot(fit))
+
+  ctx <- sigmoidal_context(fit)
+  expect_equal(ctx$model_type, "logistic")
+  expect_equal(ctx$x_col, "time")
+  expect_equal(ctx$y_col, "completion")
+  expect_equal(ctx$data, data)
+})
+
+test_that("plot_sigmoidal still accepts explicit arguments (G5.3)", {
+  withr::local_pdf(NULL)
+  data <- data.frame(time = 1:10, completion = c(
+    5, 15, 40, 60, 70, 75, 80, 85, 90, 95
+  ))
+  fit <- fit_sigmoidal(data, "time", "completion", "logistic")
+  expect_no_error(
+    plot_sigmoidal(fit, data, "time", "completion", "logistic")
+  )
+})
+
+test_that("sigmoidal_context returns NULL for a foreign fit (G5.8)", {
+  x <- 1:10
+  y <- c(5, 15, 40, 60, 70, 75, 80, 85, 90, 95)
+  foreign <- stats::nls(y ~ a * x + b, start = list(a = 1, b = 0))
+  class(foreign) <- c("pra_sigmoidal_fit", class(foreign))
+  expect_null(sigmoidal_context(foreign))
+  expect_error(plot(foreign), "could not be recovered")
 })

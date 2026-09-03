@@ -12,7 +12,7 @@
 \item{...}{Additional arguments (not used).}
 }
 \value{
-None. Prints the results to the console.
+Invisibly returns \code{x}.
 }
 \description{
 Displays the total mean, variance, standard deviation, and percentiles of the

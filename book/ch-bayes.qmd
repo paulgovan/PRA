@@ -37,18 +37,6 @@ In project risk terms:
 Observing a root cause *always* moves the posterior. The direction and magnitude depend on how strongly that cause is linked to the risk event.
 :::
 
-Bayes' theorem states:
-
-$$P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)}$$
-
-In English: the probability of your hypothesis ($H$) given new evidence ($E$) equals the likelihood of seeing that evidence if the hypothesis were true, times your prior probability, divided by the total probability of the evidence. The result is the **posterior** probability, your updated belief.
-
-In project risk terms:
-
-- **Prior**: Your initial estimate of risk probability before any field observations
-- **Evidence**: Observations about root causes (is the labor market tight? is weather bad?)
-- **Posterior**: Your updated estimate after incorporating those observations
-
 The PRA package provides four Bayesian functions organized into two stages:
 
 | Stage | Function | Purpose |
@@ -60,6 +48,8 @@ The PRA package provides four Bayesian functions organized into two stages:
 
 ```{r setup}
 #| code-fold: false
+# Render large currency values in full, not scientific notation.
+options(scipen = 999)
 library(PRA)
 set.seed(42)
 ```
@@ -169,7 +159,7 @@ print(p)
 
 ## Step 4: Posterior Cost Distribution
 
-Now that we know Cause 1 is present (Risk 1 occurs), and one risk remains unobserved (Risk 2 = NA), `cost_post_pdf()` samples the posterior cost distribution. Observed risks that occurred (= 1) add their cost; unobserved risks (= NA) are excluded from the simulation.
+Now that we know Cause 1 is present (Risk 1 occurs), and one risk remains unobserved (Risk 2 = NA), `cost_post_pdf()` samples the posterior cost distribution. Observed risks that occurred (= 1) add their cost; the unobserved risk (Risk 2 = NA) is drawn from its prior probability via `risk_probs` — the same prior used in Step 2 — rather than treated as absent, so unresolved uncertainty still contributes its expected share of cost.
 
 ```{r}
 observed_risks <- c(1, NA, 1)  # Risk 1 and 3 confirmed; Risk 2 not yet assessed
@@ -181,7 +171,8 @@ posterior_samples <- cost_post_pdf(
   observed_risks    = observed_risks,
   means_given_risks = means_given_risks,
   sds_given_risks   = sds_given_risks,
-  base_cost         = base_cost
+  base_cost         = base_cost,
+  risk_probs        = risk_probs
 )
 ```
 
@@ -224,13 +215,13 @@ legend("topright",
 
 **Interpretation:** The posterior distribution is narrower and shifted upward, as observing which risks materialized eliminates uncertainty about some cost components while raising the estimated exposure from confirmed events. The remaining spread reflects uncertainty from the unobserved risk and cost variability in the confirmed ones.
 
-## Summary
+## The Workflow
 
 The Bayesian workflow in PRA follows a natural before-and-after structure:
 
 1. **Before observations**: use `risk_prob()` and `cost_pdf()` to characterize the risk landscape.
 2. **As evidence arrives**: use `risk_post_prob()` and `cost_post_pdf()` to update estimates.
-3. **NA values** represent causes/risks not yet assessed; they are correctly excluded from the update.
+3. **NA values** represent causes/risks not yet assessed. `risk_post_prob()` always excludes them from the update. `cost_post_pdf()` instead draws them from their prior via `risk_probs`, so unresolved risks still contribute their expected cost.
 
 This approach is particularly powerful in phased projects where information about risk drivers becomes available progressively, allowing cost forecasts to be refined at each stage.
 
@@ -241,7 +232,7 @@ This approach is particularly powerful in phased projects where information abou
 
 - Bayesian inference is the principled way to update risk estimates as new evidence arrives; it is not a heuristic, it is the mathematically correct rule.
 - **Prior → Posterior**: the posterior always moves in the direction of the evidence; the size of the move depends on how strongly the cause links to the risk.
-- `NA` values for unobserved causes or risks are correctly handled; they do not contribute to the update, reflecting genuine ignorance.
+- `NA` for an unobserved cause is correctly excluded from `risk_post_prob()`, reflecting genuine ignorance; `NA` for an unobserved risk is instead drawn from its prior in `cost_post_pdf()` (via `risk_probs`), since dropping it would understate cost.
 - The posterior cost distribution is typically narrower than the prior, because confirmed risk states eliminate uncertainty about some cost components.
 - This workflow is particularly powerful in **phased projects**: update at each phase gate as more information becomes available.
 :::

@@ -200,7 +200,7 @@ test_that("contingency_tool errors without prior MCS", {
 })
 
 # ============================================================================
-# Numerical Correctness Tests — Tool wrappers produce correct values
+# Numerical Correctness Tests -- Tool wrappers produce correct values
 # ============================================================================
 
 test_that("smm_tool computes correct total mean, variance, and std dev", {
@@ -358,23 +358,32 @@ test_that("risk_post_prob_tool with all causes observed", {
   expect_true(grepl("Did not occur", text))
 })
 
-test_that("sensitivity_tool returns 1.0 for independent tasks", {
+test_that("sensitivity_tool returns variance-proportional values for independent tasks", {
   skip_if_not_installed("jsonlite")
-  # For independent tasks, sensitivity = 1 for all tasks
+  # For independent tasks, sensitivity[i] = task_variances[i] / total_variance
   task_json <- '[{"type":"normal","mean":10,"sd":2},{"type":"triangular","a":5,"b":15,"c":10},{"type":"uniform","min":8,"max":12}]'
   result <- PRA:::sensitivity_tool(task_json)
   text <- tool_text(result)
   expect_true(grepl("Task 1", text))
   expect_true(grepl("Task 2", text))
   expect_true(grepl("Task 3", text))
-  # All sensitivities should be 1.0 for independent tasks
-  # Extract the numeric values — each "1" or "1.0000" after task names
+
+  expected_variances <- c(
+    2^2,
+    (5^2 + 15^2 + 10^2 - 5 * 15 - 5 * 10 - 15 * 10) / 18,
+    (12 - 8)^2 / 12
+  )
+  expected <- expected_variances / sum(expected_variances)
+
+  # Extract the numeric values after each task name
   lines <- strsplit(text, "\n")[[1]]
   task_lines <- lines[grepl("Task [0-9]", lines)]
-  for (line in task_lines) {
-    val <- as.numeric(trimws(sub(".*Task [0-9]+\\s+", "", line)))
-    expect_equal(val, 1.0, tolerance = 0.001)
-  }
+  vals <- vapply(task_lines, function(line) {
+    as.numeric(trimws(sub(".*Task [0-9]+\\s+", "", line)))
+  }, numeric(1), USE.NAMES = FALSE)
+  expect_equal(vals, expected, tolerance = 0.001)
+  # Sanity check: sensitivities sum to 1 for independent tasks
+  expect_equal(sum(vals), 1, tolerance = 0.001)
 })
 
 test_that("parent_dsm_tool computes correct S * t(S)", {
@@ -437,14 +446,14 @@ test_that("contingency_tool computes correct reserve from MCS", {
   expect_true(grepl("P95", text))
   expect_true(grepl("P50", text))
 
-  # For Normal(100,10): P95 - P50 ≈ 1.645*10 = 16.45
+  # For Normal(100,10): P95 - P50 ~= 1.645*10 = 16.45
   dist <- PRA:::.pra_agent_env$last_mcs$total_distribution
   expected_contingency <- unname(quantile(dist, 0.95) - quantile(dist, 0.50))
   expect_true(grepl(format(round(expected_contingency, 4), big.mark = ","), text))
 })
 
 # ============================================================================
-# Multi-Tool Chain Tests — Verify chaining state
+# Multi-Tool Chain Tests -- Verify chaining state
 # ============================================================================
 
 test_that("MCS -> contingency chain produces consistent results", {
@@ -497,8 +506,9 @@ test_that("cost_pdf -> cost_post_pdf chain works", {
   expect_true(grepl("Prior Cost Distribution", prior_text))
   expect_false(is.null(PRA:::.pra_agent_env$last_cost_pdf))
 
-  # Step 2: Posterior cost (risk 1 occurred, risk 2 unknown)
-  post_result <- PRA:::cost_post_pdf_tool(10000, "[true, null]", "[50000, 30000]", "[10000, 5000]", 100000)
+  # Step 2: Posterior cost (risk 1 occurred, risk 2 unknown, drawn from its prior)
+  post_result <- PRA:::cost_post_pdf_tool(10000, "[true, null]", "[50000, 30000]",
+                                          "[10000, 5000]", 100000, "[0.3, 0.5]")
   post_text <- tool_text(post_result)
   expect_true(grepl("Posterior Cost Distribution", post_text))
 
@@ -509,7 +519,7 @@ test_that("cost_pdf -> cost_post_pdf chain works", {
 })
 
 # ============================================================================
-# LLM-Style Input Pipeline Tests — Simulate realistic LLM tool calls
+# LLM-Style Input Pipeline Tests -- Simulate realistic LLM tool calls
 # ============================================================================
 
 test_that("pipeline: LLM sends string-wrapped numbers for EVM", {
@@ -704,7 +714,8 @@ test_that("mcs_tool with correlation matrix produces valid results", {
   set.seed(42)
   task_json <- '[{"type":"normal","mean":10,"sd":2},{"type":"normal","mean":12,"sd":3}]'
   cor_json <- "[[1,0.5],[0.5,1]]"
-  result <- PRA:::mcs_tool(10000, task_json, cor_json)
+  # mcs() warns that Cholesky-induced correlation distorts marginal means
+  suppressWarnings(result <- PRA:::mcs_tool(10000, task_json, cor_json))
   text <- tool_text(result)
   expect_true(grepl("Monte Carlo Simulation", text))
 

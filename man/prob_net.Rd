@@ -26,35 +26,50 @@ The conditional distributions can themselves be discrete or continuous.
 }}
 }
 \value{
-A list with:
+An S3 object of class \code{"prob_net"}: a list with
 \itemize{
 \item \code{nodes}: The input \code{nodes} data frame.
 \item \code{links}: The input \code{links} data frame.
-\item \code{adjacency_matrix}: A matrix representing connections between nodes.
+\item \code{adjacency_matrix}: A directed matrix with a 1 in \verb{[source, target]} for
+every edge.
 \item \code{distributions}: The input \code{distributions} list.
 }
+
+Objects of this class have \code{\link[=print.prob_net]{print.prob_net()}}, \code{\link[=summary.prob_net]{summary.prob_net()}} and
+\code{\link[=plot.prob_net]{plot.prob_net()}} methods.
 }
 \description{
-\strong{Experimental.} This function is part of the experimental probabilistic
-network module and the API may change in future versions.
+This function is part of the probabilistic network module, whose API may
+still evolve in future versions.
 }
 \details{
 This function creates a probabilistic network graph representation of project risks
 that supports discrete and continuous probability distributions.
+
+The links are load-bearing. A conditional node depends on its \code{condition} and
+an aggregate node depends on every node it sums, and \code{prob_net()} requires the
+edges in \code{links} to match that declared structure exactly: an edge with no
+corresponding dependency, or a dependency with no corresponding edge, is an
+error rather than a silently ignored inconsistency. Nodes must additionally be
+supplied in a topological order, with every link running from an earlier node
+to a later one, which is the order \code{\link[=prob_net_sim]{prob_net_sim()}} samples in and which also
+guarantees the graph is acyclic.
 }
 \examples{
 nodes <- data.frame(id = c("A", "B", "C", "D"))
-links <- data.frame(source = c("A", "B", "C"), target = c("B", "C", "D"))
+links <- data.frame(
+  source = c("A", "B", "C"),
+  target = c("B", "D", "D")
+)
 distributions <- list(
-  A = list(type = "discrete", values = c(0, 1), probs = c(0.5, 0.5)),
-  B = list(type = "normal", mean = 0, sd = 1),
-  C = list(type = "lognormal", meanlog = 0, sdlog = 0.5),
-  D = list(type = "uniform", min = 1, max = 5),
-  E = list(
+  A = list(type = "discrete", values = c(1, 0), probs = c(0.5, 0.5)),
+  B = list(
     type = "conditional", condition = "A",
-    true_dist = list(type = "normal", mean = 1, sd = 0.5),
+    true_dist  = list(type = "normal", mean = 1, sd = 0.5),
     false_dist = list(type = "lognormal", meanlog = -1, sdlog = 0.5)
-  )
+  ),
+  C = list(type = "uniform", min = 1, max = 5),
+  D = list(type = "aggregate", nodes = c("B", "C"))
 )
 graph <- prob_net(nodes, links, distributions = distributions)
 

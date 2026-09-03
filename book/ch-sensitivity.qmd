@@ -104,7 +104,7 @@ The dashed red line at $s = 1$ marks the neutral baseline. Tasks above 1 are amp
 
 ## With Correlated Tasks
 
-Real projects have correlated tasks, sharing resources, face the same weather, or depend on the same supplier. Positive correlation amplifies the dominant driver; it becomes even more important to get that task right.
+Real projects have correlated tasks: they share resources, face the same weather, or depend on the same supplier. Positive correlation amplifies the dominant driver; it becomes even more important to get that task right.
 
 Use `cor_matrix()` to build a correlation matrix from sampled distributions:
 

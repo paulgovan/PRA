@@ -188,6 +188,17 @@ predict_sigmoidal <- function(fit, x_range, model_type, conf_level = NULL) {
     stop("Invalid model type. Choose 'pearl', 'gompertz', or 'logistic'.")
   }
 
+  # The gradient below is built from model_type while the prediction comes from
+  # the fit, so a mismatch between the two would silently produce NA confidence
+  # bounds. Check the fitted parameters name the model actually requested.
+  expected <- if (model_type == "gompertz") c("A", "b", "c") else c("K", "r", "t0")
+  if (!all(expected %in% names(stats::coef(fit)))) {
+    stop(paste0(
+      "model_type '", model_type, "' does not match the fitted model, whose ",
+      "parameters are: ", paste(names(stats::coef(fit)), collapse = ", "), "."
+    ))
+  }
+
   new_data$pred <- stats::predict(fit, newdata = new_data)
 
   # Compute confidence bounds if requested
@@ -399,7 +410,163 @@ plot_sigmoidal <- function(fit, data, x_col, y_col, model_type,
 #' @method print pra_sigmoidal_fit
 print.pra_sigmoidal_fit <- function(x, ...) {
   cat("Sigmoidal Model Fit Summary:\n")
+  ctx <- sigmoidal_context(x)
+  if (!is.null(ctx)) {
+    cat("Model type:", ctx$model_type, "\n")
+  }
   # Temporarily strip custom class so stats:::print.nls handles the nls part
-  class(x) <- setdiff(class(x), "pra_sigmoidal_fit")
-  print(summary(x))
+  obj <- x
+  class(obj) <- setdiff(class(obj), "pra_sigmoidal_fit")
+  print(summary(obj))
+  invisible(x)
+}
+
+
+# Internal: recover the fitting context from a pra_sigmoidal_fit.
+#
+# fit_sigmoidal() calls nlsLM() without a `data` argument, so the model formula
+# closes over the fit_sigmoidal() frame. That frame still holds `data`, `x_col`,
+# `y_col` and `model_type`, which is what lets summary(), plot() and predict()
+# work from the fitted object alone. Returns NULL when the object did not come
+# from fit_sigmoidal() and the context cannot be recovered.
+sigmoidal_context <- function(fit) {
+  env <- tryCatch(environment(stats::formula(fit)), error = function(e) NULL)
+  if (is.null(env)) return(NULL)
+  needed <- c("data", "x_col", "y_col", "model_type")
+  if (!all(vapply(needed, exists, logical(1), envir = env, inherits = FALSE))) {
+    return(NULL)
+  }
+  ctx <- list(
+    data = get("data", envir = env, inherits = FALSE),
+    x_col = get("x_col", envir = env, inherits = FALSE),
+    y_col = get("y_col", envir = env, inherits = FALSE),
+    model_type = get("model_type", envir = env, inherits = FALSE)
+  )
+  if (!is.data.frame(ctx$data) || !is.character(ctx$model_type)) return(NULL)
+  ctx
+}
+
+
+#' Summarize a sigmoidal model fit.
+#'
+#' Extends the standard nonlinear least-squares summary with the sigmoidal model
+#' type and the interpreted shape parameters.
+#'
+#' @param object An object of class `"pra_sigmoidal_fit"` returned by
+#'   [fit_sigmoidal()].
+#' @param ... Additional arguments passed to [stats::summary.nls()].
+#' @return An object of class `c("summary.pra_sigmoidal_fit", "summary.nls")`:
+#'   the standard `summary.nls` object with two additional components,
+#'   `model_type` (the sigmoidal family that was fitted) and `asymptote` (the
+#'   fitted upper bound, `K` for Pearl and Logistic models and `A` for
+#'   Gompertz). `model_type` is `NA` when the object did not come from
+#'   [fit_sigmoidal()].
+#' @srrstats {G1.4} *Documented with roxygen2.*
+#' @examples
+#' data <- data.frame(time = 1:10, completion = c(
+#'   5, 15, 40, 60, 70, 75, 80, 85, 90, 95
+#' ))
+#' fit <- fit_sigmoidal(data, "time", "completion", "logistic")
+#' summary(fit)
+#' @export
+#' @method summary pra_sigmoidal_fit
+summary.pra_sigmoidal_fit <- function(object, ...) {
+  ctx <- sigmoidal_context(object)
+  obj <- object
+  class(obj) <- setdiff(class(obj), "pra_sigmoidal_fit")
+  result <- summary(obj, ...)
+
+  coefs <- stats::coef(object)
+  result$model_type <- if (is.null(ctx)) NA_character_ else ctx$model_type
+  result$asymptote <- if ("A" %in% names(coefs)) {
+    unname(coefs[["A"]])
+  } else if ("K" %in% names(coefs)) {
+    unname(coefs[["K"]])
+  } else {
+    NA_real_
+  }
+  class(result) <- c("summary.pra_sigmoidal_fit", class(result))
+  result
+}
+
+
+#' Print a sigmoidal model fit summary.
+#'
+#' @param x An object of class `"summary.pra_sigmoidal_fit"` returned by
+#'   [summary.pra_sigmoidal_fit()].
+#' @param ... Additional arguments passed to the `summary.nls` print method.
+#' @return Invisibly returns `x`.
+#' @examples
+#' data <- data.frame(time = 1:10, completion = c(
+#'   5, 15, 40, 60, 70, 75, 80, 85, 90, 95
+#' ))
+#' print(summary(fit_sigmoidal(data, "time", "completion", "logistic")))
+#' @export
+#' @method print summary.pra_sigmoidal_fit
+print.summary.pra_sigmoidal_fit <- function(x, ...) {
+  if (!is.na(x$model_type)) {
+    cat("Sigmoidal (", tools::toTitleCase(x$model_type), ") model fit\n",
+        sep = "")
+  } else {
+    cat("Sigmoidal model fit\n")
+  }
+  if (!is.na(x$asymptote)) {
+    cat("Fitted asymptote:", format(x$asymptote, scientific = FALSE), "\n")
+  }
+  cat("------------------------------\n")
+  obj <- x
+  class(obj) <- setdiff(class(obj), "summary.pra_sigmoidal_fit")
+  print(obj, ...)
+  invisible(x)
+}
+
+
+#' Plot a sigmoidal model fit.
+#'
+#' Plots the observed data with the fitted sigmoidal curve and, optionally, a
+#' confidence band. The data, column names and model type are recovered from the
+#' fitted object, so no further arguments are required.
+#'
+#' @param x An object of class `"pra_sigmoidal_fit"` returned by
+#'   [fit_sigmoidal()].
+#' @param main Optional plot title.
+#' @param col Color of the fitted curve.
+#' @param conf_level Confidence level for the band, for example `0.95`. If
+#'   `NULL` (default), no band is drawn.
+#' @param n_points Number of points used to draw the fitted curve.
+#' @param xlab,ylab Optional axis labels. Default to the fitted column names.
+#' @param ci_col Fill color for the confidence band.
+#' @param pch Plotting symbol for the observed data.
+#' @param ... Additional arguments passed to [plot_sigmoidal()].
+#' @return Invisibly returns `x`.
+#' @seealso [plot_sigmoidal()], which takes the data and model type explicitly.
+#' @srrstats {G1.4} *Documented with roxygen2.*
+#' @examples
+#' data <- data.frame(time = 1:10, completion = c(
+#'   5, 15, 40, 60, 70, 75, 80, 85, 90, 95
+#' ))
+#' fit <- fit_sigmoidal(data, "time", "completion", "logistic")
+#' plot(fit)
+#' plot(fit, conf_level = 0.95)
+#' @export
+#' @method plot pra_sigmoidal_fit
+plot.pra_sigmoidal_fit <- function(x, main = NULL, col = "red",
+                                   conf_level = NULL, n_points = 100,
+                                   xlab = NULL, ylab = NULL,
+                                   ci_col = "lightblue", pch = 16, ...) {
+  ctx <- sigmoidal_context(x)
+  if (is.null(ctx)) {
+    stop(paste(
+      "The fitting context could not be recovered from this object, so the",
+      "data and model type are unknown. Re-fit with fit_sigmoidal(), or call",
+      "plot_sigmoidal(fit, data, x_col, y_col, model_type) explicitly."
+    ))
+  }
+  plot_sigmoidal(x,
+    data = ctx$data, x_col = ctx$x_col, y_col = ctx$y_col,
+    model_type = ctx$model_type, conf_level = conf_level,
+    n_points = n_points, main = main, xlab = xlab, ylab = ylab,
+    line_col = col, ci_col = ci_col, pch = pch, ...
+  )
+  invisible(x)
 }

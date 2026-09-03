@@ -1,3 +1,55 @@
+# Internal: validate a user-supplied correlation matrix. Shared by mcs(), smm()
+# and sensitivity() so the same matrix is accepted or rejected identically
+# wherever it is used, and so a matrix that is not a correlation matrix is
+# caught here rather than surfacing later as a cryptic Cholesky failure.
+validate_cor_mat <- function(cor_mat, num_tasks,
+                             require_positive_definite = FALSE) {
+  if (!is.matrix(cor_mat) || nrow(cor_mat) != num_tasks ||
+      ncol(cor_mat) != num_tasks) {
+    stop("The correlation matrix must be square and match the number of tasks.")
+  }
+  if (any(is.nan(cor_mat))) {
+    stop("cor_mat must not contain NaN values")
+  }
+  if (anyNA(cor_mat)) {
+    stop("cor_mat must not contain NA values")
+  }
+  if (any(is.infinite(cor_mat))) {
+    stop("cor_mat must not contain infinite values")
+  }
+  if (!isTRUE(all.equal(cor_mat, t(cor_mat), check.attributes = FALSE))) {
+    stop("cor_mat must be symmetric")
+  }
+  if (any(cor_mat < -1 | cor_mat > 1)) {
+    stop("cor_mat values must be between -1 and 1")
+  }
+  if (!isTRUE(all.equal(as.numeric(diag(cor_mat)), rep(1, num_tasks)))) {
+    stop("cor_mat must have ones on the diagonal")
+  }
+  # A symmetric, unit-diagonal matrix with entries in [-1, 1] can still fail to
+  # be a correlation matrix. Without this check smm() silently returns a
+  # negative total variance and a NaN standard deviation.
+  #
+  # Positive semi-definiteness is the real requirement: a perfectly correlated
+  # matrix is singular but is a valid correlation matrix, and smm() handles it
+  # analytically. Only callers that factorize the matrix need strict positive
+  # definiteness, and they ask for it.
+  if (num_tasks > 1) {
+    eigenvalues <- eigen(cor_mat, symmetric = TRUE, only.values = TRUE)$values
+    tol <- num_tasks * .Machine$double.eps * max(abs(eigenvalues))
+    if (min(eigenvalues) < -tol) {
+      stop("cor_mat must be positive semi-definite")
+    }
+    if (require_positive_definite && min(eigenvalues) <= tol) {
+      stop(paste(
+        "cor_mat must be positive definite for simulation; it is singular,",
+        "which happens when tasks are perfectly correlated"
+      ))
+    }
+  }
+  invisible(TRUE)
+}
+
 #' Generate Correlation Matrix from Random Samples.
 #'
 #' This function generates random samples from specified probability distributions
@@ -16,12 +68,18 @@
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
 #' @param num_samples The number of samples to generate.
-#' @param num_vars The number of distributions to sample.
+#' @param num_vars The number of distributions to sample. The first `num_vars`
+#' elements of `dists` are used.
 #' @param dists A list describing each distribution. Each element should be a function
-#' that generates random samples. The names of the list elements will be used to
-#' identify the distributions.
+#' that generates random samples. The names of the list elements are used to
+#' label the rows and columns of the result.
 #'
-#' @return The function returns the correlation matrix for the distributions.
+#' @return The function returns the correlation matrix for the distributions,
+#' with rows and columns named after the distributions they were drawn from.
+#' Because the columns are sampled independently, the off-diagonal entries are
+#' sampling noise about zero: this generates correctly shaped, positive-definite
+#' input for testing and for a near-independent baseline, and is not an
+#' estimator of dependence between tasks.
 #' @references
 #' Govan, Paul, and Ivan Damnjanovic. "The resource-based view on project risk management."
 #' Journal of construction engineering and management 142.9 (2016): 04016034.
@@ -87,14 +145,24 @@ cor_matrix <- function(num_samples = 100, num_vars = 5, dists) {
   # Initialize a matrix to store the samples
   samples <- matrix(0, nrow = num_samples, ncol = num_vars)
 
-  # Randomly select distributions and generate samples
+  # Column i is drawn from distribution i, so the rows and columns of the
+  # returned matrix line up with the distributions the caller supplied. Taking
+  # the first num_vars of them keeps the mapping obvious when num_vars is
+  # smaller than the number supplied.
   for (i in seq_len(num_vars)) {
-    dist_name <- sample(names(dists), 1)
-    samples[, i] <- dists[[dist_name]](num_samples)
+    samples[, i] <- dists[[i]](num_samples)
   }
 
   # Calculate the correlation matrix
   cor_matrix <- stats::cor(samples)
+
+  # Label the result so each row and column names its distribution.
+  labels <- names(dists)
+  if (is.null(labels) || any(!nzchar(labels))) {
+    labels <- paste0("V", seq_along(dists))
+  }
+  dimnames(cor_matrix) <- list(labels[seq_len(num_vars)],
+                               labels[seq_len(num_vars)])
 
   return(cor_matrix)
 }

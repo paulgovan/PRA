@@ -44,9 +44,49 @@ test_that("cost_post_pdf generates valid samples", {
   sds_given_risks <- c(2000, 1000, 1000)
   base_cost <- 2000
 
-  samples <- cost_post_pdf(num_sims, observed_risks, means_given_risks, sds_given_risks, base_cost)
+  expect_warning(
+    samples <- cost_post_pdf(num_sims, observed_risks, means_given_risks,
+                             sds_given_risks, base_cost),
+    "treated as not occurring"
+  )
   expect_equal(length(samples), num_sims)
   expect_true(all(is.numeric(samples)))
+})
+
+test_that("cost_post_pdf draws unobserved risks from their prior", {
+  # An unobserved risk keeps its prior contribution, matching how
+  # risk_post_prob() treats an unobserved cause.
+  set.seed(8)
+  with_prior <- cost_post_pdf(
+    20000, c(1, NA), c(10000, 50000), c(100, 100),
+    base_cost = 0, risk_probs = c(0.5, 0.4)
+  )
+  # Risk 1 is observed and always contributes; risk 2 contributes 40% of the time.
+  expect_equal(mean(with_prior), 10000 + 0.4 * 50000, tolerance = 0.02)
+})
+
+test_that("cost_post_pdf ignores the prior for risks that were observed", {
+  set.seed(9)
+  observed_absent <- cost_post_pdf(
+    5000, c(0, 0), c(10000, 50000), c(100, 100),
+    base_cost = 2000, risk_probs = c(0.9, 0.9)
+  )
+  expect_true(all(observed_absent == 2000))
+})
+
+test_that("cost_post_pdf validates risk_probs", {
+  expect_error(
+    cost_post_pdf(100, c(1, NA), c(1, 1), c(1, 1), 0, risk_probs = c(0.5)),
+    "risk_probs must have the same length as observed_risks."
+  )
+  expect_error(
+    cost_post_pdf(100, c(1, NA), c(1, 1), c(1, 1), 0, risk_probs = c(0.5, 1.5)),
+    "All values in risk_probs must be between 0 and 1."
+  )
+  expect_error(
+    cost_post_pdf(100, c(1, NA), c(1, 1), c(1, 1), 0, risk_probs = c(0.5, NA)),
+    "risk_probs must not contain NA values."
+  )
 })
 
 test_that("cost_post_pdf handles no observed risks", {
@@ -56,7 +96,11 @@ test_that("cost_post_pdf handles no observed risks", {
   sds_given_risks <- c(2000, 1000, 1000)
   base_cost <- 2000
 
-  samples <- cost_post_pdf(num_sims, observed_risks, means_given_risks, sds_given_risks, base_cost)
+  expect_warning(
+    samples <- cost_post_pdf(num_sims, observed_risks, means_given_risks,
+                             sds_given_risks, base_cost),
+    "treated as not occurring"
+  )
   expect_equal(length(samples), num_sims)
   expect_true(all(samples == base_cost))
 })

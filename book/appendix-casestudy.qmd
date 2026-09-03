@@ -32,6 +32,8 @@ The **Riverside Bridge Replacement** is a design-bid-build infrastructure projec
 
 ```{r setup}
 #| code-fold: false
+# Render large currency values in full, not scientific notation.
+options(scipen = 999)
 library(PRA)
 set.seed(42)
 ```
@@ -83,7 +85,7 @@ sens <- sensitivity(task_dists)
 ```
 
 ```{r}
-#| fig-cap: "Tornado chart. T3 (Structural Steel & Deck) dominates schedule variance, with its wide triangular distribution swamps the other tasks."
+#| fig-cap: "Tornado chart. T3 (Structural Steel & Deck) dominates schedule variance, its wide triangular distribution swamping the other tasks."
 sorted_sens <- sort(sens, decreasing = FALSE)
 barplot(sorted_sens, horiz = TRUE,
   names.arg = names(sorted_sens),
@@ -293,7 +295,7 @@ hist(sim_net$E, breaks = 60,
 
 ```{r}
 learn_net <- prob_net_learn(graph,
-  observations = list(B = "Yes"),
+  observations = list(B = 1),
   num_samples  = 10000)
 
 cat("Mean cost (prior):", format(round(mean(sim_net$E)), big.mark = ","), "\n")

@@ -9,12 +9,12 @@
 #' @srrstats {G5.9} Noise susceptibility / reproducibility tested with set.seed().
 #' @srrstats {G5.9b} Different random seeds produce stable distributional results.
 
-# ── Shared fixtures ────────────────────────────────────────────────────────────
+# -- Shared fixtures ------------------------------
 
 nodes <- data.frame(id = c("A", "B", "C", "D"), stringsAsFactors = FALSE)
 links <- data.frame(
-  source = c("A", "A", "B", "C"),
-  target = c("B", "C", "D", "D"),
+  source = c("A", "B", "C"),
+  target = c("C", "D", "D"),
   stringsAsFactors = FALSE
 )
 distributions <- list(
@@ -29,7 +29,7 @@ distributions <- list(
 )
 graph <- prob_net(nodes, links, distributions = distributions)
 
-# ── prob_net() ─────────────────────────────────────────────────────────────────
+# -- prob_net() ------------------------------
 
 test_that("prob_net rejects non-data.frame nodes", {
   expect_error(
@@ -149,21 +149,24 @@ test_that("prob_net returns a prob_net object with correct structure", {
   expect_identical(graph$distributions, distributions)
 })
 
-test_that("prob_net adjacency matrix has correct dimensions and is symmetric", {
+test_that("prob_net adjacency matrix has correct dimensions and is directed", {
   m <- graph$adjacency_matrix
   n <- nrow(nodes)
   expect_equal(dim(m), c(n, n))
-  expect_equal(m, t(m))
+  # The graph is a DAG, so the adjacency matrix must not be symmetric.
+  expect_false(isTRUE(all.equal(m, t(m))))
+  expect_true(all(m[lower.tri(m, diag = TRUE)] == 0))
 })
 
-test_that("prob_net adjacency matrix reflects link counts", {
+test_that("prob_net adjacency matrix records edge direction", {
   m <- graph$adjacency_matrix
-  # A→B and A→C: A has two connections to B and C
-  expect_equal(m["A", "B"], 1)
   expect_equal(m["A", "C"], 1)
   expect_equal(m["B", "D"], 1)
   expect_equal(m["C", "D"], 1)
-  # No direct A→D link
+  # Direction is preserved: the reverse entries stay empty.
+  expect_equal(m["C", "A"], 0)
+  expect_equal(m["D", "B"], 0)
+  # No direct A->D link
   expect_equal(m["A", "D"], 0)
 })
 
@@ -188,11 +191,137 @@ test_that("prob_net accepts uniform and lognormal distributions (G5.8)", {
     C = list(type = "normal",    mean = 0,    sd = 1),
     D = list(type = "discrete",  values = c(0, 1), probs = c(0.4, 0.6))
   )
-  g <- prob_net(nodes, links, distributions = dist2)
+  # None of these declare a dependency, so the network carries no links.
+  no_links <- data.frame(source = character(0), target = character(0))
+  g <- prob_net(nodes, no_links, distributions = dist2)
   expect_s3_class(g, "prob_net")
 })
 
-# ── prob_net_sim() ─────────────────────────────────────────────────────────────
+# -- Graph / distribution consistency ------------------------------
+#
+# The links are load-bearing: the graph and the distributions must describe the
+# same DAG, so an inconsistent network is rejected rather than silently
+# simulated from the distribution list alone.
+
+test_that("prob_net rejects a link with no declared dependency", {
+  stray <- rbind(links,
+                 data.frame(source = "A", target = "D", stringsAsFactors = FALSE))
+  expect_error(
+    prob_net(nodes, stray, distributions = distributions),
+    "Every link must correspond to a dependency declared by the"
+  )
+})
+
+test_that("prob_net rejects a declared dependency with no link", {
+  missing <- links[links$source != "A", ]
+  expect_error(
+    prob_net(nodes, missing, distributions = distributions),
+    "Every dependency declared by the distributions must appear in the"
+  )
+})
+
+test_that("prob_net rejects duplicate node ids", {
+  dup <- data.frame(id = c("A", "A", "C", "D"), stringsAsFactors = FALSE)
+  expect_error(
+    prob_net(dup, links, distributions = distributions),
+    "must not contain duplicate ids"
+  )
+})
+
+test_that("prob_net rejects a link endpoint that is not a node", {
+  ghost <- rbind(links,
+                 data.frame(source = "Z", target = "D", stringsAsFactors = FALSE))
+  expect_error(
+    prob_net(nodes, ghost, distributions = distributions),
+    "Every link source and target must be a node id"
+  )
+})
+
+test_that("prob_net rejects self-loops", {
+  loop <- data.frame(source = "A", target = "A", stringsAsFactors = FALSE)
+  expect_error(
+    prob_net(data.frame(id = "A", stringsAsFactors = FALSE), loop,
+             list(A = list(type = "aggregate", nodes = "A"))),
+    "must not contain self-loops"
+  )
+})
+
+test_that("prob_net rejects a distribution named for a node not in the network", {
+  extra <- c(distributions,
+             list(Z = list(type = "normal", mean = 0, sd = 1)))
+  expect_error(
+    prob_net(nodes, links, distributions = extra),
+    "Distributions must be named for nodes in the network"
+  )
+})
+
+test_that("prob_net rejects an aggregate over a node not in the network", {
+  bad <- distributions
+  bad$D <- list(type = "aggregate", nodes = c("B", "Z"))
+  bad_links <- rbind(links[links$target != "D", ],
+                     data.frame(source = c("B", "Z"), target = c("D", "D"),
+                                stringsAsFactors = FALSE))
+  expect_error(
+    prob_net(nodes, bad_links, distributions = bad),
+    "Every link source and target must be a node id"
+  )
+})
+
+test_that("prob_net_update rejects removing an edge without severing the dependency", {
+  # This is what makes remove_links structurally meaningful: dropping the edge
+  # into a conditional node must be accompanied by a new distribution for it.
+  expect_error(
+    prob_net_update(graph,
+                    remove_links = data.frame(source = "A", target = "C",
+                                              stringsAsFactors = FALSE)),
+    "Every dependency declared by the distributions must appear in the"
+  )
+})
+
+test_that("prob_net_update accepts an intervention that severs both", {
+  inter <- prob_net_update(
+    graph,
+    remove_links = data.frame(source = "A", target = "C",
+                              stringsAsFactors = FALSE),
+    update_distributions = list(C = list(type = "normal", mean = 1, sd = 0.5))
+  )
+  expect_s3_class(inter, "prob_net")
+  expect_equal(inter$adjacency_matrix["A", "C"], 0)
+  expect_equal(inter$distributions$C$type, "normal")
+})
+
+test_that("removing an edge severs the dependency it represents", {
+  # Regression guard: the links must not be decorative. The branches are far
+  # apart so the dependence is unmistakable before the intervention and gone
+  # after it.
+  sep_nodes <- data.frame(id = c("A", "C"), stringsAsFactors = FALSE)
+  sep_links <- data.frame(source = "A", target = "C", stringsAsFactors = FALSE)
+  sep_dist <- list(
+    A = list(type = "discrete", values = c(1, 0), probs = c(0.5, 0.5)),
+    C = list(
+      type = "conditional", condition = "A",
+      true_dist  = list(type = "normal", mean = 100, sd = 1),
+      false_dist = list(type = "normal", mean = 1,   sd = 1)
+    )
+  )
+  g <- prob_net(sep_nodes, sep_links, distributions = sep_dist)
+
+  set.seed(11)
+  before <- prob_net_sim(g, num_samples = 8000)
+  inter <- prob_net_update(
+    g,
+    remove_links = sep_links,
+    update_distributions = list(C = list(type = "normal", mean = 1, sd = 1))
+  )
+  set.seed(11)
+  after <- prob_net_sim(inter, num_samples = 8000)
+
+  expect_false(isTRUE(all.equal(before$C, after$C)))
+  expect_gt(abs(cor(before$A, before$C)), 0.9)
+  expect_lt(abs(cor(after$A, after$C)), 0.05)
+})
+
+# -- prob_net_sim() ------------------------------
 
 test_that("prob_net_sim rejects non-prob_net input", {
   expect_error(
@@ -203,7 +332,7 @@ test_that("prob_net_sim rejects non-prob_net input", {
 
 test_that("prob_net_sim errors on node with no distribution", {
   extra_node  <- data.frame(id = c("A", "B", "X"), stringsAsFactors = FALSE)
-  extra_links <- data.frame(source = "A", target = "B", stringsAsFactors = FALSE)
+  extra_links <- data.frame(source = character(0), target = character(0))
   dist_only_ab <- list(
     A = list(type = "discrete", values = c(0, 1), probs = c(0.5, 0.5)),
     B = list(type = "normal", mean = 0, sd = 1)
@@ -215,8 +344,9 @@ test_that("prob_net_sim errors on node with no distribution", {
   )
 })
 
-test_that("prob_net_sim errors when conditional node precedes its condition", {
-  # Order matters: C depends on A, but here C is listed first
+test_that("prob_net rejects a conditional node listed before its condition", {
+  # Order matters: C depends on A, but here C is listed first. prob_net() now
+  # rejects this at construction rather than leaving it for prob_net_sim().
   bad_nodes <- data.frame(id = c("C", "A"), stringsAsFactors = FALSE)
   bad_links <- data.frame(source = "A", target = "C", stringsAsFactors = FALSE)
   bad_dist <- list(
@@ -227,9 +357,34 @@ test_that("prob_net_sim errors when conditional node precedes its condition", {
     ),
     A = list(type = "discrete", values = c(0, 1), probs = c(0.5, 0.5))
   )
-  g <- prob_net(bad_nodes, bad_links, distributions = bad_dist)
   expect_error(
-    prob_net_sim(g),
+    prob_net(bad_nodes, bad_links, distributions = bad_dist),
+    "must be supplied in a topological order"
+  )
+})
+
+test_that("prob_net_sim still guards against an unsampled condition (G5.2a)", {
+  # Unreachable through prob_net(), which validates node order, so the object is
+  # built directly to keep the defensive guard covered.
+  bad <- structure(
+    list(
+      nodes = data.frame(id = c("C", "A"), stringsAsFactors = FALSE),
+      links = data.frame(source = "A", target = "C", stringsAsFactors = FALSE),
+      adjacency_matrix = matrix(0, 2, 2,
+        dimnames = list(c("C", "A"), c("C", "A"))),
+      distributions = list(
+        C = list(
+          type = "conditional", condition = "A",
+          true_dist  = list(type = "normal", mean = 1, sd = 0.5),
+          false_dist = list(type = "normal", mean = 0, sd = 0.5)
+        ),
+        A = list(type = "discrete", values = c(0, 1), probs = c(0.5, 0.5))
+      )
+    ),
+    class = "prob_net"
+  )
+  expect_error(
+    prob_net_sim(bad),
     "Conditional dependency on unsampled node"
   )
 })
@@ -276,7 +431,9 @@ test_that("prob_net_sim lognormal node produces all positive values (G5.7)", {
     C = list(type = "normal", mean = 1, sd = 0.5),
     D = list(type = "aggregate", nodes = c("B", "C"))
   )
-  g <- prob_net(nodes, links, distributions = lnorm_dist)
+  agg_links <- data.frame(source = c("B", "C"), target = c("D", "D"),
+                          stringsAsFactors = FALSE)
+  g <- prob_net(nodes, agg_links, distributions = lnorm_dist)
   set.seed(6)
   result <- prob_net_sim(g, num_samples = 1000)
   expect_true(all(result$A > 0))
@@ -289,7 +446,9 @@ test_that("prob_net_sim uniform node produces values within bounds (G5.7)", {
     C = list(type = "normal",  mean = 1, sd = 0.5),
     D = list(type = "aggregate", nodes = c("B", "C"))
   )
-  g <- prob_net(nodes, links, distributions = unif_dist)
+  agg_links <- data.frame(source = c("B", "C"), target = c("D", "D"),
+                          stringsAsFactors = FALSE)
+  g <- prob_net(nodes, agg_links, distributions = unif_dist)
   set.seed(7)
   result <- prob_net_sim(g, num_samples = 1000)
   expect_true(all(result$A >= 2 & result$A <= 5))
@@ -303,7 +462,7 @@ test_that("prob_net_sim is reproducible with set.seed (G5.9)", {
   expect_equal(r1, r2)
 })
 
-# ── prob_net_learn() ───────────────────────────────────────────────────────────
+# -- prob_net_learn() ------------------------------
 
 test_that("prob_net_learn rejects non-prob_net input", {
   expect_error(
@@ -314,7 +473,7 @@ test_that("prob_net_learn rejects non-prob_net input", {
 
 test_that("prob_net_learn errors on unobserved node with no distribution", {
   extra_node  <- data.frame(id = c("A", "B", "X"), stringsAsFactors = FALSE)
-  extra_links <- data.frame(source = "A", target = "B", stringsAsFactors = FALSE)
+  extra_links <- data.frame(source = character(0), target = character(0))
   dist_only_ab <- list(
     A = list(type = "discrete", values = c(0, 1), probs = c(0.5, 0.5)),
     B = list(type = "normal", mean = 0, sd = 1)
@@ -358,7 +517,7 @@ test_that("prob_net_learn with A=1 samples C from true_dist (G5.6)", {
 })
 
 test_that("prob_net_learn with A=0 samples C from false_dist (G5.6)", {
-  # false_dist is lognormal(meanlog=0, sdlog=0.2); E[X] = exp(0 + 0.04/2) ≈ 1.02
+  # false_dist is lognormal(meanlog=0, sdlog=0.2); E[X] = exp(0 + 0.04/2) ~= 1.02
   set.seed(14)
   result <- prob_net_learn(graph, observations = list(A = 0), num_samples = 10000)
   expect_equal(mean(result$C), exp(0 + 0.04 / 2), tolerance = 0.05)
@@ -371,7 +530,7 @@ test_that("prob_net_learn with empty observations behaves like prob_net_sim", {
   expect_equal(nrow(result), 500)
 })
 
-# ── prob_net_update() ──────────────────────────────────────────────────────────
+# -- prob_net_update() ------------------------------
 
 test_that("prob_net_update rejects non-prob_net input", {
   expect_error(
@@ -419,22 +578,37 @@ test_that("prob_net_update rejects distribution missing type in update", {
   )
 })
 
+# Adding an edge means adding the dependency it stands for, so the link change
+# and the distribution change are supplied together.
+make_b_conditional <- list(B = list(
+  type = "conditional", condition = "A",
+  true_dist  = list(type = "normal", mean = 5, sd = 0.5),
+  false_dist = list(type = "normal", mean = 2, sd = 0.5)
+))
+
 test_that("prob_net_update adding a link increases link count", {
-  new_link <- data.frame(source = "B", target = "A", stringsAsFactors = FALSE)
-  updated  <- prob_net_update(graph, add_links = new_link)
+  new_link <- data.frame(source = "A", target = "B", stringsAsFactors = FALSE)
+  updated  <- prob_net_update(graph, add_links = new_link,
+                              update_distributions = make_b_conditional)
   expect_equal(nrow(updated$links), nrow(links) + 1)
 })
 
 test_that("prob_net_update removing a link decreases link count", {
-  rm_link <- data.frame(source = "A", target = "B", stringsAsFactors = FALSE)
-  updated <- prob_net_update(graph, remove_links = rm_link)
+  rm_link <- data.frame(source = "A", target = "C", stringsAsFactors = FALSE)
+  updated <- prob_net_update(
+    graph,
+    remove_links = rm_link,
+    update_distributions = list(C = list(type = "normal", mean = 1, sd = 0.5))
+  )
   expect_equal(nrow(updated$links), nrow(links) - 1)
 })
 
 test_that("prob_net_update adjacency matrix reflects added link", {
-  new_link <- data.frame(source = "A", target = "D", stringsAsFactors = FALSE)
-  updated  <- prob_net_update(graph, add_links = new_link)
-  expect_equal(updated$adjacency_matrix["A", "D"], 1)
+  new_link <- data.frame(source = "A", target = "B", stringsAsFactors = FALSE)
+  updated  <- prob_net_update(graph, add_links = new_link,
+                              update_distributions = make_b_conditional)
+  expect_equal(updated$adjacency_matrix["A", "B"], 1)
+  expect_equal(updated$adjacency_matrix["B", "A"], 0)
 })
 
 test_that("prob_net_update replaces a distribution correctly", {
@@ -454,9 +628,9 @@ test_that("prob_net_update removing non-existent link leaves count unchanged (G5
   expect_equal(nrow(updated$links), nrow(links))
 })
 
-# ── Integration ────────────────────────────────────────────────────────────────
+# -- Integration ------------------------------
 
-test_that("full workflow prob_net → sim → learn → update → sim succeeds", {
+test_that("full workflow prob_net -> sim -> learn -> update -> sim succeeds", {
   g <- prob_net(nodes, links, distributions = distributions)
 
   set.seed(99)
@@ -467,10 +641,14 @@ test_that("full workflow prob_net → sim → learn → update → sim succeeds"
   learned <- prob_net_learn(g, observations = list(A = 1), num_samples = 500)
   expect_s3_class(learned, "data.frame")
 
-  new_link <- data.frame(source = "B", target = "A", stringsAsFactors = FALSE)
+  new_link <- data.frame(source = "A", target = "B", stringsAsFactors = FALSE)
   g2 <- prob_net_update(g, add_links = new_link,
                          update_distributions = list(
-                           B = list(type = "uniform", min = 1, max = 3)
+                           B = list(
+                             type = "conditional", condition = "A",
+                             true_dist  = list(type = "uniform", min = 1, max = 3),
+                             false_dist = list(type = "uniform", min = 0, max = 1)
+                           )
                          ))
   expect_s3_class(g2, "prob_net")
 
@@ -481,7 +659,7 @@ test_that("full workflow prob_net → sim → learn → update → sim succeeds"
   expect_false(anyNA(sim2))
 })
 
-# ── Additional coverage tests ──────────────────────────────────────────────────
+# -- Additional coverage tests ------------------------------
 
 test_that("prob_net rejects discrete conditional missing values/probs", {
   n2 <- data.frame(id = c("A", "B"), stringsAsFactors = FALSE)
@@ -526,4 +704,145 @@ test_that("prob_net_sim handles aggregate node with no component nodes", {
   result <- prob_net_sim(net2, num_samples = 10)
   expect_equal(nrow(result), 10)
   expect_true(all(result$Y == 0))
+})
+
+
+# ---- S3 methods ----
+
+make_test_net <- function() {
+  nodes <- data.frame(
+    id = c("R1", "Res", "T1", "T2", "Total"),
+    label = c("Weather", "Crew", "Foundation", "Framing", "Total"),
+    group = c("risk", "resource", "task", "task", "total"),
+    stringsAsFactors = FALSE
+  )
+  links <- data.frame(
+    source = c("R1", "Res", "Res", "T1", "T2"),
+    target = c("Res", "T1", "T2", "Total", "Total"),
+    stringsAsFactors = FALSE
+  )
+  dists <- list(
+    R1 = list(type = "discrete", values = c(0, 1), probs = c(0.7, 0.3)),
+    Res = list(
+      type = "conditional", condition = "R1",
+      true_dist = list(type = "discrete", values = c(0, 1), probs = c(0.4, 0.6)),
+      false_dist = list(type = "discrete", values = c(0, 1), probs = c(0.9, 0.1))
+    ),
+    T1 = list(
+      type = "conditional", condition = "Res",
+      true_dist = list(type = "normal", mean = 5, sd = 1),
+      false_dist = list(type = "normal", mean = 3, sd = 1)
+    ),
+    T2 = list(
+      type = "conditional", condition = "Res",
+      true_dist = list(type = "normal", mean = 8, sd = 2),
+      false_dist = list(type = "normal", mean = 4, sd = 1)
+    ),
+    Total = list(type = "aggregate", nodes = c("T1", "T2"))
+  )
+  prob_net(nodes, links, distributions = dists)
+}
+
+test_that("print.prob_net reports node and edge counts (G5.3)", {
+  out <- capture.output(print(make_test_net()))
+  expect_true(any(grepl("Nodes: 5", out)))
+  expect_true(any(grepl("Edges: 5", out)))
+  expect_true(any(grepl("Distributions: complete", out)))
+  # The default dump is replaced, so the raw adjacency matrix is not printed.
+  expect_false(any(grepl("attr\\(,\"class\"\\)", out)))
+})
+
+test_that("print.prob_net returns its input invisibly (G5.3)", {
+  expect_output(expect_invisible(print(make_test_net())))
+})
+
+test_that("prob_net_layers assigns longest-path layers (G5.3)", {
+  layers <- prob_net_layers(make_test_net())
+  expect_equal(unname(layers[["R1"]]), 0)
+  expect_equal(unname(layers[["Res"]]), 1)
+  expect_equal(unname(layers[["T1"]]), 2)
+  expect_equal(unname(layers[["T2"]]), 2)
+  expect_equal(unname(layers[["Total"]]), 3)
+})
+
+test_that("summary.prob_net returns one row per node in topological order (G5.3)", {
+  s <- summary(make_test_net())
+
+  expect_s3_class(s, "summary.prob_net")
+  expect_equal(s$n_nodes, 5)
+  expect_equal(s$n_edges, 5)
+  expect_equal(s$n_roots, 1)
+  expect_equal(s$n_terminals, 1)
+  expect_equal(s$depth, 4)
+  expect_equal(nrow(s$node_table), 5)
+  expect_equal(s$node_table$id, c("R1", "Res", "T1", "T2", "Total"))
+  # Layers are non-decreasing down the table, which is what topological order means.
+  expect_false(is.unsorted(s$node_table$layer))
+  expect_equal(s$node_table$parents[[1]], "")
+  expect_equal(s$node_table$parents[[5]], "T1, T2")
+  expect_length(s$missing_distributions, 0)
+})
+
+test_that("summary.prob_net carries label and group when supplied (G5.3)", {
+  s <- summary(make_test_net())
+  expect_true(all(c("label", "group") %in% colnames(s$node_table)))
+  expect_equal(s$node_table$label[[1]], "Weather")
+})
+
+test_that("format_node_dist renders every supported type (G5.7)", {
+  expect_match(
+    format_node_dist(list(type = "normal", mean = 2, sd = 0.5)),
+    "^normal\\(mean = 2, sd = 0.5\\)$"
+  )
+  expect_match(
+    format_node_dist(list(type = "lognormal", meanlog = 0, sdlog = 0.2)),
+    "^lognormal"
+  )
+  expect_match(
+    format_node_dist(list(type = "uniform", min = 1, max = 5)),
+    "^uniform\\(1, 5\\)$"
+  )
+  expect_match(
+    format_node_dist(list(type = "discrete", values = c(0, 1), probs = c(0.5, 0.5))),
+    "^discrete\\{0:0.5, 1:0.5\\}$"
+  )
+  expect_match(
+    format_node_dist(list(type = "aggregate", nodes = c("B", "C"))),
+    "^sum\\(B, C\\)$"
+  )
+  expect_true(is.na(format_node_dist(NULL)))
+})
+
+test_that("format_node_dist truncates without emitting non-ASCII (G5.7)", {
+  long <- format_node_dist(list(
+    type = "aggregate", nodes = paste0("Node", 1:20)
+  ))
+  expect_lte(nchar(long), 40)
+  expect_match(long, "\\.\\.\\.$")
+  expect_false(grepl("[^\x01-\x7F]", long))
+})
+
+test_that("plot.prob_net runs without error (G5.8)", {
+  withr::local_pdf(NULL)
+  net <- make_test_net()
+  expect_no_error(plot(net))
+  expect_no_error(plot(net, vertical = FALSE))
+  expect_invisible(plot(net))
+})
+
+test_that("prob_net methods handle an empty network (G5.8)", {
+  withr::local_pdf(NULL)
+  empty <- prob_net(
+    data.frame(id = character(0), stringsAsFactors = FALSE),
+    data.frame(source = character(0), target = character(0),
+               stringsAsFactors = FALSE)
+  )
+  out <- capture.output(print(empty))
+  expect_true(any(grepl("empty", out)))
+
+  s <- summary(empty)
+  expect_equal(s$n_nodes, 0)
+  expect_equal(nrow(s$node_table), 0)
+
+  expect_message(plot(empty), "Nothing to plot")
 })

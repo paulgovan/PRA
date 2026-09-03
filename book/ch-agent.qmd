@@ -5,7 +5,7 @@
 
 You've made it through eight chapters of quantitative risk analysis. You know Monte Carlo, SMM, EVM, Bayesian inference, learning curves, design structure matrices, and probabilistic networks. Now imagine not having to remember the syntax for all of them.
 
-Imagine asking an AI assistant to "run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)" and getting back a P95 date, a contingency reserve, and a tornado chart. That's the promise of the `PRA` agentic layer: every analytical function in this book is exposed as a tool that an AI agent can call directly, guided by a set of skills that tell it *when* and *how* to use each one.
+Imagine asking an AI assistant to "run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)" and getting back a P95 date, a contingency reserve, and a tornado chart. That's the promise of the `PRA` agentic layer: the core analytical functions in this book are exposed as tools that an AI agent can call directly, guided by a set of skills that tell it *when* and *how* to use each one.
 
 ::: {.callout-note icon=false}
 ## Learning Objectives
@@ -164,7 +164,7 @@ A typical agent workflow chains tools the same way you would chain functions: `m
 ::: {.callout-tip icon=false}
 ## Key Takeaways
 
-- PRA exposes every analytical function as a **tool over MCP** via `pra_mcp_server()`; the numbers are identical to calling the functions directly.
+- PRA exposes its core analytical functions as **tools over MCP** via `pra_mcp_server()`; the numbers are identical to calling the functions directly. The probabilistic network functions are not currently exposed as tools.
 - **Agent Skills** (`SKILL.md` files under `system.file("skills", package = "PRA")`) tell an agent when and how to use each tool, including the JSON argument format.
 - The package embeds **no language model** — only the MCP server needs the optional `ellmer`, `mcptools`, and `jsonlite` packages.
 - Agents chain tools just as you chain functions: `mcs_tool` → `contingency_tool` + `sensitivity_tool`.

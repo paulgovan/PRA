@@ -15,8 +15,8 @@ prob_net_sim(network, num_samples = 1000)
 A data frame with \code{num_samples} rows and one column per node containing the simulated samples.
 }
 \description{
-\strong{Experimental.} This function is part of the experimental probabilistic
-network module and the API may change in future versions.
+This function is part of the probabilistic network module, whose API may
+still evolve in future versions.
 }
 \details{
 This function performs inference on a probabilistic network of project risks by simulating random samples
@@ -38,9 +38,9 @@ nodes <- data.frame(
 
 # Define links
 links <- data.frame(
-  source = c("A", "A", "B", "C"),
-  target = c("B", "C", "D", "D"),
-  weight = c(1, 2, 3, 4),
+  source = c("A", "B", "C"),
+  target = c("C", "D", "D"),
+  weight = c(1, 2, 3),
   stringsAsFactors = FALSE
 )
 

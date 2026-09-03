@@ -1,11 +1,13 @@
 citHeader("To cite PRA in publications use:")
 
+# The version is read from DESCRIPTION so this entry cannot go stale.
 bibentry(
   bibtype   = "Manual",
-  title     = "PRA: Project Risk Analysis",
-  author    = "Paul Govan",
+  title     = "{PRA}: Project Risk Analysis",
+  author    = person("Paul", "Govan",
+                     comment = c(ORCID = "0000-0002-1821-8492")),
   year      = "2026",
-  note      = "R package version 0.4.0",
+  note      = sprintf("R package version %s", meta$Version),
   url       = "https://cran.r-project.org/package=PRA",
   doi       = "10.32614/CRAN.package.PRA"
 )

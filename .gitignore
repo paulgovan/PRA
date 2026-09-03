@@ -4,3 +4,9 @@
 .Ruserdata
 docs
 inst/doc
+Rplots.pdf
+vignettes/*.html
+vignettes/*_files/
+inst/doc
+preprint/*_files/
+preprint/*.log

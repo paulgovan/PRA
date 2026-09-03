@@ -14,7 +14,10 @@ smm(mean, var, cor_mat = NULL)
 \item{cor_mat}{The correlation matrix (optional). If not provided, tasks are assumed to be independent.}
 }
 \value{
-The function returns a list of the total mean, variance, and standard deviation for the project.
+An S3 object of class \code{"smm"}: a list of the total mean
+(\code{total_mean}), variance (\code{total_var}) and standard deviation
+(\code{total_std}) for the project. Objects of this class have \code{\link[=print.smm]{print.smm()}},
+\code{\link[=summary.smm]{summary.smm()}} and \code{\link[=plot.smm]{plot.smm()}} methods.
 }
 \description{
 This function performs the Second Moment Method (SMM) analysis to estimate the

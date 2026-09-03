@@ -24,31 +24,39 @@ prob_net_update(
 An updated \code{prob_net} object with modified links and/or distributions.
 }
 \description{
-\strong{Experimental.} This function is part of the experimental probabilistic
-network module and the API may change in future versions.
+This function is part of the probabilistic network module, whose API may
+still evolve in future versions.
 }
 \details{
 This function updates an existing probabilistic network by adding or removing dependencies (edges)
 and updating probability distributions for nodes.
+
+The updated network is re-validated with the same rules \code{prob_net()} applies,
+so the edge changes and the distribution changes must agree. Removing the edge
+into a conditional node without also replacing that node's distribution is an
+error, which is what makes \code{remove_links} structurally meaningful: an
+intervention that severs a dependency has to sever it in both the graph and
+the distribution list.
 }
 \examples{
 nodes <- data.frame(id = c("A", "B", "C"))
 links <- data.frame(source = c("A", "B"), target = c("B", "C"))
 distributions <- list(
- A = list(type = "discrete", values = c(0, 1), probs = c(0.5, 0.5)),
- B = list(type = "normal", mean = 0, sd = 1),
- C = list(type = "uniform", min = 1, max = 5)
+  A = list(type = "discrete", values = c(1, 0), probs = c(0.5, 0.5)),
+  B = list(
+    type = "conditional", condition = "A",
+    true_dist  = list(type = "normal", mean = 5, sd = 1),
+    false_dist = list(type = "normal", mean = 1, sd = 1)
+  ),
+  C = list(type = "aggregate", nodes = "B")
 )
 graph <- prob_net(nodes, links, distributions)
-# Update the network
-new_links <- data.frame(source = c("A"), target = c("C"))
-updated_distributions <- list(
- B = list(type = "lognormal", meanlog = 0, sdlog = 0.5)
-)
+
+# Intervene on B: sever its dependence on A and fix it to the baseline cost.
 updated_graph <- prob_net_update(
- graph,
- add_links = new_links,
- update_distributions = updated_distributions
+  graph,
+  remove_links = data.frame(source = "A", target = "B"),
+  update_distributions = list(B = list(type = "normal", mean = 1, sd = 1))
 )
 
 }

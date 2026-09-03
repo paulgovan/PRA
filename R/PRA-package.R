@@ -9,10 +9,12 @@
 #' \describe{
 #'   \item{**Monte Carlo Simulation** (`mcs()`)}{
 #'     Propagates schedule or cost uncertainty through a triangular distribution
-#'     model using `mc2d`. Returns an S3 object with a `print` method.}
+#'     model using `mc2d`. Returns an S3 object with `print`, `summary` and
+#'     `plot` methods.}
 #'   \item{**Second Moment Method** (`smm()`)}{
 #'     Analytical first- and second-moment propagation of uncertainty without
-#'     simulation. Returns an S3 object with a `print` method.}
+#'     simulation. Returns an S3 object with `print`, `summary` and `plot`
+#'     methods.}
 #'   \item{**Earned Value Management** (`pv()`, `ev()`, `ac()`, `sv()`, `cv()`,
 #'     `spi()`, `cpi()`, `eac()`, `etc()`, `tcpi()`, `vac()`)}{
 #'     Full suite of EVM performance metrics and forecasting functions.}
@@ -33,7 +35,13 @@
 #'     multivariate simulations.}
 #'   \item{**Design Structure Matrix** (`parent_dsm()`, `grandparent_dsm()`)}{
 #'     Derives direct (parent) and indirect (grandparent) dependency structure
-#'     matrices from a binary adjacency matrix.}
+#'     matrices from a binary adjacency matrix. Returns an S3 object with
+#'     `print`, `summary` and `plot` methods.}
+#'   \item{**Probabilistic Networks** (`prob_net()`, `prob_net_sim()`,
+#'     `prob_net_learn()`, `prob_net_update()`)}{
+#'     Forward simulation and Bayesian conditioning over a causal network of
+#'     risks, resources and tasks. `prob_net()` returns an S3 object with
+#'     `print`, `summary` and `plot` methods.}
 #' }
 #'
 #' @section References:

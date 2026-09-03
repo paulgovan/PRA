@@ -92,8 +92,13 @@ risk_prob <- function(cause_probs, risks_given_causes, risks_given_not_causes) {
 #' @srrstats {G2.16} *Implements checks for Inf/-Inf values via is.infinite() prior to processing.*
 #' @srrstats {G5.2a} *Each error message produced by stop() is unique.*
 #'
+#' @details The risk events are independent Bernoulli draws, so any number of
+#' them may occur in the same simulation and their probabilities need not sum to
+#' one. Each risk that occurs contributes a normal cost on top of `base_cost`.
+#'
 #' @param num_sims Number of random samples to draw from the mixture model.
-#' @param risk_probs A vector of probabilities for each risk event 'R_i'.
+#' @param risk_probs A vector of probabilities for each risk event 'R_i'. The
+#' risks are independent, so these need not sum to 1.
 #' @param means_given_risks A vector of means of the normal distribution for cost 'A' given each risk event 'R_i'.
 #' @param sds_given_risks A vector of standard deviations of the normal distribution for cost 'A' given each risk event 'R_i'.
 #' @param base_cost The baseline cost given no risk event occurs.
@@ -134,7 +139,6 @@ cost_pdf <- function(num_sims, risk_probs, means_given_risks, sds_given_risks, b
   if (is.na(base_cost)) stop("base_cost must not be NA.")
   if (is.infinite(base_cost)) stop("base_cost must not be infinite.")
   if (any(risk_probs < 0 | risk_probs > 1)) stop("All risk_probs must be between 0 and 1.")
-  if (sum(risk_probs) > 1) stop("Sum of risk_probs must not exceed 1.")
   if (length(risk_probs) != length(means_given_risks) || length(risk_probs) != length(sds_given_risks)) {
     stop("risk_probs, means_given_risks, and sds_given_risks must have the same length.")
   }

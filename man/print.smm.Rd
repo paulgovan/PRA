@@ -12,7 +12,7 @@
 \item{...}{Additional arguments (not used).}
 }
 \value{
-None. The function prints the SMM results to the console.
+Invisibly returns \code{x}.
 }
 \description{
 This function defines how to print the results of the Second Moment Method

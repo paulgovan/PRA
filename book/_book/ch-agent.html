@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,9 +76,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-a06763021a52c43c40a351ac8b799b8f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-dbc92dda8186f57fa2e333fbb71d6a9d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-a06763021a52c43c40a351ac8b799b8f.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-6b6957c917596b414ec0b78690761e87.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-abfa4615eba2ed0d4bb7fb949ed9c296.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -309,25 +309,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/paulgovan/PRA" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
     <div class="dropdown">
-      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Download"><i class="bi bi-download"></i></a>
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
-          <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="./Project-Risk-Analysis--A-Practical-Guide.pdf">
-              <i class="bi bi-file-pdf pe-1"></i>
-            Download PDF
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="./Project-Risk-Analysis--A-Practical-Guide.epub">
-              <i class="bi bi-journal pe-1"></i>
-            Download ePub
-            </a>
-          </li>
-      </ul>
-    </div>
-    <div class="dropdown">
-      <a href="" title="Share" id="quarto-navigation-tool-dropdown-1" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
-      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-1">
           <li>
             <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
               <i class="bi bi-twitter pe-1"></i>
@@ -494,43 +477,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-three-routing-modes" id="toc-the-three-routing-modes" class="nav-link active" data-scroll-target="#the-three-routing-modes"><span class="header-section-number">12.1</span> The Three Routing Modes</a></li>
-  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites"><span class="header-section-number">12.2</span> Prerequisites</a>
+  <li><a href="#how-pra-talks-to-ai-agents" id="toc-how-pra-talks-to-ai-agents" class="nav-link active" data-scroll-target="#how-pra-talks-to-ai-agents"><span class="header-section-number">12.1</span> How PRA Talks to AI Agents</a></li>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites"><span class="header-section-number">12.2</span> Prerequisites</a></li>
+  <li><a href="#the-mcp-server" id="toc-the-mcp-server" class="nav-link" data-scroll-target="#the-mcp-server"><span class="header-section-number">12.3</span> The MCP Server</a>
   <ul class="collapse">
-  <li><a href="#install-ollama" id="toc-install-ollama" class="nav-link" data-scroll-target="#install-ollama"><span class="header-section-number">12.2.1</span> Install Ollama</a></li>
-  <li><a href="#install-r-dependencies" id="toc-install-r-dependencies" class="nav-link" data-scroll-target="#install-r-dependencies"><span class="header-section-number">12.2.2</span> Install R dependencies</a></li>
+  <li><a href="#starting-the-server" id="toc-starting-the-server" class="nav-link" data-scroll-target="#starting-the-server"><span class="header-section-number">12.3.1</span> Starting the server</a></li>
+  <li><a href="#connecting-from-claude-code" id="toc-connecting-from-claude-code" class="nav-link" data-scroll-target="#connecting-from-claude-code"><span class="header-section-number">12.3.2</span> Connecting from Claude Code</a></li>
+  <li><a href="#connecting-from-claude-desktop" id="toc-connecting-from-claude-desktop" class="nav-link" data-scroll-target="#connecting-from-claude-desktop"><span class="header-section-number">12.3.3</span> Connecting from Claude Desktop</a></li>
   </ul></li>
-  <li><a href="#slash-commands" id="toc-slash-commands" class="nav-link" data-scroll-target="#slash-commands"><span class="header-section-number">12.3</span> Slash Commands</a>
-  <ul class="collapse">
-  <li><a href="#available-commands" id="toc-available-commands" class="nav-link" data-scroll-target="#available-commands"><span class="header-section-number">12.3.1</span> Available Commands</a></li>
-  <li><a href="#example-monte-carlo-simulation" id="toc-example-monte-carlo-simulation" class="nav-link" data-scroll-target="#example-monte-carlo-simulation"><span class="header-section-number">12.3.2</span> Example: Monte Carlo Simulation</a></li>
-  <li><a href="#example-chaining-mcs-to-contingency" id="toc-example-chaining-mcs-to-contingency" class="nav-link" data-scroll-target="#example-chaining-mcs-to-contingency"><span class="header-section-number">12.3.3</span> Example: Chaining MCS to Contingency</a></li>
-  <li><a href="#example-earned-value-management" id="toc-example-earned-value-management" class="nav-link" data-scroll-target="#example-earned-value-management"><span class="header-section-number">12.3.4</span> Example: Earned Value Management</a></li>
-  <li><a href="#example-bayesian-risk-probability" id="toc-example-bayesian-risk-probability" class="nav-link" data-scroll-target="#example-bayesian-risk-probability"><span class="header-section-number">12.3.5</span> Example: Bayesian Risk Probability</a></li>
-  <li><a href="#example-second-moment-method" id="toc-example-second-moment-method" class="nav-link" data-scroll-target="#example-second-moment-method"><span class="header-section-number">12.3.6</span> Example: Second Moment Method</a></li>
-  <li><a href="#input-validation" id="toc-input-validation" class="nav-link" data-scroll-target="#input-validation"><span class="header-section-number">12.3.7</span> Input Validation</a></li>
-  </ul></li>
-  <li><a href="#chat-interface" id="toc-chat-interface" class="nav-link" data-scroll-target="#chat-interface"><span class="header-section-number">12.4</span> Chat Interface</a>
-  <ul class="collapse">
-  <li><a href="#using-cloud-models" id="toc-using-cloud-models" class="nav-link" data-scroll-target="#using-cloud-models"><span class="header-section-number">12.4.1</span> Using Cloud Models</a></li>
-  </ul></li>
-  <li><a href="#interactive-shiny-app" id="toc-interactive-shiny-app" class="nav-link" data-scroll-target="#interactive-shiny-app"><span class="header-section-number">12.5</span> Interactive Shiny App</a>
-  <ul class="collapse">
-  <li><a href="#features" id="toc-features" class="nav-link" data-scroll-target="#features"><span class="header-section-number">12.5.1</span> Features</a></li>
-  </ul></li>
-  <li><a href="#rag-knowledge-base" id="toc-rag-knowledge-base" class="nav-link" data-scroll-target="#rag-knowledge-base"><span class="header-section-number">12.6</span> RAG Knowledge Base</a>
-  <ul class="collapse">
-  <li><a href="#adding-your-own-documents" id="toc-adding-your-own-documents" class="nav-link" data-scroll-target="#adding-your-own-documents"><span class="header-section-number">12.6.1</span> Adding Your Own Documents</a></li>
-  </ul></li>
-  <li><a href="#mcp-integration" id="toc-mcp-integration" class="nav-link" data-scroll-target="#mcp-integration"><span class="header-section-number">12.7</span> MCP Integration</a>
-  <ul class="collapse">
-  <li><a href="#starting-the-server" id="toc-starting-the-server" class="nav-link" data-scroll-target="#starting-the-server"><span class="header-section-number">12.7.1</span> Starting the Server</a></li>
-  <li><a href="#connecting-from-claude-code" id="toc-connecting-from-claude-code" class="nav-link" data-scroll-target="#connecting-from-claude-code"><span class="header-section-number">12.7.2</span> Connecting from Claude Code</a></li>
-  <li><a href="#connecting-from-claude-desktop" id="toc-connecting-from-claude-desktop" class="nav-link" data-scroll-target="#connecting-from-claude-desktop"><span class="header-section-number">12.7.3</span> Connecting from Claude Desktop</a></li>
-  </ul></li>
-  <li><a href="#available-commands-reference" id="toc-available-commands-reference" class="nav-link" data-scroll-target="#available-commands-reference"><span class="header-section-number">12.8</span> Available Commands Reference</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">12.9</span> Summary</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">12.10</span> Exercises</a></li>
+  <li><a href="#agent-skills" id="toc-agent-skills" class="nav-link" data-scroll-target="#agent-skills"><span class="header-section-number">12.4</span> Agent Skills</a></li>
+  <li><a href="#from-request-to-tool-call" id="toc-from-request-to-tool-call" class="nav-link" data-scroll-target="#from-request-to-tool-call"><span class="header-section-number">12.5</span> From Request to Tool Call</a></li>
+  <li><a href="#tool-reference" id="toc-tool-reference" class="nav-link" data-scroll-target="#tool-reference"><span class="header-section-number">12.6</span> Tool Reference</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">12.7</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">12.8</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/paulgovan/PRA/edit/main/ch-agent.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulgovan/PRA/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -558,10 +517,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <blockquote class="blockquote">
-<p><em>“The best tool for the job is the one you’ll actually use.”</em> — P.G.</p>
+<p><em>“The best way to predict the future is to invent it.”</em> — Alan Kay</p>
 </blockquote>
 <p>You’ve made it through eight chapters of quantitative risk analysis. You know Monte Carlo, SMM, EVM, Bayesian inference, learning curves, design structure matrices, and probabilistic networks. Now imagine not having to remember the syntax for all of them.</p>
-<p>Imagine a project manager typing “run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)” and getting back a P95 date, a contingency reserve, and a tornado chart, all in ten seconds, without opening R. That’s the promise of the <code>PRA</code> agentic framework: a layer of intelligence on top of all the methods you’ve learned.</p>
+<p>Imagine asking an AI assistant to “run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)” and getting back a P95 date, a contingency reserve, and a tornado chart. That’s the promise of the <code>PRA</code> agentic layer: the core analytical functions in this book are exposed as tools that an AI agent can call directly, guided by a set of skills that tell it <em>when</em> and <em>how</em> to use each one.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -574,503 +533,227 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="callout-body-container callout-body">
 <p>By the end of this chapter, you will be able to:</p>
 <ol type="1">
-<li>Distinguish the three routing modes (slash commands, LLM tool calls, RAG)</li>
-<li>Run any PRA method via a slash command and chain results across commands</li>
-<li>Use <code>pra_chat()</code> to interact with PRA methods through natural language</li>
-<li>Explain how RAG augments the LLM with domain-specific knowledge</li>
-<li>Configure PRA as an MCP server for Claude Desktop or Claude Code</li>
+<li>Explain how PRA exposes its functions as tools over the Model Context Protocol (MCP)</li>
+<li>Start the PRA MCP server and register it with Claude Code or Claude Desktop</li>
+<li>Describe what Agent Skills are and how they guide tool use</li>
+<li>Map a natural-language request to the underlying PRA tool and its arguments</li>
 </ol>
 </div>
 </div>
-<section id="the-three-routing-modes" class="level2" data-number="12.1">
-<h2 data-number="12.1" class="anchored" data-anchor-id="the-three-routing-modes"><span class="header-section-number">12.1</span> The Three Routing Modes</h2>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>How PRA Routes Your Input
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<table class="caption-top table">
-<colgroup>
-<col style="width: 42%">
-<col style="width: 25%">
-<col style="width: 32%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Input type</th>
-<th>Route</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>/command</code></td>
-<td><strong>Deterministic</strong>: executes the tool directly, no LLM</td>
-<td><code>/mcs tasks=[...]</code></td>
-</tr>
-<tr class="even">
-<td>Numerical data</td>
-<td><strong>LLM tool call</strong>: the model selects and calls the right tool</td>
-<td>“Simulate 3 tasks: Normal(10,2)…”</td>
-</tr>
-<tr class="odd">
-<td>Conceptual question</td>
-<td><strong>RAG</strong>: answered from the knowledge base</td>
-<td>“What is earned value?”</td>
-</tr>
-</tbody>
-</table>
-<p><strong>When to use each:</strong></p>
-<ul>
-<li>Use <strong>slash commands</strong> when you need guaranteed, reproducible results; they bypass the LLM entirely.</li>
-<li>Use the <strong>chat interface</strong> for exploratory questions and interpretation, especially with larger models.</li>
-<li>Use <strong>RAG</strong> for conceptual questions; it retrieves the most relevant knowledge base content and cites sources.</li>
-</ul>
-</div>
-</div>
-<p>Three interfaces expose these modes:</p>
+<section id="how-pra-talks-to-ai-agents" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="how-pra-talks-to-ai-agents"><span class="header-section-number">12.1</span> How PRA Talks to AI Agents</h2>
+<p>Rather than embedding a language model inside the package, PRA takes a simpler and more portable approach: it publishes its analytical functions as <strong>tools</strong> that any capable AI agent can call. Two pieces make this work:</p>
 <ol type="1">
-<li><strong>Slash commands</strong>: deterministic tool calls that bypass the LLM for instant, reliable results</li>
-<li><strong>Chat interface</strong> (<code>pra_chat()</code>): programmatic R chat powered by ellmer</li>
-<li><strong>Shiny app</strong> (<code>pra_app()</code>): browser-based experience combining all three modes</li>
+<li><strong>An MCP server</strong> (<code>pra_mcp_server()</code>) that advertises each PRA function — Monte Carlo simulation, EVM, Bayesian risk, learning curves, DSM, and the rest — as a callable tool over the <a href="https://modelcontextprotocol.io">Model Context Protocol</a>.</li>
+<li><strong>Agent Skills</strong> — bundled <code>SKILL.md</code> files that document, in plain language, when to use each method, which tool to call, the argument format, and how to read the result.</li>
 </ol>
+<p>The agent (Claude Code, Claude Desktop, or any MCP-compatible client) supplies the intelligence; PRA supplies the trustworthy, validated computation. Because the tools are the same functions you’ve used throughout the book, the numbers are identical whether you call <code>mcs()</code> yourself or ask an agent to run it.</p>
 </section>
 <section id="prerequisites" class="level2" data-number="12.2">
 <h2 data-number="12.2" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">12.2</span> Prerequisites</h2>
-<section id="install-ollama" class="level3" data-number="12.2.1">
-<h3 data-number="12.2.1" class="anchored" data-anchor-id="install-ollama"><span class="header-section-number">12.2.1</span> Install Ollama</h3>
-<p>Download from <a href="https://ollama.com" class="uri">https://ollama.com</a>, then pull a model:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> serve</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> pull llama3.2</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> pull nomic-embed-text  <span class="co"># for RAG embeddings</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="install-r-dependencies" class="level3" data-number="12.2.2">
-<h3 data-number="12.2.2" class="anchored" data-anchor-id="install-r-dependencies"><span class="header-section-number">12.2.2</span> Install R dependencies</h3>
+<p>The MCP server relies on a few optional packages:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"ellmer"</span>, <span class="st">"ragnar"</span>, <span class="st">"shiny"</span>, <span class="st">"bslib"</span>, <span class="st">"shinychat"</span>, <span class="st">"jsonlite"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"ellmer"</span>, <span class="st">"mcptools"</span>, <span class="st">"jsonlite"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>The analytical functions themselves need none of these — they are required only to serve the tools to an agent.</p>
 </section>
-</section>
-<section id="slash-commands" class="level2" data-number="12.3">
-<h2 data-number="12.3" class="anchored" data-anchor-id="slash-commands"><span class="header-section-number">12.3</span> Slash Commands</h2>
-<p>Slash commands provide deterministic tool execution with no LLM required. Type <code>/help</code> to see all available commands, or <code>/help &lt;command&gt;</code> for detailed usage.</p>
-<section id="available-commands" class="level3" data-number="12.3.1">
-<h3 data-number="12.3.1" class="anchored" data-anchor-id="available-commands"><span class="header-section-number">12.3.1</span> Available Commands</h3>
+<section id="the-mcp-server" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="the-mcp-server"><span class="header-section-number">12.3</span> The MCP Server</h2>
+<section id="starting-the-server" class="level3" data-number="12.3.1">
+<h3 data-number="12.3.1" class="anchored" data-anchor-id="starting-the-server"><span class="header-section-number">12.3.1</span> Starting the server</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(PRA<span class="sc">:::</span><span class="fu">format_help_overview</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>## PRA Commands
-
-Type a command to run an analysis directly. Type `/help &lt;command&gt;` for detailed usage.
-
-- **/mcs** &lt;U+2014&gt; Monte Carlo Simulation
-- **/smm** &lt;U+2014&gt; Second Moment Method
-- **/contingency** &lt;U+2014&gt; Contingency Reserve
-- **/sensitivity** &lt;U+2014&gt; Sensitivity Analysis
-- **/evm** &lt;U+2014&gt; Earned Value Management
-- **/risk** &lt;U+2014&gt; Bayesian Risk (Prior)
-- **/risk_post** &lt;U+2014&gt; Bayesian Risk (Posterior)
-- **/learning** &lt;U+2014&gt; Learning Curve Fit
-- **/dsm** &lt;U+2014&gt; Design Structure Matrix
-
-Type `/help` for this overview.</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pra_mcp_server</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</div>
+<p>The server communicates over stdio, the standard transport for local MCP servers, and reuses the tool definitions from <code>pra_tools()</code> so any update to a tool is reflected automatically.</p>
 </section>
-<section id="example-monte-carlo-simulation" class="level3" data-number="12.3.2">
-<h3 data-number="12.3.2" class="anchored" data-anchor-id="example-monte-carlo-simulation"><span class="header-section-number">12.3.2</span> Example: Monte Carlo Simulation</h3>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cmd <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'/mcs n=10000 tasks=['</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'{"type":"normal","mean":10,"sd":2},'</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">'{"type":"triangular","a":5,"b":10,"c":15},'</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">'{"type":"uniform","min":8,"max":12}]'</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(cmd)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Monte Carlo Simulation Results (n = 10,000):
-
-Summary Statistics:
-  Mean  29.9804
-  SD    3.113
-  Min   19.502
-  Max   41.3892
-
-Percentiles:
-  P5   24.8726
-  P10  26.0194
-  P25  27.8881
-  P50  29.9536
-  P75  32.0796
-  P90  33.9873
-  P95  35.1014</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> PRA<span class="sc">:::</span>.pra_agent_env<span class="sc">$</span>last_mcs</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(result<span class="sc">$</span>total_distribution,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">breaks =</span> <span class="dv">50</span>,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Monte Carlo Simulation Results"</span>,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Total Project Duration/Cost"</span>,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">col  =</span> <span class="st">"#18bc9c80"</span>, <span class="at">border =</span> <span class="st">"white"</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x, <span class="at">mean =</span> result<span class="sc">$</span>total_mean, <span class="at">sd =</span> result<span class="sc">$</span>total_sd),</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"#2c3e50"</span>, <span class="at">lwd =</span> <span class="dv">2</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">v   =</span> <span class="fu">quantile</span>(result<span class="sc">$</span>total_distribution, <span class="fu">c</span>(<span class="fl">0.50</span>, <span class="fl">0.95</span>)),</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#3498db"</span>, <span class="st">"#e74c3c"</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="fl">1.5</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Normal fit"</span>, <span class="st">"P50"</span>, <span class="st">"P95"</span>),</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">col    =</span> <span class="fu">c</span>(<span class="st">"#2c3e50"</span>, <span class="st">"#3498db"</span>, <span class="st">"#e74c3c"</span>),</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">lty    =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fl">1.5</span>, <span class="fl">1.5</span>),</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex    =</span> <span class="fl">0.8</span>, <span class="at">bg =</span> <span class="st">"white"</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="ch-agent_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>MCS results via slash command. The /mcs command stores results for downstream chaining.</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="example-chaining-mcs-to-contingency" class="level3" data-number="12.3.3">
-<h3 data-number="12.3.3" class="anchored" data-anchor-id="example-chaining-mcs-to-contingency"><span class="header-section-number">12.3.3</span> Example: Chaining MCS to Contingency</h3>
-<p>After running <code>/mcs</code>, chain to <code>/contingency</code> for the reserve estimate:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(<span class="st">"/contingency phigh=0.95 pbase=0.50"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Contingency Analysis:
-
-  Base Percentile      P50
-  High Percentile      P95
-  Contingency Reserve  5.1478</code></pre>
-</div>
-</div>
-</section>
-<section id="example-earned-value-management" class="level3" data-number="12.3.4">
-<h3 data-number="12.3.4" class="anchored" data-anchor-id="example-earned-value-management"><span class="header-section-number">12.3.4</span> Example: Earned Value Management</h3>
-<p>Full EVM analysis with a single command:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>cmd <span class="ot">&lt;-</span> <span class="fu">paste</span>(</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/evm bac=500000"</span>,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"schedule=[0.2,0.4,0.6,0.8,1.0]"</span>,</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"period=3 complete=0.35"</span>,</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"costs=[90000,195000,310000]"</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(cmd)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Earned Value Management Analysis:
-
-Core Metrics:
-  Planned Value (PV)  300,000
-  Earned Value (EV)   175,000
-  Actual Cost (AC)    310,000
-
-Variances:
-  Schedule Variance (SV)  -125,000
-  Cost Variance (CV)      -135,000
-
-Performance Indices:
-  Schedule Performance Index (SPI)  0.5833
-  Cost Performance Index (CPI)      0.5645
-
-Forecasts:
-  EAC (Typical)                 885,714.3
-  EAC (Atypical)                635,000
-  EAC (Combined)                1,296,939
-  Estimate to Complete (ETC)    575,714.3
-  Variance at Completion (VAC)  -385,714.3
-  TCPI (to meet BAC)            1.7105</code></pre>
-</div>
-</div>
-</section>
-<section id="example-bayesian-risk-probability" class="level3" data-number="12.3.5">
-<h3 data-number="12.3.5" class="anchored" data-anchor-id="example-bayesian-risk-probability"><span class="header-section-number">12.3.5</span> Example: Bayesian Risk Probability</h3>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/risk causes=[0.3,0.2] given=[0.8,0.6] not_given=[0.2,0.4]"</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Bayesian Risk Analysis (Prior):
-
-  Risk Probability  0.82
-  Risk Percentage   82%
-  Number of Causes  2</code></pre>
-</div>
-</div>
-<p>Then update with observations:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/risk_post causes=[0.3,0.2] given=[0.8,0.6] not_given=[0.2,0.4] observed=[1,null]"</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Bayesian Risk Analysis (Posterior):
-
-  Posterior Risk Probability  0.6316
-  Posterior Risk Percentage   63.16%
-
-Observations:
-  Cause 1: Occurred
-  Cause 2: Unknown</code></pre>
-</div>
-</div>
-</section>
-<section id="example-second-moment-method" class="level3" data-number="12.3.6">
-<h3 data-number="12.3.6" class="anchored" data-anchor-id="example-second-moment-method"><span class="header-section-number">12.3.6</span> Example: Second Moment Method</h3>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(<span class="st">"/smm means=[10,12,8] vars=[4,9,2]"</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Second Moment Method Results:
-
-  Total Mean      30
-  Total Variance  15
-  Total Std Dev   3.873</code></pre>
-</div>
-</div>
-</section>
-<section id="input-validation" class="level3" data-number="12.3.7">
-<h3 data-number="12.3.7" class="anchored" data-anchor-id="input-validation"><span class="header-section-number">12.3.7</span> Input Validation</h3>
-<p>Missing or invalid arguments produce helpful error messages:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(<span class="st">"/risk causes=[0.3]"</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>**Missing required argument(s):** given, not_given
-
-### /risk &lt;U+2014&gt; Bayesian Risk (Prior)
-
-Calculate prior risk probability from root causes using Bayes' theorem.
-
-**Arguments:**
-- **causes** *(required)* &lt;U+2014&gt; JSON array of cause probabilities, e.g. [0.3, 0.2]
-- **given** *(required)* &lt;U+2014&gt; JSON array of P(Risk | Cause), e.g. [0.8, 0.6]
-- **not_given** *(required)* &lt;U+2014&gt; JSON array of P(Risk | not Cause), e.g. [0.2, 0.4]
-
-**Examples:**
-  /risk causes=[0.3,0.2] given=[0.8,0.6] not_given=[0.2,0.4]</code></pre>
-</div>
-</div>
-</section>
-</section>
-<section id="chat-interface" class="level2" data-number="12.4">
-<h2 data-number="12.4" class="anchored" data-anchor-id="chat-interface"><span class="header-section-number">12.4</span> Chat Interface</h2>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>About <code>eval: false</code> in This Chapter
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The Chat Interface, Shiny App, and MCP sections require a running Ollama server and cannot be evaluated during book rendering. Code blocks marked <code>eval: false</code> show the correct syntax; to follow along interactively, start Ollama with <code>ollama serve</code> before running them. The slash command examples above <strong>are</strong> fully evaluated and show actual output.</p>
-</div>
-</div>
-<p>The chat interface routes queries through the LLM, which decides whether to call a tool or answer from the RAG knowledge base:</p>
-<ul>
-<li><strong>Numerical data</strong> → LLM calls the appropriate tool and interprets the results</li>
-<li><strong>Conceptual questions</strong> → LLM answers from the RAG knowledge base with source citations</li>
-</ul>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">pra_chat</span>(<span class="at">model =</span> <span class="st">"llama3.2"</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Tool call: user provides numerical data</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">"Run a Monte Carlo simulation for a 3-task project with</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="st">  Task A ~ Normal(10, 2), Task B ~ Triangular(5, 10, 15),</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="st">  Task C ~ Uniform(8, 12). Use 10,000 simulations."</span>)</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># RAG: conceptual question</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">"What is the difference between SPI and CPI?"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<section id="using-cloud-models" class="level3" data-number="12.4.1">
-<h3 data-number="12.4.1" class="anchored" data-anchor-id="using-cloud-models"><span class="header-section-number">12.4.1</span> Using Cloud Models</h3>
-<p>For better accuracy with complex queries:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Anthropic (replace with the current model ID from https://docs.anthropic.com/en/docs/about-claude/models)</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">pra_chat</span>(<span class="at">chat =</span> ellmer<span class="sc">::</span><span class="fu">chat_anthropic</span>(<span class="at">model =</span> <span class="st">"claude-sonnet-4-5"</span>))</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># OpenAI</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">pra_chat</span>(<span class="at">chat =</span> ellmer<span class="sc">::</span><span class="fu">chat_openai</span>(<span class="at">model =</span> <span class="st">"gpt-4o"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-</section>
-<section id="interactive-shiny-app" class="level2" data-number="12.5">
-<h2 data-number="12.5" class="anchored" data-anchor-id="interactive-shiny-app"><span class="header-section-number">12.5</span> Interactive Shiny App</h2>
-<p>For a browser-based experience with streaming responses and inline visualizations:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pra_app</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>The app supports all three input modes in the same chat panel:</p>
-<ul>
-<li>Type <code>/mcs tasks=[...]</code> for <strong>instant deterministic</strong> results</li>
-<li>Type “Simulate 3 tasks…” for <strong>LLM tool calling</strong></li>
-<li>Type “What is earned value?” for <strong>RAG-powered answers</strong></li>
-</ul>
-<section id="features" class="level3" data-number="12.5.1">
-<h3 data-number="12.5.1" class="anchored" data-anchor-id="features"><span class="header-section-number">12.5.1</span> Features</h3>
-<ul>
-<li><strong>Three input modes</strong> in a single panel</li>
-<li><strong>Clickable example prompts</strong> that execute <code>/commands</code> on click</li>
-<li><strong>Streaming chat</strong> with token-by-token responses</li>
-<li><strong>Inline tool results</strong> as rich HTML tables and plots</li>
-<li><strong>RAG source citations</strong> for conceptual answers</li>
-<li><strong>Export</strong>: download the conversation as markdown</li>
-</ul>
-</section>
-</section>
-<section id="rag-knowledge-base" class="level2" data-number="12.6">
-<h2 data-number="12.6" class="anchored" data-anchor-id="rag-knowledge-base"><span class="header-section-number">12.6</span> RAG Knowledge Base</h2>
-<p>PRA includes a built-in knowledge base covering all the methods in this book:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 42%">
-<col style="width: 57%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>File</th>
-<th>Topics</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>mcs_methods.md</code></td>
-<td>Distribution selection, correlation, interpreting percentiles</td>
-</tr>
-<tr class="even">
-<td><code>evm_standards.md</code></td>
-<td>EVM metrics, performance indices, forecasting methods</td>
-</tr>
-<tr class="odd">
-<td><code>bayesian_risk.md</code></td>
-<td>Prior/posterior risk, Bayes’ theorem</td>
-</tr>
-<tr class="even">
-<td><code>learning_curves.md</code></td>
-<td>Sigmoidal models, curve fitting</td>
-</tr>
-<tr class="odd">
-<td><code>sensitivity_contingency.md</code></td>
-<td>Variance decomposition, contingency reserves</td>
-</tr>
-<tr class="even">
-<td><code>pra_functions.md</code></td>
-<td>PRA package function reference</td>
-</tr>
-</tbody>
-</table>
-<section id="adding-your-own-documents" class="level3" data-number="12.6.1">
-<h3 data-number="12.6.1" class="anchored" data-anchor-id="adding-your-own-documents"><span class="header-section-number">12.6.1</span> Adding Your Own Documents</h3>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>store <span class="ot">&lt;-</span> <span class="fu">build_knowledge_base</span>()</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">add_documents</span>(store, <span class="st">"path/to/my_risk_register.md"</span>)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">add_documents</span>(store, <span class="st">"path/to/project_docs/"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-</section>
-<section id="mcp-integration" class="level2" data-number="12.7">
-<h2 data-number="12.7" class="anchored" data-anchor-id="mcp-integration"><span class="header-section-number">12.7</span> MCP Integration</h2>
-<p>PRA can expose all its tools as an <a href="https://modelcontextprotocol.io">MCP (Model Context Protocol)</a> server, letting Claude Desktop, Claude Code, or any MCP-compatible AI client call PRA functions directly.</p>
-<section id="starting-the-server" class="level3" data-number="12.7.1">
-<h3 data-number="12.7.1" class="anchored" data-anchor-id="starting-the-server"><span class="header-section-number">12.7.1</span> Starting the Server</h3>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pra_mcp_server</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="connecting-from-claude-code" class="level3" data-number="12.7.2">
-<h3 data-number="12.7.2" class="anchored" data-anchor-id="connecting-from-claude-code"><span class="header-section-number">12.7.2</span> Connecting from Claude Code</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add <span class="at">-s</span> project pra <span class="at">--</span> Rscript <span class="at">-e</span> <span class="st">"PRA::pra_mcp_server()"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="connecting-from-claude-code" class="level3" data-number="12.3.2">
+<h3 data-number="12.3.2" class="anchored" data-anchor-id="connecting-from-claude-code"><span class="header-section-number">12.3.2</span> Connecting from Claude Code</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add <span class="at">-s</span> project pra <span class="at">--</span> Rscript <span class="at">-e</span> <span class="st">"PRA::pra_mcp_server()"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Once registered, Claude Code can call PRA tools in any conversation:</p>
 <blockquote class="blockquote">
 <p>“Run a Monte Carlo simulation for three tasks: Task A normal(10, 2), Task B triangular(5, 10, 15), Task C uniform(8, 12). What is the contingency reserve at the 90th percentile?”</p>
 </blockquote>
 </section>
-<section id="connecting-from-claude-desktop" class="level3" data-number="12.7.3">
-<h3 data-number="12.7.3" class="anchored" data-anchor-id="connecting-from-claude-desktop"><span class="header-section-number">12.7.3</span> Connecting from Claude Desktop</h3>
+<section id="connecting-from-claude-desktop" class="level3" data-number="12.3.3">
+<h3 data-number="12.3.3" class="anchored" data-anchor-id="connecting-from-claude-desktop"><span class="header-section-number">12.3.3</span> Connecting from Claude Desktop</h3>
 <p>Add the following to your Claude Desktop config file:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"mcpServers"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"pra"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"command"</span><span class="fu">:</span> <span class="st">"Rscript"</span><span class="fu">,</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"args"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"-e"</span><span class="ot">,</span> <span class="st">"PRA::pra_mcp_server()"</span><span class="ot">]</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"mcpServers"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"pra"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"command"</span><span class="fu">:</span> <span class="st">"Rscript"</span><span class="fu">,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"args"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"-e"</span><span class="ot">,</span> <span class="st">"PRA::pra_mcp_server()"</span><span class="ot">]</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
-<section id="available-commands-reference" class="level2" data-number="12.8">
-<h2 data-number="12.8" class="anchored" data-anchor-id="available-commands-reference"><span class="header-section-number">12.8</span> Available Commands Reference</h2>
+<section id="agent-skills" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="agent-skills"><span class="header-section-number">12.4</span> Agent Skills</h2>
+<p>An agent works best when it knows not just <em>what</em> tools exist but <em>when</em> to reach for each one. PRA ships a set of Agent Skills for exactly this. Each is a <code>SKILL.md</code> file with structured guidance — when to use the method, which tool to call, the JSON argument format, and how to interpret the result.</p>
+<p>Find the installed skills with:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(<span class="fu">system.file</span>(<span class="st">"skills"</span>, <span class="at">package =</span> <span class="st">"PRA"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 26%">
+<col style="width: 50%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Command</th>
+<th>Skill</th>
+<th>Covers</th>
+<th>Primary tools</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pra-overview</code></td>
+<td>Routing / entry point</td>
+<td>(directs to the others)</td>
+</tr>
+<tr class="even">
+<td><code>pra-monte-carlo</code></td>
+<td>Schedule/cost uncertainty</td>
+<td><code>mcs_tool</code>, <code>smm_tool</code></td>
+</tr>
+<tr class="odd">
+<td><code>pra-sensitivity-contingency</code></td>
+<td>Reserves &amp; risk drivers</td>
+<td><code>contingency_tool</code>, <code>sensitivity_tool</code></td>
+</tr>
+<tr class="even">
+<td><code>pra-earned-value</code></td>
+<td>Performance &amp; forecasting</td>
+<td><code>evm_analysis_tool</code></td>
+</tr>
+<tr class="odd">
+<td><code>pra-bayesian-risk</code></td>
+<td>Risk probability &amp; cost</td>
+<td><code>risk_prob_tool</code>, <code>risk_post_prob_tool</code>, <code>cost_pdf_tool</code>, <code>cost_post_pdf_tool</code></td>
+</tr>
+<tr class="even">
+<td><code>pra-learning-curves</code></td>
+<td>S-curve fitting/forecasts</td>
+<td><code>fit_and_predict_sigmoidal_tool</code></td>
+</tr>
+<tr class="odd">
+<td><code>pra-dsm</code></td>
+<td>Task dependency structure</td>
+<td><code>parent_dsm_tool</code>, <code>grandparent_dsm_tool</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="from-request-to-tool-call" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="from-request-to-tool-call"><span class="header-section-number">12.5</span> From Request to Tool Call</h2>
+<p>When you ask an agent to run an analysis, it selects a tool and fills in the arguments. All array and matrix arguments are passed as JSON strings. For example, the request “simulate three tasks — Normal(10,2), Triangular(5,10,15), Uniform(8,12), 10,000 runs” maps to <code>mcs_tool</code> with a <code>task_dists_json</code> of:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span><span class="fu">{</span><span class="dt">"type"</span><span class="fu">:</span><span class="st">"normal"</span><span class="fu">,</span><span class="dt">"mean"</span><span class="fu">:</span><span class="dv">10</span><span class="fu">,</span><span class="dt">"sd"</span><span class="fu">:</span><span class="dv">2</span><span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span><span class="dt">"type"</span><span class="fu">:</span><span class="st">"triangular"</span><span class="fu">,</span><span class="dt">"a"</span><span class="fu">:</span><span class="dv">5</span><span class="fu">,</span><span class="dt">"b"</span><span class="fu">:</span><span class="dv">10</span><span class="fu">,</span><span class="dt">"c"</span><span class="fu">:</span><span class="dv">15</span><span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span><span class="dt">"type"</span><span class="fu">:</span><span class="st">"uniform"</span><span class="fu">,</span><span class="dt">"min"</span><span class="fu">:</span><span class="dv">8</span><span class="fu">,</span><span class="dt">"max"</span><span class="fu">:</span><span class="dv">12</span><span class="fu">}</span><span class="ot">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Under the hood, that is exactly the <code>mcs()</code> call you already know:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>task_distributions <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>,     <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"triangular"</span>, <span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">10</span>, <span class="at">c =</span> <span class="dv">15</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"uniform"</span>,    <span class="at">min =</span> <span class="dv">8</span>, <span class="at">max =</span> <span class="dv">12</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">mcs</span>(<span class="dv">10000</span>, task_distributions)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(result<span class="sc">$</span>total_distribution,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">breaks =</span> <span class="dv">50</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Monte Carlo Simulation Results"</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Total Project Duration/Cost"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">col  =</span> <span class="st">"#18bc9c80"</span>, <span class="at">border =</span> <span class="st">"white"</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x, <span class="at">mean =</span> result<span class="sc">$</span>total_mean, <span class="at">sd =</span> result<span class="sc">$</span>total_sd),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"#2c3e50"</span>, <span class="at">lwd =</span> <span class="dv">2</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">v   =</span> <span class="fu">quantile</span>(result<span class="sc">$</span>total_distribution, <span class="fu">c</span>(<span class="fl">0.50</span>, <span class="fl">0.95</span>)),</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#3498db"</span>, <span class="st">"#e74c3c"</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="fl">1.5</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Normal fit"</span>, <span class="st">"P50"</span>, <span class="st">"P95"</span>),</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">col    =</span> <span class="fu">c</span>(<span class="st">"#2c3e50"</span>, <span class="st">"#3498db"</span>, <span class="st">"#e74c3c"</span>),</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">lty    =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fl">1.5</span>, <span class="fl">1.5</span>),</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex    =</span> <span class="fl">0.8</span>, <span class="at">bg =</span> <span class="st">"white"</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch-agent_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Monte Carlo results. The same output an agent receives when it calls <code>mcs_tool</code>.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>A typical agent workflow chains tools the same way you would chain functions: <code>mcs_tool</code> to simulate, then <code>contingency_tool</code> for the reserve and <code>sensitivity_tool</code> for the risk drivers. The <code>pra-overview</code> skill lists these common workflows so the agent knows what to do next.</p>
+</section>
+<section id="tool-reference" class="level2" data-number="12.6">
+<h2 data-number="12.6" class="anchored" data-anchor-id="tool-reference"><span class="header-section-number">12.6</span> Tool Reference</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 68%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tool</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>/mcs</code></td>
+<td><code>mcs_tool</code></td>
 <td>Monte Carlo simulation with task distributions</td>
 </tr>
 <tr class="even">
-<td><code>/smm</code></td>
+<td><code>smm_tool</code></td>
 <td>Second Moment Method (analytical estimate)</td>
 </tr>
 <tr class="odd">
-<td><code>/contingency</code></td>
-<td>Contingency reserve from last MCS</td>
+<td><code>contingency_tool</code></td>
+<td>Contingency reserve from the last MCS</td>
 </tr>
 <tr class="even">
-<td><code>/sensitivity</code></td>
+<td><code>sensitivity_tool</code></td>
 <td>Variance contribution per task</td>
 </tr>
 <tr class="odd">
-<td><code>/evm</code></td>
+<td><code>evm_analysis_tool</code></td>
 <td>Full Earned Value Management analysis</td>
 </tr>
 <tr class="even">
-<td><code>/risk</code></td>
+<td><code>risk_prob_tool</code></td>
 <td>Bayesian prior risk probability</td>
 </tr>
 <tr class="odd">
-<td><code>/risk_post</code></td>
+<td><code>risk_post_prob_tool</code></td>
 <td>Bayesian posterior risk after observations</td>
 </tr>
 <tr class="even">
-<td><code>/learning</code></td>
-<td>Sigmoidal learning curve fit and prediction</td>
+<td><code>cost_pdf_tool</code> / <code>cost_post_pdf_tool</code></td>
+<td>Prior / posterior cost distributions</td>
 </tr>
 <tr class="odd">
-<td><code>/dsm</code></td>
-<td>Design Structure Matrix</td>
+<td><code>fit_and_predict_sigmoidal_tool</code></td>
+<td>Sigmoidal learning curve fit and prediction</td>
 </tr>
 <tr class="even">
-<td><code>/help</code></td>
-<td>List all commands or get help for one</td>
+<td><code>parent_dsm_tool</code> / <code>grandparent_dsm_tool</code></td>
+<td>Design Structure Matrices</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="summary" class="level2" data-number="12.9">
-<h2 data-number="12.9" class="anchored" data-anchor-id="summary"><span class="header-section-number">12.9</span> Summary</h2>
+<section id="summary" class="level2" data-number="12.7">
+<h2 data-number="12.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">12.7</span> Summary</h2>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1082,24 +765,23 @@ Calculate prior risk probability from root causes using Bayes' theorem.
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>Slash commands (<code>/mcs</code>, <code>/evm</code>, <code>/risk</code>, etc.) provide <strong>deterministic, LLM-free</strong> execution of every method covered in this book; use them when you need guaranteed reproducibility.</li>
-<li>The chat interface routes input intelligently: numerical data → tool call; conceptual question → RAG. The LLM is a router, not a calculator.</li>
-<li><strong>RAG</strong> (Retrieval-Augmented Generation) grounds LLM answers in the PRA knowledge base, reducing hallucination and enabling source citations.</li>
-<li>The MCP server exposes all PRA tools to any MCP-compatible AI client (Claude Desktop, Claude Code, or custom agents) without requiring an R session on the user’s end.</li>
-<li>Small models (3B) handle simple single-tool queries; use larger models (8B+) or cloud models for multi-step chains and interpretation.</li>
+<li>PRA exposes its core analytical functions as <strong>tools over MCP</strong> via <code>pra_mcp_server()</code>; the numbers are identical to calling the functions directly. The probabilistic network functions are not currently exposed as tools.</li>
+<li><strong>Agent Skills</strong> (<code>SKILL.md</code> files under <code>system.file("skills", package = "PRA")</code>) tell an agent when and how to use each tool, including the JSON argument format.</li>
+<li>The package embeds <strong>no language model</strong> — only the MCP server needs the optional <code>ellmer</code>, <code>mcptools</code>, and <code>jsonlite</code> packages.</li>
+<li>Agents chain tools just as you chain functions: <code>mcs_tool</code> → <code>contingency_tool</code> + <code>sensitivity_tool</code>.</li>
 </ul>
 </div>
 </div>
-<p>Congratulations, you’ve completed the toolkit. You can now quantify project uncertainty (MCS, <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>; SMM, <a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a>), track project performance (EVM, <a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a>), update risk estimates with new evidence (Bayesian, <a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a>; Networks, <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a>), model structural dependencies (DSM, <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a>; Portfolio, <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a>), forecast learning (Sigmoidal, <a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a>), and automate it all through an AI interface (<a href="#sec-agent" class="quarto-xref"><span>Chapter 12</span></a>). The rest is practice.</p>
+<p>Congratulations, you’ve completed the toolkit. You can now quantify project uncertainty (MCS, <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>; SMM, <a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a>), track project performance (EVM, <a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a>), update risk estimates with new evidence (Bayesian, <a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a>; Networks, <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a>), model structural dependencies (DSM, <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a>; Portfolio, <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a>), forecast learning (Sigmoidal, <a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a>), and hand it all to an AI agent through MCP (<a href="#sec-agent" class="quarto-xref"><span>Chapter 12</span></a>). The rest is practice.</p>
 </section>
-<section id="exercises" class="level2" data-number="12.10">
-<h2 data-number="12.10" class="anchored" data-anchor-id="exercises"><span class="header-section-number">12.10</span> Exercises</h2>
+<section id="exercises" class="level2" data-number="12.8">
+<h2 data-number="12.8" class="anchored" data-anchor-id="exercises"><span class="header-section-number">12.8</span> Exercises</h2>
 <ol type="1">
-<li><p><strong>Slash vs.&nbsp;chat.</strong> Run the same MCS problem using (a) a <code>/mcs</code> slash command and (b) a natural language prompt through <code>pra_chat()</code>. Do you get the same numerical results? If not, why might they differ?</p></li>
-<li><p><strong>Command chaining.</strong> Run <code>/mcs</code> for a 3-task project of your choice, then immediately run <code>/contingency</code> at P80 and P95. What is the difference between the two contingency values? Interpret this difference in plain English.</p></li>
-<li><p><strong>EVM from a prompt.</strong> Use <code>/evm</code> with the following inputs: BAC = $300K, schedule = [0.2, 0.4, 0.6, 0.8, 1.0], period = 4, complete = 0.55, costs = [$55K, $115K, $175K, $240K]. Report CPI, SPI, and EAC (typical). Is the project in good shape?</p></li>
-<li><p><strong>RAG vs.&nbsp;tool call.</strong> Ask <code>pra_chat()</code> two questions: (a) “What distributions should I use for tasks with optimistic/likely/pessimistic estimates?” and (b) “Run a Monte Carlo simulation for Task A ~ Normal(10, 2) and Task B ~ Uniform(8, 12).” Identify which routing mode was used for each. How can you tell from the response?</p></li>
-<li><p><strong>MCP integration.</strong> ★ If you have Claude Desktop or Claude Code installed, configure PRA as an MCP server using the instructions above. Ask Claude to run a Monte Carlo simulation and report the P95 duration. Then ask a conceptual question about EVM. Describe the experience: did the tool calls work? Was the RAG answer accurate?</p></li>
+<li><p><strong>Set up the server.</strong> Install <code>ellmer</code>, <code>mcptools</code>, and <code>jsonlite</code>, then start <code>pra_mcp_server()</code> and register it with Claude Code or Claude Desktop using the instructions above. Confirm the client lists the PRA tools.</p></li>
+<li><p><strong>Request to arguments.</strong> For the request “simulate two tasks, Normal(20,4) and Uniform(10,15), with 5,000 runs,” write out the <code>mcs_tool</code> call and its <code>task_dists_json</code> argument by hand. Then run the equivalent <code>mcs()</code> in R and compare.</p></li>
+<li><p><strong>Chaining.</strong> Ask an agent (or reason it out yourself) how to produce a P80 contingency reserve and a tornado chart for a 3-task project. Which tools are called, and in what order? Which skill documents that workflow?</p></li>
+<li><p><strong>EVM from a prompt.</strong> Using <code>evm_analysis_tool</code>’s arguments, translate this into a tool call: BAC = $300K, schedule = [0.2, 0.4, 0.6, 0.8, 1.0], period = 4, complete = 0.55, costs = [$55K, $115K, $175K, $240K]. Then verify with the EVM functions from <a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a>.</p></li>
+<li><p><strong>Skill authoring.</strong> ★ Read one of the bundled <code>SKILL.md</code> files, then draft a short skill for a project-specific workflow of your own (for example, a standard reserve policy). What guidance would an agent need to apply it correctly?</p></li>
 </ol>
 
 
@@ -1584,338 +1266,191 @@ Calculate prior risk probability from root causes using Bayes' theorem.
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Your AI Co-Pilot: Agentic Risk Analysis {#sec-agent}</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"The best tool for the job is the one you'll actually use."*</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; — P.G.</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>You've made it through eight chapters of quantitative risk analysis. You know Monte Carlo, SMM, EVM, Bayesian inference, learning curves, design structure matrices, and probabilistic networks. Now imagine not having to remember the syntax for all of them.</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>Imagine a project manager typing "run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)" and getting back a P95 date, a contingency reserve, and a tornado chart, all in ten seconds, without opening R. That's the promise of the <span class="in">`PRA`</span> agentic framework: a layer of intelligence on top of all the methods you've learned.</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning Objectives</span></span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>By the end of this chapter, you will be able to:</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Distinguish the three routing modes (slash commands, LLM tool calls, RAG)</span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Run any PRA method via a slash command and chain results across commands</span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Use <span class="in">`pra_chat()`</span> to interact with PRA methods through natural language</span>
-<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Explain how RAG augments the LLM with domain-specific knowledge</span>
-<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Configure PRA as an MCP server for Claude Desktop or Claude Code</span>
-<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Three Routing Modes</span></span>
-<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a><span class="fu">## How PRA Routes Your Input</span></span>
-<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Input type <span class="pp">|</span> Route <span class="pp">|</span> Example <span class="pp">|</span></span>
-<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------|-------|---------|</span></span>
-<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/command`</span> <span class="pp">|</span> **Deterministic**: executes the tool directly, no LLM <span class="pp">|</span> <span class="in">`/mcs tasks=[...]`</span> <span class="pp">|</span></span>
-<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Numerical data <span class="pp">|</span> **LLM tool call**: the model selects and calls the right tool <span class="pp">|</span> "Simulate 3 tasks: Normal(10,2)..." <span class="pp">|</span></span>
-<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Conceptual question <span class="pp">|</span> **RAG**: answered from the knowledge base <span class="pp">|</span> "What is earned value?" <span class="pp">|</span></span>
-<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>**When to use each:**</span>
-<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use **slash commands** when you need guaranteed, reproducible results; they bypass the LLM entirely.</span>
-<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use the **chat interface** for exploratory questions and interpretation, especially with larger models.</span>
-<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use **RAG** for conceptual questions; it retrieves the most relevant knowledge base content and cites sources.</span>
-<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>Three interfaces expose these modes:</span>
-<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Slash commands**: deterministic tool calls that bypass the LLM for instant, reliable results</span>
-<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Chat interface** (<span class="in">`pra_chat()`</span>): programmatic R chat powered by ellmer</span>
-<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Shiny app** (<span class="in">`pra_app()`</span>): browser-based experience combining all three modes</span>
-<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a><span class="fu">## Prerequisites</span></span>
-<span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-48"><a href="#cb27-48" aria-hidden="true" tabindex="-1"></a><span class="fu">### Install Ollama</span></span>
-<span id="cb27-49"><a href="#cb27-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-50"><a href="#cb27-50" aria-hidden="true" tabindex="-1"></a>Download from <span class="ot">&lt;https://ollama.com&gt;</span>, then pull a model:</span>
-<span id="cb27-51"><a href="#cb27-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-52"><a href="#cb27-52" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb27-53"><a href="#cb27-53" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> serve</span>
-<span id="cb27-54"><a href="#cb27-54" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> pull llama3.2</span>
-<span id="cb27-55"><a href="#cb27-55" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> pull nomic-embed-text  <span class="co"># for RAG embeddings</span></span>
-<span id="cb27-56"><a href="#cb27-56" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-57"><a href="#cb27-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-58"><a href="#cb27-58" aria-hidden="true" tabindex="-1"></a><span class="fu">### Install R dependencies</span></span>
-<span id="cb27-59"><a href="#cb27-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-62"><a href="#cb27-62" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-63"><a href="#cb27-63" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb27-64"><a href="#cb27-64" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"ellmer"</span>, <span class="st">"ragnar"</span>, <span class="st">"shiny"</span>, <span class="st">"bslib"</span>, <span class="st">"shinychat"</span>, <span class="st">"jsonlite"</span>))</span>
-<span id="cb27-65"><a href="#cb27-65" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-66"><a href="#cb27-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-67"><a href="#cb27-67" aria-hidden="true" tabindex="-1"></a><span class="fu">## Slash Commands</span></span>
-<span id="cb27-68"><a href="#cb27-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-69"><a href="#cb27-69" aria-hidden="true" tabindex="-1"></a>Slash commands provide deterministic tool execution with no LLM required. Type <span class="in">`/help`</span> to see all available commands, or <span class="in">`/help &lt;command&gt;`</span> for detailed usage.</span>
-<span id="cb27-70"><a href="#cb27-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-71"><a href="#cb27-71" aria-hidden="true" tabindex="-1"></a><span class="fu">### Available Commands</span></span>
-<span id="cb27-72"><a href="#cb27-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-75"><a href="#cb27-75" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-76"><a href="#cb27-76" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
-<span id="cb27-77"><a href="#cb27-77" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(PRA<span class="sc">:::</span><span class="fu">format_help_overview</span>())</span>
-<span id="cb27-78"><a href="#cb27-78" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-79"><a href="#cb27-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-80"><a href="#cb27-80" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example: Monte Carlo Simulation</span></span>
-<span id="cb27-81"><a href="#cb27-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-84"><a href="#cb27-84" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-85"><a href="#cb27-85" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb27-86"><a href="#cb27-86" aria-hidden="true" tabindex="-1"></a>cmd <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
-<span id="cb27-87"><a href="#cb27-87" aria-hidden="true" tabindex="-1"></a>  <span class="st">'/mcs n=10000 tasks=['</span>,</span>
-<span id="cb27-88"><a href="#cb27-88" aria-hidden="true" tabindex="-1"></a>  <span class="st">'{"type":"normal","mean":10,"sd":2},'</span>,</span>
-<span id="cb27-89"><a href="#cb27-89" aria-hidden="true" tabindex="-1"></a>  <span class="st">'{"type":"triangular","a":5,"b":10,"c":15},'</span>,</span>
-<span id="cb27-90"><a href="#cb27-90" aria-hidden="true" tabindex="-1"></a>  <span class="st">'{"type":"uniform","min":8,"max":12}]'</span></span>
-<span id="cb27-91"><a href="#cb27-91" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-92"><a href="#cb27-92" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(cmd)</span>
-<span id="cb27-93"><a href="#cb27-93" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
-<span id="cb27-94"><a href="#cb27-94" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-95"><a href="#cb27-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-98"><a href="#cb27-98" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-99"><a href="#cb27-99" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "MCS results via slash command. The /mcs command stores results for downstream chaining."</span></span>
-<span id="cb27-100"><a href="#cb27-100" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> PRA<span class="sc">:::</span>.pra_agent_env<span class="sc">$</span>last_mcs</span>
-<span id="cb27-101"><a href="#cb27-101" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(result<span class="sc">$</span>total_distribution,</span>
-<span id="cb27-102"><a href="#cb27-102" aria-hidden="true" tabindex="-1"></a>  <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">breaks =</span> <span class="dv">50</span>,</span>
-<span id="cb27-103"><a href="#cb27-103" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Monte Carlo Simulation Results"</span>,</span>
-<span id="cb27-104"><a href="#cb27-104" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Total Project Duration/Cost"</span>,</span>
-<span id="cb27-105"><a href="#cb27-105" aria-hidden="true" tabindex="-1"></a>  <span class="at">col  =</span> <span class="st">"#18bc9c80"</span>, <span class="at">border =</span> <span class="st">"white"</span></span>
-<span id="cb27-106"><a href="#cb27-106" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-107"><a href="#cb27-107" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x, <span class="at">mean =</span> result<span class="sc">$</span>total_mean, <span class="at">sd =</span> result<span class="sc">$</span>total_sd),</span>
-<span id="cb27-108"><a href="#cb27-108" aria-hidden="true" tabindex="-1"></a>  <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"#2c3e50"</span>, <span class="at">lwd =</span> <span class="dv">2</span></span>
-<span id="cb27-109"><a href="#cb27-109" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-110"><a href="#cb27-110" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(</span>
-<span id="cb27-111"><a href="#cb27-111" aria-hidden="true" tabindex="-1"></a>  <span class="at">v   =</span> <span class="fu">quantile</span>(result<span class="sc">$</span>total_distribution, <span class="fu">c</span>(<span class="fl">0.50</span>, <span class="fl">0.95</span>)),</span>
-<span id="cb27-112"><a href="#cb27-112" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#3498db"</span>, <span class="st">"#e74c3c"</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="fl">1.5</span></span>
-<span id="cb27-113"><a href="#cb27-113" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-114"><a href="#cb27-114" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
-<span id="cb27-115"><a href="#cb27-115" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Normal fit"</span>, <span class="st">"P50"</span>, <span class="st">"P95"</span>),</span>
-<span id="cb27-116"><a href="#cb27-116" aria-hidden="true" tabindex="-1"></a>  <span class="at">col    =</span> <span class="fu">c</span>(<span class="st">"#2c3e50"</span>, <span class="st">"#3498db"</span>, <span class="st">"#e74c3c"</span>),</span>
-<span id="cb27-117"><a href="#cb27-117" aria-hidden="true" tabindex="-1"></a>  <span class="at">lty    =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fl">1.5</span>, <span class="fl">1.5</span>),</span>
-<span id="cb27-118"><a href="#cb27-118" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex    =</span> <span class="fl">0.8</span>, <span class="at">bg =</span> <span class="st">"white"</span></span>
-<span id="cb27-119"><a href="#cb27-119" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-120"><a href="#cb27-120" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-121"><a href="#cb27-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-122"><a href="#cb27-122" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example: Chaining MCS to Contingency</span></span>
-<span id="cb27-123"><a href="#cb27-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-124"><a href="#cb27-124" aria-hidden="true" tabindex="-1"></a>After running <span class="in">`/mcs`</span>, chain to <span class="in">`/contingency`</span> for the reserve estimate:</span>
-<span id="cb27-125"><a href="#cb27-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-128"><a href="#cb27-128" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-129"><a href="#cb27-129" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(<span class="st">"/contingency phigh=0.95 pbase=0.50"</span>)</span>
-<span id="cb27-130"><a href="#cb27-130" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
-<span id="cb27-131"><a href="#cb27-131" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-132"><a href="#cb27-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-133"><a href="#cb27-133" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example: Earned Value Management</span></span>
-<span id="cb27-134"><a href="#cb27-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-135"><a href="#cb27-135" aria-hidden="true" tabindex="-1"></a>Full EVM analysis with a single command:</span>
-<span id="cb27-136"><a href="#cb27-136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-139"><a href="#cb27-139" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-140"><a href="#cb27-140" aria-hidden="true" tabindex="-1"></a>cmd <span class="ot">&lt;-</span> <span class="fu">paste</span>(</span>
-<span id="cb27-141"><a href="#cb27-141" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/evm bac=500000"</span>,</span>
-<span id="cb27-142"><a href="#cb27-142" aria-hidden="true" tabindex="-1"></a>  <span class="st">"schedule=[0.2,0.4,0.6,0.8,1.0]"</span>,</span>
-<span id="cb27-143"><a href="#cb27-143" aria-hidden="true" tabindex="-1"></a>  <span class="st">"period=3 complete=0.35"</span>,</span>
-<span id="cb27-144"><a href="#cb27-144" aria-hidden="true" tabindex="-1"></a>  <span class="st">"costs=[90000,195000,310000]"</span></span>
-<span id="cb27-145"><a href="#cb27-145" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-146"><a href="#cb27-146" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(cmd)</span>
-<span id="cb27-147"><a href="#cb27-147" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
-<span id="cb27-148"><a href="#cb27-148" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-149"><a href="#cb27-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-150"><a href="#cb27-150" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example: Bayesian Risk Probability</span></span>
-<span id="cb27-151"><a href="#cb27-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-154"><a href="#cb27-154" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-155"><a href="#cb27-155" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(</span>
-<span id="cb27-156"><a href="#cb27-156" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/risk causes=[0.3,0.2] given=[0.8,0.6] not_given=[0.2,0.4]"</span></span>
-<span id="cb27-157"><a href="#cb27-157" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-158"><a href="#cb27-158" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
-<span id="cb27-159"><a href="#cb27-159" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-160"><a href="#cb27-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-161"><a href="#cb27-161" aria-hidden="true" tabindex="-1"></a>Then update with observations:</span>
-<span id="cb27-162"><a href="#cb27-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-165"><a href="#cb27-165" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-166"><a href="#cb27-166" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(</span>
-<span id="cb27-167"><a href="#cb27-167" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/risk_post causes=[0.3,0.2] given=[0.8,0.6] not_given=[0.2,0.4] observed=[1,null]"</span></span>
-<span id="cb27-168"><a href="#cb27-168" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-169"><a href="#cb27-169" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
-<span id="cb27-170"><a href="#cb27-170" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-171"><a href="#cb27-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-172"><a href="#cb27-172" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example: Second Moment Method</span></span>
-<span id="cb27-173"><a href="#cb27-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-176"><a href="#cb27-176" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-177"><a href="#cb27-177" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(<span class="st">"/smm means=[10,12,8] vars=[4,9,2]"</span>)</span>
-<span id="cb27-178"><a href="#cb27-178" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
-<span id="cb27-179"><a href="#cb27-179" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-180"><a href="#cb27-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-181"><a href="#cb27-181" aria-hidden="true" tabindex="-1"></a><span class="fu">### Input Validation</span></span>
-<span id="cb27-182"><a href="#cb27-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-183"><a href="#cb27-183" aria-hidden="true" tabindex="-1"></a>Missing or invalid arguments produce helpful error messages:</span>
-<span id="cb27-184"><a href="#cb27-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-187"><a href="#cb27-187" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-188"><a href="#cb27-188" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> PRA<span class="sc">:::</span><span class="fu">execute_command</span>(<span class="st">"/risk causes=[0.3]"</span>)</span>
-<span id="cb27-189"><a href="#cb27-189" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(r<span class="sc">$</span>result)</span>
-<span id="cb27-190"><a href="#cb27-190" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-191"><a href="#cb27-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-192"><a href="#cb27-192" aria-hidden="true" tabindex="-1"></a><span class="fu">## Chat Interface</span></span>
-<span id="cb27-193"><a href="#cb27-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-194"><a href="#cb27-194" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb27-195"><a href="#cb27-195" aria-hidden="true" tabindex="-1"></a><span class="fu">## About `eval: false` in This Chapter</span></span>
-<span id="cb27-196"><a href="#cb27-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-197"><a href="#cb27-197" aria-hidden="true" tabindex="-1"></a>The Chat Interface, Shiny App, and MCP sections require a running Ollama server and cannot be evaluated during book rendering. Code blocks marked <span class="in">`eval: false`</span> show the correct syntax; to follow along interactively, start Ollama with <span class="in">`ollama serve`</span> before running them. The slash command examples above **are** fully evaluated and show actual output.</span>
-<span id="cb27-198"><a href="#cb27-198" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb27-199"><a href="#cb27-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-200"><a href="#cb27-200" aria-hidden="true" tabindex="-1"></a>The chat interface routes queries through the LLM, which decides whether to call a tool or answer from the RAG knowledge base:</span>
-<span id="cb27-201"><a href="#cb27-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-202"><a href="#cb27-202" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Numerical data** → LLM calls the appropriate tool and interprets the results</span>
-<span id="cb27-203"><a href="#cb27-203" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Conceptual questions** → LLM answers from the RAG knowledge base with source citations</span>
-<span id="cb27-204"><a href="#cb27-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-207"><a href="#cb27-207" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-208"><a href="#cb27-208" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb27-209"><a href="#cb27-209" aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">pra_chat</span>(<span class="at">model =</span> <span class="st">"llama3.2"</span>)</span>
-<span id="cb27-210"><a href="#cb27-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-211"><a href="#cb27-211" aria-hidden="true" tabindex="-1"></a><span class="co"># Tool call: user provides numerical data</span></span>
-<span id="cb27-212"><a href="#cb27-212" aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">"Run a Monte Carlo simulation for a 3-task project with</span></span>
-<span id="cb27-213"><a href="#cb27-213" aria-hidden="true" tabindex="-1"></a><span class="st">  Task A ~ Normal(10, 2), Task B ~ Triangular(5, 10, 15),</span></span>
-<span id="cb27-214"><a href="#cb27-214" aria-hidden="true" tabindex="-1"></a><span class="st">  Task C ~ Uniform(8, 12). Use 10,000 simulations."</span>)</span>
-<span id="cb27-215"><a href="#cb27-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-216"><a href="#cb27-216" aria-hidden="true" tabindex="-1"></a><span class="co"># RAG: conceptual question</span></span>
-<span id="cb27-217"><a href="#cb27-217" aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">"What is the difference between SPI and CPI?"</span>)</span>
-<span id="cb27-218"><a href="#cb27-218" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-219"><a href="#cb27-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-220"><a href="#cb27-220" aria-hidden="true" tabindex="-1"></a><span class="fu">### Using Cloud Models</span></span>
-<span id="cb27-221"><a href="#cb27-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-222"><a href="#cb27-222" aria-hidden="true" tabindex="-1"></a>For better accuracy with complex queries:</span>
-<span id="cb27-223"><a href="#cb27-223" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-226"><a href="#cb27-226" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-227"><a href="#cb27-227" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb27-228"><a href="#cb27-228" aria-hidden="true" tabindex="-1"></a><span class="co"># Anthropic (replace with the current model ID from https://docs.anthropic.com/en/docs/about-claude/models)</span></span>
-<span id="cb27-229"><a href="#cb27-229" aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">pra_chat</span>(<span class="at">chat =</span> ellmer<span class="sc">::</span><span class="fu">chat_anthropic</span>(<span class="at">model =</span> <span class="st">"claude-sonnet-4-5"</span>))</span>
-<span id="cb27-230"><a href="#cb27-230" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-231"><a href="#cb27-231" aria-hidden="true" tabindex="-1"></a><span class="co"># OpenAI</span></span>
-<span id="cb27-232"><a href="#cb27-232" aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">pra_chat</span>(<span class="at">chat =</span> ellmer<span class="sc">::</span><span class="fu">chat_openai</span>(<span class="at">model =</span> <span class="st">"gpt-4o"</span>))</span>
-<span id="cb27-233"><a href="#cb27-233" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-234"><a href="#cb27-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-235"><a href="#cb27-235" aria-hidden="true" tabindex="-1"></a><span class="fu">## Interactive Shiny App</span></span>
-<span id="cb27-236"><a href="#cb27-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-237"><a href="#cb27-237" aria-hidden="true" tabindex="-1"></a>For a browser-based experience with streaming responses and inline visualizations:</span>
-<span id="cb27-238"><a href="#cb27-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-241"><a href="#cb27-241" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-242"><a href="#cb27-242" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb27-243"><a href="#cb27-243" aria-hidden="true" tabindex="-1"></a><span class="fu">pra_app</span>()</span>
-<span id="cb27-244"><a href="#cb27-244" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-245"><a href="#cb27-245" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-246"><a href="#cb27-246" aria-hidden="true" tabindex="-1"></a>The app supports all three input modes in the same chat panel:</span>
-<span id="cb27-247"><a href="#cb27-247" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-248"><a href="#cb27-248" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Type <span class="in">`/mcs tasks=[...]`</span> for **instant deterministic** results</span>
-<span id="cb27-249"><a href="#cb27-249" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Type "Simulate 3 tasks..." for **LLM tool calling**</span>
-<span id="cb27-250"><a href="#cb27-250" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Type "What is earned value?" for **RAG-powered answers**</span>
-<span id="cb27-251"><a href="#cb27-251" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-252"><a href="#cb27-252" aria-hidden="true" tabindex="-1"></a><span class="fu">### Features</span></span>
-<span id="cb27-253"><a href="#cb27-253" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-254"><a href="#cb27-254" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Three input modes** in a single panel</span>
-<span id="cb27-255"><a href="#cb27-255" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Clickable example prompts** that execute <span class="in">`/commands`</span> on click</span>
-<span id="cb27-256"><a href="#cb27-256" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Streaming chat** with token-by-token responses</span>
-<span id="cb27-257"><a href="#cb27-257" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Inline tool results** as rich HTML tables and plots</span>
-<span id="cb27-258"><a href="#cb27-258" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RAG source citations** for conceptual answers</span>
-<span id="cb27-259"><a href="#cb27-259" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Export**: download the conversation as markdown</span>
-<span id="cb27-260"><a href="#cb27-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-261"><a href="#cb27-261" aria-hidden="true" tabindex="-1"></a><span class="fu">## RAG Knowledge Base</span></span>
-<span id="cb27-262"><a href="#cb27-262" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-263"><a href="#cb27-263" aria-hidden="true" tabindex="-1"></a>PRA includes a built-in knowledge base covering all the methods in this book:</span>
-<span id="cb27-264"><a href="#cb27-264" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-265"><a href="#cb27-265" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> File <span class="pp">|</span> Topics <span class="pp">|</span></span>
-<span id="cb27-266"><a href="#cb27-266" aria-hidden="true" tabindex="-1"></a><span class="pp">|------|--------|</span></span>
-<span id="cb27-267"><a href="#cb27-267" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`mcs_methods.md`</span> <span class="pp">|</span> Distribution selection, correlation, interpreting percentiles <span class="pp">|</span></span>
-<span id="cb27-268"><a href="#cb27-268" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`evm_standards.md`</span> <span class="pp">|</span> EVM metrics, performance indices, forecasting methods <span class="pp">|</span></span>
-<span id="cb27-269"><a href="#cb27-269" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`bayesian_risk.md`</span> <span class="pp">|</span> Prior/posterior risk, Bayes' theorem <span class="pp">|</span></span>
-<span id="cb27-270"><a href="#cb27-270" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`learning_curves.md`</span> <span class="pp">|</span> Sigmoidal models, curve fitting <span class="pp">|</span></span>
-<span id="cb27-271"><a href="#cb27-271" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`sensitivity_contingency.md`</span> <span class="pp">|</span> Variance decomposition, contingency reserves <span class="pp">|</span></span>
-<span id="cb27-272"><a href="#cb27-272" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra_functions.md`</span> <span class="pp">|</span> PRA package function reference <span class="pp">|</span></span>
-<span id="cb27-273"><a href="#cb27-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-274"><a href="#cb27-274" aria-hidden="true" tabindex="-1"></a><span class="fu">### Adding Your Own Documents</span></span>
-<span id="cb27-275"><a href="#cb27-275" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-278"><a href="#cb27-278" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-279"><a href="#cb27-279" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb27-280"><a href="#cb27-280" aria-hidden="true" tabindex="-1"></a>store <span class="ot">&lt;-</span> <span class="fu">build_knowledge_base</span>()</span>
-<span id="cb27-281"><a href="#cb27-281" aria-hidden="true" tabindex="-1"></a><span class="fu">add_documents</span>(store, <span class="st">"path/to/my_risk_register.md"</span>)</span>
-<span id="cb27-282"><a href="#cb27-282" aria-hidden="true" tabindex="-1"></a><span class="fu">add_documents</span>(store, <span class="st">"path/to/project_docs/"</span>)</span>
-<span id="cb27-283"><a href="#cb27-283" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-284"><a href="#cb27-284" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-285"><a href="#cb27-285" aria-hidden="true" tabindex="-1"></a><span class="fu">## MCP Integration</span></span>
-<span id="cb27-286"><a href="#cb27-286" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-287"><a href="#cb27-287" aria-hidden="true" tabindex="-1"></a>PRA can expose all its tools as an <span class="co">[</span><span class="ot">MCP (Model Context Protocol)</span><span class="co">](https://modelcontextprotocol.io)</span> server, letting Claude Desktop, Claude Code, or any MCP-compatible AI client call PRA functions directly.</span>
-<span id="cb27-288"><a href="#cb27-288" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-289"><a href="#cb27-289" aria-hidden="true" tabindex="-1"></a><span class="fu">### Starting the Server</span></span>
-<span id="cb27-290"><a href="#cb27-290" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-293"><a href="#cb27-293" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-294"><a href="#cb27-294" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb27-295"><a href="#cb27-295" aria-hidden="true" tabindex="-1"></a><span class="fu">pra_mcp_server</span>()</span>
-<span id="cb27-296"><a href="#cb27-296" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-297"><a href="#cb27-297" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-298"><a href="#cb27-298" aria-hidden="true" tabindex="-1"></a><span class="fu">### Connecting from Claude Code</span></span>
-<span id="cb27-299"><a href="#cb27-299" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-300"><a href="#cb27-300" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb27-301"><a href="#cb27-301" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add <span class="at">-s</span> project pra <span class="at">--</span> Rscript <span class="at">-e</span> <span class="st">"PRA::pra_mcp_server()"</span></span>
-<span id="cb27-302"><a href="#cb27-302" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-303"><a href="#cb27-303" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-304"><a href="#cb27-304" aria-hidden="true" tabindex="-1"></a>Once registered, Claude Code can call PRA tools in any conversation:</span>
-<span id="cb27-305"><a href="#cb27-305" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-306"><a href="#cb27-306" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; "Run a Monte Carlo simulation for three tasks: Task A normal(10, 2), Task B triangular(5, 10, 15), Task C uniform(8, 12). What is the contingency reserve at the 90th percentile?"</span></span>
-<span id="cb27-307"><a href="#cb27-307" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-308"><a href="#cb27-308" aria-hidden="true" tabindex="-1"></a><span class="fu">### Connecting from Claude Desktop</span></span>
-<span id="cb27-309"><a href="#cb27-309" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-310"><a href="#cb27-310" aria-hidden="true" tabindex="-1"></a>Add the following to your Claude Desktop config file:</span>
-<span id="cb27-311"><a href="#cb27-311" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-312"><a href="#cb27-312" aria-hidden="true" tabindex="-1"></a><span class="in">```json</span></span>
-<span id="cb27-313"><a href="#cb27-313" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb27-314"><a href="#cb27-314" aria-hidden="true" tabindex="-1"></a>  <span class="st">"mcpServers"</span><span class="op">:</span> {</span>
-<span id="cb27-315"><a href="#cb27-315" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pra"</span><span class="op">:</span> {</span>
-<span id="cb27-316"><a href="#cb27-316" aria-hidden="true" tabindex="-1"></a>      <span class="st">"command"</span><span class="op">:</span> <span class="st">"Rscript"</span><span class="op">,</span></span>
-<span id="cb27-317"><a href="#cb27-317" aria-hidden="true" tabindex="-1"></a>      <span class="st">"args"</span><span class="op">:</span> [<span class="st">"-e"</span><span class="op">,</span> <span class="st">"PRA::pra_mcp_server()"</span>]</span>
-<span id="cb27-318"><a href="#cb27-318" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb27-319"><a href="#cb27-319" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb27-320"><a href="#cb27-320" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb27-321"><a href="#cb27-321" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-322"><a href="#cb27-322" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-323"><a href="#cb27-323" aria-hidden="true" tabindex="-1"></a><span class="fu">## Available Commands Reference</span></span>
-<span id="cb27-324"><a href="#cb27-324" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-325"><a href="#cb27-325" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Command <span class="pp">|</span> Description <span class="pp">|</span></span>
-<span id="cb27-326"><a href="#cb27-326" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|-------------|</span></span>
-<span id="cb27-327"><a href="#cb27-327" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/mcs`</span> <span class="pp">|</span> Monte Carlo simulation with task distributions <span class="pp">|</span></span>
-<span id="cb27-328"><a href="#cb27-328" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/smm`</span> <span class="pp">|</span> Second Moment Method (analytical estimate) <span class="pp">|</span></span>
-<span id="cb27-329"><a href="#cb27-329" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/contingency`</span> <span class="pp">|</span> Contingency reserve from last MCS <span class="pp">|</span></span>
-<span id="cb27-330"><a href="#cb27-330" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/sensitivity`</span> <span class="pp">|</span> Variance contribution per task <span class="pp">|</span></span>
-<span id="cb27-331"><a href="#cb27-331" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/evm`</span> <span class="pp">|</span> Full Earned Value Management analysis <span class="pp">|</span></span>
-<span id="cb27-332"><a href="#cb27-332" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/risk`</span> <span class="pp">|</span> Bayesian prior risk probability <span class="pp">|</span></span>
-<span id="cb27-333"><a href="#cb27-333" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/risk_post`</span> <span class="pp">|</span> Bayesian posterior risk after observations <span class="pp">|</span></span>
-<span id="cb27-334"><a href="#cb27-334" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/learning`</span> <span class="pp">|</span> Sigmoidal learning curve fit and prediction <span class="pp">|</span></span>
-<span id="cb27-335"><a href="#cb27-335" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/dsm`</span> <span class="pp">|</span> Design Structure Matrix <span class="pp">|</span></span>
-<span id="cb27-336"><a href="#cb27-336" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`/help`</span> <span class="pp">|</span> List all commands or get help for one <span class="pp">|</span></span>
-<span id="cb27-337"><a href="#cb27-337" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-338"><a href="#cb27-338" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
-<span id="cb27-339"><a href="#cb27-339" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-340"><a href="#cb27-340" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
-<span id="cb27-341"><a href="#cb27-341" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
-<span id="cb27-342"><a href="#cb27-342" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-343"><a href="#cb27-343" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Slash commands (<span class="in">`/mcs`</span>, <span class="in">`/evm`</span>, <span class="in">`/risk`</span>, etc.) provide **deterministic, LLM-free** execution of every method covered in this book; use them when you need guaranteed reproducibility.</span>
-<span id="cb27-344"><a href="#cb27-344" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The chat interface routes input intelligently: numerical data → tool call; conceptual question → RAG. The LLM is a router, not a calculator.</span>
-<span id="cb27-345"><a href="#cb27-345" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RAG** (Retrieval-Augmented Generation) grounds LLM answers in the PRA knowledge base, reducing hallucination and enabling source citations.</span>
-<span id="cb27-346"><a href="#cb27-346" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The MCP server exposes all PRA tools to any MCP-compatible AI client (Claude Desktop, Claude Code, or custom agents) without requiring an R session on the user's end.</span>
-<span id="cb27-347"><a href="#cb27-347" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Small models (3B) handle simple single-tool queries; use larger models (8B+) or cloud models for multi-step chains and interpretation.</span>
-<span id="cb27-348"><a href="#cb27-348" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb27-349"><a href="#cb27-349" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-350"><a href="#cb27-350" aria-hidden="true" tabindex="-1"></a>Congratulations, you've completed the toolkit. You can now quantify project uncertainty (MCS, @sec-mcs; SMM, @sec-smm), track project performance (EVM, @sec-evm), update risk estimates with new evidence (Bayesian, @sec-bayes; Networks, @sec-network), model structural dependencies (DSM, @sec-dsm; Portfolio, @sec-network2), forecast learning (Sigmoidal, @sec-sigmoidal), and automate it all through an AI interface (@sec-agent). The rest is practice.</span>
-<span id="cb27-351"><a href="#cb27-351" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-352"><a href="#cb27-352" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
-<span id="cb27-353"><a href="#cb27-353" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-354"><a href="#cb27-354" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Slash vs. chat.** Run the same MCS problem using (a) a <span class="in">`/mcs`</span> slash command and (b) a natural language prompt through <span class="in">`pra_chat()`</span>. Do you get the same numerical results? If not, why might they differ?</span>
-<span id="cb27-355"><a href="#cb27-355" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-356"><a href="#cb27-356" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Command chaining.** Run <span class="in">`/mcs`</span> for a 3-task project of your choice, then immediately run <span class="in">`/contingency`</span> at P80 and P95. What is the difference between the two contingency values? Interpret this difference in plain English.</span>
-<span id="cb27-357"><a href="#cb27-357" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-358"><a href="#cb27-358" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**EVM from a prompt.** Use <span class="in">`/evm`</span> with the following inputs: BAC = \$300K, schedule = <span class="co">[</span><span class="ot">0.2, 0.4, 0.6, 0.8, 1.0</span><span class="co">]</span>, period = 4, complete = 0.55, costs = <span class="co">[</span><span class="ot">\$55K, \$115K, \$175K, \$240K</span><span class="co">]</span>. Report CPI, SPI, and EAC (typical). Is the project in good shape?</span>
-<span id="cb27-359"><a href="#cb27-359" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-360"><a href="#cb27-360" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**RAG vs. tool call.** Ask <span class="in">`pra_chat()`</span> two questions: (a) "What distributions should I use for tasks with optimistic/likely/pessimistic estimates?" and (b) "Run a Monte Carlo simulation for Task A ~ Normal(10, 2) and Task B ~ Uniform(8, 12)." Identify which routing mode was used for each. How can you tell from the response?</span>
-<span id="cb27-361"><a href="#cb27-361" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-362"><a href="#cb27-362" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**MCP integration.** ★ If you have Claude Desktop or Claude Code installed, configure PRA as an MCP server using the instructions above. Ask Claude to run a Monte Carlo simulation and report the P95 duration. Then ask a conceptual question about EVM. Describe the experience: did the tool calls work? Was the RAG answer accurate?</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Your AI Co-Pilot: Agentic Risk Analysis {#sec-agent}</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"The best way to predict the future is to invent it."*</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; — Alan Kay</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>You've made it through eight chapters of quantitative risk analysis. You know Monte Carlo, SMM, EVM, Bayesian inference, learning curves, design structure matrices, and probabilistic networks. Now imagine not having to remember the syntax for all of them.</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>Imagine asking an AI assistant to "run Monte Carlo for three tasks with Normal(10,2), Triangular(5,10,15), Uniform(8,12)" and getting back a P95 date, a contingency reserve, and a tornado chart. That's the promise of the <span class="in">`PRA`</span> agentic layer: the core analytical functions in this book are exposed as tools that an AI agent can call directly, guided by a set of skills that tell it *when* and *how* to use each one.</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning Objectives</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>By the end of this chapter, you will be able to:</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Explain how PRA exposes its functions as tools over the Model Context Protocol (MCP)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Start the PRA MCP server and register it with Claude Code or Claude Desktop</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Describe what Agent Skills are and how they guide tool use</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Map a natural-language request to the underlying PRA tool and its arguments</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## How PRA Talks to AI Agents</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>Rather than embedding a language model inside the package, PRA takes a simpler and more portable approach: it publishes its analytical functions as **tools** that any capable AI agent can call. Two pieces make this work:</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**An MCP server** (<span class="in">`pra_mcp_server()`</span>) that advertises each PRA function — Monte Carlo simulation, EVM, Bayesian risk, learning curves, DSM, and the rest — as a callable tool over the <span class="co">[</span><span class="ot">Model Context Protocol</span><span class="co">](https://modelcontextprotocol.io)</span>.</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Agent Skills** — bundled <span class="in">`SKILL.md`</span> files that document, in plain language, when to use each method, which tool to call, the argument format, and how to read the result.</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>The agent (Claude Code, Claude Desktop, or any MCP-compatible client) supplies the intelligence; PRA supplies the trustworthy, validated computation. Because the tools are the same functions you've used throughout the book, the numbers are identical whether you call <span class="in">`mcs()`</span> yourself or ask an agent to run it.</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="fu">## Prerequisites</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>The MCP server relies on a few optional packages:</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"ellmer"</span>, <span class="st">"mcptools"</span>, <span class="st">"jsonlite"</span>))</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>The analytical functions themselves need none of these — they are required only to serve the tools to an agent.</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a><span class="fu">## The MCP Server</span></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a><span class="fu">### Starting the server</span></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a><span class="fu">pra_mcp_server</span>()</span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>The server communicates over stdio, the standard transport for local MCP servers, and reuses the tool definitions from <span class="in">`pra_tools()`</span> so any update to a tool is reflected automatically.</span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a><span class="fu">### Connecting from Claude Code</span></span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add <span class="at">-s</span> project pra <span class="at">--</span> Rscript <span class="at">-e</span> <span class="st">"PRA::pra_mcp_server()"</span></span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>Once registered, Claude Code can call PRA tools in any conversation:</span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; "Run a Monte Carlo simulation for three tasks: Task A normal(10, 2), Task B triangular(5, 10, 15), Task C uniform(8, 12). What is the contingency reserve at the 90th percentile?"</span></span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a><span class="fu">### Connecting from Claude Desktop</span></span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a>Add the following to your Claude Desktop config file:</span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a><span class="in">```json</span></span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a>  <span class="st">"mcpServers"</span><span class="op">:</span> {</span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pra"</span><span class="op">:</span> {</span>
+<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a>      <span class="st">"command"</span><span class="op">:</span> <span class="st">"Rscript"</span><span class="op">,</span></span>
+<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a>      <span class="st">"args"</span><span class="op">:</span> [<span class="st">"-e"</span><span class="op">,</span> <span class="st">"PRA::pra_mcp_server()"</span>]</span>
+<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a><span class="fu">## Agent Skills</span></span>
+<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a>An agent works best when it knows not just *what* tools exist but *when* to reach for each one. PRA ships a set of Agent Skills for exactly this. Each is a <span class="in">`SKILL.md`</span> file with structured guidance — when to use the method, which tool to call, the JSON argument format, and how to interpret the result.</span>
+<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a>Find the installed skills with:</span>
+<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(<span class="fu">system.file</span>(<span class="st">"skills"</span>, <span class="at">package =</span> <span class="st">"PRA"</span>))</span>
+<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Skill <span class="pp">|</span> Covers <span class="pp">|</span> Primary tools <span class="pp">|</span></span>
+<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------|--------|---------------|</span></span>
+<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra-overview`</span> <span class="pp">|</span> Routing / entry point <span class="pp">|</span> (directs to the others) <span class="pp">|</span></span>
+<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra-monte-carlo`</span> <span class="pp">|</span> Schedule/cost uncertainty <span class="pp">|</span> <span class="in">`mcs_tool`</span>, <span class="in">`smm_tool`</span> <span class="pp">|</span></span>
+<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra-sensitivity-contingency`</span> <span class="pp">|</span> Reserves &amp; risk drivers <span class="pp">|</span> <span class="in">`contingency_tool`</span>, <span class="in">`sensitivity_tool`</span> <span class="pp">|</span></span>
+<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra-earned-value`</span> <span class="pp">|</span> Performance &amp; forecasting <span class="pp">|</span> <span class="in">`evm_analysis_tool`</span> <span class="pp">|</span></span>
+<span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra-bayesian-risk`</span> <span class="pp">|</span> Risk probability &amp; cost <span class="pp">|</span> <span class="in">`risk_prob_tool`</span>, <span class="in">`risk_post_prob_tool`</span>, <span class="in">`cost_pdf_tool`</span>, <span class="in">`cost_post_pdf_tool`</span> <span class="pp">|</span></span>
+<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra-learning-curves`</span> <span class="pp">|</span> S-curve fitting/forecasts <span class="pp">|</span> <span class="in">`fit_and_predict_sigmoidal_tool`</span> <span class="pp">|</span></span>
+<span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra-dsm`</span> <span class="pp">|</span> Task dependency structure <span class="pp">|</span> <span class="in">`parent_dsm_tool`</span>, <span class="in">`grandparent_dsm_tool`</span> <span class="pp">|</span></span>
+<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a><span class="fu">## From Request to Tool Call</span></span>
+<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a>When you ask an agent to run an analysis, it selects a tool and fills in the arguments. All array and matrix arguments are passed as JSON strings. For example, the request "simulate three tasks — Normal(10,2), Triangular(5,10,15), Uniform(8,12), 10,000 runs" maps to <span class="in">`mcs_tool`</span> with a <span class="in">`task_dists_json`</span> of:</span>
+<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a><span class="in">```json</span></span>
+<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a>[{<span class="st">"type"</span><span class="op">:</span><span class="st">"normal"</span><span class="op">,</span><span class="st">"mean"</span><span class="op">:</span><span class="dv">10</span><span class="op">,</span><span class="st">"sd"</span><span class="op">:</span><span class="dv">2</span>}<span class="op">,</span></span>
+<span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a> {<span class="st">"type"</span><span class="op">:</span><span class="st">"triangular"</span><span class="op">,</span><span class="st">"a"</span><span class="op">:</span><span class="dv">5</span><span class="op">,</span><span class="st">"b"</span><span class="op">:</span><span class="dv">10</span><span class="op">,</span><span class="st">"c"</span><span class="op">:</span><span class="dv">15</span>}<span class="op">,</span></span>
+<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a> {<span class="st">"type"</span><span class="op">:</span><span class="st">"uniform"</span><span class="op">,</span><span class="st">"min"</span><span class="op">:</span><span class="dv">8</span><span class="op">,</span><span class="st">"max"</span><span class="op">:</span><span class="dv">12</span>}]</span>
+<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-114"><a href="#cb9-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a>Under the hood, that is exactly the <span class="in">`mcs()`</span> call you already know:</span>
+<span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
+<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a>task_distributions <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>,     <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>),</span>
+<span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"triangular"</span>, <span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">10</span>, <span class="at">c =</span> <span class="dv">15</span>),</span>
+<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"uniform"</span>,    <span class="at">min =</span> <span class="dv">8</span>, <span class="at">max =</span> <span class="dv">12</span>)</span>
+<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">mcs</span>(<span class="dv">10000</span>, task_distributions)</span>
+<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-132"><a href="#cb9-132" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Monte Carlo results. The same output an agent receives when it calls `mcs_tool`."</span></span>
+<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(result<span class="sc">$</span>total_distribution,</span>
+<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a>  <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">breaks =</span> <span class="dv">50</span>,</span>
+<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Monte Carlo Simulation Results"</span>,</span>
+<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Total Project Duration/Cost"</span>,</span>
+<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a>  <span class="at">col  =</span> <span class="st">"#18bc9c80"</span>, <span class="at">border =</span> <span class="st">"white"</span></span>
+<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x, <span class="at">mean =</span> result<span class="sc">$</span>total_mean, <span class="at">sd =</span> result<span class="sc">$</span>total_sd),</span>
+<span id="cb9-141"><a href="#cb9-141" aria-hidden="true" tabindex="-1"></a>  <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"#2c3e50"</span>, <span class="at">lwd =</span> <span class="dv">2</span></span>
+<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(</span>
+<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a>  <span class="at">v   =</span> <span class="fu">quantile</span>(result<span class="sc">$</span>total_distribution, <span class="fu">c</span>(<span class="fl">0.50</span>, <span class="fl">0.95</span>)),</span>
+<span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#3498db"</span>, <span class="st">"#e74c3c"</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="fl">1.5</span></span>
+<span id="cb9-146"><a href="#cb9-146" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-147"><a href="#cb9-147" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
+<span id="cb9-148"><a href="#cb9-148" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Normal fit"</span>, <span class="st">"P50"</span>, <span class="st">"P95"</span>),</span>
+<span id="cb9-149"><a href="#cb9-149" aria-hidden="true" tabindex="-1"></a>  <span class="at">col    =</span> <span class="fu">c</span>(<span class="st">"#2c3e50"</span>, <span class="st">"#3498db"</span>, <span class="st">"#e74c3c"</span>),</span>
+<span id="cb9-150"><a href="#cb9-150" aria-hidden="true" tabindex="-1"></a>  <span class="at">lty    =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fl">1.5</span>, <span class="fl">1.5</span>),</span>
+<span id="cb9-151"><a href="#cb9-151" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex    =</span> <span class="fl">0.8</span>, <span class="at">bg =</span> <span class="st">"white"</span></span>
+<span id="cb9-152"><a href="#cb9-152" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-153"><a href="#cb9-153" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-154"><a href="#cb9-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-155"><a href="#cb9-155" aria-hidden="true" tabindex="-1"></a>A typical agent workflow chains tools the same way you would chain functions: <span class="in">`mcs_tool`</span> to simulate, then <span class="in">`contingency_tool`</span> for the reserve and <span class="in">`sensitivity_tool`</span> for the risk drivers. The <span class="in">`pra-overview`</span> skill lists these common workflows so the agent knows what to do next.</span>
+<span id="cb9-156"><a href="#cb9-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a><span class="fu">## Tool Reference</span></span>
+<span id="cb9-158"><a href="#cb9-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Tool <span class="pp">|</span> Description <span class="pp">|</span></span>
+<span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a><span class="pp">|------|-------------|</span></span>
+<span id="cb9-161"><a href="#cb9-161" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`mcs_tool`</span> <span class="pp">|</span> Monte Carlo simulation with task distributions <span class="pp">|</span></span>
+<span id="cb9-162"><a href="#cb9-162" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`smm_tool`</span> <span class="pp">|</span> Second Moment Method (analytical estimate) <span class="pp">|</span></span>
+<span id="cb9-163"><a href="#cb9-163" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`contingency_tool`</span> <span class="pp">|</span> Contingency reserve from the last MCS <span class="pp">|</span></span>
+<span id="cb9-164"><a href="#cb9-164" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`sensitivity_tool`</span> <span class="pp">|</span> Variance contribution per task <span class="pp">|</span></span>
+<span id="cb9-165"><a href="#cb9-165" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`evm_analysis_tool`</span> <span class="pp">|</span> Full Earned Value Management analysis <span class="pp">|</span></span>
+<span id="cb9-166"><a href="#cb9-166" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`risk_prob_tool`</span> <span class="pp">|</span> Bayesian prior risk probability <span class="pp">|</span></span>
+<span id="cb9-167"><a href="#cb9-167" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`risk_post_prob_tool`</span> <span class="pp">|</span> Bayesian posterior risk after observations <span class="pp">|</span></span>
+<span id="cb9-168"><a href="#cb9-168" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`cost_pdf_tool`</span> / <span class="in">`cost_post_pdf_tool`</span> <span class="pp">|</span> Prior / posterior cost distributions <span class="pp">|</span></span>
+<span id="cb9-169"><a href="#cb9-169" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`fit_and_predict_sigmoidal_tool`</span> <span class="pp">|</span> Sigmoidal learning curve fit and prediction <span class="pp">|</span></span>
+<span id="cb9-170"><a href="#cb9-170" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`parent_dsm_tool`</span> / <span class="in">`grandparent_dsm_tool`</span> <span class="pp">|</span> Design Structure Matrices <span class="pp">|</span></span>
+<span id="cb9-171"><a href="#cb9-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-172"><a href="#cb9-172" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
+<span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
+<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
+<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>PRA exposes its core analytical functions as **tools over MCP** via <span class="in">`pra_mcp_server()`</span>; the numbers are identical to calling the functions directly. The probabilistic network functions are not currently exposed as tools.</span>
+<span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Agent Skills** (<span class="in">`SKILL.md`</span> files under <span class="in">`system.file("skills", package = "PRA")`</span>) tell an agent when and how to use each tool, including the JSON argument format.</span>
+<span id="cb9-179"><a href="#cb9-179" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The package embeds **no language model** — only the MCP server needs the optional <span class="in">`ellmer`</span>, <span class="in">`mcptools`</span>, and <span class="in">`jsonlite`</span> packages.</span>
+<span id="cb9-180"><a href="#cb9-180" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Agents chain tools just as you chain functions: <span class="in">`mcs_tool`</span> → <span class="in">`contingency_tool`</span> + <span class="in">`sensitivity_tool`</span>.</span>
+<span id="cb9-181"><a href="#cb9-181" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-182"><a href="#cb9-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-183"><a href="#cb9-183" aria-hidden="true" tabindex="-1"></a>Congratulations, you've completed the toolkit. You can now quantify project uncertainty (MCS, @sec-mcs; SMM, @sec-smm), track project performance (EVM, @sec-evm), update risk estimates with new evidence (Bayesian, @sec-bayes; Networks, @sec-network), model structural dependencies (DSM, @sec-dsm; Portfolio, @sec-network2), forecast learning (Sigmoidal, @sec-sigmoidal), and hand it all to an AI agent through MCP (@sec-agent). The rest is practice.</span>
+<span id="cb9-184"><a href="#cb9-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-185"><a href="#cb9-185" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
+<span id="cb9-186"><a href="#cb9-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-187"><a href="#cb9-187" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Set up the server.** Install <span class="in">`ellmer`</span>, <span class="in">`mcptools`</span>, and <span class="in">`jsonlite`</span>, then start <span class="in">`pra_mcp_server()`</span> and register it with Claude Code or Claude Desktop using the instructions above. Confirm the client lists the PRA tools.</span>
+<span id="cb9-188"><a href="#cb9-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-189"><a href="#cb9-189" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Request to arguments.** For the request "simulate two tasks, Normal(20,4) and Uniform(10,15), with 5,000 runs," write out the <span class="in">`mcs_tool`</span> call and its <span class="in">`task_dists_json`</span> argument by hand. Then run the equivalent <span class="in">`mcs()`</span> in R and compare.</span>
+<span id="cb9-190"><a href="#cb9-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-191"><a href="#cb9-191" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Chaining.** Ask an agent (or reason it out yourself) how to produce a P80 contingency reserve and a tornado chart for a 3-task project. Which tools are called, and in what order? Which skill documents that workflow?</span>
+<span id="cb9-192"><a href="#cb9-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-193"><a href="#cb9-193" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**EVM from a prompt.** Using <span class="in">`evm_analysis_tool`</span>'s arguments, translate this into a tool call: BAC = \$300K, schedule = <span class="co">[</span><span class="ot">0.2, 0.4, 0.6, 0.8, 1.0</span><span class="co">]</span>, period = 4, complete = 0.55, costs = <span class="co">[</span><span class="ot">\$55K, \$115K, \$175K, \$240K</span><span class="co">]</span>. Then verify with the EVM functions from @sec-evm.</span>
+<span id="cb9-194"><a href="#cb9-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-195"><a href="#cb9-195" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Skill authoring.** ★ Read one of the bundled <span class="in">`SKILL.md`</span> files, then draft a short skill for a project-specific workflow of your own (for example, a standard reserve policy). What guidance would an agent need to apply it correctly?</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

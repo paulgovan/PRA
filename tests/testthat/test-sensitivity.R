@@ -24,12 +24,12 @@ test_that("sensitivity function calculates correctly for normal distributions", 
   expect_true(is.numeric(result))
   expect_length(result, 2)
 
-  # Expected variances
+  # Expected variances and total (independent tasks: cov_matrix is diagonal)
   expected_variances <- sapply(normal_dists, function(dist) dist$sd^2)
-  expected_sensitivity <- 1 + 2 * 0 # Since there is no correlation matrix provided
+  total_variance <- sum(expected_variances)
 
-  expect_equal(result[1], expected_sensitivity)
-  expect_equal(result[2], expected_sensitivity)
+  expect_equal(result[1], unname(expected_variances[1] / total_variance))
+  expect_equal(result[2], unname(expected_variances[2] / total_variance))
 })
 
 test_that("sensitivity function calculates correctly for triangular distributions", {
@@ -166,8 +166,9 @@ test_that("sensitivity recovers known values for independent tasks", {
 
   result <- sensitivity(task_dists)
 
-  # For independent tasks, sensitivity should be 1.0 for all tasks
-  expect_equal(result, c(1, 1), tolerance = 1e-10)
+  # For independent tasks, sensitivity is each task's variance divided by
+  # total variance (proportion of variance attributable to that task).
+  expect_equal(result, c(4 / 13, 9 / 13), tolerance = 1e-10)
 })
 
 # ============================================================================
@@ -187,4 +188,25 @@ test_that("sensitivity handles all identical distributions", {
   # All should have same sensitivity
   expect_equal(result[1], result[2], tolerance = 1e-10)
   expect_equal(result[2], result[3], tolerance = 1e-10)
+})
+
+
+test_that("sensitivity warns when an index is negative (G5.2a)", {
+  task_dists <- list(
+    list(type = "normal", mean = 10, sd = 1),
+    list(type = "normal", mean = 10, sd = 3),
+    list(type = "normal", mean = 10, sd = 3)
+  )
+  cor_mat <- matrix(c(
+    1, -0.9, -0.9,
+    -0.9, 1, 0.9,
+    -0.9, 0.9, 1
+  ), nrow = 3)
+  expect_warning(
+    result <- sensitivity(task_dists, cor_mat),
+    "negative"
+  )
+  expect_true(any(result < 0))
+  # The indices are shares of the total variance and still sum to one.
+  expect_equal(sum(result), 1, tolerance = 1e-8)
 })

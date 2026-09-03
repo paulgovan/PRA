@@ -22,7 +22,10 @@
 #' @param mean  The mean vector.
 #' @param var The variance vector.
 #' @param cor_mat The correlation matrix (optional). If not provided, tasks are assumed to be independent.
-#' @return The function returns a list of the total mean, variance, and standard deviation for the project.
+#' @return An S3 object of class `"smm"`: a list of the total mean
+#' (`total_mean`), variance (`total_var`) and standard deviation
+#' (`total_std`) for the project. Objects of this class have [print.smm()],
+#' [summary.smm()] and [plot.smm()] methods.
 #' @references
 #' Damnjanovic, Ivan, and Kenneth Reinschmidt. Data analytics for engineering and
 #' construction project risk management. No. 172534. Cham, Switzerland: Springer, 2020.
@@ -98,18 +101,7 @@ smm <- function(mean, var, cor_mat = NULL) {
 
   # Calculate the covariance matrix
   if (!is.null(cor_mat)) {
-    if (!is.matrix(cor_mat) || nrow(cor_mat) != num_tasks || ncol(cor_mat) != num_tasks) {
-      stop("The correlation matrix must be square and match the number of tasks.")
-    }
-    if (any(is.nan(cor_mat))) {
-      stop("cor_mat must not contain NaN values")
-    }
-    if (anyNA(cor_mat)) {
-      stop("cor_mat must not contain NA values")
-    }
-    if (any(is.infinite(cor_mat))) {
-      stop("cor_mat must not contain infinite values")
-    }
+    validate_cor_mat(cor_mat, num_tasks)
 
     cov_matrix <- matrix(0, nrow = num_tasks, ncol = num_tasks)
     for (i in seq_len(num_tasks)) {
@@ -145,7 +137,7 @@ smm <- function(mean, var, cor_mat = NULL) {
 #' and standard deviation in a readable manner.
 #' @param x An object of class "smm" containing the SMM results.
 #' @param ... Additional arguments (not used).
-#' @return None. The function prints the SMM results to the console.
+#' @return Invisibly returns `x`.
 #' @examples
 #' mean <- c(10, 15, 20)
 #' var <- c(4, 9, 16)
@@ -169,4 +161,142 @@ print.smm <- function(x, ...) {
   cat("Total Mean: ", x$total_mean, "\n")
   cat("Total Variance: ", x$total_var, "\n")
   cat("Total Standard Deviation: ", x$total_std, "\n")
+  invisible(x)
+}
+
+
+#' Summarize Second Moment Method results.
+#'
+#' Summarizes the propagated moments and reports the percentiles implied by a
+#' normal approximation.
+#'
+#' The Second Moment Method constrains only the first two moments of the total,
+#' so the percentiles reported here are those of the normal distribution with
+#' that mean and variance. This is the maximum-entropy distribution consistent
+#' with what SMM computes, but it is an approximation: durations and costs are
+#' non-negative while the normal is not, so the lower percentiles are unreliable
+#' when `total_mean` is less than roughly three standard deviations. Use
+#' [mcs()] when the shape of the distribution matters.
+#'
+#' @param object An object of class `"smm"`.
+#' @param conf_level Unused placeholder retained for symmetry; percentiles are
+#'   fixed at P5/P50/P95.
+#' @param ... Additional arguments (not used).
+#' @return An object of class `"summary.smm"`, a list with components:
+#'   \describe{
+#'     \item{total_mean, total_variance, total_sd}{Propagated moments. Note the
+#'       canonical names, which match those used by [summary.mcs()]; the `smm`
+#'       object itself carries `total_var` and `total_std`.}
+#'     \item{cv}{Coefficient of variation. `NA` when the mean is zero.}
+#'     \item{percentiles}{Named numeric vector of the P5, P50 and P95
+#'       percentiles implied by the normal approximation.}
+#'   }
+#' @srrstats {G1.4} *Documented with roxygen2.*
+#' @examples
+#' result <- smm(c(10, 15, 20), c(4, 9, 16))
+#' summary(result)
+#' @export
+#' @method summary smm
+summary.smm <- function(object, conf_level = 0.95, ...) {
+  sd <- object$total_std
+  probs <- c(0.05, 0.50, 0.95)
+  percentiles <- if (is.finite(sd) && sd >= 0) {
+    stats::setNames(
+      stats::qnorm(probs, mean = object$total_mean, sd = sd),
+      paste0(probs * 100, "%")
+    )
+  } else {
+    stats::setNames(rep(NA_real_, length(probs)), paste0(probs * 100, "%"))
+  }
+
+  result <- list(
+    total_mean = object$total_mean,
+    total_variance = object$total_var,
+    total_sd = sd,
+    cv = if (isTRUE(object$total_mean != 0)) sd / object$total_mean else NA_real_,
+    percentiles = percentiles
+  )
+  class(result) <- "summary.smm"
+  result
+}
+
+
+#' Print a Second Moment Method summary.
+#'
+#' @param x An object of class `"summary.smm"` returned by [summary.smm()].
+#' @param ... Additional arguments (not used).
+#' @return Invisibly returns `x`.
+#' @examples
+#' print(summary(smm(c(10, 15, 20), c(4, 9, 16))))
+#' @export
+#' @method print summary.smm
+print.summary.smm <- function(x, ...) {
+  cat("Second Moment Method Summary\n")
+  cat("------------------------------\n")
+  cat("Total Mean: ", x$total_mean, "\n")
+  cat("Total Variance: ", x$total_variance, "\n")
+  cat("Total Standard Deviation: ", x$total_sd, "\n")
+  cat("Coefficient of Variation: ",
+      format(round(x$cv, 4), scientific = FALSE), "\n\n")
+  cat("Percentiles (normal approximation):\n")
+  print(x$percentiles)
+  invisible(x)
+}
+
+
+#' Plot Second Moment Method results.
+#'
+#' Displays the normal density implied by the propagated mean and standard
+#' deviation, with the P50 and P95 percentiles marked.
+#'
+#' The Second Moment Method constrains only two moments, so this curve is the
+#' maximum-entropy distribution consistent with them rather than an estimate of
+#' the true distribution's shape. The left tail is an artifact when
+#' `total_mean` is less than roughly three standard deviations, since costs and
+#' durations are non-negative and the normal is not. Use [plot.mcs()] on a
+#' [mcs()] result when the shape matters.
+#'
+#' @param x An object of class `"smm"`.
+#' @param main Optional plot title. If `NULL`, a default title is generated.
+#' @param col Fill color under the density curve. If `NULL`, uses the package
+#'   palette.
+#' @param xlab Optional x-axis label.
+#' @param ... Additional arguments passed to [graphics::plot()].
+#' @return Invisibly returns `x`.
+#' @importFrom graphics polygon abline legend lines
+#' @srrstats {G1.4} *Documented with roxygen2.*
+#' @examples
+#' plot(smm(c(10, 15, 20), c(4, 9, 16)))
+#' @export
+#' @method plot smm
+plot.smm <- function(x, main = NULL, col = NULL, xlab = NULL, ...) {
+  sd <- x$total_std
+  if (!is.finite(sd) || sd <= 0) {
+    message("Nothing to plot: total variance is zero or undefined.")
+    return(invisible(x))
+  }
+  pal <- pra_cols()
+  if (is.null(col)) col <- unname(pal["fill_alpha"])
+  if (is.null(main)) main <- "Second Moment Method: implied normal"
+  if (is.null(xlab)) xlab <- "Total Project Duration/Cost"
+
+  xs <- seq(x$total_mean - 3.5 * sd, x$total_mean + 3.5 * sd, length.out = 200)
+  ys <- stats::dnorm(xs, mean = x$total_mean, sd = sd)
+
+  graphics::plot(xs, ys,
+    type = "n", main = main, xlab = xlab, ylab = "Density", ...
+  )
+  graphics::polygon(c(xs[1], xs, xs[length(xs)]), c(0, ys, 0),
+    col = col, border = NA
+  )
+  graphics::lines(xs, ys, col = unname(pal["ink"]), lwd = 2)
+
+  qs <- stats::qnorm(c(0.50, 0.95), mean = x$total_mean, sd = sd)
+  graphics::abline(v = qs, col = unname(pal[c("p50", "p95")]), lty = 2, lwd = 1.5)
+  graphics::legend("topright",
+    legend = c("Implied normal", "P50", "P95"),
+    col = unname(pal[c("ink", "p50", "p95")]),
+    lty = c(1, 2, 2), lwd = c(2, 1.5, 1.5), cex = 0.8, bg = "white"
+  )
+  invisible(x)
 }

@@ -106,11 +106,14 @@ test_that("cost_pdf handles zero risk probabilities correctly", {
   expect_true(all(samples == base_cost))
 })
 
-test_that("cost_pdf validates sum of risk_probs", {
-  expect_error(
-    cost_pdf(1000, c(0.6, 0.6), c(10000, 15000), c(2000, 1000), 2000),
-    "Sum of risk_probs must not exceed 1."
-  )
+test_that("cost_pdf accepts independent risks whose probabilities sum past 1", {
+  # The risks are independent Bernoulli events, so any number of them may occur
+  # together and the probabilities need not sum to 1.
+  set.seed(4)
+  samples <- cost_pdf(2000, c(0.6, 0.6), c(10000, 15000), c(2000, 1000), 2000)
+  expect_length(samples, 2000)
+  # With both risks likely, some draws must carry both costs.
+  expect_gt(max(samples), 2000 + 10000 + 15000 - 6000)
 })
 
 test_that("cost_pdf handles default base_cost correctly", {

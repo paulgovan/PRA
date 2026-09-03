@@ -11,7 +11,7 @@ Called for its side effect (starts the MCP server process). Does
 not return under normal operation.
 }
 \description{
-Launches an MCP server that exposes all PRA analytical tools via the Model
+Launches an MCP server that exposes PRA's core analytical tools via the Model
 Context Protocol. Once running, Claude Desktop, Claude Code, or any
 MCP-compatible client can call PRA functions (Monte Carlo simulation, EVM,
 Bayesian risk, learning curves, DSM, etc.) as native tools.

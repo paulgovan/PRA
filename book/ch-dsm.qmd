@@ -92,7 +92,7 @@ graph <- prob_net(nodes, links, distributions = distributions)
 
 ## The Adjacency Matrix
 
-The `graph` object exposes a full 9×9 adjacency matrix — one row and column for every node. Because `prob_net()` treats the network as undirected for structural purposes, both directions of each edge are recorded: an entry of 1 at `[i, j]` also appears at `[j, i]`.
+The `graph` object exposes a full 9×9 adjacency matrix — one row and column for every node. `prob_net()` builds it as a **directed** matrix: an entry of 1 at `[i, j]` means an edge runs from node $i$ to node $j$ (as declared in `links`), and the entry at `[j, i]` stays 0 unless a separate edge runs the other way.
 
 Internally, `prob_net()` labels rows and columns with node IDs. For readability, we rename them with node labels before displaying or extracting:
 
@@ -103,7 +103,7 @@ colnames(adj) <- graph$nodes$label
 adj
 ```
 
-The structural information we need — which resources connect to which tasks, and which risks connect to which resources — is already encoded here. We extract it by slicing `adj` using the `group` column of `graph$nodes`.
+The structural information we need — which resources connect to which tasks, and which risks connect to which resources — is already encoded here. We extract it by slicing `adj` using the `group` column of `graph$nodes`. This works because `links` declares edges running Risk → Resource → Task → Project: slicing `adj[source_labels, target_labels]` for each layer lines up rows with the edge source and columns with the edge target.
 
 ## The Resource-Task Matrix
 

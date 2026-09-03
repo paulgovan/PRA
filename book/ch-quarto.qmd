@@ -80,13 +80,13 @@ bridge rehabilitation project.
 ```{{r}}
 library(PRA)
 
-tasks <- list(
-  list(dist = "normal",   params = list(mean = 30, sd = 4)),
-  list(dist = "lognormal", params = list(meanlog = log(20), sdlog = 0.2)),
-  list(dist = "uniform",   params = list(min = 10, max = 25))
+task_dists <- list(
+  list(type = "normal",     mean = 30, sd = 4),
+  list(type = "triangular", a = 12, b = 20, c = 30),
+  list(type = "uniform",    min = 10, max = 25)
 )
 
-results <- mcs(tasks)
+results <- mcs(10000, task_dists)
 print(results)
 ```
 ````

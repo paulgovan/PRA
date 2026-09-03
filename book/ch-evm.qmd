@@ -1,7 +1,7 @@
 # Keeping Score: Earned Value Management {#sec-evm}
 
-> *"What gets measured gets managed."*
-> — Peter Drucker
+> *"When you can measure what you are speaking about, and express it in numbers, you know something about it."*
+> — Lord Kelvin
 
 Imagine you're three months into a six-month project and you've spent exactly half the budget. That might sound encouraging, but the more useful question is: how much work did you actually get done? If you've completed 30% of the project, the budget situation looks very different than if you've completed 55%.
 
@@ -33,7 +33,7 @@ By the end of this chapter, you will be able to:
 Every EVM metric, variance, index, or forecast, derives from these three numbers. If you know PV, EV, and AC, you know everything EVM can tell you.
 :::
 
-EVM integrates scope, schedule, and cost into these three core quantities [@flemming2010]. From them, all the other EVM metrics flow, with every performance index, every forecast, and every variance coming back to PV, EV, and AC.
+EVM integrates scope, schedule, and cost into these three core quantities [@fleming2010]. From them, all the other EVM metrics flow, with every performance index, every forecast, and every variance coming back to PV, EV, and AC.
 
 ## Key Metrics
 
@@ -52,6 +52,8 @@ EVM integrates scope, schedule, and cost into these three core quantities [@flem
 
 ```{r setup}
 #| code-fold: false
+# Render large currency values in full, not scientific notation.
+options(scipen = 999)
 library(PRA)
 ```
 

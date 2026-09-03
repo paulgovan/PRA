@@ -1,7 +1,7 @@
 Package: PRA
 Type: Package
 Title: Project Risk Analysis
-Version: 0.5.0
+Version: 0.7.0
 Authors@R: person("Paul", "Govan", email = "paul.govan2@gmail.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-1821-8492"))
 Description: Data analysis for Project Risk Management via the Second Moment Method, 
   Monte Carlo Simulation, Contingency Analysis, Sensitivity Analysis, Earned Value Management, 
@@ -9,9 +9,12 @@ Description: Data analysis for Project Risk Management via the Second Moment Met
 Depends:
   R (>= 4.1.0)
 Imports:
+  graphics,
+  grDevices,
   mc2d,
   minpack.lm,
-  stats
+  stats,
+  tools
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -20,7 +23,6 @@ URL: https://paulgovan.github.io/PRA/, https://github.com/paulgovan/PRA
 BugReports: https://github.com/paulgovan/PRA/issues
 Suggests:
     base64enc,
-    corrplot,
     devtools,
     ellmer,
     ggplot2,
@@ -34,5 +36,6 @@ Suggests:
     mcptools,
     testthat (>= 3.0.0),
     withr
+VignetteBuilder: knitr
 Config/testthat/edition: 3
 RoxygenNote: 7.3.3
