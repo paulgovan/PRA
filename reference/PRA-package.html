@@ -11,7 +11,7 @@ Earned Value Management, Learning Curves, Bayesian Methods, and more."><meta pro
 
     <a class="navbar-brand me-2" href="../index.html">PRA</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,6 +20,10 @@ Earned Value Management, Learning Curves, Bayesian Methods, and more."><meta pro
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/pra.html">Quantitative Project Risk Analysis with PRA</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="nav-link btn btn-warning text-dark ms-2" href="https://paulgovan.github.io/PRA/book/"><span class="fa fa-book"></span> Read the Book</a></li>
 <li class="nav-item"><form class="form-inline" role="search">
@@ -50,11 +54,13 @@ Earned Value Management, Learning Curves, Bayesian Methods, and more.</p>
 
 <dl><dt><strong>Monte Carlo Simulation</strong> (<code><a href="mcs.html">mcs()</a></code>)</dt>
 <dd><p>Propagates schedule or cost uncertainty through a triangular distribution
-model using <code>mc2d</code>. Returns an S3 object with a <code>print</code> method.</p></dd>
+model using <code>mc2d</code>. Returns an S3 object with <code>print</code>, <code>summary</code> and
+<code>plot</code> methods.</p></dd>
 
 <dt><strong>Second Moment Method</strong> (<code><a href="smm.html">smm()</a></code>)</dt>
 <dd><p>Analytical first- and second-moment propagation of uncertainty without
-simulation. Returns an S3 object with a <code>print</code> method.</p></dd>
+simulation. Returns an S3 object with <code>print</code>, <code>summary</code> and <code>plot</code>
+methods.</p></dd>
 
 <dt><strong>Earned Value Management</strong> (<code><a href="pv.html">pv()</a></code>, <code><a href="ev.html">ev()</a></code>, <code><a href="ac.html">ac()</a></code>, <code><a href="sv.html">sv()</a></code>, <code><a href="cv.html">cv()</a></code>,
 <code><a href="spi.html">spi()</a></code>, <code><a href="cpi.html">cpi()</a></code>, <code><a href="eac.html">eac()</a></code>, <code><a href="etc.html">etc()</a></code>, <code><a href="tcpi.html">tcpi()</a></code>, <code><a href="vac.html">vac()</a></code>)</dt>
@@ -82,7 +88,14 @@ multivariate simulations.</p></dd>
 
 <dt><strong>Design Structure Matrix</strong> (<code><a href="parent_dsm.html">parent_dsm()</a></code>, <code><a href="grandparent_dsm.html">grandparent_dsm()</a></code>)</dt>
 <dd><p>Derives direct (parent) and indirect (grandparent) dependency structure
-matrices from a binary adjacency matrix.</p></dd>
+matrices from a binary adjacency matrix. Returns an S3 object with
+<code>print</code>, <code>summary</code> and <code>plot</code> methods.</p></dd>
+
+<dt><strong>Probabilistic Networks</strong> (<code><a href="prob_net.html">prob_net()</a></code>, <code><a href="prob_net_sim.html">prob_net_sim()</a></code>,
+<code><a href="prob_net_learn.html">prob_net_learn()</a></code>, <code><a href="prob_net_update.html">prob_net_update()</a></code>)</dt>
+<dd><p>Forward simulation and Bayesian conditioning over a causal network of
+risks, resources and tasks. <code><a href="prob_net.html">prob_net()</a></code> returns an S3 object with
+<code>print</code>, <code>summary</code> and <code>plot</code> methods.</p></dd>
 
 
 </dl></div>

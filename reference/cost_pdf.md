@@ -26,7 +26,8 @@ cost_pdf(
 
 - risk_probs:
 
-  A vector of probabilities for each risk event 'R_i'.
+  A vector of probabilities for each risk event 'R_i'. The risks are
+  independent, so these need not sum to 1.
 
 - means_given_risks:
 
@@ -45,6 +46,13 @@ cost_pdf(
 ## Value
 
 A numeric vector of random samples from the mixture model.
+
+## Details
+
+The risk events are independent Bernoulli draws, so any number of them
+may occur in the same simulation and their probabilities need not sum to
+one. Each risk that occurs contributes a normal cost on top of
+`base_cost`.
 
 ## References
 

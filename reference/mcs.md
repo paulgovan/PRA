@@ -34,19 +34,32 @@ mcs(num_sims, task_dists, cor_mat = NULL)
 
 ## Value
 
-The function returns a list of the total mean, variance, standard
-deviation, and percentiles for the project.
+An S3 object of class `"mcs"`: a list of the total mean, variance,
+standard deviation, percentiles, and the simulated total distribution.
+Objects of this class have
+[`print.mcs()`](https://paulgovan.github.io/PRA/reference/print.mcs.md),
+[`summary.mcs()`](https://paulgovan.github.io/PRA/reference/summary.mcs.md)
+and
+[`plot.mcs()`](https://paulgovan.github.io/PRA/reference/plot.mcs.md)
+methods.
 
 ## Note
 
-When a correlation matrix is supplied, correlation is induced by
-applying a Cholesky factor to the sampled task values. This reproduces
-the target correlation but distorts the marginal means of the totals.
-For correlation-sensitive analyses prefer
-[`smm()`](https://paulgovan.github.io/PRA/reference/smm.md), which
-handles correlation analytically; a copula-based implementation that
-preserves the marginals is planned. See the package's design-structure
-tools for modeling structural dependence directly.
+When a correlation matrix is supplied, dependence is induced by Cholesky
+decomposition. The correlation matrix is factored, independent standard
+normal scores are multiplied by the Cholesky factor to carry the target
+correlation, and each column is then returned to its own scale through
+the normal CDF and that task's inverse CDF. Applying the factor to
+standard normal scores rather than to the raw task draws is required for
+the factorization to be valid, since it presumes unit-variance inputs.
+Every marginal distribution is therefore preserved exactly. The sampled
+rank correlation matches the target matrix, while the product-moment
+correlation is approximate: it is attenuated for strongly skewed
+marginals, an inherent property of the transform.
+[`smm()`](https://paulgovan.github.io/PRA/reference/smm.md) remains
+available when only first and second moments are needed; see the
+package's design-structure tools for modeling structural dependence
+directly.
 
 ## References
 
@@ -75,17 +88,17 @@ cor_mat <- matrix(c(
 # Run the Monte Carlo sumulation and print the results.
 results <- mcs(num_sims, task_dists, cor_mat)
 cat("Mean Total Duration:", results$total_mean, "\n")
-#> Mean Total Duration: 38.6533 
+#> Mean Total Duration: 30.03153 
 cat("Variance of Total Variance:", results$total_variance, "\n")
-#> Variance of Total Variance: 19.97396 
+#> Variance of Total Variance: 16.95771 
 cat("Standard Deviation of Total Duration:", results$total_sd, "\n")
-#> Standard Deviation of Total Duration: 4.469223 
+#> Standard Deviation of Total Duration: 4.117973 
 cat("5th Percentile:", results$percentiles[1], "\n")
-#> 5th Percentile: 31.22454 
+#> 5th Percentile: 23.25509 
 cat("Median (50th Percentile):", results$percentiles[2], "\n")
-#> Median (50th Percentile): 38.7074 
+#> Median (50th Percentile): 29.9976 
 cat("95th Percentile:", results$percentiles[3], "\n")
-#> 95th Percentile: 45.99066 
+#> 95th Percentile: 36.80591 
 hist(results$total_distribution,
   breaks = 50, main = "Distribution of Total Project Duration",
   xlab = "Total Duration", col = "skyblue", border = "white"

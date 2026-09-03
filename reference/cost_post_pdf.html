@@ -13,7 +13,7 @@ when no risk event occurs."><meta property="og:image" content="https://paulgovan
 
     <a class="navbar-brand me-2" href="../index.html">PRA</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,6 +22,10 @@ when no risk event occurs."><meta property="og:image" content="https://paulgovan
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/pra.html">Quantitative Project Risk Analysis with PRA</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="nav-link btn btn-warning text-dark ms-2" href="https://paulgovan.github.io/PRA/book/"><span class="fa fa-book"></span> Read the Book</a></li>
 <li class="nav-item"><form class="form-inline" role="search">
@@ -53,7 +57,8 @@ when no risk event occurs.</p>
 <span>  <span class="va">observed_risks</span>,</span>
 <span>  <span class="va">means_given_risks</span>,</span>
 <span>  <span class="va">sds_given_risks</span>,</span>
-<span>  base_cost <span class="op">=</span> <span class="fl">0</span></span>
+<span>  base_cost <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  risk_probs <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -80,10 +85,28 @@ when no risk event occurs.</p>
 <dt id="arg-base-cost">base_cost<a class="anchor" aria-label="anchor" href="#arg-base-cost"></a></dt>
 <dd><p>The baseline cost given no risk event occurs.</p></dd>
 
+
+<dt id="arg-risk-probs">risk_probs<a class="anchor" aria-label="anchor" href="#arg-risk-probs"></a></dt>
+<dd><p>Optional vector of prior probabilities for each risk event,
+used to draw the risks left unobserved (<code>NA</code>) in <code>observed_risks</code>. If <code>NULL</code>
+(default), unobserved risks are treated as not occurring and a warning is
+issued.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A numeric vector of random samples from the posterior distribution of costs.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>An observed risk is fixed: a risk observed to have occurred always
+contributes its cost, and one observed not to have occurred never does. An
+unobserved risk (<code>NA</code>) is drawn from its prior probability when <code>risk_probs</code>
+is supplied, which is the same treatment <code><a href="risk_post_prob.html">risk_post_prob()</a></code> gives an
+unobserved cause. When <code>risk_probs</code> is <code>NULL</code> there is no prior to draw from,
+so unobserved risks contribute nothing and the result is a posterior over the
+observed risks alone; the function warns in that case, because ignoring an
+unobserved risk understates the cost.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -99,12 +122,14 @@ construction project risk management. No. 172534. Cham, Switzerland: Springer, 2
 <span class="r-in"><span><span class="va">means_given_risks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10000</span>, <span class="fl">15000</span>, <span class="fl">5000</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sds_given_risks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1000</span>, <span class="fl">1000</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">base_cost</span> <span class="op">&lt;-</span> <span class="fl">2000</span></span></span>
+<span class="r-in"><span><span class="co"># The second risk is unobserved, so it is drawn from its prior probability.</span></span></span>
 <span class="r-in"><span><span class="va">posterior_samples</span> <span class="op">&lt;-</span> <span class="fu">cost_post_pdf</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  num_sims <span class="op">=</span> <span class="va">num_sims</span>,</span></span>
 <span class="r-in"><span>  observed_risks <span class="op">=</span> <span class="va">observed_risks</span>,</span></span>
 <span class="r-in"><span>  means_given_risks <span class="op">=</span> <span class="va">means_given_risks</span>,</span></span>
 <span class="r-in"><span>  sds_given_risks <span class="op">=</span> <span class="va">sds_given_risks</span>,</span></span>
-<span class="r-in"><span>  base_cost <span class="op">=</span> <span class="va">base_cost</span></span></span>
+<span class="r-in"><span>  base_cost <span class="op">=</span> <span class="va">base_cost</span>,</span></span>
+<span class="r-in"><span>  risk_probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">posterior_samples</span>, breaks <span class="op">=</span> <span class="fl">30</span>, col <span class="op">=</span> <span class="st">"skyblue"</span>, main <span class="op">=</span> <span class="st">"Posterior Cost PDF"</span>, xlab <span class="op">=</span> <span class="st">"Cost"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="cost_post_pdf-1.png" alt="" width="700" height="433"></span>

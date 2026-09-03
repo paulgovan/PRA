@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">PRA</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,9 +16,13 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/pra.html">Quantitative Project Risk Analysis with PRA</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
-      </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
+      </ul><ul class="navbar-nav"><li class="nav-item"><a class="nav-link btn btn-warning text-dark ms-2" href="https://paulgovan.github.io/PRA/book/"><span class="fa fa-book"></span> Read the Book</a></li>
+<li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/paulgovan/PRA/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
@@ -32,70 +36,13 @@
     </div>
 
     <div class="section ">
-      <h3>Second Moment Analysis</h3>
+      <h3>All vignettes</h3>
       <div class="section-desc"></div>
 
-      <dl><dt><a href="SMM.html">Second Moment Method</a></dt>
+      <dl><dt><a href="pra.html">Quantitative Project Risk Analysis with PRA</a></dt>
         <dd>
       </dd></dl></div>
-    <div class="section ">
-      <h3>Monte Carlo Simulation</h3>
-      <div class="section-desc"></div>
-
-      <dl><dt><a href="MCS.html">Monte Carlo Simulation</a></dt>
-        <dd>
-      </dd></dl></div>
-    <div class="section ">
-      <h3>Learning Curves</h3>
-      <div class="section-desc"></div>
-
-      <dl><dt><a href="sigmoidal.html">Learning Curves</a></dt>
-        <dd>
-      </dd></dl></div>
-    <div class="section ">
-      <h3>Earned Value Management</h3>
-      <div class="section-desc"></div>
-
-      <dl><dt><a href="evm.html">Earned Value Management</a></dt>
-        <dd>
-      </dd></dl></div>
-    <div class="section ">
-      <h3>Bayesian Methods</h3>
-      <div class="section-desc"></div>
-
-      <dl><dt><a href="Bayes.html">Bayesian Methods</a></dt>
-        <dd>
-      </dd></dl></div>
-    <div class="section ">
-      <h3>Design Structure Matrices</h3>
-      <div class="section-desc"></div>
-
-      <dl><dt><a href="DSM.html">Design Structure Matrices</a></dt>
-        <dd>
-      </dd></dl></div>
-    <div class="section ">
-      <h3>Probabilistic Networks</h3>
-      <div class="section-desc"></div>
-
-      <dl><dt><a href="network.html">Probabilistic Networks</a></dt>
-        <dd>
-      </dd></dl></div>
-    <div class="section ">
-      <h3>Probabilistic Networks Expanded</h3>
-      <div class="section-desc"></div>
-
-      <dl><dt><a href="network2.html">Probabilistic Networks for Project Portfolio Risk Analysis</a></dt>
-        <dd>
-      </dd></dl></div>
-    <div class="section ">
-      <h3>Agentic Risk Analysis</h3>
-      <div class="section-desc"></div>
-
-      <dl><dt><a href="agent.html">Agentic Risk Analysis</a></dt>
-        <dd>
-      </dd></dl></div>
-  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
-    </nav></aside></div>
+  </main></div>
 
 
     <footer><div class="pkgdown-footer-left">
@@ -103,7 +50,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

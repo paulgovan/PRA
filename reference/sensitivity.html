@@ -15,7 +15,7 @@ is provided."><meta property="og:image" content="https://paulgovan.github.io/PRA
 
     <a class="navbar-brand me-2" href="../index.html">PRA</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,6 +24,10 @@ is provided."><meta property="og:image" content="https://paulgovan.github.io/PRA
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/pra.html">Quantitative Project Risk Analysis with PRA</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="nav-link btn btn-warning text-dark ms-2" href="https://paulgovan.github.io/PRA/book/"><span class="fa fa-book"></span> Read the Book</a></li>
 <li class="nav-item"><form class="form-inline" role="search">
@@ -73,8 +77,13 @@ provided, tasks are assumed to be independent.</p></dd>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>The function returns a vector of sensitivity results with respect to
-each task. Each element in the vector corresponds to the sensitivity of the variance
-in total project cost with respect to the variance in the respective task's cost.</p>
+each task. Each element is that task's contribution (own variance plus its
+covariance with all other tasks) to total project variance, expressed as a
+proportion of total variance. The elements sum to 1 by construction.
+Individual elements can be negative when a task is negatively correlated
+with the others, because its covariance term then offsets its own variance;
+a warning is issued when this occurs, and such an index has no tornado-chart
+reading.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -101,7 +110,7 @@ construction project risk management. No. 172534. Cham, Switzerland: Springer, 2
 <span class="r-in"><span><span class="co"># Calculate the sensitivity of each task and print the results</span></span></span>
 <span class="r-in"><span><span class="va">sensitivity_results</span> <span class="op">&lt;-</span> <span class="fu">sensitivity</span><span class="op">(</span><span class="va">task_dists</span>, <span class="va">cor_mat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">sensitivity_results</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.6 2.8 2.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3995589 0.4242807 0.1761604</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Build a vertical barchart and display the results.</span></span></span>
 <span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
@@ -118,7 +127,7 @@ construction project risk management. No. 172534. Cham, Switzerland: Springer, 2
 <span class="r-in"><span><span class="co"># Without correlation matrix</span></span></span>
 <span class="r-in"><span><span class="va">sensitivity_results_indep</span> <span class="op">&lt;-</span> <span class="fu">sensitivity</span><span class="op">(</span><span class="va">task_dists</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">sensitivity_results_indep</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4210526 0.4385965 0.1403509</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Build a vertical barchart and display the results.</span></span></span>
 <span class="r-in"><span><span class="va">data_indep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>

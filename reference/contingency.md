@@ -63,7 +63,7 @@ results <- mcs(num_sims, task_dists, cor_mat)
 # Calculate the contingency and print the results.
 contingency <- contingency(results, phigh = 0.95, pbase = 0.50)
 cat("Contingency based on 95th percentile and 50th percentile:", contingency)
-#> Contingency based on 95th percentile and 50th percentile: 7.16385
+#> Contingency based on 95th percentile and 50th percentile: 6.850275
 
 # Without correlation matrix
 results_indep <- mcs(num_sims, task_dists)
@@ -74,7 +74,7 @@ contingency_indep <- contingency(results_indep,
 cat("Contingency based on 95th percentile and 50th percentile (
 independent tasks):", contingency_indep)
 #> Contingency based on 95th percentile and 50th percentile (
-#> independent tasks): 5.055187
+#> independent tasks): 4.992183
 
 # Build a barplot to visualize the contingency results.
 contingency_data <- data.frame(

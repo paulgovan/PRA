@@ -1,7 +1,7 @@
 # Perform Bayesian Learning on a Probabilistic Network of Project Risks.
 
-**Experimental.** This function is part of the experimental
-probabilistic network module and the API may change in future versions.
+This function is part of the probabilistic network module, whose API may
+still evolve in future versions.
 
 ## Usage
 
@@ -37,18 +37,24 @@ generate posterior distributions for unobserved nodes. The function
 supports normal, uniform, lognormal, conditional continuous, conditional
 discrete, discrete, and aggregate (summation) node types.
 
-Normal nodes are sampled from a normal distribution using the specified
-mean and sd. Uniform nodes are sampled from a uniform distribution
-between the specified min and max values. Lognormal nodes are sampled
-from a lognormal distribution with specified meanlog and sdlog.
-Conditional nodes depend on a discrete conditional node; if the
-condition is TRUE (value = 1), the node follows the `true_dist`,
-otherwise it follows the `false_dist` (value = 0). Conditional
-distributions can be normal, lognormal, uniform, or discrete. Discrete
-nodes are sampled using
-[`sample()`](https://rdrr.io/r/base/sample.html), and aggregate nodes
-are computed as the sum of values from the specified nodes. Observed
-nodes are fixed at their given values.
+Conditioning is performed by rejection sampling: the network is
+simulated forward from its priors (as in
+[`prob_net_sim()`](https://paulgovan.github.io/PRA/reference/prob_net_sim.md))
+and only the draws whose observed nodes equal the supplied values are
+retained, repeating until `num_samples` matching draws are collected.
+Because whole joint draws are filtered, evidence propagates to
+*upstream* (parent and confounding) nodes as well as downstream ones.
+This distinguishes observational conditioning ("seeing", the sense of
+\[Pearl 2009\]) from intervention ("doing"): only when the observed node
+is a root cause with no shared ancestry do `prob_net_learn()` and
+[`prob_net_update()`](https://paulgovan.github.io/PRA/reference/prob_net_update.md)
+induce the same distribution.
+
+Because matches are exact, observations are supported on discrete (or
+discrete-conditional) nodes; observing a continuous node has probability
+zero of an exact match and will raise an error. Nodes not listed in
+`observations` retain their model distributions. If `observations` is
+empty the result is a plain forward simulation.
 
 ## Examples
 
@@ -62,9 +68,9 @@ nodes <- data.frame(
 
 # Define links
 links <- data.frame(
-  source = c("A", "A", "B", "C"),
-  target = c("B", "C", "D", "D"),
-  weight = c(1, 2, 3, 4),
+  source = c("A", "B", "C"),
+  target = c("C", "D", "D"),
+  weight = c(1, 2, 3),
   stringsAsFactors = FALSE
 )
 
@@ -87,11 +93,11 @@ graph <- prob_net(nodes, links, distributions = distributions)
 observations <- list(A = 1)
 updated_results <- prob_net_learn(graph, observations, num_samples = 1000)
 head(updated_results)
-#>   A        B         C        D
-#> 1 1 1.367026 1.1991160 2.566142
-#> 2 1 1.547887 1.7156286 3.263515
-#> 3 1 2.615949 1.1159436 3.731892
-#> 4 1 1.908410 1.0086158 2.917026
-#> 5 1 2.306369 0.7454623 3.051831
-#> 6 1 1.833783 0.7003983 2.534182
+#>   A        B        C        D
+#> 1 1 2.103534 1.161956 3.265489
+#> 2 1 1.053238 1.395591 2.448829
+#> 3 1 2.355251 0.577767 2.933018
+#> 4 1 1.899903 1.503502 3.403405
+#> 5 1 1.966782 1.190242 3.157024
+#> 6 1 1.869244 1.288280 3.157524
 ```

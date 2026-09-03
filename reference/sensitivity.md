@@ -29,9 +29,13 @@ sensitivity(task_dists, cor_mat = NULL)
 ## Value
 
 The function returns a vector of sensitivity results with respect to
-each task. Each element in the vector corresponds to the sensitivity of
-the variance in total project cost with respect to the variance in the
-respective task's cost.
+each task. Each element is that task's contribution (own variance plus
+its covariance with all other tasks) to total project variance,
+expressed as a proportion of total variance. The elements sum to 1 by
+construction. Individual elements can be negative when a task is
+negatively correlated with the others, because its covariance term then
+offsets its own variance; a warning is issued when this occurs, and such
+an index has no tornado-chart reading.
 
 ## References
 
@@ -59,7 +63,7 @@ cor_mat <- matrix(c(
 # Calculate the sensitivity of each task and print the results
 sensitivity_results <- sensitivity(task_dists, cor_mat)
 print(sensitivity_results)
-#> [1] 2.6 2.8 2.4
+#> [1] 0.3995589 0.4242807 0.1761604
 
 # Build a vertical barchart and display the results.
 data <- data.frame(
@@ -76,7 +80,7 @@ title("Sensitivity Analysis of Project Tasks")
 # Without correlation matrix
 sensitivity_results_indep <- sensitivity(task_dists)
 print(sensitivity_results_indep)
-#> [1] 1 1 1
+#> [1] 0.4210526 0.4385965 0.1403509
 
 # Build a vertical barchart and display the results.
 data_indep <- data.frame(

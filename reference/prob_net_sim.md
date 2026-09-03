@@ -1,7 +1,7 @@
 # Perform Inference on a Probabilistic Network of Project Risks.
 
-**Experimental.** This function is part of the experimental
-probabilistic network module and the API may change in future versions.
+This function is part of the probabilistic network module, whose API may
+still evolve in future versions.
 
 ## Usage
 
@@ -52,9 +52,9 @@ nodes <- data.frame(
 
 # Define links
 links <- data.frame(
-  source = c("A", "A", "B", "C"),
-  target = c("B", "C", "D", "D"),
-  weight = c(1, 2, 3, 4),
+  source = c("A", "B", "C"),
+  target = c("C", "D", "D"),
+  weight = c(1, 2, 3),
   stringsAsFactors = FALSE
 )
 
@@ -77,10 +77,10 @@ graph <- prob_net(nodes, links, distributions = distributions)
 simulation_results <- prob_net_sim(graph, num_samples = 1000)
 head(simulation_results)
 #>   A        B         C        D
-#> 1 0 2.632828 1.2800643 3.912892
-#> 2 0 2.136925 0.8742384 3.011163
-#> 3 1 2.061801 0.4948598 2.556660
-#> 4 1 3.071179 0.6901287 3.761308
-#> 5 0 2.128071 0.6155347 2.743605
-#> 6 0 2.742112 0.7712645 3.513377
+#> 1 0 2.148637 1.0048519 3.153488
+#> 2 0 2.825095 1.1039606 3.929055
+#> 3 1 1.055200 0.6251432 1.680343
+#> 4 0 2.612844 0.8892656 3.502109
+#> 5 0 2.510442 0.9257675 3.436210
+#> 6 0 2.097202 0.9320321 3.029234
 ```

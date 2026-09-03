@@ -12,13 +12,13 @@ Source:
 
 Govan P (2026). *PRA: Project Risk Analysis*.
 [doi:10.32614/CRAN.package.PRA](https://doi.org/10.32614/CRAN.package.PRA).
-R package version 0.4.0, <https://cran.r-project.org/package=PRA>.
+R package version 0.7.0, <https://cran.r-project.org/package=PRA>.
 
     @Manual{,
-      title = {PRA: Project Risk Analysis},
+      title = {{PRA}: Project Risk Analysis},
       author = {Paul Govan},
       year = {2026},
-      note = {R package version 0.4.0},
+      note = {R package version 0.7.0},
       url = {https://cran.r-project.org/package=PRA},
       doi = {10.32614/CRAN.package.PRA},
     }

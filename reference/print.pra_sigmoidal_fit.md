@@ -38,6 +38,7 @@ fit <- fit_sigmoidal(data, "time", "completion", "logistic")
 # Print the model summary
 print(fit)
 #> Sigmoidal Model Fit Summary:
+#> Model type: logistic 
 #> 
 #> Formula: y ~ logistic(x, K, r, t0)
 #> 

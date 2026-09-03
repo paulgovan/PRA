@@ -8,8 +8,8 @@ designed to help project analysts assess and manage risks associated
 with project schedules, costs, and performance.
 
 PRA can be used as a traditional R package with direct function calls,
-or driven by AI agents: every analytical function is exposed as a tool
-over the [Model Context Protocol
+or driven by AI agents: the core analytical functions are exposed as
+tools over the [Model Context Protocol
 (MCP)](https://modelcontextprotocol.io), and the package ships a set of
 Agent Skills that tell an agent when and how to call each tool.
 
@@ -41,7 +41,11 @@ Agent Skills that tell an agent when and how to call each tool.
 
 - **MCP server** —
   [`pra_mcp_server()`](https://paulgovan.github.io/PRA/reference/pra_mcp_server.md)
-  exposes every analytical function as a tool over the [Model Context
+  exposes the core analytical functions (Monte Carlo simulation, the
+  second moment method, contingency and sensitivity analysis, earned
+  value management, noisy-OR risk inference and updating, cost
+  distributions, learning curves, and design structure matrices) as
+  tools over the [Model Context
   Protocol](https://modelcontextprotocol.io), callable from Claude,
   Claude Code, and other MCP-compatible clients
 - **Agent Skills** — bundled `SKILL.md` files (under
@@ -125,7 +129,10 @@ hist(results$total_distribution,
 curve(dnorm(x, mean = results$total_mean, sd = results$total_sd), add = TRUE, col = "darkblue")
 ```
 
-![](reference/figures/README-unnamed-chunk-5-1.png)
+![plot of chunk
+unnamed-chunk-5](reference/figures/README-unnamed-chunk-5-1.png)
+
+plot of chunk unnamed-chunk-5
 
 This will give you a visual representation of the uncertainty in the
 total project duration based on the individual task distributions. On
@@ -166,6 +173,17 @@ list.files(system.file("skills", package = "PRA"))
 ```
 
 ## More Resources
+
+For a complete walkthrough of every module, with worked examples and an
+end-to-end case study, see the vignette:
+
+``` r
+
+vignette("pra", package = "PRA")
+```
+
+It is also available online at
+<https://paulgovan.github.io/PRA/articles/pra.html>.
 
 This project was inspired by the book [Data Analysis for Engineering and
 Project Risk Managment](https://doi.org/10.1007/978-3-030-14251-3) by

@@ -22,7 +22,7 @@ print(x, ...)
 
 ## Value
 
-None. Prints the results to the console.
+Invisibly returns `x`.
 
 ## Examples
 

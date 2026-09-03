@@ -2,8 +2,12 @@
 
 This function computes the Risk-based 'Grandparent' Design Structure
 Matrix (DSM) from given Resource-Task Matrix 'S' and Risk-Resource
-Matrix 'R'. The 'Grandparent' DSM indicates the number of risks shared
-between each pair of tasks in a project.
+Matrix 'R'. The 'Grandparent' DSM scores the risk exposure that each
+pair of tasks shares through the resource chain. Entry \\G\_{jk}\\ sums,
+over risks, the product of the risk-to-task path counts \\(RS)\_{ij}\\
+and \\(RS)\_{ik}\\, so a shared risk is weighted by the number of common
+resources carrying it; this reduces to a plain count of shared risks
+only when \\RS\\ is binary.
 
 ## Usage
 
@@ -29,8 +33,8 @@ An S3 object of class `"dsm"` with the following components:
 
 - matrix:
 
-  The Risk-based 'Grandparent' DSM giving the number of risks shared
-  between each task.
+  The Risk-based 'Grandparent' DSM giving the shared risk-exposure score
+  for each task pair.
 
 - type:
 

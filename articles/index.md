@@ -1,45 +1,6 @@
 # Articles
 
-### Second Moment Analysis
+### All vignettes
 
-- [Second Moment
-  Method](https://paulgovan.github.io/PRA/articles/SMM.md):
-
-### Monte Carlo Simulation
-
-- [Monte Carlo
-  Simulation](https://paulgovan.github.io/PRA/articles/MCS.md):
-
-### Learning Curves
-
-- [Learning
-  Curves](https://paulgovan.github.io/PRA/articles/sigmoidal.md):
-
-### Earned Value Management
-
-- [Earned Value
-  Management](https://paulgovan.github.io/PRA/articles/evm.md):
-
-### Bayesian Methods
-
-- [Bayesian Methods](https://paulgovan.github.io/PRA/articles/Bayes.md):
-
-### Design Structure Matrices
-
-- [Design Structure
-  Matrices](https://paulgovan.github.io/PRA/articles/DSM.md):
-
-### Probabilistic Networks
-
-- [Probabilistic
-  Networks](https://paulgovan.github.io/PRA/articles/network.md):
-
-### Probabilistic Networks Expanded
-
-- [Probabilistic Networks for Project Portfolio Risk
-  Analysis](https://paulgovan.github.io/PRA/articles/network2.md):
-
-### Agentic Risk Analysis
-
-- [Agentic Risk
-  Analysis](https://paulgovan.github.io/PRA/articles/agent.md):
+- [Quantitative Project Risk Analysis with
+  PRA](https://paulgovan.github.io/PRA/articles/pra.md):

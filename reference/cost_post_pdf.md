@@ -14,7 +14,8 @@ cost_post_pdf(
   observed_risks,
   means_given_risks,
   sds_given_risks,
-  base_cost = 0
+  base_cost = 0,
+  risk_probs = NULL
 )
 ```
 
@@ -43,10 +44,29 @@ cost_post_pdf(
 
   The baseline cost given no risk event occurs.
 
+- risk_probs:
+
+  Optional vector of prior probabilities for each risk event, used to
+  draw the risks left unobserved (`NA`) in `observed_risks`. If `NULL`
+  (default), unobserved risks are treated as not occurring and a warning
+  is issued.
+
 ## Value
 
 A numeric vector of random samples from the posterior distribution of
 costs.
+
+## Details
+
+An observed risk is fixed: a risk observed to have occurred always
+contributes its cost, and one observed not to have occurred never does.
+An unobserved risk (`NA`) is drawn from its prior probability when
+`risk_probs` is supplied, which is the same treatment
+[`risk_post_prob()`](https://paulgovan.github.io/PRA/reference/risk_post_prob.md)
+gives an unobserved cause. When `risk_probs` is `NULL` there is no prior
+to draw from, so unobserved risks contribute nothing and the result is a
+posterior over the observed risks alone; the function warns in that
+case, because ignoring an unobserved risk understates the cost.
 
 ## References
 
@@ -63,12 +83,14 @@ observed_risks <- c(1, NA, 1)
 means_given_risks <- c(10000, 15000, 5000)
 sds_given_risks <- c(2000, 1000, 1000)
 base_cost <- 2000
+# The second risk is unobserved, so it is drawn from its prior probability.
 posterior_samples <- cost_post_pdf(
   num_sims = num_sims,
   observed_risks = observed_risks,
   means_given_risks = means_given_risks,
   sds_given_risks = sds_given_risks,
-  base_cost = base_cost
+  base_cost = base_cost,
+  risk_probs = c(0.3, 0.5, 0.2)
 )
 hist(posterior_samples, breaks = 30, col = "skyblue", main = "Posterior Cost PDF", xlab = "Cost")
 ```

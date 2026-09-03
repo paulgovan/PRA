@@ -18,17 +18,23 @@ cor_matrix(num_samples = 100, num_vars = 5, dists)
 
 - num_vars:
 
-  The number of distributions to sample.
+  The number of distributions to sample. The first `num_vars` elements
+  of `dists` are used.
 
 - dists:
 
   A list describing each distribution. Each element should be a function
-  that generates random samples. The names of the list elements will be
-  used to identify the distributions.
+  that generates random samples. The names of the list elements are used
+  to label the rows and columns of the result.
 
 ## Value
 
-The function returns the correlation matrix for the distributions.
+The function returns the correlation matrix for the distributions, with
+rows and columns named after the distributions they were drawn from.
+Because the columns are sampled independently, the off-diagonal entries
+are sampling noise about zero: this generates correctly shaped,
+positive-definite input for testing and for a near-independent baseline,
+and is not an estimator of dependence between tasks.
 
 ## References
 
@@ -53,10 +59,10 @@ cor_matrix <- cor_matrix(num_samples = 100, num_vars = 5, dists = dists)
 
 # Print correlation matrix
 print(cor_matrix)
-#>             [,1]        [,2]        [,3]        [,4]        [,5]
-#> [1,]  1.00000000 -0.10967615 -0.09830084 -0.09427454 -0.12992432
-#> [2,] -0.10967615  1.00000000 -0.09794341 -0.01927946 -0.02293894
-#> [3,] -0.09830084 -0.09794341  1.00000000  0.02556913  0.13055368
-#> [4,] -0.09427454 -0.01927946  0.02556913  1.00000000  0.10994306
-#> [5,] -0.12992432 -0.02293894  0.13055368  0.10994306  1.00000000
+#>                 normal     uniform exponential     poisson    binomial
+#> normal      1.00000000  0.06473076  0.05224556  0.27937665  0.03459448
+#> uniform     0.06473076  1.00000000  0.05646605 -0.05419664 -0.01709332
+#> exponential 0.05224556  0.05646605  1.00000000 -0.17056880 -0.10869859
+#> poisson     0.27937665 -0.05419664 -0.17056880  1.00000000  0.11908758
+#> binomial    0.03459448 -0.01709332 -0.10869859  0.11908758  1.00000000
 ```
