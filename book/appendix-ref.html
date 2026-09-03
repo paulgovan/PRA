@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,10 +12,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -76,14 +79,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-6b6957c917596b414ec0b78690761e87.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-bb62276ab45c84d9efd712f51ff97b5a.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-5a1953863e1f72ef3b996ef827f01ca7.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-bb62276ab45c84d9efd712f51ff97b5a.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-215b16a4c87333eecbfc087721f4b364.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-e9b94c5c92cfde000641fbcd395a1216.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-215b16a4c87333eecbfc087721f4b364.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-d4a8b15a3225db039fdc9185e4bb97cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-37179dbf9f58441ac1d15c5010e1dbb4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-d4a8b15a3225db039fdc9185e4bb97cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -309,25 +312,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/paulgovan/PRA" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
     <div class="dropdown">
-      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Download"><i class="bi bi-download"></i></a>
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
-          <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="./Project-Risk-Analysis--A-Practical-Guide.pdf">
-              <i class="bi bi-file-pdf pe-1"></i>
-            Download PDF
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="./Project-Risk-Analysis--A-Practical-Guide.epub">
-              <i class="bi bi-journal pe-1"></i>
-            Download ePub
-            </a>
-          </li>
-      </ul>
-    </div>
-    <div class="dropdown">
-      <a href="" title="Share" id="quarto-navigation-tool-dropdown-1" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
-      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-1">
           <li>
             <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
               <i class="bi bi-twitter pe-1"></i>
@@ -550,8 +536,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>mcs(task_dists*, n, cor_mat)</code></td>
-<td><code>task_dists</code> list of distribution specs; <code>n</code> simulations (default 10 000); optional correlation matrix</td>
+<td><code>mcs(num_sims*, task_dists*, cor_mat)</code></td>
+<td><code>num_sims</code> number of simulations; <code>task_dists</code> list of distribution specs; optional correlation matrix</td>
 <td>S3 object of class <code>mcs</code> with <code>$simulations</code> matrix, <code>$total_distribution</code>, percentiles</td>
 <td><a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a></td>
 </tr>
@@ -588,8 +574,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>smm(means*, vars*)</code></td>
-<td>Numeric vectors of task means and variances</td>
+<td><code>smm(mean*, var*, cor_mat)</code></td>
+<td>Numeric vectors of task means and variances; optional correlation matrix</td>
 <td>S3 object of class <code>smm</code> with <code>$total_mean</code>, <code>$total_var</code>, <code>$total_sd</code></td>
 <td><a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a></td>
 </tr>
@@ -685,20 +671,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>pv(bac*, schedule*, period*)</code></td>
+<td><code>pv(bac*, schedule*, time_period*)</code></td>
 <td>Budget at completion; cumulative schedule proportions; current period (1-based)</td>
 <td>Planned Value</td>
 <td><a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a></td>
 </tr>
 <tr class="even">
-<td><code>ev(bac*, complete*)</code></td>
+<td><code>ev(bac*, actual_per_complete*)</code></td>
 <td>Budget at completion; fraction complete (0–1)</td>
 <td>Earned Value</td>
 <td><a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a></td>
 </tr>
 <tr class="odd">
-<td><code>ac(costs*, period*)</code></td>
-<td>Vector of actual costs per period; current period</td>
+<td><code>ac(actual_costs*, time_period*, cumulative)</code></td>
+<td>Vector of actual costs per period; current period; whether <code>actual_costs</code> is already cumulative (default <code>TRUE</code>)</td>
 <td>Actual Cost</td>
 <td><a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a></td>
 </tr>
@@ -727,20 +713,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a></td>
 </tr>
 <tr class="even">
-<td><code>eac(bac*, ac*, ev*, method)</code></td>
-<td>BAC, AC, EV; <code>method</code> = “typical” / “atypical” / “combined”</td>
+<td><code>eac(bac*, method, cpi, ac, ev, spi)</code></td>
+<td>BAC; <code>method</code> = “typical” / “atypical” / “combined” (default “typical”); <code>cpi</code> required for typical; <code>ac</code>/<code>ev</code> required for atypical; <code>cpi</code>/<code>ac</code>/<code>ev</code>/<code>spi</code> required for combined</td>
 <td>Estimate at Completion</td>
 <td><a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a></td>
 </tr>
 <tr class="odd">
-<td><code>etc(eac*, ac*)</code></td>
-<td>Estimate at Completion; Actual Cost</td>
-<td>Estimate to Complete (EAC − AC)</td>
+<td><code>etc(bac*, ev*, cpi)</code></td>
+<td>Budget at Completion; Earned Value; Cost Performance Index</td>
+<td>Estimate to Complete</td>
 <td><a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a></td>
 </tr>
 <tr class="even">
-<td><code>tcpi(bac*, ev*, eac*)</code></td>
-<td>BAC, EV, EAC</td>
+<td><code>tcpi(bac*, ev*, ac*, target, eac)</code></td>
+<td>BAC, EV, AC; <code>target</code> = “bac” or “eac” (default “bac”); <code>eac</code> required when <code>target = "eac"</code></td>
 <td>To-Complete Performance Index</td>
 <td><a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a></td>
 </tr>
@@ -807,20 +793,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>fit_sigmoidal(x*, y*, model)</code></td>
-<td><code>x</code> time vector; <code>y</code> response vector; <code>model</code> = “logistic” / “gompertz” / “pearl”</td>
-<td>List with fitted model object, coefficients, RSE</td>
+<td><code>fit_sigmoidal(data*, x_col*, y_col*, model_type*)</code></td>
+<td><code>data</code> a data frame; <code>x_col</code>/<code>y_col</code> column names as strings; <code>model_type</code> = “logistic” / “gompertz” / “pearl”</td>
+<td>Fitted <code>nls</code> model object</td>
 <td><a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a></td>
 </tr>
 <tr class="even">
-<td><code>predict_sigmoidal(fit*, newx*)</code></td>
-<td>Object from <code>fit_sigmoidal()</code>; new x values</td>
-<td>Numeric vector of predictions</td>
+<td><code>predict_sigmoidal(fit*, x_range*, model_type*, conf_level)</code></td>
+<td>Object from <code>fit_sigmoidal()</code>; new x values; model type; optional confidence level</td>
+<td>Data frame of predictions (with confidence bounds if <code>conf_level</code> set)</td>
 <td><a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a></td>
 </tr>
 <tr class="odd">
-<td><code>plot_sigmoidal(fit*, x*, y*)</code></td>
-<td>Object from <code>fit_sigmoidal()</code>; original data</td>
+<td><code>plot_sigmoidal(fit*, data*, x_col*, y_col*, model_type*, conf_level)</code></td>
+<td>Object from <code>fit_sigmoidal()</code>; original data frame and column names; model type; optional confidence level</td>
 <td>Plot of fitted curve with confidence band</td>
 <td><a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a></td>
 </tr>
@@ -849,18 +835,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td><code>parent_dsm(S*)</code></td>
 <td>Resource-Task matrix S (resources × tasks, binary)</td>
-<td>S3 object of class <code>parent_dsm</code>; <code>$matrix</code> is tasks × tasks</td>
+<td>S3 object of class <code>dsm</code> (<code>$type</code> is <code>"parent"</code>); <code>$matrix</code> is tasks × tasks</td>
 <td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a></td>
 </tr>
 <tr class="even">
 <td><code>grandparent_dsm(S*, R*)</code></td>
 <td>Resource-Task matrix S; Risk-Resource matrix R (risks × resources, binary)</td>
-<td>S3 object of class <code>grandparent_dsm</code>; <code>$matrix</code> is tasks × tasks</td>
+<td>S3 object of class <code>dsm</code> (<code>$type</code> is <code>"grandparent"</code>); <code>$matrix</code> is tasks × tasks</td>
 <td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a></td>
 </tr>
 </tbody>
 </table>
-<p>Both objects have <code>print()</code> and <code>plot()</code> methods.</p>
+<p>Both constructors return an object of class <code>dsm</code>, which has <code>print()</code>, <code>summary()</code> and <code>plot()</code> methods.</p>
 <hr>
 </section>
 <section id="probabilistic-networks" class="level2" data-number="C.9">
@@ -1060,16 +1046,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
     function toggleCodeHandler(show) {
       return function(e) {
-        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
-        for (let i=0; i<detailsSrc.length; i++) {
-          const details = detailsSrc[i].parentElement;
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
           if (show) {
             details.open = true;
           } else {
             details.removeAttribute("open");
           }
         }
-        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
         const fromCls = show ? "hidden" : "unhidden";
         const toCls = show ? "unhidden" : "hidden";
         for (let i=0; i<cellCodeDivs.length; i++) {
@@ -1439,7 +1425,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`mcs(task_dists*, n, cor_mat)`</span> <span class="pp">|</span> <span class="in">`task_dists`</span> list of distribution specs; <span class="in">`n`</span> simulations (default 10 000); optional correlation matrix <span class="pp">|</span> S3 object of class <span class="in">`mcs`</span> with <span class="in">`$simulations`</span> matrix, <span class="in">`$total_distribution`</span>, percentiles <span class="pp">|</span> @sec-mcs <span class="pp">|</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`mcs(num_sims*, task_dists*, cor_mat)`</span> <span class="pp">|</span> <span class="in">`num_sims`</span> number of simulations; <span class="in">`task_dists`</span> list of distribution specs; optional correlation matrix <span class="pp">|</span> S3 object of class <span class="in">`mcs`</span> with <span class="in">`$simulations`</span> matrix, <span class="in">`$total_distribution`</span>, percentiles <span class="pp">|</span> @sec-mcs <span class="pp">|</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`print.mcs(x)`</span> <span class="pp">|</span> <span class="in">`x`</span> an <span class="in">`mcs`</span> object <span class="pp">|</span> Console summary of P50/P80/P95 and task means <span class="pp">|</span> @sec-mcs <span class="pp">|</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>**Distribution spec format** (used by <span class="in">`mcs()`</span>, <span class="in">`sensitivity()`</span>, <span class="in">`smm()`</span>):</span>
@@ -1456,7 +1442,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
 <span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`smm(means*, vars*)`</span> <span class="pp">|</span> Numeric vectors of task means and variances <span class="pp">|</span> S3 object of class <span class="in">`smm`</span> with <span class="in">`$total_mean`</span>, <span class="in">`$total_var`</span>, <span class="in">`$total_sd`</span> <span class="pp">|</span> @sec-smm <span class="pp">|</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`smm(mean*, var*, cor_mat)`</span> <span class="pp">|</span> Numeric vectors of task means and variances; optional correlation matrix <span class="pp">|</span> S3 object of class <span class="in">`smm`</span> with <span class="in">`$total_mean`</span>, <span class="in">`$total_var`</span>, <span class="in">`$total_sd`</span> <span class="pp">|</span> @sec-smm <span class="pp">|</span></span>
 <span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`print.smm(x)`</span> <span class="pp">|</span> <span class="in">`x`</span> an <span class="in">`smm`</span> object <span class="pp">|</span> Console summary of total mean, SD, and 95% CI <span class="pp">|</span> @sec-smm <span class="pp">|</span></span>
 <span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>---</span>
@@ -1484,16 +1470,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
 <span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pv(bac*, schedule*, period*)`</span> <span class="pp">|</span> Budget at completion; cumulative schedule proportions; current period (1-based) <span class="pp">|</span> Planned Value <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`ev(bac*, complete*)`</span> <span class="pp">|</span> Budget at completion; fraction complete (0–1) <span class="pp">|</span> Earned Value <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`ac(costs*, period*)`</span> <span class="pp">|</span> Vector of actual costs per period; current period <span class="pp">|</span> Actual Cost <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pv(bac*, schedule*, time_period*)`</span> <span class="pp">|</span> Budget at completion; cumulative schedule proportions; current period (1-based) <span class="pp">|</span> Planned Value <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`ev(bac*, actual_per_complete*)`</span> <span class="pp">|</span> Budget at completion; fraction complete (0–1) <span class="pp">|</span> Earned Value <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`ac(actual_costs*, time_period*, cumulative)`</span> <span class="pp">|</span> Vector of actual costs per period; current period; whether <span class="in">`actual_costs`</span> is already cumulative (default <span class="in">`TRUE`</span>) <span class="pp">|</span> Actual Cost <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
 <span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`sv(ev*, pv*)`</span> <span class="pp">|</span> Earned Value; Planned Value <span class="pp">|</span> Schedule Variance (EV − PV) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
 <span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`cv(ev*, ac*)`</span> <span class="pp">|</span> Earned Value; Actual Cost <span class="pp">|</span> Cost Variance (EV − AC) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
 <span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`spi(ev*, pv*)`</span> <span class="pp">|</span> Earned Value; Planned Value <span class="pp">|</span> Schedule Performance Index (EV / PV) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
 <span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`cpi(ev*, ac*)`</span> <span class="pp">|</span> Earned Value; Actual Cost <span class="pp">|</span> Cost Performance Index (EV / AC) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`eac(bac*, ac*, ev*, method)`</span> <span class="pp">|</span> BAC, AC, EV; <span class="in">`method`</span> = "typical" / "atypical" / "combined" <span class="pp">|</span> Estimate at Completion <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`etc(eac*, ac*)`</span> <span class="pp">|</span> Estimate at Completion; Actual Cost <span class="pp">|</span> Estimate to Complete (EAC − AC) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`tcpi(bac*, ev*, eac*)`</span> <span class="pp">|</span> BAC, EV, EAC <span class="pp">|</span> To-Complete Performance Index <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`eac(bac*, method, cpi, ac, ev, spi)`</span> <span class="pp">|</span> BAC; <span class="in">`method`</span> = "typical" / "atypical" / "combined" (default "typical"); <span class="in">`cpi`</span> required for typical; <span class="in">`ac`</span>/<span class="in">`ev`</span> required for atypical; <span class="in">`cpi`</span>/<span class="in">`ac`</span>/<span class="in">`ev`</span>/<span class="in">`spi`</span> required for combined <span class="pp">|</span> Estimate at Completion <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`etc(bac*, ev*, cpi)`</span> <span class="pp">|</span> Budget at Completion; Earned Value; Cost Performance Index <span class="pp">|</span> Estimate to Complete <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`tcpi(bac*, ev*, ac*, target, eac)`</span> <span class="pp">|</span> BAC, EV, AC; <span class="in">`target`</span> = "bac" or "eac" (default "bac"); <span class="in">`eac`</span> required when <span class="in">`target = "eac"`</span> <span class="pp">|</span> To-Complete Performance Index <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
 <span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`vac(bac*, eac*)`</span> <span class="pp">|</span> Budget at Completion; Estimate at Completion <span class="pp">|</span> Variance at Completion (BAC − EAC) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
 <span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>---</span>
@@ -1511,9 +1497,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
 <span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
-<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`fit_sigmoidal(x*, y*, model)`</span> <span class="pp">|</span> <span class="in">`x`</span> time vector; <span class="in">`y`</span> response vector; <span class="in">`model`</span> = "logistic" / "gompertz" / "pearl" <span class="pp">|</span> List with fitted model object, coefficients, RSE <span class="pp">|</span> @sec-sigmoidal <span class="pp">|</span></span>
-<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`predict_sigmoidal(fit*, newx*)`</span> <span class="pp">|</span> Object from <span class="in">`fit_sigmoidal()`</span>; new x values <span class="pp">|</span> Numeric vector of predictions <span class="pp">|</span> @sec-sigmoidal <span class="pp">|</span></span>
-<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`plot_sigmoidal(fit*, x*, y*)`</span> <span class="pp">|</span> Object from <span class="in">`fit_sigmoidal()`</span>; original data <span class="pp">|</span> Plot of fitted curve with confidence band <span class="pp">|</span> @sec-sigmoidal <span class="pp">|</span></span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`fit_sigmoidal(data*, x_col*, y_col*, model_type*)`</span> <span class="pp">|</span> <span class="in">`data`</span> a data frame; <span class="in">`x_col`</span>/<span class="in">`y_col`</span> column names as strings; <span class="in">`model_type`</span> = "logistic" / "gompertz" / "pearl" <span class="pp">|</span> Fitted <span class="in">`nls`</span> model object <span class="pp">|</span> @sec-sigmoidal <span class="pp">|</span></span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`predict_sigmoidal(fit*, x_range*, model_type*, conf_level)`</span> <span class="pp">|</span> Object from <span class="in">`fit_sigmoidal()`</span>; new x values; model type; optional confidence level <span class="pp">|</span> Data frame of predictions (with confidence bounds if <span class="in">`conf_level`</span> set) <span class="pp">|</span> @sec-sigmoidal <span class="pp">|</span></span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`plot_sigmoidal(fit*, data*, x_col*, y_col*, model_type*, conf_level)`</span> <span class="pp">|</span> Object from <span class="in">`fit_sigmoidal()`</span>; original data frame and column names; model type; optional confidence level <span class="pp">|</span> Plot of fitted curve with confidence band <span class="pp">|</span> @sec-sigmoidal <span class="pp">|</span></span>
 <span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a></span>
@@ -1521,10 +1507,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
 <span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
-<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`parent_dsm(S*)`</span> <span class="pp">|</span> Resource-Task matrix S (resources × tasks, binary) <span class="pp">|</span> S3 object of class <span class="in">`parent_dsm`</span>; <span class="in">`$matrix`</span> is tasks × tasks <span class="pp">|</span> @sec-dsm <span class="pp">|</span></span>
-<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`grandparent_dsm(S*, R*)`</span> <span class="pp">|</span> Resource-Task matrix S; Risk-Resource matrix R (risks × resources, binary) <span class="pp">|</span> S3 object of class <span class="in">`grandparent_dsm`</span>; <span class="in">`$matrix`</span> is tasks × tasks <span class="pp">|</span> @sec-dsm <span class="pp">|</span></span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`parent_dsm(S*)`</span> <span class="pp">|</span> Resource-Task matrix S (resources × tasks, binary) <span class="pp">|</span> S3 object of class <span class="in">`dsm`</span> (<span class="in">`$type`</span> is <span class="in">`"parent"`</span>); <span class="in">`$matrix`</span> is tasks × tasks <span class="pp">|</span> @sec-dsm <span class="pp">|</span></span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`grandparent_dsm(S*, R*)`</span> <span class="pp">|</span> Resource-Task matrix S; Risk-Resource matrix R (risks × resources, binary) <span class="pp">|</span> S3 object of class <span class="in">`dsm`</span> (<span class="in">`$type`</span> is <span class="in">`"grandparent"`</span>); <span class="in">`$matrix`</span> is tasks × tasks <span class="pp">|</span> @sec-dsm <span class="pp">|</span></span>
 <span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>Both objects have <span class="in">`print()`</span> and <span class="in">`plot()`</span> methods.</span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>Both constructors return an object of class <span class="in">`dsm`</span>, which has <span class="in">`print()`</span>, <span class="in">`summary()`</span> and <span class="in">`plot()`</span> methods.</span>
 <span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a></span>
