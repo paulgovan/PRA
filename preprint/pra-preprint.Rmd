@@ -2,7 +2,7 @@
 title: "Quantitative Project Risk Analysis with PRA"
 author: |
   | Paul Govan
-  | GE Aerospace, 3290 Patterson Ave SE, Grand Rapids, MI 49512, USA
+  | GE Aerospace
   | ORCID: [0000-0002-1821-8492](https://orcid.org/0000-0002-1821-8492)
 date: "`r format(Sys.Date(), '%d %B %Y')`"
 abstract: |
