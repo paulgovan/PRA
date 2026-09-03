@@ -1150,7 +1150,7 @@ decoupling decisions.
 
 **PRA** is an R package whose primary contribution is being the first package to unify the foundational methods of quantitative project risk analysis in a single, open-source framework of ten integrated analytical modules: SMM, MCS, contingency analysis, sensitivity analysis, EVM (11 metrics), noisy-OR risk inference and updating, cost risk distributions, sigmoidal learning curves, correlation matrix construction, and design structure matrices. The eleventh module applies probabilistic network methods to project risk, with forward simulation and Bayesian conditioning over a network of risks, resources, and tasks. 
 
-**PRA** also exposes its core analytical functions as tools over the Model Context Protocol, so that LLM agents can drive the package without any embedded model, the first project risk analysis package to do so. All exported functions are annotated against the rOpenSci SRR general standards, with a test suite verifying correctness, edge-case handling, and numerical stability across three operating systems. The package is licensed under MIT and the source is available at \url{https://github.com/paulgovan/PRA}; documentation and a companion online book are at \url{https://paulgovan.github.io/PRA/}.
+**PRA** also exposes its core analytical functions as tools over the Model Context Protocol, so that LLM agents can drive the package without any embedded model, the first project risk analysis package to do so. All exported functions are annotated against the rOpenSci SRR general standards, with a test suite verifying correctness, edge-case handling, and numerical stability across three operating systems. The package is licensed under MIT and the source is available at <https://github.com/paulgovan/PRA>; documentation and a companion online book are at <https://paulgovan.github.io/PRA/>.
 
 ## Limitations and Future Work
 
@@ -1170,10 +1170,10 @@ release.
 # Computational details {-}
 
 The results in this paper were produced using R [@RCore]
-with the **PRA** package (version 0.5.0) and its hard dependencies
+with the **PRA** package (version `r packageVersion("PRA")`) and its hard dependencies
 **mc2d** [@mc2d] and **minpack.lm** [@Elzhov2016]. The optional
 Model Context Protocol server additionally uses **ellmer** [@ellmer],
 **mcptools**, and **jsonlite**. R itself and all packages used
-are available from the CRAN at \url{https://CRAN.R-project.org/}. A random seed of 42 is set at the start of the session so that the simulation output is reproducible.
+are available from the CRAN at <https://CRAN.R-project.org/>. A random seed of 42 is set at the start of the session so that the simulation output is reproducible.
 
 # References {-}
