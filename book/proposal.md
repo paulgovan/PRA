@@ -1,264 +1,442 @@
 # Book Proposal
 
-*Drafted against O'Reilly's standard proposal sections. If the ORM template's
-headings differ, the content below maps onto them section for section.*
+## Chapman & Hall/CRC
 
-## 1. Proposed Title
+> **Drafting note — not part of the submission.** This is a first draft assembled
+> from the manuscript in this repository, following the Chapman & Hall/CRC
+> proposal form. Every figure, count, and title below was verified against the
+> source files. The form carries a notice asking that generative AI not be used
+> to create the proposal, so this draft is intended as a fact-checked scaffold to
+> be rewritten in the author's own voice before submission. Question 9 is left
+> for the author to answer personally. Delete this note before submitting.
 
-**Project Risk Analysis: A Practical Guide**
-Subtitle: *From Monte Carlo to AI Agents*
+## Title and Author(s)/Editor(s)
 
-## 2. Author
+**1. Provisional title of your book.**
 
-Paul Govan — paul.govan2@gmail.com — ORCID [0000-0002-1821-8492](https://orcid.org/0000-0002-1821-8492)
+Project Risk Analysis: A Practical Guide — From Monte Carlo to AI Agents
 
-## 3. Topic
+**2. Names, titles, affiliations, and email addresses for all authors/editors**
 
-This is a hands-on introduction to quantitative methods for managing uncertainty
-in project schedules and costs. It covers the techniques risk analysts actually
-use — Monte Carlo simulation, the second moment method, sensitivity analysis,
-earned value management, Bayesian inference, learning curves, design structure
-matrices, and probabilistic networks — and teaches each one through working R
-code built on the `PRA` package.
+Paul Govan, Senior Engineer, GE Aerospace, paul.govan2@gmail.com
 
-The book's argument is that project risk analysis has a tooling problem, not a
-theory problem. The mathematics has been settled for decades. What practitioners
-lack is a way to run these methods that is reproducible, auditable, and not a
-spreadsheet named `Final_v3_REVISED_use_this_one.xlsx` with three broken
-formulas. Every code block in the book executes at build time against the live
-package, so the numbers on the page are computed, not transcribed.
+## Contents
 
-The goal for the reader is concrete: take a project estimate, ask the right "what
-if" questions, and produce defensible numbers for schedule and cost contingency.
+**3. Please include a complete table of contents including chapter and section
+headings.**
 
-## 4. Why This Topic, Why Now
+Preface
+- What This Book Is About
+- Who This Book Is For
+- How to Use This Book
+- Getting Started
+- A Note on Tone
+- Why the PRA Package?
+- A Reproducible Book
+- How to Cite
+- License
+- Acknowledgements
 
-Two developments make this the right moment for this book.
+1\. Into the Unknown: An Introduction to Project Risk Analysis
+- What Is Project Risk?
+- The Quantitative Toolkit
+- How to Navigate This Book
+- A Map of the Methods
+- Installing the Package
+- A Note on Uncertainty About Uncertainty
+- Garbage In, Garbage Out
 
-**Reproducibility has become an expectation.** Risk estimates increasingly have
-to survive audit, and "trust the spreadsheet" no longer clears that bar. A
-literate-programming workflow — analysis and narrative in one document, rendered
-fresh on every build — is now standard practice in data-driven fields and is
-arriving in project controls. The book devotes a full chapter to building
-reproducible and parameterized risk reports in Quarto.
+2\. Roll the Dice: Monte Carlo Simulation
+- Learning Objectives
+- How Monte Carlo Simulation Works
+- The Five Steps of Monte Carlo Simulation
+- Example
+- Interpreting Percentiles
+- Contingency Analysis
+- Sensitivity Analysis
+- Summary
+- Key Takeaways
+- Exercises
 
-**AI agents can now drive analytical tooling directly.** The `PRA` package
-exposes its analytical functions as tools over the Model Context Protocol and
-ships Agent Skills that tell an agent when and how to call each one. A project
-manager can ask for a P95 date and a contingency reserve in plain language and
-get back real computed output rather than a plausible-sounding guess. To our
-knowledge no existing project-risk title covers this. It is the book's clearest
-differentiator, and the final chapter is devoted to it.
+3\. May I Have a (Second) Moment? The Second Moment Method
+- Learning Objectives
+- When to Use SMM
+- SMM vs. Monte Carlo: The Decision Rule
+- How It Works
+- Example
+- Implied Distribution and Confidence Interval
+- Comparison with Monte Carlo Simulation
+- What This Comparison Is Testing
+- Benefits and Limitations
+- Summary
+- Key Takeaways
+- Exercises
 
-Monte Carlo simulation is well-trodden ground and is treated here as table
-stakes. The distinctive contribution is the workflow wrapped around it:
-reproducible, tested, version-controllable, and agent-addressable.
+4\. Who's Driving? Sensitivity Analysis
+- Learning Objectives
+- What Is Sensitivity Analysis?
+- Sensitivity vs. Percentiles
+- Setup
+- Computing Sensitivity
+- Tornado Chart
+- With Correlated Tasks
+- Summary
+- Key Takeaways
+- Exercises
 
-## 5. Audience
+5\. Keeping Score: Earned Value Management
+- Learning Objectives
+- The Three Core Numbers
+- PV, EV, AC: The Foundation of Everything
+- Key Metrics
+- Example Setup
+- Forecasting: Estimate at Completion (EAC)
+- Additional Metrics
+- Performance Trend Chart
+- Summary
+- Key Takeaways
+- Exercises
 
-The primary readers are:
+6\. I Had a Feeling: Bayesian Risk Inference
+- Learning Objectives
+- The Core Idea
+- Bayes' Theorem in Plain English
+- Causal Structure
+- Step 1: Prior Risk Probability
+- Step 2: Prior Cost Distribution
+- Step 3: Posterior Risk Probability (Bayesian Update)
+- Step 4: Posterior Cost Distribution
+- The Workflow
+- Summary
+- Key Takeaways
+- Exercises
 
-- **Project managers** who want to move past gut-feel estimates and "10%
-  contingency, because that's what we always do"
-- **Engineers and analysts** who know statistics but have not applied it to
-  project risk
-- **Students** in construction management, systems engineering, and operations
-  research programs
-- **R users** who want practical, well-documented risk analysis workflows
+7\. S Is for Success: Sigmoidal Learning Curves
+- Learning Objectives
+- Why Sigmoidal?
+- The Three Models
+- Example: Fitting a Logistic Model
+- Comparing All Three Model Types
+- Logistic and Pearl Are the Same Model
+- The Workflow
+- Summary
+- Key Takeaways
+- Exercises
 
-**Assumed background:** basic probability — what a mean is, what a variance is —
-and passing familiarity with R. The reader does not need to be a statistician.
-Mathematical derivations are available in an appendix for readers who want them,
-so the main text stays readable without them.
+8\. It's a Small World After All: Probabilistic Networks
+- Learning Objectives
+- What Is a Bayesian Network?
+- Bayesian Network vs. DSM
+- Project Setup
+- Building the Bayesian Network
+- Inference: Forward Simulation
+- Learning: Incorporating New Evidence
+- Updating: Modifying the Network
+- The Four Core Functions
+- Summary
+- Key Takeaways
+- Exercises
 
-## 6. What Readers Will Be Able to Do
+9\. Everything Is Connected: Design Structure Matrices
+- Learning Objectives
+- What Is a DSM?
+- Rebuilding the Project Network
+- The Adjacency Matrix
+- The Resource-Task Matrix
+- Parent DSM
+- The Risk-Resource Matrix
+- Grandparent DSM
+- Interpreting the DSM
+- From DSM to Decision
+- Using the DSM to Prioritize Mitigation
+- Summary
+- Key Takeaways
+- DSM vs. Bayesian Network: When to Use Each
+- Exercises
 
-After working through the book, a reader can:
+10\. The Portfolio Problem: When Risks Are Shared
+- Learning Objectives
+- The Portfolio Case Study
+- Seeing Is Not the Same as Doing
+- Setup
+- Building the Portfolio Network
+- Observational Distribution
+- Seeing vs. Doing at the Risk Level
+- Enterprise vs. Project-Scoped Intervention
+- Risk Importance Ranking
+- Summary Table
+- Summary
+- Key Takeaways
+- Exercises
 
-- Build a Monte Carlo model of a project schedule or budget and read percentiles
-  correctly
-- Size a contingency reserve to a stated confidence level and defend the number
-- Identify which tasks actually drive total uncertainty, using variance
-  decomposition rather than intuition
-- Choose between a full simulation and a second-moment approximation, and know
-  why
-- Track and forecast project performance with earned value metrics
-- Update a risk assessment formally when new evidence arrives, instead of
-  arguing about it
-- Forecast completion by fitting a learning curve to early progress data
-- Model how risks propagate across a portfolio through shared root causes, and
-  distinguish observing a risk from intervening on it
-- Package the whole analysis as a reproducible report that re-runs cleanly in two
-  years
-- Expose these methods to an AI agent and supervise its work competently
+11\. Write Once, Trust Always: Reproducible Risk Analysis with Quarto
+- Learning Objectives
+- The Spreadsheet Problem
+- Reproducible vs. Repeatable
+- What is Quarto?
+- Quarto vs. R Markdown
+- Your First Risk Report
+- Parameterized Reports
+- Parametric Reporting in Practice
+- Version Control with Git
+- Package Environments with renv
+- This Book as a Living Example
+- What "Live Book" Means for You
+- Exercises
 
-## 7. Key Features
+12\. Your AI Co-Pilot: Agentic Risk Analysis
+- Learning Objectives
+- How PRA Talks to AI Agents
+- Prerequisites
+- The MCP Server
+- Agent Skills
+- From Request to Tool Call
+- Tool Reference
+- Summary
+- Key Takeaways
+- Exercises
 
-- **Every result is computed, not transcribed.** The book is a Quarto project
-  rendered against the live `PRA` package. If a function's behavior changes, the
-  build breaks loudly rather than going quietly stale.
-- **One method per chapter, uniform structure.** Each chapter answers "when would
-  I actually use this?", supplies just enough theory, works a complete example,
-  and ends with exercises.
-- **Exercises with full solutions.** 10–15 per chapter, ranging from "verify you
-  followed along" to "extend this to a real scenario," with worked solutions in
-  an appendix.
-- **One project carried end to end.** A case study appendix applies all nine
-  methods to a single bridge-replacement project, so the reader sees how the
-  techniques compose rather than meeting them in isolation.
-- **Backed by a real package.** `PRA` is on CRAN, with a full test suite,
-  continuous integration on three platforms, code coverage reporting, and a
-  documentation site. The code in the book is maintained software, not listings.
-- **Complete supporting apparatus.** Glossary, mathematical derivations, and a
-  quick-reference card are already written.
+Appendix A: Glossary
+- Probability & Distributions
+- Monte Carlo Simulation & Sensitivity
+- Second Moment Method
+- Earned Value Management
+- Bayesian Inference
+- Learning Curves
+- Structural Methods
+- Agentic Framework
 
-## 8. Competing and Related Titles
+Appendix B: Mathematical Derivations
+- Why Total Variance Is a Sum
+- Variance Formulas for Standard Distributions
+- The Sensitivity Index
+- Bayesian Updating for Project Risk
 
-| Title | Relationship |
-|---|---|
-| Vose, *Risk Analysis: A Quantitative Guide*, 3rd ed. (Wiley, 2008) | The closest competitor and the standard reference. Broader and more theoretical, but tied to commercial spreadsheet add-ins, not reproducible, and now over fifteen years old. Covers no agentic or literate-programming workflow. |
-| PMI, *A Guide to the Project Management Body of Knowledge (PMBOK Guide)*, 7th ed. (2021) | A standards document. Says what should be done; does not show how to compute it. Complementary — this book supplies the implementation PMBOK leaves to the reader. |
-| Fleming & Koppelman, *Earned Value Project Management*, 4th ed. (PMI, 2010) | Authoritative on EVM alone, which this book covers in one chapter of twelve. Non-overlapping otherwise. |
-| Benjamin & Cornell, *Probability, Statistics, and Decision for Civil Engineers* (Dover) | Foundational and still excellent on theory, but a general engineering-statistics text, not project-specific, and offers no software workflow. |
+Appendix C: Quick Reference
+- Monte Carlo Simulation
+- Second Moment Method
+- Sensitivity Analysis
+- Contingency & Correlation
+- Earned Value Management
+- Bayesian Risk
+- Learning Curves
+- Design Structure Matrices
+- Probabilistic Networks
+- Agentic Framework
 
-Adjacent but non-competing: Hubbard's *How to Measure Anything* and Savage's
-*The Flaw of Averages* make the case for quantifying uncertainty but stop short
-of supplying a working toolkit. This book is the practical follow-on for readers
-those titles have already persuaded.
+Appendix D: Case Study — Riverside Bridge Replacement
+- The Project
+- Step 1: Monte Carlo Simulation
+- Step 2: Sensitivity Analysis
+- Step 3: Second Moment Method
+- Step 4: Earned Value Management
+- Step 5: Bayesian Risk Update
+- Step 6: Learning Curve
+- Step 7: Design Structure Matrix
+- Step 8: Probabilistic Network
+- Step 9: Agentic Analysis
+- Driving the Tools from Natural Language
+- What the Methods Told Us
 
-**The gap:** no current title combines project risk methods with a tested,
-open-source, reproducible toolchain — and none addresses agent-driven analysis.
+Appendix E: Exercise Solutions
+- Monte Carlo Simulation
+- Sensitivity Analysis
+- Second Moment Method
+- Earned Value Management
+- Bayesian Risk Inference
+- Sigmoidal Learning Curves
+- Design Structure Matrices
+- Probabilistic Networks
+- Portfolio Networks
+- Agentic Risk Analysis
 
-## 9. Author Background and Platform
+References
 
-Paul Govan holds a PhD from The University of Texas at Austin (2014), where his
-dissertation developed a resource-based view of project risk management. His
-peer-reviewed work on the subject includes:
+## Subject/Audience
 
-- Govan & Damnjanovic (2016), "The Resource-Based View on Project Risk
-  Management," *Journal of Construction Engineering and Management* 142(9)
-- Govan & Damnjanovic (2020), "Structural Network Measures for Risk Assessment of
-  Construction Projects," *ASCE-ASME Journal of Risk and Uncertainty in
-  Engineering Systems, Part A: Civil Engineering*
+**4. Please describe in detail the subject of your book. Why will this book be
+important, who will find it useful, and what is new? What background will you
+assume?**
 
-He is the author and maintainer of `PRA`, published on CRAN (currently v0.7.0,
-DOI 10.32614/CRAN.package.PRA), which gives the book a built-in distribution
-channel: readers arrive at the package through CRAN and the R ecosystem, and the
-book is the package's documentation in long form.
+Project Risk Analysis: A Practical Guide teaches the quantitative methods used to
+manage uncertainty in project schedules and costs, introducing each method
+alongside the open-source R code that implements it, so that readers learn the
+technique and how to run it at the same time. The book covers Monte Carlo
+simulation, the second moment method, sensitivity analysis, earned value
+management, Bayesian risk inference, sigmoidal learning curves, design structure
+matrices, and probabilistic networks, all built on the `PRA` package published on
+CRAN.
 
-The draft is already public as a Quarto site at
-https://paulgovan.github.io/PRA/book/.
+The book matters because project risk analysis has a tooling problem rather than
+a theory problem. The underlying mathematics has been settled for decades, but
+most practitioners still run it in spreadsheets, where a broken formula or a
+range that ends three rows short can silently change a P95 estimate that goes on
+to justify a contingency reserve. This book's emphasis is on reproducibility:
+every example is executable R code rather than a static screenshot, and the book
+itself is rendered by executing that code against the live package, so no printed
+result is transcribed by hand.
 
-> *To be completed by the author: current professional affiliation and title;
-> speaking, teaching, or conference activity; social and newsletter following;
-> and any other channels available for promotion.*
+What is new is the last two chapters. One shows how to build auditable,
+version-controlled risk reports with Quarto, including parameterized reports that
+re-run across projects and scenarios. The other shows how to expose the
+analytical functions to AI assistants through the Model Context Protocol, so that
+a plain-language request produces a real computed result rather than a
+plausible-sounding estimate. No existing project risk text treats either subject.
 
-## 10. Annotated Table of Contents
+The book is useful to project managers and controls engineers moving from
+spreadsheets or commercial simulation add-ins toward reproducible workflows; to
+engineers and analysts who know statistics but have not applied it to project
+risk; to data scientists supporting a project controls or PMO function; and to
+students and instructors in construction management, systems engineering, and
+operations research. It assumes basic probability — what a mean is, what a
+variance is — and some familiarity with R, but no prior background in project
+risk management. Mathematical derivations are placed in an appendix so the main
+text stays readable without them.
 
-Twelve chapters and six appendices. Each chapter follows the same four-part
-structure and ends with exercises.
+**5. Will your book be primarily a textbook? If so, for which courses will it be
+the primary text and at what level is the course taught? Will you include
+exercises sets and supply a solutions manual?**
 
-**Front matter — Preface.** What the book covers, who it is for, how to read it,
-and why the analysis is done in code rather than a spreadsheet.
+The book is written as a practitioner's guide first, but it is structured for
+classroom use and would work as a primary text for an upper-level undergraduate
+or introductory graduate course in project risk management, construction
+management, engineering project controls, or systems engineering — particularly
+where the course already uses R. Each chapter follows a consistent pattern:
+learning objectives, a short answer to when the method is actually used, enough
+theory to understand the computation, a fully worked example, a summary, key
+takeaways, and exercises.
 
-**1. Into the Unknown: An Introduction to Project Risk Analysis.** Defines risk
-as uncertainty that matters, separates probability from impact, maps the methods
-covered in the book, and addresses the garbage-in-garbage-out objection head on.
+All eleven method chapters end with exercise sets of roughly ten to fifteen
+questions, ranging from verifying that the reader followed the worked example to
+extending the method to a new scenario. Worked solutions for ten of those
+chapters are already written as an appendix; the Quarto chapter's exercises are
+currently unsolved and would be completed before delivery. If the publisher wants
+a more conventional classroom package, the solutions could be separated into an
+instructor-only manual and expanded with additional problem sets.
 
-**2. Roll the Dice: Monte Carlo Simulation.** The five steps of a simulation,
-how to read percentiles correctly, and how to convert a distribution into a
-contingency reserve.
+**6. What related books are available, and how do they differ from the proposed
+book?**
 
-**3. May I Have a (Second) Moment? The Second Moment Method.** A defensible
-thirty-second estimate from means, variances, and a correlation matrix. Includes
-an explicit decision rule for when it is adequate and when it is not, validated
-against Monte Carlo.
+Several established texts cover adjacent ground but differ in important ways.
+David Vose's Risk Analysis: A Quantitative Guide is the closest competitor and
+remains the standard reference on quantitative risk modelling. It is broader and
+more theoretical than the proposed book, but its worked examples depend on
+commercial spreadsheet add-ins rather than open-source tooling, it offers no
+reproducible workflow, and the current edition is now more than fifteen years
+old. The Project Management Institute's PMBOK Guide is the authoritative
+standards document for the field, but it is deliberately descriptive: it
+establishes what a risk process should include without showing how to compute
+anything, so it complements rather than competes with this book. Fleming and
+Koppelman's Earned Value Project Management is the definitive treatment of earned
+value, but that is a single chapter of twelve here, and the book does not address
+simulation, Bayesian methods, or structural analysis. Benjamin and Cornell's
+Probability, Statistics, and Decision for Civil Engineers remains excellent on
+the underlying theory but is a general engineering statistics text rather than a
+project-specific one, and predates any modern software workflow.
 
-**4. Who's Driving? Sensitivity Analysis.** Variance decomposition to find the
-tasks that actually drive total uncertainty, tornado charts, and what changes
-when tasks are correlated.
+The proposed book differs from all of these by pairing broad method coverage with
+fully reproducible R code throughout, backed by a maintained CRAN package, and by
+being the only treatment that addresses reproducible reporting via Quarto and
+AI-assisted analysis via MCP.
 
-**5. Keeping Score: Earned Value Management.** Planned value, earned value, and
-actual cost; schedule and cost variances and indices; forecasting estimate at
-completion; performance trend charts.
+## Production
 
-**6. I Had a Feeling: Bayesian Risk Inference.** Bayes' theorem in plain
-language, then a full prior-to-posterior workflow updating both a risk
-probability and its cost distribution when evidence arrives.
+**7. Approximately how many printed pages will your book contain? Are colour
+figures essential to your book? If so, about how many would have to be in colour?
+Colour printing is still very expensive and colour figures will increase the
+price so black and white should be used unless colour is essential.**
 
-**7. S Is for Success: Sigmoidal Learning Curves.** Fitting logistic, Gompertz,
-and Pearl models to early progress data to forecast completion — including why
-two of the three are the same model in disguise.
+The manuscript currently runs to about 31,000 words of source text across twelve
+chapters and five appendices, plus executable code and generated figures. I
+expect roughly 180 – 200 printed pages depending on layout and formatting, since
+code listings set less densely than prose.
 
-**8. It's a Small World After All: Probabilistic Networks.** Bayesian networks as
-a model of how risks flow through resources into task costs; forward simulation,
-incorporating evidence, and modifying network structure.
+There are 33 captioned figures. Most do not require colour: histograms, tornado
+charts, cumulative distribution plots, and performance trend charts all read
+correctly in black and white. Roughly fifteen do carry information in colour —
+the multi-curve learning curve comparisons, the network and portfolio diagrams
+where node colour distinguishes risks from resources and tasks, and the design
+structure matrix heat maps. Of those, the line plots could be redrawn using
+distinct line types and the heat maps using a greyscale ramp without losing
+meaning. I would be glad to convert them if colour printing is a concern, and
+would want to keep colour only for the network diagrams, where the node
+categories are genuinely hard to distinguish otherwise.
 
-**9. Everything Is Connected: Design Structure Matrices.** A simpler structural
-question — which tasks are coupled because they share crews, equipment, or
-materials — answered by deriving parent and grandparent DSMs from the network
-built in Chapter 8, and used to prioritize mitigation.
+**8. When would you hope to be able to submit the final draft of the book to us?
+Will you use Latex, bookdown, Quarto, or Word? We will supply a style file for
+LaTeX authors and request an unformatted file from Word authors.**
 
-**10. The Portfolio Problem: When Risks Are Shared.** Scaling to three projects
-with a common upstream root cause, and the distinction that matters most for
-enterprise risk: seeing a risk occur versus intervening to prevent it.
-Observational versus interventional distributions, and risk importance ranking.
+A complete draft is already written and available online at
+https://paulgovan.github.io/PRA/book/. The book is a Quarto project and renders
+to HTML, PDF, and EPUB from the same source. Because the manuscript exists, the
+remaining work is editorial rather than generative: I would expect to deliver a
+final draft within four to six months of contract, allowing time for technical
+review, the outstanding Quarto exercise solutions, and any restructuring the
+publisher wants.
 
-**11. Write Once, Trust Always: Reproducible Risk Analysis with Quarto.** The
-reproducibility gap in project controls and how to close it: literate risk
-reports, reproducible versus merely repeatable analysis, and parameterized
-reports that re-run across projects and scenarios.
+**9. Are you planning on using generative AI tools in the writing process? If so,
+please summarise how you plan to use the tools. Please refer to our AI policy
+here: https://taylorandfrancis.com/our-policies/ai-policy/.**
 
-**12. Your AI Co-Pilot: Agentic Risk Analysis.** Exposing the analytical
-functions as tools over the Model Context Protocol; the Agent Skills that tell an
-agent when and how to call each one; how a plain-language request becomes a tool
-call; and how to supervise the result.
+> **To be answered by the author.** This question asks about the writing of the
+> book and should be answered personally and accurately, in line with the
+> Taylor & Francis AI policy.
 
-**Appendices.** A: Glossary. B: Mathematical derivations, for readers who want
-the variance and Bayesian updating results proved. C: Quick reference — every
-function, grouped by method. D: Case study — Riverside Bridge Replacement, all
-nine methods applied to one project in sequence. E: Exercise solutions, worked in
-full. F: References.
+## Reviews
 
-## 11. Length and Schedule
+**10. Please give the names and e-mail addresses of four people who would be
+qualified to give an opinion on your proposed book.**
 
-**Current length.** Approximately 31,000 words of source across the twelve
-chapters and six appendices, plus executable code and generated figures.
-Estimated at **150–200 printed pages** once code output, figures, and front and
-back matter are typeset.
+> **For the author to confirm.** The four below are carried over from the
+> reliability proposal. Ivan Damnjanovic is a direct fit, being co-author on both
+> of the project risk publications this book draws on. The others should be
+> re-checked for relevance to project risk specifically before submitting.
 
-**Status.** A complete draft of all chapters and appendices exists and is public.
+Ivan Damnjanovic, Professor, Texas A&M University, ddivan@gmail.com
 
-**Schedule.** Because the manuscript is drafted rather than proposed, the
-remaining work is editorial rather than generative. A realistic schedule from
-contract signature:
+Pierre Brandicourt, Risk Manager, Sempra Infrastructure, pbrandicourt@gmail.com
 
-| Milestone | Timing |
-|---|---|
-| Full draft delivered for technical review | On signature |
-| Revisions from technical review | +8 weeks |
-| Copyedit and author review | +6 weeks |
-| Final manuscript | +4 weeks |
+Brad Foulkes, Founder, Gapz Analytics, bfoulkes@gmail.com
 
-Roughly four to five months to final manuscript, subject to reviewer turnaround.
-The author is open to expanding chapters or adding material at the editor's
-direction; the estimate above assumes the current scope.
+Ken (Myungkeun) Yoon, Senior Principal Systems Engineer, Raytheon Technologies, manggun.yoon@gmail.com
 
-## 12. Technical Reviewers
+## Key Features
 
-> *To be completed by the author: two to four proposed reviewers with
-> project-controls, applied-statistics, or R backgrounds, and their
-> affiliations.*
+**11. Please list up to six key features of your proposed book that we can use in
+bulleted form.**
 
-## 13. Manuscript Status and Open Items
+- Complete quantitative toolkit in a single volume
+- Every result computed from executable code, not transcribed
+- Backed by a tested, actively maintained CRAN package
+- One worked project carried end to end through all nine methods
+- Exercises with worked solutions in every method chapter
+- Modern coverage of reproducible reporting and AI-assisted analysis
 
-**Status.** Complete draft, publicly readable at
-https://paulgovan.github.io/PRA/book/, and built reproducibly from the same
-repository as the `PRA` package.
+**12. Please list up to six key words or phrases that people interested in this
+topic may use to search Amazon or the web. Do not repeat words in the title as
+these will already be found.**
 
-**Licensing — for discussion.** The `PRA` package is MIT licensed. The current
-book text is published under CC BY 4.0 and is freely readable online. This is
-raised here deliberately rather than left to be discovered: the existing free
-edition and its license terms are a point to settle with the publisher early. The
-author is open to discussing how the published edition and the online draft
-should relate.
+- Schedule uncertainty modeling in R
+- Cost contingency estimation
+- Earned value management R package
+- Bayesian networks for construction
+- Design structure matrix
+- Second moment method
+
+**13. Please select the three most important markets for your book. Other
+categories are available including education, psychology, and economics so please
+mention other important disciplines.**
+
+> **For the author to confirm against the publisher's category list.** Only the
+> first code below is taken from the publisher's list as it appeared on the
+> reliability form; the other two are described in words rather than guessed at.
+
+Statistics
+
+STA10A-Statistics-Statistics for Engineering and Physical Science
+
+Beyond statistics, the two most relevant disciplines are civil engineering and
+construction management (project controls, cost and schedule estimation) and
+industrial or systems engineering (engineering management, operations research).
+Business and management — specifically project management and decision analysis
+— is a credible third market.
