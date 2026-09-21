@@ -10,14 +10,15 @@ Earned Value Management, Learning Curves, Bayesian Methods, and more.
   ([`mcs()`](https://paulgovan.github.io/PRA/reference/mcs.md)):
 
   Propagates schedule or cost uncertainty through a triangular
-  distribution model using `mc2d`. Returns an S3 object with a `print`
-  method.
+  distribution model using `mc2d`. Returns an S3 object with `print`,
+  `summary` and `plot` methods.
 
 - **Second Moment Method**
   ([`smm()`](https://paulgovan.github.io/PRA/reference/smm.md)):
 
   Analytical first- and second-moment propagation of uncertainty without
-  simulation. Returns an S3 object with a `print` method.
+  simulation. Returns an S3 object with `print`, `summary` and `plot`
+  methods.
 
 - **Earned Value Management**
   ([`pv()`](https://paulgovan.github.io/PRA/reference/pv.md),
@@ -72,7 +73,19 @@ Earned Value Management, Learning Curves, Bayesian Methods, and more.
   [`grandparent_dsm()`](https://paulgovan.github.io/PRA/reference/grandparent_dsm.md)):
 
   Derives direct (parent) and indirect (grandparent) dependency
-  structure matrices from a binary adjacency matrix.
+  structure matrices from a binary adjacency matrix. Returns an S3
+  object with `print`, `summary` and `plot` methods.
+
+- **Probabilistic Networks**
+  ([`prob_net()`](https://paulgovan.github.io/PRA/reference/prob_net.md),
+  [`prob_net_sim()`](https://paulgovan.github.io/PRA/reference/prob_net_sim.md),
+  [`prob_net_learn()`](https://paulgovan.github.io/PRA/reference/prob_net_learn.md),
+  [`prob_net_update()`](https://paulgovan.github.io/PRA/reference/prob_net_update.md)):
+
+  Forward simulation and Bayesian conditioning over a causal network of
+  risks, resources and tasks.
+  [`prob_net()`](https://paulgovan.github.io/PRA/reference/prob_net.md)
+  returns an S3 object with `print`, `summary` and `plot` methods.
 
 ## References
 

@@ -23,7 +23,7 @@ print(x, ...)
 
 ## Value
 
-None. The function prints the SMM results to the console.
+Invisibly returns `x`.
 
 ## Examples
 
