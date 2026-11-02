@@ -1,32 +1,39 @@
 # NEWS
 
 ## v0.7.0
-
-* Completed the S3 method surface: `mcs`, `smm`, `dsm`, `prob_net` and
-  `pra_sigmoidal_fit` objects now all have `print()`, `summary()` and `plot()`
-  methods. `prob_net` previously had none and fell through to `print.default()`.
-* `plot.prob_net()` draws the network as a layered DAG in base graphics, with
+- **Every returned class now implements `print()`, `summary()` and `plot()`.**
+  `mcs`, `smm`, `dsm` and `pra_sigmoidal_fit` gained the missing methods;
+  `prob_net` had none at all and fell through to `print.default()`, dumping the
+  whole object. Summaries return classed `summary.<class>` objects, so their
+  values can be used programmatically.
+- `plot.prob_net()` draws the network as a layered DAG in base graphics, with
   no optional dependency required.
-* `plot.pra_sigmoidal_fit()` recovers the data, column names and model type
+- `plot.pra_sigmoidal_fit()` recovers the data, column names and model type
   from the fitted object, so `plot(fit)` works with no further arguments.
   `plot_sigmoidal()` is unchanged and still supported.
-* `validate_cor_mat()` now rejects a correlation matrix that is not positive
-  semi-definite. Such a matrix previously made `smm()` return a negative
-  variance and a `NaN` standard deviation, and made `mcs()` fail inside
-  `chol()` with an opaque message. `mcs()` additionally requires strict
-  positive definiteness, since it factorizes the matrix.
-* `print.mcs()` and `print.smm()` now return their input invisibly.
-* Fixed scientific notation in MCP tool output, where values such as `200000`
+- **Correlation matrices that are not positive semi-definite are now rejected**
+  by `mcs()`, `smm()` and `sensitivity()`. Such a matrix previously made
+  `smm()` return a negative variance and a `NaN` standard deviation, and made
+  `mcs()` fail inside `chol()` with an opaque message. Code that passed an
+  invalid matrix and appeared to work will now error. `mcs()` additionally
+  requires strict positive definiteness, since it factorizes the matrix;
+  `smm()` still accepts a perfectly correlated matrix, which it handles
+  analytically.
+- `print.mcs()` and `print.smm()` now return their input invisibly.
+- Fixed scientific notation in MCP tool output, where values such as `200000`
   rendered as `2e+05` and the thousands separator was silently dropped.
-* Added `graphics`, `grDevices` and `tools` to `Imports`; all three were
-  already in use but undeclared. Dropped the unused `corrplot` suggestion.
-* Documentation: `pra_mcp_server()` and the README no longer claim that every
-  analytical function is exposed over MCP. The probabilistic network functions
-  are not among the twelve tools the server advertises.
-* Added a long-form vignette, `vignette("pra", package = "PRA")`, covering
+- Added a long-form vignette, `vignette("pra", package = "PRA")`, covering
   every analytical module with worked examples and an end-to-end case study.
-* `inst/CITATION` now reads the version from `DESCRIPTION` instead of naming a
+- Added `graphics`, `grDevices` and `tools` to `Imports`; all three were
+  already in use but undeclared. Dropped the unused `corrplot` suggestion.
+- `inst/CITATION` now reads the version from `DESCRIPTION` instead of naming a
   hard-coded one, which had gone stale at 0.4.0.
+- Documentation: `pra_mcp_server()` and the README no longer claim that every
+  analytical function is exposed over MCP; the probabilistic network functions
+  are not among the twelve tools the server advertises. `sensitivity()` now
+  documents that its indices sum to 1 and can be negative under negative
+  correlation.
+- Added regression tests for the v0.6.0 fixes, which had none.
 
 ## v0.6.0
 - **`cor_matrix()` now draws column `i` from distribution `i`** (previously

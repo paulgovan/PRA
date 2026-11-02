@@ -23,6 +23,7 @@ URL: https://paulgovan.github.io/PRA/, https://github.com/paulgovan/PRA
 BugReports: https://github.com/paulgovan/PRA/issues
 Suggests:
     base64enc,
+    corrplot,
     devtools,
     ellmer,
     ggplot2,
