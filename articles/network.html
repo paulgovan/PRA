@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Probabilistic Networks • PRA</title>
+<title>Causal Networks for Project Portfolio Risk Analysis • PRA</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Probabilistic Networks">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Causal Networks for Project Portfolio Risk Analysis">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">PRA</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,10 +30,17 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
+<li class="active nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/network.html">Causal Networks for Project Portfolio Risk Analysis</a></li>
+    <li><a class="dropdown-item" href="../articles/pra.html">Quantitative Project Risk Analysis with PRA</a></li>
+  </ul>
+</li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link btn btn-warning text-dark ms-2" href="https://paulgovan.github.io/PRA/book/"><span class="fa fa-book"></span> Read the Book</a></li>
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
@@ -47,10 +54,10 @@
 
 
 
-<link href="network_files/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
-<script src="network_files/htmlwidgets-1.6.4/htmlwidgets.js"></script><script src="network_files/d3-4.9.1/d3.min.js"></script><script src="network_files/forceNetwork-binding-0.4.1/forceNetwork.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Probabilistic Networks</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Causal Networks for Project Portfolio Risk Analysis</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/paulgovan/PRA/blob/main/vignettes/network.Rmd" class="external-link"><code>vignettes/network.Rmd</code></a></small>
@@ -62,404 +69,1118 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>Bayesian networks are probabilistic graphical models that represent
-variables and their conditional dependencies via a directed acyclic
-graph (DAG). Nodes represent random variables and edges represent
-dependencies between them. Bayesian networks are well-suited to project
-risk analysis because they can model how risk events propagate through
-resources and tasks to affect total project cost.</p>
-<p>This vignette walks through a simple toy project to illustrate how to
-build, simulate, update, and learn from a Bayesian network using the
-<code>PRA</code> package. For a more advanced example covering causal
-inference, graph surgery, and the see-versus-do distinction across a
-full project portfolio, see the <a href="network2.html">Probabilistic
-Networks for Project Portfolio Risk Analysis</a> vignette.</p>
+<p>This vignette demonstrates the probabilistic network workflow in the
+<code>PRA</code> package applied to a project portfolio risk management
+(PPRM) case study. The four core functions are:</p>
+<ul>
+<li>
+<code><a href="../reference/prob_net.html">prob_net()</a></code> — build a causal network from node, edge,
+and distribution specifications;</li>
+<li>
+<code><a href="../reference/prob_net_sim.html">prob_net_sim()</a></code> — draw Monte Carlo samples from the
+joint distribution (<em>observational</em> query);</li>
+<li>
+<code><a href="../reference/prob_net_learn.html">prob_net_learn()</a></code> — condition on observed evidence via
+rejection sampling (<em>seeing</em>);</li>
+<li>
+<code><a href="../reference/prob_net_update.html">prob_net_update()</a></code> — apply graph surgery for causal
+interventions (<em>doing</em>).</li>
+</ul>
+<p>The distinction between <em>seeing</em> and <em>doing</em> (Pearl
+2009) is the central methodological point. Conditioning on a confirmed
+risk propagates evidence both upstream and downstream in the original
+graph; intervening on a risk severs its incoming edges and clamps its
+value, isolating the direct causal effect. The two operations give
+different portfolio cost distributions, and the gap between them has
+concrete managerial significance.</p>
 </div>
 <div class="section level2">
-<h2 id="project">Project<a class="anchor" aria-label="anchor" href="#project"></a>
+<h2 id="case-study">Case Study<a class="anchor" aria-label="anchor" href="#case-study"></a>
 </h2>
-<div class="section level3">
-<h3 id="tasks">Tasks<a class="anchor" aria-label="anchor" href="#tasks"></a>
-</h3>
-<p>Consider a small software development project with three tasks.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tasks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  ID    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span><span class="op">)</span>,</span>
-<span>  Label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Task-1"</span>, <span class="st">"Task-2"</span>, <span class="st">"Task-3"</span><span class="op">)</span>,</span>
-<span>  Task  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Requirements and Design"</span>, <span class="st">"Development"</span>, <span class="st">"Testing and Handover"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">tasks</span>, caption <span class="op">=</span> <span class="st">"Project Tasks"</span><span class="op">)</span></span></code></pre></div>
+<p>Consider an enterprise running three projects at the same time: a
+<strong>Road Repair</strong>, a <strong>Park Construction</strong>, and
+a <strong>Building Renovation</strong>. Each project has three tasks
+driven by three resources: labor, materials, and equipment. These
+resources are shared at the enterprise level: the same labor pool, the
+same material suppliers, and the same equipment fleet serve all three
+projects.</p>
+<p>This sharing creates direct portfolio-level risk. Three
+enterprise-wide risk events, a <strong>Labor Shortage</strong>, a
+<strong>Material Price Spike</strong>, and a <strong>Weather
+Delay</strong>, each propagate through the corresponding shared resource
+to impact all three projects simultaneously.</p>
+<p>Critically, two of these risks, the Labor Shortage and the Material
+Price Spike, share a common upstream driver: a <strong>Supply Chain
+Disruption</strong> that simultaneously tightens the labor market and
+raises commodity prices. This upstream dependence means that observing a
+Labor Shortage is Bayesian evidence that a Supply Chain Disruption is
+underway, which in turn raises the probability of a Material Price
+Spike. It is precisely this structure, a root cause fanning out to
+multiple risks, which fan out to shared resources, that makes the
+distinction between <em>seeing</em> and <em>doing</em> empirically
+consequential at the portfolio level.</p>
+</div>
+<div class="section level2">
+<h2 id="tasks">Tasks<a class="anchor" aria-label="anchor" href="#tasks"></a>
+</h2>
+<p>Each project follows the same three-stage lifecycle: an initial
+site-preparation or demolition stage, a core execution stage specific to
+that project’s scope, and a final inspection stage. Tasks are aggregate
+nodes in the causal network, so a task’s cost is simply the
+deterministic sum of the resource(s) feeding into it; all of the
+uncertainty at the task level is therefore inherited from the resource
+distributions defined in the next section. The primary tasks for each
+project are as follows.</p>
 <table class="table">
-<caption>Project Tasks</caption>
+<caption>Enterprise tasks by project.</caption>
+<colgroup>
+<col width="4%">
+<col width="13%">
+<col width="36%">
+<col width="16%">
+<col width="29%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">ID</th>
 <th align="left">Label</th>
 <th align="left">Task</th>
+<th align="left">Project ID</th>
+<th align="left">Project</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">F</td>
-<td align="left">Task-1</td>
-<td align="left">Requirements and Design</td>
+<td align="left">M</td>
+<td align="left">Task-1.1</td>
+<td align="left">Site Preparation</td>
+<td align="left">V</td>
+<td align="left">Road Repair</td>
 </tr>
 <tr class="even">
-<td align="left">G</td>
-<td align="left">Task-2</td>
-<td align="left">Development</td>
+<td align="left">N</td>
+<td align="left">Task-1.2</td>
+<td align="left">Road Paving</td>
+<td align="left">V</td>
+<td align="left">Road Repair</td>
 </tr>
 <tr class="odd">
-<td align="left">H</td>
-<td align="left">Task-3</td>
-<td align="left">Testing and Handover</td>
+<td align="left">O</td>
+<td align="left">Task-1.3</td>
+<td align="left">Final Inspection</td>
+<td align="left">V</td>
+<td align="left">Road Repair</td>
+</tr>
+<tr class="even">
+<td align="left">P</td>
+<td align="left">Task-2.1</td>
+<td align="left">Site Preparation</td>
+<td align="left">W</td>
+<td align="left">Park Construction</td>
+</tr>
+<tr class="odd">
+<td align="left">Q</td>
+<td align="left">Task-2.2</td>
+<td align="left">Planting and Landscaping</td>
+<td align="left">W</td>
+<td align="left">Park Construction</td>
+</tr>
+<tr class="even">
+<td align="left">R</td>
+<td align="left">Task-2.3</td>
+<td align="left">Final Inspection</td>
+<td align="left">W</td>
+<td align="left">Park Construction</td>
+</tr>
+<tr class="odd">
+<td align="left">S</td>
+<td align="left">Task-3.1</td>
+<td align="left">Demolition</td>
+<td align="left">X</td>
+<td align="left">Building Renovation</td>
+</tr>
+<tr class="even">
+<td align="left">T</td>
+<td align="left">Task-3.2</td>
+<td align="left">Renovation and Build-Out</td>
+<td align="left">X</td>
+<td align="left">Building Renovation</td>
+</tr>
+<tr class="odd">
+<td align="left">U</td>
+<td align="left">Task-3.3</td>
+<td align="left">Final Inspection</td>
+<td align="left">X</td>
+<td align="left">Building Renovation</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section level3">
-<h3 id="resources">Resources<a class="anchor" aria-label="anchor" href="#resources"></a>
-</h3>
-<p>Each task draws on one primary resource. The table below shows the
-baseline cost estimate (mean and standard deviation) for each
-resource.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">resources</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  ID       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span><span class="op">)</span>,</span>
-<span>  Label    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Resource-1"</span>, <span class="st">"Resource-2"</span>, <span class="st">"Resource-3"</span><span class="op">)</span>,</span>
-<span>  Resource <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Business Analyst"</span>, <span class="st">"Developer"</span>, <span class="st">"QA Engineer"</span><span class="op">)</span>,</span>
-<span>  Task_ID  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span><span class="op">)</span>,</span>
-<span>  Task     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Requirements and Design"</span>, <span class="st">"Development"</span>, <span class="st">"Testing and Handover"</span><span class="op">)</span>,</span>
-<span>  Mean     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15000</span>, <span class="fl">50000</span>, <span class="fl">20000</span><span class="op">)</span>,</span>
-<span>  SD       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3000</span>, <span class="fl">10000</span>, <span class="fl">4000</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">resources</span>, caption <span class="op">=</span> <span class="st">"Project Resources"</span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="resources">Resources<a class="anchor" aria-label="anchor" href="#resources"></a>
+</h2>
+<p>Each task is driven by one primary resource. Because all three
+projects draw from the same enterprise-wide labor pool, supplier
+network, and equipment fleet, the resource costs for like resources are
+correlated across projects.</p>
 <table class="table">
-<caption>Project Resources</caption>
+<caption>Enterprise resources by project, with baseline cost
+distributions (mean and standard deviation, in dollars).</caption>
 <colgroup>
-<col width="4%">
+<col width="3%">
 <col width="14%">
-<col width="22%">
 <col width="10%">
-<col width="32%">
 <col width="8%">
-<col width="8%">
+<col width="27%">
+<col width="21%">
+<col width="6%">
+<col width="6%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">ID</th>
 <th align="left">Label</th>
 <th align="left">Resource</th>
-<th align="left">Task_ID</th>
+<th align="left">Task ID</th>
 <th align="left">Task</th>
+<th align="left">Project</th>
 <th align="right">Mean</th>
 <th align="right">SD</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">C</td>
-<td align="left">Resource-1</td>
-<td align="left">Business Analyst</td>
+<td align="left">D</td>
+<td align="left">Resource-1.1</td>
+<td align="left">Labor</td>
+<td align="left">M</td>
+<td align="left">Site Preparation</td>
+<td align="left">Road Repair</td>
+<td align="right">30000</td>
+<td align="right">5000</td>
+</tr>
+<tr class="even">
+<td align="left">E</td>
+<td align="left">Resource-1.2</td>
+<td align="left">Materials</td>
+<td align="left">N</td>
+<td align="left">Road Paving</td>
+<td align="left">Road Repair</td>
+<td align="right">50000</td>
+<td align="right">8000</td>
+</tr>
+<tr class="odd">
 <td align="left">F</td>
-<td align="left">Requirements and Design</td>
+<td align="left">Resource-1.3</td>
+<td align="left">Equipment</td>
+<td align="left">O</td>
+<td align="left">Final Inspection</td>
+<td align="left">Road Repair</td>
+<td align="right">20000</td>
+<td align="right">4000</td>
+</tr>
+<tr class="even">
+<td align="left">G</td>
+<td align="left">Resource-2.1</td>
+<td align="left">Labor</td>
+<td align="left">P</td>
+<td align="left">Site Preparation</td>
+<td align="left">Park Construction</td>
+<td align="right">25000</td>
+<td align="right">4000</td>
+</tr>
+<tr class="odd">
+<td align="left">H</td>
+<td align="left">Resource-2.2</td>
+<td align="left">Materials</td>
+<td align="left">Q</td>
+<td align="left">Planting and Landscaping</td>
+<td align="left">Park Construction</td>
+<td align="right">30000</td>
+<td align="right">5000</td>
+</tr>
+<tr class="even">
+<td align="left">I</td>
+<td align="left">Resource-2.3</td>
+<td align="left">Equipment</td>
+<td align="left">R</td>
+<td align="left">Final Inspection</td>
+<td align="left">Park Construction</td>
 <td align="right">15000</td>
 <td align="right">3000</td>
 </tr>
+<tr class="odd">
+<td align="left">J</td>
+<td align="left">Resource-3.1</td>
+<td align="left">Labor</td>
+<td align="left">S</td>
+<td align="left">Demolition</td>
+<td align="left">Building Renovation</td>
+<td align="right">40000</td>
+<td align="right">6000</td>
+</tr>
 <tr class="even">
-<td align="left">D</td>
-<td align="left">Resource-2</td>
-<td align="left">Developer</td>
-<td align="left">G</td>
-<td align="left">Development</td>
-<td align="right">50000</td>
+<td align="left">K</td>
+<td align="left">Resource-3.2</td>
+<td align="left">Materials</td>
+<td align="left">T</td>
+<td align="left">Renovation and Build-Out</td>
+<td align="left">Building Renovation</td>
+<td align="right">60000</td>
 <td align="right">10000</td>
 </tr>
 <tr class="odd">
-<td align="left">E</td>
-<td align="left">Resource-3</td>
-<td align="left">QA Engineer</td>
-<td align="left">H</td>
-<td align="left">Testing and Handover</td>
-<td align="right">20000</td>
+<td align="left">L</td>
+<td align="left">Resource-3.3</td>
+<td align="left">Equipment</td>
+<td align="left">U</td>
+<td align="left">Final Inspection</td>
+<td align="left">Building Renovation</td>
+<td align="right">25000</td>
 <td align="right">4000</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section level3">
-<h3 id="risks">Risks<a class="anchor" aria-label="anchor" href="#risks"></a>
-</h3>
-<p>Two risk events can escalate resource costs if they occur.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">risks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  Risk_ID           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>,</span>
-<span>  Name              <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Risk-1"</span>, <span class="st">"Risk-2"</span><span class="op">)</span>,</span>
-<span>  Risk              <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Requirements Scope Creep"</span>, <span class="st">"Technical Complexity"</span><span class="op">)</span>,</span>
-<span>  Probability       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.70</span>, <span class="fl">0.60</span><span class="op">)</span>,</span>
-<span>  Resource_ID       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C"</span>, <span class="st">"D"</span><span class="op">)</span>,</span>
-<span>  Resource_Impacted <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Business Analyst"</span>, <span class="st">"Developer"</span><span class="op">)</span>,</span>
-<span>  Mean_if_occurs    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30000</span>, <span class="fl">80000</span><span class="op">)</span>,</span>
-<span>  SD_if_occurs      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">8000</span>, <span class="fl">20000</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">risks</span>, caption <span class="op">=</span> <span class="st">"Project Risks"</span><span class="op">)</span></span></code></pre></div>
-<table style="width:100%;" class="table">
-<caption>Project Risks</caption>
+<div class="section level2">
+<h2 id="risks">Risks<a class="anchor" aria-label="anchor" href="#risks"></a>
+</h2>
+<p>The network includes one root cause and three risk events. The root
+cause (SC) is a Supply Chain Disruption that drives both the Labor
+Shortage and the Material Price Spike. The Weather Delay is independent
+of SC. Each risk event is enterprise-wide and impacts the corresponding
+shared resource across all three projects.</p>
+<table class="table">
+<caption>Root cause node (SC).</caption>
 <colgroup>
-<col width="7%">
-<col width="6%">
-<col width="22%">
-<col width="10%">
-<col width="10%">
-<col width="16%">
-<col width="13%">
+<col width="3%">
 <col width="11%">
+<col width="25%">
+<col width="10%">
+<col width="48%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">Risk_ID</th>
+<th align="left">ID</th>
 <th align="left">Name</th>
+<th align="left">Event</th>
+<th align="right">P(occurs)</th>
+<th align="left">Children</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="left">SC</td>
+<td align="left">Root Cause</td>
+<td align="left">Supply Chain Disruption</td>
+<td align="right">0.7</td>
+<td align="left">A (Labor Shortage), B (Material Price Spike)</td>
+</tr></tbody>
+</table>
+<table class="table">
+<caption>Enterprise-wide risk nodes (A and B conditional on SC; C
+independent).</caption>
+<colgroup>
+<col width="8%">
+<col width="22%">
+<col width="7%">
+<col width="29%">
+<col width="10%">
+<col width="21%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Risk ID</th>
 <th align="left">Risk</th>
-<th align="right">Probability</th>
-<th align="left">Resource_ID</th>
-<th align="left">Resource_Impacted</th>
-<th align="right">Mean_if_occurs</th>
-<th align="right">SD_if_occurs</th>
+<th align="left">Parent</th>
+<th align="left">P(occurs | SC=1, SC=0)</th>
+<th align="left">P(occurs)</th>
+<th align="left">Resource impacted</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">A</td>
-<td align="left">Risk-1</td>
-<td align="left">Requirements Scope Creep</td>
-<td align="right">0.7</td>
-<td align="left">C</td>
-<td align="left">Business Analyst</td>
-<td align="right">30000</td>
-<td align="right">8000</td>
+<td align="left">Labor Shortage</td>
+<td align="left">SC</td>
+<td align="left">0.95 / 0.40</td>
+<td align="left">≈ 0.79</td>
+<td align="left">Labor (D, G, J)</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
-<td align="left">Risk-2</td>
-<td align="left">Technical Complexity</td>
-<td align="right">0.6</td>
-<td align="left">D</td>
-<td align="left">Developer</td>
-<td align="right">80000</td>
-<td align="right">20000</td>
+<td align="left">Material Price Spike</td>
+<td align="left">SC</td>
+<td align="left">0.85 / 0.25</td>
+<td align="left">≈ 0.67</td>
+<td align="left">Materials (E, H, K)</td>
+</tr>
+<tr class="odd">
+<td align="left">C</td>
+<td align="left">Weather Delay</td>
+<td align="left">none</td>
+<td align="left">n/a</td>
+<td align="left">0.60</td>
+<td align="left">Equipment (F, I, L)</td>
 </tr>
 </tbody>
 </table>
-<p>If Risk-1 (Requirements Scope Creep) occurs, the Business Analyst
-cost rises from a baseline of $15,000 to a risk-adjusted mean of
-$30,000. If Risk-2 (Technical Complexity) occurs, the Developer cost
-rises from $50,000 to $80,000. The QA Engineer cost is not directly
-affected by either risk.</p>
-</div>
 </div>
 <div class="section level2">
-<h2 id="bayesian-network">Bayesian Network<a class="anchor" aria-label="anchor" href="#bayesian-network"></a>
+<h2 id="probabilistic-network">Probabilistic Network<a class="anchor" aria-label="anchor" href="#probabilistic-network"></a>
 </h2>
-<p>A Bayesian network models the full dependency chain from risks
-through resources to total project cost.</p>
-<div class="section level3">
-<h3 id="nodes">Nodes<a class="anchor" aria-label="anchor" href="#nodes"></a>
-</h3>
-<p>Nodes represent all variables in the network: risk events, resources,
-tasks, and the project total.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>, <span class="st">"I"</span><span class="op">)</span>,</span>
-<span>  label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>    <span class="st">"Risk-1"</span>, <span class="st">"Risk-2"</span>,</span>
-<span>    <span class="st">"Resource-1"</span>, <span class="st">"Resource-2"</span>, <span class="st">"Resource-3"</span>,</span>
-<span>    <span class="st">"Task-1"</span>, <span class="st">"Task-2"</span>, <span class="st">"Task-3"</span>,</span>
-<span>    <span class="st">"Project"</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>    <span class="st">"Risk"</span>, <span class="st">"Risk"</span>,</span>
-<span>    <span class="st">"Resource"</span>, <span class="st">"Resource"</span>, <span class="st">"Resource"</span>,</span>
-<span>    <span class="st">"Task"</span>, <span class="st">"Task"</span>, <span class="st">"Task"</span>,</span>
-<span>    <span class="st">"Project"</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="edges">Edges<a class="anchor" aria-label="anchor" href="#edges"></a>
-</h3>
-<p>Edges encode the causal dependencies: risks affect resources,
-resources drive tasks, and tasks roll up to the project total.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">links</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span><span class="op">)</span>,</span>
-<span>  target <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>, <span class="st">"I"</span>, <span class="st">"I"</span>, <span class="st">"I"</span><span class="op">)</span>,</span>
-<span>  value  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">8</span><span class="op">)</span>,</span>
-<span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="distributions">Distributions<a class="anchor" aria-label="anchor" href="#distributions"></a>
-</h3>
-<p>Each risk is a binary discrete node (1 = occurs, 0 = does not occur).
-Each resource is a conditional node that follows a higher-cost
-distribution if its associated risk occurs, and a lower-cost baseline
-otherwise. Tasks and the project total are aggregate nodes that sum
-their inputs.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">distributions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  A <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"discrete"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.70</span>, <span class="fl">0.30</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  B <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"discrete"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.60</span>, <span class="fl">0.40</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  C <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    type <span class="op">=</span> <span class="st">"conditional"</span>, condition <span class="op">=</span> <span class="st">"A"</span>,</span>
-<span>    true_dist  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">30000</span>, sd <span class="op">=</span> <span class="fl">8000</span><span class="op">)</span>,</span>
-<span>    false_dist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">15000</span>, sd <span class="op">=</span> <span class="fl">3000</span><span class="op">)</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  D <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    type <span class="op">=</span> <span class="st">"conditional"</span>, condition <span class="op">=</span> <span class="st">"B"</span>,</span>
-<span>    true_dist  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">80000</span>, sd <span class="op">=</span> <span class="fl">20000</span><span class="op">)</span>,</span>
-<span>    false_dist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">50000</span>, sd <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  E <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">20000</span>, sd <span class="op">=</span> <span class="fl">4000</span><span class="op">)</span>,</span>
-<span>  F <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"aggregate"</span>, nodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  G <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"aggregate"</span>, nodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"D"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  H <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"aggregate"</span>, nodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"E"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  I <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"aggregate"</span>, nodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="graph">Graph<a class="anchor" aria-label="anchor" href="#graph"></a>
-</h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulgovan.github.io/PRA/">PRA</a></span><span class="op">)</span></span>
-<span><span class="va">graph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prob_net.html">prob_net</a></span><span class="op">(</span><span class="va">nodes</span>, <span class="va">links</span>, distributions <span class="op">=</span> <span class="va">distributions</span><span class="op">)</span></span></code></pre></div>
-<p>The network can be visualized with the <code>igraph</code> and
-<code>networkD3</code> packages.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r.igraph.org/" class="external-link">igraph</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://christophergandrud.github.io/networkD3/" class="external-link">networkD3</a></span><span class="op">)</span></span>
-<span><span class="va">g</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://r.igraph.org/reference/graph_from_data_frame.html" class="external-link">graph_from_data_frame</a></span><span class="op">(</span><span class="va">graph</span><span class="op">$</span><span class="va">links</span>, vertices <span class="op">=</span> <span class="va">graph</span><span class="op">$</span><span class="va">nodes</span>, directed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">d3g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/networkD3/man/igraph_to_networkD3.html" class="external-link">igraph_to_networkD3</a></span><span class="op">(</span><span class="va">g</span>, group <span class="op">=</span> <span class="va">graph</span><span class="op">$</span><span class="va">nodes</span><span class="op">$</span><span class="va">group</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/networkD3/man/forceNetwork.html" class="external-link">forceNetwork</a></span><span class="op">(</span></span>
-<span>  Links <span class="op">=</span> <span class="va">d3g</span><span class="op">$</span><span class="va">links</span>, Nodes <span class="op">=</span> <span class="va">d3g</span><span class="op">$</span><span class="va">nodes</span>, NodeID <span class="op">=</span> <span class="st">"name"</span>, Group <span class="op">=</span> <span class="st">"group"</span>,</span>
-<span>  Value <span class="op">=</span> <span class="st">"value"</span>, zoom <span class="op">=</span> <span class="cn">TRUE</span>, legend <span class="op">=</span> <span class="cn">TRUE</span>, arrows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  opacity <span class="op">=</span> <span class="fl">0.8</span>, fontSize <span class="op">=</span> <span class="fl">14</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<div class="forceNetwork html-widget html-fill-item" id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:700px;height:432.632880098888px;"></div>
-<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"links":{"source":[0,1,2,3,4,5,6,7],"target":[2,3,5,6,7,8,8,8],"value":[1,1,1,1,1,1,1,1],"NA.":[0,1,2,3,4,5,6,7],"NA..1":[2,3,5,6,7,8,8,8],"NA..2":[1,1,1,1,1,1,1,1],"NA..3":[1,1,1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["A","B","C","D","E","F","G","H","I"],"group":["Risk","Risk","Resource","Resource","Resource","Task","Task","Task","Project"]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(d3.schemeCategory20);","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":50,"linkWidth":"function(d) { return Math.sqrt(d.value); }","charge":-30,"opacity":0.8,"zoom":true,"legend":true,"arrows":true,"nodesize":false,"radiusCalculation":" Math.sqrt(d.nodesize)+6","bounded":false,"opacityNoHover":0,"clickAction":null}},"evals":[],"jsHooks":[]}</script>
+<p>A probabilistic network is built from three components: nodes, links
+(edges), and probability distributions. The nodes represent variables,
+the edges represent cause-and-effect dependencies, and the distributions
+encode uncertainty at each node. The following constructs the network
+from the node, link, and distribution specifications laid out in the
+preceding section.</p>
+<p>First, define the nodes. Each node carries three attributes. The
+first is a short identifier, unique across the network, that is used to
+wire up edges and probability distributions. The second is a
+human-readable label displayed in visualizations. The third is a tier
+assignment to one of six groups (Root Cause, Risk, Resource, Task,
+Project, Portfolio), which controls node coloring in the network diagram
+and reflects the six-level Resource-based View hierarchy. The 26 nodes
+span SC (root cause), A–C (risks), D–L (resources, three per project),
+M–U (tasks, three per project), V–X (projects), and Y (portfolio).</p>
+<p>Next, define the edges. The structure follows the Resource-based View
+hierarchy: risks flow into shared resources, resources drive tasks,
+tasks roll up into projects, and projects aggregate into the
+portfolio.</p>
+<p>Then define the probability distributions for each node, each keyed
+to the node’s identifier. Three distribution types are used. A
+<strong>discrete</strong> distribution specifies a finite support and
+the corresponding probabilities. It is used for binary event nodes (SC,
+A, B, C) where 1 = occurs and 0 = does not occur. A
+<strong>conditional</strong> distribution branches on the realized value
+of a named parent node: if the parent equals 1 the node draws from one
+distribution, and if 0 it draws from another. Resource nodes (D–L) use
+conditional distributions that switch between a higher-cost Normal when
+the relevant risk occurs and a baseline Normal when it does not. An
+<strong>aggregate</strong> distribution has no randomness of its own. It
+sums the realized values of a named set of upstream nodes. Task,
+project, and portfolio nodes are all aggregates, so the portfolio total
+Y is the deterministic sum of the three project costs, which are
+themselves sums of task costs.</p>
+<p>Finally, build the network and visualize it as a layered directed
+graph. The network graph makes the shared-risk structure immediately
+visible: each of the three risk nodes fans out to the same resource type
+across all three projects. Note that the layered layout places each
+Resource-based View tier on its own row for readability. Causal ordering
+is determined by the topological sort of the DAG and encoded in the
+direction of the edges, not by left-right or top-bottom node
+placement.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">graph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prob_net.html">prob_net</a></span><span class="op">(</span><span class="va">nodes</span>, <span class="va">links</span>, distributions <span class="op">=</span> <span class="va">distributions</span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<img src="network_files/figure-html/Figure-01-network-1.png" class="r-plt" alt="The portfolio causal network. Nodes are arranged by Resource-based View tier, from the root cause at the top to the portfolio total at the bottom; each of the three risk nodes fans out to the same resource type in all three projects." width="672"><p class="caption">
+The portfolio causal network. Nodes are arranged by Resource-based View
+tier, from the root cause at the top to the portfolio total at the
+bottom; each of the three risk nodes fans out to the same resource type
+in all three projects.
+</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="inference">Inference<a class="anchor" aria-label="anchor" href="#inference"></a>
 </h2>
-<p>Use <code><a href="../reference/prob_net_sim.html">prob_net_sim()</a></code> to forward-simulate the network and
-estimate the total project cost distribution.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sim_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prob_net_sim.html">prob_net_sim</a></span><span class="op">(</span><span class="va">graph</span>, num_samples <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">sim_results</span><span class="op">$</span><span class="va">I</span>, breaks <span class="op">=</span> <span class="fl">60</span>,</span>
-<span>     main <span class="op">=</span> <span class="st">"Total Project Cost"</span>, xlab <span class="op">=</span> <span class="st">"Cost ($)"</span>,</span>
-<span>     col <span class="op">=</span> <span class="st">"skyblue"</span>, border <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="network_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" alt="" width="700"></p>
-<p>The spread of the distribution reflects compounded uncertainty from
-both risk events. The right tail represents scenarios where both risks
-occur simultaneously.</p>
-</div>
-<div class="section level2">
-<h2 id="learning">Learning<a class="anchor" aria-label="anchor" href="#learning"></a>
-</h2>
-<p>Use <code><a href="../reference/prob_net_learn.html">prob_net_learn()</a></code> to clamp one or more nodes to
-observed values and re-simulate. This shows the downstream effect of new
-information — for example, learning that Technical Complexity (Risk-2)
-did not materialise.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Numeric 0 or the string "No" can both be used for binary discrete nodes.</span></span>
-<span><span class="va">learn_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prob_net_learn.html">prob_net_learn</a></span><span class="op">(</span></span>
-<span>  <span class="va">graph</span>,</span>
-<span>  observations <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>B <span class="op">=</span> <span class="st">"No"</span><span class="op">)</span>,</span>
-<span>  num_samples  <span class="op">=</span> <span class="fl">10000</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>Comparing the Developer cost before and after the observation makes
-the shift clear.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">hist_before</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">sim_results</span><span class="op">$</span><span class="va">D</span>,   breaks <span class="op">=</span> <span class="fl">60</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">hist_after</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">learn_results</span><span class="op">$</span><span class="va">D</span>, breaks <span class="op">=</span> <span class="fl">60</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<p>A causal network supports three qualitatively distinct queries: the
+<strong>observational</strong> distribution
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(Y)</annotation></semantics></math>,
+the <strong>conditional</strong> distribution under seeing
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><mi>X</mi><mo>=</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(Y \mid X = x)</annotation></semantics></math>,
+and the <strong>interventional</strong> distribution under doing
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><mrow><mi mathvariant="normal">do</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>=</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(Y \mid \operatorname{do}(X = x))</annotation></semantics></math>.
+The three are generally different, and conflating them is the source of
+the most common errors in causal reasoning. This section treats each in
+turn.</p>
+<p>The observational query
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(Y)</annotation></semantics></math>
+is computed by Monte Carlo simulation over the joint distribution
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>𝐫</mi><mo>,</mo><mi>𝐚</mi><mo>,</mo><mi>𝐭</mi><mo>,</mo><mi>𝐩</mi><mo>,</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(\mathbf{r}, \mathbf{a}, \mathbf{t}, \mathbf{p}, Y)</annotation></semantics></math>
+implied by the DAG’s factorisation. Each sample draws a realization of
+every risk event, propagates costs through the conditional resource
+distributions, and sums to a portfolio total.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>=</mo><mn>20</mn><mo>,</mo><mn>000</mn></mrow><annotation encoding="application/x-tex">R = 20{,}000</annotation></semantics></math>
+samples are used for every query. Monte Carlo standard errors (MCSE),
+estimated by a nonparametric bootstrap over the simulated draws, are
+reported with the summary statistics in the Summary table at the end of
+this vignette, and every interventional scenario is simulated with
+common random numbers (the same random seed), so that differences
+between scenarios are not inflated by independent sampling noise.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
+<span><span class="va">sim_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prob_net_sim.html">prob_net_sim</a></span><span class="op">(</span><span class="va">graph</span>, num_samples <span class="op">=</span> <span class="va">n_mc</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
-<span>  <span class="va">hist_before</span>,</span>
-<span>  main   <span class="op">=</span> <span class="st">"Developer Cost: Before vs. After Observing Risk-2 = No"</span>,</span>
-<span>  xlab   <span class="op">=</span> <span class="st">"Cost ($)"</span>,</span>
-<span>  col    <span class="op">=</span> <span class="st">"skyblue"</span>,</span>
-<span>  border <span class="op">=</span> <span class="st">"white"</span>,</span>
-<span>  ylim   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">hist_before</span><span class="op">$</span><span class="va">counts</span>, <span class="va">hist_after</span><span class="op">$</span><span class="va">counts</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">hist_after</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.5</span><span class="op">)</span>, border <span class="op">=</span> <span class="st">"white"</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span></span>
-<span>  <span class="st">"topright"</span>,</span>
-<span>  legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Before (Risk-2 uncertain)"</span>, <span class="st">"After (Risk-2 = No)"</span><span class="op">)</span>,</span>
-<span>  fill   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"skyblue"</span>, <span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  bty    <span class="op">=</span> <span class="st">"n"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><img src="network_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="700"></p>
-<p>With Risk-2 ruled out, the Developer cost collapses to the lower
-baseline distribution.</p>
+<span><span class="fu">cost_hist</span><span class="op">(</span><span class="va">sim_results</span><span class="op">$</span><span class="va">Y</span>, <span class="va">sty_prior</span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<img src="network_files/figure-html/Figure-02-observational-1.png" class="r-plt" alt="Observational distribution P(Y) of portfolio cost. Heavy tails reflect shared-risk amplification across all three projects." width="624"><p class="caption">
+Observational distribution P(Y) of portfolio cost. Heavy tails reflect
+shared-risk amplification across all three projects.
+</p>
+</div>
+<p>The histogram reflects the combined uncertainty of all three shared
+risks. Because each risk affects all three projects, the tails of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(Y)</annotation></semantics></math>
+are heavier than they would be if risks were independent, a direct
+consequence of the shared-resource structure.</p>
+<p>To quantify the cost of ignoring cross-project dependencies, compare
+the portfolio variance under the causal network against the sum of
+individual project variances. Under independence,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><msub><mo stretchy="false" form="postfix">)</mo><mtext mathvariant="normal">naive</mtext></msub><mo>=</mo><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>V</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{Var}(Y)_{\text{naive}} = \operatorname{Var}(V) + \operatorname{Var}(W) + \operatorname{Var}(X)</annotation></semantics></math>,
+because projects would be uncorrelated. Under the causal network, shared
+risks introduce positive covariance terms:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.278em"></mspace><mo>=</mo><mspace width="0.278em"></mspace><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>V</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.278em"></mspace><mo>+</mo><mspace width="0.278em"></mspace><mn>2</mn><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">[</mo><mrow><mi mathvariant="normal">Cov</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>V</mi><mo>,</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mrow><mi mathvariant="normal">Cov</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>V</mi><mo>,</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mrow><mi mathvariant="normal">Cov</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>W</mi><mo>,</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
+\operatorname{Var}(Y) \;=\; \operatorname{Var}(V) + \operatorname{Var}(W) + \operatorname{Var}(X) \;+\; 2\bigl[\operatorname{Cov}(V,W) + \operatorname{Cov}(V,X) + \operatorname{Cov}(W,X)\bigr]
+\end{equation}</annotation></semantics></math></p>
+<p>The amplification factor is the ratio
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><msub><mo stretchy="false" form="postfix">)</mo><mtext mathvariant="normal">naive</mtext></msub></mrow><annotation encoding="application/x-tex">\operatorname{Var}(Y) / \operatorname{Var}(Y)_{\text{naive}}</annotation></semantics></math>,
+estimated directly from the simulation:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo></mrow><mrow><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>V</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow></mfrac><mspace width="0.278em"></mspace><mo>≈</mo><mspace width="0.278em"></mspace><mfrac><mrow><mover><mi mathvariant="normal">Var</mi><mo accent="true">̂</mo></mover><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo></mrow><mrow><mover><mi mathvariant="normal">Var</mi><mo accent="true">̂</mo></mover><mo stretchy="false" form="prefix">(</mo><mi>V</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mover><mi mathvariant="normal">Var</mi><mo accent="true">̂</mo></mover><mo stretchy="false" form="prefix">(</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mover><mi mathvariant="normal">Var</mi><mo accent="true">̂</mo></mover><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">\begin{equation}
+\frac{\operatorname{Var}(Y)}{\operatorname{Var}(V) + \operatorname{Var}(W) + \operatorname{Var}(X)} \;\approx\; \frac{\widehat{\operatorname{Var}}(Y)}{\widehat{\operatorname{Var}}(V) + \widehat{\operatorname{Var}}(W) + \widehat{\operatorname{Var}}(X)}
+\end{equation}</annotation></semantics></math></p>
+<p>where each
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi mathvariant="normal">Var</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\widehat{\operatorname{Var}}</annotation></semantics></math>
+is the sample variance computed from the 20,000-sample simulation
+output. A ratio of 1 would indicate independent projects. A ratio
+greater than 1 indicates that shared-risk covariance inflates the true
+portfolio variance above the sum of individual project variances.</p>
+<p>This ratio also has a closed form, which is worth deriving because it
+reveals exactly which parameters drive the amplification. For a resource
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>a</mi><mi>j</mi></msub><annotation encoding="application/x-tex">a_j</annotation></semantics></math>
+whose cost is conditional on a binary risk
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>R</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">P(R = 1) = p</annotation></semantics></math>,
+baseline mean
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>μ</mi><mrow><mn>0</mn><mo>,</mo><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">\mu_{0,j}</annotation></semantics></math>
+and stress mean
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>μ</mi><mrow><mn>1</mn><mo>,</mo><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">\mu_{1,j}</annotation></semantics></math>
+(with within-state variances
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>σ</mi><mrow><mn>0</mn><mo>,</mo><mi>j</mi></mrow><mn>2</mn></msubsup><annotation encoding="application/x-tex">\sigma_{0,j}^2</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>σ</mi><mrow><mn>1</mn><mo>,</mo><mi>j</mi></mrow><mn>2</mn></msubsup><annotation encoding="application/x-tex">\sigma_{1,j}^2</annotation></semantics></math>),
+the law of total variance gives</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>a</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>p</mi><mspace width="0.167em"></mspace><msubsup><mi>σ</mi><mrow><mn>1</mn><mo>,</mo><mi>j</mi></mrow><mn>2</mn></msubsup><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><msubsup><mi>σ</mi><mrow><mn>0</mn><mo>,</mo><mi>j</mi></mrow><mn>2</mn></msubsup><mo>+</mo><mi>p</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><msub><mi>μ</mi><mrow><mn>1</mn><mo>,</mo><mi>j</mi></mrow></msub><mo>−</mo><msub><mi>μ</mi><mrow><mn>0</mn><mo>,</mo><mi>j</mi></mrow></msub><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\begin{equation}
+\operatorname{Var}(a_j) = p\,\sigma_{1,j}^2 + (1-p)\,\sigma_{0,j}^2 + p(1-p)\,(\mu_{1,j} - \mu_{0,j})^2
+\end{equation}</annotation></semantics></math></p>
+<p>and for two resources
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub><mo>,</mo><msub><mi>a</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">a_i, a_j</annotation></semantics></math>
+that share the <em>same</em> parent risk and are conditionally
+independent given it,</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Cov</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>a</mi><mi>i</mi></msub><mo>,</mo><msub><mi>a</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>p</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><msub><mi>μ</mi><mrow><mn>1</mn><mo>,</mo><mi>i</mi></mrow></msub><mo>−</mo><msub><mi>μ</mi><mrow><mn>0</mn><mo>,</mo><mi>i</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>μ</mi><mrow><mn>1</mn><mo>,</mo><mi>j</mi></mrow></msub><mo>−</mo><msub><mi>μ</mi><mrow><mn>0</mn><mo>,</mo><mi>j</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
+\operatorname{Cov}(a_i, a_j) = p(1-p)\,(\mu_{1,i} - \mu_{0,i})(\mu_{1,j} - \mu_{0,j})
+\end{equation}</annotation></semantics></math></p>
+<p>Two resources driven by <em>different</em> risks
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>
+are coupled only insofar as the risk indicators themselves are
+correlated:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Cov</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>a</mi><mi>i</mi></msub><mo>,</mo><msub><mi>a</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>μ</mi><mrow><mn>1</mn><mo>,</mo><mi>i</mi></mrow></msub><mo>−</mo><msub><mi>μ</mi><mrow><mn>0</mn><mo>,</mo><mi>i</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>μ</mi><mrow><mn>1</mn><mo>,</mo><mi>j</mi></mrow></msub><mo>−</mo><msub><mi>μ</mi><mrow><mn>0</mn><mo>,</mo><mi>j</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">[</mo><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>R</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>S</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>R</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>S</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
+\operatorname{Cov}(a_i, a_j) = (\mu_{1,i} - \mu_{0,i})(\mu_{1,j} - \mu_{0,j})\,\bigl[P(R{=}1, S{=}1) - P(R{=}1)P(S{=}1)\bigr]
+\end{equation}</annotation></semantics></math></p>
+<p>Same-risk pairs in different projects (for example the labor nodes D,
+G, and J, all conditional on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>)
+are coupled by the second rule, and the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>–<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+pairs carry an additional cross-coupling through SC by the third.
+Assembling the full
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mo>×</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">9 \times 9</annotation></semantics></math>
+resource covariance matrix from these rules and comparing the total
+variance of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math>
+with the sum of the within-project variances reproduces the simulated
+ratio:</p>
+<p>In this simulation, the causal network gives a portfolio cost
+variance 2.24× larger than the naive independent-projects estimate, the
+factor by which a portfolio analyst ignoring shared resources would
+underestimate portfolio risk. The closed-form expression evaluates to
+2.24×, confirming the Monte Carlo estimate up to sampling noise and
+showing analytically that the amplification is driven by the squared
+mean shifts
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>μ</mi><mn>1</mn></msub><mo>−</mo><msub><mi>μ</mi><mn>0</mn></msub><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">(\mu_1 - \mu_0)^2</annotation></semantics></math>
+relative to the within-state variances. For the special case of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+projects all exposed to the <em>same</em> binary risk with common
+intra-group correlation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>,
+the identity simplifies to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo><mi>/</mi><msub><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mtext mathvariant="normal">naive</mtext></msub><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo><mo>≈</mo><mn>1</mn><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mi>ρ</mi></mrow><annotation encoding="application/x-tex">\operatorname{Var}(Y)/\operatorname{Var}_{\text{naive}}(Y) \approx 1 + (n-1)\rho</annotation></semantics></math>,
+making precise the sense in which the underestimation error grows with
+portfolio size.</p>
+<p>Algorithm 2 quantifies the cross-project coupling directly. The
+task-cost correlation matrix reveals which task pairs are correlated and
+by how much, with all correlation driven by the three shared enterprise
+risks.</p>
+<div class="figure">
+<img src="network_files/figure-html/Figure-03-correlation-1.png" class="r-plt" alt="Task-cost correlation matrix (Algorithm 2). Shading intensity encodes the correlation coefficient; numerical values are shown in each cell. Tasks sharing a common enterprise risk are strongly positively correlated; tasks driven by different risks are near zero." width="624"><p class="caption">
+Task-cost correlation matrix (Algorithm 2). Shading intensity encodes
+the correlation coefficient; numerical values are shown in each cell.
+Tasks sharing a common enterprise risk are strongly positively
+correlated; tasks driven by different risks are near zero.
+</p>
+</div>
+<p>Tasks driven by the same enterprise risk, namely Labor (M, P, S),
+Materials (N, Q, T), and Equipment (O, R, U), are strongly positively
+correlated across projects. Tasks driven by different risks are
+uncorrelated. The block structure of the matrix is a direct signature of
+the shared-risk mechanism: three
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">3 \times 3</annotation></semantics></math>
+correlated blocks along the diagonal, with near-zero entries everywhere
+else.</p>
 </div>
 <div class="section level2">
-<h2 id="updating">Updating<a class="anchor" aria-label="anchor" href="#updating"></a>
+<h2 id="seeing-vs--doing-at-the-risk-level">Seeing vs. Doing at the Risk Level<a class="anchor" aria-label="anchor" href="#seeing-vs--doing-at-the-risk-level"></a>
 </h2>
-<p>Use <code><a href="../reference/prob_net_update.html">prob_net_update()</a></code> to modify the network structure or
-distributions. Suppose a design review eliminates Requirements Scope
-Creep as a concern: remove the arc from Risk-1 to Resource-1 and replace
-the conditional distribution with a fixed normal.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">updated_graph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prob_net_update.html">prob_net_update</a></span><span class="op">(</span></span>
-<span>  <span class="va">graph</span>,</span>
-<span>  remove_links <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>source <span class="op">=</span> <span class="st">"A"</span>, target <span class="op">=</span> <span class="st">"C"</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,</span>
+<p>The second and third queries, <em>seeing</em> and <em>doing</em>, are
+both demonstrated here at the risk level, where the presence of SC makes
+the two operations genuinely diverge.</p>
+<p><strong>Seeing</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">A = 1</annotation></semantics></math>
+conditions on the observation in the <em>original, unchanged</em> DAG,
+and Bayes’ rule propagates the evidence upstream as well as downstream.
+Because SC is a parent of A, observing
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">A = 1</annotation></semantics></math>
+raises the posterior probability of SC from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.70</mn><annotation encoding="application/x-tex">0.70</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">SC</mtext><mo>=</mo><mn>1</mn><mo>∣</mo><mi>A</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>≈</mo><mn>0.848</mn></mrow><annotation encoding="application/x-tex">P(\text{SC} = 1 \mid A = 1) \approx 0.848</annotation></semantics></math>,
+which in turn raises the probability of the Material Price Spike from
+its prior
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>≈</mo><mn>0.670</mn></mrow><annotation encoding="application/x-tex">P(B = 1) \approx 0.670</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo>=</mo><mn>1</mn><mo>∣</mo><mi>A</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>≈</mo><mn>0.758</mn></mrow><annotation encoding="application/x-tex">P(B = 1 \mid A = 1) \approx 0.758</annotation></semantics></math>.
+Seeing a Labor Shortage therefore shifts material cost distributions
+upward as a side-effect, a consequence that flows through the shared
+root cause SC, not through any direct A→B link.</p>
+<p><strong>Doing</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">do</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{do}(A = 1)</annotation></semantics></math>
+does not condition on data in the original graph. It performs
+<strong>graph surgery</strong>, severing the incoming edges of the
+intervened node and replacing its conditional distribution with a
+post-intervention distribution, here a point mass at 1. The
+interventional distribution is given by the <em>truncated
+factorisation</em> <span class="citation">[@pearl2009]</span>, in which
+every factor corresponding to an intervened variable is deleted from the
+product:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><mrow><mi mathvariant="normal">do</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mspace width="0.278em"></mspace><mo>=</mo><mspace width="0.278em"></mspace><munder><mo>∏</mo><mrow><mi>i</mi><mspace width="0.167em"></mspace><mo>:</mo><mspace width="0.167em"></mspace><msub><mi>V</mi><mi>i</mi></msub><mo>∉</mo><mo stretchy="false" form="prefix">{</mo><mi>A</mi><mo stretchy="false" form="postfix">}</mo></mrow></munder><mi>P</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>v</mi><mi>i</mi></msub><mo>∣</mo><msub><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">a</mi></mrow><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><msub><mo minsize="300%" maxsize="300%" stretchy="true" form="prefix">|</mo><mrow><mi>A</mi><mo>=</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">\begin{equation}
+P(Y \mid \operatorname{do}(A = 1)) \;=\; \prod_{i\,:\,V_i \notin \{A\}} P(v_i \mid \mathrm{pa}_i)\Bigg|_{A=1}
+\end{equation}</annotation></semantics></math></p>
+<p>Because SC→A is severed, SC remains at its prior
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">SC</mtext><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.70</mn></mrow><annotation encoding="application/x-tex">P(\text{SC} = 1) = 0.70</annotation></semantics></math>,
+and B remains at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>≈</mo><mn>0.670</mn></mrow><annotation encoding="application/x-tex">P(B = 1) \approx 0.670</annotation></semantics></math>.
+Material costs are unaffected. Only labor costs shift.</p>
+<p>A common modeling shortcut is to fix
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">A = 1</annotation></semantics></math>
+directly in the original graph without severing SC→A. This shortcut does
+<em>not</em> produce the interventional distribution: because SC→A
+remains intact, sampling continues to propagate SC’s influence back
+through A, which yields the <em>seeing</em> distribution
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><mi>A</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(Y \mid A = 1)</annotation></semantics></math>
+rather than
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><mrow><mi mathvariant="normal">do</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(Y \mid \operatorname{do}(A = 1))</annotation></semantics></math>.
+Graph surgery, the literal deletion of the arc, is what separates the
+two operations computationally.</p>
+<p>Figure 4 shows the altered network under
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">do</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{do}(A = 1)</annotation></semantics></math>.
+The arc SC→A is severed (dashed, with a cut mark) and A, drawn as a
+square, is fixed at 1. Every other arc and distribution is unchanged, so
+B still depends on SC, but SC no longer carries any information about
+A.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Seeing A = 1: Bayesian conditioning on the original graph</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
+<span><span class="va">seeing_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prob_net_learn.html">prob_net_learn</a></span><span class="op">(</span><span class="va">graph</span>,</span>
+<span>  observations <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  num_samples  <span class="op">=</span> <span class="va">n_mc</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Doing do(A = 1): graph surgery — sever SC → A, fix A = 1</span></span>
+<span><span class="va">do_A1_graph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prob_net_update.html">prob_net_update</a></span><span class="op">(</span><span class="va">graph</span>,</span>
+<span>  remove_links         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>source <span class="op">=</span> <span class="st">"SC"</span>, target <span class="op">=</span> <span class="st">"A"</span>,</span>
+<span>                                    stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,</span>
 <span>  update_distributions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    C <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">15000</span>, sd <span class="op">=</span> <span class="fl">3000</span><span class="op">)</span></span>
+<span>    A <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"discrete"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">updated_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prob_net_sim.html">prob_net_sim</a></span><span class="op">(</span><span class="va">updated_graph</span>, num_samples <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">hist_before</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">sim_results</span><span class="op">$</span><span class="va">C</span>,      breaks <span class="op">=</span> <span class="fl">60</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">hist_after</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">updated_results</span><span class="op">$</span><span class="va">C</span>,  breaks <span class="op">=</span> <span class="fl">60</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
+<span><span class="va">do_A1_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prob_net_sim.html">prob_net_sim</a></span><span class="op">(</span><span class="va">do_A1_graph</span>, num_samples <span class="op">=</span> <span class="va">n_mc</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
-<span>  <span class="va">hist_before</span>,</span>
-<span>  main   <span class="op">=</span> <span class="st">"Business Analyst Cost: Before vs. After Removing Risk-1"</span>,</span>
-<span>  xlab   <span class="op">=</span> <span class="st">"Cost ($)"</span>,</span>
-<span>  col    <span class="op">=</span> <span class="st">"skyblue"</span>,</span>
-<span>  border <span class="op">=</span> <span class="st">"white"</span>,</span>
-<span>  ylim   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">hist_before</span><span class="op">$</span><span class="va">counts</span>, <span class="va">hist_after</span><span class="op">$</span><span class="va">counts</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">hist_after</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.5</span><span class="op">)</span>, border <span class="op">=</span> <span class="st">"white"</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span></span>
-<span>  <span class="st">"topright"</span>,</span>
-<span>  legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Before (Risk-1 possible)"</span>, <span class="st">"After (Risk-1 removed)"</span><span class="op">)</span>,</span>
-<span>  fill   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"skyblue"</span>, <span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  bty    <span class="op">=</span> <span class="st">"n"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><img src="network_files/figure-html/unnamed-chunk-15-1.png" class="r-plt" alt="" width="700"></p>
-<p>With the risk arc removed, the Business Analyst cost tightens around
-the baseline mean and the heavy right tail disappears.</p>
+<span><span class="fu">draw_network</span><span class="op">(</span>removed <span class="op">=</span> <span class="fu">surgery_edges</span><span class="op">(</span><span class="va">graph</span>, <span class="va">do_A1_graph</span><span class="op">)</span>, fixed <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<img src="network_files/figure-html/Figure-04-do-A1-network-1.png" class="r-plt" alt="The altered network under do(A=1). The arc SC→A is severed (dashed, marked) and the intervened node A (square) is fixed at 1; all other arcs are unchanged." width="672"><p class="caption">
+The altered network under do(A=1). The arc SC→A is severed (dashed,
+marked) and the intervened node A (square) is fixed at 1; all other arcs
+are unchanged.
+</p>
+</div>
+<p>Figure 5 compares the resulting portfolio cost distributions.</p>
+<div class="figure">
+<img src="network_files/figure-html/Figure-05-seeing-vs-doing-1.png" class="r-plt" alt="Portfolio cost distributions under the prior (solid grey), doing do(A=1) (dashed outline), and seeing A=1 (solid outline). The seeing distribution lies furthest right because observing a Labor Shortage also raises the posterior probability of a Supply Chain Disruption and hence a Material Price Spike." width="624"><p class="caption">
+Portfolio cost distributions under the prior (solid grey), doing do(A=1)
+(dashed outline), and seeing A=1 (solid outline). The seeing
+distribution lies furthest right because observing a Labor Shortage also
+raises the posterior probability of a Supply Chain Disruption and hence
+a Material Price Spike.
+</p>
+</div>
+<p>The three distributions separate in the expected direction. The doing
+distribution (dashed outline) lies between the prior (solid grey) and
+the seeing distribution (solid outline): it captures only the direct
+labor cost increase. The seeing distribution shifts further right
+because it also picks up the indirect material cost increase propagated
+through SC. The gap between the interventional and observational
+posteriors is the quantitative signature of the shared root cause, and
+the practical reason the distinction matters to portfolio managers. An
+analyst who treats a confirmed Labor Shortage as equivalent to an
+intervention on labor would underestimate portfolio cost exposure by
+ignoring the correlated material price signal it carries.</p>
+<p>Computationally, seeing is implemented by rejection sampling: draws
+are generated from the full joint distribution of the unaltered network,
+and only those consistent with the observation are retained. The
+evidence therefore propagates upstream to SC as well as downstream to
+the resources. As a check, the simulated posterior
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>P</mi><mo accent="true">̂</mo></mover><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo>=</mo><mn>1</mn><mo>∣</mo><mi>A</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.756</mn></mrow><annotation encoding="application/x-tex">\hat{P}(B = 1 \mid A = 1) = 0.756</annotation></semantics></math>
+(MCSE 0.003) agrees with the analytic value of 0.758.</p>
 </div>
 <div class="section level2">
-<h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
+<h2 id="project-scoped-resource-diversification">Project-Scoped Resource Diversification<a class="anchor" aria-label="anchor" href="#project-scoped-resource-diversification"></a>
 </h2>
-<p>This vignette demonstrated the core <code>PRA</code> Bayesian network
-workflow on a minimal toy project:</p>
-<ul>
-<li>
-<code><a href="../reference/prob_net.html">prob_net()</a></code> constructs the network from nodes, edges,
-and distributions.</li>
-<li>
-<code><a href="../reference/prob_net_sim.html">prob_net_sim()</a></code> forward-simulates to estimate cost
-distributions.</li>
-<li>
-<code><a href="../reference/prob_net_learn.html">prob_net_learn()</a></code> clamps observed nodes and re-simulates
-to propagate new evidence.</li>
-<li>
-<code><a href="../reference/prob_net_update.html">prob_net_update()</a></code> modifies network structure and
-distributions as the project evolves.</li>
-</ul>
-<p>For a more advanced example covering a full project portfolio with
-shared enterprise risks, causal graph surgery, and the see-versus-do
-distinction, see the <a href="network2.html">Probabilistic Networks for
-Project Portfolio Risk Analysis</a> vignette.</p>
+<p>The same graph surgery applies to resource nodes, not only to risks.
+Suppose the enterprise secures a dedicated labor crew for the Building
+Renovation (Project 3) that is insulated from the enterprise-wide labor
+shortage. This is an intervention on Labor-3,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">do</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>J</mi><mo>∼</mo><mi>𝒩</mi><mo stretchy="false" form="prefix">(</mo><mn>40</mn><mo>,</mo><mn>000</mn><mo>,</mo><mspace width="0.167em"></mspace><mn>6</mn><mo>,</mo><mn>000</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{do}(J \sim \mathcal{N}(40{,}000,\, 6{,}000))</annotation></semantics></math>,
+implemented as graph surgery: the arc
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>→</mo><mi>J</mi></mrow><annotation encoding="application/x-tex">A \to J</annotation></semantics></math>
+is deleted, and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>J</mi><annotation encoding="application/x-tex">J</annotation></semantics></math>
+is assigned its baseline unconditional distribution. Sampling from the
+mutilated graph yields draws from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mspace width="-0.167em"></mspace><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><mi mathvariant="normal">do</mi><mo stretchy="false" form="prefix">(</mo><mi>J</mi><mo>→</mo><mtext mathvariant="normal">baseline</mtext><mo stretchy="false" form="postfix">)</mo><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P\!\left(Y \mid \operatorname{do}(J \to \text{baseline})\right)</annotation></semantics></math>.</p>
+<p>Figure 6 shows the altered network. The arc A→J is severed and J,
+drawn as a square, is assigned its baseline distribution, while A
+continues to drive D and G.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Graph surgery: sever A → J, assign J its baseline distribution</span></span>
+<span><span class="va">do_graph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prob_net_update.html">prob_net_update</a></span><span class="op">(</span><span class="va">graph</span>,</span>
+<span>  remove_links         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>source <span class="op">=</span> <span class="st">"A"</span>, target <span class="op">=</span> <span class="st">"J"</span>,</span>
+<span>                                    stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,</span>
+<span>  update_distributions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>J <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"normal"</span>, mean <span class="op">=</span> <span class="fl">40000</span>, sd <span class="op">=</span> <span class="fl">6000</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
+<span><span class="va">do_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prob_net_sim.html">prob_net_sim</a></span><span class="op">(</span><span class="va">do_graph</span>, num_samples <span class="op">=</span> <span class="va">n_mc</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">draw_network</span><span class="op">(</span>removed <span class="op">=</span> <span class="fu">surgery_edges</span><span class="op">(</span><span class="va">graph</span>, <span class="va">do_graph</span><span class="op">)</span>, fixed <span class="op">=</span> <span class="st">"J"</span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<img src="network_files/figure-html/Figure-06-do-J-network-1.png" class="r-plt" alt="The altered network under do(J→baseline). The arc A→J is severed (dashed, marked) and the intervened node J (square) takes its baseline distribution; A still drives D and G." width="672"><p class="caption">
+The altered network under do(J→baseline). The arc A→J is severed
+(dashed, marked) and the intervened node J (square) takes its baseline
+distribution; A still drives D and G.
+</p>
+</div>
+<p>Figure 7 compares the resulting portfolio cost distributions.</p>
+<div class="figure">
+<img src="network_files/figure-html/Figure-07-do-J-1.png" class="r-plt" alt="Observational P(Y) (solid grey) versus the interventional distribution P(Y | do(J→baseline)) (dashed outline). Securing a dedicated crew for Project 3 shifts the distribution left by removing labor-shortage exposure from that project alone." width="624"><p class="caption">
+Observational P(Y) (solid grey) versus the interventional distribution
+P(Y | do(J→baseline)) (dashed outline). Securing a dedicated crew for
+Project 3 shifts the distribution left by removing labor-shortage
+exposure from that project alone.
+</p>
+</div>
+<p>The interventional distribution has a measurably lower mean and a
+thinner upper tail than the observational distribution. This is the
+operational pay-off of the Resource-based View seen through a causal
+lens: by severing a single
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>→</mo><mi>J</mi></mrow><annotation encoding="application/x-tex">A \to J</annotation></semantics></math>
+arc in the causal graph, portfolio tail exposure is reduced without
+changing anything about the labor markets for Projects 1 or 2.</p>
+</div>
+<div class="section level2">
+<h2 id="enterprise-wide-risk-insulation">Enterprise-Wide Risk Insulation<a class="anchor" aria-label="anchor" href="#enterprise-wide-risk-insulation"></a>
+</h2>
+<p>The preceding intervention targeted a single project’s resource. A
+second and more powerful lever insulates the entire portfolio from a
+risk rather than insulating one project from it. This corresponds to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">do</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{do}(A = 0)</annotation></semantics></math>.</p>
+<p>A firm cannot unilaterally <em>prevent</em> a labor-market shortage,
+which is an external condition outside any single firm’s control. What
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">do</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{do}(A = 0)</annotation></semantics></math>
+models is full <em>insulation</em> from that condition: a hedge,
+fixed-price contract, or risk-transfer arrangement that guarantees zero
+labor-shortage cost impact regardless of what the labor market does. The
+graph surgery severs SC→A, the only incoming arc to A, and clamps A = 0.
+Because A is now a fixed root node equal to 0, every labor node draws
+from its baseline distribution, and labor-shortage exposure is
+neutralized across all three projects simultaneously. This differs
+fundamentally from the project-scoped
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">do</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>J</mi><mo>→</mo><mtext mathvariant="normal">baseline</mtext><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{do}(J \to \text{baseline})</annotation></semantics></math>
+intervention above: there, A remained a live risk in the portfolio and
+only Project 3’s labor was insulated. Here, the labor risk is
+transferred away enterprise-wide.</p>
+<p>Figure 8 shows the altered network under
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">do</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{do}(A = 0)</annotation></semantics></math>.
+The surgery has the same shape as in Figure 4, severing SC→A, but A is
+now fixed at 0, so all three labor nodes (D, G, J) draw from their
+baseline distribution.</p>
+<div class="figure">
+<img src="network_files/figure-html/Figure-08-do-A0-network-1.png" class="r-plt" alt="The altered network under do(A=0). The arc SC→A is severed (dashed, marked) and the intervened node A (square) is fixed at 0, removing labor-shortage exposure from all three projects." width="672"><p class="caption">
+The altered network under do(A=0). The arc SC→A is severed (dashed,
+marked) and the intervened node A (square) is fixed at 0, removing
+labor-shortage exposure from all three projects.
+</p>
+</div>
+<p>Figure 9 compares the observational distribution with both
+interventions.</p>
+<div class="figure">
+<img src="network_files/figure-html/Figure-09-insulation-1.png" class="r-plt" alt="Project-scoped insulation (dashed outline, do(J→baseline)) versus enterprise-wide labor insulation (dotted outline, do(A=0)). Insulating the whole portfolio from the Labor Shortage produces a larger leftward shift than insulating a single project." width="624"><p class="caption">
+Project-scoped insulation (dashed outline, do(J→baseline)) versus
+enterprise-wide labor insulation (dotted outline, do(A=0)). Insulating
+the whole portfolio from the Labor Shortage produces a larger leftward
+shift than insulating a single project.
+</p>
+</div>
+<p>The gap between the two interventional distributions quantifies the
+additional portfolio benefit of an enterprise-wide risk-transfer
+strategy over a project-level resource-diversification one.</p>
+</div>
+<div class="section level2">
+<h2 id="seeing-two-risks-at-once">Seeing Two Risks at Once<a class="anchor" aria-label="anchor" href="#seeing-two-risks-at-once"></a>
+</h2>
+<p>Suppose both the Labor Shortage and the Material Price Spike are
+confirmed,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">A = 1</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">B = 1</annotation></semantics></math>
+simultaneously.</p>
+<div class="figure">
+<img src="network_files/figure-html/Figure-10-seeing-two-1.png" class="r-plt" alt="Portfolio cost distributions under the prior (solid grey), seeing A=1 alone (solid outline), and seeing both A=1 and B=1 simultaneously (dot-dash outline). Confirming two shared risks compounds the rightward shift and narrows the distribution further." width="624"><p class="caption">
+Portfolio cost distributions under the prior (solid grey), seeing A=1
+alone (solid outline), and seeing both A=1 and B=1 simultaneously
+(dot-dash outline). Confirming two shared risks compounds the rightward
+shift and narrows the distribution further.
+</p>
+</div>
+<p>Confirming two shared risks produces a larger rightward shift than
+confirming one, and the distribution narrows further because the
+compound observation resolves the uncertainty in two risk channels at
+once. The incremental shift from adding
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">B = 1</annotation></semantics></math>
+is, however, smaller than one might expect, and the reason is
+instructive. Having already observed
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">A = 1</annotation></semantics></math>,
+the posterior probability of the Material Price Spike is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo>=</mo><mn>1</mn><mo>∣</mo><mi>A</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>≈</mo><mn>0.758</mn></mrow><annotation encoding="application/x-tex">P(B = 1 \mid A = 1) \approx 0.758</annotation></semantics></math>,
+so additionally confirming
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">B = 1</annotation></semantics></math>
+moves that probability only from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.758</mn><annotation encoding="application/x-tex">0.758</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.0</mn><annotation encoding="application/x-tex">1.0</annotation></semantics></math>.
+The shared root cause SC has already propagated most of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>’s
+update through
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>.
+This is the <em>informational redundancy</em> that shared root causes
+induce between risk signals: when two risks descend from a common cause,
+the second observation carries less independent news than its marginal
+probability would suggest. The practical lesson is the converse of naive
+intuition: monitoring two risks that share a root cause yields
+diminishing returns, whereas monitoring risks with <em>independent</em>
+drivers (for example
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+and the weather-driven
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>C</mi><annotation encoding="application/x-tex">C</annotation></semantics></math>)
+provides more genuinely new information per signal.</p>
+</div>
+<div class="section level2">
+<h2 id="risk-importance-ranking">Risk Importance Ranking<a class="anchor" aria-label="anchor" href="#risk-importance-ranking"></a>
+</h2>
+<p>Portfolio managers cannot mitigate every risk simultaneously. A
+natural question is: <em>which shared risk contributes most to portfolio
+cost variance?</em> The causal network answers this directly by running
+three separate enterprise-insulation interventions,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">do</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{do}(A=0)</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">do</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{do}(B=0)</annotation></semantics></math>,
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">do</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>C</mi><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{do}(C=0)</annotation></semantics></math>,
+and measuring the variance reduction each produces.</p>
+<p>Two importance measures are reported. The first is interventional:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>I</mi><mi>R</mi></msub><mo>=</mo><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">[</mo><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><mrow><mi mathvariant="normal">do</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>R</mi><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">]</mo><mi>/</mi><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">I_R = \bigl[\operatorname{Var}(Y) - \operatorname{Var}(Y \mid \operatorname{do}(R = 0))\bigr] / \operatorname{Var}(Y)</annotation></semantics></math>,
+the share of portfolio cost variance removed by insulating the portfolio
+against risk
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>.
+It is a variance analogue of the risk reduction worth used in
+probabilistic safety assessment, which measures the decrease in risk
+when a basic event is set to never occur <span class="citation">[@vanderborst2001; @kuo2012]</span>. The second is the
+first-order variance-based (Sobol) index
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mi>R</mi></msub><mo>=</mo><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">(</mo><mi>E</mi><mo stretchy="false" form="prefix">[</mo><mi>Y</mi><mo>∣</mo><mi>R</mi><mo stretchy="false" form="postfix">]</mo><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">)</mo><mi>/</mi><mrow><mi mathvariant="normal">Var</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">S_R = \operatorname{Var}\bigl(E[Y \mid R]\bigr) / \operatorname{Var}(Y)</annotation></semantics></math><span class="citation">[@sobol1993; @borgonovo2016]</span>, which
+probabilistic graphical models can compute directly <span class="citation">[@ballester2022]</span>. Both measures are evaluated in
+closed form from the covariance rules above.</p>
+<div class="figure">
+<img src="network_files/figure-html/Figure-11-importance-1.png" class="r-plt" alt="Risk importance: the share of portfolio cost variance removed by insulating against each enterprise risk, I_R (dark), and the first-order Sobol index, S_R (light). Both measures rank the Material Price Spike first and the Weather Delay last." width="624"><p class="caption">
+Risk importance: the share of portfolio cost variance removed by
+insulating against each enterprise risk, I_R (dark), and the first-order
+Sobol index, S_R (light). Both measures rank the Material Price Spike
+first and the Weather Delay last.
+</p>
+</div>
+<p>Both measures rank the Material Price Spike first
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>I</mi><mi>B</mi></msub><annotation encoding="application/x-tex">I_B</annotation></semantics></math>
+= 0.66,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>S</mi><mi>B</mi></msub><annotation encoding="application/x-tex">S_B</annotation></semantics></math>
+= 0.63), the Labor Shortage second
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>I</mi><mi>A</mi></msub><annotation encoding="application/x-tex">I_A</annotation></semantics></math>
+= 0.35,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>S</mi><mi>A</mi></msub><annotation encoding="application/x-tex">S_A</annotation></semantics></math>
+= 0.38), and the Weather Delay last
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>I</mi><mi>C</mi></msub><annotation encoding="application/x-tex">I_C</annotation></semantics></math>
+= 0.10,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>S</mi><mi>C</mi></msub><annotation encoding="application/x-tex">S_C</annotation></semantics></math>
+= 0.09). Neither set of shares sums to one, because A and B are
+dependent through SC and the variance they jointly induce is counted
+under each. The Monte Carlo estimates of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>I</mi><mi>R</mi></msub><annotation encoding="application/x-tex">I_R</annotation></semantics></math>
+from the three insulation runs agree with the closed-form values to
+within 0.005. For mitigation planning,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>I</mi><mi>R</mi></msub><annotation encoding="application/x-tex">I_R</annotation></semantics></math>
+is the decision-relevant measure, because it is the reduction a manager
+would actually obtain by insulating the portfolio against that risk.</p>
+</div>
+<div class="section level2">
+<h2 id="sensitivity">Sensitivity to Input Assumptions<a class="anchor" aria-label="anchor" href="#sensitivity"></a>
+</h2>
+<p>Every input in the case study is illustrative, so the conclusions
+should not depend on the particular values chosen. Three groups of
+inputs are varied jointly: the prior probability of the root cause,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">SC</mtext><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>0.3</mn><mo>,</mo><mn>0.5</mn><mo>,</mo><mn>0.7</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">P(\text{SC} = 1) \in \{0.3, 0.5, 0.7\}</annotation></semantics></math>;
+the strength of the coupling between SC and the two risks it drives,
+from weak
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>=</mo><mn>1</mn><mo>∣</mo><mtext mathvariant="normal">SC</mtext><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.80</mn></mrow><annotation encoding="application/x-tex">P(A = 1 \mid \text{SC}) = 0.80</annotation></semantics></math>
+vs. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.60</mn><annotation encoding="application/x-tex">0.60</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mo>=</mo><mn>1</mn><mo>∣</mo><mtext mathvariant="normal">SC</mtext><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.75</mn></mrow><annotation encoding="application/x-tex">P(B = 1 \mid \text{SC}) = 0.75</annotation></semantics></math>
+vs. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.55</mn><annotation encoding="application/x-tex">0.55</annotation></semantics></math>)
+through the base case to strong
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.99</mn><annotation encoding="application/x-tex">0.99</annotation></semantics></math>
+vs. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.10</mn><annotation encoding="application/x-tex">0.10</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.95</mn><annotation encoding="application/x-tex">0.95</annotation></semantics></math>
+vs. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.05</mn><annotation encoding="application/x-tex">0.05</annotation></semantics></math>);
+and the size of every stress-state mean shift
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>μ</mi><mn>1</mn></msub><mo>−</mo><msub><mi>μ</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">\mu_1 - \mu_0</annotation></semantics></math>,
+scaled by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.5</mn><annotation encoding="application/x-tex">0.5</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>,
+or
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.5</mn><annotation encoding="application/x-tex">1.5</annotation></semantics></math>.
+All 27 combinations are evaluated in closed form with the covariance
+rules of the Inference section. The results are shown in the table
+below.</p>
+<table class="table">
+<caption>Sensitivity of the main results to the input assumptions. Var
+ratio: Var(Y) / Var_naive(Y), for mean shifts scaled by 0.5, 1 and 1.5.
+Seeing-doing gap: E[Y | A = 1] - E[Y | do(A = 1)]. Redundancy: (P(B = 1
+| A = 1) - P(B = 1)) / (1 - P(B = 1)), the share of the update to B
+already delivered by observing A. Gap and redundancy are shown for the
+unscaled mean shifts. The ranking is by both I_R and S_R.</caption>
+<colgroup>
+<col width="12%">
+<col width="8%">
+<col width="12%">
+<col width="11%">
+<col width="12%">
+<col width="19%">
+<col width="8%">
+<col width="15%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Coupling to SC</th>
+<th align="right">P(SC = 1)</th>
+<th align="right">Var ratio (0.5)</th>
+<th align="right">Var ratio (1)</th>
+<th align="right">Var ratio (1.5)</th>
+<th align="right">Seeing-doing gap ($000)</th>
+<th align="right">Redundancy</th>
+<th align="left">Importance ranking</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Weak</td>
+<td align="right">0.3</td>
+<td align="right">1.61</td>
+<td align="right">2.22</td>
+<td align="right">2.50</td>
+<td align="right">1.1</td>
+<td align="right">0.03</td>
+<td align="left">B &gt; A &gt; C</td>
+</tr>
+<tr class="even">
+<td align="left">Weak</td>
+<td align="right">0.5</td>
+<td align="right">1.59</td>
+<td align="right">2.20</td>
+<td align="right">2.48</td>
+<td align="right">1.3</td>
+<td align="right">0.04</td>
+<td align="left">B &gt; A &gt; C</td>
+</tr>
+<tr class="odd">
+<td align="left">Weak</td>
+<td align="right">0.7</td>
+<td align="right">1.55</td>
+<td align="right">2.16</td>
+<td align="right">2.45</td>
+<td align="right">1.0</td>
+<td align="right">0.04</td>
+<td align="left">B &gt; A &gt; C</td>
+</tr>
+<tr class="even">
+<td align="left">Base</td>
+<td align="right">0.3</td>
+<td align="right">1.75</td>
+<td align="right">2.35</td>
+<td align="right">2.58</td>
+<td align="right">11.0</td>
+<td align="right">0.22</td>
+<td align="left">B &gt; A &gt; C</td>
+</tr>
+<tr class="odd">
+<td align="left">Base</td>
+<td align="right">0.5</td>
+<td align="right">1.72</td>
+<td align="right">2.32</td>
+<td align="right">2.56</td>
+<td align="right">11.0</td>
+<td align="right">0.27</td>
+<td align="left">B &gt; A &gt; C</td>
+</tr>
+<tr class="even">
+<td align="left">Base</td>
+<td align="right">0.7</td>
+<td align="right">1.63</td>
+<td align="right">2.24</td>
+<td align="right">2.51</td>
+<td align="right">7.9</td>
+<td align="right">0.27</td>
+<td align="left">B &gt; A &gt; C</td>
+</tr>
+<tr class="odd">
+<td align="left">Strong</td>
+<td align="right">0.3</td>
+<td align="right">1.88</td>
+<td align="right">2.44</td>
+<td align="right">2.64</td>
+<td align="right">41.3</td>
+<td align="right">0.67</td>
+<td align="left">B &gt; A &gt; C</td>
+</tr>
+<tr class="even">
+<td align="left">Strong</td>
+<td align="right">0.5</td>
+<td align="right">1.88</td>
+<td align="right">2.44</td>
+<td align="right">2.64</td>
+<td align="right">33.1</td>
+<td align="right">0.73</td>
+<td align="left">B &gt; A &gt; C</td>
+</tr>
+<tr class="odd">
+<td align="left">Strong</td>
+<td align="right">0.7</td>
+<td align="right">1.76</td>
+<td align="right">2.35</td>
+<td align="right">2.58</td>
+<td align="right">20.9</td>
+<td align="right">0.73</td>
+<td align="left">B &gt; A &gt; C</td>
+</tr>
+</tbody>
+</table>
+<p>First, ignoring shared resources understates portfolio cost variance
+in every combination, by a factor of between 1.55 and 2.64. The factor
+grows with the size of the mean shifts and is nearly insensitive to the
+root-cause probability. Second, the importance ranking (Material Price
+Spike, then Labor Shortage, then Weather Delay) holds in all 27
+combinations, under both measures. Third, the seeing-doing gap and the
+informational redundancy are driven almost entirely by the strength of
+the coupling to the common cause. With weak coupling the gap falls to
+about $1.3k and the redundancy to 0.04. With strong coupling they rise
+to as much as $41.3k and 0.73. These two results therefore hold in
+proportion to how strongly the risks share a cause, which is what the
+causal account predicts: with no common cause, seeing and doing
+coincide.</p>
+<p>A Monte Carlo run at the most extreme combination
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">SC</mtext><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.3</mn></mrow><annotation encoding="application/x-tex">P(\text{SC} = 1) = 0.3</annotation></semantics></math>,
+strong coupling, mean shifts scaled by 1.5) reproduces the closed-form
+variance ratio: 2.64 from simulation against 2.64 in closed form. A
+final check concerns the choice of the Normal family for resource costs.
+Replacing every resource distribution with a lognormal of the same mean
+and standard deviation, which gives each resource a right-skewed cost,
+changes the 95th-percentile reduction from enterprise-wide labor
+insulation only from $61.3k to $61.7k. Within each risk state the
+portfolio total sums nine moderately dispersed resources, so the skew of
+the individual costs largely disappears, and the tail comparisons
+reported here are not sensitive to the distributional family.</p>
+</div>
+<div class="section level2">
+<h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
+</h2>
+<p>The following table collects key statistics from every scenario
+demonstrated above, converting each histogram into actionable
+numbers.</p>
+<table class="table">
+<caption>Portfolio cost statistics across the five managerial query
+scenarios (values in $000s; bootstrap Monte Carlo standard errors in
+parentheses).</caption>
+<colgroup>
+<col width="54%">
+<col width="14%">
+<col width="12%">
+<col width="18%">
+</colgroup>
+<thead><tr class="header">
+<th align="left"></th>
+<th align="right">Mean ($000)</th>
+<th align="right">SD ($000)</th>
+<th align="right">95th Pct ($000)</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Observational P(Y)</td>
+<td align="right">426.4 (0.5)</td>
+<td align="right">64.0 (0.3)</td>
+<td align="right">513.9 (0.4)</td>
+</tr>
+<tr class="even">
+<td align="left">Seeing P(Y | A = 1)</td>
+<td align="right">447.1 (0.4)</td>
+<td align="right">50.2 (0.2)</td>
+<td align="right">517.8 (0.5)</td>
+</tr>
+<tr class="odd">
+<td align="left">Seeing P(Y | A = 1, B = 1)</td>
+<td align="right">468.9 (0.2)</td>
+<td align="right">33.1 (0.2)</td>
+<td align="right">522.2 (0.4)</td>
+</tr>
+<tr class="even">
+<td align="left">Doing do(J → baseline) [Project 3 insulated]</td>
+<td align="right">406.7 (0.4)</td>
+<td align="right">57.8 (0.2)</td>
+<td align="right">487.9 (0.5)</td>
+</tr>
+<tr class="odd">
+<td align="left">Doing do(A = 0) [Enterprise insulation]</td>
+<td align="right">378.8 (0.4)</td>
+<td align="right">51.5 (0.2)</td>
+<td align="right">452.6 (0.5)</td>
+</tr>
+</tbody>
+</table>
+<p>The two seeing rows raise the mean (by about $21k, then $42k, above
+the observational baseline) while shrinking the standard deviation, so
+the 95th percentile moves far less (a change of +4k, then +8k):
+confirmed bad news changes what a manager should expect more than the
+worst case. The two doing rows move the opposite way. Insulating Project
+3 lowers the mean by about $20k and the 95th percentile by about $26k,
+and enterprise-wide labor insulation lowers them by about $48k and $61k.
+Comparing the mean against the 95th percentile in each row separates a
+shift in expected cost from a change in tail exposure, which is the
+distinction the managerial levers in the next section build on.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -472,7 +1193,7 @@ Project Portfolio Risk Analysis</a> vignette.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>
