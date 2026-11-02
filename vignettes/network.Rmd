@@ -1,0 +1,1019 @@
+---
+title: "Causal Networks for Project Portfolio Risk Analysis"
+output:
+  html_vignette:
+    fig_width: 7
+    fig_height: 5
+vignette: >
+  %\VignetteIndexEntry{Causal Networks for Project Portfolio Risk Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse   = TRUE,
+  comment    = "#>",
+  echo       = FALSE,
+  warning    = FALSE,
+  fig.width  = 6.5,
+  fig.height = 4.5
+)
+```
+
+```{r network-setup, include = FALSE}
+library(PRA)
+library(igraph)
+library(corrplot)
+
+# Use 20,000 draws locally; 1,000 on CRAN so the vignette builds quickly.
+n_mc <- if (nzchar(Sys.getenv("NOT_CRAN"))) 20000L else 1000L
+
+# Bootstrap Monte Carlo standard error — skipped on CRAN (small n_mc makes it noisy).
+mcse <- function(x, f, B = 200) {
+  if (n_mc < 5000L) return(NA_real_)
+  set.seed(7)
+  sd(replicate(B, f(sample(x, replace = TRUE))))
+}
+
+# Greyscale, print-ready styling. The prior is a light-grey solid fill; every
+# overlaid series is an unfilled outline with its own line type (dashed, dotted,
+# solid, dot-dash), so series stay distinguishable in black and white and
+# overlapping distributions remain visible through one another.
+sty_prior <- list(col = "grey85", border = "grey40", lty = 1, lwd = 0.8)
+sty_doA1  <- list(col = NA, border = "black", lty = 2, lwd = 1.6)  # doing do(A = 1)
+sty_doJ   <- list(col = NA, border = "black", lty = 2, lwd = 1.6)  # project-scoped insulation
+sty_doA0  <- list(col = NA, border = "black", lty = 3, lwd = 1.8)  # enterprise-wide insulation
+sty_see1  <- list(col = NA, border = "black", lty = 1, lwd = 1.6)  # seeing, one risk
+sty_see2  <- list(col = NA, border = "black", lty = 4, lwd = 1.6)  # seeing, two risks
+
+# Legend entries that mirror a style list: filled key for the prior, line key for
+# outline series, so keys match the plotted series.
+style_legend <- function(pos, labels, styles, ...) {
+  legend(pos, legend = labels,
+         fill   = vapply(styles, function(s) if (is.na(s$col)) NA_character_ else s$col, ""),
+         border = vapply(styles, `[[`, "", "border"),
+         lty    = vapply(styles, `[[`, numeric(1), "lty"),
+         lwd    = vapply(styles, `[[`, numeric(1), "lwd"),
+         bty = "n", cex = 0.8, ...)
+}
+
+# Greys for the risk-importance ranking (Figure 11), which encodes risk identity
+# rather than query type.
+grey_riskA <- "grey20"   # Labor Shortage (A)
+grey_riskB <- "grey55"   # Material Price Spike (B)
+grey_riskC <- "grey90"   # Weather Delay (C)
+
+# Node-tier greys for the network diagram. Label text is white on dark tiers and
+# black on light tiers so that every label remains legible in print.
+tier_cols <- c("Root Cause" = "grey10", "Risk"      = "grey30",
+               "Resource"   = "grey50", "Task"      = "grey70",
+               "Project"    = "grey90", "Portfolio" = "grey40")
+tier_label_cols <- c("Root Cause" = "white", "Risk"      = "white",
+                     "Resource"   = "black", "Task"      = "black",
+                     "Project"    = "black", "Portfolio" = "white")
+
+# One set of bin edges and x-limits for every portfolio-cost histogram, so bars
+# align within a figure and the axis is comparable across figures.
+cost_breaks <- seq(200000, 640000, length.out = 45)
+cost_lim    <- range(cost_breaks)
+
+# Styled portfolio-cost histogram; add = TRUE overlays onto an existing panel.
+cost_hist <- function(x, sty, add = FALSE, ylim = NULL) {
+  h <- hist(x, breaks = cost_breaks, plot = FALSE)
+  if (add) {
+    plot(h, col = sty$col, border = sty$border, lty = sty$lty, lwd = sty$lwd, add = TRUE)
+  } else {
+    plot(h, col = sty$col, border = sty$border, lty = sty$lty, lwd = sty$lwd,
+         main = "", xlab = "", ylab = "",
+         xlim = cost_lim, ylim = ylim, axes = FALSE)
+    at <- pretty(cost_lim, n = 6)
+    axis(1, at = at, labels = paste0("$", at / 1000, "k"), lwd = 0, lwd.ticks = 1)
+    axis(2, las = 1, lwd = 0, lwd.ticks = 1)
+    title(xlab = "Portfolio cost", ylab = "Frequency")
+  }
+  invisible(h)
+}
+
+# Tallest bar across several series, for a shared y axis.
+hmax <- function(...) max(vapply(list(...),
+  function(x) max(hist(x, breaks = cost_breaks, plot = FALSE)$counts), numeric(1)))
+```
+
+## Introduction
+
+This vignette demonstrates the probabilistic network workflow in the `PRA` package applied to a project portfolio risk management (PPRM) case study. The four core functions are:
+
+- `prob_net()` — build a causal network from node, edge, and distribution specifications;
+- `prob_net_sim()` — draw Monte Carlo samples from the joint distribution (*observational* query);
+- `prob_net_learn()` — condition on observed evidence via rejection sampling (*seeing*);
+- `prob_net_update()` — apply graph surgery for causal interventions (*doing*).
+
+The distinction between *seeing* and *doing* (Pearl 2009) is the central methodological point. Conditioning on a confirmed risk propagates evidence both upstream and downstream in the original graph; intervening on a risk severs its incoming edges and clamps its value, isolating the direct causal effect. The two operations give different portfolio cost distributions, and the gap between them has concrete managerial significance.
+
+## Case Study
+
+Consider an enterprise running three projects at the same time: a **Road Repair**, a **Park Construction**, and a **Building Renovation**. Each project has three tasks driven by three resources: labor, materials, and equipment. These resources are shared at the enterprise level: the same labor pool, the same material suppliers, and the same equipment fleet serve all three projects.
+
+This sharing creates direct portfolio-level risk. Three enterprise-wide risk events, a **Labor Shortage**, a **Material Price Spike**, and a **Weather Delay**, each propagate through the corresponding shared resource to impact all three projects simultaneously.
+
+Critically, two of these risks, the Labor Shortage and the Material Price Spike, share a common upstream driver: a **Supply Chain Disruption** that simultaneously tightens the labor market and raises commodity prices. This upstream dependence means that observing a Labor Shortage is Bayesian evidence that a Supply Chain Disruption is underway, which in turn raises the probability of a Material Price Spike. It is precisely this structure, a root cause fanning out to multiple risks, which fan out to shared resources, that makes the distinction between *seeing* and *doing* empirically consequential at the portfolio level.
+
+## Tasks
+
+Each project follows the same three-stage lifecycle: an initial site-preparation or demolition stage, a core execution stage specific to that project's scope, and a final inspection stage. Tasks are aggregate nodes in the causal network, so a task's cost is simply the deterministic sum of the resource(s) feeding into it; all of the uncertainty at the task level is therefore inherited from the resource distributions defined in the next section. The primary tasks for each project are as follows.
+
+```{r tasks-table, results='asis'}
+tasks <- data.frame(
+  ID         = c("M", "N", "O", "P", "Q", "R", "S", "T", "U"),
+  Label      = c("Task-1.1", "Task-1.2", "Task-1.3",
+                 "Task-2.1", "Task-2.2", "Task-2.3",
+                 "Task-3.1", "Task-3.2", "Task-3.3"),
+  Task       = c("Site Preparation", "Road Paving", "Final Inspection",
+                 "Site Preparation", "Planting and Landscaping", "Final Inspection",
+                 "Demolition", "Renovation and Build-Out", "Final Inspection"),
+  Project_ID = c("V", "V", "V", "W", "W", "W", "X", "X", "X"),
+  Project    = c("Road Repair", "Road Repair", "Road Repair",
+                 "Park Construction", "Park Construction", "Park Construction",
+                 "Building Renovation", "Building Renovation", "Building Renovation")
+)
+knitr::kable(tasks, col.names = c("ID", "Label", "Task", "Project ID", "Project"),
+             caption = "Enterprise tasks by project.")
+```
+
+## Resources
+
+Each task is driven by one primary resource. Because all three projects draw from the same enterprise-wide labor pool, supplier network, and equipment fleet, the resource costs for like resources are correlated across projects.
+
+```{r resources-table, results='asis'}
+resources <- data.frame(
+  ID       = c("D", "E", "F", "G", "H", "I", "J", "K", "L"),
+  Label    = c("Resource-1.1", "Resource-1.2", "Resource-1.3",
+               "Resource-2.1", "Resource-2.2", "Resource-2.3",
+               "Resource-3.1", "Resource-3.2", "Resource-3.3"),
+  Resource = rep(c("Labor", "Materials", "Equipment"), 3),
+  Task_ID  = c("M", "N", "O", "P", "Q", "R", "S", "T", "U"),
+  Task     = c("Site Preparation", "Road Paving", "Final Inspection",
+               "Site Preparation", "Planting and Landscaping", "Final Inspection",
+               "Demolition", "Renovation and Build-Out", "Final Inspection"),
+  Project  = c("Road Repair", "Road Repair", "Road Repair",
+               "Park Construction", "Park Construction", "Park Construction",
+               "Building Renovation", "Building Renovation", "Building Renovation"),
+  Mean     = c(30000, 50000, 20000, 25000, 30000, 15000, 40000, 60000, 25000),
+  SD       = c(5000,  8000,  4000,  4000,  5000,  3000,  6000,  10000, 4000)
+)
+knitr::kable(resources,
+             col.names = c("ID", "Label", "Resource", "Task ID", "Task", "Project", "Mean", "SD"),
+             caption = "Enterprise resources by project, with baseline cost distributions (mean and standard deviation, in dollars).")
+```
+
+## Risks
+
+The network includes one root cause and three risk events. The root cause (SC) is a Supply Chain Disruption that drives both the Labor Shortage and the Material Price Spike. The Weather Delay is independent of SC. Each risk event is enterprise-wide and impacts the corresponding shared resource across all three projects.
+
+```{r rootcause-table, results='asis'}
+root_cause <- data.frame(
+  ID          = "SC",
+  Name        = "Root Cause",
+  Event       = "Supply Chain Disruption",
+  P_occurs    = 0.70,
+  Children    = "A (Labor Shortage), B (Material Price Spike)"
+)
+knitr::kable(root_cause,
+             col.names = c("ID", "Name", "Event", "P(occurs)", "Children"),
+             caption   = "Root cause node (SC).")
+```
+
+```{r risks-table, results='asis'}
+risks <- data.frame(
+  Risk_ID       = c("A", "B", "C"),
+  Risk          = c("Labor Shortage", "Material Price Spike", "Weather Delay"),
+  Parent        = c("SC", "SC", "none"),
+  P_given_SC    = c("0.95 / 0.40", "0.85 / 0.25", "n/a"),
+  P_marginal    = c("≈ 0.79", "≈ 0.67", "0.60"),
+  Resource_Impacted = c(
+    "Labor (D, G, J)",
+    "Materials (E, H, K)",
+    "Equipment (F, I, L)"
+  )
+)
+knitr::kable(risks,
+             col.names = c("Risk ID", "Risk", "Parent",
+                           "P(occurs | SC=1, SC=0)",
+                           "P(occurs)", "Resource impacted"),
+             caption   = "Enterprise-wide risk nodes (A and B conditional on SC; C independent).")
+```
+
+## Probabilistic Network
+
+A probabilistic network is built from three components: nodes, links (edges), and probability distributions. The nodes represent variables, the edges represent cause-and-effect dependencies, and the distributions encode uncertainty at each node. The following constructs the network from the node, link, and distribution specifications laid out in the preceding section.
+
+First, define the nodes. Each node carries three attributes. The first is a short identifier, unique across the network, that is used to wire up edges and probability distributions. The second is a human-readable label displayed in visualizations. The third is a tier assignment to one of six groups (Root Cause, Risk, Resource, Task, Project, Portfolio), which controls node coloring in the network diagram and reflects the six-level Resource-based View hierarchy. The 26 nodes span SC (root cause), A–C (risks), D–L (resources, three per project), M–U (tasks, three per project), V–X (projects), and Y (portfolio).
+
+```{r}
+nodes <- data.frame(
+  id = c(
+    "SC",
+    "A",  "B",  "C",
+    "D",  "E",  "F",
+    "G",  "H",  "I",
+    "J",  "K",  "L",
+    "M",  "N",  "O",
+    "P",  "Q",  "R",
+    "S",  "T",  "U",
+    "V",  "W",  "X",  "Y"
+  ),
+  label = c(
+    "Supply Chain Disruption",
+    "Risk-1 (Labor Shortage)",
+    "Risk-2 (Material Price Spike)",
+    "Risk-3 (Weather Delay)",
+    "Labor-1",    "Materials-1",  "Equipment-1",
+    "Labor-2",    "Materials-2",  "Equipment-2",
+    "Labor-3",    "Materials-3",  "Equipment-3",
+    "Task-1.1",   "Task-1.2",     "Task-1.3",
+    "Task-2.1",   "Task-2.2",     "Task-2.3",
+    "Task-3.1",   "Task-3.2",     "Task-3.3",
+    "Project 1",  "Project 2",    "Project 3",
+    "Portfolio"
+  ),
+  group = c(
+    "Root Cause",
+    "Risk", "Risk", "Risk",
+    "Resource", "Resource", "Resource",
+    "Resource", "Resource", "Resource",
+    "Resource", "Resource", "Resource",
+    "Task", "Task", "Task",
+    "Task", "Task", "Task",
+    "Task", "Task", "Task",
+    "Project", "Project", "Project",
+    "Portfolio"
+  ),
+  stringsAsFactors = FALSE
+)
+```
+
+Next, define the edges. The structure follows the Resource-based View hierarchy: risks flow into shared resources, resources drive tasks, tasks roll up into projects, and projects aggregate into the portfolio.
+
+```{r}
+links <- data.frame(
+  source = c(
+    # Root cause → Risks (SC drives Labor Shortage and Material Price Spike)
+    "SC", "SC",
+    # Risks → Resources (each risk hits the same resource type across all 3 projects)
+    "A", "A", "A",   # Labor Shortage → Labor in P1, P2, P3
+    "B", "B", "B",   # Material Price Spike → Materials in P1, P2, P3
+    "C", "C", "C",   # Weather Delay → Equipment in P1, P2, P3
+    # Resources → Tasks (1-to-1)
+    "D", "E", "F",
+    "G", "H", "I",
+    "J", "K", "L",
+    # Tasks → Projects
+    "M", "N", "O",
+    "P", "Q", "R",
+    "S", "T", "U",
+    # Projects → Portfolio
+    "V", "W", "X"
+  ),
+  target = c(
+    "A", "B",
+    "D", "G", "J",
+    "E", "H", "K",
+    "F", "I", "L",
+    "M", "N", "O",
+    "P", "Q", "R",
+    "S", "T", "U",
+    "V", "V", "V",
+    "W", "W", "W",
+    "X", "X", "X",
+    "Y", "Y", "Y"
+  ),
+  value = rep(1, 32)
+)
+```
+
+Then define the probability distributions for each node, each keyed to the node's identifier. Three distribution types are used. A **discrete** distribution specifies a finite support and the corresponding probabilities. It is used for binary event nodes (SC, A, B, C) where 1 = occurs and 0 = does not occur. A **conditional** distribution branches on the realized value of a named parent node: if the parent equals 1 the node draws from one distribution, and if 0 it draws from another. Resource nodes (D–L) use conditional distributions that switch between a higher-cost Normal when the relevant risk occurs and a baseline Normal when it does not. An **aggregate** distribution has no randomness of its own. It sums the realized values of a named set of upstream nodes. Task, project, and portfolio nodes are all aggregates, so the portfolio total Y is the deterministic sum of the three project costs, which are themselves sums of task costs.
+
+```{r}
+distributions <- list(
+  # --- Root cause node ---
+  # SC: Supply Chain Disruption (marginal; drives both A and B)
+  SC = list(type = "discrete", values = c(1, 0), probs = c(0.7, 0.3)),
+
+  # --- Risk nodes (discrete: 1 = occurs, 0 = does not occur) ---
+  # A and B are conditionally dependent on SC; C is independent
+  A = list(
+    type = "conditional", condition = "SC",
+    true_dist  = list(type = "discrete", values = c(1, 0), probs = c(0.95, 0.05)),
+    false_dist = list(type = "discrete", values = c(1, 0), probs = c(0.40, 0.60))
+  ),
+  # Marginal P(A=1) = 0.7*0.95 + 0.3*0.40 = 0.785
+  B = list(
+    type = "conditional", condition = "SC",
+    true_dist  = list(type = "discrete", values = c(1, 0), probs = c(0.85, 0.15)),
+    false_dist = list(type = "discrete", values = c(1, 0), probs = c(0.25, 0.75))
+  ),
+  # Marginal P(B=1) = 0.7*0.85 + 0.3*0.25 = 0.670
+  C = list(type = "discrete", values = c(1, 0), probs = c(0.6, 0.4)),
+
+  # --- Resource nodes (conditional on shared risk) ---
+  # Labor (all conditioned on Risk-1: Labor Shortage)
+  D = list(
+    type = "conditional", condition = "A",
+    true_dist  = list(type = "normal", mean = 50000, sd = 8000),
+    false_dist = list(type = "normal", mean = 30000, sd = 5000)
+  ),
+  G = list(
+    type = "conditional", condition = "A",
+    true_dist  = list(type = "normal", mean = 40000, sd = 6000),
+    false_dist = list(type = "normal", mean = 25000, sd = 4000)
+  ),
+  J = list(
+    type = "conditional", condition = "A",
+    true_dist  = list(type = "normal", mean = 65000, sd = 10000),
+    false_dist = list(type = "normal", mean = 40000, sd = 6000)
+  ),
+  # Materials (all conditioned on Risk-2: Material Price Spike)
+  E = list(
+    type = "conditional", condition = "B",
+    true_dist  = list(type = "normal", mean = 80000, sd = 12000),
+    false_dist = list(type = "normal", mean = 50000, sd = 8000)
+  ),
+  H = list(
+    type = "conditional", condition = "B",
+    true_dist  = list(type = "normal", mean = 50000, sd = 8000),
+    false_dist = list(type = "normal", mean = 30000, sd = 5000)
+  ),
+  K = list(
+    type = "conditional", condition = "B",
+    true_dist  = list(type = "normal", mean = 100000, sd = 15000),
+    false_dist = list(type = "normal", mean = 60000, sd = 10000)
+  ),
+  # Equipment (all conditioned on Risk-3: Weather Delay)
+  F = list(
+    type = "conditional", condition = "C",
+    true_dist  = list(type = "normal", mean = 35000, sd = 6000),
+    false_dist = list(type = "normal", mean = 20000, sd = 4000)
+  ),
+  I = list(
+    type = "conditional", condition = "C",
+    true_dist  = list(type = "normal", mean = 25000, sd = 4000),
+    false_dist = list(type = "normal", mean = 15000, sd = 3000)
+  ),
+  L = list(
+    type = "conditional", condition = "C",
+    true_dist  = list(type = "normal", mean = 40000, sd = 6000),
+    false_dist = list(type = "normal", mean = 25000, sd = 4000)
+  ),
+
+  # --- Task nodes (aggregate of their single resource) ---
+  M = list(type = "aggregate", nodes = c("D")),
+  N = list(type = "aggregate", nodes = c("E")),
+  O = list(type = "aggregate", nodes = c("F")),
+  P = list(type = "aggregate", nodes = c("G")),
+  Q = list(type = "aggregate", nodes = c("H")),
+  R = list(type = "aggregate", nodes = c("I")),
+  S = list(type = "aggregate", nodes = c("J")),
+  T = list(type = "aggregate", nodes = c("K")),
+  U = list(type = "aggregate", nodes = c("L")),
+
+  # --- Project nodes (aggregate of their tasks) ---
+  V = list(type = "aggregate", nodes = c("M", "N", "O")),
+  W = list(type = "aggregate", nodes = c("P", "Q", "R")),
+  X = list(type = "aggregate", nodes = c("S", "T", "U")),
+
+  # --- Portfolio node ---
+  Y = list(type = "aggregate", nodes = c("V", "W", "X"))
+)
+```
+
+Finally, build the network and visualize it as a layered directed graph. The network graph makes the shared-risk structure immediately visible: each of the three risk nodes fans out to the same resource type across all three projects. Note that the layered layout places each Resource-based View tier on its own row for readability. Causal ordering is determined by the topological sort of the DAG and encoded in the direction of the edges, not by left-right or top-bottom node placement.
+
+```{r build-network, echo=TRUE}
+graph <- prob_net(nodes, links, distributions = distributions)
+```
+
+```{r Figure-01-network, message=FALSE, fig.width=7, fig.height=5.4, fig.cap="The portfolio causal network. Nodes are arranged by Resource-based View tier, from the root cause at the top to the portfolio total at the bottom; each of the three risk nodes fans out to the same resource type in all three projects."}
+g <- graph_from_data_frame(graph$links, vertices = graph$nodes, directed = TRUE)
+
+# Deterministic layered layout: one row per RbV tier, root at the top. Resources
+# and their tasks are ordered by the risk that drives them (labor | materials |
+# equipment) rather than by project, so each risk's fan-out across all three
+# projects reads as one contiguous block -- the structure this figure exists to
+# show. Each risk is then centered on the block it drives.
+tiers  <- c("Root Cause", "Risk", "Resource", "Task", "Project", "Portfolio")
+ord    <- c("SC",
+            "A", "B", "C",
+            "D", "G", "J",   "E", "H", "K",   "F", "I", "L",
+            "M", "P", "S",   "N", "Q", "T",   "O", "R", "U",
+            "V", "W", "X",
+            "Y")
+tier_i <- match(V(g)$group, tiers)
+pos    <- match(V(g)$name, ord)
+
+lay <- matrix(0, nrow = vcount(g), ncol = 2)
+for (t in seq_along(tiers)) {
+  idx <- which(tier_i == t)
+  idx <- idx[order(pos[idx])]
+  lay[idx, 1] <- if (length(idx) == 1) 0 else seq(-1, 1, length.out = length(idx))
+  lay[idx, 2] <- -t
+}
+# Center each risk node on the mean position of the resources it drives.
+for (r in c("A", "B", "C")) {
+  i <- match(r, V(g)$name)
+  lay[i, 1] <- mean(lay[as.integer(neighbors(g, r, mode = "out")), 1])
+}
+
+# Normalized coordinates, so marks can be placed on the plot directly. The
+# vertical extent is compressed to 0.6 and the plot drawn at aspect 1, so that
+# data units are isotropic and igraph clips each arrow at the node boundary
+# (a non-unit plot aspect hides arrowheads behind the nodes).
+lay_n <- norm_coords(lay, xmin = -1, xmax = 1, ymin = -0.6, ymax = 0.6)
+
+# Arcs present before surgery but absent afterwards.
+surgery_edges <- function(before, after) {
+  key <- function(l) paste(l[[1]], l[[2]])
+  setdiff(key(before$links), key(after$links))
+}
+
+# Draw the layered network. Severed arcs are dashed with a cut mark; intervened
+# nodes are squares with a heavy outline. Everything else is unchanged, so the
+# figures for the original and the altered graphs are directly comparable.
+draw_network <- function(removed = character(0), fixed = character(0)) {
+  el   <- as_edgelist(g)
+  cut  <- paste(el[, 1], el[, 2]) %in% removed
+  isfx <- V(g)$name %in% fixed
+  surgery <- length(removed) + length(fixed) > 0
+
+  op <- par(mar = c(4.2, 0, 0, 0))
+  on.exit(par(op))
+  plot(g,
+       layout              = lay_n,
+       rescale             = FALSE,
+       xlim                = c(-1.05, 1.05),
+       ylim                = c(-0.68, 0.68),
+       asp                 = 1,
+       vertex.shape        = ifelse(isfx, "square", "circle"),
+       vertex.color        = tier_cols[V(g)$group],
+       vertex.frame.color  = "grey10",
+       vertex.frame.width  = ifelse(isfx, 3.5, 1),
+       vertex.size         = 14,
+       vertex.label        = V(g)$name,
+       vertex.label.color  = tier_label_cols[V(g)$group],
+       vertex.label.font   = 2,
+       vertex.label.cex    = 0.7,
+       vertex.label.family = "sans",
+       edge.color          = ifelse(cut, "black", "grey70"),
+       edge.lty            = ifelse(cut, 2, 1),
+       edge.width          = ifelse(cut, 1.4, 0.7),
+       edge.arrow.size     = 0.22)
+
+  if (any(cut)) {
+    mid <- (lay_n[match(el[cut, 1], V(g)$name), , drop = FALSE] +
+            lay_n[match(el[cut, 2], V(g)$name), , drop = FALSE]) / 2
+    points(mid, pch = 21, bg = "white", col = "white", cex = 2.4)
+    points(mid, pch = 4, col = "black", cex = 1.3, lwd = 2.2)
+  }
+
+  ent   <- tiers
+  pch   <- rep(21, length(tiers)); bg <- tier_cols[tiers]
+  ptlwd <- rep(1, length(tiers));  lty <- rep(NA, length(tiers))
+  if (surgery) {
+    ent   <- c(ent, "Intervened node", "Severed arc")
+    pch   <- c(pch, 22, NA);   bg  <- c(bg, "white", NA)
+    ptlwd <- c(ptlwd, 3.5, NA); lty <- c(lty, NA, 2)
+  }
+  legend("bottom", legend = ent, pch = pch, pt.bg = bg, pt.lwd = ptlwd, lty = lty,
+         lwd = ifelse(is.na(lty), NA, 1.4), col = "grey10",
+         pt.cex = 1.5, bty = "n", cex = 0.68, x.intersp = 0.7,
+         ncol = if (surgery) 4 else 3, inset = c(0, -0.1), xpd = TRUE)
+}
+
+draw_network()
+```
+
+## Inference
+
+A causal network supports three qualitatively distinct queries: the **observational** distribution $P(Y)$, the **conditional** distribution under seeing $P(Y \mid X = x)$, and the **interventional** distribution under doing $P(Y \mid \operatorname{do}(X = x))$. The three are generally different, and conflating them is the source of the most common errors in causal reasoning. This section treats each in turn.
+
+The observational query $P(Y)$ is computed by Monte Carlo simulation over the joint distribution $P(\mathbf{r}, \mathbf{a}, \mathbf{t}, \mathbf{p}, Y)$ implied by the DAG's factorisation. Each sample draws a realization of every risk event, propagates costs through the conditional resource distributions, and sums to a portfolio total. $R = 20{,}000$ samples are used for every query. Monte Carlo standard errors (MCSE), estimated by a nonparametric bootstrap over the simulated draws, are reported with the summary statistics in the Summary table at the end of this vignette, and every interventional scenario is simulated with common random numbers (the same random seed), so that differences between scenarios are not inflated by independent sampling noise.
+
+```{r Figure-02-observational, echo=TRUE, fig.cap="Observational distribution P(Y) of portfolio cost. Heavy tails reflect shared-risk amplification across all three projects."}
+set.seed(42)
+sim_results <- prob_net_sim(graph, num_samples = n_mc)
+
+cost_hist(sim_results$Y, sty_prior)
+```
+
+The histogram reflects the combined uncertainty of all three shared risks. Because each risk affects all three projects, the tails of $P(Y)$ are heavier than they would be if risks were independent, a direct consequence of the shared-resource structure.
+
+To quantify the cost of ignoring cross-project dependencies, compare the portfolio variance under the causal network against the sum of individual project variances. Under independence, $\operatorname{Var}(Y)_{\text{naive}} = \operatorname{Var}(V) + \operatorname{Var}(W) + \operatorname{Var}(X)$, because projects would be uncorrelated. Under the causal network, shared risks introduce positive covariance terms:
+
+\begin{equation}
+\operatorname{Var}(Y) \;=\; \operatorname{Var}(V) + \operatorname{Var}(W) + \operatorname{Var}(X) \;+\; 2\bigl[\operatorname{Cov}(V,W) + \operatorname{Cov}(V,X) + \operatorname{Cov}(W,X)\bigr]
+\end{equation}
+
+The amplification factor is the ratio $\operatorname{Var}(Y) / \operatorname{Var}(Y)_{\text{naive}}$, estimated directly from the simulation:
+
+\begin{equation}
+\frac{\operatorname{Var}(Y)}{\operatorname{Var}(V) + \operatorname{Var}(W) + \operatorname{Var}(X)} \;\approx\; \frac{\widehat{\operatorname{Var}}(Y)}{\widehat{\operatorname{Var}}(V) + \widehat{\operatorname{Var}}(W) + \widehat{\operatorname{Var}}(X)}
+\end{equation}
+
+where each $\widehat{\operatorname{Var}}$ is the sample variance computed from the 20,000-sample simulation output. A ratio of 1 would indicate independent projects. A ratio greater than 1 indicates that shared-risk covariance inflates the true portfolio variance above the sum of individual project variances.
+
+This ratio also has a closed form, which is worth deriving because it reveals exactly which parameters drive the amplification. For a resource $a_j$ whose cost is conditional on a binary risk $R$ with $P(R = 1) = p$, baseline mean $\mu_{0,j}$ and stress mean $\mu_{1,j}$ (with within-state variances $\sigma_{0,j}^2$ and $\sigma_{1,j}^2$), the law of total variance gives
+
+\begin{equation}
+\operatorname{Var}(a_j) = p\,\sigma_{1,j}^2 + (1-p)\,\sigma_{0,j}^2 + p(1-p)\,(\mu_{1,j} - \mu_{0,j})^2
+\end{equation}
+
+and for two resources $a_i, a_j$ that share the *same* parent risk and are conditionally independent given it,
+
+\begin{equation}
+\operatorname{Cov}(a_i, a_j) = p(1-p)\,(\mu_{1,i} - \mu_{0,i})(\mu_{1,j} - \mu_{0,j})
+\end{equation}
+
+Two resources driven by *different* risks $R$ and $S$ are coupled only insofar as the risk indicators themselves are correlated:
+
+\begin{equation}
+\operatorname{Cov}(a_i, a_j) = (\mu_{1,i} - \mu_{0,i})(\mu_{1,j} - \mu_{0,j})\,\bigl[P(R{=}1, S{=}1) - P(R{=}1)P(S{=}1)\bigr]
+\end{equation}
+
+Same-risk pairs in different projects (for example the labor nodes D, G, and J, all conditional on $A$) are coupled by the second rule, and the $A$–$B$ pairs carry an additional cross-coupling through SC by the third. Assembling the full $9 \times 9$ resource covariance matrix from these rules and comparing the total variance of $Y$ with the sum of the within-project variances reproduces the simulated ratio:
+
+```{r}
+# Marginal risk probabilities (A, B depend on SC; C is independent)
+p_SC   <- 0.7
+p_A    <- p_SC * 0.95 + (1 - p_SC) * 0.40   # 0.785  (labor shortage)
+p_B    <- p_SC * 0.85 + (1 - p_SC) * 0.25   # 0.670  (material price spike)
+p_C    <- 0.6                               #         (weather delay)
+p_risk <- c(A = p_A, B = p_B, C = p_C)
+
+# One row per resource: stress and baseline (mean, sd), the risk it depends on,
+# and the project it belongs to. Each project mixes one A-, one B- and one C-resource.
+res <- data.frame(
+  node    = c("D","E","F","G","H","I","J","K","L"),
+  m1      = c(50000,80000,35000, 40000,50000,25000, 65000,100000,40000),
+  s1      = c( 8000,12000, 6000,  6000, 8000, 4000, 10000, 15000, 6000),
+  m0      = c(30000,50000,20000, 25000,30000,15000, 40000, 60000,25000),
+  s0      = c( 5000, 8000, 4000,  4000, 5000, 3000,  6000, 10000, 4000),
+  risk    = c("A","B","C", "A","B","C", "A","B","C"),
+  project = c("V","V","V", "W","W","W", "X","X","X"),
+  stringsAsFactors = FALSE
+)
+res$delta <- res$m1 - res$m0
+
+# Covariance of the risk indicators 1{R = 1}, 1{S = 1}
+p_AB <- p_SC * 0.95 * 0.85 + (1 - p_SC) * 0.40 * 0.25      # P(A = 1, B = 1)
+ind_cov <- function(r, s) {
+  if (r == s)                       return(p_risk[[r]] * (1 - p_risk[[r]]))
+  if (setequal(c(r, s), c("A","B"))) return(p_AB - p_A * p_B)
+  0                                                          # C independent of SC
+}
+
+# Analytic covariance between two resource nodes (diagonal = variance)
+res_cov <- function(i, j) {
+  ri <- res[i, ]; rj <- res[j, ]; pr <- p_risk[[ri$risk]]
+  if (i == j)
+    return(pr * ri$s1^2 + (1 - pr) * ri$s0^2 + pr * (1 - pr) * ri$delta^2)
+  ri$delta * rj$delta * ind_cov(ri$risk, rj$risk)
+}
+
+n     <- nrow(res)
+Sigma <- outer(1:n, 1:n, Vectorize(res_cov))                # full 9x9 covariance
+
+# Naive (independent projects): sum of the three within-project variances
+var_naive_analytic <- sum(vapply(split(1:n, res$project),
+                                 function(idx) sum(Sigma[idx, idx]), numeric(1)))
+# Network: total variance of Y is the sum of the entire covariance matrix
+var_net_analytic   <- sum(Sigma)
+var_ratio_analytic <- round(var_net_analytic / var_naive_analytic, 2)
+```
+
+```{r}
+var_naive   <- var(sim_results$V) + var(sim_results$W) + var(sim_results$X)
+var_network <- var(sim_results$Y)
+var_ratio   <- round(var_network / var_naive, 2)
+```
+
+In this simulation, the causal network gives a portfolio cost variance `r var_ratio`× larger than the naive independent-projects estimate, the factor by which a portfolio analyst ignoring shared resources would underestimate portfolio risk. The closed-form expression evaluates to `r var_ratio_analytic`×, confirming the Monte Carlo estimate up to sampling noise and showing analytically that the amplification is driven by the squared mean shifts $(\mu_1 - \mu_0)^2$ relative to the within-state variances. For the special case of $n$ projects all exposed to the *same* binary risk with common intra-group correlation $\rho$, the identity simplifies to $\operatorname{Var}(Y)/\operatorname{Var}_{\text{naive}}(Y) \approx 1 + (n-1)\rho$, making precise the sense in which the underestimation error grows with portfolio size.
+
+Algorithm 2 quantifies the cross-project coupling directly. The task-cost correlation matrix reveals which task pairs are correlated and by how much, with all correlation driven by the three shared enterprise risks.
+
+```{r Figure-03-correlation, fig.cap="Task-cost correlation matrix (Algorithm 2). Shading intensity encodes the correlation coefficient; numerical values are shown in each cell. Tasks sharing a common enterprise risk are strongly positively correlated; tasks driven by different risks are near zero."}
+task_costs <- sim_results[, c("M", "N", "O", "P", "Q", "R", "S", "T", "U")]
+cor_matrix <- cor(task_costs)
+corrplot(cor_matrix,
+         method      = "color",
+         type        = "upper",
+         addCoef.col = "black",
+         number.cex  = 0.65,
+         tl.col      = "black",
+         tl.srt      = 0,
+         tl.cex      = 0.85,
+         cl.cex      = 0.75,
+         col         = colorRampPalette(c("white", "grey60"))(200),
+         addgrid.col = "white",
+         mar         = c(0, 0, 0, 0))
+```
+
+Tasks driven by the same enterprise risk, namely Labor (M, P, S), Materials (N, Q, T), and Equipment (O, R, U), are strongly positively correlated across projects. Tasks driven by different risks are uncorrelated. The block structure of the matrix is a direct signature of the shared-risk mechanism: three $3 \times 3$ correlated blocks along the diagonal, with near-zero entries everywhere else.
+
+## Seeing vs. Doing at the Risk Level
+
+The second and third queries, *seeing* and *doing*, are both demonstrated here at the risk level, where the presence of SC makes the two operations genuinely diverge.
+
+**Seeing** $A = 1$ conditions on the observation in the *original, unchanged* DAG, and Bayes' rule propagates the evidence upstream as well as downstream. Because SC is a parent of A, observing $A = 1$ raises the posterior probability of SC from $0.70$ to $P(\text{SC} = 1 \mid A = 1) \approx 0.848$, which in turn raises the probability of the Material Price Spike from its prior $P(B = 1) \approx 0.670$ to $P(B = 1 \mid A = 1) \approx 0.758$. Seeing a Labor Shortage therefore shifts material cost distributions upward as a side-effect, a consequence that flows through the shared root cause SC, not through any direct A→B link.
+
+**Doing** $\operatorname{do}(A = 1)$ does not condition on data in the original graph. It performs **graph surgery**, severing the incoming edges of the intervened node and replacing its conditional distribution with a post-intervention distribution, here a point mass at 1. The interventional distribution is given by the *truncated factorisation* [@pearl2009], in which every factor corresponding to an intervened variable is deleted from the product:
+
+\begin{equation}
+P(Y \mid \operatorname{do}(A = 1)) \;=\; \prod_{i\,:\,V_i \notin \{A\}} P(v_i \mid \mathrm{pa}_i)\Bigg|_{A=1}
+\end{equation}
+
+Because SC→A is severed, SC remains at its prior $P(\text{SC} = 1) = 0.70$, and B remains at $P(B = 1) \approx 0.670$. Material costs are unaffected. Only labor costs shift.
+
+A common modeling shortcut is to fix $A = 1$ directly in the original graph without severing SC→A. This shortcut does *not* produce the interventional distribution: because SC→A remains intact, sampling continues to propagate SC's influence back through A, which yields the *seeing* distribution $P(Y \mid A = 1)$ rather than $P(Y \mid \operatorname{do}(A = 1))$. Graph surgery, the literal deletion of the arc, is what separates the two operations computationally.
+
+Figure 4 shows the altered network under $\operatorname{do}(A = 1)$. The arc SC→A is severed (dashed, with a cut mark) and A, drawn as a square, is fixed at 1. Every other arc and distribution is unchanged, so B still depends on SC, but SC no longer carries any information about A.
+
+```{r Figure-04-do-A1-network, echo=TRUE, message=FALSE, fig.width=7, fig.height=5.4, fig.cap="The altered network under do(A=1). The arc SC→A is severed (dashed, marked) and the intervened node A (square) is fixed at 1; all other arcs are unchanged."}
+# Seeing A = 1: Bayesian conditioning on the original graph
+set.seed(42)
+seeing_results <- prob_net_learn(graph,
+  observations = list(A = 1),
+  num_samples  = n_mc
+)
+
+# Doing do(A = 1): graph surgery — sever SC → A, fix A = 1
+do_A1_graph <- prob_net_update(graph,
+  remove_links         = data.frame(source = "SC", target = "A",
+                                    stringsAsFactors = FALSE),
+  update_distributions = list(
+    A = list(type = "discrete", values = c(1, 0), probs = c(1, 0))
+  )
+)
+set.seed(42)
+do_A1_results <- prob_net_sim(do_A1_graph, num_samples = n_mc)
+
+draw_network(removed = surgery_edges(graph, do_A1_graph), fixed = "A")
+```
+
+Figure 5 compares the resulting portfolio cost distributions.
+
+```{r Figure-05-seeing-vs-doing, fig.cap="Portfolio cost distributions under the prior (solid grey), doing do(A=1) (dashed outline), and seeing A=1 (solid outline). The seeing distribution lies furthest right because observing a Labor Shortage also raises the posterior probability of a Supply Chain Disruption and hence a Material Price Spike."}
+ymax <- hmax(sim_results$Y, seeing_results$Y, do_A1_results$Y)
+cost_hist(sim_results$Y,    sty_prior, ylim = c(0, ymax * 1.3))
+cost_hist(do_A1_results$Y,  sty_doA1,  add = TRUE)
+cost_hist(seeing_results$Y, sty_see1,  add = TRUE)
+style_legend("topleft",
+       labels = c(expression(italic(P) * "(Y),  prior"),
+                  expression(italic(P) * "(Y | do(A=1)),  doing Labor Shortage"),
+                  expression(italic(P) * "(Y | A=1),  seeing Labor Shortage")),
+       styles = list(sty_prior, sty_doA1, sty_see1))
+```
+
+The three distributions separate in the expected direction. The doing distribution (dashed outline) lies between the prior (solid grey) and the seeing distribution (solid outline): it captures only the direct labor cost increase. The seeing distribution shifts further right because it also picks up the indirect material cost increase propagated through SC. The gap between the interventional and observational posteriors is the quantitative signature of the shared root cause, and the practical reason the distinction matters to portfolio managers. An analyst who treats a confirmed Labor Shortage as equivalent to an intervention on labor would underestimate portfolio cost exposure by ignoring the correlated material price signal it carries.
+
+Computationally, seeing is implemented by rejection sampling: draws are generated from the full joint distribution of the unaltered network, and only those consistent with the observation are retained. The evidence therefore propagates upstream to SC as well as downstream to the resources. As a check, the simulated posterior $\hat{P}(B = 1 \mid A = 1) = `r sprintf("%.3f", mean(seeing_results$B))`$ (MCSE `r sprintf("%.3f", mcse(seeing_results$B, mean))`) agrees with the analytic value of 0.758.
+
+## Project-Scoped Resource Diversification
+
+The same graph surgery applies to resource nodes, not only to risks. Suppose the enterprise secures a dedicated labor crew for the Building Renovation (Project 3) that is insulated from the enterprise-wide labor shortage. This is an intervention on Labor-3, $\operatorname{do}(J \sim \mathcal{N}(40{,}000,\, 6{,}000))$, implemented as graph surgery: the arc $A \to J$ is deleted, and $J$ is assigned its baseline unconditional distribution. Sampling from the mutilated graph yields draws from $P\!\left(Y \mid \operatorname{do}(J \to \text{baseline})\right)$.
+
+Figure 6 shows the altered network. The arc A→J is severed and J, drawn as a square, is assigned its baseline distribution, while A continues to drive D and G.
+
+```{r Figure-06-do-J-network, echo=TRUE, message=FALSE, fig.width=7, fig.height=5.4, fig.cap="The altered network under do(J→baseline). The arc A→J is severed (dashed, marked) and the intervened node J (square) takes its baseline distribution; A still drives D and G."}
+# Graph surgery: sever A → J, assign J its baseline distribution
+do_graph <- prob_net_update(graph,
+  remove_links         = data.frame(source = "A", target = "J",
+                                    stringsAsFactors = FALSE),
+  update_distributions = list(J = list(type = "normal", mean = 40000, sd = 6000))
+)
+set.seed(42)
+do_results <- prob_net_sim(do_graph, num_samples = n_mc)
+
+draw_network(removed = surgery_edges(graph, do_graph), fixed = "J")
+```
+
+Figure 7 compares the resulting portfolio cost distributions.
+
+```{r Figure-07-do-J, fig.cap="Observational P(Y) (solid grey) versus the interventional distribution P(Y | do(J→baseline)) (dashed outline). Securing a dedicated crew for Project 3 shifts the distribution left by removing labor-shortage exposure from that project alone."}
+# Compare observational P(Y) to interventional P(Y | do(J → baseline))
+ymax <- hmax(sim_results$Y, do_results$Y)
+cost_hist(sim_results$Y, sty_prior, ylim = c(0, ymax * 1.3))
+cost_hist(do_results$Y,  sty_doJ,  add = TRUE)
+style_legend("topleft",
+       labels = c(expression(italic(P) * "(Y),  observational"),
+                  expression(italic(P) *
+                             "(Y | do(J" %->% "baseline)),  interventional")),
+       styles = list(sty_prior, sty_doJ))
+```
+
+The interventional distribution has a measurably lower mean and a thinner upper tail than the observational distribution. This is the operational pay-off of the Resource-based View seen through a causal lens: by severing a single $A \to J$ arc in the causal graph, portfolio tail exposure is reduced without changing anything about the labor markets for Projects 1 or 2.
+
+## Enterprise-Wide Risk Insulation
+
+The preceding intervention targeted a single project's resource. A second and more powerful lever insulates the entire portfolio from a risk rather than insulating one project from it. This corresponds to $\operatorname{do}(A = 0)$.
+
+A firm cannot unilaterally *prevent* a labor-market shortage, which is an external condition outside any single firm's control. What $\operatorname{do}(A = 0)$ models is full *insulation* from that condition: a hedge, fixed-price contract, or risk-transfer arrangement that guarantees zero labor-shortage cost impact regardless of what the labor market does. The graph surgery severs SC→A, the only incoming arc to A, and clamps A = 0. Because A is now a fixed root node equal to 0, every labor node draws from its baseline distribution, and labor-shortage exposure is neutralized across all three projects simultaneously. This differs fundamentally from the project-scoped $\operatorname{do}(J \to \text{baseline})$ intervention above: there, A remained a live risk in the portfolio and only Project 3's labor was insulated. Here, the labor risk is transferred away enterprise-wide.
+
+Figure 8 shows the altered network under $\operatorname{do}(A = 0)$. The surgery has the same shape as in Figure 4, severing SC→A, but A is now fixed at 0, so all three labor nodes (D, G, J) draw from their baseline distribution.
+
+```{r Figure-08-do-A0-network, message=FALSE, fig.width=7, fig.height=5.4, fig.cap="The altered network under do(A=0). The arc SC→A is severed (dashed, marked) and the intervened node A (square) is fixed at 0, removing labor-shortage exposure from all three projects."}
+# Graph surgery: sever SC → A (A's only incoming arc), fix A = 0
+# D, G, J then automatically draw from their false_dist via the conditional on A = 0
+do_graph_A0 <- prob_net_update(graph,
+  remove_links         = data.frame(source = "SC", target = "A",
+                                    stringsAsFactors = FALSE),
+  update_distributions = list(
+    A = list(type = "discrete", values = c(1, 0), probs = c(0, 1))
+  )
+)
+set.seed(42)
+do_results_A0 <- prob_net_sim(do_graph_A0, num_samples = n_mc)
+
+draw_network(removed = surgery_edges(graph, do_graph_A0), fixed = "A")
+```
+
+Figure 9 compares the observational distribution with both interventions.
+
+```{r Figure-09-insulation, fig.cap="Project-scoped insulation (dashed outline, do(J→baseline)) versus enterprise-wide labor insulation (dotted outline, do(A=0)). Insulating the whole portfolio from the Labor Shortage produces a larger leftward shift than insulating a single project."}
+# Compare: observational vs. project-scoped insulation vs. enterprise insulation
+ymax <- hmax(sim_results$Y, do_results$Y, do_results_A0$Y)
+cost_hist(sim_results$Y,    sty_prior, ylim = c(0, ymax * 1.3))
+cost_hist(do_results$Y,     sty_doJ,   add = TRUE)
+cost_hist(do_results_A0$Y,  sty_doA0,  add = TRUE)
+style_legend("topleft",
+       labels = c(expression(italic(P) * "(Y),  observational"),
+                  expression(italic(P) * "(Y | do(J" %->% "baseline)),  Project 3 insulated"),
+                  expression(italic(P) * "(Y | do(A = 0)),  enterprise insulation")),
+       styles = list(sty_prior, sty_doJ, sty_doA0))
+```
+
+The gap between the two interventional distributions quantifies the additional portfolio benefit of an enterprise-wide risk-transfer strategy over a project-level resource-diversification one.
+
+## Seeing Two Risks at Once
+
+Suppose both the Labor Shortage and the Material Price Spike are confirmed, $A = 1$ and $B = 1$ simultaneously.
+
+```{r Figure-10-seeing-two, fig.cap="Portfolio cost distributions under the prior (solid grey), seeing A=1 alone (solid outline), and seeing both A=1 and B=1 simultaneously (dot-dash outline). Confirming two shared risks compounds the rightward shift and narrows the distribution further."}
+set.seed(42)
+seeing2_results <- prob_net_learn(graph,
+  observations = list(A = 1, B = 1),
+  num_samples  = n_mc
+)
+
+ymax <- hmax(sim_results$Y, seeing_results$Y, seeing2_results$Y)
+cost_hist(sim_results$Y,     sty_prior, ylim = c(0, ymax * 1.3))
+cost_hist(seeing_results$Y,  sty_see1,  add = TRUE)
+cost_hist(seeing2_results$Y, sty_see2,  add = TRUE)
+style_legend("topleft",
+       labels = c(expression(italic(P) * "(Y),  prior"),
+                  expression(italic(P) * "(Y | A = 1),  one risk confirmed"),
+                  expression(italic(P) * "(Y | A = 1, B = 1),  two risks confirmed")),
+       styles = list(sty_prior, sty_see1, sty_see2))
+```
+
+Confirming two shared risks produces a larger rightward shift than confirming one, and the distribution narrows further because the compound observation resolves the uncertainty in two risk channels at once. The incremental shift from adding $B = 1$ is, however, smaller than one might expect, and the reason is instructive. Having already observed $A = 1$, the posterior probability of the Material Price Spike is $P(B = 1 \mid A = 1) \approx 0.758$, so additionally confirming $B = 1$ moves that probability only from $0.758$ to $1.0$. The shared root cause SC has already propagated most of $B$'s update through $A$. This is the *informational redundancy* that shared root causes induce between risk signals: when two risks descend from a common cause, the second observation carries less independent news than its marginal probability would suggest. The practical lesson is the converse of naive intuition: monitoring two risks that share a root cause yields diminishing returns, whereas monitoring risks with *independent* drivers (for example $B$ and the weather-driven $C$) provides more genuinely new information per signal.
+
+## Risk Importance Ranking
+
+Portfolio managers cannot mitigate every risk simultaneously. A natural question is: *which shared risk contributes most to portfolio cost variance?* The causal network answers this directly by running three separate enterprise-insulation interventions, $\operatorname{do}(A=0)$, $\operatorname{do}(B=0)$, and $\operatorname{do}(C=0)$, and measuring the variance reduction each produces.
+
+Two importance measures are reported. The first is interventional: $I_R = \bigl[\operatorname{Var}(Y) - \operatorname{Var}(Y \mid \operatorname{do}(R = 0))\bigr] / \operatorname{Var}(Y)$, the share of portfolio cost variance removed by insulating the portfolio against risk $R$. It is a variance analogue of the risk reduction worth used in probabilistic safety assessment, which measures the decrease in risk when a basic event is set to never occur [@vanderborst2001; @kuo2012]. The second is the first-order variance-based (Sobol) index $S_R = \operatorname{Var}\bigl(E[Y \mid R]\bigr) / \operatorname{Var}(Y)$ [@sobol1993; @borgonovo2016], which probabilistic graphical models can compute directly [@ballester2022]. Both measures are evaluated in closed form from the covariance rules above.
+
+```{r Figure-11-importance, fig.cap="Risk importance: the share of portfolio cost variance removed by insulating against each enterprise risk, I_R (dark), and the first-order Sobol index, S_R (light). Both measures rank the Material Price Spike first and the Weather Delay last."}
+# Helper: build a mutilated graph that insulates against one risk entirely via proper do-calculus.
+# For risks with a parent (A and B): sever parent → risk, fix risk = 0.
+# For risks with no parent (C): just set risk = 0.
+insulate_risk <- function(graph, parent_node, risk_node) {
+  remove_df <- if (!is.null(parent_node))
+    data.frame(source = parent_node, target = risk_node, stringsAsFactors = FALSE)
+  else
+    data.frame(source = character(0), target = character(0), stringsAsFactors = FALSE)
+  prob_net_update(graph,
+    remove_links         = remove_df,
+    update_distributions = setNames(
+      list(list(type = "discrete", values = c(1, 0), probs = c(0, 1))),
+      risk_node
+    )
+  )
+}
+
+# do(A = 0) was already simulated above as do_results_A0 (Enterprise-Wide Risk
+# Insulation); reuse it here rather than re-running an identical query.
+
+# do(B = 0): sever SC → B, set B = 0 (material nodes draw from false_dist automatically)
+g_B0 <- insulate_risk(graph, "SC", "B")
+
+# do(C = 0): C has no parent; just set C = 0
+g_C0 <- insulate_risk(graph, NULL, "C")
+
+set.seed(42); r_B0 <- prob_net_sim(g_B0, num_samples = n_mc)
+set.seed(42); r_C0 <- prob_net_sim(g_C0, num_samples = n_mc)
+
+# by do(R = 0); S_R = first-order Sobol index Var(E[Y | R]) / Var(Y). The function
+# is general in the risk probabilities and the size of the mean shifts, so the
+# sensitivity analysis below reuses it.
+risk_metrics <- function(pSC = 0.7, pA1 = 0.95, pA0 = 0.40, pB1 = 0.85, pB0 = 0.25,
+                         pC = 0.6, mult = 1) {
+  d   <- mult * res$delta
+  pA  <- pSC * pA1 + (1 - pSC) * pA0
+  pB  <- pSC * pB1 + (1 - pSC) * pB0
+  pAB <- pSC * pA1 * pB1 + (1 - pSC) * pA0 * pB0
+  cov_res <- function(pA, pB, pAB, pC) {
+    p <- c(A = pA, B = pB, C = pC)
+    icov <- function(r, s) {
+      if (r == s) return(p[[r]] * (1 - p[[r]]))
+      if (setequal(c(r, s), c("A", "B"))) return(pAB - pA * pB)
+      0
+    }
+    outer(seq_len(nrow(res)), seq_len(nrow(res)), Vectorize(function(i, j) {
+      pr <- p[[res$risk[i]]]
+      if (i == j) pr * res$s1[i]^2 + (1 - pr) * res$s0[i]^2 + pr * (1 - pr) * d[i]^2
+      else d[i] * d[j] * icov(res$risk[i], res$risk[j])
+    }))
+  }
+  Sig   <- cov_res(pA, pB, pAB, pC)
+  varY  <- sum(Sig)
+  naive <- sum(vapply(split(seq_len(nrow(res)), res$project),
+                      function(k) sum(Sig[k, k]), numeric(1)))
+  dA <- sum(d[res$risk == "A"]); dB <- sum(d[res$risk == "B"]); dC <- sum(d[res$risk == "C"])
+  pB_A1 <- pAB / pA; pB_A0 <- (pB - pAB) / (1 - pA)
+  pA_B1 <- pAB / pB; pA_B0 <- (pA - pAB) / (1 - pB)
+  list(
+    var_ratio  = varY / naive,
+    see_do_gap = dB * (pB_A1 - pB),                 # E[Y | A = 1] - E[Y | do(A = 1)]
+    redundancy = (pB_A1 - pB) / (1 - pB),           # share of B's update already delivered by A
+    I = c(A = 1 - sum(cov_res(0, pB, 0, pC)) / varY,
+          B = 1 - sum(cov_res(pA, 0, 0, pC)) / varY,
+          C = 1 - sum(cov_res(pA, pB, pAB, 0)) / varY),
+    S = c(A = pA * (1 - pA) * (dA + (pB_A1 - pB_A0) * dB)^2 / varY,
+          B = pB * (1 - pB) * (dB + (pA_B1 - pA_B0) * dA)^2 / varY,
+          C = pC * (1 - pC) * dC^2 / varY)
+  )
+}
+rm_base <- risk_metrics()
+stopifnot(abs(round(rm_base$var_ratio, 2) - var_ratio_analytic) < 1e-9)  # agrees with the Inference section
+
+# Monte Carlo check of I_R from the three insulation runs (common random numbers)
+var_base <- var(sim_results$Y)
+I_mc <- c(A = 1 - var(do_results_A0$Y) / var_base,
+          B = 1 - var(r_B0$Y) / var_base,
+          C = 1 - var(r_C0$Y) / var_base)
+
+imp <- rbind(rm_base$I, rm_base$S)
+colnames(imp) <- c("Labor Shortage\n(A)", "Material Price Spike\n(B)", "Weather Delay\n(C)")
+op <- par(mar = c(4, 5, 1, 1))
+bp <- barplot(imp, beside = TRUE,
+              ylab      = expression("Share of Var(" * italic(Y) * ")"),
+              col       = c(grey_riskA, grey_riskC),
+              border    = "black",
+              ylim      = c(0, max(imp) * 1.2),
+              las       = 1,
+              cex.names = 0.8,
+              cex.axis  = 0.8,
+              cex.lab   = 0.9,
+              axes      = FALSE)
+axis(2, las = 1, lwd = 0, lwd.ticks = 1, cex.axis = 0.8)
+text(bp, imp, labels = sprintf("%.2f", imp), pos = 3, cex = 0.75, col = "grey20", xpd = TRUE)
+legend("topright", legend = c(expression(italic(I)[R] * ",  interventional"),
+                              expression(italic(S)[R] * ",  first-order Sobol")),
+       fill = c(grey_riskA, grey_riskC), border = "black", bty = "n", cex = 0.8)
+par(op)
+```
+
+Both measures rank the Material Price Spike first ($I_B$ = `r sprintf("%.2f", rm_base$I[["B"]])`, $S_B$ = `r sprintf("%.2f", rm_base$S[["B"]])`), the Labor Shortage second ($I_A$ = `r sprintf("%.2f", rm_base$I[["A"]])`, $S_A$ = `r sprintf("%.2f", rm_base$S[["A"]])`), and the Weather Delay last ($I_C$ = `r sprintf("%.2f", rm_base$I[["C"]])`, $S_C$ = `r sprintf("%.2f", rm_base$S[["C"]])`). Neither set of shares sums to one, because A and B are dependent through SC and the variance they jointly induce is counted under each. The Monte Carlo estimates of $I_R$ from the three insulation runs agree with the closed-form values to within `r sprintf("%.3f", max(abs(I_mc - rm_base$I)))`. For mitigation planning, $I_R$ is the decision-relevant measure, because it is the reduction a manager would actually obtain by insulating the portfolio against that risk.
+
+## Sensitivity to Input Assumptions {#sensitivity}
+
+Every input in the case study is illustrative, so the conclusions should not depend on the particular values chosen. Three groups of inputs are varied jointly: the prior probability of the root cause, $P(\text{SC} = 1) \in \{0.3, 0.5, 0.7\}$; the strength of the coupling between SC and the two risks it drives, from weak ($P(A = 1 \mid \text{SC}) = 0.80$ vs. $0.60$, $P(B = 1 \mid \text{SC}) = 0.75$ vs. $0.55$) through the base case to strong ($0.99$ vs. $0.10$, $0.95$ vs. $0.05$); and the size of every stress-state mean shift $\mu_1 - \mu_0$, scaled by $0.5$, $1$, or $1.5$. All 27 combinations are evaluated in closed form with the covariance rules of the Inference section. The results are shown in the table below.
+
+```{r sensitivity-table, results='asis'}
+coupling <- list(Weak   = c(pA1 = 0.80, pA0 = 0.60, pB1 = 0.75, pB0 = 0.55),
+                 Base   = c(pA1 = 0.95, pA0 = 0.40, pB1 = 0.85, pB0 = 0.25),
+                 Strong = c(pA1 = 0.99, pA0 = 0.10, pB1 = 0.95, pB0 = 0.05))
+sens <- expand.grid(pSC = c(0.3, 0.5, 0.7), coupling = names(coupling), mult = c(0.5, 1, 1.5),
+                    stringsAsFactors = FALSE)
+sens_m <- lapply(seq_len(nrow(sens)), function(i) {
+  cp <- coupling[[sens$coupling[i]]]
+  risk_metrics(pSC = sens$pSC[i], pA1 = cp[["pA1"]], pA0 = cp[["pA0"]],
+               pB1 = cp[["pB1"]], pB0 = cp[["pB0"]], mult = sens$mult[i])
+})
+sens$ratio  <- vapply(sens_m, `[[`, numeric(1), "var_ratio")
+sens$gap    <- vapply(sens_m, `[[`, numeric(1), "see_do_gap") / 1000
+sens$redund <- vapply(sens_m, `[[`, numeric(1), "redundancy")
+sens$rank   <- vapply(sens_m, function(m) paste(names(sort(m$I, decreasing = TRUE)), collapse = " > "), "")
+sens$rankS  <- vapply(sens_m, function(m) paste(names(sort(m$S, decreasing = TRUE)), collapse = " > "), "")
+
+# One row per (coupling, P(SC)); the variance ratio is shown for each mean-shift scale.
+sens_tab <- do.call(rbind, lapply(split(sens, list(sens$pSC, sens$coupling), drop = TRUE), function(d) {
+  d <- d[order(d$mult), ]
+  data.frame(Coupling = d$coupling[1], pSC = d$pSC[1],
+             r05 = d$ratio[1], r10 = d$ratio[2], r15 = d$ratio[3],
+             gap = d$gap[2], redund = d$redund[2],
+             rank = if (length(unique(c(d$rank, d$rankS))) == 1) d$rank[1] else "varies")
+}))
+sens_tab <- sens_tab[order(match(sens_tab$Coupling, names(coupling)), sens_tab$pSC), ]
+rownames(sens_tab) <- NULL
+knitr::kable(sens_tab, digits = c(0, 1, 2, 2, 2, 1, 2, 0),
+  col.names = c("Coupling to SC", "P(SC = 1)", "Var ratio (0.5)", "Var ratio (1)", "Var ratio (1.5)",
+                "Seeing-doing gap ($000)", "Redundancy", "Importance ranking"),
+  caption = "Sensitivity of the main results to the input assumptions. Var ratio: Var(Y) / Var_naive(Y), for mean shifts scaled by 0.5, 1 and 1.5. Seeing-doing gap: E[Y | A = 1] - E[Y | do(A = 1)]. Redundancy: (P(B = 1 | A = 1) - P(B = 1)) / (1 - P(B = 1)), the share of the update to B already delivered by observing A. Gap and redundancy are shown for the unscaled mean shifts. The ranking is by both I_R and S_R.")
+```
+
+First, ignoring shared resources understates portfolio cost variance in every combination, by a factor of between `r sprintf("%.2f", min(sens$ratio))` and `r sprintf("%.2f", max(sens$ratio))`. The factor grows with the size of the mean shifts and is nearly insensitive to the root-cause probability. Second, the importance ranking (Material Price Spike, then Labor Shortage, then Weather Delay) holds in all 27 combinations, under both measures. Third, the seeing-doing gap and the informational redundancy are driven almost entirely by the strength of the coupling to the common cause. With weak coupling the gap falls to about \$`r sprintf("%.1f", max(sens$gap[sens$coupling == "Weak" & sens$mult == 1]))`k and the redundancy to `r sprintf("%.2f", max(sens$redund[sens$coupling == "Weak"]))`. With strong coupling they rise to as much as \$`r sprintf("%.1f", max(sens$gap[sens$coupling == "Strong" & sens$mult == 1]))`k and `r sprintf("%.2f", max(sens$redund))`. These two results therefore hold in proportion to how strongly the risks share a cause, which is what the causal account predicts: with no common cause, seeing and doing coincide.
+
+```{r sensitivity-mc}
+ext <- list(pSC = 0.3, pA1 = 0.99, pA0 = 0.10, pB1 = 0.95, pB0 = 0.05, mult = 1.5)
+dist_ext <- distributions
+dist_ext$SC$probs <- c(ext$pSC, 1 - ext$pSC)
+dist_ext$A$true_dist$probs  <- c(ext$pA1, 1 - ext$pA1); dist_ext$A$false_dist$probs <- c(ext$pA0, 1 - ext$pA0)
+dist_ext$B$true_dist$probs  <- c(ext$pB1, 1 - ext$pB1); dist_ext$B$false_dist$probs <- c(ext$pB0, 1 - ext$pB0)
+for (k in res$node) {
+  m0 <- dist_ext[[k]]$false_dist$mean
+  dist_ext[[k]]$true_dist$mean <- m0 + ext$mult * (dist_ext[[k]]$true_dist$mean - m0)
+}
+set.seed(42)
+sim_ext <- prob_net_sim(prob_net(nodes, links, distributions = dist_ext), num_samples = n_mc)
+ratio_ext_mc <- var(sim_ext$Y) / (var(sim_ext$V) + var(sim_ext$W) + var(sim_ext$X))
+ratio_ext_cf <- do.call(risk_metrics, ext)$var_ratio
+
+# same mean and standard deviation, and compare the 95th-percentile tail reduction
+# of enterprise insulation do(A = 0) under the two families (common random numbers).
+to_lognormal <- function(d) {
+  sl <- sqrt(log(1 + d$sd^2 / d$mean^2))
+  list(type = "lognormal", meanlog = log(d$mean) - sl^2 / 2, sdlog = sl)
+}
+dist_ln <- distributions
+for (k in res$node) {
+  dist_ln[[k]]$true_dist  <- to_lognormal(dist_ln[[k]]$true_dist)
+  dist_ln[[k]]$false_dist <- to_lognormal(dist_ln[[k]]$false_dist)
+}
+graph_ln <- prob_net(nodes, links, distributions = dist_ln)
+set.seed(42); sim_ln    <- prob_net_sim(graph_ln, num_samples = n_mc)
+set.seed(42); sim_ln_A0 <- prob_net_sim(
+  prob_net_update(graph_ln,
+    remove_links         = data.frame(source = "SC", target = "A", stringsAsFactors = FALSE),
+    update_distributions = list(A = list(type = "discrete", values = c(1, 0), probs = c(0, 1)))),
+  num_samples = n_mc)
+q95 <- function(x) unname(quantile(x, 0.95)) / 1000
+tail_gap_normal <- q95(sim_results$Y) - q95(do_results_A0$Y)
+tail_gap_ln     <- q95(sim_ln$Y) - q95(sim_ln_A0$Y)
+```
+
+A Monte Carlo run at the most extreme combination ($P(\text{SC} = 1) = 0.3$, strong coupling, mean shifts scaled by 1.5) reproduces the closed-form variance ratio: `r sprintf("%.2f", ratio_ext_mc)` from simulation against `r sprintf("%.2f", ratio_ext_cf)` in closed form. A final check concerns the choice of the Normal family for resource costs. Replacing every resource distribution with a lognormal of the same mean and standard deviation, which gives each resource a right-skewed cost, changes the 95th-percentile reduction from enterprise-wide labor insulation only from \$`r sprintf("%.1f", tail_gap_normal)`k to \$`r sprintf("%.1f", tail_gap_ln)`k. Within each risk state the portfolio total sums nine moderately dispersed resources, so the skew of the individual costs largely disappears, and the tail comparisons reported here are not sensitive to the distributional family.
+
+## Summary
+
+The following table collects key statistics from every scenario demonstrated above, converting each histogram into actionable numbers.
+
+```{r summary-table, results='asis'}
+# Guard: hist() only warns and silently drops data outside its breaks, so fail
+# loudly if any scenario ever falls outside the shared bin range.
+stopifnot(all(vapply(
+  list(sim_results$Y, seeing_results$Y, seeing2_results$Y,
+       do_results$Y, do_results_A0$Y, do_A1_results$Y, r_B0$Y, r_C0$Y),
+  function(v) all(v >= min(cost_breaks) & v <= max(cost_breaks)), logical(1))))
+
+scenarios <- c(
+  "Observational P(Y)",
+  "Seeing P(Y | A = 1)",
+  "Seeing P(Y | A = 1, B = 1)",
+  "Doing do(J → baseline)  [Project 3 insulated]",
+  "Doing do(A = 0)  [Enterprise insulation]"
+)
+
+make_stats <- function(x) {
+  c(round(mean(x) / 1000, 1),
+    round(sd(x) / 1000, 1),
+    round(quantile(x, 0.95) / 1000, 1))
+}
+
+stats_mat <- rbind(
+  make_stats(sim_results$Y),
+  make_stats(seeing_results$Y),
+  make_stats(seeing2_results$Y),
+  make_stats(do_results$Y),
+  make_stats(do_results_A0$Y)
+)
+
+stats_df <- as.data.frame(stats_mat)
+colnames(stats_df) <- c("Mean ($000)", "SD ($000)", "95th Pct ($000)")
+rownames(stats_df) <- scenarios
+
+runs <- list(sim_results$Y, seeing_results$Y, seeing2_results$Y, do_results$Y, do_results_A0$Y)
+fns  <- list(mean, sd, function(v) quantile(v, 0.95))
+mcse_mat <- t(vapply(runs, function(v) vapply(fns, function(f) mcse(v, f) / 1000, numeric(1)), numeric(3)))
+fmt_cell <- function(v, e) if (is.na(e)) sprintf("%.1f", v) else sprintf("%.1f (%.1f)", v, e)
+stats_show <- as.data.frame(matrix(mapply(fmt_cell, stats_mat, mcse_mat), nrow = nrow(stats_mat)))
+colnames(stats_show) <- colnames(stats_df)
+rownames(stats_show) <- scenarios
+
+knitr::kable(stats_show,
+             caption = "Portfolio cost statistics across the five managerial query scenarios (values in $000s; bootstrap Monte Carlo standard errors in parentheses).",
+             align   = "rrr")
+```
+
+The two seeing rows raise the mean (by about \$`r round(stats_df[2, 1] - stats_df[1, 1])`k, then \$`r round(stats_df[3, 1] - stats_df[1, 1])`k, above the observational baseline) while shrinking the standard deviation, so the 95th percentile moves far less (a change of `r sprintf('%+d', round(stats_df[2, 3] - stats_df[1, 3]))`k, then `r sprintf('%+d', round(stats_df[3, 3] - stats_df[1, 3]))`k): confirmed bad news changes what a manager should expect more than the worst case. The two doing rows move the opposite way. Insulating Project 3 lowers the mean by about \$`r round(stats_df[1, 1] - stats_df[4, 1])`k and the 95th percentile by about \$`r round(stats_df[1, 3] - stats_df[4, 3])`k, and enterprise-wide labor insulation lowers them by about \$`r round(stats_df[1, 1] - stats_df[5, 1])`k and \$`r round(stats_df[1, 3] - stats_df[5, 3])`k. Comparing the mean against the 95th percentile in each row separates a shift in expected cost from a change in tail exposure, which is the distinction the managerial levers in the next section build on.
