@@ -515,52 +515,6 @@ cat("Correlation between T1 and T2:", round(cor(sim2$T1, sim2$T2), 3), "\n")
 
 ---
 
-## Portfolio Networks (@sec-network2)
-
-### Exercise 4 ★: Add a Fourth Project
-
-This exercise requires reading `ch-network2.qmd` to obtain the existing three-project network structure. The solution below shows the pattern for extending the portfolio.
-
-```{r}
-#| eval: false
-# Pattern for adding a fourth project (Bridge Inspection) to the portfolio
-# Assumes nodes A, B, C are enterprise risks already in the network
-# New nodes: L4 (Labor-4), M4 (Materials-4), E4 (Equipment-4),
-#            W4 (Work-4), X (Portfolio total)
-
-# Add to nodes data frame:
-new_nodes <- data.frame(
-  id    = c("L4", "M4", "E4", "W4"),
-  label = c("Labor-4","Materials-4","Equipment-4","Bridge Inspection"),
-  group = c("Resource","Resource","Resource","Project"),
-  stringsAsFactors = FALSE
-)
-
-# Add edges: enterprise risks → new resources, new resources → W4, W4 → portfolio
-new_links <- data.frame(
-  source = c("A","B","C","L4","M4","E4","W4"),
-  target = c("L4","M4","E4","W4","W4","W4","Y"),
-  value  = rep(1,7),
-  stringsAsFactors = FALSE
-)
-```
-
-**Expected result.** Adding a fourth project sharing the same enterprise risks increases total portfolio variance by more than the fourth project's standalone variance, since the covariance terms between the new project and the existing three add to the total. The risk importance ranking is unlikely to shift dramatically, but any enterprise risk that was already dominant (highest contribution to existing portfolio variance) will become even more dominant in the extended portfolio.
-
----
-
-### Exercise 5 ★: Causal Graph Design
-
-*Add SC → C edge: Supply Chain Disruption also affects Weather Delay through logistics.*
-
-This exercise is primarily conceptual; the answer requires reasoning about the see-versus-do distinction.
-
-**Answer.** Adding SC → C means that C (Weather Delay) is no longer a root variable; it becomes conditional on SC. When you *see* C = Yes, you're now also updating your belief about SC, which in turn shifts your beliefs about A (Labor Shortage) and B (Material Price Spike), because all three share SC as a parent. This creates *explaining away*: if you observe C and you know that SC explains it, you become less certain that some independent weather phenomenon caused C.
-
-The do-calculus implication: `prob_net_update()` (graph surgery) would remove the SC → C edge when computing $P(Y | \text{do}(C = \text{No}))$, preventing the intervention from propagating back up to SC and then down to A and B. In contrast, `prob_net_learn()` (conditioning) would propagate through all paths, including the SC back-channel. The see-versus-do distinction becomes consequential precisely because of this shared upstream cause.
-
----
-
 ## Agentic Risk Analysis (@sec-agent)
 
 ### Exercise 5 ★: Skill Authoring

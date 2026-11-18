@@ -37,8 +37,6 @@ A Bayesian network is a directed acyclic graph (DAG) where:
 
 Bayesian networks are well-suited to project risk analysis because they explicitly model how risk events propagate through resources and tasks to affect total project cost [@govan2014].
 
-For a more advanced example covering causal inference, graph surgery, and the see-versus-do distinction across a full project portfolio, see @sec-network2.
-
 ## Project Setup
 
 ### Tasks
@@ -295,7 +293,7 @@ legend(
 - **`prob_net_sim()`** draws Monte Carlo samples in topological order, propagating risk states through the network to produce a total cost distribution.
 - **`prob_net_learn()`** conditions on observed evidence (*seeing*): clamping a node to its observed value and re-simulating the downstream distribution.
 - **`prob_net_update()`** performs structural changes (*doing*): removing edges or replacing distributions, enabling causal interventions beyond what conditioning can express.
-- The difference between *seeing* and *doing* becomes consequential when nodes share upstream parents; see @sec-network2 for the full treatment with shared enterprise risks.
+- The difference between *seeing* and *doing* becomes consequential when nodes share upstream parents, such as two risks driven by a common root cause.
 :::
 
 ## Exercises
@@ -306,6 +304,6 @@ legend(
 
 3. **Add a QA risk.** Modify the network so that a new Risk-3 (with probability 0.40) affects the QA Engineer (Resource-3), increasing their cost from a mean of \$20K to \$35K if it occurs. Update the distributions and re-simulate. How much does this add to the expected project cost? ★
 
-4. **Seeing vs. doing.** Explain the difference between `prob_net_learn(observations = list(B = 0))` and `prob_net_update(remove_links = ...)`. When would you use each? Which corresponds to "seeing" and which to "doing" in the causal inference sense? (See @sec-network2 for the full treatment.)
+4. **Seeing vs. doing.** Explain the difference between `prob_net_learn(observations = list(B = 0))` and `prob_net_update(remove_links = ...)`. When would you use each? Which corresponds to "seeing" and which to "doing" in the causal inference sense?
 
 5. **Project structure.** ★ This example has a simple layered structure (Risk → Resource → Task → Project). Design a more complex network with two risks that both affect the same resource. What does that mean for the correlation between the two downstream tasks? Build the network and verify with a correlation matrix of `sim_results`.

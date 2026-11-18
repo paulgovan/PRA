@@ -43,7 +43,6 @@ PRA can be used as a traditional R package with direct function calls, or driven
 * [Learning Curves](https://paulgovan.github.io/PRA/book/ch-sigmoidal.html)
 * [Design Structure Matrices](https://paulgovan.github.io/PRA/book/ch-dsm.html)
 * [Probabilistic Networks](https://paulgovan.github.io/PRA/book/ch-network.html)
-* [Network Portfolio Analysis](https://paulgovan.github.io/PRA/book/ch-network2.html)
 * [Bayesian Methods](https://paulgovan.github.io/PRA/book/ch-bayes.html)
 * [Critical Path & Schedule Risk Analysis](https://paulgovan.github.io/PRA/articles/schedule-risk.html) of resource-loaded schedules
 

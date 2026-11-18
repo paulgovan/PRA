@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>12&nbsp; Your AI Co-Pilot: Agentic Risk Analysis – Project Risk Analysis: A Practical Guide</title>
+<title>11&nbsp; Your AI Co-Pilot: Agentic Risk Analysis – Project Risk Analysis: A Practical Guide</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -286,7 +286,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch-agent.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch-agent.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -404,20 +404,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-network2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Portfolio Problem: When Risks Are Shared</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./ch-quarto.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Write Once, Trust Always: Reproducible Risk Analysis with Quarto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Write Once, Trust Always: Reproducible Risk Analysis with Quarto</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-agent.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -477,19 +471,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#how-pra-talks-to-ai-agents" id="toc-how-pra-talks-to-ai-agents" class="nav-link active" data-scroll-target="#how-pra-talks-to-ai-agents"><span class="header-section-number">12.1</span> How PRA Talks to AI Agents</a></li>
-  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites"><span class="header-section-number">12.2</span> Prerequisites</a></li>
-  <li><a href="#the-mcp-server" id="toc-the-mcp-server" class="nav-link" data-scroll-target="#the-mcp-server"><span class="header-section-number">12.3</span> The MCP Server</a>
+  <li><a href="#how-pra-talks-to-ai-agents" id="toc-how-pra-talks-to-ai-agents" class="nav-link active" data-scroll-target="#how-pra-talks-to-ai-agents"><span class="header-section-number">11.1</span> How PRA Talks to AI Agents</a></li>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites"><span class="header-section-number">11.2</span> Prerequisites</a></li>
+  <li><a href="#the-mcp-server" id="toc-the-mcp-server" class="nav-link" data-scroll-target="#the-mcp-server"><span class="header-section-number">11.3</span> The MCP Server</a>
   <ul class="collapse">
-  <li><a href="#starting-the-server" id="toc-starting-the-server" class="nav-link" data-scroll-target="#starting-the-server"><span class="header-section-number">12.3.1</span> Starting the server</a></li>
-  <li><a href="#connecting-from-claude-code" id="toc-connecting-from-claude-code" class="nav-link" data-scroll-target="#connecting-from-claude-code"><span class="header-section-number">12.3.2</span> Connecting from Claude Code</a></li>
-  <li><a href="#connecting-from-claude-desktop" id="toc-connecting-from-claude-desktop" class="nav-link" data-scroll-target="#connecting-from-claude-desktop"><span class="header-section-number">12.3.3</span> Connecting from Claude Desktop</a></li>
+  <li><a href="#starting-the-server" id="toc-starting-the-server" class="nav-link" data-scroll-target="#starting-the-server"><span class="header-section-number">11.3.1</span> Starting the server</a></li>
+  <li><a href="#connecting-from-claude-code" id="toc-connecting-from-claude-code" class="nav-link" data-scroll-target="#connecting-from-claude-code"><span class="header-section-number">11.3.2</span> Connecting from Claude Code</a></li>
+  <li><a href="#connecting-from-claude-desktop" id="toc-connecting-from-claude-desktop" class="nav-link" data-scroll-target="#connecting-from-claude-desktop"><span class="header-section-number">11.3.3</span> Connecting from Claude Desktop</a></li>
   </ul></li>
-  <li><a href="#agent-skills" id="toc-agent-skills" class="nav-link" data-scroll-target="#agent-skills"><span class="header-section-number">12.4</span> Agent Skills</a></li>
-  <li><a href="#from-request-to-tool-call" id="toc-from-request-to-tool-call" class="nav-link" data-scroll-target="#from-request-to-tool-call"><span class="header-section-number">12.5</span> From Request to Tool Call</a></li>
-  <li><a href="#tool-reference" id="toc-tool-reference" class="nav-link" data-scroll-target="#tool-reference"><span class="header-section-number">12.6</span> Tool Reference</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">12.7</span> Summary</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">12.8</span> Exercises</a></li>
+  <li><a href="#agent-skills" id="toc-agent-skills" class="nav-link" data-scroll-target="#agent-skills"><span class="header-section-number">11.4</span> Agent Skills</a></li>
+  <li><a href="#from-request-to-tool-call" id="toc-from-request-to-tool-call" class="nav-link" data-scroll-target="#from-request-to-tool-call"><span class="header-section-number">11.5</span> From Request to Tool Call</a></li>
+  <li><a href="#tool-reference" id="toc-tool-reference" class="nav-link" data-scroll-target="#tool-reference"><span class="header-section-number">11.6</span> Tool Reference</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">11.7</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">11.8</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/paulgovan/PRA/edit/main/ch-agent.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulgovan/PRA/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -499,7 +493,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span id="sec-agent" class="quarto-section-identifier"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-agent" class="quarto-section-identifier"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -540,8 +534,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 </div>
 </div>
-<section id="how-pra-talks-to-ai-agents" class="level2" data-number="12.1">
-<h2 data-number="12.1" class="anchored" data-anchor-id="how-pra-talks-to-ai-agents"><span class="header-section-number">12.1</span> How PRA Talks to AI Agents</h2>
+<section id="how-pra-talks-to-ai-agents" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="how-pra-talks-to-ai-agents"><span class="header-section-number">11.1</span> How PRA Talks to AI Agents</h2>
 <p>Rather than embedding a language model inside the package, PRA takes a simpler and more portable approach: it publishes its analytical functions as <strong>tools</strong> that any capable AI agent can call. Two pieces make this work:</p>
 <ol type="1">
 <li><strong>An MCP server</strong> (<code>pra_mcp_server()</code>) that advertises each PRA function — Monte Carlo simulation, EVM, Bayesian risk, learning curves, DSM, and the rest — as a callable tool over the <a href="https://modelcontextprotocol.io">Model Context Protocol</a>.</li>
@@ -549,34 +543,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <p>The agent (Claude Code, Claude Desktop, or any MCP-compatible client) supplies the intelligence; PRA supplies the trustworthy, validated computation. Because the tools are the same functions you’ve used throughout the book, the numbers are identical whether you call <code>mcs()</code> yourself or ask an agent to run it.</p>
 </section>
-<section id="prerequisites" class="level2" data-number="12.2">
-<h2 data-number="12.2" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">12.2</span> Prerequisites</h2>
+<section id="prerequisites" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">11.2</span> Prerequisites</h2>
 <p>The MCP server relies on a few optional packages:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"ellmer"</span>, <span class="st">"mcptools"</span>, <span class="st">"jsonlite"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The analytical functions themselves need none of these — they are required only to serve the tools to an agent.</p>
 </section>
-<section id="the-mcp-server" class="level2" data-number="12.3">
-<h2 data-number="12.3" class="anchored" data-anchor-id="the-mcp-server"><span class="header-section-number">12.3</span> The MCP Server</h2>
-<section id="starting-the-server" class="level3" data-number="12.3.1">
-<h3 data-number="12.3.1" class="anchored" data-anchor-id="starting-the-server"><span class="header-section-number">12.3.1</span> Starting the server</h3>
+<section id="the-mcp-server" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="the-mcp-server"><span class="header-section-number">11.3</span> The MCP Server</h2>
+<section id="starting-the-server" class="level3" data-number="11.3.1">
+<h3 data-number="11.3.1" class="anchored" data-anchor-id="starting-the-server"><span class="header-section-number">11.3.1</span> Starting the server</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pra_mcp_server</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The server communicates over stdio, the standard transport for local MCP servers, and reuses the tool definitions from <code>pra_tools()</code> so any update to a tool is reflected automatically.</p>
 </section>
-<section id="connecting-from-claude-code" class="level3" data-number="12.3.2">
-<h3 data-number="12.3.2" class="anchored" data-anchor-id="connecting-from-claude-code"><span class="header-section-number">12.3.2</span> Connecting from Claude Code</h3>
+<section id="connecting-from-claude-code" class="level3" data-number="11.3.2">
+<h3 data-number="11.3.2" class="anchored" data-anchor-id="connecting-from-claude-code"><span class="header-section-number">11.3.2</span> Connecting from Claude Code</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add <span class="at">-s</span> project pra <span class="at">--</span> Rscript <span class="at">-e</span> <span class="st">"PRA::pra_mcp_server()"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Once registered, Claude Code can call PRA tools in any conversation:</p>
 <blockquote class="blockquote">
 <p>“Run a Monte Carlo simulation for three tasks: Task A normal(10, 2), Task B triangular(5, 10, 15), Task C uniform(8, 12). What is the contingency reserve at the 90th percentile?”</p>
 </blockquote>
 </section>
-<section id="connecting-from-claude-desktop" class="level3" data-number="12.3.3">
-<h3 data-number="12.3.3" class="anchored" data-anchor-id="connecting-from-claude-desktop"><span class="header-section-number">12.3.3</span> Connecting from Claude Desktop</h3>
+<section id="connecting-from-claude-desktop" class="level3" data-number="11.3.3">
+<h3 data-number="11.3.3" class="anchored" data-anchor-id="connecting-from-claude-desktop"><span class="header-section-number">11.3.3</span> Connecting from Claude Desktop</h3>
 <p>Add the following to your Claude Desktop config file:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"mcpServers"</span><span class="fu">:</span> <span class="fu">{</span></span>
@@ -588,8 +582,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
-<section id="agent-skills" class="level2" data-number="12.4">
-<h2 data-number="12.4" class="anchored" data-anchor-id="agent-skills"><span class="header-section-number">12.4</span> Agent Skills</h2>
+<section id="agent-skills" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="agent-skills"><span class="header-section-number">11.4</span> Agent Skills</h2>
 <p>An agent works best when it knows not just <em>what</em> tools exist but <em>when</em> to reach for each one. PRA ships a set of Agent Skills for exactly this. Each is a <code>SKILL.md</code> file with structured guidance — when to use the method, which tool to call, the JSON argument format, and how to interpret the result.</p>
 <p>Find the installed skills with:</p>
 <div class="cell">
@@ -647,8 +641,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </section>
-<section id="from-request-to-tool-call" class="level2" data-number="12.5">
-<h2 data-number="12.5" class="anchored" data-anchor-id="from-request-to-tool-call"><span class="header-section-number">12.5</span> From Request to Tool Call</h2>
+<section id="from-request-to-tool-call" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="from-request-to-tool-call"><span class="header-section-number">11.5</span> From Request to Tool Call</h2>
 <p>When you ask an agent to run an analysis, it selects a tool and fills in the arguments. All array and matrix arguments are passed as JSON strings. For example, the request “simulate three tasks — Normal(10,2), Triangular(5,10,15), Uniform(8,12), 10,000 runs” maps to <code>mcs_tool</code> with a <code>task_dists_json</code> of:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span><span class="fu">{</span><span class="dt">"type"</span><span class="fu">:</span><span class="st">"normal"</span><span class="fu">,</span><span class="dt">"mean"</span><span class="fu">:</span><span class="dv">10</span><span class="fu">,</span><span class="dt">"sd"</span><span class="fu">:</span><span class="dv">2</span><span class="fu">}</span><span class="ot">,</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span><span class="dt">"type"</span><span class="fu">:</span><span class="st">"triangular"</span><span class="fu">,</span><span class="dt">"a"</span><span class="fu">:</span><span class="dv">5</span><span class="fu">,</span><span class="dt">"b"</span><span class="fu">:</span><span class="dv">10</span><span class="fu">,</span><span class="dt">"c"</span><span class="fu">:</span><span class="dv">15</span><span class="fu">}</span><span class="ot">,</span></span>
@@ -695,8 +689,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>A typical agent workflow chains tools the same way you would chain functions: <code>mcs_tool</code> to simulate, then <code>contingency_tool</code> for the reserve and <code>sensitivity_tool</code> for the risk drivers. The <code>pra-overview</code> skill lists these common workflows so the agent knows what to do next.</p>
 </section>
-<section id="tool-reference" class="level2" data-number="12.6">
-<h2 data-number="12.6" class="anchored" data-anchor-id="tool-reference"><span class="header-section-number">12.6</span> Tool Reference</h2>
+<section id="tool-reference" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="tool-reference"><span class="header-section-number">11.6</span> Tool Reference</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 31%">
@@ -752,8 +746,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </section>
-<section id="summary" class="level2" data-number="12.7">
-<h2 data-number="12.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">12.7</span> Summary</h2>
+<section id="summary" class="level2" data-number="11.7">
+<h2 data-number="11.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">11.7</span> Summary</h2>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -772,10 +766,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </div>
 </div>
-<p>Congratulations, you’ve completed the toolkit. You can now quantify project uncertainty (MCS, <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>; SMM, <a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a>), track project performance (EVM, <a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a>), update risk estimates with new evidence (Bayesian, <a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a>; Networks, <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a>), model structural dependencies (DSM, <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a>; Portfolio, <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a>), forecast learning (Sigmoidal, <a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a>), and hand it all to an AI agent through MCP (<a href="#sec-agent" class="quarto-xref"><span>Chapter 12</span></a>). The rest is practice.</p>
+<p>Congratulations, you’ve completed the toolkit. You can now quantify project uncertainty (MCS, <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>; SMM, <a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a>), track project performance (EVM, <a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a>), update risk estimates with new evidence (Bayesian, <a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a>; Networks, <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a>), model structural dependencies (DSM, <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a>), forecast learning (Sigmoidal, <a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a>), and hand it all to an AI agent through MCP (<a href="#sec-agent" class="quarto-xref"><span>Chapter 11</span></a>). The rest is practice.</p>
 </section>
-<section id="exercises" class="level2" data-number="12.8">
-<h2 data-number="12.8" class="anchored" data-anchor-id="exercises"><span class="header-section-number">12.8</span> Exercises</h2>
+<section id="exercises" class="level2" data-number="11.8">
+<h2 data-number="11.8" class="anchored" data-anchor-id="exercises"><span class="header-section-number">11.8</span> Exercises</h2>
 <ol type="1">
 <li><p><strong>Set up the server.</strong> Install <code>ellmer</code>, <code>mcptools</code>, and <code>jsonlite</code>, then start <code>pra_mcp_server()</code> and register it with Claude Code or Claude Desktop using the instructions above. Confirm the client lists the PRA tools.</p></li>
 <li><p><strong>Request to arguments.</strong> For the request “simulate two tasks, Normal(20,4) and Uniform(10,15), with 5,000 runs,” write out the <code>mcs_tool</code> call and its <code>task_dists_json</code> argument by hand. Then run the equivalent <code>mcs()</code> in R and compare.</p></li>
@@ -1257,7 +1251,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./ch-quarto.html" class="pagination-link" aria-label="Write Once, Trust Always: Reproducible Risk Analysis with Quarto">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Write Once, Trust Always: Reproducible Risk Analysis with Quarto</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Write Once, Trust Always: Reproducible Risk Analysis with Quarto</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
@@ -1438,7 +1432,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-180"><a href="#cb9-180" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Agents chain tools just as you chain functions: <span class="in">`mcs_tool`</span> → <span class="in">`contingency_tool`</span> + <span class="in">`sensitivity_tool`</span>.</span>
 <span id="cb9-181"><a href="#cb9-181" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb9-182"><a href="#cb9-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-183"><a href="#cb9-183" aria-hidden="true" tabindex="-1"></a>Congratulations, you've completed the toolkit. You can now quantify project uncertainty (MCS, @sec-mcs; SMM, @sec-smm), track project performance (EVM, @sec-evm), update risk estimates with new evidence (Bayesian, @sec-bayes; Networks, @sec-network), model structural dependencies (DSM, @sec-dsm; Portfolio, @sec-network2), forecast learning (Sigmoidal, @sec-sigmoidal), and hand it all to an AI agent through MCP (@sec-agent). The rest is practice.</span>
+<span id="cb9-183"><a href="#cb9-183" aria-hidden="true" tabindex="-1"></a>Congratulations, you've completed the toolkit. You can now quantify project uncertainty (MCS, @sec-mcs; SMM, @sec-smm), track project performance (EVM, @sec-evm), update risk estimates with new evidence (Bayesian, @sec-bayes; Networks, @sec-network), model structural dependencies (DSM, @sec-dsm), forecast learning (Sigmoidal, @sec-sigmoidal), and hand it all to an AI agent through MCP (@sec-agent). The rest is practice.</span>
 <span id="cb9-184"><a href="#cb9-184" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-185"><a href="#cb9-185" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
 <span id="cb9-186"><a href="#cb9-186" aria-hidden="true" tabindex="-1"></a></span>
