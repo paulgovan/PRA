@@ -398,20 +398,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./ch-schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hurry Up and Wait: Critical Path and Schedule Risk Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-quarto.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Write Once, Trust Always: Reproducible Risk Analysis with Quarto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Write Once, Trust Always: Reproducible Risk Analysis with Quarto</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-agent.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -966,7 +972,7 @@ Total Standard Deviation:  4.478058 </code></pre>
 </section>
 <section id="sec-cs-agent" class="level2" data-number="D.10">
 <h2 data-number="D.10" class="anchored" data-anchor-id="sec-cs-agent"><span class="header-section-number">D.10</span> Step 9: Agentic Analysis</h2>
-<p>All of the above can also be driven by an AI agent through the PRA MCP server (<a href="ch-agent.html" class="quarto-xref"><span>Chapter 11</span></a>), with no function-by-function scripting required. Once <code>pra_mcp_server()</code> is registered with Claude Code or Claude Desktop, the agent calls the same tools you used in Steps 1–4. For example, the Monte Carlo simulation from Step 1 corresponds to <code>mcs_tool</code> with this <code>task_dists_json</code>:</p>
+<p>All of the above can also be driven by an AI agent through the PRA MCP server (<a href="ch-agent.html" class="quarto-xref"><span>Chapter 12</span></a>), with no function-by-function scripting required. Once <code>pra_mcp_server()</code> is registered with Claude Code or Claude Desktop, the agent calls the same tools you used in Steps 1–4. For example, the Monte Carlo simulation from Step 1 corresponds to <code>mcs_tool</code> with this <code>task_dists_json</code>:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span><span class="fu">{</span><span class="dt">"type"</span><span class="fu">:</span><span class="st">"triangular"</span><span class="fu">,</span><span class="dt">"a"</span><span class="fu">:</span><span class="dv">2</span><span class="fu">,</span><span class="dt">"b"</span><span class="fu">:</span><span class="dv">3</span><span class="fu">,</span><span class="dt">"c"</span><span class="fu">:</span><span class="dv">5</span><span class="fu">}</span><span class="ot">,</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span><span class="dt">"type"</span><span class="fu">:</span><span class="st">"normal"</span><span class="fu">,</span><span class="dt">"mean"</span><span class="fu">:</span><span class="dv">8</span><span class="fu">,</span><span class="dt">"sd"</span><span class="fu">:</span><span class="fl">1.5</span><span class="fu">}</span><span class="ot">,</span></span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span><span class="dt">"type"</span><span class="fu">:</span><span class="st">"triangular"</span><span class="fu">,</span><span class="dt">"a"</span><span class="fu">:</span><span class="dv">10</span><span class="fu">,</span><span class="dt">"b"</span><span class="fu">:</span><span class="dv">14</span><span class="fu">,</span><span class="dt">"c"</span><span class="fu">:</span><span class="dv">20</span><span class="fu">}</span><span class="ot">,</span></span>

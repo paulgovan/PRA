@@ -179,3 +179,59 @@ $$P(\text{Risk}|C_i = 1) = \frac{P(C_i = 1|\text{Risk}) \cdot P(\text{Risk})}{P(
 ### Why Observing a Cause Increases Risk Probability
 
 Even without directly observing the risk event, observing a root cause raises $P(\text{Risk})$ because the cause is more likely to be observed when the risk is present than when it is absent, that is, $P(C|H) > P(C|\neg H)$. This is the key asymmetry that makes Bayesian updating useful: observable precursors carry information about latent risk states.
+
+---
+
+## 5. Critical Path and Criticality Measures {#sec-math-cpm}
+
+These are the formulas behind `cpm()` and `sra()` in @sec-schedule.
+
+### Forward and Backward Passes
+
+Let $d_j$ be the duration of activity $j$ and $\ell$ the lag on a link from $i$ to $j$. The forward pass visits activities in dependency order and sets
+
+$$
+ES_j = \max\Big(0,\; \max_{i \to j} c_{ij}\Big), \qquad EF_j = ES_j + d_j,
+$$
+
+where each incoming link contributes
+
+$$
+c_{ij} =
+\begin{cases}
+EF_i + \ell & \text{FS} \\
+ES_i + \ell & \text{SS} \\
+EF_i + \ell - d_j & \text{FF} \\
+ES_i + \ell - d_j & \text{SF.}
+\end{cases}
+$$
+
+The project finish is $T = \max_j EF_j$. The backward pass mirrors this in reverse order, starting from $LF_j = T$:
+
+$$
+LF_i = \min\Big(T,\; \min_{i \to j} c'_{ij}\Big), \qquad LS_i = LF_i - d_i,
+$$
+
+with $c'_{ij} = LS_j - \ell$ (FS), $LS_j - \ell + d_i$ (SS), $LF_j - \ell$ (FF) or $LF_j - \ell + d_i$ (SF). Total float is $TF_j = LS_j - ES_j$; activity $j$ is critical when $TF_j = 0$.
+
+### Criticality Measures
+
+Over $N$ Monte Carlo iterations with sampled durations $d_j^{(k)}$ and finishes $T^{(k)}$:
+
+$$
+\text{CI}_j = \frac{1}{N} \sum_{k=1}^{N} \mathbb{1}\big[j \text{ critical in iteration } k\big], \qquad
+\text{CRI}_j = \text{CI}_j \cdot \rho_s\big(d_j, T\big), \qquad
+\text{SSI}_j = \text{CI}_j \cdot \frac{\sigma(d_j)}{\sigma(T)},
+$$
+
+where $\rho_s$ is Spearman's rank correlation. Under resource leveling, "critical" means on the driving path traced back from the finish through binding links and resource hand-offs, because float is no longer defined.
+
+### Why Merge Bias Happens
+
+If two independent paths with finishes $X$ and $Y$ merge, the project finishes at $\max(X, Y)$, and
+
+$$
+P\big(\max(X, Y) \le t\big) = P(X \le t)\,P(Y \le t).
+$$
+
+Two paths that each have a 50% chance of finishing by $t$ give the merged project only a 25% chance. Every additional merging path multiplies in another factor below one, so the deterministic plan slides down the finish distribution.

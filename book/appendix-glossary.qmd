@@ -173,6 +173,40 @@ A binary matrix with risks as rows and resources as columns. Entry $R[i,j] = 1$ 
 
 ---
 
+## Schedule Risk Analysis
+
+**Critical path**
+The chain of activities with zero total float. Any delay to a critical activity delays the project finish by the same amount. See @sec-schedule.
+
+**Criticality index**
+The proportion of Monte Carlo iterations in which an activity is on the critical path. See @sec-schedule.
+
+**Cruciality index**
+Criticality index multiplied by the rank correlation between the activity's duration and the project finish. Ranks activities by how much they actually move the finish. See @sec-schedule.
+
+**Float (total, free)**
+Total float is how far an activity can slip without delaying the project finish; free float is how far it can slip without delaying any successor. See @sec-schedule.
+
+**Lag / lead**
+A delay (lag) or overlap (lead, a negative lag) on a precedence link. See @sec-schedule.
+
+**Merge bias**
+The tendency of a network to finish later than its deterministic plan, because at every merge point the finish is set by whichever converging path runs longest. See @sec-schedule.
+
+**Precedence link (FS, SS, FF, SF)**
+A dependency between two activities: finish-to-start, start-to-start, finish-to-finish or start-to-finish. See @sec-schedule.
+
+**Resource leveling**
+Rescheduling activities so that no resource is used beyond its capacity, usually by delaying lower-priority work. See @sec-schedule.
+
+**Risk effect**
+In `PRA`, a link from a node of a risk network to one or more resources that scales their productivity or cost rate when the risk occurs, so the risk reaches every activity using those resources. See @sec-schedule.
+
+**Schedule sensitivity index (SSI)**
+Criticality index multiplied by the ratio of an activity's duration standard deviation to the project finish standard deviation. See @sec-schedule.
+
+---
+
 ## Agentic Framework
 
 **MCP (Model Context Protocol)**

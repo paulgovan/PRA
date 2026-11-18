@@ -23,6 +23,7 @@ book:
     - ch-bayes.qmd
     - ch-sigmoidal.qmd
     - ch-network.qmd
+    - ch-schedule.qmd
     - ch-dsm.qmd
     - ch-quarto.qmd
     - ch-agent.qmd

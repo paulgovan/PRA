@@ -8,7 +8,7 @@ This book is your toolkit.
 
 ## What This Book Is About
 
-*Project Risk Analysis: A Practical Guide* is a hands-on introduction to quantitative methods for managing uncertainty in project schedules and costs. We cover the major techniques used by risk analysts, project managers, and engineers: Monte Carlo simulation, second moment methods, earned value management, Bayesian inference, learning curves, design structure matrices, probabilistic networks, and AI-powered risk analysis, all through working R code using the `PRA` package.
+*Project Risk Analysis: A Practical Guide* is a hands-on introduction to quantitative methods for managing uncertainty in project schedules and costs. We cover the major techniques used by risk analysts, project managers, and engineers: Monte Carlo simulation, second moment methods, earned value management, Bayesian inference, learning curves, design structure matrices, probabilistic networks, critical path and schedule risk analysis, and AI-powered risk analysis, all through working R code using the `PRA` package.
 
 The goal is not to overwhelm you with theory (though we won't shy away from the math when it helps). The goal is to give you a real edge: the ability to take a project estimate, ask the right "what if" questions, and produce defensible numbers for schedule and cost contingency.
 
