@@ -13,15 +13,15 @@
 #' @srrstats {G2.1} *Implements assertions on types of inputs - documented in applicable function files.*
 #' @srrstats {G2.1a} *Provides explicit secondary documentation of expectations on data types - documented in applicable function files.*
 #' @srrstats {G2.2} *Appropriately prohibits multivariate input to univariate parameters - documented in applicable function files.*
-#' @srrstats {G2.3a} *Uses explicit validation for character parameters where applicable - documented in eac(), tcpi(), fit_sigmoidal(), predict_sigmoidal().*
-#' @srrstats {G2.3b} *Uses tolower() to convert character inputs to lowercase for case-insensitive matching - documented in eac(), tcpi(), fit_sigmoidal(), predict_sigmoidal(), plot_sigmoidal().*
-#' @srrstats {G2.4a} *Uses as.integer() for integer comparisons where applicable - documented in cor_matrix() and mcs().*
-#' @srrstats {G2.7} *Accepts standard tabular forms (matrix, data.frame) where applicable - documented in dsm.R and sigmoidal.R.*
+#' @srrstats {G2.3a} *Uses explicit validation for character parameters where applicable - documented in eac(), tcpi(), fit_sigmoidal(), predict_sigmoidal(), project_schedule().*
+#' @srrstats {G2.3b} *Uses tolower() to convert character inputs to lowercase for case-insensitive matching - documented in eac(), tcpi(), fit_sigmoidal(), predict_sigmoidal(), plot_sigmoidal(), project_schedule().*
+#' @srrstats {G2.4a} *Uses as.integer() for integer comparisons where applicable - documented in cor_matrix(), mcs() and sra().*
+#' @srrstats {G2.7} *Accepts standard tabular forms (matrix, data.frame) where applicable - documented in dsm.R, sigmoidal.R and schedule.R.*
 #' @srrstats {G2.13} *Implements checks for missing data via anyNA() and is.na() - documented in applicable function files.*
 #' @srrstats {G2.14} *All functions provide options for users to specify how to handle missing (NA) data - documented in each function file.*
 #' @srrstats {G2.14a} *Errors on missing data with informative messages - documented in applicable function files.*
 #' @srrstats {G2.14b} *Ignores missing data where appropriate with proper handling - documented in learning.R for observed causes/risks.*
-#' @srrstats {G3.1} *Covariance calculations allow user-specified correlation matrices - documented in mcs.R, sensitivity.R, and smm.R.*
+#' @srrstats {G3.1} *Covariance calculations allow user-specified correlation matrices - documented in mcs.R, sensitivity.R, smm.R and schedule.R.*
 #' @srrstats {G3.1a} *Documentation describes usage of correlation matrices in examples.*
 #' @srrstats {G2.15} *All functions implement explicit checks for NaN values via is.nan() with informative error messages - documented in each function file.*
 #' @srrstats {G2.16} *All functions implement explicit checks for undefined (Inf, -Inf) values via is.infinite() with informative error messages - documented in each function file.*

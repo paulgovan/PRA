@@ -50,3 +50,29 @@ test_that("building_project drives the core PRA workflow", {
   g <- grandparent_dsm(bp$resource_task, bp$risk_resource)
   expect_s3_class(g, "dsm")
 })
+
+test_that("building_project carries a valid resource-loaded schedule", {
+  bp <- building_project
+  expect_equal(nrow(bp$schedule_activities), 6)
+  expect_equal(bp$schedule_resources$id, bp$resource_names)
+  expect_named(bp$duration_dists, paste0("T", 1:5))
+  expect_length(bp$risk_register, 2)
+  expect_s3_class(bp$start_date, "Date")
+
+  proj <- project_schedule(bp$schedule_activities, bp$schedule_links,
+    duration_dists = bp$duration_dists, resources = bp$schedule_resources,
+    productivity_dists = bp$productivity_dists,
+    assignments = bp$schedule_assignments, risks = bp$risk_register,
+    cor_mat = bp$cor_mat[1:5, 1:5], start_date = bp$start_date,
+    time_unit = "weeks"
+  )
+  det <- cpm(proj)
+  expect_equal(det$finish, 45)
+  expect_equal(det$critical_path, c("T1", "T2", "T3", "T4", "T6"))
+  # The shared tower crane delays the envelope when leveled.
+  expect_equal(cpm(proj, level = TRUE)$finish, 53)
+
+  # Assignments mirror the resource-task incidence matrix.
+  inc <- (proj$units > 0) * 1
+  expect_equal(unname(t(inc)), unname(bp$resource_task))
+})

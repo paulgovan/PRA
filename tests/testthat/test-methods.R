@@ -4,7 +4,8 @@
 # The JSS editor's review asked for print, summary and plot on every class the
 # package returns. This file turns that requirement into a regression test.
 
-pra_classes <- c("mcs", "smm", "dsm", "prob_net", "pra_sigmoidal_fit")
+pra_classes <- c("mcs", "smm", "dsm", "prob_net", "pra_sigmoidal_fit",
+                 "pra_schedule", "cpm", "sra")
 
 test_that("every PRA S3 class implements print, summary and plot (G5.2a)", {
   for (cls in pra_classes) {
@@ -111,4 +112,50 @@ test_that("plot methods run and return their input invisibly (G5.8)", {
 test_that("plot.smm messages when there is no variance to plot (G5.8)", {
   withr::local_pdf(NULL)
   expect_message(plot(smm(c(10, 15), c(0, 0))), "Nothing to plot")
+})
+
+test_that("schedule plot methods draw every view (G5.8)", {
+  withr::local_pdf(NULL)
+  bp <- building_project
+  p <- project_schedule(bp$schedule_activities, bp$schedule_links,
+    duration_dists = bp$duration_dists, resources = bp$schedule_resources,
+    productivity_dists = bp$productivity_dists,
+    assignments = bp$schedule_assignments, risks = bp$risk_register,
+    start_date = bp$start_date, time_unit = "weeks"
+  )
+  expect_invisible(plot(p))
+  r <- cpm(p)
+  expect_invisible(plot(r))
+  expect_no_error(plot(r, type = "network"))
+  expect_no_error(plot(cpm(p, level = TRUE)))
+
+  set.seed(1)
+  res <- sra(p, 300, level = TRUE)
+  for (type in c("finish", "cdf", "gantt", "tornado", "cost", "resources", "network")) {
+    expect_invisible(plot(res, type = type))
+  }
+  for (metric in c("criticality", "ssi", "sensitivity", "risk")) {
+    expect_no_error(plot(res, type = "tornado", metric = metric))
+  }
+  expect_no_error(plot(res, type = "resources", resource = "Tower crane"))
+  expect_error(plot(res, type = "resources", resource = "Robot"),
+               "Unknown resource(s): Robot", fixed = TRUE)
+
+  # Without a start date or a day/week unit the axes stay numeric.
+  q <- project_schedule(data.frame(id = c("A", "B"), duration = c(1, 2)),
+                        data.frame(source = "A", target = "B"), time_unit = "months")
+  expect_no_error(plot(cpm(q)))
+})
+
+test_that("schedule plots message when a view has nothing to show (G5.8)", {
+  withr::local_pdf(NULL)
+  p <- project_schedule(data.frame(id = c("A", "B"), duration = c(1, 2)),
+                        data.frame(source = "A", target = "B"))
+  res <- sra(p, 20)
+  expect_message(plot(res, type = "tornado", metric = "risk"), "no risk events")
+  expect_message(plot(res, type = "tornado"), "no activity or risk has a defined value")
+  expect_message(plot(res, type = "cost"), "carries no cost")
+  expect_message(plot(res, type = "resources"), "has no resources")
+  expect_no_error(plot(res, type = "finish"))
+  expect_no_error(plot(res, type = "gantt"))
 })

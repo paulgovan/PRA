@@ -125,16 +125,9 @@ mcs <- function(num_sims, task_dists, cor_mat = NULL) {
   if (is.null(cor_mat)) {
     # Independent tasks: draw each task directly from its own distribution.
     for (i in seq_along(task_dists)) {
-      dist <- task_dists[[i]]
-      if (dist$type == "normal") {
-        task_samples[, i] <- stats::rnorm(num_sims, mean = dist$mean, sd = dist$sd)
-      } else if (dist$type == "triangular") {
-        task_samples[, i] <- mc2d::rtriang(num_sims, min = dist$a, mode = dist$b, max = dist$c)
-      } else if (dist$type == "uniform") {
-        task_samples[, i] <- stats::runif(num_sims, min = dist$min, max = dist$max)
-      } else {
-        stop("Unsupported distribution type.")
-      }
+      task_samples[, i] <- pra_rdist(task_dists[[i]], num_sims,
+        allow = c("normal", "triangular", "uniform")
+      )
     }
   } else {
     # Correlated tasks: Cholesky decomposition. The Cholesky factor is applied
@@ -148,16 +141,9 @@ mcs <- function(num_sims, task_dists, cor_mat = NULL) {
     u <- stats::pnorm(z %*% chol(cor_mat))
 
     for (i in seq_along(task_dists)) {
-      dist <- task_dists[[i]]
-      if (dist$type == "normal") {
-        task_samples[, i] <- stats::qnorm(u[, i], mean = dist$mean, sd = dist$sd)
-      } else if (dist$type == "triangular") {
-        task_samples[, i] <- mc2d::qtriang(u[, i], min = dist$a, mode = dist$b, max = dist$c)
-      } else if (dist$type == "uniform") {
-        task_samples[, i] <- stats::qunif(u[, i], min = dist$min, max = dist$max)
-      } else {
-        stop("Unsupported distribution type.")
-      }
+      task_samples[, i] <- pra_qdist(task_dists[[i]], u[, i],
+        allow = c("normal", "triangular", "uniform")
+      )
     }
   }
 

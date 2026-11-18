@@ -3,7 +3,8 @@ name: pra-overview
 description: >
   Route a project risk analysis request to the right PRA tool. Use this as the
   entry point whenever a user asks about project cost/schedule uncertainty,
-  earned value, risk probabilities, learning curves, or task dependencies and
+  earned value, risk probabilities, learning curves, schedule networks and
+  critical paths, or task dependencies and
   you are unsure which PRA capability applies. Points to the method-specific
   skills and the underlying MCP tools served by pra_mcp_server().
 ---
@@ -20,6 +21,8 @@ skill with fuller guidance.
 | The user has... | Use MCP tool | Skill |
 |---|---|---|
 | Task distributions (normal/triangular/uniform), wants total cost/duration | `mcs_tool` | `pra-monte-carlo` |
+| Activities with precedence links, wants the critical path / float | `cpm_tool` | `pra-schedule-risk` |
+| A schedule network with uncertainty, resources or a risk register, wants finish-date probabilities and criticality | `sra_tool` | `pra-schedule-risk` |
 | Only task means + variances, wants a fast estimate | `smm_tool` | `pra-monte-carlo` |
 | Monte Carlo results, wants a reserve buffer | `contingency_tool` | `pra-sensitivity-contingency` |
 | Task distributions, wants the biggest risk drivers | `sensitivity_tool` | `pra-sensitivity-contingency` |
@@ -32,6 +35,8 @@ skill with fuller guidance.
 # Common multi-step workflows
 
 1. **Schedule/cost risk**: `mcs_tool` → `contingency_tool` + `sensitivity_tool`
+   (or, for a schedule with precedence logic, `cpm_tool` → `sra_tool` →
+   `contingency_tool`)
 2. **EVM analysis**: `evm_analysis_tool` (computes PV, EV, AC, SV, CV, SPI, CPI,
    EAC, ETC, VAC, TCPI in one call)
 3. **Bayesian prior → posterior**: `risk_prob_tool` → `cost_pdf_tool` →

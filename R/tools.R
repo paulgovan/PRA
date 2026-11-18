@@ -189,6 +189,49 @@ pra_tools <- function() {
         r_matrix_json = ellmer::type_string("JSON 2D array for the risk-resource matrix R (risks x resources).")
       ),
       annotations = ellmer::tool_annotations(title = "Grandparent DSM")
+    ),
+
+    # ---- Critical Path Method ----
+    ellmer::tool(
+      cpm_tool,
+      "Compute the deterministic critical path schedule of a project network: early/late start and finish, total and free float, critical path, and deterministic cost. Supports FS/SS/FF/SF links with lags, resource-driven durations and optional resource leveling against capacity. Use before sra_tool to show the baseline plan.",
+      arguments = list(
+        activities_json = ellmer::type_string(
+          "JSON array of activities. Each has 'id' and usually 'duration'; optional 'name', 'fixed_cost', and 'dist' (a duration distribution: normal {mean,sd}, triangular {a=min,b=mode,c=max}, uniform {min,max} or pert {a,b,c}). Example: [{\"id\":\"A\",\"duration\":5},{\"id\":\"B\",\"duration\":3,\"dist\":{\"type\":\"triangular\",\"a\":2,\"b\":3,\"c\":6}}]"
+        ),
+        links_json = ellmer::type_string(
+          "Optional JSON array of precedence links {source, target, type, lag}; type is FS (default), SS, FF or SF. Example: [{\"source\":\"A\",\"target\":\"B\",\"type\":\"SS\",\"lag\":2}]. Use 'null' for none."
+        ),
+        resources_json = ellmer::type_string(
+          "Optional JSON array of resources {id, capacity, rate, productivity}; capacity null = unlimited, rate is cost per unit per time unit, productivity is an optional multiplier distribution (triangular/uniform/pert with positive minimum). Use 'null' for none."
+        ),
+        assignments_json = ellmer::type_string(
+          "Optional JSON array of assignments {activity, resource, units, work}; 'work' (optional) makes the activity's duration work / (units * productivity). Use 'null' for none."
+        ),
+        level = ellmer::type_enum("Level resources against capacity ('true') or not ('false', default).", values = c("true", "false")),
+        time_unit = ellmer::type_string("Label for the time unit, e.g. 'days' or 'weeks'. Default 'periods'.")
+      ),
+      annotations = ellmer::tool_annotations(title = "Critical Path Method")
+    ),
+
+    # ---- Schedule Risk Analysis ----
+    ellmer::tool(
+      sra_tool,
+      "Run a Monte Carlo schedule risk analysis on a project network (CPM with uncertain durations, resource productivity and discrete risk events). Use instead of mcs_tool whenever the user has precedence logic between activities, parallel paths, resources, or a risk register. Returns finish and cost percentiles, the probability of meeting the deterministic finish, criticality/cruciality per activity, and risk rankings. Follow up with contingency_tool for a schedule reserve.",
+      arguments = list(
+        num_sims = ellmer::type_integer("Number of iterations, typically 10000 (fewer, e.g. 2000, when level = 'true')."),
+        activities_json = ellmer::type_string("JSON array of activities, as in cpm_tool. Give uncertain activities a 'dist'."),
+        links_json = ellmer::type_string("Optional JSON array of links, as in cpm_tool. Use 'null' for none."),
+        resources_json = ellmer::type_string("Optional JSON array of resources, as in cpm_tool. Use 'null' for none."),
+        assignments_json = ellmer::type_string("Optional JSON array of assignments, as in cpm_tool. Use 'null' for none."),
+        risks_json = ellmer::type_string(
+          "Optional JSON array of discrete risk events {id, prob, activities, impact, cost_impact}: 'activities' is an array of affected activity ids, 'impact' a distribution of added duration, 'cost_impact' an optional distribution of added cost. Example: [{\"id\":\"Weather\",\"prob\":0.3,\"activities\":[\"A\"],\"impact\":{\"type\":\"triangular\",\"a\":1,\"b\":2,\"c\":4}}]. Use 'null' for none."
+        ),
+        cor_mat_json = ellmer::type_string("Optional JSON 2D correlation matrix among the activities that have a 'dist', in the order they appear. Use 'null' for independent durations."),
+        level = ellmer::type_enum("Level resources against capacity in every iteration ('true') or not ('false', default).", values = c("true", "false")),
+        time_unit = ellmer::type_string("Label for the time unit, e.g. 'days' or 'weeks'. Default 'periods'.")
+      ),
+      annotations = ellmer::tool_annotations(title = "Schedule Risk Analysis")
     )
   )
 }
@@ -555,7 +598,7 @@ contingency_tool <- function(phigh = 0.95, pbase = 0.50) {
   phigh <- as.numeric(phigh)
   pbase <- as.numeric(pbase)
   if (is.null(.pra_agent_env$last_mcs)) {
-    return("Error: Run mcs_tool first. Contingency requires Monte Carlo simulation results.")
+    return("Error: Run mcs_tool or sra_tool first. Contingency requires Monte Carlo simulation results.")
   }
   result <- contingency(.pra_agent_env$last_mcs, phigh, pbase)
 
@@ -1071,3 +1114,248 @@ grandparent_dsm_tool <- function(s_matrix_json, r_matrix_json) {
   tool_result(text, title = "Grandparent DSM", html = html)
 }
 
+
+# ---- Schedule tools ----
+
+# Internal: parse a JSON array of objects (or accept an R list or data frame)
+# into a list of named lists, keeping nested objects such as distributions.
+parse_json_records <- function(x, param_name, tool_name) {
+  if (is.null(x)) return(NULL)
+  if (is.data.frame(x)) {
+    return(lapply(seq_len(nrow(x)), function(i) as.list(x[i, , drop = FALSE])))
+  }
+  if (is.list(x)) return(x)
+  if (!is.character(x) || length(x) != 1) {
+    stop(sprintf("%s: %s must be a JSON array of objects.", tool_name, param_name), call. = FALSE)
+  }
+  txt <- trimws(gsub("\u201c|\u201d", "\"", x))
+  if (txt %in% c("", "null", "[]")) return(NULL)
+  check_package("jsonlite")
+  out <- tryCatch(
+    jsonlite::fromJSON(txt, simplifyVector = FALSE),
+    error = function(e) {
+      stop(sprintf("%s: invalid JSON for %s: %s", tool_name, param_name, e$message),
+           call. = FALSE)
+    }
+  )
+  if (!is.list(out) || (length(out) > 0 && !is.list(out[[1]]))) {
+    stop(sprintf("%s: %s must be a JSON array of objects.", tool_name, param_name), call. = FALSE)
+  }
+  out
+}
+
+# Internal: one column of a record list, with `default` where a field is
+# missing or null.
+record_field <- function(records, field, default = NA) {
+  vapply(records, function(r) {
+    v <- r[[field]]
+    if (is.null(v) || length(v) == 0) return(default)
+    if (is.character(default)) as.character(v[[1]]) else as.numeric(v[[1]])
+  }, FUN.VALUE = if (is.character(default)) character(1) else numeric(1))
+}
+
+# Internal: build a project_schedule() from the JSON arguments of the schedule
+# tools.
+schedule_from_json <- function(activities_json, links_json, resources_json,
+                               assignments_json, risks_json = "null",
+                               cor_mat_json = "null", time_unit = "periods",
+                               tool_name = "cpm_tool") {
+  acts <- parse_json_records(activities_json, "activities_json", tool_name)
+  if (length(acts) == 0) {
+    stop(tool_name, ": activities_json must list at least one activity.", call. = FALSE)
+  }
+  activities <- data.frame(
+    id = record_field(acts, "id", NA_character_),
+    name = record_field(acts, "name", NA_character_),
+    duration = record_field(acts, "duration", NA_real_),
+    fixed_cost = record_field(acts, "fixed_cost", 0),
+    stringsAsFactors = FALSE
+  )
+  dists <- lapply(acts, `[[`, "dist")
+  has_dist <- !vapply(dists, is.null, logical(1))
+  duration_dists <- if (any(has_dist)) {
+    stats::setNames(dists[has_dist], activities$id[has_dist])
+  }
+
+  lks <- parse_json_records(links_json, "links_json", tool_name)
+  links <- if (length(lks) > 0) {
+    data.frame(
+      source = record_field(lks, "source", NA_character_),
+      target = record_field(lks, "target", NA_character_),
+      type = record_field(lks, "type", "FS"),
+      lag = record_field(lks, "lag", 0),
+      stringsAsFactors = FALSE
+    )
+  }
+
+  res <- parse_json_records(resources_json, "resources_json", tool_name)
+  resources <- NULL
+  productivity_dists <- NULL
+  if (length(res) > 0) {
+    resources <- data.frame(
+      id = record_field(res, "id", NA_character_),
+      capacity = record_field(res, "capacity", NA_real_),
+      rate = record_field(res, "rate", 0),
+      stringsAsFactors = FALSE
+    )
+    prod <- lapply(res, `[[`, "productivity")
+    has_prod <- !vapply(prod, is.null, logical(1))
+    if (any(has_prod)) {
+      productivity_dists <- stats::setNames(prod[has_prod], resources$id[has_prod])
+    }
+  }
+
+  asg <- parse_json_records(assignments_json, "assignments_json", tool_name)
+  assignments <- if (length(asg) > 0) {
+    data.frame(
+      activity = record_field(asg, "activity", NA_character_),
+      resource = record_field(asg, "resource", NA_character_),
+      units = record_field(asg, "units", 1),
+      work = record_field(asg, "work", NA_real_),
+      stringsAsFactors = FALSE
+    )
+  }
+
+  rks <- parse_json_records(risks_json, "risks_json", tool_name)
+  risks <- if (length(rks) > 0) {
+    lapply(rks, function(r) {
+      r$activities <- as.character(unlist(r$activities))
+      r
+    })
+  }
+
+  cor_mat <- as_r_input(cor_mat_json)
+  if (!is.null(cor_mat)) cor_mat <- as.matrix(as.data.frame(cor_mat))
+  if (!is.null(cor_mat)) dimnames(cor_mat) <- NULL
+
+  project_schedule(activities, links,
+    duration_dists = duration_dists, resources = resources,
+    productivity_dists = productivity_dists, assignments = assignments,
+    risks = risks, cor_mat = cor_mat,
+    time_unit = if (is.null(time_unit) || identical(time_unit, "")) "periods" else time_unit
+  )
+}
+
+# Internal: interpret a "true"/"false" tool flag.
+tool_flag <- function(x) {
+  isTRUE(as.logical(unlist(x))[1])
+}
+
+#' @keywords internal
+cpm_tool <- function(activities_json, links_json = "null", resources_json = "null",
+                     assignments_json = "null", level = "false",
+                     time_unit = "periods") {
+  proj <- schedule_from_json(activities_json, links_json, resources_json,
+    assignments_json, time_unit = time_unit, tool_name = "cpm_tool"
+  )
+  result <- cpm(proj, level = tool_flag(level))
+  tab <- result$activities
+  tab$name <- NULL
+  num <- vapply(tab, is.numeric, logical(1))
+  tab[num] <- lapply(tab[num], function(v) round(v, 3))
+  if (result$leveled) tab[c("LS", "LF", "total_float", "free_float")] <- NULL
+  lines <- paste(utils::capture.output(print(tab, row.names = FALSE)), collapse = "\n")
+
+  text <- paste0(
+    "Critical Path Method", if (result$leveled) " (resource-leveled)", ":\n\n",
+    format_result_table(
+      `Project Finish` = paste(format(round(result$finish, 3)), proj$time_unit),
+      `Critical Path` = paste(result$critical_path, collapse = " -> "),
+      `Deterministic Cost` = result$cost
+    ),
+    "\n\nActivity Schedule:\n", lines
+  )
+
+  html <- tryCatch(
+    {
+      paste0(
+        html_result_table(
+          `Project Finish` = paste(format(round(result$finish, 3)), proj$time_unit),
+          `Critical Path` = paste(result$critical_path, collapse = " &rarr; "),
+          `Deterministic Cost` = result$cost
+        ),
+        plot_to_html(function() plot(result))
+      )
+    },
+    error = function(e) NULL
+  )
+
+  tool_result(text, title = "Critical Path Method", html = html)
+}
+
+#' @keywords internal
+sra_tool <- function(num_sims, activities_json, links_json = "null",
+                     resources_json = "null", assignments_json = "null",
+                     risks_json = "null", cor_mat_json = "null",
+                     level = "false", time_unit = "periods") {
+  num_sims <- as.integer(unlist(num_sims))[1]
+  if (is.na(num_sims) || num_sims < 2) {
+    stop("sra_tool: num_sims must be an integer of at least 2.", call. = FALSE)
+  }
+  proj <- schedule_from_json(activities_json, links_json, resources_json,
+    assignments_json, risks_json, cor_mat_json,
+    time_unit = time_unit, tool_name = "sra_tool"
+  )
+  result <- sra(proj, num_sims = num_sims, level = tool_flag(level))
+  # Stored where contingency_tool looks for the latest simulation.
+  .pra_agent_env$last_mcs <- result
+
+  tu <- proj$time_unit
+  pc <- result$percentiles
+  act <- result$activity_stats
+  act <- act[order(-ifelse(is.na(act$cruciality), -Inf, act$cruciality), -act$criticality), ]
+  act_tab <- data.frame(
+    id = act$id,
+    criticality = round(act$criticality, 3),
+    cruciality = round(act$cruciality, 3),
+    finish_p50 = round(act$finish_p50, 2),
+    finish_p90 = round(act$finish_p90, 2)
+  )
+  act_lines <- paste(utils::capture.output(print(act_tab, row.names = FALSE)), collapse = "\n")
+  risk_lines <- ""
+  if (nrow(result$risk_stats) > 0) {
+    rk <- result$risk_stats[order(result$risk_stats$rank), ]
+    rk$finish_impact <- round(rk$finish_impact, 3)
+    rk$cost_impact <- round(rk$cost_impact, 0)
+    risk_lines <- paste0(
+      "\n\nRisk Events (by mean finish impact):\n",
+      paste(utils::capture.output(print(rk, row.names = FALSE)), collapse = "\n")
+    )
+  }
+  has_cost <- any(result$cost_distribution != 0)
+  summary_pairs <- list(
+    Iterations = format(num_sims, big.mark = ",", scientific = FALSE),
+    `Deterministic Finish` = paste(format(round(result$deterministic$finish, 3)), tu),
+    `P(meet deterministic)` = sprintf("%.1f%%", 100 * result$prob_deterministic),
+    `Mean Finish` = result$total_mean,
+    `Finish SD` = result$total_sd,
+    `P10 Finish` = pc[["10%"]], `P50 Finish` = pc[["50%"]],
+    `P80 Finish` = pc[["80%"]], `P90 Finish` = pc[["90%"]]
+  )
+  if (has_cost) {
+    cp <- result$cost_percentiles
+    summary_pairs <- c(summary_pairs, list(
+      `Deterministic Cost` = result$deterministic$cost,
+      `P50 Cost` = cp[["50%"]], `P80 Cost` = cp[["80%"]], `P90 Cost` = cp[["90%"]]
+    ))
+  }
+
+  text <- paste0(
+    "Schedule Risk Analysis", if (result$leveled) " (resource-leveled)", ":\n\n",
+    do.call(format_result_table, summary_pairs),
+    "\n\nActivities (by cruciality):\n", act_lines, risk_lines
+  )
+
+  html <- tryCatch(
+    {
+      paste0(
+        do.call(html_result_table, summary_pairs),
+        plot_to_html(function() plot(result, type = "cdf")),
+        plot_to_html(function() plot(result, type = "gantt"))
+      )
+    },
+    error = function(e) NULL
+  )
+
+  tool_result(text, title = "Schedule Risk Analysis", html = html)
+}

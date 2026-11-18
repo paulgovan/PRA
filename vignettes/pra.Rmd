@@ -372,6 +372,17 @@ barplot(sort(sens),
 Tasks with larger bars are the dominant drivers of total risk; mitigation
 resources should be directed there first.
 
+## Schedule Network Risk
+
+`mcs()` and `sensitivity()` treat the project as a sum of task durations,
+which is exact for a single chain of tasks. Real schedules have parallel
+paths, overlapping logic and shared resources. `project_schedule()`, `cpm()`
+and `sra()` analyze the schedule network itself: they run the critical path
+method in every Monte Carlo iteration, optionally level resources against
+capacity, and report criticality indices, risk-event impacts, cost S-curves
+and resource profiles. See `vignette("schedule-risk", package = "PRA")` for
+a worked example on `building_project`.
+
 
 # Earned Value Management {#sec-evm}
 
@@ -932,8 +943,8 @@ resource to at least one of the three tasks.
 **PRA** exposes its core analytical functions as tools callable
 by large-language-model (LLM) agents through the Model Context Protocol (MCP)
 [@MCP2024]. `pra_mcp_server()` starts a server that advertises
-twelve tools spanning Monte Carlo simulation, the second moment method,
-contingency and sensitivity analysis, EVM, noisy-OR risk inference and
+fourteen tools spanning Monte Carlo simulation, the second moment method,
+critical path and schedule risk analysis, contingency and sensitivity analysis, EVM, noisy-OR risk inference and
 updating, cost distributions, learning curves, and DSM, so that
 MCP-compatible clients can invoke them as native tools. The
 [probabilistic network functions](#sec-network) are not currently exposed as
@@ -1125,13 +1136,13 @@ decoupling decisions.
 
 # Summary {#sec-summary}
 
-**PRA** is an R package whose primary contribution is being the first package to unify the foundational methods of quantitative project risk analysis in a single, open-source framework of ten integrated analytical modules: SMM, MCS, contingency analysis, sensitivity analysis, EVM (11 metrics), noisy-OR risk inference and updating, cost risk distributions, sigmoidal learning curves, correlation matrix construction, and design structure matrices. The eleventh module applies probabilistic network methods to project risk, with forward simulation and Bayesian conditioning over a network of risks, resources, and tasks. 
+**PRA** is an R package whose primary contribution is being the first package to unify the foundational methods of quantitative project risk analysis in a single, open-source framework of ten integrated analytical modules: SMM, MCS, contingency analysis, sensitivity analysis, EVM (11 metrics), noisy-OR risk inference and updating, cost risk distributions, sigmoidal learning curves, correlation matrix construction, and design structure matrices. The eleventh module applies probabilistic network methods to project risk, with forward simulation and Bayesian conditioning over a network of risks, resources, and tasks. The twelfth runs the critical path method and Monte Carlo schedule risk analysis over resource-loaded activity networks. 
 
 **PRA** also exposes its core analytical functions as tools over the Model Context Protocol, so that LLM agents can drive the package without any embedded model, the first project risk analysis package to do so. All exported functions are annotated against the rOpenSci SRR general standards, with a test suite verifying correctness, edge-case handling, and numerical stability across three operating systems. The package is licensed under MIT and the source is available at <https://github.com/paulgovan/PRA>; documentation and a companion online book are at <https://paulgovan.github.io/PRA/>.
 
 ## Limitations and Future Work
 
-Several limitations apply. First, **PRA** currently propagates uncertainty at the task level and does not yet model schedule logic, critical path, activity precedence, and resource leveling. Full schedule-network risk analysis, in which schedule Monte Carlo runs over an activity-precedence network, such as Program Evaluation and Review Technique / Critical Path Method (PERT/CPM) to identify the critical path and criticality indices under uncertainty, is a planned future direction that would extend **PRA** from task-level to network-level schedule risk. Second, `mcs()` induces task correlation through the Cholesky
+Several limitations apply. First, schedule-network analysis (`cpm()` and `sra()`) measures time in abstract units from a common start: working calendars, date constraints and probabilistic branching are not modelled, and resource leveling uses a single priority rule (smallest late start) rather than an optimizing scheduler. Second, `mcs()` induces task correlation through the Cholesky
 decomposition of the correlation matrix, which preserves every marginal
 exactly, but which fixes the dependence structure to the Gaussian family: tail dependence stronger
 than a multivariate normal implies, such as tasks that fail together only in
