@@ -43,6 +43,14 @@ multivariate simulations.}
 Derives direct (parent) and indirect (grandparent) dependency structure
 matrices from a binary adjacency matrix. Returns an S3 object with
 \code{print}, \code{summary} and \code{plot} methods.}
+\item{\strong{Critical Path and Schedule Risk Analysis} (\code{project_schedule()},
+\code{cpm()}, \code{sra()})}{
+Deterministic critical path method with FS/SS/FF/SF links and lags, and
+Monte Carlo schedule risk analysis of resource-loaded schedules:
+uncertain durations and resource productivity, discrete risk events,
+optional resource leveling, criticality and cruciality indices, cost
+S-curves and resource profiles. Each returns an S3 object with \code{print},
+\code{summary} and \code{plot} methods.}
 \item{\strong{Probabilistic Networks} (\code{prob_net()}, \code{prob_net_sim()},
 \code{prob_net_learn()}, \code{prob_net_update()})}{
 Forward simulation and Bayesian conditioning over a causal network of

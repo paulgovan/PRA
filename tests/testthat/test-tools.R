@@ -195,7 +195,7 @@ test_that("contingency_tool errors without prior MCS", {
   old <- env$last_mcs
   env$last_mcs <- NULL
   result <- PRA:::contingency_tool(0.95, 0.50)
-  expect_true(grepl("Run mcs_tool first", result))
+  expect_true(grepl("Run mcs_tool or sra_tool first", result))
   env$last_mcs <- old
 })
 
@@ -888,4 +888,106 @@ test_that("fit_and_predict_sigmoidal_tool returns result with predictions", {
   result_text <- if (is.character(result)) result else result@value
   expect_true(grepl("Learning Curve|logistic|Coefficients", result_text, ignore.case = TRUE))
   expect_true(grepl("K", result_text))
+})
+
+# ============================================================================
+# Schedule tools (CPM and schedule risk analysis)
+# ============================================================================
+
+sched_json <- list(
+  activities = paste0(
+    '[{"id":"A","duration":3},',
+    '{"id":"B","duration":5,"dist":{"type":"triangular","a":4,"b":5,"c":9}},',
+    '{"id":"C","duration":4,"dist":{"type":"pert","a":3,"b":4,"c":8}},',
+    '{"id":"D","duration":null}]'
+  ),
+  links = paste0(
+    '[{"source":"A","target":"B"},',
+    '{"source":"A","target":"C","type":"SS","lag":1},',
+    '{"source":"B","target":"D"},{"source":"C","target":"D"}]'
+  ),
+  resources = paste0(
+    '[{"id":"crew","capacity":1,"rate":100,',
+    '"productivity":{"type":"uniform","min":0.8,"max":1.1}},',
+    '{"id":"crane","capacity":null,"rate":50}]'
+  ),
+  assignments = paste0(
+    '[{"activity":"B","resource":"crane","units":1},',
+    '{"activity":"D","resource":"crew","units":1,"work":2}]'
+  ),
+  risks = paste0(
+    '[{"id":"Weather","prob":0.3,"activities":["A","B"],',
+    '"impact":{"type":"triangular","a":1,"b":2,"c":4}}]'
+  )
+)
+
+test_that("schedule_from_json builds the same schedule as project_schedule()", {
+  skip_if_not_installed("jsonlite")
+  p <- PRA:::schedule_from_json(sched_json$activities, sched_json$links,
+    sched_json$resources, sched_json$assignments, sched_json$risks,
+    "[[1,0.5],[0.5,1]]", time_unit = "days"
+  )
+  expect_s3_class(p, "pra_schedule")
+  expect_equal(p$activities$driver, c("fixed", "distribution", "distribution", "resource"))
+  expect_equal(p$links$type, c("FS", "SS", "FS", "FS"))
+  expect_true(is.na(p$resources$capacity[2]))
+  expect_named(p$productivity_dists, "crew")
+  expect_equal(p$risks[[1]]$activities, c("A", "B"))
+  expect_equal(dim(p$cor_mat), c(2, 2))
+  expect_identical(p$time_unit, "days")
+})
+
+test_that("schedule_from_json rejects malformed input", {
+  skip_if_not_installed("jsonlite")
+  expect_error(PRA:::schedule_from_json("[]", "null", "null", "null"),
+               "activities_json must list at least one activity")
+  expect_error(PRA:::schedule_from_json("[1, 2]", "null", "null", "null"),
+               "activities_json must be a JSON array of objects")
+  expect_error(PRA:::schedule_from_json("{bad", "null", "null", "null"),
+               "invalid JSON for activities_json")
+  expect_error(PRA:::schedule_from_json(c("a", "b"), "null", "null", "null"),
+               "activities_json must be a JSON array of objects")
+  # Native R data frames are accepted too.
+  p <- PRA:::schedule_from_json(data.frame(id = c("A", "B"), duration = c(1, 2)),
+                                data.frame(source = "A", target = "B"), NULL, NULL)
+  expect_equal(cpm(p)$finish, 3)
+})
+
+test_that("cpm_tool reports the critical path", {
+  skip_if_not_installed("jsonlite")
+  text <- tool_text(PRA:::cpm_tool(sched_json$activities, sched_json$links,
+    sched_json$resources, sched_json$assignments, time_unit = "days"
+  ))
+  expect_true(grepl("Project Finish\\s+10 days", text))
+  expect_true(grepl("A -> B -> D", text, fixed = TRUE))
+  expect_true(grepl("total_float", text))
+  lev <- tool_text(PRA:::cpm_tool(sched_json$activities, sched_json$links,
+    sched_json$resources, sched_json$assignments, level = "true"
+  ))
+  expect_true(grepl("resource-leveled", lev))
+  expect_false(grepl("total_float", lev))
+})
+
+test_that("sra_tool runs, ranks risks and feeds contingency_tool", {
+  skip_if_not_installed("jsonlite")
+  set.seed(10)
+  text <- tool_text(PRA:::sra_tool(1000, sched_json$activities, sched_json$links,
+    sched_json$resources, sched_json$assignments, sched_json$risks,
+    "[[1,0.5],[0.5,1]]", time_unit = "days"
+  ))
+  expect_true(grepl("Schedule Risk Analysis", text))
+  expect_true(grepl("P80 Finish", text))
+  expect_true(grepl("P80 Cost", text))
+  expect_true(grepl("Weather", text))
+  last <- PRA:::.pra_agent_env$last_mcs
+  expect_s3_class(last, "sra")
+  cont <- tool_text(PRA:::contingency_tool(0.9, 0.5))
+  expect_true(grepl("Contingency Reserve", cont))
+  expect_error(PRA:::sra_tool(1, sched_json$activities), "num_sims must be an integer of at least 2")
+})
+
+test_that("pra_tools registers the schedule tools", {
+  skip_if_not_installed("ellmer")
+  nms <- vapply(pra_tools(), function(t) t@name, character(1))
+  expect_true(all(c("cpm_tool", "sra_tool") %in% nms))
 })

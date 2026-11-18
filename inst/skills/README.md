@@ -12,6 +12,7 @@ Each subdirectory contains a `SKILL.md` with YAML frontmatter (`name`,
 |---|---|---|
 | `pra-overview` | Routing / entry point | (directs to the tools below) |
 | `pra-monte-carlo` | Schedule/cost uncertainty | `mcs_tool`, `smm_tool` |
+| `pra-schedule-risk` | CPM and schedule risk of resource-loaded networks | `cpm_tool`, `sra_tool` |
 | `pra-sensitivity-contingency` | Reserves & risk drivers | `contingency_tool`, `sensitivity_tool` |
 | `pra-earned-value` | Performance & forecasting | `evm_analysis_tool` |
 | `pra-bayesian-risk` | Risk probability & cost | `risk_prob_tool`, `risk_post_prob_tool`, `cost_pdf_tool`, `cost_post_pdf_tool` |

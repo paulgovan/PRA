@@ -948,38 +948,10 @@ plot.prob_net <- function(x, main = NULL, col = NULL, vertical = TRUE,
   }
   if (is.null(main)) main <- "Probabilistic Network of Project Risks"
 
-  layer <- prob_net_layers(x)
   ids <- rownames(a)
-
-  # Within-layer ordering: start from topological order, then alternate
-  # downward and upward barycenter sweeps to reduce edge crossings.
-  pos <- rep(NA_real_, n)
-  for (lv in sort(unique(layer))) {
-    idx <- which(layer == lv)
-    pos[idx] <- seq_along(idx) - (length(idx) + 1) / 2
-  }
-  for (sweep in seq_len(2)) {
-    levels_order <- sort(unique(layer))
-    if (sweep == 2) levels_order <- rev(levels_order)
-    for (lv in levels_order) {
-      idx <- which(layer == lv)
-      if (length(idx) < 2) next
-      bary <- vapply(idx, function(i) {
-        neighbours <- if (sweep == 1) which(a[, i] == 1) else which(a[i, ] == 1)
-        if (length(neighbours) == 0) pos[i] else mean(pos[neighbours])
-      }, numeric(1))
-      ord <- order(bary, pos[idx])
-      pos[idx[ord]] <- seq_along(idx) - (length(idx) + 1) / 2
-    }
-  }
-
-  xs <- pos
-  ys <- -as.numeric(layer)
-  if (!vertical) {
-    tmp <- xs
-    xs <- -ys
-    ys <- tmp
-  }
+  lay <- pra_dag_layout(a, prob_net_layers(x), vertical = vertical)
+  xs <- lay$x
+  ys <- lay$y
 
   # Node colors: by group when available, otherwise the package fill.
   pal <- pra_cols()
@@ -1000,41 +972,15 @@ plot.prob_net <- function(x, main = NULL, col = NULL, vertical = TRUE,
     fill <- rep(col, length.out = n)
   }
 
-  graphics::plot(xs, ys,
-    type = "n", axes = FALSE, xlab = "", ylab = "", main = main,
-    xlim = range(xs) + c(-1, 1), ylim = range(ys) + c(-1, 1), ...
-  )
-
-  # Edges, shortened at both ends so arrowheads land on the node boundary.
-  edges <- which(a == 1, arr.ind = TRUE)
-  if (nrow(edges) > 0) {
-    radius <- 0.18
-    for (k in seq_len(nrow(edges))) {
-      i <- edges[k, 1]
-      j <- edges[k, 2]
-      dx <- xs[j] - xs[i]
-      dy <- ys[j] - ys[i]
-      len <- sqrt(dx^2 + dy^2)
-      if (len == 0) next
-      ux <- dx / len
-      uy <- dy / len
-      graphics::arrows(
-        xs[i] + ux * radius, ys[i] + uy * radius,
-        xs[j] - ux * radius, ys[j] - uy * radius,
-        length = 0.08, col = unname(pal["ink"])
-      )
-    }
-  }
-
-  graphics::points(xs, ys,
-    pch = 21, bg = fill, col = unname(pal["ink"]), cex = node_cex
-  )
-
   labels <- ids
   if ("label" %in% colnames(x$nodes)) {
     labels <- as.character(x$nodes$label[match(ids, as.character(x$nodes$id))])
   }
-  graphics::text(xs, ys - 0.4, labels = labels, cex = label_cex)
+  edges <- which(a == 1, arr.ind = TRUE)
+  pra_plot_dag(xs, ys,
+    from = edges[, 1], to = edges[, 2], fill = fill, labels = labels,
+    main = main, node_cex = node_cex, label_cex = label_cex, ...
+  )
 
   if (!is.null(groups) && nlevels(groups) > 1) {
     ramp <- grDevices::colorRampPalette(

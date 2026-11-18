@@ -44,6 +44,11 @@ Each analytical method lives in its own file under `R/` with a corresponding tes
 | Bayesian Learning | `learning.R` | `risk_post_prob()` |
 | Correlation Matrices | `cormat.R` | `cor_matrix()` |
 | Design Structure Matrix | `dsm.R` | `parent_dsm()`, `grandparent_dsm()` |
+| Project Schedule | `schedule.R` | `project_schedule()` |
+| Critical Path Method | `cpm.R` | `cpm()` |
+| Schedule Risk Analysis | `sra.R` | `sra()` |
+
+Schedule internals: `schedule-engine.R` (vectorized CPM passes, serial-SGS leveling, driving-path trace, time-phasing), `dists.R` (distribution specs shared with `mcs()`), `schedule-plot.R` (plot methods; drawing primitives in `plot-utils.R`).
 
 ## Key Conventions
 

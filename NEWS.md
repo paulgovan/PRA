@@ -1,5 +1,35 @@
 # NEWS
 
+## v0.8.0
+- **New: critical path method and schedule risk analysis of resource-loaded
+  schedules.** `project_schedule()` validates a schedule of activities,
+  precedence links (FS, SS, FF and SF, with lags or leads), duration
+  distributions (normal, triangular, uniform and the new Beta-PERT), resources
+  with capacities and cost rates, assignments, uncertain resource productivity,
+  and a register of discrete risk events. `cpm()` computes the deterministic
+  schedule: early and late dates, total and free float, the critical path and
+  cost, optionally resource-leveled with a serial schedule-generation scheme.
+  `sra()` runs the Monte Carlo analysis, rescheduling the network in every
+  iteration, and reports finish and cost percentiles, the probability of
+  meeting the deterministic plan, criticality, sensitivity, cruciality and
+  schedule sensitivity indices per activity, risk-event rankings, a cost
+  S-curve band and resource-usage bands. `contingency()` works directly on its
+  result.
+- New plot views: network diagrams with the critical path or criticality
+  shading, Gantt charts with float or P10-P90 finish ranges, the finish
+  histogram and cumulative probability curve, tornado charts by cruciality,
+  criticality, SSI, sensitivity or risk impact, the cost S-curve, and resource
+  histograms against capacity. Axes show dates when a start date is given.
+- New MCP tools `cpm_tool` and `sra_tool`, and a `pra-schedule-risk` agent
+  skill. `contingency_tool` also accepts the latest `sra_tool` result.
+- `building_project` gains a resource-loaded schedule: activities with
+  overlapping SS/FF logic, resources with capacities and rates, assignments,
+  a work-driven fit-out activity with uncertain crew productivity, and a
+  two-event risk register.
+- New vignette, `vignette("schedule-risk", package = "PRA")`.
+- `plot.prob_net()` now shares its layered layout with the schedule network
+  plots; the drawing is unchanged.
+
 ## v0.7.0
 - **Every returned class now implements `print()`, `summary()` and `plot()`.**
   `mcs`, `smm`, `dsm` and `pra_sigmoidal_fit` gained the missing methods;

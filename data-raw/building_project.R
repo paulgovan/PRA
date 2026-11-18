@@ -81,6 +81,78 @@ risk_resource <- matrix(c(
 ), nrow = 3, byrow = TRUE)
 dimnames(risk_resource) <- list(risk_names, resource_names)
 
+# ---- Resource-loaded schedule (for project_schedule(), cpm() and sra()) ----
+# Activity ids follow the task order (T1..T6). Durations are the most likely
+# values of the task distributions, in weeks. Interior fit-out (T6) is
+# resource-driven: 24 crew-weeks of work by two finishing crews, with uncertain
+# crew productivity, so it has no duration of its own. Fixed costs are
+# materials and subcontract lump sums ($); resource costs come from the rates.
+schedule_activities <- data.frame(
+  id = paste0("T", 1:6),
+  name = task_names,
+  duration = c(6, 8, 16, 11, 14, NA),
+  fixed_cost = c(200000, 600000, 1600000, 1100000, 1200000, 500000),
+  stringsAsFactors = FALSE
+)
+
+# Precedence logic, including overlaps: the envelope starts 8 weeks into the
+# frame and finishes no sooner than 2 weeks after it; MEP rough-in starts 4
+# weeks into the envelope; fit-out follows envelope dry-in, may start 6 weeks
+# into MEP, and finishes at least 4 weeks after MEP.
+schedule_links <- data.frame(
+  source = c("T1", "T2", "T3", "T3", "T4", "T4", "T5", "T5"),
+  target = c("T2", "T3", "T4", "T4", "T5", "T6", "T6", "T6"),
+  type   = c("FS", "FS", "SS", "FF", "SS", "FS", "SS", "FF"),
+  lag    = c(0,    0,    8,    2,    4,    0,    6,    4),
+  stringsAsFactors = FALSE
+)
+
+# Duration uncertainty for the five duration-driven activities, with the
+# matching block of the task correlation matrix.
+duration_dists <- stats::setNames(task_distributions[1:5], paste0("T", 1:5))
+
+# Resources: capacity in crews/units and cost per unit per week ($). The single
+# tower crane is shared by foundations, frame and envelope.
+schedule_resources <- data.frame(
+  id = resource_names,
+  capacity = c(1, 1, 1, 1, 2, 3),
+  rate = c(18000, 22000, 30000, 12000, 35000, 20000),
+  stringsAsFactors = FALSE
+)
+
+# Assignments follow the resource-task matrix above.
+schedule_assignments <- data.frame(
+  activity = c("T1", "T2", "T2", "T3", "T3", "T3", "T2", "T4", "T4", "T5", "T5", "T6"),
+  resource = c("Excavation crew", "Excavation crew", "Concrete crew",
+               "Concrete crew", "Steel erector", "Tower crane", "Tower crane",
+               "Tower crane", "MEP subcontractor", "MEP subcontractor",
+               "Finishing crew", "Finishing crew"),
+  units = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2),
+  work = c(NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 24),
+  stringsAsFactors = FALSE
+)
+
+# Finishing-crew productivity multiplier (1 = planned rate).
+productivity_dists <- list(
+  "Finishing crew" = list(type = "pert", a = 0.75, b = 1, c = 1.1)
+)
+
+# Discrete risk events, reusing the root causes above.
+risk_register <- list(
+  list(
+    id = "Adverse weather", prob = 0.35, activities = c("T1", "T2"),
+    impact = list(type = "triangular", a = 1, b = 2, c = 4),
+    cost_impact = list(type = "uniform", min = 50000, max = 150000)
+  ),
+  list(
+    id = "Late design changes", prob = 0.25, activities = c("T4", "T5"),
+    impact = list(type = "triangular", a = 1, b = 3, c = 6),
+    cost_impact = list(type = "triangular", a = 100000, b = 250000, c = 500000)
+  )
+)
+
+start_date <- as.Date("2027-03-01")
+
 building_project <- list(
   task_names             = task_names,
   task_distributions     = task_distributions,
@@ -98,7 +170,15 @@ building_project <- list(
   resource_names         = resource_names,
   resource_task          = resource_task,
   risk_names             = risk_names,
-  risk_resource          = risk_resource
+  risk_resource          = risk_resource,
+  schedule_activities    = schedule_activities,
+  schedule_links         = schedule_links,
+  duration_dists         = duration_dists,
+  schedule_resources     = schedule_resources,
+  schedule_assignments   = schedule_assignments,
+  productivity_dists     = productivity_dists,
+  risk_register          = risk_register,
+  start_date             = start_date
 )
 
 usethis_available <- requireNamespace("usethis", quietly = TRUE)

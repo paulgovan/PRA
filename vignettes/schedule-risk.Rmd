@@ -1,0 +1,299 @@
+---
+title: "Critical Path and Schedule Risk Analysis of Resource-Loaded Schedules"
+output:
+  html_vignette:
+    fig_width: 7
+    fig_height: 4.5
+vignette: >
+  %\VignetteIndexEntry{Critical Path and Schedule Risk Analysis of Resource-Loaded Schedules}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse   = TRUE,
+  comment    = "#>",
+  fig.width  = 7,
+  fig.height = 4.5
+)
+options(scipen = 999)
+```
+
+```{r setup}
+library(PRA)
+
+# 10,000 iterations locally; fewer on CRAN so the vignette builds quickly.
+n_sims <- if (nzchar(Sys.getenv("NOT_CRAN"))) 10000L else 1000L
+n_lev  <- if (nzchar(Sys.getenv("NOT_CRAN"))) 5000L else 500L
+```
+
+`mcs()` treats a project as the **sum** of its task durations. That is exact
+for a single chain of tasks, but real schedules have parallel paths,
+overlapping work and shared crews. Where paths merge, the finish is set by
+whichever path runs longest in that iteration. This *merge bias* makes the
+expected finish later than any single path suggests, even when every
+estimate is symmetric. A shared resource can also hold an activity back
+after its predecessors are done.
+
+PRA's schedule functions analyze the network itself:
+
+| Function | Does |
+|---|---|
+| `project_schedule()` | Validates activities, links, duration distributions, resources, assignments and risk events |
+| `cpm()` | Deterministic critical path method, optionally resource-leveled |
+| `sra()` | Monte Carlo schedule risk analysis: reruns CPM in every iteration |
+
+All three results have `print()`, `summary()` and `plot()` methods.
+
+# Why not just add up durations?
+
+Two 10-week activities run in parallel, each with a symmetric triangular
+estimate of 8 to 12 weeks. On paper the project takes 10 weeks.
+
+```{r merge-bias}
+parallel <- project_schedule(
+  activities = data.frame(id = c("Start", "X", "Y", "Finish"),
+                          duration = c(0, 10, 10, 0)),
+  links = data.frame(source = c("Start", "Start", "X", "Y"),
+                     target = c("X", "Y", "Finish", "Finish")),
+  duration_dists = list(
+    X = list(type = "triangular", a = 8, b = 10, c = 12),
+    Y = list(type = "triangular", a = 8, b = 10, c = 12)
+  ),
+  time_unit = "weeks"
+)
+set.seed(1)
+par_risk <- sra(parallel, n_sims)
+par_risk$prob_deterministic
+par_risk$total_mean
+```
+
+The 10-week plan has only about a one-in-four chance of being met. A
+task-sum model of either path would put it at one in two.
+
+# The building project schedule
+
+`building_project` includes a resource-loaded schedule for the six work
+packages of a mid-rise building, in weeks:
+
+```{r data}
+bp <- building_project
+bp$schedule_activities
+bp$schedule_links
+```
+
+The envelope (T4) starts 8 weeks into the structural frame (start-to-start)
+and finishes at least 2 weeks after it (finish-to-finish). MEP rough-in
+starts 4 weeks into the envelope. Fit-out follows envelope dry-in and must
+finish at least 4 weeks after MEP. Fit-out has no duration of its own: it is
+24 crew-weeks of work by two finishing crews, so its duration depends on crew
+productivity.
+
+```{r resources}
+bp$schedule_resources
+bp$schedule_assignments
+```
+
+A single tower crane serves the foundations, frame and envelope. Each
+resource's `rate` is its cost per unit per week, and `fixed_cost` carries
+materials and lump sums.
+
+```{r build}
+proj <- project_schedule(
+  activities         = bp$schedule_activities,
+  links              = bp$schedule_links,
+  duration_dists     = bp$duration_dists,
+  resources          = bp$schedule_resources,
+  productivity_dists = bp$productivity_dists,
+  assignments        = bp$schedule_assignments,
+  risks              = bp$risk_register,
+  cor_mat            = bp$cor_mat[1:5, 1:5],
+  start_date         = bp$start_date,
+  time_unit          = "weeks"
+)
+proj
+```
+
+```{r network-plot, fig.cap = "Activity-on-node network. Red marks the deterministic critical path; edge labels give non-FS link types and lags."}
+plot(proj)
+```
+
+# Deterministic critical path
+
+```{r cpm}
+plan <- cpm(proj)
+plan
+```
+
+The forward pass gives each activity's early start: the latest of zero and
+the constraint of each incoming link. FS gives predecessor finish + lag, SS
+gives predecessor start + lag, FF gives predecessor finish + lag − duration,
+and SF gives predecessor start + lag − duration. The backward pass mirrors
+this from the project finish. *Total float* is late start minus early start.
+*Free float* is the slip an activity can absorb before it delays any
+successor.
+
+```{r cpm-gantt, fig.cap = "Deterministic schedule. Grey bars show total float; the dashed line is the project finish."}
+plot(plan)
+```
+
+## Resource leveling
+
+The baseline overlaps the envelope with the frame, but both need the one
+crane. `level = TRUE` schedules activities with a serial
+schedule-generation scheme. It repeatedly takes the eligible activity with
+the smallest late start and places it at the earliest time that satisfies its
+links and keeps every resource within capacity for the activity's whole
+duration.
+
+```{r leveled}
+leveled <- cpm(proj, level = TRUE)
+leveled$finish - plan$finish
+```
+
+```{r leveled-gantt, fig.cap = "Resource-leveled schedule: the envelope waits for the crane."}
+plot(leveled)
+```
+
+The crane conflict costs eight weeks. Under leveling, criticality comes from
+the *driving path*. It traces back from the finish through binding links and
+through resource hand-offs, because float has no meaning once resources move
+dates.
+
+# Schedule risk analysis
+
+`sra()` samples durations, crew productivity and risk events, then
+reschedules the network in every iteration. Here the crane constraint is
+respected throughout:
+
+```{r sra}
+set.seed(2027)
+risk <- sra(proj, num_sims = n_lev, level = TRUE)
+risk
+```
+
+```{r finish-plots, fig.show = "hold", fig.cap = "Project finish: histogram and cumulative probability."}
+plot(risk, type = "finish")
+plot(risk, type = "cdf")
+```
+
+The leveled deterministic plan sits low on the cumulative curve. The gap
+reflects correlated, right-skewed durations, uncertain crew productivity and
+the two risk events. Contingency follows directly:
+
+```{r contingency}
+contingency(risk, phigh = 0.80, pbase = 0.50)
+```
+
+## Which activities drive the finish?
+
+```{r activity-stats}
+summary(risk)$activities
+```
+
+* The **criticality index** is the share of iterations in which the activity
+  is critical.
+* **Sensitivity** is the Spearman rank correlation between the activity's
+  duration and the project finish.
+* The **cruciality index** is criticality × sensitivity (Williams, 1992). It
+  ranks activities by how much they actually move the finish. An activity
+  that is always critical but never varies has a cruciality of zero.
+* The **schedule sensitivity index** (SSI) is criticality × sd(duration) /
+  sd(finish) (PMI, 2009).
+
+```{r gantt, fig.cap = "Deterministic bars shaded by criticality index, with P10-P90 finish whiskers and P50 ticks."}
+plot(risk, type = "gantt")
+```
+
+```{r tornado, fig.cap = "Activities ranked by cruciality."}
+plot(risk, type = "tornado")
+```
+
+```{r crit-network, fig.cap = "Network shaded by criticality index."}
+plot(risk, type = "network")
+```
+
+## Risk events
+
+Each risk in the register occurs independently in each iteration with its
+stated probability. When it occurs, a sampled delay is added to every
+activity it affects, and its cost impact is added to project cost.
+
+```{r risks}
+risk$risk_stats
+```
+
+`finish_impact` is the mean finish in iterations where the risk occurred
+minus the mean where it did not. `cost_impact` is the same difference in
+total cost, so it includes the extra resource cost of the delay as well as
+the risk's own cost. Rank risk responses by these impacts:
+
+```{r risk-tornado, fig.cap = "Risk events ranked by mean finish impact."}
+plot(risk, type = "tornado", metric = "risk")
+```
+
+## Cost and resources over time
+
+Each activity's cost is its resource cost (`units × rate × duration`) plus
+fixed cost plus its share of risk costs. It is spread over the activity's
+dates and accumulated into a cost S-curve band:
+
+```{r cost, fig.cap = "Cumulative cost: P50 line and P10-P90 band."}
+plot(risk, type = "cost")
+risk$cost_percentiles
+```
+
+Resource usage is summarized the same way. With leveling, no iteration
+exceeds capacity:
+
+```{r resource-usage, fig.height = 6, fig.cap = "Resource usage against capacity."}
+plot(risk, type = "resources")
+```
+
+## What does the crane constraint cost?
+
+Comparing the leveled analysis with an unconstrained one prices the
+resource constraint in probabilistic terms:
+
+```{r compare}
+set.seed(2027)
+free <- sra(proj, num_sims = n_sims)
+rbind(
+  unconstrained = free$percentiles,
+  leveled       = risk$percentiles
+)
+```
+
+With a single crane, the P80 finish moves from
+`r round(free$percentiles[["80%"]], 1)` to
+`r round(risk$percentiles[["80%"]], 1)` weeks. That is the figure to weigh
+against the cost of a second crane.
+
+# Notes and limitations
+
+* Time is in abstract units from a common start. A `start_date` with
+  `time_unit = "days"` or `"weeks"` labels plot axes in calendar dates.
+  Working calendars and date constraints are not modelled.
+* Duration correlation uses the same Gaussian copula as `mcs()`, and every
+  marginal distribution is preserved. Productivity draws and risk events are
+  independent.
+* Sampled durations are truncated at zero.
+* Leveling uses one priority rule. It is a realistic heuristic, not an
+  optimizer, and it schedules each iteration separately, so it is slower than
+  unleveled analysis on large networks.
+
+# References
+
+Kelley, J. E., and Walker, M. R. (1959). Critical-path planning and
+scheduling. *Proceedings of the Eastern Joint Computer Conference*, 160–173.
+
+Kolisch, R. (1996). Serial and parallel resource-constrained project
+scheduling methods revisited: Theory and computation. *European Journal of
+Operational Research*, 90(2), 320–333.
+
+Project Management Institute (2009). *Practice Standard for Project Risk
+Management*. PMI.
+
+Williams, T. M. (1992). Criticality in stochastic networks. *Journal of the
+Operational Research Society*, 43(4), 353–357.

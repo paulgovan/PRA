@@ -31,6 +31,26 @@ for \code{\link[=parent_dsm]{parent_dsm()}} and \code{\link[=grandparent_dsm]{gr
 \item{risk_names}{Character vector of the three structural risks.}
 \item{risk_resource}{Risk-resource incidence matrix R (risks x resources)
 for \code{\link[=grandparent_dsm]{grandparent_dsm()}}.}
+\item{schedule_activities}{Data frame of the six activities (ids \code{T1} to
+\code{T6}) for \code{\link[=project_schedule]{project_schedule()}}: \code{id}, \code{name}, baseline \code{duration}
+(weeks; \code{NA} for the work-driven fit-out) and \code{fixed_cost} (materials
+and lump sums, US dollars).}
+\item{schedule_links}{Data frame of precedence links with overlapping
+logic: \code{source}, \code{target}, \code{type} (FS, SS or FF) and \code{lag} (weeks).}
+\item{duration_dists}{Named list of the triangular duration
+distributions of \code{T1} to \code{T5} (the first five \code{task_distributions}).
+Pair with \code{cor_mat[1:5, 1:5]} for correlated durations.}
+\item{schedule_resources}{Data frame of the six resources: \code{id},
+\code{capacity} (crews or units) and \code{rate} (US dollars per unit per week).}
+\item{schedule_assignments}{Data frame of resource assignments following
+\code{resource_task}: \code{activity}, \code{resource}, \code{units} and \code{work} (crew-weeks;
+only the fit-out is work-driven).}
+\item{productivity_dists}{Named list with a PERT productivity multiplier
+for the finishing crew.}
+\item{risk_register}{List of two discrete risk events (adverse weather and
+late design changes), each with a probability, affected activities, a
+duration impact and a cost impact distribution.}
+\item{start_date}{Project start date, used to label schedule plots.}
 }
 }
 \usage{
@@ -47,6 +67,18 @@ the values are representative estimates for a project of this type rather
 than proprietary data from a specific project.
 }
 \examples{
+# Critical path and schedule risk analysis of the resource-loaded schedule
+bp <- building_project
+proj <- project_schedule(bp$schedule_activities, bp$schedule_links,
+  duration_dists = bp$duration_dists, resources = bp$schedule_resources,
+  productivity_dists = bp$productivity_dists,
+  assignments = bp$schedule_assignments, risks = bp$risk_register,
+  cor_mat = bp$cor_mat[1:5, 1:5], start_date = bp$start_date,
+  time_unit = "weeks"
+)
+cpm(proj)$critical_path
+sra(proj, num_sims = 1000)$percentiles
+
 # Monte Carlo schedule risk (tasks treated as independent)
 sim <- mcs(10000, building_project$task_distributions)
 sim$percentiles
