@@ -36,18 +36,21 @@ Agent Skills that tell an agent when and how to call each tool.
 - [Network Portfolio
   Analysis](https://paulgovan.github.io/PRA/book/ch-network2.html)
 - [Bayesian Methods](https://paulgovan.github.io/PRA/book/ch-bayes.html)
+- [Critical Path & Schedule Risk
+  Analysis](https://paulgovan.github.io/PRA/articles/schedule-risk.html)
+  of resource-loaded schedules
 
 ### AI Agent Integration
 
 - **MCP server** —
   [`pra_mcp_server()`](https://paulgovan.github.io/PRA/reference/pra_mcp_server.md)
   exposes the core analytical functions (Monte Carlo simulation, the
-  second moment method, contingency and sensitivity analysis, earned
-  value management, noisy-OR risk inference and updating, cost
-  distributions, learning curves, and design structure matrices) as
-  tools over the [Model Context
-  Protocol](https://modelcontextprotocol.io), callable from Claude,
-  Claude Code, and other MCP-compatible clients
+  second moment method, critical path and schedule risk analysis,
+  contingency and sensitivity analysis, earned value management,
+  noisy-OR risk inference and updating, cost distributions, learning
+  curves, and design structure matrices) as tools over the [Model
+  Context Protocol](https://modelcontextprotocol.io), callable from
+  Claude, Claude Code, and other MCP-compatible clients
 - **Agent Skills** — bundled `SKILL.md` files (under
   `system.file("skills", package = "PRA")`) document when to use each
   method, which tool to call, the JSON argument format, and how to

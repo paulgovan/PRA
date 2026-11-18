@@ -76,6 +76,18 @@ Earned Value Management, Learning Curves, Bayesian Methods, and more.
   structure matrices from a binary adjacency matrix. Returns an S3
   object with `print`, `summary` and `plot` methods.
 
+- **Critical Path and Schedule Risk Analysis**
+  ([`project_schedule()`](https://paulgovan.github.io/PRA/reference/project_schedule.md),
+  [`cpm()`](https://paulgovan.github.io/PRA/reference/cpm.md),
+  [`sra()`](https://paulgovan.github.io/PRA/reference/sra.md)):
+
+  Deterministic critical path method with FS/SS/FF/SF links and lags,
+  and Monte Carlo schedule risk analysis of resource-loaded schedules:
+  uncertain durations and resource productivity, discrete risk events,
+  optional resource leveling, criticality and cruciality indices, cost
+  S-curves and resource profiles. Each returns an S3 object with
+  `print`, `summary` and `plot` methods.
+
 - **Probabilistic Networks**
   ([`prob_net()`](https://paulgovan.github.io/PRA/reference/prob_net.md),
   [`prob_net_sim()`](https://paulgovan.github.io/PRA/reference/prob_net_sim.md),

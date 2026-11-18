@@ -88,17 +88,17 @@ cor_mat <- matrix(c(
 # Run the Monte Carlo sumulation and print the results.
 results <- mcs(num_sims, task_dists, cor_mat)
 cat("Mean Total Duration:", results$total_mean, "\n")
-#> Mean Total Duration: 30.03153 
+#> Mean Total Duration: 30.054 
 cat("Variance of Total Variance:", results$total_variance, "\n")
-#> Variance of Total Variance: 16.95771 
+#> Variance of Total Variance: 16.87595 
 cat("Standard Deviation of Total Duration:", results$total_sd, "\n")
-#> Standard Deviation of Total Duration: 4.117973 
+#> Standard Deviation of Total Duration: 4.108034 
 cat("5th Percentile:", results$percentiles[1], "\n")
-#> 5th Percentile: 23.25509 
+#> 5th Percentile: 23.24248 
 cat("Median (50th Percentile):", results$percentiles[2], "\n")
-#> Median (50th Percentile): 29.9976 
+#> Median (50th Percentile): 30.01808 
 cat("95th Percentile:", results$percentiles[3], "\n")
-#> 95th Percentile: 36.80591 
+#> 95th Percentile: 36.78774 
 hist(results$total_distribution,
   breaks = 50, main = "Distribution of Total Project Duration",
   xlab = "Total Duration", col = "skyblue", border = "white"

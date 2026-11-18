@@ -60,13 +60,13 @@ summary(results)
 #> Monte Carlo Simulation Summary
 #> ------------------------------
 #> Simulations: 1,000 
-#> Total Mean: 19.88472 
-#> Total Variance: 5.671525 
-#> Total Standard Deviation: 2.381496 
-#> Coefficient of Variation: 0.1198 
-#> Range: 12.30946 to 26.89125 
+#> Total Mean: 19.99284 
+#> Total Variance: 5.361122 
+#> Total Standard Deviation: 2.31541 
+#> Coefficient of Variation: 0.1158 
+#> Range: 12.25524 to 27.45621 
 #> 
 #> Percentiles:
 #>       5%      10%      25%      50%      75%      90%      95% 
-#> 16.00391 16.78103 18.20001 19.97666 21.52969 22.98859 23.66670 
+#> 16.26708 17.14492 18.41353 19.95837 21.63375 22.85245 23.77336 
 ```

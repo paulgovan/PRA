@@ -98,6 +98,49 @@ A named list with the following components:
   Risk-resource incidence matrix R (risks x resources) for
   [`grandparent_dsm()`](https://paulgovan.github.io/PRA/reference/grandparent_dsm.md).
 
+- schedule_activities:
+
+  Data frame of the six activities (ids `T1` to `T6`) for
+  [`project_schedule()`](https://paulgovan.github.io/PRA/reference/project_schedule.md):
+  `id`, `name`, baseline `duration` (weeks; `NA` for the work-driven
+  fit-out) and `fixed_cost` (materials and lump sums, US dollars).
+
+- schedule_links:
+
+  Data frame of precedence links with overlapping logic: `source`,
+  `target`, `type` (FS, SS or FF) and `lag` (weeks).
+
+- duration_dists:
+
+  Named list of the triangular duration distributions of `T1` to `T5`
+  (the first five `task_distributions`). Pair with `cor_mat[1:5, 1:5]`
+  for correlated durations.
+
+- schedule_resources:
+
+  Data frame of the six resources: `id`, `capacity` (crews or units) and
+  `rate` (US dollars per unit per week).
+
+- schedule_assignments:
+
+  Data frame of resource assignments following `resource_task`:
+  `activity`, `resource`, `units` and `work` (crew-weeks; only the
+  fit-out is work-driven).
+
+- productivity_dists:
+
+  Named list with a PERT productivity multiplier for the finishing crew.
+
+- risk_register:
+
+  List of two discrete risk events (adverse weather and late design
+  changes), each with a probability, affected activities, a duration
+  impact and a cost impact distribution.
+
+- start_date:
+
+  Project start date, used to label schedule plots.
+
 ## References
 
 Damnjanovic, Ivan, and Kenneth Reinschmidt. Data Analytics for
@@ -108,11 +151,26 @@ Springer, 2020.
 ## Examples
 
 ``` r
+# Critical path and schedule risk analysis of the resource-loaded schedule
+bp <- building_project
+proj <- project_schedule(bp$schedule_activities, bp$schedule_links,
+  duration_dists = bp$duration_dists, resources = bp$schedule_resources,
+  productivity_dists = bp$productivity_dists,
+  assignments = bp$schedule_assignments, risks = bp$risk_register,
+  cor_mat = bp$cor_mat[1:5, 1:5], start_date = bp$start_date,
+  time_unit = "weeks"
+)
+cpm(proj)$critical_path
+#> [1] "T1" "T2" "T3" "T4" "T6"
+sra(proj, num_sims = 1000)$percentiles
+#>      10%      50%      80%      90% 
+#> 45.38255 50.65396 54.64562 56.78376 
+
 # Monte Carlo schedule risk (tasks treated as independent)
 sim <- mcs(10000, building_project$task_distributions)
 sim$percentiles
 #>       5%      50%      95% 
-#> 64.30804 71.60191 79.37655 
+#> 64.26613 71.58226 79.16606 
 
 # Earned value snapshot at the current period
 bp <- building_project

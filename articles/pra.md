@@ -461,6 +461,23 @@ variance, sorted ascending so the largest driver appears at the top.
 Tasks with larger bars are the dominant drivers of total risk;
 mitigation resources should be directed there first.
 
+### Schedule Network Risk
+
+[`mcs()`](https://paulgovan.github.io/PRA/reference/mcs.md) and
+[`sensitivity()`](https://paulgovan.github.io/PRA/reference/sensitivity.md)
+treat the project as a sum of task durations, which is exact for a
+single chain of tasks. Real schedules have parallel paths, overlapping
+logic and shared resources.
+[`project_schedule()`](https://paulgovan.github.io/PRA/reference/project_schedule.md),
+[`cpm()`](https://paulgovan.github.io/PRA/reference/cpm.md) and
+[`sra()`](https://paulgovan.github.io/PRA/reference/sra.md) analyze the
+schedule network itself: they run the critical path method in every
+Monte Carlo iteration, optionally level resources against capacity, and
+report criticality indices, risk-event impacts, cost S-curves and
+resource profiles. See
+[`vignette("schedule-risk", package = "PRA")`](https://paulgovan.github.io/PRA/articles/schedule-risk.md)
+for a worked example on `building_project`.
+
 ## Earned Value Management
 
 The EVM module implements the complete ANSI/EIA-748 suite of eleven
@@ -1175,13 +1192,14 @@ dedicated resource to at least one of the three tasks.
 large-language-model (LLM) agents through the Model Context Protocol
 (MCP) ([Anthropic 2024](#ref-MCP2024)).
 [`pra_mcp_server()`](https://paulgovan.github.io/PRA/reference/pra_mcp_server.md)
-starts a server that advertises twelve tools spanning Monte Carlo
-simulation, the second moment method, contingency and sensitivity
-analysis, EVM, noisy-OR risk inference and updating, cost distributions,
-learning curves, and DSM, so that MCP-compatible clients can invoke them
-as native tools. The [probabilistic network functions](#sec-network) are
-not currently exposed as tools and are called directly from R. The
-server is registered in Claude Code with a single shell command:
+starts a server that advertises fourteen tools spanning Monte Carlo
+simulation, the second moment method, critical path and schedule risk
+analysis, contingency and sensitivity analysis, EVM, noisy-OR risk
+inference and updating, cost distributions, learning curves, and DSM, so
+that MCP-compatible clients can invoke them as native tools. The
+[probabilistic network functions](#sec-network) are not currently
+exposed as tools and are called directly from R. The server is
+registered in Claude Code with a single shell command:
 
     claude mcp add -s project pra -- Rscript -e "PRA::pra_mcp_server()"
 
@@ -1412,7 +1430,9 @@ metrics), noisy-OR risk inference and updating, cost risk distributions,
 sigmoidal learning curves, correlation matrix construction, and design
 structure matrices. The eleventh module applies probabilistic network
 methods to project risk, with forward simulation and Bayesian
-conditioning over a network of risks, resources, and tasks.
+conditioning over a network of risks, resources, and tasks. The twelfth
+runs the critical path method and Monte Carlo schedule risk analysis
+over resource-loaded activity networks.
 
 **PRA** also exposes its core analytical functions as tools over the
 Model Context Protocol, so that LLM agents can drive the package without
@@ -1426,15 +1446,13 @@ book are at <https://paulgovan.github.io/PRA/>.
 
 ### Limitations and Future Work
 
-Several limitations apply. First, **PRA** currently propagates
-uncertainty at the task level and does not yet model schedule logic,
-critical path, activity precedence, and resource leveling. Full
-schedule-network risk analysis, in which schedule Monte Carlo runs over
-an activity-precedence network, such as Program Evaluation and Review
-Technique / Critical Path Method (PERT/CPM) to identify the critical
-path and criticality indices under uncertainty, is a planned future
-direction that would extend **PRA** from task-level to network-level
-schedule risk. Second,
+Several limitations apply. First, schedule-network analysis
+([`cpm()`](https://paulgovan.github.io/PRA/reference/cpm.md) and
+[`sra()`](https://paulgovan.github.io/PRA/reference/sra.md)) measures
+time in abstract units from a common start: working calendars, date
+constraints and probabilistic branching are not modelled, and resource
+leveling uses a single priority rule (smallest late start) rather than
+an optimizing scheduler. Second,
 [`mcs()`](https://paulgovan.github.io/PRA/reference/mcs.md) induces task
 correlation through the Cholesky decomposition of the correlation
 matrix, which preserves every marginal exactly, but which fixes the
@@ -1451,7 +1469,7 @@ release.
 ## Computational details
 
 The results in this vignette were produced using R ([R Core Team
-2024](#ref-RCore)) with the **PRA** package (version 0.7.0) and its hard
+2024](#ref-RCore)) with the **PRA** package (version 0.8.0) and its hard
 dependencies **mc2d** ([Pouillot and Delignette-Muller 2010](#ref-mc2d))
 and **minpack.lm** ([Elzhov et al. 2016](#ref-Elzhov2016)). The optional
 Model Context Protocol server additionally uses **ellmer** ([Wickham et

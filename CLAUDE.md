@@ -51,6 +51,15 @@ corresponding test file under `tests/testthat/`:
 | Bayesian Learning | `learning.R` | [`risk_post_prob()`](https://paulgovan.github.io/PRA/reference/risk_post_prob.md) |
 | Correlation Matrices | `cormat.R` | [`cor_matrix()`](https://paulgovan.github.io/PRA/reference/cor_matrix.md) |
 | Design Structure Matrix | `dsm.R` | [`parent_dsm()`](https://paulgovan.github.io/PRA/reference/parent_dsm.md), [`grandparent_dsm()`](https://paulgovan.github.io/PRA/reference/grandparent_dsm.md) |
+| Project Schedule | `schedule.R` | [`project_schedule()`](https://paulgovan.github.io/PRA/reference/project_schedule.md) |
+| Critical Path Method | `cpm.R` | [`cpm()`](https://paulgovan.github.io/PRA/reference/cpm.md) |
+| Schedule Risk Analysis | `sra.R` | [`sra()`](https://paulgovan.github.io/PRA/reference/sra.md) |
+
+Schedule internals: `schedule-engine.R` (vectorized CPM passes,
+serial-SGS leveling, driving-path trace, time-phasing), `dists.R`
+(distribution specs shared with
+[`mcs()`](https://paulgovan.github.io/PRA/reference/mcs.md)),
+`schedule-plot.R` (plot methods; drawing primitives in `plot-utils.R`).
 
 ## Key Conventions
 

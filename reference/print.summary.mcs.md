@@ -35,13 +35,13 @@ print(summary(mcs(1000, task_dists)))
 #> Monte Carlo Simulation Summary
 #> ------------------------------
 #> Simulations: 1,000 
-#> Total Mean: 19.95862 
-#> Total Variance: 5.188629 
-#> Total Standard Deviation: 2.277856 
-#> Coefficient of Variation: 0.1141 
-#> Range: 12.95618 to 26.46519 
+#> Total Mean: 19.89822 
+#> Total Variance: 5.037164 
+#> Total Standard Deviation: 2.244363 
+#> Coefficient of Variation: 0.1128 
+#> Range: 11.77571 to 26.84498 
 #> 
 #> Percentiles:
 #>       5%      10%      25%      50%      75%      90%      95% 
-#> 16.31677 16.98417 18.31969 20.00743 21.51995 22.79188 23.59632 
+#> 16.04072 16.95998 18.36315 19.98181 21.42195 22.65234 23.61173 
 ```
