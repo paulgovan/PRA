@@ -32,14 +32,14 @@ The `PRA` package provides a collection of methods that complement each other. T
 | @sec-sigmoidal | Learning Curves | When will the team reach full productivity? |
 | @sec-dsm | Design Structure Matrices | Which tasks are most tightly coupled through shared resources? |
 | @sec-network | Probabilistic Networks | How do risks propagate through the project? |
-| @sec-network2 | Portfolio Networks | How do shared risks affect multiple projects at once? |
+| @sec-schedule | Schedule Risk Analysis | When will a networked, resource-loaded schedule really finish, and what drives it? |
 | @sec-agent | Agentic Risk Analysis | Can I just ask an AI to run all of this? |
 
 These methods are not competing alternatives; they are a progression. You might use the Second Moment Method for a quick back-of-the-envelope estimate, then Monte Carlo for the formal risk report, and a Bayesian network when you need to understand how one risk cascades into others.
 
 ## How to Navigate This Book
 
-Each chapter is self-contained; feel free to jump to the method you need. That said, there are natural dependencies: Monte Carlo (@sec-mcs) and the Second Moment Method (@sec-smm) build on the same uncertainty concepts; probabilistic networks (@sec-network, @sec-network2) extend Bayesian inference (@sec-bayes); and the agent chapter (@sec-agent) assumes familiarity with all prior methods.
+Each chapter is self-contained; feel free to jump to the method you need. That said, there are natural dependencies: Monte Carlo (@sec-mcs) and the Second Moment Method (@sec-smm) build on the same uncertainty concepts; probabilistic networks (@sec-network) extend Bayesian inference (@sec-bayes); schedule risk analysis (@sec-schedule) builds on Monte Carlo and draws on probabilistic networks; and the agent chapter (@sec-agent) assumes familiarity with all prior methods.
 
 | Your situation | Start here |
 |---------------|-----------|
@@ -47,7 +47,7 @@ Each chapter is self-contained; feel free to jump to the method you need. That s
 | Project underway; need to assess performance | @sec-evm |
 | New information arrived; want to update risk estimates | @sec-bayes |
 | Tasks keep failing together; want to understand why | @sec-dsm or @sec-network |
-| Managing a portfolio of projects with shared resources | @sec-network2 |
+| Need a confident finish date for a schedule with logic and shared resources | @sec-schedule |
 | Forecasting when the team will reach full productivity | @sec-sigmoidal |
 | Want AI-assisted analysis without writing code every time | @sec-agent |
 
@@ -67,7 +67,11 @@ Once the project is underway and you have actual cost and schedule data, **Earne
 
 ### Understanding Structure
 
-**Design Structure Matrices** (Chapter @sec-dsm) and **Probabilistic Networks** (Chapters @sec-network and @sec-network2) address the question of *why* risks correlate. When two tasks both depend on the same crew, a labor shortage affects them both simultaneously. These methods make that structure explicit and quantifiable. **Learning Curves** (Chapter @sec-sigmoidal) capture a different kind of structure: how a team's productivity evolves over time.
+**Design Structure Matrices** (Chapter @sec-dsm) and **Probabilistic Networks** (Chapter @sec-network) address the question of *why* risks correlate. When two tasks both depend on the same crew, a labor shortage affects them both simultaneously. These methods make that structure explicit and quantifiable. **Learning Curves** (Chapter @sec-sigmoidal) capture a different kind of structure: how a team's productivity evolves over time.
+
+### Schedule Networks
+
+Real schedules are networks, not task lists: paths run in parallel and merge, work overlaps, and activities compete for the same crews. **Schedule Risk Analysis** (Chapter @sec-schedule) runs the critical path method thousands of times with uncertain durations, productivity and risk events, levels shared resources, and shows which activities and risks actually drive the finish date.
 
 ### AI-Assisted Analysis
 

@@ -427,14 +427,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
+  <a href="./ch-schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hurry Up and Wait: Critical Path and Schedule Risk Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-network2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Portfolio Problem: When Risks Are Shared</span></span></a>
+  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -515,7 +515,8 @@ window.Quarto = {
   <li><a href="#during-execution" id="toc-during-execution" class="nav-link" data-scroll-target="#during-execution"><span class="header-section-number">1.4.2</span> During Execution</a></li>
   <li><a href="#as-evidence-arrives" id="toc-as-evidence-arrives" class="nav-link" data-scroll-target="#as-evidence-arrives"><span class="header-section-number">1.4.3</span> As Evidence Arrives</a></li>
   <li><a href="#understanding-structure" id="toc-understanding-structure" class="nav-link" data-scroll-target="#understanding-structure"><span class="header-section-number">1.4.4</span> Understanding Structure</a></li>
-  <li><a href="#ai-assisted-analysis" id="toc-ai-assisted-analysis" class="nav-link" data-scroll-target="#ai-assisted-analysis"><span class="header-section-number">1.4.5</span> AI-Assisted Analysis</a></li>
+  <li><a href="#schedule-networks" id="toc-schedule-networks" class="nav-link" data-scroll-target="#schedule-networks"><span class="header-section-number">1.4.5</span> Schedule Networks</a></li>
+  <li><a href="#ai-assisted-analysis" id="toc-ai-assisted-analysis" class="nav-link" data-scroll-target="#ai-assisted-analysis"><span class="header-section-number">1.4.6</span> AI-Assisted Analysis</a></li>
   </ul></li>
   <li><a href="#installing-the-package" id="toc-installing-the-package" class="nav-link" data-scroll-target="#installing-the-package"><span class="header-section-number">1.5</span> Installing the Package</a></li>
   <li><a href="#a-note-on-uncertainty-about-uncertainty" id="toc-a-note-on-uncertainty-about-uncertainty" class="nav-link" data-scroll-target="#a-note-on-uncertainty-about-uncertainty"><span class="header-section-number">1.6</span> A Note on Uncertainty About Uncertainty</a></li>
@@ -608,7 +609,7 @@ window.Quarto = {
 <td>When will the team reach full productivity?</td>
 </tr>
 <tr class="odd">
-<td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a></td>
+<td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 10</span></a></td>
 <td>Design Structure Matrices</td>
 <td>Which tasks are most tightly coupled through shared resources?</td>
 </tr>
@@ -618,9 +619,9 @@ window.Quarto = {
 <td>How do risks propagate through the project?</td>
 </tr>
 <tr class="odd">
-<td><a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a></td>
-<td>Portfolio Networks</td>
-<td>How do shared risks affect multiple projects at once?</td>
+<td><a href="ch-schedule.html" class="quarto-xref"><span>Chapter 9</span></a></td>
+<td>Schedule Risk Analysis</td>
+<td>When will a networked, resource-loaded schedule really finish, and what drives it?</td>
 </tr>
 <tr class="even">
 <td><a href="ch-agent.html" class="quarto-xref"><span>Chapter 12</span></a></td>
@@ -633,7 +634,7 @@ window.Quarto = {
 </section>
 <section id="how-to-navigate-this-book" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="how-to-navigate-this-book"><span class="header-section-number">1.3</span> How to Navigate This Book</h2>
-<p>Each chapter is self-contained; feel free to jump to the method you need. That said, there are natural dependencies: Monte Carlo (<a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>) and the Second Moment Method (<a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a>) build on the same uncertainty concepts; probabilistic networks (<a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a>, <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a>) extend Bayesian inference (<a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a>); and the agent chapter (<a href="ch-agent.html" class="quarto-xref"><span>Chapter 12</span></a>) assumes familiarity with all prior methods.</p>
+<p>Each chapter is self-contained; feel free to jump to the method you need. That said, there are natural dependencies: Monte Carlo (<a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>) and the Second Moment Method (<a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a>) build on the same uncertainty concepts; probabilistic networks (<a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a>) extend Bayesian inference (<a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a>); schedule risk analysis (<a href="ch-schedule.html" class="quarto-xref"><span>Chapter 9</span></a>) builds on Monte Carlo and draws on probabilistic networks; and the agent chapter (<a href="ch-agent.html" class="quarto-xref"><span>Chapter 12</span></a>) assumes familiarity with all prior methods.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 57%">
@@ -660,11 +661,11 @@ window.Quarto = {
 </tr>
 <tr class="even">
 <td>Tasks keep failing together; want to understand why</td>
-<td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a> or <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a></td>
+<td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 10</span></a> or <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a></td>
 </tr>
 <tr class="odd">
-<td>Managing a portfolio of projects with shared resources</td>
-<td><a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a></td>
+<td>Need a confident finish date for a schedule with logic and shared resources</td>
+<td><a href="ch-schedule.html" class="quarto-xref"><span>Chapter 9</span></a></td>
 </tr>
 <tr class="even">
 <td>Forecasting when the team will reach full productivity</td>
@@ -693,10 +694,14 @@ window.Quarto = {
 </section>
 <section id="understanding-structure" class="level3" data-number="1.4.4">
 <h3 data-number="1.4.4" class="anchored" data-anchor-id="understanding-structure"><span class="header-section-number">1.4.4</span> Understanding Structure</h3>
-<p><strong>Design Structure Matrices</strong> (Chapter <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a>) and <strong>Probabilistic Networks</strong> (Chapters <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a> and <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a>) address the question of <em>why</em> risks correlate. When two tasks both depend on the same crew, a labor shortage affects them both simultaneously. These methods make that structure explicit and quantifiable. <strong>Learning Curves</strong> (Chapter <a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a>) capture a different kind of structure: how a team’s productivity evolves over time.</p>
+<p><strong>Design Structure Matrices</strong> (Chapter <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 10</span></a>) and <strong>Probabilistic Networks</strong> (Chapter <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a>) address the question of <em>why</em> risks correlate. When two tasks both depend on the same crew, a labor shortage affects them both simultaneously. These methods make that structure explicit and quantifiable. <strong>Learning Curves</strong> (Chapter <a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a>) capture a different kind of structure: how a team’s productivity evolves over time.</p>
 </section>
-<section id="ai-assisted-analysis" class="level3" data-number="1.4.5">
-<h3 data-number="1.4.5" class="anchored" data-anchor-id="ai-assisted-analysis"><span class="header-section-number">1.4.5</span> AI-Assisted Analysis</h3>
+<section id="schedule-networks" class="level3" data-number="1.4.5">
+<h3 data-number="1.4.5" class="anchored" data-anchor-id="schedule-networks"><span class="header-section-number">1.4.5</span> Schedule Networks</h3>
+<p>Real schedules are networks, not task lists: paths run in parallel and merge, work overlaps, and activities compete for the same crews. <strong>Schedule Risk Analysis</strong> (Chapter <a href="ch-schedule.html" class="quarto-xref"><span>Chapter 9</span></a>) runs the critical path method thousands of times with uncertain durations, productivity and risk events, levels shared resources, and shows which activities and risks actually drive the finish date.</p>
+</section>
+<section id="ai-assisted-analysis" class="level3" data-number="1.4.6">
+<h3 data-number="1.4.6" class="anchored" data-anchor-id="ai-assisted-analysis"><span class="header-section-number">1.4.6</span> AI-Assisted Analysis</h3>
 <p>Chapter <a href="ch-agent.html" class="quarto-xref"><span>Chapter 12</span></a> introduces the <code>PRA</code> agentic layer: an MCP server that exposes every <code>PRA</code> function as a tool for AI agents like Claude Code, together with a set of Agent Skills that tell the agent when and how to use each one. Think of it as having a risk analyst on call who always has the EVM formulas at hand.</p>
 </section>
 </section>
@@ -1254,14 +1259,14 @@ window.Quarto = {
 <span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> @sec-sigmoidal <span class="pp">|</span> Learning Curves <span class="pp">|</span> When will the team reach full productivity? <span class="pp">|</span></span>
 <span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> @sec-dsm <span class="pp">|</span> Design Structure Matrices <span class="pp">|</span> Which tasks are most tightly coupled through shared resources? <span class="pp">|</span></span>
 <span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> @sec-network <span class="pp">|</span> Probabilistic Networks <span class="pp">|</span> How do risks propagate through the project? <span class="pp">|</span></span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> @sec-network2 <span class="pp">|</span> Portfolio Networks <span class="pp">|</span> How do shared risks affect multiple projects at once? <span class="pp">|</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> @sec-schedule <span class="pp">|</span> Schedule Risk Analysis <span class="pp">|</span> When will a networked, resource-loaded schedule really finish, and what drives it? <span class="pp">|</span></span>
 <span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> @sec-agent <span class="pp">|</span> Agentic Risk Analysis <span class="pp">|</span> Can I just ask an AI to run all of this? <span class="pp">|</span></span>
 <span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>These methods are not competing alternatives; they are a progression. You might use the Second Moment Method for a quick back-of-the-envelope estimate, then Monte Carlo for the formal risk report, and a Bayesian network when you need to understand how one risk cascades into others.</span>
 <span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## How to Navigate This Book</span></span>
 <span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>Each chapter is self-contained; feel free to jump to the method you need. That said, there are natural dependencies: Monte Carlo (@sec-mcs) and the Second Moment Method (@sec-smm) build on the same uncertainty concepts; probabilistic networks (@sec-network, @sec-network2) extend Bayesian inference (@sec-bayes); and the agent chapter (@sec-agent) assumes familiarity with all prior methods.</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>Each chapter is self-contained; feel free to jump to the method you need. That said, there are natural dependencies: Monte Carlo (@sec-mcs) and the Second Moment Method (@sec-smm) build on the same uncertainty concepts; probabilistic networks (@sec-network) extend Bayesian inference (@sec-bayes); schedule risk analysis (@sec-schedule) builds on Monte Carlo and draws on probabilistic networks; and the agent chapter (@sec-agent) assumes familiarity with all prior methods.</span>
 <span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Your situation <span class="pp">|</span> Start here <span class="pp">|</span></span>
 <span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------------|-----------|</span></span>
@@ -1269,7 +1274,7 @@ window.Quarto = {
 <span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Project underway; need to assess performance <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
 <span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> New information arrived; want to update risk estimates <span class="pp">|</span> @sec-bayes <span class="pp">|</span></span>
 <span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Tasks keep failing together; want to understand why <span class="pp">|</span> @sec-dsm or @sec-network <span class="pp">|</span></span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Managing a portfolio of projects with shared resources <span class="pp">|</span> @sec-network2 <span class="pp">|</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Need a confident finish date for a schedule with logic and shared resources <span class="pp">|</span> @sec-schedule <span class="pp">|</span></span>
 <span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Forecasting when the team will reach full productivity <span class="pp">|</span> @sec-sigmoidal <span class="pp">|</span></span>
 <span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Want AI-assisted analysis without writing code every time <span class="pp">|</span> @sec-agent <span class="pp">|</span></span>
 <span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a></span>
@@ -1289,49 +1294,53 @@ window.Quarto = {
 <span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a><span class="fu">### Understanding Structure</span></span>
 <span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>**Design Structure Matrices** (Chapter @sec-dsm) and **Probabilistic Networks** (Chapters @sec-network and @sec-network2) address the question of *why* risks correlate. When two tasks both depend on the same crew, a labor shortage affects them both simultaneously. These methods make that structure explicit and quantifiable. **Learning Curves** (Chapter @sec-sigmoidal) capture a different kind of structure: how a team's productivity evolves over time.</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>**Design Structure Matrices** (Chapter @sec-dsm) and **Probabilistic Networks** (Chapter @sec-network) address the question of *why* risks correlate. When two tasks both depend on the same crew, a labor shortage affects them both simultaneously. These methods make that structure explicit and quantifiable. **Learning Curves** (Chapter @sec-sigmoidal) capture a different kind of structure: how a team's productivity evolves over time.</span>
 <span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a><span class="fu">### AI-Assisted Analysis</span></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a><span class="fu">### Schedule Networks</span></span>
 <span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>Chapter @sec-agent introduces the <span class="in">`PRA`</span> agentic layer: an MCP server that exposes every <span class="in">`PRA`</span> function as a tool for AI agents like Claude Code, together with a set of Agent Skills that tell the agent when and how to use each one. Think of it as having a risk analyst on call who always has the EVM formulas at hand.</span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>Real schedules are networks, not task lists: paths run in parallel and merge, work overlaps, and activities compete for the same crews. **Schedule Risk Analysis** (Chapter @sec-schedule) runs the critical path method thousands of times with uncertain durations, productivity and risk events, levels shared resources, and shows which activities and risks actually drive the finish date.</span>
 <span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a><span class="fu">## Installing the Package</span></span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a><span class="fu">### AI-Assisted Analysis</span></span>
 <span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"PRA"</span>)</span>
-<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>Or the development version:</span>
-<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"paulgovan/PRA"</span>)</span>
-<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>Load it in any session:</span>
-<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
-<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a><span class="fu">## A Note on Uncertainty About Uncertainty</span></span>
-<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
-<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a><span class="fu">## Garbage In, Garbage Out</span></span>
-<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>Quantitative risk analysis can give a false sense of precision. The output of a Monte Carlo simulation, "P95 = 47.3 weeks", sounds authoritative. But that number is only as good as the distributions you fed it.</span>
-<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a>The skill is not in running the software. The skill is in:</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>Chapter @sec-agent introduces the <span class="in">`PRA`</span> agentic layer: an MCP server that exposes every <span class="in">`PRA`</span> function as a tool for AI agents like Claude Code, together with a set of Agent Skills that tell the agent when and how to use each one. Think of it as having a risk analyst on call who always has the EVM formulas at hand.</span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a><span class="fu">## Installing the Package</span></span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"PRA"</span>)</span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>Or the development version:</span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"paulgovan/PRA"</span>)</span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a>Load it in any session:</span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a><span class="fu">## A Note on Uncertainty About Uncertainty</span></span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a><span class="fu">## Garbage In, Garbage Out</span></span>
 <span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Choosing distributions** that honestly represent what you know and don't know</span>
-<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Identifying correlations** that actually exist in your project</span>
-<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Communicating results** in a way that drives good decisions rather than false confidence</span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a>Quantitative risk analysis can give a false sense of precision. The output of a Monte Carlo simulation, "P95 = 47.3 weeks", sounds authoritative. But that number is only as good as the distributions you fed it.</span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a>The skill is not in running the software. The skill is in:</span>
 <span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>Every chapter in this book includes exercises that push you to think critically about these choices, not just to run the code, but to question whether the inputs are defensible.</span>
-<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a>With that caveat in mind, let's run some simulations.</span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Choosing distributions** that honestly represent what you know and don't know</span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Identifying correlations** that actually exist in your project</span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Communicating results** in a way that drives good decisions rather than false confidence</span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a>Every chapter in this book includes exercises that push you to think critically about these choices, not just to run the code, but to question whether the inputs are defensible.</span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a>With that caveat in mind, let's run some simulations.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

@@ -95,6 +95,7 @@ list.files(system.file("skills", package = "PRA"))
 | `pra-bayesian-risk` | Risk probability & cost | `risk_prob_tool`, `risk_post_prob_tool`, `cost_pdf_tool`, `cost_post_pdf_tool` |
 | `pra-learning-curves` | S-curve fitting/forecasts | `fit_and_predict_sigmoidal_tool` |
 | `pra-dsm` | Task dependency structure | `parent_dsm_tool`, `grandparent_dsm_tool` |
+| `pra-schedule-risk` | Critical path and schedule risk | `cpm_tool`, `sra_tool` |
 
 ## From Request to Tool Call
 
@@ -170,7 +171,7 @@ A typical agent workflow chains tools the same way you would chain functions: `m
 - Agents chain tools just as you chain functions: `mcs_tool` → `contingency_tool` + `sensitivity_tool`.
 :::
 
-Congratulations, you've completed the toolkit. You can now quantify project uncertainty (MCS, @sec-mcs; SMM, @sec-smm), track project performance (EVM, @sec-evm), update risk estimates with new evidence (Bayesian, @sec-bayes; Networks, @sec-network), model structural dependencies (DSM, @sec-dsm; Portfolio, @sec-network2), forecast learning (Sigmoidal, @sec-sigmoidal), and hand it all to an AI agent through MCP (@sec-agent). The rest is practice.
+Congratulations, you've completed the toolkit. You can now quantify project uncertainty (MCS, @sec-mcs; SMM, @sec-smm), track project performance (EVM, @sec-evm), update risk estimates with new evidence (Bayesian, @sec-bayes; Networks, @sec-network), analyze schedule networks (CPM and SRA, @sec-schedule), model structural dependencies (DSM, @sec-dsm), forecast learning (Sigmoidal, @sec-sigmoidal), and hand it all to an AI agent through MCP (@sec-agent). The rest is practice.
 
 ## Exercises
 

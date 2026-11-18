@@ -515,49 +515,87 @@ cat("Correlation between T1 and T2:", round(cor(sim2$T1, sim2$T2), 3), "\n")
 
 ---
 
-## Portfolio Networks (@sec-network2)
+## Schedule Risk Analysis (@sec-schedule)
 
-### Exercise 4 ★: Add a Fourth Project
+### Exercise 2 ★: Buy a Second Crane
 
-This exercise requires reading `ch-network2.qmd` to obtain the existing three-project network structure. The solution below shows the pattern for extending the portfolio.
+*Raise the tower crane's capacity from 1 to 2 and compare leveled P80 finishes.*
 
 ```{r}
-#| eval: false
-# Pattern for adding a fourth project (Bridge Inspection) to the portfolio
-# Assumes nodes A, B, C are enterprise risks already in the network
-# New nodes: L4 (Labor-4), M4 (Materials-4), E4 (Equipment-4),
-#            W4 (Work-4), X (Portfolio total)
+bp <- building_project
 
-# Add to nodes data frame:
-new_nodes <- data.frame(
-  id    = c("L4", "M4", "E4", "W4"),
-  label = c("Labor-4","Materials-4","Equipment-4","Bridge Inspection"),
-  group = c("Resource","Resource","Resource","Project"),
-  stringsAsFactors = FALSE
-)
+make_schedule <- function(resources, risk_net = NULL, risk_effects = NULL) {
+  project_schedule(
+    activities = bp$schedule_activities, links = bp$schedule_links,
+    duration_dists = bp$duration_dists, resources = resources,
+    productivity_dists = bp$productivity_dists,
+    assignments = bp$schedule_assignments, risks = bp$risk_register,
+    cor_mat = bp$cor_mat[1:5, 1:5], time_unit = "weeks",
+    risk_net = risk_net, risk_effects = risk_effects
+  )
+}
 
-# Add edges: enterprise risks → new resources, new resources → W4, W4 → portfolio
-new_links <- data.frame(
-  source = c("A","B","C","L4","M4","E4","W4"),
-  target = c("L4","M4","E4","W4","W4","W4","Y"),
-  value  = rep(1,7),
-  stringsAsFactors = FALSE
-)
+two_cranes <- bp$schedule_resources
+two_cranes$capacity[two_cranes$id == "Tower crane"] <- 2
+
+set.seed(1)
+one <- sra(make_schedule(bp$schedule_resources), num_sims = 5000, level = TRUE)
+set.seed(1)
+two <- sra(make_schedule(two_cranes), num_sims = 5000, level = TRUE)
+
+rbind(one_crane = one$percentiles, two_cranes = two$percentiles)
+cat("P80 improvement:",
+    round(one$percentiles[["80%"]] - two$percentiles[["80%"]], 1), "weeks\n")
 ```
 
-**Expected result.** Adding a fourth project sharing the same enterprise risks increases total portfolio variance by more than the fourth project's standalone variance, since the covariance terms between the new project and the existing three add to the total. The risk importance ranking is unlikely to shift dramatically, but any enterprise risk that was already dominant (highest contribution to existing portfolio variance) will become even more dominant in the extended portfolio.
+**Interpretation.** The second crane lets the envelope overlap the frame as planned. It recovers the time the single crane cost, and slightly more at P80, because the crane no longer passes the frame's overruns on to the envelope. The model charges crane cost per assignment, so adding capacity doesn't change the simulated cost by itself. Add the second crane's rental and mobilization by hand (roughly its weekly rate times the weeks the envelope needs it), then weigh that against the value of finishing those weeks sooner: site overheads, financing and liquidated damages usually decide it.
 
 ---
 
-### Exercise 5 ★: Causal Graph Design
+### Exercise 5 ★: Mitigate the Shortage
 
-*Add SC → C edge: Supply Chain Disruption also affects Weather Delay through logistics.*
+*Lower P(Labor | Boom) from 0.8 to 0.4 and compare the P80 finish and the node statistics.*
 
-This exercise is primarily conceptual; the answer requires reasoning about the see-versus-do distinction.
+```{r}
+make_net <- function(p_labor_given_boom) {
+  prob_net(
+    data.frame(id = c("Boom", "Labor", "Supply")),
+    data.frame(source = c("Boom", "Boom"), target = c("Labor", "Supply")),
+    list(
+      Boom = list(type = "discrete", values = c(1, 0), probs = c(0.4, 0.6)),
+      Labor = list(type = "conditional", condition = "Boom",
+        true_dist  = list(type = "discrete", values = c(1, 0),
+                          probs = c(p_labor_given_boom, 1 - p_labor_given_boom)),
+        false_dist = list(type = "discrete", values = c(1, 0), probs = c(0.15, 0.85))),
+      Supply = list(type = "conditional", condition = "Boom",
+        true_dist  = list(type = "discrete", values = c(1, 0), probs = c(0.7, 0.3)),
+        false_dist = list(type = "discrete", values = c(1, 0), probs = c(0.1, 0.9)))
+    )
+  )
+}
+effects <- list(
+  list(node = "Labor", resources = c("MEP subcontractor", "Finishing crew"),
+       effect = "productivity",
+       magnitude = list(type = "pert", a = 0.7, b = 0.85, c = 0.95)),
+  list(node = "Supply", resources = c("Concrete crew", "Steel erector"),
+       effect = "rate", magnitude = list(type = "uniform", min = 1.1, max = 1.3))
+)
 
-**Answer.** Adding SC → C means that C (Weather Delay) is no longer a root variable; it becomes conditional on SC. When you *see* C = Yes, you're now also updating your belief about SC, which in turn shifts your beliefs about A (Labor Shortage) and B (Material Price Spike), because all three share SC as a parent. This creates *explaining away*: if you observe C and you know that SC explains it, you become less certain that some independent weather phenomenon caused C.
+set.seed(2)
+before <- sra(make_schedule(bp$schedule_resources, make_net(0.8), effects),
+              num_sims = 5000, level = TRUE)
+set.seed(2)
+after <- sra(make_schedule(bp$schedule_resources, make_net(0.4), effects),
+             num_sims = 5000, level = TRUE)
 
-The do-calculus implication: `prob_net_update()` (graph surgery) would remove the SC → C edge when computing $P(Y | \text{do}(C = \text{No}))$, preventing the intervention from propagating back up to SC and then down to A and B. In contrast, `prob_net_learn()` (conditioning) would propagate through all paths, including the SC back-channel. The see-versus-do distinction becomes consequential precisely because of this shared upstream cause.
+rbind(before = before$percentiles, after = after$percentiles)
+rbind(
+  before = before$risk_net_stats[before$risk_net_stats$id == "Supply", c("occurrence", "finish_impact")],
+  after  = after$risk_net_stats[after$risk_net_stats$id == "Supply", c("occurrence", "finish_impact")]
+)
+```
+
+**Interpretation.** Making the shortage less likely during a boom pulls the P80 in. `Supply` occurs just as often as before, yet its finish impact falls. It never affected the schedule directly: its "impact" was delay borrowed from `Labor` through their shared cause, `Boom`. Weakening the `Boom → Labor` link weakens that borrowed association too. This is why a conditional comparison is a poor guide to which risk to mitigate, and why interventions are the right question for that decision.
 
 ---
 

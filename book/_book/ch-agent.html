@@ -398,14 +398,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
+  <a href="./ch-schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hurry Up and Wait: Critical Path and Schedule Risk Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-network2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Portfolio Problem: When Risks Are Shared</span></span></a>
+  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -644,6 +644,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Task dependency structure</td>
 <td><code>parent_dsm_tool</code>, <code>grandparent_dsm_tool</code></td>
 </tr>
+<tr class="even">
+<td><code>pra-schedule-risk</code></td>
+<td>Critical path and schedule risk</td>
+<td><code>cpm_tool</code>, <code>sra_tool</code></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -772,7 +777,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </div>
 </div>
-<p>Congratulations, you’ve completed the toolkit. You can now quantify project uncertainty (MCS, <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>; SMM, <a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a>), track project performance (EVM, <a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a>), update risk estimates with new evidence (Bayesian, <a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a>; Networks, <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a>), model structural dependencies (DSM, <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a>; Portfolio, <a href="ch-network2.html" class="quarto-xref"><span>Chapter 10</span></a>), forecast learning (Sigmoidal, <a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a>), and hand it all to an AI agent through MCP (<a href="#sec-agent" class="quarto-xref"><span>Chapter 12</span></a>). The rest is practice.</p>
+<p>Congratulations, you’ve completed the toolkit. You can now quantify project uncertainty (MCS, <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>; SMM, <a href="ch-smm.html" class="quarto-xref"><span>Chapter 3</span></a>), track project performance (EVM, <a href="ch-evm.html" class="quarto-xref"><span>Chapter 5</span></a>), update risk estimates with new evidence (Bayesian, <a href="ch-bayes.html" class="quarto-xref"><span>Chapter 6</span></a>; Networks, <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a>), analyze schedule networks (CPM and SRA, <a href="ch-schedule.html" class="quarto-xref"><span>Chapter 9</span></a>), model structural dependencies (DSM, <a href="ch-dsm.html" class="quarto-xref"><span>Chapter 10</span></a>), forecast learning (Sigmoidal, <a href="ch-sigmoidal.html" class="quarto-xref"><span>Chapter 7</span></a>), and hand it all to an AI agent through MCP (<a href="#sec-agent" class="quarto-xref"><span>Chapter 12</span></a>). The rest is practice.</p>
 </section>
 <section id="exercises" class="level2" data-number="12.8">
 <h2 data-number="12.8" class="anchored" data-anchor-id="exercises"><span class="header-section-number">12.8</span> Exercises</h2>
@@ -1363,94 +1368,95 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra-bayesian-risk`</span> <span class="pp">|</span> Risk probability &amp; cost <span class="pp">|</span> <span class="in">`risk_prob_tool`</span>, <span class="in">`risk_post_prob_tool`</span>, <span class="in">`cost_pdf_tool`</span>, <span class="in">`cost_post_pdf_tool`</span> <span class="pp">|</span></span>
 <span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra-learning-curves`</span> <span class="pp">|</span> S-curve fitting/forecasts <span class="pp">|</span> <span class="in">`fit_and_predict_sigmoidal_tool`</span> <span class="pp">|</span></span>
 <span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra-dsm`</span> <span class="pp">|</span> Task dependency structure <span class="pp">|</span> <span class="in">`parent_dsm_tool`</span>, <span class="in">`grandparent_dsm_tool`</span> <span class="pp">|</span></span>
-<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a><span class="fu">## From Request to Tool Call</span></span>
-<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a>When you ask an agent to run an analysis, it selects a tool and fills in the arguments. All array and matrix arguments are passed as JSON strings. For example, the request "simulate three tasks — Normal(10,2), Triangular(5,10,15), Uniform(8,12), 10,000 runs" maps to <span class="in">`mcs_tool`</span> with a <span class="in">`task_dists_json`</span> of:</span>
-<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a><span class="in">```json</span></span>
-<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a>[{<span class="st">"type"</span><span class="op">:</span><span class="st">"normal"</span><span class="op">,</span><span class="st">"mean"</span><span class="op">:</span><span class="dv">10</span><span class="op">,</span><span class="st">"sd"</span><span class="op">:</span><span class="dv">2</span>}<span class="op">,</span></span>
-<span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a> {<span class="st">"type"</span><span class="op">:</span><span class="st">"triangular"</span><span class="op">,</span><span class="st">"a"</span><span class="op">:</span><span class="dv">5</span><span class="op">,</span><span class="st">"b"</span><span class="op">:</span><span class="dv">10</span><span class="op">,</span><span class="st">"c"</span><span class="op">:</span><span class="dv">15</span>}<span class="op">,</span></span>
-<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a> {<span class="st">"type"</span><span class="op">:</span><span class="st">"uniform"</span><span class="op">,</span><span class="st">"min"</span><span class="op">:</span><span class="dv">8</span><span class="op">,</span><span class="st">"max"</span><span class="op">:</span><span class="dv">12</span>}]</span>
-<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-114"><a href="#cb9-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a>Under the hood, that is exactly the <span class="in">`mcs()`</span> call you already know:</span>
-<span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
-<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a>task_distributions <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>,     <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>),</span>
-<span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"triangular"</span>, <span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">10</span>, <span class="at">c =</span> <span class="dv">15</span>),</span>
-<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"uniform"</span>,    <span class="at">min =</span> <span class="dv">8</span>, <span class="at">max =</span> <span class="dv">12</span>)</span>
-<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">mcs</span>(<span class="dv">10000</span>, task_distributions)</span>
-<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-132"><a href="#cb9-132" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Monte Carlo results. The same output an agent receives when it calls `mcs_tool`."</span></span>
-<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(result<span class="sc">$</span>total_distribution,</span>
-<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a>  <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">breaks =</span> <span class="dv">50</span>,</span>
-<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Monte Carlo Simulation Results"</span>,</span>
-<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Total Project Duration/Cost"</span>,</span>
-<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a>  <span class="at">col  =</span> <span class="st">"#18bc9c80"</span>, <span class="at">border =</span> <span class="st">"white"</span></span>
-<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x, <span class="at">mean =</span> result<span class="sc">$</span>total_mean, <span class="at">sd =</span> result<span class="sc">$</span>total_sd),</span>
-<span id="cb9-141"><a href="#cb9-141" aria-hidden="true" tabindex="-1"></a>  <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"#2c3e50"</span>, <span class="at">lwd =</span> <span class="dv">2</span></span>
-<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(</span>
-<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a>  <span class="at">v   =</span> <span class="fu">quantile</span>(result<span class="sc">$</span>total_distribution, <span class="fu">c</span>(<span class="fl">0.50</span>, <span class="fl">0.95</span>)),</span>
-<span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#3498db"</span>, <span class="st">"#e74c3c"</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="fl">1.5</span></span>
-<span id="cb9-146"><a href="#cb9-146" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-147"><a href="#cb9-147" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
-<span id="cb9-148"><a href="#cb9-148" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Normal fit"</span>, <span class="st">"P50"</span>, <span class="st">"P95"</span>),</span>
-<span id="cb9-149"><a href="#cb9-149" aria-hidden="true" tabindex="-1"></a>  <span class="at">col    =</span> <span class="fu">c</span>(<span class="st">"#2c3e50"</span>, <span class="st">"#3498db"</span>, <span class="st">"#e74c3c"</span>),</span>
-<span id="cb9-150"><a href="#cb9-150" aria-hidden="true" tabindex="-1"></a>  <span class="at">lty    =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fl">1.5</span>, <span class="fl">1.5</span>),</span>
-<span id="cb9-151"><a href="#cb9-151" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex    =</span> <span class="fl">0.8</span>, <span class="at">bg =</span> <span class="st">"white"</span></span>
-<span id="cb9-152"><a href="#cb9-152" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-153"><a href="#cb9-153" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-154"><a href="#cb9-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-155"><a href="#cb9-155" aria-hidden="true" tabindex="-1"></a>A typical agent workflow chains tools the same way you would chain functions: <span class="in">`mcs_tool`</span> to simulate, then <span class="in">`contingency_tool`</span> for the reserve and <span class="in">`sensitivity_tool`</span> for the risk drivers. The <span class="in">`pra-overview`</span> skill lists these common workflows so the agent knows what to do next.</span>
-<span id="cb9-156"><a href="#cb9-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a><span class="fu">## Tool Reference</span></span>
-<span id="cb9-158"><a href="#cb9-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Tool <span class="pp">|</span> Description <span class="pp">|</span></span>
-<span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a><span class="pp">|------|-------------|</span></span>
-<span id="cb9-161"><a href="#cb9-161" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`mcs_tool`</span> <span class="pp">|</span> Monte Carlo simulation with task distributions <span class="pp">|</span></span>
-<span id="cb9-162"><a href="#cb9-162" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`smm_tool`</span> <span class="pp">|</span> Second Moment Method (analytical estimate) <span class="pp">|</span></span>
-<span id="cb9-163"><a href="#cb9-163" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`contingency_tool`</span> <span class="pp">|</span> Contingency reserve from the last MCS <span class="pp">|</span></span>
-<span id="cb9-164"><a href="#cb9-164" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`sensitivity_tool`</span> <span class="pp">|</span> Variance contribution per task <span class="pp">|</span></span>
-<span id="cb9-165"><a href="#cb9-165" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`evm_analysis_tool`</span> <span class="pp">|</span> Full Earned Value Management analysis <span class="pp">|</span></span>
-<span id="cb9-166"><a href="#cb9-166" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`risk_prob_tool`</span> <span class="pp">|</span> Bayesian prior risk probability <span class="pp">|</span></span>
-<span id="cb9-167"><a href="#cb9-167" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`risk_post_prob_tool`</span> <span class="pp">|</span> Bayesian posterior risk after observations <span class="pp">|</span></span>
-<span id="cb9-168"><a href="#cb9-168" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`cost_pdf_tool`</span> / <span class="in">`cost_post_pdf_tool`</span> <span class="pp">|</span> Prior / posterior cost distributions <span class="pp">|</span></span>
-<span id="cb9-169"><a href="#cb9-169" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`fit_and_predict_sigmoidal_tool`</span> <span class="pp">|</span> Sigmoidal learning curve fit and prediction <span class="pp">|</span></span>
-<span id="cb9-170"><a href="#cb9-170" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`parent_dsm_tool`</span> / <span class="in">`grandparent_dsm_tool`</span> <span class="pp">|</span> Design Structure Matrices <span class="pp">|</span></span>
-<span id="cb9-171"><a href="#cb9-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-172"><a href="#cb9-172" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
-<span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
-<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
-<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>PRA exposes its core analytical functions as **tools over MCP** via <span class="in">`pra_mcp_server()`</span>; the numbers are identical to calling the functions directly. The probabilistic network functions are not currently exposed as tools.</span>
-<span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Agent Skills** (<span class="in">`SKILL.md`</span> files under <span class="in">`system.file("skills", package = "PRA")`</span>) tell an agent when and how to use each tool, including the JSON argument format.</span>
-<span id="cb9-179"><a href="#cb9-179" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The package embeds **no language model** — only the MCP server needs the optional <span class="in">`ellmer`</span>, <span class="in">`mcptools`</span>, and <span class="in">`jsonlite`</span> packages.</span>
-<span id="cb9-180"><a href="#cb9-180" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Agents chain tools just as you chain functions: <span class="in">`mcs_tool`</span> → <span class="in">`contingency_tool`</span> + <span class="in">`sensitivity_tool`</span>.</span>
-<span id="cb9-181"><a href="#cb9-181" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb9-182"><a href="#cb9-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-183"><a href="#cb9-183" aria-hidden="true" tabindex="-1"></a>Congratulations, you've completed the toolkit. You can now quantify project uncertainty (MCS, @sec-mcs; SMM, @sec-smm), track project performance (EVM, @sec-evm), update risk estimates with new evidence (Bayesian, @sec-bayes; Networks, @sec-network), model structural dependencies (DSM, @sec-dsm; Portfolio, @sec-network2), forecast learning (Sigmoidal, @sec-sigmoidal), and hand it all to an AI agent through MCP (@sec-agent). The rest is practice.</span>
-<span id="cb9-184"><a href="#cb9-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-185"><a href="#cb9-185" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
-<span id="cb9-186"><a href="#cb9-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-187"><a href="#cb9-187" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Set up the server.** Install <span class="in">`ellmer`</span>, <span class="in">`mcptools`</span>, and <span class="in">`jsonlite`</span>, then start <span class="in">`pra_mcp_server()`</span> and register it with Claude Code or Claude Desktop using the instructions above. Confirm the client lists the PRA tools.</span>
-<span id="cb9-188"><a href="#cb9-188" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-189"><a href="#cb9-189" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Request to arguments.** For the request "simulate two tasks, Normal(20,4) and Uniform(10,15), with 5,000 runs," write out the <span class="in">`mcs_tool`</span> call and its <span class="in">`task_dists_json`</span> argument by hand. Then run the equivalent <span class="in">`mcs()`</span> in R and compare.</span>
-<span id="cb9-190"><a href="#cb9-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-191"><a href="#cb9-191" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Chaining.** Ask an agent (or reason it out yourself) how to produce a P80 contingency reserve and a tornado chart for a 3-task project. Which tools are called, and in what order? Which skill documents that workflow?</span>
-<span id="cb9-192"><a href="#cb9-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-193"><a href="#cb9-193" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**EVM from a prompt.** Using <span class="in">`evm_analysis_tool`</span>'s arguments, translate this into a tool call: BAC = \$300K, schedule = <span class="co">[</span><span class="ot">0.2, 0.4, 0.6, 0.8, 1.0</span><span class="co">]</span>, period = 4, complete = 0.55, costs = <span class="co">[</span><span class="ot">\$55K, \$115K, \$175K, \$240K</span><span class="co">]</span>. Then verify with the EVM functions from @sec-evm.</span>
-<span id="cb9-194"><a href="#cb9-194" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-195"><a href="#cb9-195" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Skill authoring.** ★ Read one of the bundled <span class="in">`SKILL.md`</span> files, then draft a short skill for a project-specific workflow of your own (for example, a standard reserve policy). What guidance would an agent need to apply it correctly?</span>
+<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra-schedule-risk`</span> <span class="pp">|</span> Critical path and schedule risk <span class="pp">|</span> <span class="in">`cpm_tool`</span>, <span class="in">`sra_tool`</span> <span class="pp">|</span></span>
+<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a><span class="fu">## From Request to Tool Call</span></span>
+<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a>When you ask an agent to run an analysis, it selects a tool and fills in the arguments. All array and matrix arguments are passed as JSON strings. For example, the request "simulate three tasks — Normal(10,2), Triangular(5,10,15), Uniform(8,12), 10,000 runs" maps to <span class="in">`mcs_tool`</span> with a <span class="in">`task_dists_json`</span> of:</span>
+<span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a><span class="in">```json</span></span>
+<span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a>[{<span class="st">"type"</span><span class="op">:</span><span class="st">"normal"</span><span class="op">,</span><span class="st">"mean"</span><span class="op">:</span><span class="dv">10</span><span class="op">,</span><span class="st">"sd"</span><span class="op">:</span><span class="dv">2</span>}<span class="op">,</span></span>
+<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a> {<span class="st">"type"</span><span class="op">:</span><span class="st">"triangular"</span><span class="op">,</span><span class="st">"a"</span><span class="op">:</span><span class="dv">5</span><span class="op">,</span><span class="st">"b"</span><span class="op">:</span><span class="dv">10</span><span class="op">,</span><span class="st">"c"</span><span class="op">:</span><span class="dv">15</span>}<span class="op">,</span></span>
+<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a> {<span class="st">"type"</span><span class="op">:</span><span class="st">"uniform"</span><span class="op">,</span><span class="st">"min"</span><span class="op">:</span><span class="dv">8</span><span class="op">,</span><span class="st">"max"</span><span class="op">:</span><span class="dv">12</span>}]</span>
+<span id="cb9-114"><a href="#cb9-114" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a>Under the hood, that is exactly the <span class="in">`mcs()`</span> call you already know:</span>
+<span id="cb9-117"><a href="#cb9-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
+<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a>task_distributions <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>,     <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>),</span>
+<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"triangular"</span>, <span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">10</span>, <span class="at">c =</span> <span class="dv">15</span>),</span>
+<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"uniform"</span>,    <span class="at">min =</span> <span class="dv">8</span>, <span class="at">max =</span> <span class="dv">12</span>)</span>
+<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">mcs</span>(<span class="dv">10000</span>, task_distributions)</span>
+<span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-130"><a href="#cb9-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Monte Carlo results. The same output an agent receives when it calls `mcs_tool`."</span></span>
+<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(result<span class="sc">$</span>total_distribution,</span>
+<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a>  <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">breaks =</span> <span class="dv">50</span>,</span>
+<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Monte Carlo Simulation Results"</span>,</span>
+<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Total Project Duration/Cost"</span>,</span>
+<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a>  <span class="at">col  =</span> <span class="st">"#18bc9c80"</span>, <span class="at">border =</span> <span class="st">"white"</span></span>
+<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-141"><a href="#cb9-141" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x, <span class="at">mean =</span> result<span class="sc">$</span>total_mean, <span class="at">sd =</span> result<span class="sc">$</span>total_sd),</span>
+<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a>  <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"#2c3e50"</span>, <span class="at">lwd =</span> <span class="dv">2</span></span>
+<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(</span>
+<span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a>  <span class="at">v   =</span> <span class="fu">quantile</span>(result<span class="sc">$</span>total_distribution, <span class="fu">c</span>(<span class="fl">0.50</span>, <span class="fl">0.95</span>)),</span>
+<span id="cb9-146"><a href="#cb9-146" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#3498db"</span>, <span class="st">"#e74c3c"</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="fl">1.5</span></span>
+<span id="cb9-147"><a href="#cb9-147" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-148"><a href="#cb9-148" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
+<span id="cb9-149"><a href="#cb9-149" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Normal fit"</span>, <span class="st">"P50"</span>, <span class="st">"P95"</span>),</span>
+<span id="cb9-150"><a href="#cb9-150" aria-hidden="true" tabindex="-1"></a>  <span class="at">col    =</span> <span class="fu">c</span>(<span class="st">"#2c3e50"</span>, <span class="st">"#3498db"</span>, <span class="st">"#e74c3c"</span>),</span>
+<span id="cb9-151"><a href="#cb9-151" aria-hidden="true" tabindex="-1"></a>  <span class="at">lty    =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fl">1.5</span>, <span class="fl">1.5</span>),</span>
+<span id="cb9-152"><a href="#cb9-152" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex    =</span> <span class="fl">0.8</span>, <span class="at">bg =</span> <span class="st">"white"</span></span>
+<span id="cb9-153"><a href="#cb9-153" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-154"><a href="#cb9-154" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-155"><a href="#cb9-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-156"><a href="#cb9-156" aria-hidden="true" tabindex="-1"></a>A typical agent workflow chains tools the same way you would chain functions: <span class="in">`mcs_tool`</span> to simulate, then <span class="in">`contingency_tool`</span> for the reserve and <span class="in">`sensitivity_tool`</span> for the risk drivers. The <span class="in">`pra-overview`</span> skill lists these common workflows so the agent knows what to do next.</span>
+<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-158"><a href="#cb9-158" aria-hidden="true" tabindex="-1"></a><span class="fu">## Tool Reference</span></span>
+<span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Tool <span class="pp">|</span> Description <span class="pp">|</span></span>
+<span id="cb9-161"><a href="#cb9-161" aria-hidden="true" tabindex="-1"></a><span class="pp">|------|-------------|</span></span>
+<span id="cb9-162"><a href="#cb9-162" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`mcs_tool`</span> <span class="pp">|</span> Monte Carlo simulation with task distributions <span class="pp">|</span></span>
+<span id="cb9-163"><a href="#cb9-163" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`smm_tool`</span> <span class="pp">|</span> Second Moment Method (analytical estimate) <span class="pp">|</span></span>
+<span id="cb9-164"><a href="#cb9-164" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`contingency_tool`</span> <span class="pp">|</span> Contingency reserve from the last MCS <span class="pp">|</span></span>
+<span id="cb9-165"><a href="#cb9-165" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`sensitivity_tool`</span> <span class="pp">|</span> Variance contribution per task <span class="pp">|</span></span>
+<span id="cb9-166"><a href="#cb9-166" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`evm_analysis_tool`</span> <span class="pp">|</span> Full Earned Value Management analysis <span class="pp">|</span></span>
+<span id="cb9-167"><a href="#cb9-167" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`risk_prob_tool`</span> <span class="pp">|</span> Bayesian prior risk probability <span class="pp">|</span></span>
+<span id="cb9-168"><a href="#cb9-168" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`risk_post_prob_tool`</span> <span class="pp">|</span> Bayesian posterior risk after observations <span class="pp">|</span></span>
+<span id="cb9-169"><a href="#cb9-169" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`cost_pdf_tool`</span> / <span class="in">`cost_post_pdf_tool`</span> <span class="pp">|</span> Prior / posterior cost distributions <span class="pp">|</span></span>
+<span id="cb9-170"><a href="#cb9-170" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`fit_and_predict_sigmoidal_tool`</span> <span class="pp">|</span> Sigmoidal learning curve fit and prediction <span class="pp">|</span></span>
+<span id="cb9-171"><a href="#cb9-171" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`parent_dsm_tool`</span> / <span class="in">`grandparent_dsm_tool`</span> <span class="pp">|</span> Design Structure Matrices <span class="pp">|</span></span>
+<span id="cb9-172"><a href="#cb9-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
+<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
+<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
+<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>PRA exposes its core analytical functions as **tools over MCP** via <span class="in">`pra_mcp_server()`</span>; the numbers are identical to calling the functions directly. The probabilistic network functions are not currently exposed as tools.</span>
+<span id="cb9-179"><a href="#cb9-179" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Agent Skills** (<span class="in">`SKILL.md`</span> files under <span class="in">`system.file("skills", package = "PRA")`</span>) tell an agent when and how to use each tool, including the JSON argument format.</span>
+<span id="cb9-180"><a href="#cb9-180" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The package embeds **no language model** — only the MCP server needs the optional <span class="in">`ellmer`</span>, <span class="in">`mcptools`</span>, and <span class="in">`jsonlite`</span> packages.</span>
+<span id="cb9-181"><a href="#cb9-181" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Agents chain tools just as you chain functions: <span class="in">`mcs_tool`</span> → <span class="in">`contingency_tool`</span> + <span class="in">`sensitivity_tool`</span>.</span>
+<span id="cb9-182"><a href="#cb9-182" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-183"><a href="#cb9-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-184"><a href="#cb9-184" aria-hidden="true" tabindex="-1"></a>Congratulations, you've completed the toolkit. You can now quantify project uncertainty (MCS, @sec-mcs; SMM, @sec-smm), track project performance (EVM, @sec-evm), update risk estimates with new evidence (Bayesian, @sec-bayes; Networks, @sec-network), analyze schedule networks (CPM and SRA, @sec-schedule), model structural dependencies (DSM, @sec-dsm), forecast learning (Sigmoidal, @sec-sigmoidal), and hand it all to an AI agent through MCP (@sec-agent). The rest is practice.</span>
+<span id="cb9-185"><a href="#cb9-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-186"><a href="#cb9-186" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
+<span id="cb9-187"><a href="#cb9-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-188"><a href="#cb9-188" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Set up the server.** Install <span class="in">`ellmer`</span>, <span class="in">`mcptools`</span>, and <span class="in">`jsonlite`</span>, then start <span class="in">`pra_mcp_server()`</span> and register it with Claude Code or Claude Desktop using the instructions above. Confirm the client lists the PRA tools.</span>
+<span id="cb9-189"><a href="#cb9-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-190"><a href="#cb9-190" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Request to arguments.** For the request "simulate two tasks, Normal(20,4) and Uniform(10,15), with 5,000 runs," write out the <span class="in">`mcs_tool`</span> call and its <span class="in">`task_dists_json`</span> argument by hand. Then run the equivalent <span class="in">`mcs()`</span> in R and compare.</span>
+<span id="cb9-191"><a href="#cb9-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-192"><a href="#cb9-192" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Chaining.** Ask an agent (or reason it out yourself) how to produce a P80 contingency reserve and a tornado chart for a 3-task project. Which tools are called, and in what order? Which skill documents that workflow?</span>
+<span id="cb9-193"><a href="#cb9-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-194"><a href="#cb9-194" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**EVM from a prompt.** Using <span class="in">`evm_analysis_tool`</span>'s arguments, translate this into a tool call: BAC = \$300K, schedule = <span class="co">[</span><span class="ot">0.2, 0.4, 0.6, 0.8, 1.0</span><span class="co">]</span>, period = 4, complete = 0.55, costs = <span class="co">[</span><span class="ot">\$55K, \$115K, \$175K, \$240K</span><span class="co">]</span>. Then verify with the EVM functions from @sec-evm.</span>
+<span id="cb9-195"><a href="#cb9-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-196"><a href="#cb9-196" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Skill authoring.** ★ Read one of the bundled <span class="in">`SKILL.md`</span> files, then draft a short skill for a project-specific workflow of your own (for example, a standard reserve policy). What guidance would an agent need to apply it correctly?</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

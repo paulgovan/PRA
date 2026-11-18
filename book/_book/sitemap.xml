@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://paulgovan.github.io/PRA/book/index.html</loc>
-    <lastmod>2026-07-20T00:49:04.315Z</lastmod>
+    <lastmod>2026-11-18T15:48:52.243Z</lastmod>
   </url>
   <url>
     <loc>https://paulgovan.github.io/PRA/book/intro.html</loc>
-    <lastmod>2026-07-12T03:13:19.536Z</lastmod>
+    <lastmod>2026-11-18T15:48:52.243Z</lastmod>
   </url>
   <url>
     <loc>https://paulgovan.github.io/PRA/book/ch-mcs.html</loc>
@@ -34,15 +34,15 @@
   </url>
   <url>
     <loc>https://paulgovan.github.io/PRA/book/ch-network.html</loc>
-    <lastmod>2026-08-24T01:54:22.301Z</lastmod>
+    <lastmod>2026-11-18T15:40:48.422Z</lastmod>
+  </url>
+  <url>
+    <loc>https://paulgovan.github.io/PRA/book/ch-schedule.html</loc>
+    <lastmod>2026-11-18T15:53:40.039Z</lastmod>
   </url>
   <url>
     <loc>https://paulgovan.github.io/PRA/book/ch-dsm.html</loc>
     <lastmod>2026-08-24T01:52:26.194Z</lastmod>
-  </url>
-  <url>
-    <loc>https://paulgovan.github.io/PRA/book/ch-network2.html</loc>
-    <lastmod>2026-07-20T00:48:45.469Z</lastmod>
   </url>
   <url>
     <loc>https://paulgovan.github.io/PRA/book/ch-quarto.html</loc>
@@ -50,19 +50,19 @@
   </url>
   <url>
     <loc>https://paulgovan.github.io/PRA/book/ch-agent.html</loc>
-    <lastmod>2026-09-02T19:05:21.490Z</lastmod>
+    <lastmod>2026-11-18T15:48:52.243Z</lastmod>
   </url>
   <url>
     <loc>https://paulgovan.github.io/PRA/book/appendix-glossary.html</loc>
-    <lastmod>2026-07-12T03:13:19.534Z</lastmod>
+    <lastmod>2026-11-18T15:48:52.244Z</lastmod>
   </url>
   <url>
     <loc>https://paulgovan.github.io/PRA/book/appendix-math.html</loc>
-    <lastmod>2026-05-29T20:59:16.155Z</lastmod>
+    <lastmod>2026-11-18T15:48:52.244Z</lastmod>
   </url>
   <url>
     <loc>https://paulgovan.github.io/PRA/book/appendix-ref.html</loc>
-    <lastmod>2026-09-02T19:06:16.896Z</lastmod>
+    <lastmod>2026-11-18T15:48:52.244Z</lastmod>
   </url>
   <url>
     <loc>https://paulgovan.github.io/PRA/book/appendix-casestudy.html</loc>
@@ -70,7 +70,7 @@
   </url>
   <url>
     <loc>https://paulgovan.github.io/PRA/book/appendix-solutions.html</loc>
-    <lastmod>2026-09-02T19:06:37.053Z</lastmod>
+    <lastmod>2026-11-18T15:51:23.056Z</lastmod>
   </url>
   <url>
     <loc>https://paulgovan.github.io/PRA/book/references.html</loc>
@@ -78,10 +78,10 @@
   </url>
   <url>
     <loc>https://paulgovan.github.io/PRA/book/Project-Risk-Analysis--A-Practical-Guide.pdf</loc>
-    <lastmod>2026-09-02T19:10:20.208Z</lastmod>
+    <lastmod>2026-11-18T15:55:14.347Z</lastmod>
   </url>
   <url>
     <loc>https://paulgovan.github.io/PRA/book/Project-Risk-Analysis--A-Practical-Guide.epub</loc>
-    <lastmod>2026-09-02T19:10:23.334Z</lastmod>
+    <lastmod>2026-11-18T15:55:17.904Z</lastmod>
   </url>
 </urlset>
