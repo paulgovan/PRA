@@ -34,7 +34,7 @@ rapid analytical estimate is enough, use the Second Moment Method instead.
 ```
 
 - **normal**: `mean`, `sd`
-- **triangular**: `a` (min), `b` (max), `c` (mode) — most common in practice
+- **triangular**: `a` (min), `b` (mode, most likely), `c` (max) — most common in practice
 - **uniform**: `min`, `max`
 
 `cor_mat_json` is an optional JSON 2-D array; use `"null"` (or omit) for
