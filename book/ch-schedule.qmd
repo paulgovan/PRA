@@ -1,0 +1,320 @@
+# Hurry Up and Wait: Critical Path and Schedule Risk Analysis {#sec-schedule}
+
+> *"It always takes longer than you expect, even when you take into account Hofstadter's Law."*
+> — Douglas Hofstadter
+
+Monte Carlo simulation (@sec-mcs) adds up task durations. That's exactly right for a single chain of tasks, and it's exactly wrong for almost every real schedule. Real schedules have parallel paths that merge, work that overlaps, and crews that two activities both need at the same time. A task list can't see any of that. A schedule network can.
+
+This chapter puts the network back in. We start with the **critical path method** (CPM), the deterministic backbone of every project schedule, then run it thousands of times with uncertain durations, uncertain productivity, and discrete risk events. That's **schedule risk analysis** (SRA). Finally, we connect the probabilistic networks of @sec-network to the schedule, so that one risk can reach many tasks through the resources they share.
+
+::: {.callout-note icon=false}
+## Learning Objectives
+
+By the end of this chapter, you will be able to:
+
+1. Build a resource-loaded schedule with `project_schedule()`, including FS, SS, FF and SF links with lags
+2. Compute early and late dates, float and the critical path with `cpm()`, with and without resource leveling
+3. Explain merge bias and why a network finishes later than its deterministic plan
+4. Run `sra()` and interpret finish percentiles, criticality, cruciality and risk-event impacts
+5. Feed a probabilistic risk network into the schedule so that risks act through resources
+:::
+
+## From Task Lists to Networks
+
+A schedule network has activities (the nodes) and precedence links (the arrows). The precedence diagramming method allows four kinds of link, each with an optional **lag** (a delay) or **lead** (a negative lag):
+
+| Link | Meaning | Constraint on the successor |
+|------|---------|-----------------------------|
+| FS (finish-to-start) | B can't start until A finishes | start(B) ≥ finish(A) + lag |
+| SS (start-to-start) | B can't start until A has started | start(B) ≥ start(A) + lag |
+| FF (finish-to-finish) | B can't finish until A has finished | finish(B) ≥ finish(A) + lag |
+| SF (start-to-finish) | B can't finish until A has started | finish(B) ≥ start(A) + lag |
+
+CPM schedules the network in two passes [@kelley1959]. The **forward pass** visits activities in dependency order and starts each one as early as its links allow, giving the *early start* and *early finish* of every activity and the project finish. The **backward pass** works back from the project finish and gives each activity's *late start* and *late finish*: the latest it can run without delaying the project.
+
+::: {.callout-note}
+## Float and the Critical Path
+
+**Total float** is late start minus early start: how far an activity can slip without moving the project finish. **Free float** is how far it can slip without delaying any successor. Activities with zero total float form the **critical path**. Delay any of them and the whole project slips, day for day.
+:::
+
+## The Building Project Schedule
+
+The `building_project` dataset includes a resource-loaded schedule for a six-package mid-rise building, in weeks:
+
+```{r setup}
+#| code-fold: false
+library(PRA)
+set.seed(2027)
+bp <- building_project
+```
+
+```{r}
+bp$schedule_activities
+bp$schedule_links
+```
+
+The logic overlaps work the way real construction does. The envelope (T4) starts 8 weeks into the structural frame (SS+8) and can't finish until 2 weeks after the frame does (FF+2). MEP rough-in starts 4 weeks into the envelope. Fit-out (T6) follows the envelope, may start 6 weeks into MEP, and finishes at least 4 weeks after it. Fit-out has no duration of its own: it's 24 crew-weeks of work by two finishing crews, so its duration depends on how productive those crews are.
+
+Resources carry a capacity and a weekly cost rate, and the assignments say who works on what:
+
+```{r}
+bp$schedule_resources
+bp$schedule_assignments
+```
+
+There is only **one tower crane**, and the foundations, the frame and the envelope all need it. Hold that thought.
+
+`project_schedule()` checks all of this and assembles the network. Durations of T1 to T5 are triangular, correlated through the task correlation matrix, and two discrete risk events come from the risk register:
+
+```{r}
+proj <- project_schedule(
+  activities         = bp$schedule_activities,
+  links              = bp$schedule_links,
+  duration_dists     = bp$duration_dists,
+  resources          = bp$schedule_resources,
+  productivity_dists = bp$productivity_dists,
+  assignments        = bp$schedule_assignments,
+  risks              = bp$risk_register,
+  cor_mat            = bp$cor_mat[1:5, 1:5],
+  start_date         = bp$start_date,
+  time_unit          = "weeks"
+)
+```
+
+```{r}
+#| fig-cap: "The building schedule as an activity-on-node network. The deterministic critical path is in red; edge labels show link types and lags other than plain finish-to-start."
+plot(proj)
+```
+
+## The Deterministic Plan
+
+```{r}
+plan <- cpm(proj)
+plan
+```
+
+The plan finishes in `r plan$finish` weeks. Every activity except MEP is critical; MEP has `r plan$activities$total_float[5]` week of float.
+
+```{r}
+#| fig-width: 8
+#| fig-height: 5.5
+#| fig-cap: "The deterministic schedule. Grey bars after an activity show its total float; the dashed line is the project finish."
+plot(plan)
+```
+
+### Leveling the Crane
+
+The plan has a problem: the envelope starts while the frame is still using the crane. With `level = TRUE`, `cpm()` schedules activities one at a time with a *serial schedule-generation scheme* [@kolisch1996]. It takes the eligible activity with the smallest late start and places it at the earliest time that satisfies its links *and* keeps every resource within capacity for the activity's whole duration.
+
+```{r}
+leveled <- cpm(proj, level = TRUE)
+leveled$finish - plan$finish
+```
+
+```{r}
+#| fig-width: 8
+#| fig-height: 5.5
+#| fig-cap: "The resource-leveled schedule. The envelope now waits for the crane."
+plot(leveled)
+```
+
+One crane costs `r leveled$finish - plan$finish` weeks. Once resources move dates, float stops meaning much, so `cpm()` finds the critical activities differently: it traces the **driving path** back from the finish, through links that bind and through resource hand-offs.
+
+## Merge Bias: Why Networks Finish Late
+
+Before adding uncertainty to the building project, it's worth seeing the effect that makes network analysis necessary. Two 10-week activities run in parallel, each estimated as triangular from 8 to 12 weeks:
+
+```{r}
+parallel <- project_schedule(
+  activities = data.frame(id = c("Start", "X", "Y", "Finish"),
+                          duration = c(0, 10, 10, 0)),
+  links = data.frame(source = c("Start", "Start", "X", "Y"),
+                     target = c("X", "Y", "Finish", "Finish")),
+  duration_dists = list(
+    X = list(type = "triangular", a = 8, b = 10, c = 12),
+    Y = list(type = "triangular", a = 8, b = 10, c = 12)
+  )
+)
+par_risk <- sra(parallel, num_sims = 10000)
+par_risk$prob_deterministic
+```
+
+Each path alone has a 50% chance of finishing in 10 weeks. The project needs *both* to finish, so its chance is about `r round(100 * par_risk$prob_deterministic)`%. This is **merge bias**: wherever paths converge, the finish is set by whichever runs longest, so the expected finish is later than any single path suggests, even when every estimate is symmetric. Summing durations along one path can never show it.
+
+## Schedule Risk Analysis
+
+`sra()` samples every uncertain quantity in each iteration, reschedules the network with CPM, and records the result. Here we keep the crane constraint in every iteration:
+
+```{r}
+risk <- sra(proj, num_sims = 10000, level = TRUE)
+risk
+```
+
+```{r}
+#| fig-cap: "Cumulative probability of finishing by each date. The deterministic plan sits low on the curve."
+plot(risk, type = "cdf")
+```
+
+The leveled plan of `r leveled$finish` weeks has a probability of only `r round(100 * risk$prob_deterministic)`% of being met. The P80 is `r round(risk$percentiles[["80%"]], 1)` weeks. The difference between the P80 and the P50 is the schedule contingency, and `contingency()` from @sec-mcs works on the result directly:
+
+```{r}
+contingency(risk, phigh = 0.80, pbase = 0.50)
+```
+
+### What Drives the Finish?
+
+Knowing the finish distribution isn't enough; you need to know where to act. `sra()` measures each activity four ways:
+
+::: {.callout-note}
+## Criticality Measures
+
+- **Criticality index**: the share of iterations in which the activity is critical.
+- **Sensitivity**: the rank correlation between the activity's duration and the project finish.
+- **Cruciality index**: criticality × sensitivity [@williams1992]. It ranks activities by how much they actually *move* the finish.
+- **Schedule sensitivity index (SSI)**: criticality × the activity's duration spread relative to the finish's spread [@pmi2009].
+:::
+
+```{r}
+summary(risk)$activities
+```
+
+Criticality alone can mislead. Fit-out (T6) is critical in every iteration, but its duration varies little, so it has low cruciality: shortening its uncertainty buys little. The frame and foundations are where uncertainty turns into delay.
+
+```{r}
+#| fig-width: 8
+#| fig-height: 5.5
+#| fig-cap: "Deterministic bars shaded by criticality index, with each activity's P10 to P90 finish range and P50 tick."
+plot(risk, type = "gantt")
+```
+
+```{r}
+#| fig-cap: "Activities ranked by cruciality index."
+plot(risk, type = "tornado")
+```
+
+### Risk Events
+
+The two events in the register (adverse weather and late design changes) each occur independently with their stated probability and add a sampled delay and cost to the activities they affect:
+
+```{r}
+risk$risk_stats
+```
+
+`finish_impact` is the mean finish when the risk occurred minus the mean when it didn't. Rank risk responses by it:
+
+```{r}
+#| fig-cap: "Risk events ranked by their mean impact on the finish."
+plot(risk, type = "tornado", metric = "risk")
+```
+
+### Cost and Resources Over Time
+
+Every activity's cost (resource units × rate × duration, plus fixed cost and any risk costs) is spread over its dates, giving a cost S-curve with an uncertainty band. Resource usage gets the same treatment, and with leveling it never exceeds capacity:
+
+```{r}
+#| fig-cap: "Cumulative cost: P50 line and P10 to P90 band."
+plot(risk, type = "cost")
+```
+
+```{r}
+#| fig-cap: "Resource usage against capacity, P50 line and P10 to P90 band."
+#| fig-height: 6
+plot(risk, type = "resources")
+```
+
+## Risks That Flow Through Resources
+
+The risk register treats every risk as independent and aims it at specific activities. Real risks don't behave that way. A regional construction boom tightens the labor market *and* the supply chain at the same time, and a labor shortage doesn't hit one activity: it slows every activity that uses the affected crews.
+
+The probabilistic networks of @sec-network capture the first part: risks that share a root cause. `project_schedule()` connects such a network to the schedule through `risk_effects`, which link network nodes to **resources**. A productivity effect slows every activity assigned to the resource; a rate effect raises its cost.
+
+```{r}
+boom_net <- prob_net(
+  data.frame(id = c("Boom", "Labor", "Supply")),
+  data.frame(source = c("Boom", "Boom"), target = c("Labor", "Supply")),
+  list(
+    Boom = list(type = "discrete", values = c(1, 0), probs = c(0.4, 0.6)),
+    Labor = list(type = "conditional", condition = "Boom",
+      true_dist  = list(type = "discrete", values = c(1, 0), probs = c(0.8, 0.2)),
+      false_dist = list(type = "discrete", values = c(1, 0), probs = c(0.15, 0.85))),
+    Supply = list(type = "conditional", condition = "Boom",
+      true_dist  = list(type = "discrete", values = c(1, 0), probs = c(0.7, 0.3)),
+      false_dist = list(type = "discrete", values = c(1, 0), probs = c(0.1, 0.9)))
+  )
+)
+
+boom_effects <- list(
+  # A labor shortage slows both crews that MEP and fit-out depend on.
+  list(node = "Labor", resources = c("MEP subcontractor", "Finishing crew"),
+       effect = "productivity",
+       magnitude = list(type = "pert", a = 0.7, b = 0.85, c = 0.95)),
+  # Supply-chain pressure raises concrete and steel costs.
+  list(node = "Supply", resources = c("Concrete crew", "Steel erector"),
+       effect = "rate",
+       magnitude = list(type = "uniform", min = 1.1, max = 1.3))
+)
+
+proj_boom <- project_schedule(
+  activities         = bp$schedule_activities,
+  links              = bp$schedule_links,
+  duration_dists     = bp$duration_dists,
+  resources          = bp$schedule_resources,
+  productivity_dists = bp$productivity_dists,
+  assignments        = bp$schedule_assignments,
+  risks              = bp$risk_register,
+  cor_mat            = bp$cor_mat[1:5, 1:5],
+  start_date         = bp$start_date,
+  time_unit          = "weeks",
+  risk_net           = boom_net,
+  risk_effects       = boom_effects
+)
+
+risk_boom <- sra(proj_boom, num_sims = 10000, level = TRUE)
+rbind(register_only = risk$percentiles, with_network = risk_boom$percentiles)
+```
+
+One labor-shortage node now slows three activities at once (the envelope, MEP and fit-out, through the two crews), and because labor and supply share a root cause, bad news arrives in clusters. The node statistics show how each part of the network moves the finish and cost:
+
+```{r}
+risk_boom$risk_net_stats
+```
+
+::: {.callout-warning}
+## Seeing Is Not Doing (Again)
+
+`Supply` only raises cost rates, yet it shows a finish impact. That's not a bug: `finish_impact` compares iterations where a node fired with those where it didn't, so `Supply` borrows some of `Labor`'s delay through their shared parent, `Boom`. This is the *seeing* comparison from @sec-network. Before deciding which risk to mitigate, ask what happens when you *intervene* on it, which is a different question.
+:::
+
+## The Core Functions
+
+| Function | Purpose |
+|----------|---------|
+| `project_schedule()` | Validates and assembles activities, links, distributions, resources, assignments, risks and risk networks |
+| `cpm()` | Deterministic critical path schedule, optionally resource-leveled |
+| `sra()` | Monte Carlo schedule risk analysis: reruns CPM in every iteration |
+| `plot()` | Network, Gantt, finish, CDF, tornado, cost and resource views of all three |
+
+## Summary
+
+::: {.callout-tip icon=false}
+## Key Takeaways
+
+- Summing task durations ignores network logic. **CPM** schedules the network with a forward and a backward pass; zero-float activities form the critical path.
+- **Resource leveling** respects capacity. A single shared resource can add weeks to a plan that looks fine on paper.
+- **Merge bias** makes networks finish later than their deterministic plan, even with symmetric estimates, so plans typically sit at a low percentile.
+- **Cruciality** (criticality × sensitivity) shows which activities actually move the finish; criticality alone can point at activities that never vary.
+- Connecting a **risk network** to resources lets one risk slow every task that uses a crew, and lets risks with a shared cause strike together.
+:::
+
+## Exercises
+
+1. **Float in practice.** MEP (T5) has one week of float in the deterministic plan. Increase its duration by 2 weeks in `bp$schedule_activities` and rerun `cpm()`. What happens to the project finish and the critical path? Why?
+
+2. **Buy a second crane.** ★ Change the tower crane's capacity from 1 to 2 and rerun the leveled `sra()`. How much does the P80 finish improve? Weigh that against the crane's cost (its rate is in `bp$schedule_resources`).
+
+3. **Remove the overlap.** Replace the SS+8 and FF+2 links between the frame (T3) and the envelope (T4) with a single finish-to-start link. How does the deterministic finish change? What does that tell you about the value of overlapping work?
+
+4. **Critical but not crucial.** Explain why fit-out (T6) can have a criticality index of 1 but a low cruciality index. What would you need to change in the model for T6 to become crucial?
+
+5. **Mitigate the shortage.** ★ Halve the probability that `Labor` occurs when `Boom` is active (from 0.8 to 0.4) and rerun the analysis with the risk network. How much does the P80 finish move? Does `Supply`'s finish impact change, even though you didn't touch it?

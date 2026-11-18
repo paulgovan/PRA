@@ -117,6 +117,25 @@ list(type = "aggregate",    nodes = c("F", "G", "H"))
 
 ---
 
+## Schedule Risk Analysis
+
+| Function | Key Arguments | Returns | Chapter |
+|----------|--------------|---------|---------|
+| `project_schedule(activities*, links, duration_dists, resources, productivity_dists, assignments, risks, cor_mat, start_date, time_unit, risk_net, risk_effects)` | Activities (id, duration, fixed_cost); links (source, target, type, lag); resources (id, capacity, rate); assignments (activity, resource, units, work); risk register; optional `prob_net` with resource effects | S3 object of class `pra_schedule` | @sec-schedule |
+| `cpm(x*, level)` | Schedule; `level = TRUE` to respect resource capacity | S3 object of class `cpm` with `$activities` (ES, EF, LS, LF, floats, critical), `$finish`, `$critical_path`, `$cost` | @sec-schedule |
+| `sra(x*, num_sims, level, keep_samples, grid_n)` | Schedule; iterations (default 10 000); leveling flag | S3 object of class `sra` with `$total_distribution`, `$percentiles`, `$activity_stats`, `$risk_stats`, `$risk_net_stats`, `$cost_curve`, `$resource_profile` | @sec-schedule |
+| `plot(x, type)` | `type = "finish"`, `"cdf"`, `"gantt"`, `"tornado"`, `"cost"`, `"resources"` or `"network"` for `sra`; `"gantt"` or `"network"` for `cpm` | Base-graphics plot | @sec-schedule |
+
+**Risk effect format** (used in `risk_effects`):
+
+```r
+list(node = "Labor", resources = c("MEP subcontractor", "Finishing crew"),
+     effect = "productivity",                        # or "rate"
+     magnitude = list(type = "pert", a = 0.7, b = 0.85, c = 0.95))
+```
+
+---
+
 ## Agentic Framework
 
 | Function | Key Arguments | Returns | Chapter |

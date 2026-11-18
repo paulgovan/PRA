@@ -427,20 +427,26 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./ch-schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hurry Up and Wait: Critical Path and Schedule Risk Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-quarto.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Write Once, Trust Always: Reproducible Risk Analysis with Quarto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Write Once, Trust Always: Reproducible Risk Analysis with Quarto</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch-agent.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -524,6 +530,12 @@ window.Quarto = {
   <li><a href="#multiple-independent-root-causes-prior" id="toc-multiple-independent-root-causes-prior" class="nav-link" data-scroll-target="#multiple-independent-root-causes-prior"><span class="header-section-number">B.4.2</span> Multiple Independent Root Causes (Prior)</a></li>
   <li><a href="#posterior-update-observed-causes" id="toc-posterior-update-observed-causes" class="nav-link" data-scroll-target="#posterior-update-observed-causes"><span class="header-section-number">B.4.3</span> Posterior Update (Observed Causes)</a></li>
   <li><a href="#why-observing-a-cause-increases-risk-probability" id="toc-why-observing-a-cause-increases-risk-probability" class="nav-link" data-scroll-target="#why-observing-a-cause-increases-risk-probability"><span class="header-section-number">B.4.4</span> Why Observing a Cause Increases Risk Probability</a></li>
+  </ul></li>
+  <li><a href="#sec-math-cpm" id="toc-sec-math-cpm" class="nav-link" data-scroll-target="#sec-math-cpm"><span class="header-section-number">B.5</span> 5. Critical Path and Criticality Measures</a>
+  <ul class="collapse">
+  <li><a href="#forward-and-backward-passes" id="toc-forward-and-backward-passes" class="nav-link" data-scroll-target="#forward-and-backward-passes"><span class="header-section-number">B.5.1</span> Forward and Backward Passes</a></li>
+  <li><a href="#criticality-measures" id="toc-criticality-measures" class="nav-link" data-scroll-target="#criticality-measures"><span class="header-section-number">B.5.2</span> Criticality Measures</a></li>
+  <li><a href="#why-merge-bias-happens" id="toc-why-merge-bias-happens" class="nav-link" data-scroll-target="#why-merge-bias-happens"><span class="header-section-number">B.5.3</span> Why Merge Bias Happens</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/paulgovan/PRA/edit/main/appendix-math.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulgovan/PRA/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -680,6 +692,51 @@ window.Quarto = {
 <section id="why-observing-a-cause-increases-risk-probability" class="level3" data-number="B.4.4">
 <h3 data-number="B.4.4" class="anchored" data-anchor-id="why-observing-a-cause-increases-risk-probability"><span class="header-section-number">B.4.4</span> Why Observing a Cause Increases Risk Probability</h3>
 <p>Even without directly observing the risk event, observing a root cause raises <span class="math inline">\(P(\text{Risk})\)</span> because the cause is more likely to be observed when the risk is present than when it is absent, that is, <span class="math inline">\(P(C|H) &gt; P(C|\neg H)\)</span>. This is the key asymmetry that makes Bayesian updating useful: observable precursors carry information about latent risk states.</p>
+<hr>
+</section>
+</section>
+<section id="sec-math-cpm" class="level2" data-number="B.5">
+<h2 data-number="B.5" class="anchored" data-anchor-id="sec-math-cpm"><span class="header-section-number">B.5</span> 5. Critical Path and Criticality Measures</h2>
+<p>These are the formulas behind <code>cpm()</code> and <code>sra()</code> in <a href="ch-schedule.html" class="quarto-xref"><span>Chapter 9</span></a>.</p>
+<section id="forward-and-backward-passes" class="level3" data-number="B.5.1">
+<h3 data-number="B.5.1" class="anchored" data-anchor-id="forward-and-backward-passes"><span class="header-section-number">B.5.1</span> Forward and Backward Passes</h3>
+<p>Let <span class="math inline">\(d_j\)</span> be the duration of activity <span class="math inline">\(j\)</span> and <span class="math inline">\(\ell\)</span> the lag on a link from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span>. The forward pass visits activities in dependency order and sets</p>
+<p><span class="math display">\[
+ES_j = \max\Big(0,\; \max_{i \to j} c_{ij}\Big), \qquad EF_j = ES_j + d_j,
+\]</span></p>
+<p>where each incoming link contributes</p>
+<p><span class="math display">\[
+c_{ij} =
+\begin{cases}
+EF_i + \ell &amp; \text{FS} \\
+ES_i + \ell &amp; \text{SS} \\
+EF_i + \ell - d_j &amp; \text{FF} \\
+ES_i + \ell - d_j &amp; \text{SF.}
+\end{cases}
+\]</span></p>
+<p>The project finish is <span class="math inline">\(T = \max_j EF_j\)</span>. The backward pass mirrors this in reverse order, starting from <span class="math inline">\(LF_j = T\)</span>:</p>
+<p><span class="math display">\[
+LF_i = \min\Big(T,\; \min_{i \to j} c'_{ij}\Big), \qquad LS_i = LF_i - d_i,
+\]</span></p>
+<p>with <span class="math inline">\(c'_{ij} = LS_j - \ell\)</span> (FS), <span class="math inline">\(LS_j - \ell + d_i\)</span> (SS), <span class="math inline">\(LF_j - \ell\)</span> (FF) or <span class="math inline">\(LF_j - \ell + d_i\)</span> (SF). Total float is <span class="math inline">\(TF_j = LS_j - ES_j\)</span>; activity <span class="math inline">\(j\)</span> is critical when <span class="math inline">\(TF_j = 0\)</span>.</p>
+</section>
+<section id="criticality-measures" class="level3" data-number="B.5.2">
+<h3 data-number="B.5.2" class="anchored" data-anchor-id="criticality-measures"><span class="header-section-number">B.5.2</span> Criticality Measures</h3>
+<p>Over <span class="math inline">\(N\)</span> Monte Carlo iterations with sampled durations <span class="math inline">\(d_j^{(k)}\)</span> and finishes <span class="math inline">\(T^{(k)}\)</span>:</p>
+<p><span class="math display">\[
+\text{CI}_j = \frac{1}{N} \sum_{k=1}^{N} \mathbb{1}\big[j \text{ critical in iteration } k\big], \qquad
+\text{CRI}_j = \text{CI}_j \cdot \rho_s\big(d_j, T\big), \qquad
+\text{SSI}_j = \text{CI}_j \cdot \frac{\sigma(d_j)}{\sigma(T)},
+\]</span></p>
+<p>where <span class="math inline">\(\rho_s\)</span> is Spearman’s rank correlation. Under resource leveling, “critical” means on the driving path traced back from the finish through binding links and resource hand-offs, because float is no longer defined.</p>
+</section>
+<section id="why-merge-bias-happens" class="level3" data-number="B.5.3">
+<h3 data-number="B.5.3" class="anchored" data-anchor-id="why-merge-bias-happens"><span class="header-section-number">B.5.3</span> Why Merge Bias Happens</h3>
+<p>If two independent paths with finishes <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> merge, the project finishes at <span class="math inline">\(\max(X, Y)\)</span>, and</p>
+<p><span class="math display">\[
+P\big(\max(X, Y) \le t\big) = P(X \le t)\,P(Y \le t).
+\]</span></p>
+<p>Two paths that each have a 50% chance of finishing by <span class="math inline">\(t\)</span> give the merged project only a 25% chance. Every additional merging path multiplies in another factor below one, so the deterministic plan slides down the finish distribution.</p>
 
 
 <!-- -->
@@ -1344,7 +1401,63 @@ window.Quarto = {
 <span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why Observing a Cause Increases Risk Probability</span></span>
 <span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a>Even without directly observing the risk event, observing a root cause raises $P(\text{Risk})$ because the cause is more likely to be observed when the risk is present than when it is absent, that is, $P(C|H) &gt; P(C|\neg H)$. This is the key asymmetry that makes Bayesian updating useful: observable precursors carry information about latent risk states.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a>Even without directly observing the risk event, observing a root cause raises $P(\text{Risk})$ because the cause is more likely to be observed when the risk is present than when it is absent, that is, $P(C|H) &gt; P(C|\neg H)$. This is the key asymmetry that makes Bayesian updating useful: observable precursors carry information about latent risk states.</span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a><span class="fu">## 5. Critical Path and Criticality Measures {#sec-math-cpm}</span></span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a>These are the formulas behind <span class="in">`cpm()`</span> and <span class="in">`sra()`</span> in @sec-schedule.</span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a><span class="fu">### Forward and Backward Passes</span></span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a>Let $d_j$ be the duration of activity $j$ and $\ell$ the lag on a link from $i$ to $j$. The forward pass visits activities in dependency order and sets</span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a>ES_j = \max\Big(0,\; \max_{i \to j} c_{ij}\Big), \qquad EF_j = ES_j + d_j,</span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a>where each incoming link contributes</span>
+<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a>c_{ij} =</span>
+<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a>\begin{cases}</span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a>EF_i + \ell &amp; \text{FS} <span class="sc">\\</span></span>
+<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a>ES_i + \ell &amp; \text{SS} <span class="sc">\\</span></span>
+<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a>EF_i + \ell - d_j &amp; \text{FF} <span class="sc">\\</span></span>
+<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a>ES_i + \ell - d_j &amp; \text{SF.}</span>
+<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a>\end{cases}</span>
+<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a>The project finish is $T = \max_j EF_j$. The backward pass mirrors this in reverse order, starting from $LF_j = T$:</span>
+<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a>LF_i = \min\Big(T,\; \min_{i \to j} c'_{ij}\Big), \qquad LS_i = LF_i - d_i,</span>
+<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a>with $c'_{ij} = LS_j - \ell$ (FS), $LS_j - \ell + d_i$ (SS), $LF_j - \ell$ (FF) or $LF_j - \ell + d_i$ (SF). Total float is $TF_j = LS_j - ES_j$; activity $j$ is critical when $TF_j = 0$.</span>
+<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a><span class="fu">### Criticality Measures</span></span>
+<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a>Over $N$ Monte Carlo iterations with sampled durations $d_j^{(k)}$ and finishes $T^{(k)}$:</span>
+<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a>\text{CI}_j = \frac{1}{N} \sum_{k=1}^{N} \mathbb{1}\big<span class="co">[</span><span class="ot">j \text{ critical in iteration } k\big</span><span class="co">]</span>, \qquad</span>
+<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a>\text{CRI}_j = \text{CI}_j \cdot \rho_s\big(d_j, T\big), \qquad</span>
+<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a>\text{SSI}_j = \text{CI}_j \cdot \frac{\sigma(d_j)}{\sigma(T)},</span>
+<span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a>where $\rho_s$ is Spearman's rank correlation. Under resource leveling, "critical" means on the driving path traced back from the finish through binding links and resource hand-offs, because float is no longer defined.</span>
+<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why Merge Bias Happens</span></span>
+<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a>If two independent paths with finishes $X$ and $Y$ merge, the project finishes at $\max(X, Y)$, and</span>
+<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a>P\big(\max(X, Y) \le t\big) = P(X \le t)\,P(Y \le t).</span>
+<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a>Two paths that each have a 50% chance of finishing by $t$ give the merged project only a 25% chance. Every additional merging path multiplies in another factor below one, so the deterministic plan slides down the finish distribution.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
