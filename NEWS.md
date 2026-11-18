@@ -15,6 +15,16 @@
   schedule sensitivity indices per activity, risk-event rankings, a cost
   S-curve band and resource-usage bands. `contingency()` works directly on its
   result.
+- **Risk networks feed the schedule through resources.** `project_schedule()`
+  accepts a `risk_net` (a `prob_net()` of root causes and risk events) and
+  `risk_effects` that link its nodes to resources. `sra()` samples the network
+  jointly in every iteration, so risks sharing a cause occur together, and
+  each effect scales the productivity or cost rate of the resources it names.
+  Every activity assigned to an affected resource slows down, so one risk
+  reaches many tasks. Effect magnitudes are a distribution or the sampled
+  value of a severity node. `sra()` reports per-node statistics in
+  `risk_net_stats`. Adding a network leaves earlier random draws unchanged
+  for a given seed.
 - New plot views: network diagrams with the critical path or criticality
   shading, Gantt charts with float or P10-P90 finish ranges, the finish
   histogram and cumulative probability curve, tornado charts by cruciality,

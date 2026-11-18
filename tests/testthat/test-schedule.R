@@ -266,3 +266,81 @@ test_that("print and summary describe the schedule (G5.3)", {
   expect_true(is.finite(s$deterministic_finish))
   expect_output(expect_invisible(print(s)), "Deterministic finish")
 })
+
+# ---- Risk networks feeding resource effects ----
+
+net_args <- function() {
+  args <- sched_args()
+  args$risk_net <- prob_net(
+    data.frame(id = c("Cause", "Shortage")),
+    data.frame(source = "Cause", target = "Shortage"),
+    list(
+      Cause = list(type = "discrete", values = c(1, 0), probs = c(0.3, 0.7)),
+      Shortage = list(
+        type = "conditional", condition = "Cause",
+        true_dist = list(type = "discrete", values = c(1, 0), probs = c(0.9, 0.1)),
+        false_dist = list(type = "discrete", values = c(1, 0), probs = c(0.1, 0.9))
+      )
+    )
+  )
+  args$risk_effects <- list(
+    list(node = "Shortage", resources = c("crew", "crane"), effect = "productivity",
+         magnitude = list(type = "triangular", a = 0.6, b = 0.8, c = 0.9)),
+    list(node = "Cause", resources = "crew", effect = "rate",
+         magnitude = list(type = "uniform", min = 1, max = 1.5))
+  )
+  args
+}
+
+expect_net_error <- function(modify, msg) {
+  args <- modify(net_args())
+  expect_error(do.call(project_schedule, args), msg, fixed = TRUE)
+}
+
+test_that("a risk network and its resource effects are stored", {
+  p <- do.call(project_schedule, net_args())
+  expect_s3_class(p$risk_net, "prob_net")
+  expect_length(p$risk_effects, 2)
+  expect_equal(p$risk_effects[[1]]$res_idx, c(1, 2))
+  expect_equal(p$risk_effects[[1]]$node_idx, 2)
+  expect_output(print(p), "Risk network: 2 nodes, 2 resource effects")
+  s <- summary(p)
+  expect_equal(s$num_risk_net_nodes, 2)
+  expect_equal(s$num_risk_effects, 2)
+  expect_output(print(s), "Risk network: 2 nodes, 2 resource effects")
+  # A network with no effects is allowed.
+  args <- net_args()
+  args$risk_effects <- NULL
+  expect_length(do.call(project_schedule, args)$risk_effects, 0)
+})
+
+test_that("risk networks and effects are validated (G5.2b)", {
+  expect_net_error(function(a) { a$risk_net <- list(); a }, "risk_net must be a prob_net object created by prob_net()")
+  expect_net_error(function(a) {
+    a$risk_net <- prob_net(data.frame(id = "X"), data.frame(source = character(0), target = character(0)))
+    a$risk_effects <- NULL
+    a
+  }, "risk_net must give every node a distribution. Missing: X")
+  expect_net_error(function(a) { a$risk_net <- NULL; a }, "risk_effects requires risk_net")
+  expect_net_error(function(a) { a$risk_effects <- "x"; a }, "risk_effects must be a list of effect lists or NULL")
+  expect_net_error(function(a) { a$risk_effects <- data.frame(node = "Cause"); a }, "risk_effects must be a list of effect lists or NULL")
+  expect_net_error(function(a) { a$risk_effects[[1]] <- "x"; a }, "risk_effects[[1]] must be a list")
+  expect_net_error(function(a) { a$risk_effects[[1]]$node <- 3; a }, "risk_effects[[1]] node must be a single string")
+  expect_net_error(function(a) { a$risk_effects[[1]]$node <- "Z"; a }, "risk_effects[[1]] node must be a risk_net node. Unknown: Z")
+  expect_net_error(function(a) { a$risk_effects[[1]]$resources <- character(0); a }, "risk_effects[[1]] must name at least one resource")
+  expect_net_error(function(a) { a$risk_effects[[1]]$resources <- "robot"; a }, "risk_effects[[1]] resources must be resource ids. Unknown: robot")
+  expect_net_error(function(a) { a$risk_effects[[1]]$effect <- "capacity"; a }, "risk_effects[[1]] effect must be 'productivity' or 'rate'")
+  expect_net_error(function(a) { a$risk_effects[[1]]$magnitude <- NULL; a }, "risk_effects[[1]] must have a 'magnitude'")
+  expect_net_error(function(a) { a$risk_effects[[1]]$magnitude <- "value"; a }, "risk_effects[[1]] magnitude must be a distribution or the string 'node'")
+  expect_net_error(function(a) { a$risk_effects[[1]]$magnitude$c <- 0.1; a }, "risk_effects[[1]] magnitude must satisfy a <= b <= c")
+  expect_net_error(function(a) {
+    a$risk_effects[[1]]$magnitude <- list(type = "normal", mean = 0.8, sd = 0.1)
+    a
+  }, "risk_effects[[1]] magnitude must use a bounded type (triangular, uniform or pert)")
+  expect_net_error(function(a) { a$risk_effects[[1]]$magnitude$a <- 0; a }, "risk_effects[[1]] magnitude must have a positive minimum for a productivity effect")
+  expect_net_error(function(a) { a$risk_effects[[2]]$magnitude$min <- -1; a }, "risk_effects[[2]] magnitude must have a non-negative minimum for a rate effect")
+  # A zero rate multiplier is allowed.
+  args <- net_args()
+  args$risk_effects[[2]]$magnitude$min <- 0
+  expect_s3_class(do.call(project_schedule, args), "pra_schedule")
+})
