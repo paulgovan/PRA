@@ -6,8 +6,48 @@ safe_spearman <- function(a, b) {
 }
 
 
+# Internal: mean of `v` where `o` is TRUE minus its mean where `o` is FALSE;
+# NA when `o` is constant.
+diff_mean <- function(v, o) {
+  if (all(o) || !any(o)) return(NA_real_)
+  mean(v[o]) - mean(v[!o])
+}
+
+
+# Internal: per-node statistics of a sampled risk network against the
+# simulated finish and cost. Nodes whose draws are all 0 or 1 are treated as
+# events; any other node as a continuous severity.
+sra_net_stats <- function(net, finish, cost) {
+  rows <- lapply(seq_along(net), function(k) {
+    v <- net[[k]]
+    event <- all(v %in% c(0, 1))
+    data.frame(
+      id = names(net)[k],
+      kind = if (event) "event" else "continuous",
+      occurrence = if (event) mean(v == 1) else NA_real_,
+      mean = mean(v),
+      finish_impact = if (event) diff_mean(finish, v == 1) else NA_real_,
+      cost_impact = if (event) diff_mean(cost, v == 1) else NA_real_,
+      finish_sensitivity = safe_spearman(v, finish),
+      cost_sensitivity = safe_spearman(v, cost),
+      stringsAsFactors = FALSE
+    )
+  })
+  out <- do.call(rbind, rows)
+  out$rank <- rank(-ifelse(is.na(out$finish_impact), -Inf, out$finish_impact),
+                   ties.method = "first")
+  out
+}
+
+
 # Internal: sample an iterations x activities duration matrix for a schedule,
-# together with the per-iteration risk occurrences and risk costs.
+# together with the per-iteration risk occurrences, risk costs, risk-network
+# draws and resource multipliers.
+#
+# Random numbers are consumed in a fixed order (duration distributions,
+# baseline productivity, the risk register, then the risk network and its
+# effects), so adding a risk network leaves every earlier draw unchanged for a
+# given seed.
 sra_sample <- function(x, num_sims) {
   a <- x$activities
   n <- nrow(a)
@@ -29,40 +69,97 @@ sra_sample <- function(x, num_sims) {
     }
   }
 
-  # Resource-driven durations from work, units and sampled productivity.
+  # Baseline productivity of each resource.
   nr <- nrow(x$resources)
   P <- matrix(1, m, nr)
   for (nm in names(x$productivity_dists)) {
     r <- match(nm, x$resources$id)
     P[, r] <- pra_qdist(x$productivity_dists[[nm]], stats::runif(m))
   }
-  for (j in which(a$driver == "resource")) {
-    d <- numeric(m)
-    for (r in which(!is.na(x$work[j, ]))) {
-      d <- pmax(d, x$work[j, r] / (x$units[j, r] * P[, r]))
-    }
-    D[, j] <- d
-  }
 
   # Discrete risk events: one occurrence draw and one impact draw per risk per
-  # iteration, applied to every activity the risk affects.
+  # iteration. Time impacts are added after productivity effects below.
   K <- length(x$risks)
   occ <- matrix(FALSE, m, K)
   rcost <- matrix(0, m, K)
+  added <- matrix(0, m, n)
   for (k in seq_len(K)) {
     rk <- x$risks[[k]]
     occ[, k] <- stats::runif(m) < rk$prob
     if (!is.null(rk$impact)) {
       imp <- occ[, k] * pra_qdist(rk$impact, stats::runif(m))
-      for (j in rk$act_idx) D[, j] <- D[, j] + imp
+      for (j in rk$act_idx) added[, j] <- added[, j] + imp
     }
     if (!is.null(rk$cost_impact)) {
       rcost[, k] <- occ[, k] * pra_qdist(rk$cost_impact, stats::runif(m))
     }
   }
 
+  # Risk network: sample the nodes jointly, then turn each effect into a
+  # per-iteration multiplier on its resources' productivity (Q) or rate (Rm).
+  Q <- matrix(1, m, nr)
+  Rm <- matrix(1, m, nr)
+  net <- NULL
+  if (!is.null(x$risk_net)) {
+    net <- prob_net_sim(x$risk_net, num_samples = m)
+    names(net) <- as.character(x$risk_net$nodes$id)
+    for (k in seq_along(x$risk_effects)) {
+      e <- x$risk_effects[[k]]
+      v <- net[[e$node_idx]]
+      if (identical(e$magnitude, "node")) {
+        mult <- v
+        if (anyNA(mult)) {
+          stop(paste0("risk_effects[[", k, "]] node '", e$node, "' produced NA values"))
+        }
+        if (e$effect == "productivity" && any(mult <= 0)) {
+          stop(paste0(
+            "risk_effects[[", k, "]] uses node '", e$node, "' as a productivity ",
+            "multiplier, but it produced non-positive values"
+          ))
+        }
+        if (e$effect == "rate" && any(mult < 0)) {
+          stop(paste0(
+            "risk_effects[[", k, "]] uses node '", e$node, "' as a rate ",
+            "multiplier, but it produced negative values"
+          ))
+        }
+      } else {
+        draw <- pra_qdist(e$magnitude, stats::runif(m))
+        mult <- ifelse(!is.na(v) & v != 0, draw, 1)
+      }
+      for (r in e$res_idx) {
+        if (e$effect == "productivity") {
+          Q[, r] <- Q[, r] * mult
+        } else {
+          Rm[, r] <- Rm[, r] * mult
+        }
+      }
+    }
+  }
+
+  # Resource-driven durations from work, units, baseline productivity and risk
+  # multipliers.
+  for (j in which(a$driver == "resource")) {
+    d <- numeric(m)
+    for (r in which(!is.na(x$work[j, ]))) {
+      d <- pmax(d, x$work[j, r] / (x$units[j, r] * P[, r] * Q[, r]))
+    }
+    D[, j] <- d
+  }
+  # Every other activity is slowed by the most affected of its resources.
+  if (!is.null(x$risk_net) && nr > 0) {
+    for (j in which(a$driver != "resource")) {
+      used <- which(x$units[j, ] > 0)
+      if (length(used) == 0) next
+      slow <- Q[, used[1]]
+      for (r in used[-1]) slow <- pmin(slow, Q[, r])
+      D[, j] <- D[, j] / slow
+    }
+  }
+
+  D <- D + added
   D[D < 0] <- 0
-  list(D = D, occ = occ, rcost = rcost)
+  list(D = D, occ = occ, rcost = rcost, net = net, Q = Q, Rm = Rm)
 }
 
 
@@ -96,6 +193,15 @@ sra_sample <- function(x, num_sims) {
 #' **Risk measures.** For each risk, the mean finish (and cost) in iterations
 #' where it occurred minus the mean in iterations where it did not; `NA` when
 #' the risk always or never occurred.
+#'
+#' **Risk networks.** When the schedule has a `risk_net` (see
+#' [project_schedule()]), its nodes are sampled jointly with [prob_net_sim()]
+#' in every iteration, so risks that share a root cause occur together, and
+#' their `risk_effects` scale the productivity and cost rates of the resources
+#' they name. Because node statistics compare iterations where an event did and
+#' did not occur, a root cause's `finish_impact` includes the effects of every
+#' risk it drives, and a risk correlated with others through a shared cause is
+#' credited with part of their effects too.
 #'
 #' **Merge bias.** Where paths converge, the finish is driven by the longest of
 #' several uncertain paths, so the mean simulated finish usually exceeds the
@@ -141,6 +247,13 @@ sra_sample <- function(x, num_sims) {
 #'   \item{risk_stats}{Data frame of per-risk results: probability,
 #'     simulated occurrence rate, finish impact, cost impact and rank by
 #'     finish impact. Zero rows when there are no risks.}
+#'   \item{risk_net_stats}{When the schedule has a `risk_net`, a data frame
+#'     with one row per network node: `kind` (`"event"` for nodes whose draws
+#'     are all 0 or 1, otherwise `"continuous"`), `occurrence` and `mean` of
+#'     its draws, `finish_impact` and `cost_impact` (mean when the event
+#'     occurred minus mean when it did not; events only), `finish_sensitivity`
+#'     and `cost_sensitivity` (Spearman correlation of the node with finish and
+#'     cost) and `rank` by finish impact. `NULL` without a risk network.}
 #'   \item{time_grid}{Time points used for the curves below.}
 #'   \item{cost_curve}{Data frame of cumulative cost over `time_grid`:
 #'     `mean`, `p10`, `p50`, `p90`.}
@@ -148,8 +261,10 @@ sra_sample <- function(x, num_sims) {
 #'     usage over `time_grid` (`mean`, `p10`, `p50`, `p90`) with a `capacity`
 #'     attribute.}
 #'   \item{samples}{When `keep_samples = TRUE`, a list of iteration x activity
-#'     matrices `duration`, `start`, `finish`, `critical`, and the iteration x
-#'     risk matrix `risk_occurred`; otherwise `NULL`.}
+#'     matrices `duration`, `start`, `finish`, `critical`, the iteration x
+#'     risk matrix `risk_occurred`, the risk-network draws `risk_net` (a data
+#'     frame, or `NULL`), and the iteration x resource matrices
+#'     `productivity_multiplier` and `rate_multiplier`; otherwise `NULL`.}
 #'   \item{leveled, num_sims, project}{Settings and the input schedule.}
 #' }
 #' Objects of this class have [print.sra()], [summary.sra()] and [plot.sra()]
@@ -196,6 +311,35 @@ sra_sample <- function(x, num_sims) {
 #' res
 #' res$activity_stats[, c("id", "criticality", "cruciality")]
 #' contingency(res, phigh = 0.8, pbase = 0.5)
+#'
+#' # A supply-chain root cause drives a labor shortage that slows the crew on
+#' # both B and C, so one risk delays two activities through a resource.
+#' net <- prob_net(
+#'   data.frame(id = c("SupplyChain", "Shortage")),
+#'   data.frame(source = "SupplyChain", target = "Shortage"),
+#'   list(
+#'     SupplyChain = list(type = "discrete", values = c(1, 0), probs = c(0.3, 0.7)),
+#'     Shortage = list(
+#'       type = "conditional", condition = "SupplyChain",
+#'       true_dist = list(type = "discrete", values = c(1, 0), probs = c(0.8, 0.2)),
+#'       false_dist = list(type = "discrete", values = c(1, 0), probs = c(0.1, 0.9))
+#'     )
+#'   )
+#' )
+#' proj_net <- project_schedule(activities, links,
+#'   duration_dists = duration_dists,
+#'   resources = data.frame(id = "crew", rate = 500),
+#'   assignments = data.frame(activity = c("B", "C"), resource = "crew", units = 1),
+#'   risk_net = net,
+#'   risk_effects = list(
+#'     list(node = "Shortage", resources = "crew", effect = "productivity",
+#'          magnitude = list(type = "triangular", a = 0.6, b = 0.8, c = 0.9)),
+#'     list(node = "SupplyChain", resources = "crew", effect = "rate",
+#'          magnitude = list(type = "uniform", min = 1.1, max = 1.3))
+#'   )
+#' )
+#' res_net <- sra(proj_net, num_sims = 2000)
+#' res_net$risk_net_stats
 #' @export
 sra <- function(x, num_sims = 10000, level = FALSE, keep_samples = FALSE,
                 grid_n = 100) {
@@ -233,7 +377,10 @@ sra <- function(x, num_sims = 10000, level = FALSE, keep_samples = FALSE,
   crit <- run$critical
 
   # ---- Cost ----
-  A <- D * matrix(sched_cost_rate(x), num_sims, n, byrow = TRUE) +
+  # Per-iteration cost rate of each activity: assigned units times each
+  # resource's rate, scaled by that iteration's rate multipliers.
+  rate_it <- smp$Rm * matrix(x$resources$rate, num_sims, nrow(x$resources), byrow = TRUE)
+  A <- D * (rate_it %*% t(x$units)) +
     matrix(a$fixed_cost, num_sims, n, byrow = TRUE)
   for (k in seq_along(x$risks)) {
     idx <- x$risks[[k]]$act_idx
@@ -275,10 +422,6 @@ sra <- function(x, num_sims = 10000, level = FALSE, keep_samples = FALSE,
     stringsAsFactors = FALSE
   )
   if (K > 0) {
-    diff_mean <- function(v, o) {
-      if (all(o) || !any(o)) return(NA_real_)
-      mean(v[o]) - mean(v[!o])
-    }
     fi <- vapply(seq_len(K), function(k) diff_mean(finish, smp$occ[, k]), numeric(1))
     risk_stats <- data.frame(
       id = vapply(x$risks, `[[`, character(1), "id"),
@@ -301,6 +444,8 @@ sra <- function(x, num_sims = 10000, level = FALSE, keep_samples = FALSE,
     resource_profile[[x$resources$id[r]]] <- band
   }
 
+  risk_net_stats <- if (!is.null(smp$net)) sra_net_stats(smp$net, finish, cost)
+
   probs <- c(0.10, 0.50, 0.80, 0.90)
   result <- list(
     total_distribution = finish,
@@ -313,13 +458,15 @@ sra <- function(x, num_sims = 10000, level = FALSE, keep_samples = FALSE,
     prob_deterministic = mean(finish <= det$finish + sched_tol(det$finish)),
     activity_stats = activity_stats,
     risk_stats = risk_stats,
+    risk_net_stats = risk_net_stats,
     time_grid = grid,
     cost_curve = cost_curve,
     resource_profile = resource_profile,
     samples = if (keep_samples) {
       list(
         duration = D, start = run$ES, finish = run$EF, critical = crit,
-        risk_occurred = smp$occ
+        risk_occurred = smp$occ, risk_net = smp$net,
+        productivity_multiplier = smp$Q, rate_multiplier = smp$Rm
       )
     },
     leveled = level,
@@ -379,7 +526,8 @@ print.sra <- function(x, ...) {
 #'   distribution summaries (mean, standard deviation, coefficient of
 #'   variation and P5-P95 percentiles), the deterministic finish and cost and
 #'   the probability of meeting them, the activity table ordered by
-#'   cruciality, and the risk table ordered by rank.
+#'   cruciality, the risk table ordered by rank, and the risk-network node
+#'   table ordered by rank (`NULL` without a risk network).
 #' @examples
 #' proj <- project_schedule(
 #'   data.frame(id = c("A", "B"), duration = c(2, 3)),
@@ -414,6 +562,9 @@ summary.sra <- function(object, ...) {
     activities = act[ord, c("id", "mean_duration", "mean_finish", "finish_p90",
                             "criticality", "sensitivity", "cruciality", "ssi")],
     risks = object$risk_stats[order(object$risk_stats$rank), ],
+    risk_net = if (!is.null(object$risk_net_stats)) {
+      object$risk_net_stats[order(object$risk_net_stats$rank), ]
+    },
     time_unit = object$project$time_unit
   )
   class(result) <- "summary.sra"
@@ -465,6 +616,13 @@ print.summary.sra <- function(x, ...) {
     num <- vapply(rk, is.numeric, logical(1))
     rk[num] <- lapply(rk[num], signif, 4)
     print(rk, row.names = FALSE)
+  }
+  if (!is.null(x$risk_net)) {
+    cat("\nRisk network nodes (by finish impact)\n")
+    rn <- x$risk_net
+    num <- vapply(rn, is.numeric, logical(1))
+    rn[num] <- lapply(rn[num], signif, 4)
+    print(rn, row.names = FALSE)
   }
   invisible(x)
 }

@@ -16,7 +16,8 @@ An object of class \code{"summary.sra"}, a list with the finish and cost
 distribution summaries (mean, standard deviation, coefficient of
 variation and P5-P95 percentiles), the deterministic finish and cost and
 the probability of meeting them, the activity table ordered by
-cruciality, and the risk table ordered by rank.
+cruciality, the risk table ordered by rank, and the risk-network node
+table ordered by rank (\code{NULL} without a risk network).
 }
 \description{
 Summarize schedule risk analysis results.

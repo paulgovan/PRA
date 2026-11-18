@@ -37,6 +37,13 @@ cruciality and SSI.}
 \item{risk_stats}{Data frame of per-risk results: probability,
 simulated occurrence rate, finish impact, cost impact and rank by
 finish impact. Zero rows when there are no risks.}
+\item{risk_net_stats}{When the schedule has a \code{risk_net}, a data frame
+with one row per network node: \code{kind} (\code{"event"} for nodes whose draws
+are all 0 or 1, otherwise \code{"continuous"}), \code{occurrence} and \code{mean} of
+its draws, \code{finish_impact} and \code{cost_impact} (mean when the event
+occurred minus mean when it did not; events only), \code{finish_sensitivity}
+and \code{cost_sensitivity} (Spearman correlation of the node with finish and
+cost) and \code{rank} by finish impact. \code{NULL} without a risk network.}
 \item{time_grid}{Time points used for the curves below.}
 \item{cost_curve}{Data frame of cumulative cost over \code{time_grid}:
 \code{mean}, \code{p10}, \code{p50}, \code{p90}.}
@@ -44,8 +51,10 @@ finish impact. Zero rows when there are no risks.}
 usage over \code{time_grid} (\code{mean}, \code{p10}, \code{p50}, \code{p90}) with a \code{capacity}
 attribute.}
 \item{samples}{When \code{keep_samples = TRUE}, a list of iteration x activity
-matrices \code{duration}, \code{start}, \code{finish}, \code{critical}, and the iteration x
-risk matrix \code{risk_occurred}; otherwise \code{NULL}.}
+matrices \code{duration}, \code{start}, \code{finish}, \code{critical}, the iteration x
+risk matrix \code{risk_occurred}, the risk-network draws \code{risk_net} (a data
+frame, or \code{NULL}), and the iteration x resource matrices
+\code{productivity_multiplier} and \code{rate_multiplier}; otherwise \code{NULL}.}
 \item{leveled, num_sims, project}{Settings and the input schedule.}
 }
 Objects of this class have \code{\link[=print.sra]{print.sra()}}, \code{\link[=summary.sra]{summary.sra()}} and \code{\link[=plot.sra]{plot.sra()}}
@@ -82,6 +91,15 @@ never varies.
 \strong{Risk measures.} For each risk, the mean finish (and cost) in iterations
 where it occurred minus the mean in iterations where it did not; \code{NA} when
 the risk always or never occurred.
+
+\strong{Risk networks.} When the schedule has a \code{risk_net} (see
+\code{\link[=project_schedule]{project_schedule()}}), its nodes are sampled jointly with \code{\link[=prob_net_sim]{prob_net_sim()}}
+in every iteration, so risks that share a root cause occur together, and
+their \code{risk_effects} scale the productivity and cost rates of the resources
+they name. Because node statistics compare iterations where an event did and
+did not occur, a root cause's \code{finish_impact} includes the effects of every
+risk it drives, and a risk correlated with others through a shared cause is
+credited with part of their effects too.
 
 \strong{Merge bias.} Where paths converge, the finish is driven by the longest of
 several uncertain paths, so the mean simulated finish usually exceeds the
@@ -125,6 +143,35 @@ res <- sra(proj, num_sims = 2000)
 res
 res$activity_stats[, c("id", "criticality", "cruciality")]
 contingency(res, phigh = 0.8, pbase = 0.5)
+
+# A supply-chain root cause drives a labor shortage that slows the crew on
+# both B and C, so one risk delays two activities through a resource.
+net <- prob_net(
+  data.frame(id = c("SupplyChain", "Shortage")),
+  data.frame(source = "SupplyChain", target = "Shortage"),
+  list(
+    SupplyChain = list(type = "discrete", values = c(1, 0), probs = c(0.3, 0.7)),
+    Shortage = list(
+      type = "conditional", condition = "SupplyChain",
+      true_dist = list(type = "discrete", values = c(1, 0), probs = c(0.8, 0.2)),
+      false_dist = list(type = "discrete", values = c(1, 0), probs = c(0.1, 0.9))
+    )
+  )
+)
+proj_net <- project_schedule(activities, links,
+  duration_dists = duration_dists,
+  resources = data.frame(id = "crew", rate = 500),
+  assignments = data.frame(activity = c("B", "C"), resource = "crew", units = 1),
+  risk_net = net,
+  risk_effects = list(
+    list(node = "Shortage", resources = "crew", effect = "productivity",
+         magnitude = list(type = "triangular", a = 0.6, b = 0.8, c = 0.9)),
+    list(node = "SupplyChain", resources = "crew", effect = "rate",
+         magnitude = list(type = "uniform", min = 1.1, max = 1.3))
+  )
+)
+res_net <- sra(proj_net, num_sims = 2000)
+res_net$risk_net_stats
 }
 \references{
 Williams, Terry M. Criticality in stochastic networks. Journal of the

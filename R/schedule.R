@@ -94,6 +94,33 @@ dist_baseline <- function(dist) {
 #' risk occurs) and optionally `cost_impact` (a distribution of cost added when
 #' it occurs, shared equally among the affected activities for time-phasing).
 #'
+#' **Risk networks.** `risk_net` is a [prob_net()] of root causes and risk
+#' events, sampled jointly in every [sra()] iteration so that risks sharing a
+#' cause occur together. `risk_effects` connects its nodes to resources; one
+#' effect can name several resources, and every activity assigned to an
+#' affected resource feels it, so a single risk reaches many tasks. Each
+#' effect is a list with:
+#' * `node`: a node id in `risk_net`;
+#' * `resources`: the resource ids it affects;
+#' * `effect`: `"productivity"` (multiplies the resources' productivity, so
+#'   a value of 0.8 makes their work take 1 / 0.8 = 1.25 times longer) or
+#'   `"rate"` (multiplies their cost rate);
+#' * `magnitude`: either a distribution specification for the multiplier,
+#'   drawn once per iteration and applied whenever the node's sampled value is
+#'   non-zero (for a 0/1 risk node, when the risk occurs), or the string
+#'   `"node"`, which uses the node's own sampled value as the multiplier in
+#'   every iteration (for severity nodes).
+#'
+#' A productivity multiplier slows every activity assigned to the resource.
+#' Work-driven activities use it inside `work / (units * productivity)`; any
+#' other activity has its duration divided by the smallest multiplier among
+#' its assigned resources. Baseline `productivity_dists` still apply only to
+#' work-driven activities, since a duration distribution already includes
+#' ordinary productivity variation. Multipliers from several effects on one
+#' resource multiply together. Productivity multipliers must be positive and
+#' rate multipliers non-negative. Risk-network effects act for the whole
+#' project and are not applied to the deterministic baseline in [cpm()].
+#'
 #' **Distributions.** Distribution specifications use the same format as
 #' [mcs()]: a list with a `type` of `"normal"` (`mean`, `sd`), `"triangular"`
 #' (`a` = min, `b` = mode, `c` = max), `"uniform"` (`min`, `max`) or `"pert"`
@@ -123,6 +150,11 @@ dist_baseline <- function(dist) {
 #'   optional `work` (positive total work; `NA` for an assignment that does
 #'   not drive duration).
 #' @param risks Optional list of risk events; see Details.
+#' @param risk_net Optional [prob_net()] of root causes and risk events whose
+#'   effects reach the schedule through `risk_effects`. Every node must have a
+#'   distribution.
+#' @param risk_effects Optional list of effects linking `risk_net` nodes to
+#'   resources; see Details.
 #' @param cor_mat Optional correlation matrix among the activities in
 #'   `duration_dists`, in the order of `names(duration_dists)` or with
 #'   matching dimnames. Must be positive definite. Induced by a Gaussian
@@ -193,7 +225,8 @@ dist_baseline <- function(dist) {
 project_schedule <- function(activities, links = NULL, duration_dists = NULL,
                              resources = NULL, productivity_dists = NULL,
                              assignments = NULL, risks = NULL, cor_mat = NULL,
-                             start_date = NULL, time_unit = "periods") {
+                             start_date = NULL, time_unit = "periods",
+                             risk_net = NULL, risk_effects = NULL) {
   # ---- Activities ----
   if (!is.data.frame(activities) || nrow(activities) == 0) {
     stop("activities must be a non-empty data frame")
@@ -461,6 +494,82 @@ project_schedule <- function(activities, links = NULL, duration_dists = NULL,
     }
   }
 
+  # ---- Risk network and its effects on resources ----
+  effects_n <- list()
+  if (!is.null(risk_net)) {
+    if (!inherits(risk_net, "prob_net")) {
+      stop("risk_net must be a prob_net object created by prob_net()")
+    }
+    net_ids <- as.character(risk_net$nodes$id)
+    missing_dist <- setdiff(net_ids, names(risk_net$distributions))
+    if (length(missing_dist) > 0) {
+      stop(paste(
+        "risk_net must give every node a distribution. Missing:",
+        paste(missing_dist, collapse = ", ")
+      ))
+    }
+  }
+  if (!is.null(risk_effects)) {
+    if (is.null(risk_net)) {
+      stop("risk_effects requires risk_net")
+    }
+    if (!is.list(risk_effects) || is.data.frame(risk_effects)) {
+      stop("risk_effects must be a list of effect lists or NULL")
+    }
+    for (k in seq_along(risk_effects)) {
+      e <- risk_effects[[k]]
+      lbl <- paste0("risk_effects[[", k, "]]")
+      if (!is.list(e)) {
+        stop(paste(lbl, "must be a list"))
+      }
+      if (!is.character(e$node) || length(e$node) != 1 || is.na(e$node)) {
+        stop(paste(lbl, "node must be a single string"))
+      }
+      if (!e$node %in% net_ids) {
+        stop(paste0(lbl, " node must be a risk_net node. Unknown: ", e$node))
+      }
+      er <- e$resources
+      if (is.null(er) || length(er) == 0) {
+        stop(paste(lbl, "must name at least one resource"))
+      }
+      er <- as.character(er)
+      bad <- setdiff(er, rids)
+      if (anyNA(er) || length(bad) > 0) {
+        stop(paste(lbl, "resources must be resource ids. Unknown:", paste(bad, collapse = ", ")))
+      }
+      if (!is.character(e$effect) || length(e$effect) != 1 ||
+          !e$effect %in% c("productivity", "rate")) {
+        stop(paste(lbl, "effect must be 'productivity' or 'rate'"))
+      }
+      mag <- e$magnitude
+      if (is.null(mag)) {
+        stop(paste(lbl, "must have a 'magnitude'"))
+      }
+      if (is.character(mag)) {
+        if (!identical(mag, "node")) {
+          stop(paste(lbl, "magnitude must be a distribution or the string 'node'"))
+        }
+      } else {
+        what <- paste(lbl, "magnitude")
+        validate_dist_spec(mag, what)
+        if (identical(mag$type, "normal")) {
+          stop(paste(what, "must use a bounded type (triangular, uniform or pert)"))
+        }
+        lower <- if (mag$type == "uniform") mag$min else mag$a
+        if (e$effect == "productivity" && lower <= 0) {
+          stop(paste(what, "must have a positive minimum for a productivity effect"))
+        }
+        if (e$effect == "rate" && lower < 0) {
+          stop(paste(what, "must have a non-negative minimum for a rate effect"))
+        }
+      }
+      effects_n[[k]] <- list(
+        node = e$node, node_idx = match(e$node, net_ids), resources = er,
+        res_idx = match(er, rids), effect = e$effect, magnitude = mag
+      )
+    }
+  }
+
   # ---- Correlation ----
   if (!is.null(cor_mat)) {
     if (is.null(duration_dists)) {
@@ -507,6 +616,8 @@ project_schedule <- function(activities, links = NULL, duration_dists = NULL,
     units = units,
     work = work,
     risks = risks_n,
+    risk_net = risk_net,
+    risk_effects = effects_n,
     cor_mat = cor_mat,
     start_date = start_date,
     time_unit = time_unit
@@ -534,6 +645,10 @@ print.pra_schedule <- function(x, ...) {
   cat("Project Schedule\n")
   cat("Activities:", nrow(a), "  Links:", nrow(x$links),
       "  Resources:", nrow(x$resources), "  Risks:", length(x$risks), "\n")
+  if (!is.null(x$risk_net)) {
+    cat("Risk network:", nrow(x$risk_net$nodes), "nodes,",
+        length(x$risk_effects), "resource effects\n")
+  }
   cat("Time unit:", x$time_unit)
   if (!is.null(x$start_date)) cat("  Start:", format(x$start_date))
   cat("\n\n")
@@ -580,6 +695,8 @@ summary.pra_schedule <- function(object, ...) {
     num_links = nrow(object$links),
     num_resources = nrow(object$resources),
     num_risks = length(object$risks),
+    num_risk_net_nodes = if (is.null(object$risk_net)) 0L else nrow(object$risk_net$nodes),
+    num_risk_effects = length(object$risk_effects),
     drivers = table(factor(a$driver, levels = c("fixed", "distribution", "resource"))),
     link_types = table(factor(object$links$type, levels = c("FS", "SS", "FF", "SF"))),
     start_activities = a$id[colSums(adj) == 0],
@@ -618,6 +735,10 @@ print.summary.pra_schedule <- function(x, ...) {
   cat("Resources:", x$num_resources, " (capacity-limited:",
       length(x$constrained_resources), ")\n")
   cat("Risk events:", x$num_risks, "\n")
+  if (x$num_risk_net_nodes > 0) {
+    cat("Risk network:", x$num_risk_net_nodes, "nodes,", x$num_risk_effects,
+        "resource effects\n")
+  }
   cat("Start activities:", paste(x$start_activities, collapse = ", "), "\n")
   cat("End activities:", paste(x$end_activities, collapse = ", "), "\n")
   cat("Deterministic finish:", format(x$deterministic_finish), x$time_unit, "\n")

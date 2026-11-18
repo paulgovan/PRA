@@ -14,7 +14,9 @@ project_schedule(
   risks = NULL,
   cor_mat = NULL,
   start_date = NULL,
-  time_unit = "periods"
+  time_unit = "periods",
+  risk_net = NULL,
+  risk_effects = NULL
 )
 }
 \arguments{
@@ -58,6 +60,13 @@ abstract \code{time_unit}s from zero; calendars are not modelled.}
 
 \item{time_unit}{Character label for the time unit, such as \code{"days"} or
 \code{"weeks"}. Used for labels only.}
+
+\item{risk_net}{Optional \code{\link[=prob_net]{prob_net()}} of root causes and risk events whose
+effects reach the schedule through \code{risk_effects}. Every node must have a
+distribution.}
+
+\item{risk_effects}{Optional list of effects linking \code{risk_net} nodes to
+resources; see Details.}
 }
 \value{
 An S3 object of class \code{"pra_schedule"}: a list holding the
@@ -103,6 +112,35 @@ occurring in an iteration), \code{activities} (ids it affects), \code{impact} (a
 distribution of time added to each affected activity's duration when the
 risk occurs) and optionally \code{cost_impact} (a distribution of cost added when
 it occurs, shared equally among the affected activities for time-phasing).
+
+\strong{Risk networks.} \code{risk_net} is a \code{\link[=prob_net]{prob_net()}} of root causes and risk
+events, sampled jointly in every \code{\link[=sra]{sra()}} iteration so that risks sharing a
+cause occur together. \code{risk_effects} connects its nodes to resources; one
+effect can name several resources, and every activity assigned to an
+affected resource feels it, so a single risk reaches many tasks. Each
+effect is a list with:
+\itemize{
+\item \code{node}: a node id in \code{risk_net};
+\item \code{resources}: the resource ids it affects;
+\item \code{effect}: \code{"productivity"} (multiplies the resources' productivity, so
+a value of 0.8 makes their work take 1 / 0.8 = 1.25 times longer) or
+\code{"rate"} (multiplies their cost rate);
+\item \code{magnitude}: either a distribution specification for the multiplier,
+drawn once per iteration and applied whenever the node's sampled value is
+non-zero (for a 0/1 risk node, when the risk occurs), or the string
+\code{"node"}, which uses the node's own sampled value as the multiplier in
+every iteration (for severity nodes).
+}
+
+A productivity multiplier slows every activity assigned to the resource.
+Work-driven activities use it inside \code{work / (units * productivity)}; any
+other activity has its duration divided by the smallest multiplier among
+its assigned resources. Baseline \code{productivity_dists} still apply only to
+work-driven activities, since a duration distribution already includes
+ordinary productivity variation. Multipliers from several effects on one
+resource multiply together. Productivity multipliers must be positive and
+rate multipliers non-negative. Risk-network effects act for the whole
+project and are not applied to the deterministic baseline in \code{\link[=cpm]{cpm()}}.
 
 \strong{Distributions.} Distribution specifications use the same format as
 \code{\link[=mcs]{mcs()}}: a list with a \code{type} of \code{"normal"} (\code{mean}, \code{sd}), \code{"triangular"}
