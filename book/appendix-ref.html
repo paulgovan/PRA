@@ -410,14 +410,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
+  <a href="./ch-schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hurry Up and Wait: Critical Path and Schedule Risk Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-network2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Portfolio Problem: When Risks Are Shared</span></span></a>
+  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -495,7 +495,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#learning-curves" id="toc-learning-curves" class="nav-link" data-scroll-target="#learning-curves"><span class="header-section-number">C.7</span> Learning Curves</a></li>
   <li><a href="#design-structure-matrices" id="toc-design-structure-matrices" class="nav-link" data-scroll-target="#design-structure-matrices"><span class="header-section-number">C.8</span> Design Structure Matrices</a></li>
   <li><a href="#probabilistic-networks" id="toc-probabilistic-networks" class="nav-link" data-scroll-target="#probabilistic-networks"><span class="header-section-number">C.9</span> Probabilistic Networks</a></li>
-  <li><a href="#agentic-framework" id="toc-agentic-framework" class="nav-link" data-scroll-target="#agentic-framework"><span class="header-section-number">C.10</span> Agentic Framework</a></li>
+  <li><a href="#schedule-risk-analysis" id="toc-schedule-risk-analysis" class="nav-link" data-scroll-target="#schedule-risk-analysis"><span class="header-section-number">C.10</span> Schedule Risk Analysis</a></li>
+  <li><a href="#agentic-framework" id="toc-agentic-framework" class="nav-link" data-scroll-target="#agentic-framework"><span class="header-section-number">C.11</span> Agentic Framework</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/paulgovan/PRA/edit/main/appendix-ref.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulgovan/PRA/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -842,13 +843,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><code>parent_dsm(S*)</code></td>
 <td>Resource-Task matrix S (resources × tasks, binary)</td>
 <td>S3 object of class <code>dsm</code> (<code>$type</code> is <code>"parent"</code>); <code>$matrix</code> is tasks × tasks</td>
-<td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a></td>
+<td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 10</span></a></td>
 </tr>
 <tr class="even">
 <td><code>grandparent_dsm(S*, R*)</code></td>
 <td>Resource-Task matrix S; Risk-Resource matrix R (risks × resources, binary)</td>
 <td>S3 object of class <code>dsm</code> (<code>$type</code> is <code>"grandparent"</code>); <code>$matrix</code> is tasks × tasks</td>
-<td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 9</span></a></td>
+<td><a href="ch-dsm.html" class="quarto-xref"><span>Chapter 10</span></a></td>
 </tr>
 </tbody>
 </table>
@@ -908,8 +909,58 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>,    <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <hr>
 </section>
-<section id="agentic-framework" class="level2" data-number="C.10">
-<h2 data-number="C.10" class="anchored" data-anchor-id="agentic-framework"><span class="header-section-number">C.10</span> Agentic Framework</h2>
+<section id="schedule-risk-analysis" class="level2" data-number="C.10">
+<h2 data-number="C.10" class="anchored" data-anchor-id="schedule-risk-analysis"><span class="header-section-number">C.10</span> Schedule Risk Analysis</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 33%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Key Arguments</th>
+<th>Returns</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>project_schedule(activities*, links, duration_dists, resources, productivity_dists, assignments, risks, cor_mat, start_date, time_unit, risk_net, risk_effects)</code></td>
+<td>Activities (id, duration, fixed_cost); links (source, target, type, lag); resources (id, capacity, rate); assignments (activity, resource, units, work); risk register; optional <code>prob_net</code> with resource effects</td>
+<td>S3 object of class <code>pra_schedule</code></td>
+<td><a href="ch-schedule.html" class="quarto-xref"><span>Chapter 9</span></a></td>
+</tr>
+<tr class="even">
+<td><code>cpm(x*, level)</code></td>
+<td>Schedule; <code>level = TRUE</code> to respect resource capacity</td>
+<td>S3 object of class <code>cpm</code> with <code>$activities</code> (ES, EF, LS, LF, floats, critical), <code>$finish</code>, <code>$critical_path</code>, <code>$cost</code></td>
+<td><a href="ch-schedule.html" class="quarto-xref"><span>Chapter 9</span></a></td>
+</tr>
+<tr class="odd">
+<td><code>sra(x*, num_sims, level, keep_samples, grid_n)</code></td>
+<td>Schedule; iterations (default 10 000); leveling flag</td>
+<td>S3 object of class <code>sra</code> with <code>$total_distribution</code>, <code>$percentiles</code>, <code>$activity_stats</code>, <code>$risk_stats</code>, <code>$risk_net_stats</code>, <code>$cost_curve</code>, <code>$resource_profile</code></td>
+<td><a href="ch-schedule.html" class="quarto-xref"><span>Chapter 9</span></a></td>
+</tr>
+<tr class="even">
+<td><code>plot(x, type)</code></td>
+<td><code>type = "finish"</code>, <code>"cdf"</code>, <code>"gantt"</code>, <code>"tornado"</code>, <code>"cost"</code>, <code>"resources"</code> or <code>"network"</code> for <code>sra</code>; <code>"gantt"</code> or <code>"network"</code> for <code>cpm</code></td>
+<td>Base-graphics plot</td>
+<td><a href="ch-schedule.html" class="quarto-xref"><span>Chapter 9</span></a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Risk effect format</strong> (used in <code>risk_effects</code>):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">node =</span> <span class="st">"Labor"</span>, <span class="at">resources =</span> <span class="fu">c</span>(<span class="st">"MEP subcontractor"</span>, <span class="st">"Finishing crew"</span>),</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">effect =</span> <span class="st">"productivity"</span>,                        <span class="co"># or "rate"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">magnitude =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"pert"</span>, <span class="at">a =</span> <span class="fl">0.7</span>, <span class="at">b =</span> <span class="fl">0.85</span>, <span class="at">c =</span> <span class="fl">0.95</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="agentic-framework" class="level2" data-number="C.11">
+<h2 data-number="C.11" class="anchored" data-anchor-id="agentic-framework"><span class="header-section-number">C.11</span> Agentic Framework</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 23%">
@@ -1534,131 +1585,150 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Quick Reference {#sec-ref}</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>A compact reference to every exported function in the <span class="in">`PRA`</span> package. Arguments marked <span class="in">`*`</span> are required; all others have defaults.</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">## Monte Carlo Simulation</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`mcs(num_sims*, task_dists*, cor_mat)`</span> <span class="pp">|</span> <span class="in">`num_sims`</span> number of simulations; <span class="in">`task_dists`</span> list of distribution specs; optional correlation matrix <span class="pp">|</span> S3 object of class <span class="in">`mcs`</span> with <span class="in">`$simulations`</span> matrix, <span class="in">`$total_distribution`</span>, percentiles <span class="pp">|</span> @sec-mcs <span class="pp">|</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`print.mcs(x)`</span> <span class="pp">|</span> <span class="in">`x`</span> an <span class="in">`mcs`</span> object <span class="pp">|</span> Console summary of P50/P80/P95 and task means <span class="pp">|</span> @sec-mcs <span class="pp">|</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>**Distribution spec format** (used by <span class="in">`mcs()`</span>, <span class="in">`sensitivity()`</span>, <span class="in">`smm()`</span>):</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>,     <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"triangular"</span>, <span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">10</span>, <span class="at">c =</span> <span class="dv">15</span>)   <span class="co"># a=min, b=mode, c=max</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"uniform"</span>,    <span class="at">min =</span> <span class="dv">8</span>, <span class="at">max =</span> <span class="dv">12</span>)</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="fu">## Second Moment Method</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`smm(mean*, var*, cor_mat)`</span> <span class="pp">|</span> Numeric vectors of task means and variances; optional correlation matrix <span class="pp">|</span> S3 object of class <span class="in">`smm`</span> with <span class="in">`$total_mean`</span>, <span class="in">`$total_var`</span>, <span class="in">`$total_sd`</span> <span class="pp">|</span> @sec-smm <span class="pp">|</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`print.smm(x)`</span> <span class="pp">|</span> <span class="in">`x`</span> an <span class="in">`smm`</span> object <span class="pp">|</span> Console summary of total mean, SD, and 95% CI <span class="pp">|</span> @sec-smm <span class="pp">|</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sensitivity Analysis</span></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`sensitivity(task_dists*, cor_mat)`</span> <span class="pp">|</span> Same distribution specs as <span class="in">`mcs()`</span>; optional correlation matrix <span class="pp">|</span> Named numeric vector of sensitivity indices (one per task) <span class="pp">|</span> @sec-sensitivity <span class="pp">|</span></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="fu">## Contingency &amp; Correlation</span></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`contingency(mcs_result*, phigh, pbase)`</span> <span class="pp">|</span> <span class="in">`mcs_result`</span> from <span class="in">`mcs()`</span>; <span class="in">`phigh`</span> target percentile (default 0.95); <span class="in">`pbase`</span> base percentile (default 0.50) <span class="pp">|</span> Numeric contingency reserve (phigh quantile minus pbase quantile) <span class="pp">|</span> @sec-mcs <span class="pp">|</span></span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`cor_matrix(num_samples, num_vars, dists*)`</span> <span class="pp">|</span> <span class="in">`dists`</span> list of sampling functions <span class="in">`function(n) ...`</span>; <span class="in">`num_samples`</span> (default 100); <span class="in">`num_vars`</span> (default 5) <span class="pp">|</span> Numeric correlation matrix <span class="pp">|</span> @sec-sensitivity <span class="pp">|</span></span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="fu">## Earned Value Management</span></span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>All EVM functions accept numeric scalars or vectors as noted.</span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pv(bac*, schedule*, time_period*)`</span> <span class="pp">|</span> Budget at completion; cumulative schedule proportions; current period (1-based) <span class="pp">|</span> Planned Value <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`ev(bac*, actual_per_complete*)`</span> <span class="pp">|</span> Budget at completion; fraction complete (0–1) <span class="pp">|</span> Earned Value <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`ac(actual_costs*, time_period*, cumulative)`</span> <span class="pp">|</span> Vector of actual costs per period; current period; whether <span class="in">`actual_costs`</span> is already cumulative (default <span class="in">`TRUE`</span>) <span class="pp">|</span> Actual Cost <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`sv(ev*, pv*)`</span> <span class="pp">|</span> Earned Value; Planned Value <span class="pp">|</span> Schedule Variance (EV − PV) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`cv(ev*, ac*)`</span> <span class="pp">|</span> Earned Value; Actual Cost <span class="pp">|</span> Cost Variance (EV − AC) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`spi(ev*, pv*)`</span> <span class="pp">|</span> Earned Value; Planned Value <span class="pp">|</span> Schedule Performance Index (EV / PV) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`cpi(ev*, ac*)`</span> <span class="pp">|</span> Earned Value; Actual Cost <span class="pp">|</span> Cost Performance Index (EV / AC) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`eac(bac*, method, cpi, ac, ev, spi)`</span> <span class="pp">|</span> BAC; <span class="in">`method`</span> = "typical" / "atypical" / "combined" (default "typical"); <span class="in">`cpi`</span> required for typical; <span class="in">`ac`</span>/<span class="in">`ev`</span> required for atypical; <span class="in">`cpi`</span>/<span class="in">`ac`</span>/<span class="in">`ev`</span>/<span class="in">`spi`</span> required for combined <span class="pp">|</span> Estimate at Completion <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`etc(bac*, ev*, cpi)`</span> <span class="pp">|</span> Budget at Completion; Earned Value; Cost Performance Index <span class="pp">|</span> Estimate to Complete <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`tcpi(bac*, ev*, ac*, target, eac)`</span> <span class="pp">|</span> BAC, EV, AC; <span class="in">`target`</span> = "bac" or "eac" (default "bac"); <span class="in">`eac`</span> required when <span class="in">`target = "eac"`</span> <span class="pp">|</span> To-Complete Performance Index <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`vac(bac*, eac*)`</span> <span class="pp">|</span> Budget at Completion; Estimate at Completion <span class="pp">|</span> Variance at Completion (BAC − EAC) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bayesian Risk</span></span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
-<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`risk_prob(causes*, given*, not_given*)`</span> <span class="pp">|</span> Vectors of prior probabilities, likelihoods if cause present/absent <span class="pp">|</span> Prior risk probability (scalar) <span class="pp">|</span> @sec-bayes <span class="pp">|</span></span>
-<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`risk_post_prob(causes*, given*, not_given*, observed*)`</span> <span class="pp">|</span> Same as above plus <span class="in">`observed`</span> vector (1 = observed, 0 = not, NA = unknown) <span class="pp">|</span> Posterior risk probability after observations <span class="pp">|</span> @sec-bayes <span class="pp">|</span></span>
-<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning Curves</span></span>
-<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
-<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
-<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`fit_sigmoidal(data*, x_col*, y_col*, model_type*)`</span> <span class="pp">|</span> <span class="in">`data`</span> a data frame; <span class="in">`x_col`</span>/<span class="in">`y_col`</span> column names as strings; <span class="in">`model_type`</span> = "logistic" / "gompertz" / "pearl" <span class="pp">|</span> Fitted <span class="in">`nls`</span> model object <span class="pp">|</span> @sec-sigmoidal <span class="pp">|</span></span>
-<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`predict_sigmoidal(fit*, x_range*, model_type*, conf_level)`</span> <span class="pp">|</span> Object from <span class="in">`fit_sigmoidal()`</span>; new x values; model type; optional confidence level <span class="pp">|</span> Data frame of predictions (with confidence bounds if <span class="in">`conf_level`</span> set) <span class="pp">|</span> @sec-sigmoidal <span class="pp">|</span></span>
-<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`plot_sigmoidal(fit*, data*, x_col*, y_col*, model_type*, conf_level)`</span> <span class="pp">|</span> Object from <span class="in">`fit_sigmoidal()`</span>; original data frame and column names; model type; optional confidence level <span class="pp">|</span> Plot of fitted curve with confidence band <span class="pp">|</span> @sec-sigmoidal <span class="pp">|</span></span>
-<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a><span class="fu">## Design Structure Matrices</span></span>
-<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
-<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
-<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`parent_dsm(S*)`</span> <span class="pp">|</span> Resource-Task matrix S (resources × tasks, binary) <span class="pp">|</span> S3 object of class <span class="in">`dsm`</span> (<span class="in">`$type`</span> is <span class="in">`"parent"`</span>); <span class="in">`$matrix`</span> is tasks × tasks <span class="pp">|</span> @sec-dsm <span class="pp">|</span></span>
-<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`grandparent_dsm(S*, R*)`</span> <span class="pp">|</span> Resource-Task matrix S; Risk-Resource matrix R (risks × resources, binary) <span class="pp">|</span> S3 object of class <span class="in">`dsm`</span> (<span class="in">`$type`</span> is <span class="in">`"grandparent"`</span>); <span class="in">`$matrix`</span> is tasks × tasks <span class="pp">|</span> @sec-dsm <span class="pp">|</span></span>
-<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>Both constructors return an object of class <span class="in">`dsm`</span>, which has <span class="in">`print()`</span>, <span class="in">`summary()`</span> and <span class="in">`plot()`</span> methods.</span>
-<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a><span class="fu">## Probabilistic Networks</span></span>
-<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
-<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
-<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`prob_net(nodes*, links*, distributions*)`</span> <span class="pp">|</span> Data frames of nodes (id, label, group) and links (source, target, value); named list of distributions <span class="pp">|</span> Graph object (list of nodes, links, distributions) <span class="pp">|</span> @sec-network <span class="pp">|</span></span>
-<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`prob_net_sim(graph*, num_samples)`</span> <span class="pp">|</span> Graph from <span class="in">`prob_net()`</span>; number of simulations (default 10 000) <span class="pp">|</span> Named list of sample vectors, one per node <span class="pp">|</span> @sec-network <span class="pp">|</span></span>
-<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`prob_net_learn(graph*, observations*, num_samples)`</span> <span class="pp">|</span> Graph; named list of clamped observations e.g. <span class="in">`list(B = "No")`</span>; sample count <span class="pp">|</span> Named list of sample vectors with upstream nodes clamped <span class="pp">|</span> @sec-network <span class="pp">|</span></span>
-<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`prob_net_update(graph*, remove_links, update_distributions)`</span> <span class="pp">|</span> Graph; data frame of edges to remove; named list of replacement distributions <span class="pp">|</span> Modified graph object <span class="pp">|</span> @sec-network <span class="pp">|</span></span>
-<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>**Node distribution types** (used in <span class="in">`distributions`</span> list):</span>
-<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
-<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>,     <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>))</span>
-<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>,       <span class="at">mean =</span> <span class="dv">50000</span>, <span class="at">sd =</span> <span class="dv">10000</span>)</span>
-<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>,  <span class="at">condition =</span> <span class="st">"A"</span>,</span>
-<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a>     <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">80000</span>, <span class="at">sd =</span> <span class="dv">20000</span>),</span>
-<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>     <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">50000</span>, <span class="at">sd =</span> <span class="dv">10000</span>))</span>
-<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>,    <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>))</span>
-<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a><span class="fu">## Agentic Framework</span></span>
-<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
-<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
-<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra_tools()`</span> <span class="pp">|</span> None <span class="pp">|</span> List of <span class="in">`ellmer`</span> tool definitions wrapping the PRA functions <span class="pp">|</span> @sec-agent <span class="pp">|</span></span>
-<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra_mcp_server()`</span> <span class="pp">|</span> None <span class="pp">|</span> Starts MCP server; register with <span class="in">`claude mcp add`</span> <span class="pp">|</span> @sec-agent <span class="pp">|</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Quick Reference {#sec-ref}</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>A compact reference to every exported function in the <span class="in">`PRA`</span> package. Arguments marked <span class="in">`*`</span> are required; all others have defaults.</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">## Monte Carlo Simulation</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`mcs(num_sims*, task_dists*, cor_mat)`</span> <span class="pp">|</span> <span class="in">`num_sims`</span> number of simulations; <span class="in">`task_dists`</span> list of distribution specs; optional correlation matrix <span class="pp">|</span> S3 object of class <span class="in">`mcs`</span> with <span class="in">`$simulations`</span> matrix, <span class="in">`$total_distribution`</span>, percentiles <span class="pp">|</span> @sec-mcs <span class="pp">|</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`print.mcs(x)`</span> <span class="pp">|</span> <span class="in">`x`</span> an <span class="in">`mcs`</span> object <span class="pp">|</span> Console summary of P50/P80/P95 and task means <span class="pp">|</span> @sec-mcs <span class="pp">|</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>**Distribution spec format** (used by <span class="in">`mcs()`</span>, <span class="in">`sensitivity()`</span>, <span class="in">`smm()`</span>):</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>,     <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"triangular"</span>, <span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">10</span>, <span class="at">c =</span> <span class="dv">15</span>)   <span class="co"># a=min, b=mode, c=max</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"uniform"</span>,    <span class="at">min =</span> <span class="dv">8</span>, <span class="at">max =</span> <span class="dv">12</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="fu">## Second Moment Method</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`smm(mean*, var*, cor_mat)`</span> <span class="pp">|</span> Numeric vectors of task means and variances; optional correlation matrix <span class="pp">|</span> S3 object of class <span class="in">`smm`</span> with <span class="in">`$total_mean`</span>, <span class="in">`$total_var`</span>, <span class="in">`$total_sd`</span> <span class="pp">|</span> @sec-smm <span class="pp">|</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`print.smm(x)`</span> <span class="pp">|</span> <span class="in">`x`</span> an <span class="in">`smm`</span> object <span class="pp">|</span> Console summary of total mean, SD, and 95% CI <span class="pp">|</span> @sec-smm <span class="pp">|</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sensitivity Analysis</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`sensitivity(task_dists*, cor_mat)`</span> <span class="pp">|</span> Same distribution specs as <span class="in">`mcs()`</span>; optional correlation matrix <span class="pp">|</span> Named numeric vector of sensitivity indices (one per task) <span class="pp">|</span> @sec-sensitivity <span class="pp">|</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="fu">## Contingency &amp; Correlation</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`contingency(mcs_result*, phigh, pbase)`</span> <span class="pp">|</span> <span class="in">`mcs_result`</span> from <span class="in">`mcs()`</span>; <span class="in">`phigh`</span> target percentile (default 0.95); <span class="in">`pbase`</span> base percentile (default 0.50) <span class="pp">|</span> Numeric contingency reserve (phigh quantile minus pbase quantile) <span class="pp">|</span> @sec-mcs <span class="pp">|</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`cor_matrix(num_samples, num_vars, dists*)`</span> <span class="pp">|</span> <span class="in">`dists`</span> list of sampling functions <span class="in">`function(n) ...`</span>; <span class="in">`num_samples`</span> (default 100); <span class="in">`num_vars`</span> (default 5) <span class="pp">|</span> Numeric correlation matrix <span class="pp">|</span> @sec-sensitivity <span class="pp">|</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="fu">## Earned Value Management</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>All EVM functions accept numeric scalars or vectors as noted.</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pv(bac*, schedule*, time_period*)`</span> <span class="pp">|</span> Budget at completion; cumulative schedule proportions; current period (1-based) <span class="pp">|</span> Planned Value <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`ev(bac*, actual_per_complete*)`</span> <span class="pp">|</span> Budget at completion; fraction complete (0–1) <span class="pp">|</span> Earned Value <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`ac(actual_costs*, time_period*, cumulative)`</span> <span class="pp">|</span> Vector of actual costs per period; current period; whether <span class="in">`actual_costs`</span> is already cumulative (default <span class="in">`TRUE`</span>) <span class="pp">|</span> Actual Cost <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`sv(ev*, pv*)`</span> <span class="pp">|</span> Earned Value; Planned Value <span class="pp">|</span> Schedule Variance (EV − PV) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`cv(ev*, ac*)`</span> <span class="pp">|</span> Earned Value; Actual Cost <span class="pp">|</span> Cost Variance (EV − AC) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`spi(ev*, pv*)`</span> <span class="pp">|</span> Earned Value; Planned Value <span class="pp">|</span> Schedule Performance Index (EV / PV) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`cpi(ev*, ac*)`</span> <span class="pp">|</span> Earned Value; Actual Cost <span class="pp">|</span> Cost Performance Index (EV / AC) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`eac(bac*, method, cpi, ac, ev, spi)`</span> <span class="pp">|</span> BAC; <span class="in">`method`</span> = "typical" / "atypical" / "combined" (default "typical"); <span class="in">`cpi`</span> required for typical; <span class="in">`ac`</span>/<span class="in">`ev`</span> required for atypical; <span class="in">`cpi`</span>/<span class="in">`ac`</span>/<span class="in">`ev`</span>/<span class="in">`spi`</span> required for combined <span class="pp">|</span> Estimate at Completion <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`etc(bac*, ev*, cpi)`</span> <span class="pp">|</span> Budget at Completion; Earned Value; Cost Performance Index <span class="pp">|</span> Estimate to Complete <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`tcpi(bac*, ev*, ac*, target, eac)`</span> <span class="pp">|</span> BAC, EV, AC; <span class="in">`target`</span> = "bac" or "eac" (default "bac"); <span class="in">`eac`</span> required when <span class="in">`target = "eac"`</span> <span class="pp">|</span> To-Complete Performance Index <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`vac(bac*, eac*)`</span> <span class="pp">|</span> Budget at Completion; Estimate at Completion <span class="pp">|</span> Variance at Completion (BAC − EAC) <span class="pp">|</span> @sec-evm <span class="pp">|</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bayesian Risk</span></span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`risk_prob(causes*, given*, not_given*)`</span> <span class="pp">|</span> Vectors of prior probabilities, likelihoods if cause present/absent <span class="pp">|</span> Prior risk probability (scalar) <span class="pp">|</span> @sec-bayes <span class="pp">|</span></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`risk_post_prob(causes*, given*, not_given*, observed*)`</span> <span class="pp">|</span> Same as above plus <span class="in">`observed`</span> vector (1 = observed, 0 = not, NA = unknown) <span class="pp">|</span> Posterior risk probability after observations <span class="pp">|</span> @sec-bayes <span class="pp">|</span></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning Curves</span></span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`fit_sigmoidal(data*, x_col*, y_col*, model_type*)`</span> <span class="pp">|</span> <span class="in">`data`</span> a data frame; <span class="in">`x_col`</span>/<span class="in">`y_col`</span> column names as strings; <span class="in">`model_type`</span> = "logistic" / "gompertz" / "pearl" <span class="pp">|</span> Fitted <span class="in">`nls`</span> model object <span class="pp">|</span> @sec-sigmoidal <span class="pp">|</span></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`predict_sigmoidal(fit*, x_range*, model_type*, conf_level)`</span> <span class="pp">|</span> Object from <span class="in">`fit_sigmoidal()`</span>; new x values; model type; optional confidence level <span class="pp">|</span> Data frame of predictions (with confidence bounds if <span class="in">`conf_level`</span> set) <span class="pp">|</span> @sec-sigmoidal <span class="pp">|</span></span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`plot_sigmoidal(fit*, data*, x_col*, y_col*, model_type*, conf_level)`</span> <span class="pp">|</span> Object from <span class="in">`fit_sigmoidal()`</span>; original data frame and column names; model type; optional confidence level <span class="pp">|</span> Plot of fitted curve with confidence band <span class="pp">|</span> @sec-sigmoidal <span class="pp">|</span></span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a><span class="fu">## Design Structure Matrices</span></span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`parent_dsm(S*)`</span> <span class="pp">|</span> Resource-Task matrix S (resources × tasks, binary) <span class="pp">|</span> S3 object of class <span class="in">`dsm`</span> (<span class="in">`$type`</span> is <span class="in">`"parent"`</span>); <span class="in">`$matrix`</span> is tasks × tasks <span class="pp">|</span> @sec-dsm <span class="pp">|</span></span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`grandparent_dsm(S*, R*)`</span> <span class="pp">|</span> Resource-Task matrix S; Risk-Resource matrix R (risks × resources, binary) <span class="pp">|</span> S3 object of class <span class="in">`dsm`</span> (<span class="in">`$type`</span> is <span class="in">`"grandparent"`</span>); <span class="in">`$matrix`</span> is tasks × tasks <span class="pp">|</span> @sec-dsm <span class="pp">|</span></span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>Both constructors return an object of class <span class="in">`dsm`</span>, which has <span class="in">`print()`</span>, <span class="in">`summary()`</span> and <span class="in">`plot()`</span> methods.</span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a><span class="fu">## Probabilistic Networks</span></span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`prob_net(nodes*, links*, distributions*)`</span> <span class="pp">|</span> Data frames of nodes (id, label, group) and links (source, target, value); named list of distributions <span class="pp">|</span> Graph object (list of nodes, links, distributions) <span class="pp">|</span> @sec-network <span class="pp">|</span></span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`prob_net_sim(graph*, num_samples)`</span> <span class="pp">|</span> Graph from <span class="in">`prob_net()`</span>; number of simulations (default 10 000) <span class="pp">|</span> Named list of sample vectors, one per node <span class="pp">|</span> @sec-network <span class="pp">|</span></span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`prob_net_learn(graph*, observations*, num_samples)`</span> <span class="pp">|</span> Graph; named list of clamped observations e.g. <span class="in">`list(B = "No")`</span>; sample count <span class="pp">|</span> Named list of sample vectors with upstream nodes clamped <span class="pp">|</span> @sec-network <span class="pp">|</span></span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`prob_net_update(graph*, remove_links, update_distributions)`</span> <span class="pp">|</span> Graph; data frame of edges to remove; named list of replacement distributions <span class="pp">|</span> Modified graph object <span class="pp">|</span> @sec-network <span class="pp">|</span></span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>**Node distribution types** (used in <span class="in">`distributions`</span> list):</span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>,     <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>))</span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>,       <span class="at">mean =</span> <span class="dv">50000</span>, <span class="at">sd =</span> <span class="dv">10000</span>)</span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>,  <span class="at">condition =</span> <span class="st">"A"</span>,</span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a>     <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">80000</span>, <span class="at">sd =</span> <span class="dv">20000</span>),</span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>     <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"normal"</span>, <span class="at">mean =</span> <span class="dv">50000</span>, <span class="at">sd =</span> <span class="dv">10000</span>))</span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"aggregate"</span>,    <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>))</span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a><span class="fu">## Schedule Risk Analysis</span></span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`project_schedule(activities*, links, duration_dists, resources, productivity_dists, assignments, risks, cor_mat, start_date, time_unit, risk_net, risk_effects)`</span> <span class="pp">|</span> Activities (id, duration, fixed_cost); links (source, target, type, lag); resources (id, capacity, rate); assignments (activity, resource, units, work); risk register; optional <span class="in">`prob_net`</span> with resource effects <span class="pp">|</span> S3 object of class <span class="in">`pra_schedule`</span> <span class="pp">|</span> @sec-schedule <span class="pp">|</span></span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`cpm(x*, level)`</span> <span class="pp">|</span> Schedule; <span class="in">`level = TRUE`</span> to respect resource capacity <span class="pp">|</span> S3 object of class <span class="in">`cpm`</span> with <span class="in">`$activities`</span> (ES, EF, LS, LF, floats, critical), <span class="in">`$finish`</span>, <span class="in">`$critical_path`</span>, <span class="in">`$cost`</span> <span class="pp">|</span> @sec-schedule <span class="pp">|</span></span>
+<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`sra(x*, num_sims, level, keep_samples, grid_n)`</span> <span class="pp">|</span> Schedule; iterations (default 10 000); leveling flag <span class="pp">|</span> S3 object of class <span class="in">`sra`</span> with <span class="in">`$total_distribution`</span>, <span class="in">`$percentiles`</span>, <span class="in">`$activity_stats`</span>, <span class="in">`$risk_stats`</span>, <span class="in">`$risk_net_stats`</span>, <span class="in">`$cost_curve`</span>, <span class="in">`$resource_profile`</span> <span class="pp">|</span> @sec-schedule <span class="pp">|</span></span>
+<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`plot(x, type)`</span> <span class="pp">|</span> <span class="in">`type = "finish"`</span>, <span class="in">`"cdf"`</span>, <span class="in">`"gantt"`</span>, <span class="in">`"tornado"`</span>, <span class="in">`"cost"`</span>, <span class="in">`"resources"`</span> or <span class="in">`"network"`</span> for <span class="in">`sra`</span>; <span class="in">`"gantt"`</span> or <span class="in">`"network"`</span> for <span class="in">`cpm`</span> <span class="pp">|</span> Base-graphics plot <span class="pp">|</span> @sec-schedule <span class="pp">|</span></span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a>**Risk effect format** (used in <span class="in">`risk_effects`</span>):</span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">node =</span> <span class="st">"Labor"</span>, <span class="at">resources =</span> <span class="fu">c</span>(<span class="st">"MEP subcontractor"</span>, <span class="st">"Finishing crew"</span>),</span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a>     <span class="at">effect =</span> <span class="st">"productivity"</span>,                        <span class="co"># or "rate"</span></span>
+<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a>     <span class="at">magnitude =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"pert"</span>, <span class="at">a =</span> <span class="fl">0.7</span>, <span class="at">b =</span> <span class="fl">0.85</span>, <span class="at">c =</span> <span class="fl">0.95</span>))</span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a><span class="fu">## Agentic Framework</span></span>
+<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Key Arguments <span class="pp">|</span> Returns <span class="pp">|</span> Chapter <span class="pp">|</span></span>
+<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|--------------|---------|---------|</span></span>
+<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra_tools()`</span> <span class="pp">|</span> None <span class="pp">|</span> List of <span class="in">`ellmer`</span> tool definitions wrapping the PRA functions <span class="pp">|</span> @sec-agent <span class="pp">|</span></span>
+<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`pra_mcp_server()`</span> <span class="pp">|</span> None <span class="pp">|</span> Starts MCP server; register with <span class="in">`claude mcp add`</span> <span class="pp">|</span> @sec-agent <span class="pp">|</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

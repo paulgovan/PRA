@@ -1,0 +1,2037 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>9&nbsp; Hurry Up and Wait: Critical Path and Schedule Risk Analysis – Project Risk Analysis: A Practical Guide</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./ch-dsm.html" rel="next">
+<link href="./ch-network.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-5de16f5e46225c21e2daa90d340bf64f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-3218d7d29a29f08bc4fdf3802c3e3ca5.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-5de16f5e46225c21e2daa90d340bf64f.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-868c16dd3ff1719441578aa0872de989.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-2e2b3da9b32ca9826e83ab6220a1c311.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-868c16dd3ff1719441578aa0872de989.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch-schedule.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hurry Up and Wait: Critical Path and Schedule Risk Analysis</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./cover.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./cover.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Project Risk Analysis: A Practical Guide</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/paulgovan/PRA" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+              <i class="bi bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+      </ul>
+    </div>
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Into the Unknown: An Introduction to Project Risk Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-mcs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Roll the Dice: Monte Carlo Simulation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-smm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">May I Have a (Second) Moment? The Second Moment Method</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-sensitivity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Who’s Driving? Sensitivity Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-evm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Keeping Score: Earned Value Management</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-bayes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">I Had a Feeling: Bayesian Risk Inference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-sigmoidal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">S Is for Success: Sigmoidal Learning Curves</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-network.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-schedule.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hurry Up and Wait: Critical Path and Schedule Risk Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Write Once, Trust Always: Reproducible Risk Analysis with Quarto</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch-agent.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Your AI Co-Pilot: Agentic Risk Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-math.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Mathematical Derivations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-ref.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Quick Reference</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-casestudy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Case Study: Riverside Bridge Replacement</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-solutions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Exercise Solutions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#from-task-lists-to-networks" id="toc-from-task-lists-to-networks" class="nav-link active" data-scroll-target="#from-task-lists-to-networks"><span class="header-section-number">9.1</span> From Task Lists to Networks</a></li>
+  <li><a href="#the-building-project-schedule" id="toc-the-building-project-schedule" class="nav-link" data-scroll-target="#the-building-project-schedule"><span class="header-section-number">9.2</span> The Building Project Schedule</a></li>
+  <li><a href="#the-deterministic-plan" id="toc-the-deterministic-plan" class="nav-link" data-scroll-target="#the-deterministic-plan"><span class="header-section-number">9.3</span> The Deterministic Plan</a>
+  <ul class="collapse">
+  <li><a href="#leveling-the-crane" id="toc-leveling-the-crane" class="nav-link" data-scroll-target="#leveling-the-crane"><span class="header-section-number">9.3.1</span> Leveling the Crane</a></li>
+  </ul></li>
+  <li><a href="#merge-bias-why-networks-finish-late" id="toc-merge-bias-why-networks-finish-late" class="nav-link" data-scroll-target="#merge-bias-why-networks-finish-late"><span class="header-section-number">9.4</span> Merge Bias: Why Networks Finish Late</a></li>
+  <li><a href="#schedule-risk-analysis" id="toc-schedule-risk-analysis" class="nav-link" data-scroll-target="#schedule-risk-analysis"><span class="header-section-number">9.5</span> Schedule Risk Analysis</a>
+  <ul class="collapse">
+  <li><a href="#what-drives-the-finish" id="toc-what-drives-the-finish" class="nav-link" data-scroll-target="#what-drives-the-finish"><span class="header-section-number">9.5.1</span> What Drives the Finish?</a></li>
+  <li><a href="#risk-events" id="toc-risk-events" class="nav-link" data-scroll-target="#risk-events"><span class="header-section-number">9.5.2</span> Risk Events</a></li>
+  <li><a href="#cost-and-resources-over-time" id="toc-cost-and-resources-over-time" class="nav-link" data-scroll-target="#cost-and-resources-over-time"><span class="header-section-number">9.5.3</span> Cost and Resources Over Time</a></li>
+  </ul></li>
+  <li><a href="#risks-that-flow-through-resources" id="toc-risks-that-flow-through-resources" class="nav-link" data-scroll-target="#risks-that-flow-through-resources"><span class="header-section-number">9.6</span> Risks That Flow Through Resources</a></li>
+  <li><a href="#the-core-functions" id="toc-the-core-functions" class="nav-link" data-scroll-target="#the-core-functions"><span class="header-section-number">9.7</span> The Core Functions</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">9.8</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">9.9</span> Exercises</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/paulgovan/PRA/edit/main/ch-schedule.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulgovan/PRA/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-schedule" class="quarto-section-identifier"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hurry Up and Wait: Critical Path and Schedule Risk Analysis</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p><em>“It always takes longer than you expect, even when you take into account Hofstadter’s Law.”</em> — Douglas Hofstadter</p>
+</blockquote>
+<p>Monte Carlo simulation (<a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a>) adds up task durations. That’s exactly right for a single chain of tasks, and it’s exactly wrong for almost every real schedule. Real schedules have parallel paths that merge, work that overlaps, and crews that two activities both need at the same time. A task list can’t see any of that. A schedule network can.</p>
+<p>This chapter puts the network back in. We start with the <strong>critical path method</strong> (CPM), the deterministic backbone of every project schedule, then run it thousands of times with uncertain durations, uncertain productivity, and discrete risk events. That’s <strong>schedule risk analysis</strong> (SRA). Finally, we connect the probabilistic networks of <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a> to the schedule, so that one risk can reach many tasks through the resources they share.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning Objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this chapter, you will be able to:</p>
+<ol type="1">
+<li>Build a resource-loaded schedule with <code>project_schedule()</code>, including FS, SS, FF and SF links with lags</li>
+<li>Compute early and late dates, float and the critical path with <code>cpm()</code>, with and without resource leveling</li>
+<li>Explain merge bias and why a network finishes later than its deterministic plan</li>
+<li>Run <code>sra()</code> and interpret finish percentiles, criticality, cruciality and risk-event impacts</li>
+<li>Feed a probabilistic risk network into the schedule so that risks act through resources</li>
+</ol>
+</div>
+</div>
+<section id="from-task-lists-to-networks" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="from-task-lists-to-networks"><span class="header-section-number">9.1</span> From Task Lists to Networks</h2>
+<p>A schedule network has activities (the nodes) and precedence links (the arrows). The precedence diagramming method allows four kinds of link, each with an optional <strong>lag</strong> (a delay) or <strong>lead</strong> (a negative lag):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 20%">
+<col style="width: 65%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Link</th>
+<th>Meaning</th>
+<th>Constraint on the successor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FS (finish-to-start)</td>
+<td>B can’t start until A finishes</td>
+<td>start(B) ≥ finish(A) + lag</td>
+</tr>
+<tr class="even">
+<td>SS (start-to-start)</td>
+<td>B can’t start until A has started</td>
+<td>start(B) ≥ start(A) + lag</td>
+</tr>
+<tr class="odd">
+<td>FF (finish-to-finish)</td>
+<td>B can’t finish until A has finished</td>
+<td>finish(B) ≥ finish(A) + lag</td>
+</tr>
+<tr class="even">
+<td>SF (start-to-finish)</td>
+<td>B can’t finish until A has started</td>
+<td>finish(B) ≥ start(A) + lag</td>
+</tr>
+</tbody>
+</table>
+<p>CPM schedules the network in two passes <span class="citation" data-cites="kelley1959">(<a href="references.html#ref-kelley1959" role="doc-biblioref">Kelley and Walker 1959</a>)</span>. The <strong>forward pass</strong> visits activities in dependency order and starts each one as early as its links allow, giving the <em>early start</em> and <em>early finish</em> of every activity and the project finish. The <strong>backward pass</strong> works back from the project finish and gives each activity’s <em>late start</em> and <em>late finish</em>: the latest it can run without delaying the project.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Float and the Critical Path
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Total float</strong> is late start minus early start: how far an activity can slip without moving the project finish. <strong>Free float</strong> is how far it can slip without delaying any successor. Activities with zero total float form the <strong>critical path</strong>. Delay any of them and the whole project slips, day for day.</p>
+</div>
+</div>
+</section>
+<section id="the-building-project-schedule" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="the-building-project-schedule"><span class="header-section-number">9.2</span> The Building Project Schedule</h2>
+<p>The <code>building_project</code> dataset includes a resource-loaded schedule for a six-package mid-rise building, in weeks:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2027</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>bp <span class="ot">&lt;-</span> building_project</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>bp<span class="sc">$</span>schedule_activities</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  id                           name duration fixed_cost
+1 T1  Site Preparation &amp; Earthworks        6     200000
+2 T2                    Foundations        8     600000
+3 T3               Structural Frame       16    1600000
+4 T4              Building Envelope       11    1100000
+5 T5 Mechanical/Electrical/Plumbing       14    1200000
+6 T6    Interior Fit-out &amp; Finishes       NA     500000</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>bp<span class="sc">$</span>schedule_links</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  source target type lag
+1     T1     T2   FS   0
+2     T2     T3   FS   0
+3     T3     T4   SS   8
+4     T3     T4   FF   2
+5     T4     T5   SS   4
+6     T4     T6   FS   0
+7     T5     T6   SS   6
+8     T5     T6   FF   4</code></pre>
+</div>
+</div>
+<p>The logic overlaps work the way real construction does. The envelope (T4) starts 8 weeks into the structural frame (SS+8) and can’t finish until 2 weeks after the frame does (FF+2). MEP rough-in starts 4 weeks into the envelope. Fit-out (T6) follows the envelope, may start 6 weeks into MEP, and finishes at least 4 weeks after it. Fit-out has no duration of its own: it’s 24 crew-weeks of work by two finishing crews, so its duration depends on how productive those crews are.</p>
+<p>Resources carry a capacity and a weekly cost rate, and the assignments say who works on what:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>bp<span class="sc">$</span>schedule_resources</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 id capacity  rate
+1   Excavation crew        1 18000
+2     Concrete crew        1 22000
+3     Steel erector        1 30000
+4       Tower crane        1 12000
+5 MEP subcontractor        2 35000
+6    Finishing crew        3 20000</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>bp<span class="sc">$</span>schedule_assignments</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   activity          resource units work
+1        T1   Excavation crew     1   NA
+2        T2   Excavation crew     1   NA
+3        T2     Concrete crew     1   NA
+4        T3     Concrete crew     1   NA
+5        T3     Steel erector     1   NA
+6        T3       Tower crane     1   NA
+7        T2       Tower crane     1   NA
+8        T4       Tower crane     1   NA
+9        T4 MEP subcontractor     1   NA
+10       T5 MEP subcontractor     1   NA
+11       T5    Finishing crew     1   NA
+12       T6    Finishing crew     2   24</code></pre>
+</div>
+</div>
+<p>There is only <strong>one tower crane</strong>, and the foundations, the frame and the envelope all need it. Hold that thought.</p>
+<p><code>project_schedule()</code> checks all of this and assembles the network. Durations of T1 to T5 are triangular, correlated through the task correlation matrix, and two discrete risk events come from the risk register:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>proj <span class="ot">&lt;-</span> <span class="fu">project_schedule</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">activities         =</span> bp<span class="sc">$</span>schedule_activities,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">links              =</span> bp<span class="sc">$</span>schedule_links,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">duration_dists     =</span> bp<span class="sc">$</span>duration_dists,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">resources          =</span> bp<span class="sc">$</span>schedule_resources,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">productivity_dists =</span> bp<span class="sc">$</span>productivity_dists,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">assignments        =</span> bp<span class="sc">$</span>schedule_assignments,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">risks              =</span> bp<span class="sc">$</span>risk_register,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">cor_mat            =</span> bp<span class="sc">$</span>cor_mat[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>],</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">start_date         =</span> bp<span class="sc">$</span>start_date,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_unit          =</span> <span class="st">"weeks"</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(proj)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch-schedule_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>The building schedule as an activity-on-node network. The deterministic critical path is in red; edge labels show link types and lags other than plain finish-to-start.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="the-deterministic-plan" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="the-deterministic-plan"><span class="header-section-number">9.3</span> The Deterministic Plan</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>plan <span class="ot">&lt;-</span> <span class="fu">cpm</span>(proj)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>plan</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Critical Path Method 
+Project finish: 45 weeks 
+Critical path: T1 -&gt; T2 -&gt; T3 -&gt; T4 -&gt; T6 
+
+ id duration ES EF LS LF total_float free_float critical
+ T1        6  0  6  0  6           0          0     TRUE
+ T2        8  6 14  6 14           0          0     TRUE
+ T3       16 14 30 14 30           0          0     TRUE
+ T4       11 22 33 22 33           0          0     TRUE
+ T5       14 26 40 27 41           1          1    FALSE
+ T6       12 33 45 33 45           0          0     TRUE</code></pre>
+</div>
+</div>
+<p>The plan finishes in 45 weeks. Every activity except MEP is critical; MEP has 1 week of float.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(plan)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch-schedule_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="768"></p>
+<figcaption>The deterministic schedule. Grey bars after an activity show its total float; the dashed line is the project finish.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="leveling-the-crane" class="level3" data-number="9.3.1">
+<h3 data-number="9.3.1" class="anchored" data-anchor-id="leveling-the-crane"><span class="header-section-number">9.3.1</span> Leveling the Crane</h3>
+<p>The plan has a problem: the envelope starts while the frame is still using the crane. With <code>level = TRUE</code>, <code>cpm()</code> schedules activities one at a time with a <em>serial schedule-generation scheme</em> <span class="citation" data-cites="kolisch1996">(<a href="references.html#ref-kolisch1996" role="doc-biblioref">Kolisch 1996</a>)</span>. It takes the eligible activity with the smallest late start and places it at the earliest time that satisfies its links <em>and</em> keeps every resource within capacity for the activity’s whole duration.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>leveled <span class="ot">&lt;-</span> <span class="fu">cpm</span>(proj, <span class="at">level =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>leveled<span class="sc">$</span>finish <span class="sc">-</span> plan<span class="sc">$</span>finish</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(leveled)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch-schedule_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="768"></p>
+<figcaption>The resource-leveled schedule. The envelope now waits for the crane.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>One crane costs 8 weeks. Once resources move dates, float stops meaning much, so <code>cpm()</code> finds the critical activities differently: it traces the <strong>driving path</strong> back from the finish, through links that bind and through resource hand-offs.</p>
+</section>
+</section>
+<section id="merge-bias-why-networks-finish-late" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="merge-bias-why-networks-finish-late"><span class="header-section-number">9.4</span> Merge Bias: Why Networks Finish Late</h2>
+<p>Before adding uncertainty to the building project, it’s worth seeing the effect that makes network analysis necessary. Two 10-week activities run in parallel, each estimated as triangular from 8 to 12 weeks:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>parallel <span class="ot">&lt;-</span> <span class="fu">project_schedule</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">activities =</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="st">"Start"</span>, <span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Finish"</span>),</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">duration =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">0</span>)),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">links =</span> <span class="fu">data.frame</span>(<span class="at">source =</span> <span class="fu">c</span>(<span class="st">"Start"</span>, <span class="st">"Start"</span>, <span class="st">"X"</span>, <span class="st">"Y"</span>),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">target =</span> <span class="fu">c</span>(<span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Finish"</span>, <span class="st">"Finish"</span>)),</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">duration_dists =</span> <span class="fu">list</span>(</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">X =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"triangular"</span>, <span class="at">a =</span> <span class="dv">8</span>, <span class="at">b =</span> <span class="dv">10</span>, <span class="at">c =</span> <span class="dv">12</span>),</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Y =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"triangular"</span>, <span class="at">a =</span> <span class="dv">8</span>, <span class="at">b =</span> <span class="dv">10</span>, <span class="at">c =</span> <span class="dv">12</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>par_risk <span class="ot">&lt;-</span> <span class="fu">sra</span>(parallel, <span class="at">num_sims =</span> <span class="dv">10000</span>)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>par_risk<span class="sc">$</span>prob_deterministic</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2528</code></pre>
+</div>
+</div>
+<p>Each path alone has a 50% chance of finishing in 10 weeks. The project needs <em>both</em> to finish, so its chance is about 25%. This is <strong>merge bias</strong>: wherever paths converge, the finish is set by whichever runs longest, so the expected finish is later than any single path suggests, even when every estimate is symmetric. Summing durations along one path can never show it.</p>
+</section>
+<section id="schedule-risk-analysis" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="schedule-risk-analysis"><span class="header-section-number">9.5</span> Schedule Risk Analysis</h2>
+<p><code>sra()</code> samples every uncertain quantity in each iteration, reschedules the network with CPM, and records the result. Here we keep the crane constraint in every iteration:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>risk <span class="ot">&lt;-</span> <span class="fu">sra</span>(proj, <span class="at">num_sims =</span> <span class="dv">10000</span>, <span class="at">level =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>risk</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Schedule Risk Analysis (resource-leveled) 
+Iterations: 10,000 
+Deterministic finish: 53 weeks (P11) 
+Mean finish: 59.46 weeks   SD: 5.341 
+Finish percentiles:
+  10%   50%   80%   90% 
+52.70 59.13 64.03 66.59 
+Cost percentiles:
+    10%     50%     80%     90% 
+8446000 8928000 9320000 9552000 
+Most critical activities:
+ id criticality cruciality
+ T1           1      0.600
+ T2           1      0.655
+ T3           1      0.708
+ T4           1      0.550
+ T6           1      0.124</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(risk, <span class="at">type =</span> <span class="st">"cdf"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch-schedule_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Cumulative probability of finishing by each date. The deterministic plan sits low on the curve.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The leveled plan of 53 weeks has a probability of only 11% of being met. The P80 is 64 weeks. The difference between the P80 and the P50 is the schedule contingency, and <code>contingency()</code> from <a href="ch-mcs.html" class="quarto-xref"><span>Chapter 2</span></a> works on the result directly:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contingency</span>(risk, <span class="at">phigh =</span> <span class="fl">0.80</span>, <span class="at">pbase =</span> <span class="fl">0.50</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     80% 
+4.899769 </code></pre>
+</div>
+</div>
+<section id="what-drives-the-finish" class="level3" data-number="9.5.1">
+<h3 data-number="9.5.1" class="anchored" data-anchor-id="what-drives-the-finish"><span class="header-section-number">9.5.1</span> What Drives the Finish?</h3>
+<p>Knowing the finish distribution isn’t enough; you need to know where to act. <code>sra()</code> measures each activity four ways:</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Criticality Measures
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Criticality index</strong>: the share of iterations in which the activity is critical.</li>
+<li><strong>Sensitivity</strong>: the rank correlation between the activity’s duration and the project finish.</li>
+<li><strong>Cruciality index</strong>: criticality × sensitivity <span class="citation" data-cites="williams1992">(<a href="references.html#ref-williams1992" role="doc-biblioref">Williams 1992</a>)</span>. It ranks activities by how much they actually <em>move</em> the finish.</li>
+<li><strong>Schedule sensitivity index (SSI)</strong>: criticality × the activity’s duration spread relative to the finish’s spread <span class="citation" data-cites="pmi2009">(<a href="references.html#ref-pmi2009" role="doc-biblioref">Project Management Institute 2009</a>)</span>.</li>
+</ul>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(risk)<span class="sc">$</span>activities</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  id mean_duration mean_finish finish_p90 criticality sensitivity cruciality
+3 T3     17.311355   34.203876  40.042984      1.0000   0.7077921  0.7077921
+2 T2      9.436658   16.892521  21.308794      1.0000   0.6553336  0.6553336
+1 T1      7.455863    7.455863   9.758659      1.0000   0.6004118  0.6004118
+4 T4     12.484443   46.688319  53.781623      1.0000   0.5500970  0.5500970
+5 T5     15.470199   53.674074  60.807122      0.3463   0.4316334  0.1494747
+6 T6     12.354790   59.464645  66.589998      1.0000   0.1236098  0.1236098
+        ssi
+3 0.4660948
+2 0.3201912
+1 0.3196944
+4 0.4226452
+5 0.1650301
+6 0.1554023</code></pre>
+</div>
+</div>
+<p>Criticality alone can mislead. Fit-out (T6) is critical in every iteration, but its duration varies little, so it has low cruciality: shortening its uncertainty buys little. The frame and foundations are where uncertainty turns into delay.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(risk, <span class="at">type =</span> <span class="st">"gantt"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch-schedule_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="768"></p>
+<figcaption>Deterministic bars shaded by criticality index, with each activity’s P10 to P90 finish range and P50 tick.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(risk, <span class="at">type =</span> <span class="st">"tornado"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch-schedule_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Activities ranked by cruciality index.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="risk-events" class="level3" data-number="9.5.2">
+<h3 data-number="9.5.2" class="anchored" data-anchor-id="risk-events"><span class="header-section-number">9.5.2</span> Risk Events</h3>
+<p>The two events in the register (adverse weather and late design changes) each occur independently with their stated probability and add a sampled delay and cost to the activities they affect:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>risk<span class="sc">$</span>risk_stats</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   id prob occurrence finish_impact cost_impact rank
+1     Adverse weather 0.35     0.3377      4.537394    240229.6    1
+2 Late design changes 0.25     0.2480      3.043668    606524.7    2</code></pre>
+</div>
+</div>
+<p><code>finish_impact</code> is the mean finish when the risk occurred minus the mean when it didn’t. Rank risk responses by it:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(risk, <span class="at">type =</span> <span class="st">"tornado"</span>, <span class="at">metric =</span> <span class="st">"risk"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch-schedule_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Risk events ranked by their mean impact on the finish.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="cost-and-resources-over-time" class="level3" data-number="9.5.3">
+<h3 data-number="9.5.3" class="anchored" data-anchor-id="cost-and-resources-over-time"><span class="header-section-number">9.5.3</span> Cost and Resources Over Time</h3>
+<p>Every activity’s cost (resource units × rate × duration, plus fixed cost and any risk costs) is spread over its dates, giving a cost S-curve with an uncertainty band. Resource usage gets the same treatment, and with leveling it never exceeds capacity:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(risk, <span class="at">type =</span> <span class="st">"cost"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch-schedule_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Cumulative cost: P50 line and P10 to P90 band.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(risk, <span class="at">type =</span> <span class="st">"resources"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch-schedule_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Resource usage against capacity, P50 line and P10 to P90 band.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="risks-that-flow-through-resources" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="risks-that-flow-through-resources"><span class="header-section-number">9.6</span> Risks That Flow Through Resources</h2>
+<p>The risk register treats every risk as independent and aims it at specific activities. Real risks don’t behave that way. A regional construction boom tightens the labor market <em>and</em> the supply chain at the same time, and a labor shortage doesn’t hit one activity: it slows every activity that uses the affected crews.</p>
+<p>The probabilistic networks of <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a> capture the first part: risks that share a root cause. <code>project_schedule()</code> connects such a network to the schedule through <code>risk_effects</code>, which link network nodes to <strong>resources</strong>. A productivity effect slows every activity assigned to the resource; a rate effect raises its cost.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>boom_net <span class="ot">&lt;-</span> <span class="fu">prob_net</span>(</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="st">"Boom"</span>, <span class="st">"Labor"</span>, <span class="st">"Supply"</span>)),</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">source =</span> <span class="fu">c</span>(<span class="st">"Boom"</span>, <span class="st">"Boom"</span>), <span class="at">target =</span> <span class="fu">c</span>(<span class="st">"Labor"</span>, <span class="st">"Supply"</span>)),</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Boom =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.4</span>, <span class="fl">0.6</span>)),</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Labor =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>, <span class="at">condition =</span> <span class="st">"Boom"</span>,</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.2</span>)),</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.85</span>))),</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Supply =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>, <span class="at">condition =</span> <span class="st">"Boom"</span>,</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>)),</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>)))</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>boom_effects <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># A labor shortage slows both crews that MEP and fit-out depend on.</span></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">node =</span> <span class="st">"Labor"</span>, <span class="at">resources =</span> <span class="fu">c</span>(<span class="st">"MEP subcontractor"</span>, <span class="st">"Finishing crew"</span>),</span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">effect =</span> <span class="st">"productivity"</span>,</span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">magnitude =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"pert"</span>, <span class="at">a =</span> <span class="fl">0.7</span>, <span class="at">b =</span> <span class="fl">0.85</span>, <span class="at">c =</span> <span class="fl">0.95</span>)),</span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Supply-chain pressure raises concrete and steel costs.</span></span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">node =</span> <span class="st">"Supply"</span>, <span class="at">resources =</span> <span class="fu">c</span>(<span class="st">"Concrete crew"</span>, <span class="st">"Steel erector"</span>),</span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">effect =</span> <span class="st">"rate"</span>,</span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">magnitude =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"uniform"</span>, <span class="at">min =</span> <span class="fl">1.1</span>, <span class="at">max =</span> <span class="fl">1.3</span>))</span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>proj_boom <span class="ot">&lt;-</span> <span class="fu">project_schedule</span>(</span>
+<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">activities         =</span> bp<span class="sc">$</span>schedule_activities,</span>
+<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">links              =</span> bp<span class="sc">$</span>schedule_links,</span>
+<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">duration_dists     =</span> bp<span class="sc">$</span>duration_dists,</span>
+<span id="cb34-30"><a href="#cb34-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">resources          =</span> bp<span class="sc">$</span>schedule_resources,</span>
+<span id="cb34-31"><a href="#cb34-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">productivity_dists =</span> bp<span class="sc">$</span>productivity_dists,</span>
+<span id="cb34-32"><a href="#cb34-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">assignments        =</span> bp<span class="sc">$</span>schedule_assignments,</span>
+<span id="cb34-33"><a href="#cb34-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">risks              =</span> bp<span class="sc">$</span>risk_register,</span>
+<span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">cor_mat            =</span> bp<span class="sc">$</span>cor_mat[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>],</span>
+<span id="cb34-35"><a href="#cb34-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">start_date         =</span> bp<span class="sc">$</span>start_date,</span>
+<span id="cb34-36"><a href="#cb34-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_unit          =</span> <span class="st">"weeks"</span>,</span>
+<span id="cb34-37"><a href="#cb34-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk_net           =</span> boom_net,</span>
+<span id="cb34-38"><a href="#cb34-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk_effects       =</span> boom_effects</span>
+<span id="cb34-39"><a href="#cb34-39" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb34-40"><a href="#cb34-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-41"><a href="#cb34-41" aria-hidden="true" tabindex="-1"></a>risk_boom <span class="ot">&lt;-</span> <span class="fu">sra</span>(proj_boom, <span class="at">num_sims =</span> <span class="dv">10000</span>, <span class="at">level =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-42"><a href="#cb34-42" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">register_only =</span> risk<span class="sc">$</span>percentiles, <span class="at">with_network =</span> risk_boom<span class="sc">$</span>percentiles)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   10%      50%      80%      90%
+register_only 52.70257 59.12902 64.02879 66.59000
+with_network  53.67842 61.21033 66.42246 69.37558</code></pre>
+</div>
+</div>
+<p>One labor-shortage node now slows three activities at once (the envelope, MEP and fit-out, through the two crews), and because labor and supply share a root cause, bad news arrives in clusters. The node statistics show how each part of the network moves the finish and cost:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>risk_boom<span class="sc">$</span>risk_net_stats</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      id  kind occurrence   mean finish_impact cost_impact finish_sensitivity
+1   Boom event     0.3973 0.3973      2.768507    365813.1          0.2195863
+2  Labor event     0.4068 0.4068      4.404207    445407.2          0.3499196
+3 Supply event     0.3412 0.3412      1.715385    359784.5          0.1304382
+  cost_sensitivity rank
+1        0.3432009    2
+2        0.4205138    1
+3        0.3256622    3</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Seeing Is Not Doing (Again)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>Supply</code> only raises cost rates, yet it shows a finish impact. That’s not a bug: <code>finish_impact</code> compares iterations where a node fired with those where it didn’t, so <code>Supply</code> borrows some of <code>Labor</code>’s delay through their shared parent, <code>Boom</code>. This is the <em>seeing</em> comparison from <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a>. Before deciding which risk to mitigate, ask what happens when you <em>intervene</em> on it, which is a different question.</p>
+</div>
+</div>
+</section>
+<section id="the-core-functions" class="level2" data-number="9.7">
+<h2 data-number="9.7" class="anchored" data-anchor-id="the-core-functions"><span class="header-section-number">9.7</span> The Core Functions</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 52%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>project_schedule()</code></td>
+<td>Validates and assembles activities, links, distributions, resources, assignments, risks and risk networks</td>
+</tr>
+<tr class="even">
+<td><code>cpm()</code></td>
+<td>Deterministic critical path schedule, optionally resource-leveled</td>
+</tr>
+<tr class="odd">
+<td><code>sra()</code></td>
+<td>Monte Carlo schedule risk analysis: reruns CPM in every iteration</td>
+</tr>
+<tr class="even">
+<td><code>plot()</code></td>
+<td>Network, Gantt, finish, CDF, tornado, cost and resource views of all three</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="summary" class="level2" data-number="9.8">
+<h2 data-number="9.8" class="anchored" data-anchor-id="summary"><span class="header-section-number">9.8</span> Summary</h2>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Key Takeaways
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Summing task durations ignores network logic. <strong>CPM</strong> schedules the network with a forward and a backward pass; zero-float activities form the critical path.</li>
+<li><strong>Resource leveling</strong> respects capacity. A single shared resource can add weeks to a plan that looks fine on paper.</li>
+<li><strong>Merge bias</strong> makes networks finish later than their deterministic plan, even with symmetric estimates, so plans typically sit at a low percentile.</li>
+<li><strong>Cruciality</strong> (criticality × sensitivity) shows which activities actually move the finish; criticality alone can point at activities that never vary.</li>
+<li>Connecting a <strong>risk network</strong> to resources lets one risk slow every task that uses a crew, and lets risks with a shared cause strike together.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="exercises" class="level2" data-number="9.9">
+<h2 data-number="9.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">9.9</span> Exercises</h2>
+<ol type="1">
+<li><p><strong>Float in practice.</strong> MEP (T5) has one week of float in the deterministic plan. Increase its duration by 2 weeks in <code>bp$schedule_activities</code> and rerun <code>cpm()</code>. What happens to the project finish and the critical path? Why?</p></li>
+<li><p><strong>Buy a second crane.</strong> ★ Change the tower crane’s capacity from 1 to 2 and rerun the leveled <code>sra()</code>. How much does the P80 finish improve? Weigh that against the crane’s cost (its rate is in <code>bp$schedule_resources</code>).</p></li>
+<li><p><strong>Remove the overlap.</strong> Replace the SS+8 and FF+2 links between the frame (T3) and the envelope (T4) with a single finish-to-start link. How does the deterministic finish change? What does that tell you about the value of overlapping work?</p></li>
+<li><p><strong>Critical but not crucial.</strong> Explain why fit-out (T6) can have a criticality index of 1 but a low cruciality index. What would you need to change in the model for T6 to become crucial?</p></li>
+<li><p><strong>Mitigate the shortage.</strong> ★ Halve the probability that <code>Labor</code> occurs when <code>Boom</code> is active (from 0.8 to 0.4) and rerun the analysis with the risk network. How much does the P80 finish move? Does <code>Supply</code>’s finish impact change, even though you didn’t touch it?</p></li>
+</ol>
+
+
+<!-- -->
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-kelley1959" class="csl-entry" role="listitem">
+Kelley, James E., and Morgan R. Walker. 1959. <span>“Critical-Path Planning and Scheduling.”</span> <em>Papers Presented at the December 1–3, 1959, Eastern Joint IRE-AIEE-ACM Computer Conference</em>, 160–73.
+</div>
+<div id="ref-kolisch1996" class="csl-entry" role="listitem">
+Kolisch, Rainer. 1996. <span>“Serial and Parallel Resource-Constrained Project Scheduling Methods Revisited: Theory and Computation.”</span> <em>European Journal of Operational Research</em> 90 (2): 320–33.
+</div>
+<div id="ref-pmi2009" class="csl-entry" role="listitem">
+Project Management Institute. 2009. <em>Practice Standard for Project Risk Management</em>. Project Management Institute.
+</div>
+<div id="ref-williams1992" class="csl-entry" role="listitem">
+Williams, Terry M. 1992. <span>“Criticality in Stochastic Networks.”</span> <em>Journal of the Operational Research Society</em> 43 (4): 353–57.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/paulgovan\.github\.io\/PRA\/book\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch-network.html" class="pagination-link" aria-label="It's a Small World After All: Probabilistic Networks">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ch-dsm.html" class="pagination-link" aria-label="Everything Is Connected: Design Structure Matrices">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Hurry Up and Wait: Critical Path and Schedule Risk Analysis {#sec-schedule}</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; *"It always takes longer than you expect, even when you take into account Hofstadter's Law."*</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; — Douglas Hofstadter</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>Monte Carlo simulation (@sec-mcs) adds up task durations. That's exactly right for a single chain of tasks, and it's exactly wrong for almost every real schedule. Real schedules have parallel paths that merge, work that overlaps, and crews that two activities both need at the same time. A task list can't see any of that. A schedule network can.</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>This chapter puts the network back in. We start with the **critical path method** (CPM), the deterministic backbone of every project schedule, then run it thousands of times with uncertain durations, uncertain productivity, and discrete risk events. That's **schedule risk analysis** (SRA). Finally, we connect the probabilistic networks of @sec-network to the schedule, so that one risk can reach many tasks through the resources they share.</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon=false}</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning Objectives</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>By the end of this chapter, you will be able to:</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Build a resource-loaded schedule with <span class="in">`project_schedule()`</span>, including FS, SS, FF and SF links with lags</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Compute early and late dates, float and the critical path with <span class="in">`cpm()`</span>, with and without resource leveling</span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Explain merge bias and why a network finishes later than its deterministic plan</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Run <span class="in">`sra()`</span> and interpret finish percentiles, criticality, cruciality and risk-event impacts</span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Feed a probabilistic risk network into the schedule so that risks act through resources</span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a><span class="fu">## From Task Lists to Networks</span></span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>A schedule network has activities (the nodes) and precedence links (the arrows). The precedence diagramming method allows four kinds of link, each with an optional **lag** (a delay) or **lead** (a negative lag):</span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Link <span class="pp">|</span> Meaning <span class="pp">|</span> Constraint on the successor <span class="pp">|</span></span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a><span class="pp">|------|---------|-----------------------------|</span></span>
+<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> FS (finish-to-start) <span class="pp">|</span> B can't start until A finishes <span class="pp">|</span> start(B) ≥ finish(A) + lag <span class="pp">|</span></span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> SS (start-to-start) <span class="pp">|</span> B can't start until A has started <span class="pp">|</span> start(B) ≥ start(A) + lag <span class="pp">|</span></span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> FF (finish-to-finish) <span class="pp">|</span> B can't finish until A has finished <span class="pp">|</span> finish(B) ≥ finish(A) + lag <span class="pp">|</span></span>
+<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> SF (start-to-finish) <span class="pp">|</span> B can't finish until A has started <span class="pp">|</span> finish(B) ≥ start(A) + lag <span class="pp">|</span></span>
+<span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-33"><a href="#cb38-33" aria-hidden="true" tabindex="-1"></a>CPM schedules the network in two passes <span class="co">[</span><span class="ot">@kelley1959</span><span class="co">]</span>. The **forward pass** visits activities in dependency order and starts each one as early as its links allow, giving the *early start* and *early finish* of every activity and the project finish. The **backward pass** works back from the project finish and gives each activity's *late start* and *late finish*: the latest it can run without delaying the project.</span>
+<span id="cb38-34"><a href="#cb38-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-35"><a href="#cb38-35" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb38-36"><a href="#cb38-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## Float and the Critical Path</span></span>
+<span id="cb38-37"><a href="#cb38-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-38"><a href="#cb38-38" aria-hidden="true" tabindex="-1"></a>**Total float** is late start minus early start: how far an activity can slip without moving the project finish. **Free float** is how far it can slip without delaying any successor. Activities with zero total float form the **critical path**. Delay any of them and the whole project slips, day for day.</span>
+<span id="cb38-39"><a href="#cb38-39" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb38-40"><a href="#cb38-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-41"><a href="#cb38-41" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Building Project Schedule</span></span>
+<span id="cb38-42"><a href="#cb38-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-43"><a href="#cb38-43" aria-hidden="true" tabindex="-1"></a>The <span class="in">`building_project`</span> dataset includes a resource-loaded schedule for a six-package mid-rise building, in weeks:</span>
+<span id="cb38-44"><a href="#cb38-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-45"><a href="#cb38-45" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup}</span></span>
+<span id="cb38-46"><a href="#cb38-46" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb38-47"><a href="#cb38-47" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
+<span id="cb38-48"><a href="#cb38-48" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2027</span>)</span>
+<span id="cb38-49"><a href="#cb38-49" aria-hidden="true" tabindex="-1"></a>bp <span class="ot">&lt;-</span> building_project</span>
+<span id="cb38-50"><a href="#cb38-50" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-51"><a href="#cb38-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-54"><a href="#cb38-54" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-55"><a href="#cb38-55" aria-hidden="true" tabindex="-1"></a>bp<span class="sc">$</span>schedule_activities</span>
+<span id="cb38-56"><a href="#cb38-56" aria-hidden="true" tabindex="-1"></a>bp<span class="sc">$</span>schedule_links</span>
+<span id="cb38-57"><a href="#cb38-57" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-58"><a href="#cb38-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-59"><a href="#cb38-59" aria-hidden="true" tabindex="-1"></a>The logic overlaps work the way real construction does. The envelope (T4) starts 8 weeks into the structural frame (SS+8) and can't finish until 2 weeks after the frame does (FF+2). MEP rough-in starts 4 weeks into the envelope. Fit-out (T6) follows the envelope, may start 6 weeks into MEP, and finishes at least 4 weeks after it. Fit-out has no duration of its own: it's 24 crew-weeks of work by two finishing crews, so its duration depends on how productive those crews are.</span>
+<span id="cb38-60"><a href="#cb38-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-61"><a href="#cb38-61" aria-hidden="true" tabindex="-1"></a>Resources carry a capacity and a weekly cost rate, and the assignments say who works on what:</span>
+<span id="cb38-62"><a href="#cb38-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-65"><a href="#cb38-65" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-66"><a href="#cb38-66" aria-hidden="true" tabindex="-1"></a>bp<span class="sc">$</span>schedule_resources</span>
+<span id="cb38-67"><a href="#cb38-67" aria-hidden="true" tabindex="-1"></a>bp<span class="sc">$</span>schedule_assignments</span>
+<span id="cb38-68"><a href="#cb38-68" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-69"><a href="#cb38-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-70"><a href="#cb38-70" aria-hidden="true" tabindex="-1"></a>There is only **one tower crane**, and the foundations, the frame and the envelope all need it. Hold that thought.</span>
+<span id="cb38-71"><a href="#cb38-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-72"><a href="#cb38-72" aria-hidden="true" tabindex="-1"></a><span class="in">`project_schedule()`</span> checks all of this and assembles the network. Durations of T1 to T5 are triangular, correlated through the task correlation matrix, and two discrete risk events come from the risk register:</span>
+<span id="cb38-73"><a href="#cb38-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-76"><a href="#cb38-76" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-77"><a href="#cb38-77" aria-hidden="true" tabindex="-1"></a>proj <span class="ot">&lt;-</span> <span class="fu">project_schedule</span>(</span>
+<span id="cb38-78"><a href="#cb38-78" aria-hidden="true" tabindex="-1"></a>  <span class="at">activities         =</span> bp<span class="sc">$</span>schedule_activities,</span>
+<span id="cb38-79"><a href="#cb38-79" aria-hidden="true" tabindex="-1"></a>  <span class="at">links              =</span> bp<span class="sc">$</span>schedule_links,</span>
+<span id="cb38-80"><a href="#cb38-80" aria-hidden="true" tabindex="-1"></a>  <span class="at">duration_dists     =</span> bp<span class="sc">$</span>duration_dists,</span>
+<span id="cb38-81"><a href="#cb38-81" aria-hidden="true" tabindex="-1"></a>  <span class="at">resources          =</span> bp<span class="sc">$</span>schedule_resources,</span>
+<span id="cb38-82"><a href="#cb38-82" aria-hidden="true" tabindex="-1"></a>  <span class="at">productivity_dists =</span> bp<span class="sc">$</span>productivity_dists,</span>
+<span id="cb38-83"><a href="#cb38-83" aria-hidden="true" tabindex="-1"></a>  <span class="at">assignments        =</span> bp<span class="sc">$</span>schedule_assignments,</span>
+<span id="cb38-84"><a href="#cb38-84" aria-hidden="true" tabindex="-1"></a>  <span class="at">risks              =</span> bp<span class="sc">$</span>risk_register,</span>
+<span id="cb38-85"><a href="#cb38-85" aria-hidden="true" tabindex="-1"></a>  <span class="at">cor_mat            =</span> bp<span class="sc">$</span>cor_mat[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>],</span>
+<span id="cb38-86"><a href="#cb38-86" aria-hidden="true" tabindex="-1"></a>  <span class="at">start_date         =</span> bp<span class="sc">$</span>start_date,</span>
+<span id="cb38-87"><a href="#cb38-87" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_unit          =</span> <span class="st">"weeks"</span></span>
+<span id="cb38-88"><a href="#cb38-88" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb38-89"><a href="#cb38-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-90"><a href="#cb38-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-93"><a href="#cb38-93" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-94"><a href="#cb38-94" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "The building schedule as an activity-on-node network. The deterministic critical path is in red; edge labels show link types and lags other than plain finish-to-start."</span></span>
+<span id="cb38-95"><a href="#cb38-95" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(proj)</span>
+<span id="cb38-96"><a href="#cb38-96" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-97"><a href="#cb38-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-98"><a href="#cb38-98" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Deterministic Plan</span></span>
+<span id="cb38-99"><a href="#cb38-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-102"><a href="#cb38-102" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-103"><a href="#cb38-103" aria-hidden="true" tabindex="-1"></a>plan <span class="ot">&lt;-</span> <span class="fu">cpm</span>(proj)</span>
+<span id="cb38-104"><a href="#cb38-104" aria-hidden="true" tabindex="-1"></a>plan</span>
+<span id="cb38-105"><a href="#cb38-105" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-106"><a href="#cb38-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-107"><a href="#cb38-107" aria-hidden="true" tabindex="-1"></a>The plan finishes in <span class="in">`r plan$finish`</span> weeks. Every activity except MEP is critical; MEP has <span class="in">`r plan$activities$total_float[5]`</span> week of float.</span>
+<span id="cb38-108"><a href="#cb38-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-111"><a href="#cb38-111" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-112"><a href="#cb38-112" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 8</span></span>
+<span id="cb38-113"><a href="#cb38-113" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5.5</span></span>
+<span id="cb38-114"><a href="#cb38-114" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "The deterministic schedule. Grey bars after an activity show its total float; the dashed line is the project finish."</span></span>
+<span id="cb38-115"><a href="#cb38-115" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(plan)</span>
+<span id="cb38-116"><a href="#cb38-116" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-117"><a href="#cb38-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-118"><a href="#cb38-118" aria-hidden="true" tabindex="-1"></a><span class="fu">### Leveling the Crane</span></span>
+<span id="cb38-119"><a href="#cb38-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-120"><a href="#cb38-120" aria-hidden="true" tabindex="-1"></a>The plan has a problem: the envelope starts while the frame is still using the crane. With <span class="in">`level = TRUE`</span>, <span class="in">`cpm()`</span> schedules activities one at a time with a *serial schedule-generation scheme* [@kolisch1996]. It takes the eligible activity with the smallest late start and places it at the earliest time that satisfies its links *and* keeps every resource within capacity for the activity's whole duration.</span>
+<span id="cb38-121"><a href="#cb38-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-124"><a href="#cb38-124" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-125"><a href="#cb38-125" aria-hidden="true" tabindex="-1"></a>leveled <span class="ot">&lt;-</span> <span class="fu">cpm</span>(proj, <span class="at">level =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb38-126"><a href="#cb38-126" aria-hidden="true" tabindex="-1"></a>leveled<span class="sc">$</span>finish <span class="sc">-</span> plan<span class="sc">$</span>finish</span>
+<span id="cb38-127"><a href="#cb38-127" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-128"><a href="#cb38-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-131"><a href="#cb38-131" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-132"><a href="#cb38-132" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 8</span></span>
+<span id="cb38-133"><a href="#cb38-133" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5.5</span></span>
+<span id="cb38-134"><a href="#cb38-134" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "The resource-leveled schedule. The envelope now waits for the crane."</span></span>
+<span id="cb38-135"><a href="#cb38-135" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(leveled)</span>
+<span id="cb38-136"><a href="#cb38-136" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-137"><a href="#cb38-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-138"><a href="#cb38-138" aria-hidden="true" tabindex="-1"></a>One crane costs <span class="in">`r leveled$finish - plan$finish`</span> weeks. Once resources move dates, float stops meaning much, so <span class="in">`cpm()`</span> finds the critical activities differently: it traces the **driving path** back from the finish, through links that bind and through resource hand-offs.</span>
+<span id="cb38-139"><a href="#cb38-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-140"><a href="#cb38-140" aria-hidden="true" tabindex="-1"></a><span class="fu">## Merge Bias: Why Networks Finish Late</span></span>
+<span id="cb38-141"><a href="#cb38-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-142"><a href="#cb38-142" aria-hidden="true" tabindex="-1"></a>Before adding uncertainty to the building project, it's worth seeing the effect that makes network analysis necessary. Two 10-week activities run in parallel, each estimated as triangular from 8 to 12 weeks:</span>
+<span id="cb38-143"><a href="#cb38-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-146"><a href="#cb38-146" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-147"><a href="#cb38-147" aria-hidden="true" tabindex="-1"></a>parallel <span class="ot">&lt;-</span> <span class="fu">project_schedule</span>(</span>
+<span id="cb38-148"><a href="#cb38-148" aria-hidden="true" tabindex="-1"></a>  <span class="at">activities =</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="st">"Start"</span>, <span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Finish"</span>),</span>
+<span id="cb38-149"><a href="#cb38-149" aria-hidden="true" tabindex="-1"></a>                          <span class="at">duration =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">0</span>)),</span>
+<span id="cb38-150"><a href="#cb38-150" aria-hidden="true" tabindex="-1"></a>  <span class="at">links =</span> <span class="fu">data.frame</span>(<span class="at">source =</span> <span class="fu">c</span>(<span class="st">"Start"</span>, <span class="st">"Start"</span>, <span class="st">"X"</span>, <span class="st">"Y"</span>),</span>
+<span id="cb38-151"><a href="#cb38-151" aria-hidden="true" tabindex="-1"></a>                     <span class="at">target =</span> <span class="fu">c</span>(<span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Finish"</span>, <span class="st">"Finish"</span>)),</span>
+<span id="cb38-152"><a href="#cb38-152" aria-hidden="true" tabindex="-1"></a>  <span class="at">duration_dists =</span> <span class="fu">list</span>(</span>
+<span id="cb38-153"><a href="#cb38-153" aria-hidden="true" tabindex="-1"></a>    <span class="at">X =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"triangular"</span>, <span class="at">a =</span> <span class="dv">8</span>, <span class="at">b =</span> <span class="dv">10</span>, <span class="at">c =</span> <span class="dv">12</span>),</span>
+<span id="cb38-154"><a href="#cb38-154" aria-hidden="true" tabindex="-1"></a>    <span class="at">Y =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"triangular"</span>, <span class="at">a =</span> <span class="dv">8</span>, <span class="at">b =</span> <span class="dv">10</span>, <span class="at">c =</span> <span class="dv">12</span>)</span>
+<span id="cb38-155"><a href="#cb38-155" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb38-156"><a href="#cb38-156" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb38-157"><a href="#cb38-157" aria-hidden="true" tabindex="-1"></a>par_risk <span class="ot">&lt;-</span> <span class="fu">sra</span>(parallel, <span class="at">num_sims =</span> <span class="dv">10000</span>)</span>
+<span id="cb38-158"><a href="#cb38-158" aria-hidden="true" tabindex="-1"></a>par_risk<span class="sc">$</span>prob_deterministic</span>
+<span id="cb38-159"><a href="#cb38-159" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-160"><a href="#cb38-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-161"><a href="#cb38-161" aria-hidden="true" tabindex="-1"></a>Each path alone has a 50% chance of finishing in 10 weeks. The project needs *both* to finish, so its chance is about `r round(100 * par_risk$prob_deterministic)`%. This is **merge bias**: wherever paths converge, the finish is set by whichever runs longest, so the expected finish is later than any single path suggests, even when every estimate is symmetric. Summing durations along one path can never show it.</span>
+<span id="cb38-162"><a href="#cb38-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-163"><a href="#cb38-163" aria-hidden="true" tabindex="-1"></a><span class="fu">## Schedule Risk Analysis</span></span>
+<span id="cb38-164"><a href="#cb38-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-165"><a href="#cb38-165" aria-hidden="true" tabindex="-1"></a><span class="in">`sra()`</span> samples every uncertain quantity in each iteration, reschedules the network with CPM, and records the result. Here we keep the crane constraint in every iteration:</span>
+<span id="cb38-166"><a href="#cb38-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-169"><a href="#cb38-169" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-170"><a href="#cb38-170" aria-hidden="true" tabindex="-1"></a>risk <span class="ot">&lt;-</span> <span class="fu">sra</span>(proj, <span class="at">num_sims =</span> <span class="dv">10000</span>, <span class="at">level =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb38-171"><a href="#cb38-171" aria-hidden="true" tabindex="-1"></a>risk</span>
+<span id="cb38-172"><a href="#cb38-172" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-173"><a href="#cb38-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-176"><a href="#cb38-176" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-177"><a href="#cb38-177" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Cumulative probability of finishing by each date. The deterministic plan sits low on the curve."</span></span>
+<span id="cb38-178"><a href="#cb38-178" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(risk, <span class="at">type =</span> <span class="st">"cdf"</span>)</span>
+<span id="cb38-179"><a href="#cb38-179" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-180"><a href="#cb38-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-181"><a href="#cb38-181" aria-hidden="true" tabindex="-1"></a>The leveled plan of <span class="in">`r leveled$finish`</span> weeks has a probability of only <span class="in">`r round(100 * risk$prob_deterministic)`</span>% of being met. The P80 is <span class="in">`r round(risk$percentiles[["80%"]], 1)`</span> weeks. The difference between the P80 and the P50 is the schedule contingency, and <span class="in">`contingency()`</span> from @sec-mcs works on the result directly:</span>
+<span id="cb38-182"><a href="#cb38-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-185"><a href="#cb38-185" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-186"><a href="#cb38-186" aria-hidden="true" tabindex="-1"></a><span class="fu">contingency</span>(risk, <span class="at">phigh =</span> <span class="fl">0.80</span>, <span class="at">pbase =</span> <span class="fl">0.50</span>)</span>
+<span id="cb38-187"><a href="#cb38-187" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-188"><a href="#cb38-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-189"><a href="#cb38-189" aria-hidden="true" tabindex="-1"></a><span class="fu">### What Drives the Finish?</span></span>
+<span id="cb38-190"><a href="#cb38-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-191"><a href="#cb38-191" aria-hidden="true" tabindex="-1"></a>Knowing the finish distribution isn't enough; you need to know where to act. <span class="in">`sra()`</span> measures each activity four ways:</span>
+<span id="cb38-192"><a href="#cb38-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-193"><a href="#cb38-193" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb38-194"><a href="#cb38-194" aria-hidden="true" tabindex="-1"></a><span class="fu">## Criticality Measures</span></span>
+<span id="cb38-195"><a href="#cb38-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-196"><a href="#cb38-196" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Criticality index**: the share of iterations in which the activity is critical.</span>
+<span id="cb38-197"><a href="#cb38-197" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sensitivity**: the rank correlation between the activity's duration and the project finish.</span>
+<span id="cb38-198"><a href="#cb38-198" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cruciality index**: criticality × sensitivity <span class="co">[</span><span class="ot">@williams1992</span><span class="co">]</span>. It ranks activities by how much they actually *move* the finish.</span>
+<span id="cb38-199"><a href="#cb38-199" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Schedule sensitivity index (SSI)**: criticality × the activity's duration spread relative to the finish's spread <span class="co">[</span><span class="ot">@pmi2009</span><span class="co">]</span>.</span>
+<span id="cb38-200"><a href="#cb38-200" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb38-201"><a href="#cb38-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-204"><a href="#cb38-204" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-205"><a href="#cb38-205" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(risk)<span class="sc">$</span>activities</span>
+<span id="cb38-206"><a href="#cb38-206" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-207"><a href="#cb38-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-208"><a href="#cb38-208" aria-hidden="true" tabindex="-1"></a>Criticality alone can mislead. Fit-out (T6) is critical in every iteration, but its duration varies little, so it has low cruciality: shortening its uncertainty buys little. The frame and foundations are where uncertainty turns into delay.</span>
+<span id="cb38-209"><a href="#cb38-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-212"><a href="#cb38-212" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-213"><a href="#cb38-213" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 8</span></span>
+<span id="cb38-214"><a href="#cb38-214" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5.5</span></span>
+<span id="cb38-215"><a href="#cb38-215" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Deterministic bars shaded by criticality index, with each activity's P10 to P90 finish range and P50 tick."</span></span>
+<span id="cb38-216"><a href="#cb38-216" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(risk, <span class="at">type =</span> <span class="st">"gantt"</span>)</span>
+<span id="cb38-217"><a href="#cb38-217" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-218"><a href="#cb38-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-221"><a href="#cb38-221" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-222"><a href="#cb38-222" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Activities ranked by cruciality index."</span></span>
+<span id="cb38-223"><a href="#cb38-223" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(risk, <span class="at">type =</span> <span class="st">"tornado"</span>)</span>
+<span id="cb38-224"><a href="#cb38-224" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-225"><a href="#cb38-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-226"><a href="#cb38-226" aria-hidden="true" tabindex="-1"></a><span class="fu">### Risk Events</span></span>
+<span id="cb38-227"><a href="#cb38-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-228"><a href="#cb38-228" aria-hidden="true" tabindex="-1"></a>The two events in the register (adverse weather and late design changes) each occur independently with their stated probability and add a sampled delay and cost to the activities they affect:</span>
+<span id="cb38-229"><a href="#cb38-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-232"><a href="#cb38-232" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-233"><a href="#cb38-233" aria-hidden="true" tabindex="-1"></a>risk<span class="sc">$</span>risk_stats</span>
+<span id="cb38-234"><a href="#cb38-234" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-235"><a href="#cb38-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-236"><a href="#cb38-236" aria-hidden="true" tabindex="-1"></a><span class="in">`finish_impact`</span> is the mean finish when the risk occurred minus the mean when it didn't. Rank risk responses by it:</span>
+<span id="cb38-237"><a href="#cb38-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-240"><a href="#cb38-240" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-241"><a href="#cb38-241" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Risk events ranked by their mean impact on the finish."</span></span>
+<span id="cb38-242"><a href="#cb38-242" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(risk, <span class="at">type =</span> <span class="st">"tornado"</span>, <span class="at">metric =</span> <span class="st">"risk"</span>)</span>
+<span id="cb38-243"><a href="#cb38-243" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-244"><a href="#cb38-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-245"><a href="#cb38-245" aria-hidden="true" tabindex="-1"></a><span class="fu">### Cost and Resources Over Time</span></span>
+<span id="cb38-246"><a href="#cb38-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-247"><a href="#cb38-247" aria-hidden="true" tabindex="-1"></a>Every activity's cost (resource units × rate × duration, plus fixed cost and any risk costs) is spread over its dates, giving a cost S-curve with an uncertainty band. Resource usage gets the same treatment, and with leveling it never exceeds capacity:</span>
+<span id="cb38-248"><a href="#cb38-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-251"><a href="#cb38-251" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-252"><a href="#cb38-252" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Cumulative cost: P50 line and P10 to P90 band."</span></span>
+<span id="cb38-253"><a href="#cb38-253" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(risk, <span class="at">type =</span> <span class="st">"cost"</span>)</span>
+<span id="cb38-254"><a href="#cb38-254" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-255"><a href="#cb38-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-258"><a href="#cb38-258" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-259"><a href="#cb38-259" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Resource usage against capacity, P50 line and P10 to P90 band."</span></span>
+<span id="cb38-260"><a href="#cb38-260" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 6</span></span>
+<span id="cb38-261"><a href="#cb38-261" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(risk, <span class="at">type =</span> <span class="st">"resources"</span>)</span>
+<span id="cb38-262"><a href="#cb38-262" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-263"><a href="#cb38-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-264"><a href="#cb38-264" aria-hidden="true" tabindex="-1"></a><span class="fu">## Risks That Flow Through Resources</span></span>
+<span id="cb38-265"><a href="#cb38-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-266"><a href="#cb38-266" aria-hidden="true" tabindex="-1"></a>The risk register treats every risk as independent and aims it at specific activities. Real risks don't behave that way. A regional construction boom tightens the labor market *and* the supply chain at the same time, and a labor shortage doesn't hit one activity: it slows every activity that uses the affected crews.</span>
+<span id="cb38-267"><a href="#cb38-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-268"><a href="#cb38-268" aria-hidden="true" tabindex="-1"></a>The probabilistic networks of @sec-network capture the first part: risks that share a root cause. <span class="in">`project_schedule()`</span> connects such a network to the schedule through <span class="in">`risk_effects`</span>, which link network nodes to **resources**. A productivity effect slows every activity assigned to the resource; a rate effect raises its cost.</span>
+<span id="cb38-269"><a href="#cb38-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-272"><a href="#cb38-272" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-273"><a href="#cb38-273" aria-hidden="true" tabindex="-1"></a>boom_net <span class="ot">&lt;-</span> <span class="fu">prob_net</span>(</span>
+<span id="cb38-274"><a href="#cb38-274" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="st">"Boom"</span>, <span class="st">"Labor"</span>, <span class="st">"Supply"</span>)),</span>
+<span id="cb38-275"><a href="#cb38-275" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">source =</span> <span class="fu">c</span>(<span class="st">"Boom"</span>, <span class="st">"Boom"</span>), <span class="at">target =</span> <span class="fu">c</span>(<span class="st">"Labor"</span>, <span class="st">"Supply"</span>)),</span>
+<span id="cb38-276"><a href="#cb38-276" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb38-277"><a href="#cb38-277" aria-hidden="true" tabindex="-1"></a>    <span class="at">Boom =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.4</span>, <span class="fl">0.6</span>)),</span>
+<span id="cb38-278"><a href="#cb38-278" aria-hidden="true" tabindex="-1"></a>    <span class="at">Labor =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>, <span class="at">condition =</span> <span class="st">"Boom"</span>,</span>
+<span id="cb38-279"><a href="#cb38-279" aria-hidden="true" tabindex="-1"></a>      <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.2</span>)),</span>
+<span id="cb38-280"><a href="#cb38-280" aria-hidden="true" tabindex="-1"></a>      <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.85</span>))),</span>
+<span id="cb38-281"><a href="#cb38-281" aria-hidden="true" tabindex="-1"></a>    <span class="at">Supply =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"conditional"</span>, <span class="at">condition =</span> <span class="st">"Boom"</span>,</span>
+<span id="cb38-282"><a href="#cb38-282" aria-hidden="true" tabindex="-1"></a>      <span class="at">true_dist  =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>)),</span>
+<span id="cb38-283"><a href="#cb38-283" aria-hidden="true" tabindex="-1"></a>      <span class="at">false_dist =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"discrete"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>)))</span>
+<span id="cb38-284"><a href="#cb38-284" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb38-285"><a href="#cb38-285" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb38-286"><a href="#cb38-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-287"><a href="#cb38-287" aria-hidden="true" tabindex="-1"></a>boom_effects <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb38-288"><a href="#cb38-288" aria-hidden="true" tabindex="-1"></a>  <span class="co"># A labor shortage slows both crews that MEP and fit-out depend on.</span></span>
+<span id="cb38-289"><a href="#cb38-289" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">node =</span> <span class="st">"Labor"</span>, <span class="at">resources =</span> <span class="fu">c</span>(<span class="st">"MEP subcontractor"</span>, <span class="st">"Finishing crew"</span>),</span>
+<span id="cb38-290"><a href="#cb38-290" aria-hidden="true" tabindex="-1"></a>       <span class="at">effect =</span> <span class="st">"productivity"</span>,</span>
+<span id="cb38-291"><a href="#cb38-291" aria-hidden="true" tabindex="-1"></a>       <span class="at">magnitude =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"pert"</span>, <span class="at">a =</span> <span class="fl">0.7</span>, <span class="at">b =</span> <span class="fl">0.85</span>, <span class="at">c =</span> <span class="fl">0.95</span>)),</span>
+<span id="cb38-292"><a href="#cb38-292" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Supply-chain pressure raises concrete and steel costs.</span></span>
+<span id="cb38-293"><a href="#cb38-293" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">node =</span> <span class="st">"Supply"</span>, <span class="at">resources =</span> <span class="fu">c</span>(<span class="st">"Concrete crew"</span>, <span class="st">"Steel erector"</span>),</span>
+<span id="cb38-294"><a href="#cb38-294" aria-hidden="true" tabindex="-1"></a>       <span class="at">effect =</span> <span class="st">"rate"</span>,</span>
+<span id="cb38-295"><a href="#cb38-295" aria-hidden="true" tabindex="-1"></a>       <span class="at">magnitude =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"uniform"</span>, <span class="at">min =</span> <span class="fl">1.1</span>, <span class="at">max =</span> <span class="fl">1.3</span>))</span>
+<span id="cb38-296"><a href="#cb38-296" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb38-297"><a href="#cb38-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-298"><a href="#cb38-298" aria-hidden="true" tabindex="-1"></a>proj_boom <span class="ot">&lt;-</span> <span class="fu">project_schedule</span>(</span>
+<span id="cb38-299"><a href="#cb38-299" aria-hidden="true" tabindex="-1"></a>  <span class="at">activities         =</span> bp<span class="sc">$</span>schedule_activities,</span>
+<span id="cb38-300"><a href="#cb38-300" aria-hidden="true" tabindex="-1"></a>  <span class="at">links              =</span> bp<span class="sc">$</span>schedule_links,</span>
+<span id="cb38-301"><a href="#cb38-301" aria-hidden="true" tabindex="-1"></a>  <span class="at">duration_dists     =</span> bp<span class="sc">$</span>duration_dists,</span>
+<span id="cb38-302"><a href="#cb38-302" aria-hidden="true" tabindex="-1"></a>  <span class="at">resources          =</span> bp<span class="sc">$</span>schedule_resources,</span>
+<span id="cb38-303"><a href="#cb38-303" aria-hidden="true" tabindex="-1"></a>  <span class="at">productivity_dists =</span> bp<span class="sc">$</span>productivity_dists,</span>
+<span id="cb38-304"><a href="#cb38-304" aria-hidden="true" tabindex="-1"></a>  <span class="at">assignments        =</span> bp<span class="sc">$</span>schedule_assignments,</span>
+<span id="cb38-305"><a href="#cb38-305" aria-hidden="true" tabindex="-1"></a>  <span class="at">risks              =</span> bp<span class="sc">$</span>risk_register,</span>
+<span id="cb38-306"><a href="#cb38-306" aria-hidden="true" tabindex="-1"></a>  <span class="at">cor_mat            =</span> bp<span class="sc">$</span>cor_mat[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>],</span>
+<span id="cb38-307"><a href="#cb38-307" aria-hidden="true" tabindex="-1"></a>  <span class="at">start_date         =</span> bp<span class="sc">$</span>start_date,</span>
+<span id="cb38-308"><a href="#cb38-308" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_unit          =</span> <span class="st">"weeks"</span>,</span>
+<span id="cb38-309"><a href="#cb38-309" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk_net           =</span> boom_net,</span>
+<span id="cb38-310"><a href="#cb38-310" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk_effects       =</span> boom_effects</span>
+<span id="cb38-311"><a href="#cb38-311" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb38-312"><a href="#cb38-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-313"><a href="#cb38-313" aria-hidden="true" tabindex="-1"></a>risk_boom <span class="ot">&lt;-</span> <span class="fu">sra</span>(proj_boom, <span class="at">num_sims =</span> <span class="dv">10000</span>, <span class="at">level =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb38-314"><a href="#cb38-314" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">register_only =</span> risk<span class="sc">$</span>percentiles, <span class="at">with_network =</span> risk_boom<span class="sc">$</span>percentiles)</span>
+<span id="cb38-315"><a href="#cb38-315" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-316"><a href="#cb38-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-317"><a href="#cb38-317" aria-hidden="true" tabindex="-1"></a>One labor-shortage node now slows three activities at once (the envelope, MEP and fit-out, through the two crews), and because labor and supply share a root cause, bad news arrives in clusters. The node statistics show how each part of the network moves the finish and cost:</span>
+<span id="cb38-318"><a href="#cb38-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-321"><a href="#cb38-321" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-322"><a href="#cb38-322" aria-hidden="true" tabindex="-1"></a>risk_boom<span class="sc">$</span>risk_net_stats</span>
+<span id="cb38-323"><a href="#cb38-323" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-324"><a href="#cb38-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-325"><a href="#cb38-325" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb38-326"><a href="#cb38-326" aria-hidden="true" tabindex="-1"></a><span class="fu">## Seeing Is Not Doing (Again)</span></span>
+<span id="cb38-327"><a href="#cb38-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-328"><a href="#cb38-328" aria-hidden="true" tabindex="-1"></a><span class="in">`Supply`</span> only raises cost rates, yet it shows a finish impact. That's not a bug: <span class="in">`finish_impact`</span> compares iterations where a node fired with those where it didn't, so <span class="in">`Supply`</span> borrows some of <span class="in">`Labor`</span>'s delay through their shared parent, <span class="in">`Boom`</span>. This is the *seeing* comparison from @sec-network. Before deciding which risk to mitigate, ask what happens when you *intervene* on it, which is a different question.</span>
+<span id="cb38-329"><a href="#cb38-329" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb38-330"><a href="#cb38-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-331"><a href="#cb38-331" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Core Functions</span></span>
+<span id="cb38-332"><a href="#cb38-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-333"><a href="#cb38-333" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Function <span class="pp">|</span> Purpose <span class="pp">|</span></span>
+<span id="cb38-334"><a href="#cb38-334" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|---------|</span></span>
+<span id="cb38-335"><a href="#cb38-335" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`project_schedule()`</span> <span class="pp">|</span> Validates and assembles activities, links, distributions, resources, assignments, risks and risk networks <span class="pp">|</span></span>
+<span id="cb38-336"><a href="#cb38-336" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`cpm()`</span> <span class="pp">|</span> Deterministic critical path schedule, optionally resource-leveled <span class="pp">|</span></span>
+<span id="cb38-337"><a href="#cb38-337" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`sra()`</span> <span class="pp">|</span> Monte Carlo schedule risk analysis: reruns CPM in every iteration <span class="pp">|</span></span>
+<span id="cb38-338"><a href="#cb38-338" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`plot()`</span> <span class="pp">|</span> Network, Gantt, finish, CDF, tornado, cost and resource views of all three <span class="pp">|</span></span>
+<span id="cb38-339"><a href="#cb38-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-340"><a href="#cb38-340" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
+<span id="cb38-341"><a href="#cb38-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-342"><a href="#cb38-342" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon=false}</span>
+<span id="cb38-343"><a href="#cb38-343" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Takeaways</span></span>
+<span id="cb38-344"><a href="#cb38-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-345"><a href="#cb38-345" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Summing task durations ignores network logic. **CPM** schedules the network with a forward and a backward pass; zero-float activities form the critical path.</span>
+<span id="cb38-346"><a href="#cb38-346" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Resource leveling** respects capacity. A single shared resource can add weeks to a plan that looks fine on paper.</span>
+<span id="cb38-347"><a href="#cb38-347" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Merge bias** makes networks finish later than their deterministic plan, even with symmetric estimates, so plans typically sit at a low percentile.</span>
+<span id="cb38-348"><a href="#cb38-348" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cruciality** (criticality × sensitivity) shows which activities actually move the finish; criticality alone can point at activities that never vary.</span>
+<span id="cb38-349"><a href="#cb38-349" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Connecting a **risk network** to resources lets one risk slow every task that uses a crew, and lets risks with a shared cause strike together.</span>
+<span id="cb38-350"><a href="#cb38-350" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb38-351"><a href="#cb38-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-352"><a href="#cb38-352" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
+<span id="cb38-353"><a href="#cb38-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-354"><a href="#cb38-354" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Float in practice.** MEP (T5) has one week of float in the deterministic plan. Increase its duration by 2 weeks in <span class="in">`bp$schedule_activities`</span> and rerun <span class="in">`cpm()`</span>. What happens to the project finish and the critical path? Why?</span>
+<span id="cb38-355"><a href="#cb38-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-356"><a href="#cb38-356" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Buy a second crane.** ★ Change the tower crane's capacity from 1 to 2 and rerun the leveled <span class="in">`sra()`</span>. How much does the P80 finish improve? Weigh that against the crane's cost (its rate is in <span class="in">`bp$schedule_resources`</span>).</span>
+<span id="cb38-357"><a href="#cb38-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-358"><a href="#cb38-358" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Remove the overlap.** Replace the SS+8 and FF+2 links between the frame (T3) and the envelope (T4) with a single finish-to-start link. How does the deterministic finish change? What does that tell you about the value of overlapping work?</span>
+<span id="cb38-359"><a href="#cb38-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-360"><a href="#cb38-360" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Critical but not crucial.** Explain why fit-out (T6) can have a criticality index of 1 but a low cruciality index. What would you need to change in the model for T6 to become crucial?</span>
+<span id="cb38-361"><a href="#cb38-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-362"><a href="#cb38-362" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Mitigate the shortage.** ★ Halve the probability that <span class="in">`Labor`</span> occurs when <span class="in">`Boom`</span> is active (from 0.8 to 0.4) and rerun the analysis with the risk network. How much does the P80 finish move? Does <span class="in">`Supply`</span>'s finish impact change, even though you didn't touch it?</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/paulgovan/PRA/edit/main/ch-schedule.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulgovan/PRA/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>9&nbsp; Everything Is Connected: Design Structure Matrices – Project Risk Analysis: A Practical Guide</title>
+<title>10&nbsp; Everything Is Connected: Design Structure Matrices – Project Risk Analysis: A Practical Guide</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -90,8 +90,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./ch-network2.html" rel="next">
-<link href="./ch-network.html" rel="prev">
+<link href="./ch-quarto.html" rel="next">
+<link href="./ch-schedule.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -346,7 +346,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch-dsm.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch-dsm.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -458,14 +458,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
+  <a href="./ch-schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hurry Up and Wait: Critical Path and Schedule Risk Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch-network2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Portfolio Problem: When Risks Are Shared</span></span></a>
+  <a href="./ch-dsm.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -534,17 +534,17 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#what-is-a-dsm" id="toc-what-is-a-dsm" class="nav-link active" data-scroll-target="#what-is-a-dsm"><span class="header-section-number">9.1</span> What Is a DSM?</a></li>
-  <li><a href="#rebuilding-the-project-network" id="toc-rebuilding-the-project-network" class="nav-link" data-scroll-target="#rebuilding-the-project-network"><span class="header-section-number">9.2</span> Rebuilding the Project Network</a></li>
-  <li><a href="#the-adjacency-matrix" id="toc-the-adjacency-matrix" class="nav-link" data-scroll-target="#the-adjacency-matrix"><span class="header-section-number">9.3</span> The Adjacency Matrix</a></li>
-  <li><a href="#the-resource-task-matrix" id="toc-the-resource-task-matrix" class="nav-link" data-scroll-target="#the-resource-task-matrix"><span class="header-section-number">9.4</span> The Resource-Task Matrix</a></li>
-  <li><a href="#parent-dsm" id="toc-parent-dsm" class="nav-link" data-scroll-target="#parent-dsm"><span class="header-section-number">9.5</span> Parent DSM</a></li>
-  <li><a href="#the-risk-resource-matrix" id="toc-the-risk-resource-matrix" class="nav-link" data-scroll-target="#the-risk-resource-matrix"><span class="header-section-number">9.6</span> The Risk-Resource Matrix</a></li>
-  <li><a href="#grandparent-dsm" id="toc-grandparent-dsm" class="nav-link" data-scroll-target="#grandparent-dsm"><span class="header-section-number">9.7</span> Grandparent DSM</a></li>
-  <li><a href="#interpreting-the-dsm" id="toc-interpreting-the-dsm" class="nav-link" data-scroll-target="#interpreting-the-dsm"><span class="header-section-number">9.8</span> Interpreting the DSM</a></li>
-  <li><a href="#from-dsm-to-decision" id="toc-from-dsm-to-decision" class="nav-link" data-scroll-target="#from-dsm-to-decision"><span class="header-section-number">9.9</span> From DSM to Decision</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">9.10</span> Summary</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">9.11</span> Exercises</a></li>
+  <li><a href="#what-is-a-dsm" id="toc-what-is-a-dsm" class="nav-link active" data-scroll-target="#what-is-a-dsm"><span class="header-section-number">10.1</span> What Is a DSM?</a></li>
+  <li><a href="#rebuilding-the-project-network" id="toc-rebuilding-the-project-network" class="nav-link" data-scroll-target="#rebuilding-the-project-network"><span class="header-section-number">10.2</span> Rebuilding the Project Network</a></li>
+  <li><a href="#the-adjacency-matrix" id="toc-the-adjacency-matrix" class="nav-link" data-scroll-target="#the-adjacency-matrix"><span class="header-section-number">10.3</span> The Adjacency Matrix</a></li>
+  <li><a href="#the-resource-task-matrix" id="toc-the-resource-task-matrix" class="nav-link" data-scroll-target="#the-resource-task-matrix"><span class="header-section-number">10.4</span> The Resource-Task Matrix</a></li>
+  <li><a href="#parent-dsm" id="toc-parent-dsm" class="nav-link" data-scroll-target="#parent-dsm"><span class="header-section-number">10.5</span> Parent DSM</a></li>
+  <li><a href="#the-risk-resource-matrix" id="toc-the-risk-resource-matrix" class="nav-link" data-scroll-target="#the-risk-resource-matrix"><span class="header-section-number">10.6</span> The Risk-Resource Matrix</a></li>
+  <li><a href="#grandparent-dsm" id="toc-grandparent-dsm" class="nav-link" data-scroll-target="#grandparent-dsm"><span class="header-section-number">10.7</span> Grandparent DSM</a></li>
+  <li><a href="#interpreting-the-dsm" id="toc-interpreting-the-dsm" class="nav-link" data-scroll-target="#interpreting-the-dsm"><span class="header-section-number">10.8</span> Interpreting the DSM</a></li>
+  <li><a href="#from-dsm-to-decision" id="toc-from-dsm-to-decision" class="nav-link" data-scroll-target="#from-dsm-to-decision"><span class="header-section-number">10.9</span> From DSM to Decision</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">10.10</span> Summary</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">10.11</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/paulgovan/PRA/edit/main/ch-dsm.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/paulgovan/PRA/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -554,7 +554,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span id="sec-dsm" class="quarto-section-identifier"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-dsm" class="quarto-section-identifier"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Everything Is Connected: Design Structure Matrices</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -596,8 +596,8 @@ window.Quarto = {
 </ol>
 </div>
 </div>
-<section id="what-is-a-dsm" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="what-is-a-dsm"><span class="header-section-number">9.1</span> What Is a DSM?</h2>
+<section id="what-is-a-dsm" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="what-is-a-dsm"><span class="header-section-number">10.1</span> What Is a DSM?</h2>
 <p>A DSM is a square matrix that maps dependencies between tasks in a project. In PRA, DSMs are derived from bipartite relationships: resources are shared across tasks, and risks are shared across resources. These shared dependencies create coupling between tasks that can propagate delays, cost overruns, or failures.</p>
 <p>PRA provides two DSM functions:</p>
 <ul>
@@ -607,8 +607,8 @@ window.Quarto = {
 <p>The key idea from the resource-based view of project management <span class="citation" data-cites="govan2016">(<a href="references.html#ref-govan2016" role="doc-biblioref">Govan and Damnjanovic 2016</a>)</span>: shared resources are the structural pathway through which risks propagate. If you want to understand why two tasks always seem to get delayed together, look at what resources they share.</p>
 <p>In the PRA framework, the same adjacency matrix that encodes the Bayesian network’s topology also encodes the bipartite relationships needed to build <strong>S</strong> and <strong>R</strong> — no separate data entry required.</p>
 </section>
-<section id="rebuilding-the-project-network" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="rebuilding-the-project-network"><span class="header-section-number">9.2</span> Rebuilding the Project Network</h2>
+<section id="rebuilding-the-project-network" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="rebuilding-the-project-network"><span class="header-section-number">10.2</span> Rebuilding the Project Network</h2>
 <p>We continue with the software development project from <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a>. Rebuild the <code>graph</code> object to access its adjacency matrix.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRA)</span>
@@ -662,8 +662,8 @@ window.Quarto = {
 <span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>graph <span class="ot">&lt;-</span> <span class="fu">prob_net</span>(nodes, links, <span class="at">distributions =</span> distributions)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="the-adjacency-matrix" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="the-adjacency-matrix"><span class="header-section-number">9.3</span> The Adjacency Matrix</h2>
+<section id="the-adjacency-matrix" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="the-adjacency-matrix"><span class="header-section-number">10.3</span> The Adjacency Matrix</h2>
 <p>The <code>graph</code> object exposes a full 9×9 adjacency matrix — one row and column for every node. <code>prob_net()</code> builds it as a <strong>directed</strong> matrix: an entry of 1 at <code>[i, j]</code> means an edge runs from node <span class="math inline">\(i\)</span> to node <span class="math inline">\(j\)</span> (as declared in <code>links</code>), and the entry at <code>[j, i]</code> stays 0 unless a separate edge runs the other way.</p>
 <p>Internally, <code>prob_net()</code> labels rows and columns with node IDs. For readability, we rename them with node labels before displaying or extracting:</p>
 <div class="cell">
@@ -696,8 +696,8 @@ Project          0</code></pre>
 </div>
 <p>The structural information we need — which resources connect to which tasks, and which risks connect to which resources — is already encoded here. We extract it by slicing <code>adj</code> using the <code>group</code> column of <code>graph$nodes</code>. This works because <code>links</code> declares edges running Risk → Resource → Task → Project: slicing <code>adj[source_labels, target_labels]</code> for each layer lines up rows with the edge source and columns with the edge target.</p>
 </section>
-<section id="the-resource-task-matrix" class="level2" data-number="9.4">
-<h2 data-number="9.4" class="anchored" data-anchor-id="the-resource-task-matrix"><span class="header-section-number">9.4</span> The Resource-Task Matrix</h2>
+<section id="the-resource-task-matrix" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="the-resource-task-matrix"><span class="header-section-number">10.4</span> The Resource-Task Matrix</h2>
 <p>Rows are resource nodes (Resource-1, Resource-2, Resource-3); columns are task nodes (Task-1, Task-2, Task-3). The slice gives a binary matrix <strong>S</strong> where <code>S[i, j] = 1</code> means resource <span class="math inline">\(i\)</span> is used by task <span class="math inline">\(j\)</span>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>resource_labels <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Resource"</span>]</span>
@@ -714,8 +714,8 @@ Resource-3      0      0      1</code></pre>
 </div>
 <p>The result is a 3×3 identity matrix: each resource is dedicated to exactly one task, with no cross-task sharing. This is a favorable project design — dedicated resources mean independent failure modes.</p>
 </section>
-<section id="parent-dsm" class="level2" data-number="9.5">
-<h2 data-number="9.5" class="anchored" data-anchor-id="parent-dsm"><span class="header-section-number">9.5</span> Parent DSM</h2>
+<section id="parent-dsm" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="parent-dsm"><span class="header-section-number">10.5</span> Parent DSM</h2>
 <p>The Parent DSM <strong>P</strong> = t(<strong>S</strong>) %*% <strong>S</strong> is a tasks-by-tasks matrix. The diagonal entry <code>P[j, j]</code> counts how many resources task <span class="math inline">\(j\)</span> uses. The off-diagonal entry <code>P[j, k]</code> counts how many resources tasks <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span> share.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">parent_dsm</span>(S)</span>
@@ -743,8 +743,8 @@ Task-3      0      0      1</code></pre>
 </div>
 <p>All off-diagonal entries are zero: no two tasks share a resource. A disruption to the Business Analyst (Resource-1) hits Task-1 only — it does not propagate structurally into Task-2 or Task-3. This is the DSM’s way of confirming what the Bayesian network showed probabilistically: the three risk paths are disjoint.</p>
 </section>
-<section id="the-risk-resource-matrix" class="level2" data-number="9.6">
-<h2 data-number="9.6" class="anchored" data-anchor-id="the-risk-resource-matrix"><span class="header-section-number">9.6</span> The Risk-Resource Matrix</h2>
+<section id="the-risk-resource-matrix" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="the-risk-resource-matrix"><span class="header-section-number">10.6</span> The Risk-Resource Matrix</h2>
 <p>The Risk-Resource Matrix <strong>R</strong> adds a second layer. Rows represent risks (Risk-1, Risk-2) and columns represent resources (Resource-1, Resource-2, Resource-3). An entry <code>R[i, j] = 1</code> means risk <span class="math inline">\(i\)</span> affects resource <span class="math inline">\(j\)</span>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>risk_labels <span class="ot">&lt;-</span> graph<span class="sc">$</span>nodes<span class="sc">$</span>label[graph<span class="sc">$</span>nodes<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"Risk"</span>]</span>
@@ -759,8 +759,8 @@ Risk-2          0          1          0</code></pre>
 </div>
 <p>Risk-1 (Scope Creep) affects only Resource-1; Risk-2 (Technical Complexity) affects only Resource-2. Resource-3 (QA Engineer) is unaffected by either risk — consistent with the distributions in <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a>.</p>
 </section>
-<section id="grandparent-dsm" class="level2" data-number="9.7">
-<h2 data-number="9.7" class="anchored" data-anchor-id="grandparent-dsm"><span class="header-section-number">9.7</span> Grandparent DSM</h2>
+<section id="grandparent-dsm" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="grandparent-dsm"><span class="header-section-number">10.7</span> Grandparent DSM</h2>
 <p>The Grandparent DSM traces the dependency chain from risks through resources to tasks. The intermediate matrix <strong>T</strong> = <strong>R</strong> %<em>% <strong>S</strong> gives a risks-by-tasks mapping, and the Grandparent DSM is <strong>G</strong> = t(<strong>T</strong>) %</em>% <strong>T</strong>. Off-diagonal entries count how many risks are shared between each pair of tasks.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">grandparent_dsm</span>(S, R)</span>
@@ -788,8 +788,8 @@ Task-3      0      0      0</code></pre>
 </div>
 <p>The Grandparent DSM is also diagonal. Since each risk touches a different resource and each resource a different task, no two tasks share risk exposure through the resource layer. This clean structure is precisely what makes the Bayesian network’s total cost distribution well-behaved: the heavy tail in <a href="ch-network.html" class="quarto-xref"><span>Chapter 8</span></a> comes from the risks themselves, not from structural coupling amplifying them.</p>
 </section>
-<section id="interpreting-the-dsm" class="level2" data-number="9.8">
-<h2 data-number="9.8" class="anchored" data-anchor-id="interpreting-the-dsm"><span class="header-section-number">9.8</span> Interpreting the DSM</h2>
+<section id="interpreting-the-dsm" class="level2" data-number="10.8">
+<h2 data-number="10.8" class="anchored" data-anchor-id="interpreting-the-dsm"><span class="header-section-number">10.8</span> Interpreting the DSM</h2>
 <ul>
 <li><strong>Diagonal values</strong> indicate the total number of resources (Parent) or risks (Grandparent) associated with each task. Higher values mean a task has more dependencies.</li>
 <li><strong>Off-diagonal values</strong> indicate coupling between task pairs. Higher values mean more shared dependencies and greater potential for correlated disruption.</li>
@@ -797,8 +797,8 @@ Task-3      0      0      0</code></pre>
 </ul>
 <p>This project has zero coupling — an idealized structure that real projects rarely achieve. The exercises below introduce shared resources and cross-resource risks to show how off-diagonal entries appear and what they mean.</p>
 </section>
-<section id="from-dsm-to-decision" class="level2" data-number="9.9">
-<h2 data-number="9.9" class="anchored" data-anchor-id="from-dsm-to-decision"><span class="header-section-number">9.9</span> From DSM to Decision</h2>
+<section id="from-dsm-to-decision" class="level2" data-number="10.9">
+<h2 data-number="10.9" class="anchored" data-anchor-id="from-dsm-to-decision"><span class="header-section-number">10.9</span> From DSM to Decision</h2>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -819,8 +819,8 @@ Task-3      0      0      0</code></pre>
 </div>
 <p>The Grandparent DSM goes one level deeper: it shows which pairs of tasks are exposed to the same risks. If you can eliminate or mitigate a risk, you simultaneously reduce coupling between all tasks that share that risk.</p>
 </section>
-<section id="summary" class="level2" data-number="9.10">
-<h2 data-number="9.10" class="anchored" data-anchor-id="summary"><span class="header-section-number">9.10</span> Summary</h2>
+<section id="summary" class="level2" data-number="10.10">
+<h2 data-number="10.10" class="anchored" data-anchor-id="summary"><span class="header-section-number">10.10</span> Summary</h2>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -859,8 +859,8 @@ Task-3      0      0      0</code></pre>
 </div>
 </div>
 </section>
-<section id="exercises" class="level2" data-number="9.11">
-<h2 data-number="9.11" class="anchored" data-anchor-id="exercises"><span class="header-section-number">9.11</span> Exercises</h2>
+<section id="exercises" class="level2" data-number="10.11">
+<h2 data-number="10.11" class="anchored" data-anchor-id="exercises"><span class="header-section-number">10.11</span> Exercises</h2>
 <ol type="1">
 <li><p><strong>Reading the DSM.</strong> In the Parent DSM computed above, all off-diagonal entries are 0. What does this tell you about the software development project’s resource structure? Is this a favorable or unfavorable project design from a risk-propagation standpoint? What would need to change in the project for a non-zero off-diagonal entry to appear?</p></li>
 <li><p><strong>Extend the matrix.</strong> A Project Manager is added to the project and assigned to both Task-1 and Task-2. Add this resource to <strong>S</strong> and recompute the Parent DSM. Which entries change, and why?</p>
@@ -1486,13 +1486,13 @@ Steward, D. V. 1981. <em>Systems Analysis and Management: Structure, Strategy an
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="./ch-network.html" class="pagination-link" aria-label="It's a Small World After All: Probabilistic Networks">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">It’s a Small World After All: Probabilistic Networks</span></span>
+      <a href="./ch-schedule.html" class="pagination-link" aria-label="Hurry Up and Wait: Critical Path and Schedule Risk Analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hurry Up and Wait: Critical Path and Schedule Risk Analysis</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./ch-network2.html" class="pagination-link" aria-label="The Portfolio Problem: When Risks Are Shared">
-        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Portfolio Problem: When Risks Are Shared</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./ch-quarto.html" class="pagination-link" aria-label="Write Once, Trust Always: Reproducible Risk Analysis with Quarto">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Write Once, Trust Always: Reproducible Risk Analysis with Quarto</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
