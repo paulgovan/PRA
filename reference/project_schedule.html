@@ -67,7 +67,9 @@ result is the input to <code><a href="cpm.html">cpm()</a></code> (deterministic 
 <span>  risks <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  cor_mat <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  start_date <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  time_unit <span class="op">=</span> <span class="st">"periods"</span></span>
+<span>  time_unit <span class="op">=</span> <span class="st">"periods"</span>,</span>
+<span>  risk_net <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  risk_effects <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -135,6 +137,17 @@ abstract <code>time_unit</code>s from zero; calendars are not modelled.</p></dd>
 <dd><p>Character label for the time unit, such as <code>"days"</code> or
 <code>"weeks"</code>. Used for labels only.</p></dd>
 
+
+<dt id="arg-risk-net">risk_net<a class="anchor" aria-label="anchor" href="#arg-risk-net"></a></dt>
+<dd><p>Optional <code><a href="prob_net.html">prob_net()</a></code> of root causes and risk events whose
+effects reach the schedule through <code>risk_effects</code>. Every node must have a
+distribution.</p></dd>
+
+
+<dt id="arg-risk-effects">risk_effects<a class="anchor" aria-label="anchor" href="#arg-risk-effects"></a></dt>
+<dd><p>Optional list of effects linking <code>risk_net</code> nodes to
+resources; see Details.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -169,6 +182,30 @@ occurring in an iteration), <code>activities</code> (ids it affects), <code>impa
 distribution of time added to each affected activity's duration when the
 risk occurs) and optionally <code>cost_impact</code> (a distribution of cost added when
 it occurs, shared equally among the affected activities for time-phasing).</p>
+<p><strong>Risk networks.</strong> <code>risk_net</code> is a <code><a href="prob_net.html">prob_net()</a></code> of root causes and risk
+events, sampled jointly in every <code><a href="sra.html">sra()</a></code> iteration so that risks sharing a
+cause occur together. <code>risk_effects</code> connects its nodes to resources; one
+effect can name several resources, and every activity assigned to an
+affected resource feels it, so a single risk reaches many tasks. Each
+effect is a list with:</p><ul><li><p><code>node</code>: a node id in <code>risk_net</code>;</p></li>
+<li><p><code>resources</code>: the resource ids it affects;</p></li>
+<li><p><code>effect</code>: <code>"productivity"</code> (multiplies the resources' productivity, so
+a value of 0.8 makes their work take 1 / 0.8 = 1.25 times longer) or
+<code>"rate"</code> (multiplies their cost rate);</p></li>
+<li><p><code>magnitude</code>: either a distribution specification for the multiplier,
+drawn once per iteration and applied whenever the node's sampled value is
+non-zero (for a 0/1 risk node, when the risk occurs), or the string
+<code>"node"</code>, which uses the node's own sampled value as the multiplier in
+every iteration (for severity nodes).</p></li>
+</ul><p>A productivity multiplier slows every activity assigned to the resource.
+Work-driven activities use it inside <code>work / (units * productivity)</code>; any
+other activity has its duration divided by the smallest multiplier among
+its assigned resources. Baseline <code>productivity_dists</code> still apply only to
+work-driven activities, since a duration distribution already includes
+ordinary productivity variation. Multipliers from several effects on one
+resource multiply together. Productivity multipliers must be positive and
+rate multipliers non-negative. Risk-network effects act for the whole
+project and are not applied to the deterministic baseline in <code><a href="cpm.html">cpm()</a></code>.</p>
 <p><strong>Distributions.</strong> Distribution specifications use the same format as
 <code><a href="mcs.html">mcs()</a></code>: a list with a <code>type</code> of <code>"normal"</code> (<code>mean</code>, <code>sd</code>), <code>"triangular"</code>
 (<code>a</code> = min, <code>b</code> = mode, <code>c</code> = max), <code>"uniform"</code> (<code>min</code>, <code>max</code>) or <code>"pert"</code>

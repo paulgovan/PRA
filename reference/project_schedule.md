@@ -22,7 +22,9 @@ project_schedule(
   risks = NULL,
   cor_mat = NULL,
   start_date = NULL,
-  time_unit = "periods"
+  time_unit = "periods",
+  risk_net = NULL,
+  risk_effects = NULL
 )
 ```
 
@@ -89,6 +91,18 @@ project_schedule(
   Character label for the time unit, such as `"days"` or `"weeks"`. Used
   for labels only.
 
+- risk_net:
+
+  Optional
+  [`prob_net()`](https://paulgovan.github.io/PRA/reference/prob_net.md)
+  of root causes and risk events whose effects reach the schedule
+  through `risk_effects`. Every node must have a distribution.
+
+- risk_effects:
+
+  Optional list of effects linking `risk_net` nodes to resources; see
+  Details.
+
 ## Value
 
 An S3 object of class `"pra_schedule"`: a list holding the validated and
@@ -138,6 +152,40 @@ distribution of time added to each affected activity's duration when the
 risk occurs) and optionally `cost_impact` (a distribution of cost added
 when it occurs, shared equally among the affected activities for
 time-phasing).
+
+**Risk networks.** `risk_net` is a
+[`prob_net()`](https://paulgovan.github.io/PRA/reference/prob_net.md) of
+root causes and risk events, sampled jointly in every
+[`sra()`](https://paulgovan.github.io/PRA/reference/sra.md) iteration so
+that risks sharing a cause occur together. `risk_effects` connects its
+nodes to resources; one effect can name several resources, and every
+activity assigned to an affected resource feels it, so a single risk
+reaches many tasks. Each effect is a list with:
+
+- `node`: a node id in `risk_net`;
+
+- `resources`: the resource ids it affects;
+
+- `effect`: `"productivity"` (multiplies the resources' productivity, so
+  a value of 0.8 makes their work take 1 / 0.8 = 1.25 times longer) or
+  `"rate"` (multiplies their cost rate);
+
+- `magnitude`: either a distribution specification for the multiplier,
+  drawn once per iteration and applied whenever the node's sampled value
+  is non-zero (for a 0/1 risk node, when the risk occurs), or the string
+  `"node"`, which uses the node's own sampled value as the multiplier in
+  every iteration (for severity nodes).
+
+A productivity multiplier slows every activity assigned to the resource.
+Work-driven activities use it inside `work / (units * productivity)`;
+any other activity has its duration divided by the smallest multiplier
+among its assigned resources. Baseline `productivity_dists` still apply
+only to work-driven activities, since a duration distribution already
+includes ordinary productivity variation. Multipliers from several
+effects on one resource multiply together. Productivity multipliers must
+be positive and rate multipliers non-negative. Risk-network effects act
+for the whole project and are not applied to the deterministic baseline
+in [`cpm()`](https://paulgovan.github.io/PRA/reference/cpm.md).
 
 **Distributions.** Distribution specifications use the same format as
 [`mcs()`](https://paulgovan.github.io/PRA/reference/mcs.md): a list with

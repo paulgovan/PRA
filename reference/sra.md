@@ -87,6 +87,16 @@ An S3 object of class `"sra"`, a list with:
   rate, finish impact, cost impact and rank by finish impact. Zero rows
   when there are no risks.
 
+- risk_net_stats:
+
+  When the schedule has a `risk_net`, a data frame with one row per
+  network node: `kind` (`"event"` for nodes whose draws are all 0 or 1,
+  otherwise `"continuous"`), `occurrence` and `mean` of its draws,
+  `finish_impact` and `cost_impact` (mean when the event occurred minus
+  mean when it did not; events only), `finish_sensitivity` and
+  `cost_sensitivity` (Spearman correlation of the node with finish and
+  cost) and `rank` by finish impact. `NULL` without a risk network.
+
 - time_grid:
 
   Time points used for the curves below.
@@ -104,8 +114,10 @@ An S3 object of class `"sra"`, a list with:
 - samples:
 
   When `keep_samples = TRUE`, a list of iteration x activity matrices
-  `duration`, `start`, `finish`, `critical`, and the iteration x risk
-  matrix `risk_occurred`; otherwise `NULL`.
+  `duration`, `start`, `finish`, `critical`, the iteration x risk matrix
+  `risk_occurred`, the risk-network draws `risk_net` (a data frame, or
+  `NULL`), and the iteration x resource matrices
+  `productivity_multiplier` and `rate_multiplier`; otherwise `NULL`.
 
 - leveled, num_sims, project:
 
@@ -143,6 +155,17 @@ never varies.
 **Risk measures.** For each risk, the mean finish (and cost) in
 iterations where it occurred minus the mean in iterations where it did
 not; `NA` when the risk always or never occurred.
+
+**Risk networks.** When the schedule has a `risk_net` (see
+[`project_schedule()`](https://paulgovan.github.io/PRA/reference/project_schedule.md)),
+its nodes are sampled jointly with
+[`prob_net_sim()`](https://paulgovan.github.io/PRA/reference/prob_net_sim.md)
+in every iteration, so risks that share a root cause occur together, and
+their `risk_effects` scale the productivity and cost rates of the
+resources they name. Because node statistics compare iterations where an
+event did and did not occur, a root cause's `finish_impact` includes the
+effects of every risk it drives, and a risk correlated with others
+through a shared cause is credited with part of their effects too.
 
 **Merge bias.** Where paths converge, the finish is driven by the
 longest of several uncertain paths, so the mean simulated finish usually
@@ -222,4 +245,39 @@ res$activity_stats[, c("id", "criticality", "cruciality")]
 contingency(res, phigh = 0.8, pbase = 0.5)
 #>     80% 
 #> 1.08829 
+
+# A supply-chain root cause drives a labor shortage that slows the crew on
+# both B and C, so one risk delays two activities through a resource.
+net <- prob_net(
+  data.frame(id = c("SupplyChain", "Shortage")),
+  data.frame(source = "SupplyChain", target = "Shortage"),
+  list(
+    SupplyChain = list(type = "discrete", values = c(1, 0), probs = c(0.3, 0.7)),
+    Shortage = list(
+      type = "conditional", condition = "SupplyChain",
+      true_dist = list(type = "discrete", values = c(1, 0), probs = c(0.8, 0.2)),
+      false_dist = list(type = "discrete", values = c(1, 0), probs = c(0.1, 0.9))
+    )
+  )
+)
+proj_net <- project_schedule(activities, links,
+  duration_dists = duration_dists,
+  resources = data.frame(id = "crew", rate = 500),
+  assignments = data.frame(activity = c("B", "C"), resource = "crew", units = 1),
+  risk_net = net,
+  risk_effects = list(
+    list(node = "Shortage", resources = "crew", effect = "productivity",
+         magnitude = list(type = "triangular", a = 0.6, b = 0.8, c = 0.9)),
+    list(node = "SupplyChain", resources = "crew", effect = "rate",
+         magnitude = list(type = "uniform", min = 1.1, max = 1.3))
+  )
+)
+res_net <- sra(proj_net, num_sims = 2000)
+res_net$risk_net_stats
+#>            id  kind occurrence   mean finish_impact cost_impact
+#> 1 SupplyChain event     0.2995 0.2995      1.425979    2690.066
+#> 2    Shortage event     0.3210 0.3210      1.958019    2794.433
+#>   finish_sensitivity cost_sensitivity rank
+#> 1          0.4139164        0.6793854    2
+#> 2          0.5851144        0.7260997    1
 ```

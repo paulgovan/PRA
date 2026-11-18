@@ -130,6 +130,15 @@ cruciality and SSI.</p></dd>
 simulated occurrence rate, finish impact, cost impact and rank by
 finish impact. Zero rows when there are no risks.</p></dd>
 
+<dt>risk_net_stats</dt>
+<dd><p>When the schedule has a <code>risk_net</code>, a data frame
+with one row per network node: <code>kind</code> (<code>"event"</code> for nodes whose draws
+are all 0 or 1, otherwise <code>"continuous"</code>), <code>occurrence</code> and <code>mean</code> of
+its draws, <code>finish_impact</code> and <code>cost_impact</code> (mean when the event
+occurred minus mean when it did not; events only), <code>finish_sensitivity</code>
+and <code>cost_sensitivity</code> (Spearman correlation of the node with finish and
+cost) and <code>rank</code> by finish impact. <code>NULL</code> without a risk network.</p></dd>
+
 <dt>time_grid</dt>
 <dd><p>Time points used for the curves below.</p></dd>
 
@@ -144,8 +153,10 @@ attribute.</p></dd>
 
 <dt>samples</dt>
 <dd><p>When <code>keep_samples = TRUE</code>, a list of iteration x activity
-matrices <code>duration</code>, <code>start</code>, <code>finish</code>, <code>critical</code>, and the iteration x
-risk matrix <code>risk_occurred</code>; otherwise <code>NULL</code>.</p></dd>
+matrices <code>duration</code>, <code>start</code>, <code>finish</code>, <code>critical</code>, the iteration x
+risk matrix <code>risk_occurred</code>, the risk-network draws <code>risk_net</code> (a data
+frame, or <code>NULL</code>), and the iteration x resource matrices
+<code>productivity_multiplier</code> and <code>rate_multiplier</code>; otherwise <code>NULL</code>.</p></dd>
 
 <dt>leveled, num_sims, project</dt>
 <dd><p>Settings and the input schedule.</p></dd>
@@ -171,6 +182,14 @@ never varies.</p>
 <p><strong>Risk measures.</strong> For each risk, the mean finish (and cost) in iterations
 where it occurred minus the mean in iterations where it did not; <code>NA</code> when
 the risk always or never occurred.</p>
+<p><strong>Risk networks.</strong> When the schedule has a <code>risk_net</code> (see
+<code><a href="project_schedule.html">project_schedule()</a></code>), its nodes are sampled jointly with <code><a href="prob_net_sim.html">prob_net_sim()</a></code>
+in every iteration, so risks that share a root cause occur together, and
+their <code>risk_effects</code> scale the productivity and cost rates of the resources
+they name. Because node statistics compare iterations where an event did and
+did not occur, a root cause's <code>finish_impact</code> includes the effects of every
+risk it drives, and a risk correlated with others through a shared cause is
+credited with part of their effects too.</p>
 <p><strong>Merge bias.</strong> Where paths converge, the finish is driven by the longest of
 several uncertain paths, so the mean simulated finish usually exceeds the
 deterministic finish even when every duration is symmetric. This is why a
@@ -241,6 +260,41 @@ earned value management. Springer, 2009.</p>
 <span class="r-in"><span><span class="fu"><a href="contingency.html">contingency</a></span><span class="op">(</span><span class="va">res</span>, phigh <span class="op">=</span> <span class="fl">0.8</span>, pbase <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     80% </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1.08829 </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># A supply-chain root cause drives a labor shortage that slows the crew on</span></span></span>
+<span class="r-in"><span><span class="co"># both B and C, so one risk delays two activities through a resource.</span></span></span>
+<span class="r-in"><span><span class="va">net</span> <span class="op">&lt;-</span> <span class="fu"><a href="prob_net.html">prob_net</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SupplyChain"</span>, <span class="st">"Shortage"</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>source <span class="op">=</span> <span class="st">"SupplyChain"</span>, target <span class="op">=</span> <span class="st">"Shortage"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    SupplyChain <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"discrete"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.7</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    Shortage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      type <span class="op">=</span> <span class="st">"conditional"</span>, condition <span class="op">=</span> <span class="st">"SupplyChain"</span>,</span></span>
+<span class="r-in"><span>      true_dist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"discrete"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      false_dist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"discrete"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">proj_net</span> <span class="op">&lt;-</span> <span class="fu"><a href="project_schedule.html">project_schedule</a></span><span class="op">(</span><span class="va">activities</span>, <span class="va">links</span>,</span></span>
+<span class="r-in"><span>  duration_dists <span class="op">=</span> <span class="va">duration_dists</span>,</span></span>
+<span class="r-in"><span>  resources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"crew"</span>, rate <span class="op">=</span> <span class="fl">500</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  assignments <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>activity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span>, resource <span class="op">=</span> <span class="st">"crew"</span>, units <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  risk_net <span class="op">=</span> <span class="va">net</span>,</span></span>
+<span class="r-in"><span>  risk_effects <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>node <span class="op">=</span> <span class="st">"Shortage"</span>, resources <span class="op">=</span> <span class="st">"crew"</span>, effect <span class="op">=</span> <span class="st">"productivity"</span>,</span></span>
+<span class="r-in"><span>         magnitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"triangular"</span>, a <span class="op">=</span> <span class="fl">0.6</span>, b <span class="op">=</span> <span class="fl">0.8</span>, c <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>node <span class="op">=</span> <span class="st">"SupplyChain"</span>, resources <span class="op">=</span> <span class="st">"crew"</span>, effect <span class="op">=</span> <span class="st">"rate"</span>,</span></span>
+<span class="r-in"><span>         magnitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"uniform"</span>, min <span class="op">=</span> <span class="fl">1.1</span>, max <span class="op">=</span> <span class="fl">1.3</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res_net</span> <span class="op">&lt;-</span> <span class="fu">sra</span><span class="op">(</span><span class="va">proj_net</span>, num_sims <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res_net</span><span class="op">$</span><span class="va">risk_net_stats</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            id  kind occurrence   mean finish_impact cost_impact</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 SupplyChain event     0.2995 0.2995      1.425979    2690.066</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    Shortage event     0.3210 0.3210      1.958019    2794.433</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   finish_sensitivity cost_sensitivity rank</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1          0.4139164        0.6793854    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2          0.5851144        0.7260997    1</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

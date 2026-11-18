@@ -33,8 +33,6 @@ Agent Skills that tell an agent when and how to call each tool.
   Matrices](https://paulgovan.github.io/PRA/book/ch-dsm.html)
 - [Probabilistic
   Networks](https://paulgovan.github.io/PRA/book/ch-network.html)
-- [Network Portfolio
-  Analysis](https://paulgovan.github.io/PRA/book/ch-network2.html)
 - [Bayesian Methods](https://paulgovan.github.io/PRA/book/ch-bayes.html)
 - [Critical Path & Schedule Risk
   Analysis](https://paulgovan.github.io/PRA/articles/schedule-risk.html)

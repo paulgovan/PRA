@@ -67,7 +67,8 @@
 distribution summaries (mean, standard deviation, coefficient of
 variation and P5-P95 percentiles), the deterministic finish and cost and
 the probability of meeting them, the activity table ordered by
-cruciality, and the risk table ordered by rank.</p>
+cruciality, the risk table ordered by rank, and the risk-network node
+table ordered by rank (<code>NULL</code> without a risk network).</p>
     </div>
 
     <div class="section level2">
@@ -83,14 +84,14 @@ cruciality, and the risk table ordered by rank.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Iterations: 500 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Finish (periods)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Deterministic: 5  (probability of meeting it: 25.4%) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Mean: 5.697   SD: 0.8627   CV: 0.1514 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Deterministic: 5  (probability of meeting it: 22.2%) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Mean: 5.684   SD: 0.8382   CV: 0.1475 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    5%   10%   25%   50%   75%   80%   90%   95% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4.454 4.644 4.990 5.601 6.306 6.440 6.906 7.302 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4.429 4.653 5.043 5.559 6.280 6.415 6.875 7.254 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Activities (by cruciality)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  id mean_duration mean_finish finish_p90 criticality sensitivity cruciality ssi</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   B         3.697       5.697      6.906           1           1          1   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   B         3.684       5.684      6.875           1           1          1   1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A         2.000       2.000      2.000           1          NA         NA  NA</span>
 </code></pre></div>
     </div>
