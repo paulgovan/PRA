@@ -38,7 +38,9 @@ are done. The analysis therefore works on the network itself: a
 deterministic critical path, resource leveling, and a Monte Carlo schedule
 risk analysis that reschedules the network in every iteration. A causal risk
 network then replaces independent risk events with risks that share a root
-cause and act through the resources every activity depends on.
+cause and act through the resources every activity depends on. Comparing
+the traditional analysis with the network's observational, conditional and
+interventional queries shows what the causal structure adds.
 
 # The project
 
@@ -232,6 +234,126 @@ labor shortage from 0.15 to 0.8 and the chance of supply-chain pressure from
 crews, and so the envelope, MEP and fit-out. Supply-chain pressure raises
 the cost rates of the concrete and steel crews.
 
+The resources are the interface between the two networks. The causal
+network decides, in each iteration, which risks occur. The resources carry
+those risks to every activity they work on. The schedule network then turns
+the changed durations and costs into a finish date and a project cost:
+
+```{r interface, echo = FALSE, fig.width = 7, fig.height = 5.2, fig.cap = "How the causal risk network reaches the schedule. Risk nodes act on resources (dashed arrows: productivity or cost-rate multipliers); resources are assigned to activities (grey); activities are linked by precedence (black, with non-FS link types and lags)."}
+ink  <- "#2c3e50"
+lab_col  <- "#c0392b"
+sup_col  <- "#d68910"
+op <- par(mar = c(0.5, 0.5, 0.5, 0.5))
+plot(NA, xlim = c(0.1, 6.7), ylim = c(-1.05, 4.75), axes = FALSE,
+     xlab = "", ylab = "", asp = NA)
+
+# Bands for the three layers.
+bands <- list(
+  list(y = c(2.55, 4.7),  fill = "#fdedec", label = "Causal risk network"),
+  list(y = c(1.05, 2.35), fill = "#ebf5fb", label = "Resources"),
+  list(y = c(-1.0, 0.85), fill = "#f4f6f6", label = "Schedule network")
+)
+for (b in bands) {
+  rect(0.15, b$y[1], 6.65, b$y[2], col = b$fill, border = NA)
+  text(0.2, b$y[2] - 0.12, b$label, adj = c(0, 1), font = 3, cex = 0.75,
+       col = ink)
+}
+
+bw <- 0.36; bh <- 0.24   # half box width and height
+box <- function(x, y, label, fill, border = ink, lwd = 1) {
+  rect(x - bw, y - bh, x + bw, y + bh, col = fill, border = border, lwd = lwd)
+  text(x, y, label, cex = 0.62, col = ink)
+}
+down <- function(x0, y0, x1, y1, ...) {
+  arrows(x0, y0 - bh, x1, y1 + bh, length = 0.07, ...)
+}
+
+# Causal risk network.
+rk <- list(Boom = c(3.9, 4.05), Supply = c(2.55, 3.0), Labor = c(5.3, 3.0))
+down(rk$Boom[1], rk$Boom[2], rk$Supply[1], rk$Supply[2], col = ink)
+down(rk$Boom[1], rk$Boom[2], rk$Labor[1], rk$Labor[2], col = ink)
+
+# Resources and their assignments to activities.
+rs <- data.frame(
+  id = c("Excavation crew", "Concrete crew", "Steel erector", "Tower crane",
+         "MEP subcontractor", "Finishing crew"),
+  label = c("Excavation\ncrew", "Concrete\ncrew", "Steel\nerector",
+            "Tower\ncrane", "MEP\nsubcontractor", "Finishing\ncrews"),
+  x = c(1.15, 2.15, 3.0, 3.85, 4.85, 5.85), y = 1.65
+)
+act <- data.frame(
+  id = paste0("T", 1:6),
+  label = c("T1\nSite prep", "T2\nFoundations", "T3\nFrame", "T4\nEnvelope",
+            "T5\nMEP", "T6\nFit-out"),
+  x = 1:6, y = 0.25
+)
+asg <- bp$schedule_assignments
+for (k in seq_len(nrow(asg))) {
+  r <- rs[rs$id == asg$resource[k], ]
+  a <- act[act$id == asg$activity[k], ]
+  down(r$x, r$y, a$x, a$y, col = "grey55")
+}
+
+# Risk effects on resources.
+eff <- data.frame(
+  node = c("Supply", "Supply", "Labor", "Labor"),
+  res  = c("Concrete crew", "Steel erector", "MEP subcontractor",
+           "Finishing crew"),
+  col  = c(sup_col, sup_col, lab_col, lab_col)
+)
+for (k in seq_len(nrow(eff))) {
+  p <- rk[[eff$node[k]]]
+  r <- rs[rs$id == eff$res[k], ]
+  down(p[1], p[2], r$x, r$y, col = eff$col[k], lty = 2, lwd = 1.6)
+}
+text(3.3, 2.42, "cost-rate multiplier", col = sup_col, cex = 0.62, font = 2)
+text(5.9, 2.42, "productivity multiplier", col = lab_col, cex = 0.62, font = 2)
+
+box(rk$Boom[1], rk$Boom[2], "Construction\nboom", "#f5b7b1")
+box(rk$Supply[1], rk$Supply[2], "Supply-chain\npressure", "#fad7a0",
+    border = sup_col, lwd = 2)
+box(rk$Labor[1], rk$Labor[2], "Labor\nshortage", "#f5b7b1",
+    border = lab_col, lwd = 2)
+
+res_border <- ifelse(rs$id %in% eff$res[eff$node == "Labor"], lab_col,
+              ifelse(rs$id %in% eff$res[eff$node == "Supply"], sup_col, ink))
+for (k in seq_len(nrow(rs))) {
+  box(rs$x[k], rs$y[k], rs$label[k], "#d6eaf8", border = res_border[k],
+      lwd = if (res_border[k] == ink) 1 else 2)
+}
+
+# Schedule network: precedence links between activities.
+right <- function(i, j, label = "") {
+  arrows(act$x[i] + bw, act$y[i], act$x[j] - bw, act$y[j], length = 0.07,
+         col = ink, lwd = 1.3)
+  if (nzchar(label)) {
+    text((act$x[i] + act$x[j]) / 2, act$y[i] + 0.06, label, pos = 3,
+         cex = 0.55, col = ink, offset = 0.15)
+  }
+}
+right(1, 2); right(2, 3)
+right(3, 4, "SS+8\nFF+2"); right(4, 5, "SS+4"); right(5, 6, "SS+6\nFF+4")
+# T4 -> T6 finish-to-start, drawn as an arc under T5.
+tt <- seq(0, 1, length.out = 50)
+ax <- (1 - tt)^2 * 4 + 2 * (1 - tt) * tt * 5 + tt^2 * 6
+ay <- (1 - tt)^2 * (0.25 - bh) + 2 * (1 - tt) * tt * (-0.95) +
+  tt^2 * (0.25 - bh)
+lines(ax[1:48], ay[1:48], col = ink, lwd = 1.3)
+arrows(ax[48], ay[48], ax[50], ay[50], length = 0.07, col = ink, lwd = 1.3)
+
+act_border <- ifelse(act$id %in% c("T4", "T5", "T6"), lab_col,
+              ifelse(act$id %in% c("T2", "T3"), sup_col, ink))
+for (k in seq_len(nrow(act))) {
+  box(act$x[k], act$y[k], act$label[k], "white", border = act_border[k],
+      lwd = if (act_border[k] == ink) 1 else 2)
+}
+par(op)
+```
+
+A single labor-shortage node therefore slows three activities at once, and
+because labor and supply share a root cause, bad news arrives in clusters.
+The model adds the causal network to the schedule built earlier:
+
 ```{r risk-network}
 boom_net <- prob_net(
   data.frame(id = c("Boom", "Labor", "Supply")),
@@ -256,23 +378,27 @@ boom_effects <- list(
        magnitude = list(type = "uniform", min = 1.1, max = 1.3))
 )
 
-proj_boom <- project_schedule(
-  activities         = bp$schedule_activities,
-  links              = bp$schedule_links,
-  duration_dists     = bp$duration_dists,
-  resources          = bp$schedule_resources,
-  productivity_dists = bp$productivity_dists,
-  assignments        = bp$schedule_assignments,
-  risks              = bp$risk_register,
-  cor_mat            = bp$cor_mat[1:5, 1:5],
-  start_date         = bp$start_date,
-  time_unit          = "weeks",
-  risk_net           = boom_net,
-  risk_effects       = boom_effects
-)
+# The building schedule with a given risk network attached.
+with_net <- function(net) {
+  project_schedule(
+    activities         = bp$schedule_activities,
+    links              = bp$schedule_links,
+    duration_dists     = bp$duration_dists,
+    resources          = bp$schedule_resources,
+    productivity_dists = bp$productivity_dists,
+    assignments        = bp$schedule_assignments,
+    risks              = bp$risk_register,
+    cor_mat            = bp$cor_mat[1:5, 1:5],
+    start_date         = bp$start_date,
+    time_unit          = "weeks",
+    risk_net           = net,
+    risk_effects       = boom_effects
+  )
+}
 
 set.seed(2027)
-risk_boom <- sra(proj_boom, num_sims = n_lev, level = TRUE)
+risk_boom <- sra(with_net(boom_net), num_sims = n_sims, level = TRUE,
+                 keep_samples = TRUE)
 rbind(
   register_only = risk$percentiles,
   with_network  = risk_boom$percentiles
@@ -281,23 +407,173 @@ rbind(
 
 With the network, the P80 finish moves from
 `r round(risk$percentiles[["80%"]], 1)` to
-`r round(risk_boom$percentiles[["80%"]], 1)` weeks. One node now slows three
-activities at once, and because labor and supply share a root cause, bad
-news arrives in clusters. The node statistics measure each node's finish
-and cost impact the same way as for the register's risks:
+`r round(risk_boom$percentiles[["80%"]], 1)` weeks.
 
-```{r risk-network-stats}
-risk_boom$risk_net_stats
+## Traditional analysis versus causal queries
+
+A causal network answers three different kinds of question about the
+project finish or cost, *Y* (Pearl, 2009):
+
+* **Observational**, *P*(*Y*): what to expect given everything the model
+  knows. This is the plain simulation above.
+* **Conditional** ("seeing"), *P*(*Y* | *X* = *x*): what to expect in the
+  iterations where risk *X* took the value *x*. Conditioning keeps the
+  iterations that match, so evidence also updates the risk's causes and,
+  through them, every other risk those causes drive.
+* **Interventional** ("doing"), *P*(*Y* | do(*X* = *x*)): what to expect if
+  a response *forces* *X* to *x*. The intervention cuts the arcs into *X*,
+  fixes its value and reruns the analysis, so the risk's causes, and the
+  other risks they drive, keep their original probabilities.
+
+A traditional analysis has no such distinction. It is either deterministic
+(the leveled critical path) or a simulation in which every risk is an
+independent register entry. To compare like with like, the independent
+version below keeps the labor shortage and supply-chain pressure at their
+overall probabilities (0.41 and 0.34) but drops the boom that links them.
+The causal queries ask what securing labor is worth: conditioning on no
+labor shortage, against intervening to prevent one.
+
+```{r causal-queries}
+discrete <- function(p) list(type = "discrete", values = c(1, 0),
+                             probs = c(p, 1 - p))
+
+# Traditional: the same two risks, independent, at their overall probabilities.
+indep_net <- prob_net(
+  data.frame(id = c("Labor", "Supply")),
+  data.frame(source = character(), target = character()),
+  list(Labor  = discrete(0.4 * 0.8 + 0.6 * 0.15),
+       Supply = discrete(0.4 * 0.7 + 0.6 * 0.1))
+)
+
+# Intervention: cut the arc from the boom into a node and fix its value.
+do_net <- function(node, value) {
+  prob_net_update(boom_net,
+    remove_links = data.frame(source = "Boom", target = node),
+    update_distributions = setNames(list(discrete(value)), node)
+  )
+}
+
+run <- function(net) {
+  set.seed(2027)
+  sra(with_net(net), num_sims = n_sims, level = TRUE, keep_samples = TRUE)
+}
+indep    <- run(indep_net)
+do_labor <- run(do_net("Labor", 0))
+
+# Conditioning: keep the iterations with no labor shortage.
+draws    <- risk_boom$samples$risk_net
+no_labor <- draws$Labor == 0
+
+query <- function(finish, cost) {
+  c(finish_mean = mean(finish),
+    finish_P80  = unname(quantile(finish, 0.8)),
+    cost_mean   = mean(cost) / 1e6,
+    cost_P80    = unname(quantile(cost, 0.8)) / 1e6)
+}
+round(rbind(
+  "Deterministic (leveled CPM)" =
+    c(leveled$finish, leveled$finish, leveled$cost / 1e6, leveled$cost / 1e6),
+  "Simulation, independent risks" =
+    query(indep$total_distribution, indep$cost_distribution),
+  "Observational P(Y)" =
+    query(risk_boom$total_distribution, risk_boom$cost_distribution),
+  "Seeing P(Y | Labor = 0)" =
+    query(risk_boom$total_distribution[no_labor],
+          risk_boom$cost_distribution[no_labor]),
+  "Doing P(Y | do(Labor = 0))" =
+    query(do_labor$total_distribution, do_labor$cost_distribution)
+), 2)
 ```
 
-Supply-chain pressure only raises cost rates, yet it shows a finish impact.
-The impact compares iterations where the node occurred with those where it
-did not, so it is an *observational* measure: supply-chain pressure is
-credited with part of the labor shortage's delay because both follow the
-boom. The root cause's impact likewise includes every effect it drives.
-Deciding which risk to mitigate is an *interventional* question: it asks what
-happens when a node is forced off (Pearl, 2009), which means cutting its incoming arcs and
-rerunning the analysis.
+Costs are in millions.
+
+```{r causal-cdf, echo = FALSE, fig.cap = "Project finish under the traditional analyses and the causal queries. Curves that coincide are drawn wide underneath and narrow on top."}
+cols <- c("grey60", "#2c3e50", "#e6a0a0", "#2980b9")
+lwds <- c(5, 1.6, 5, 1.6)
+curves <- list(
+  "Independent risks"        = indep$total_distribution,
+  "Observational"            = risk_boom$total_distribution,
+  "Seeing: Labor = 0"        = risk_boom$total_distribution[no_labor],
+  "Doing: do(Labor = 0)"     = do_labor$total_distribution
+)
+rng <- range(unlist(curves), leveled$finish)
+plot(NA, xlim = rng, ylim = c(0, 1), xlab = "Project finish (weeks)",
+     ylab = "Cumulative probability", las = 1)
+for (k in seq_along(curves)) {
+  f <- sort(curves[[k]])
+  lines(f, seq_along(f) / length(f), col = cols[k], lwd = lwds[k])
+}
+abline(v = leveled$finish, lty = 3)
+text(leveled$finish, 0.95, "Deterministic", pos = 4, cex = 0.75)
+legend("bottomright", names(curves), col = cols, lwd = lwds, cex = 0.8,
+       bg = "white")
+```
+
+Three points stand out.
+
+* **The deterministic plan is optimistic.** Every simulated view finishes
+  later than the leveled critical path.
+* **Totals barely change between the independent and causal models.** The
+  finish depends only on the labor shortage, whose overall probability is
+  the same in both, and supply pressure moves cost only a little. In this
+  project, the shared cause matters less for the totals than for deciding
+  where to act.
+* **Seeing and doing agree on the finish but not on cost.** Iterations with
+  no labor shortage are mostly iterations with no boom, so supply pressure
+  occurs in `r round(100 * mean(draws$Supply[no_labor]))`% of them, against
+  `r round(100 * mean(do_labor$samples$risk_net$Supply))`% when labor is
+  secured by intervention. Conditioning therefore credits securing labor with
+  cost savings that really come from a calmer supply market.
+
+The gap is clearest when the risks are ranked. The ranking statistics used
+earlier compare iterations where a risk occurred with those where it did
+not, which is a conditional (seeing) comparison. The interventional effect
+of supply pressure compares runs with the risk forced on and forced off:
+
+```{r supply-effect}
+do_on  <- run(do_net("Supply", 1))
+do_off <- run(do_net("Supply", 0))
+supply <- function(stats) {
+  unlist(stats[stats$id == "Supply", c("finish_impact", "cost_impact")])
+}
+effect <- rbind(
+  "Traditional (independent risks)" = supply(indep$risk_net_stats),
+  "Seeing (causal network)"         = supply(risk_boom$risk_net_stats),
+  "Doing (causal network)"          =
+    c(do_on$total_mean - do_off$total_mean,
+      mean(do_on$cost_distribution) - mean(do_off$cost_distribution))
+)
+effect[, "cost_impact"] <- effect[, "cost_impact"] / 1e6
+round(effect, 2)
+```
+
+```{r supply-effect-plot, echo = FALSE, fig.height = 3.4, fig.cap = "Effect of supply-chain pressure on the finish and on cost, by type of analysis."}
+op <- par(mfrow = c(1, 2), mar = c(3, 4.5, 2.5, 1))
+bar_cols <- c("grey60", "#e6a0a0", "#2980b9")
+bar_names <- c("Traditional", "Seeing", "Doing")
+for (k in 1:2) {
+  v <- effect[, k]
+  mid <- barplot(v, names.arg = bar_names, col = bar_cols, border = NA,
+                 las = 1, cex.names = 0.8,
+                 ylim = range(0, v) + c(-0.15, 0.2) * max(abs(v)),
+                 main = c("Finish impact (weeks)", "Cost impact ($M)")[k],
+                 cex.main = 0.9)
+  text(mid, v, sprintf("%.2f", v), pos = ifelse(v < 0, 1, 3), cex = 0.75)
+}
+par(op)
+```
+
+Supply pressure only raises cost rates, so it cannot delay the finish. Seeing
+nonetheless credits it with a delay of about
+`r round(effect[2, "finish_impact"], 1)` weeks, borrowed from the labor
+shortage through their shared cause, and overstates its cost impact for the
+same reason. Doing gives the true effect: no delay, and only the extra cost
+of the concrete and steel crews. The independent model shows no systematic
+delay either (what remains is sampling noise), but only because it assumes
+the shared cause away. It cannot represent
+the boom at all, so it cannot say what insulating the project from it would
+be worth. Risk responses should be ranked by interventional effects, which
+only a causal model can supply.
 
 ## Cost and resources over time
 
@@ -346,6 +622,8 @@ against the cost of a second crane.
   network.
 * Risk-network effects act on the whole project in an iteration and do not
   change the deterministic baseline.
+* Conditioning keeps the iterations that match the evidence, so it suits
+  discrete events; rare evidence leaves few iterations and noisy estimates.
 * Sampled durations are truncated at zero.
 * Leveling uses one priority rule. It is a realistic heuristic, not an
   optimizer, and it reschedules each iteration separately.
