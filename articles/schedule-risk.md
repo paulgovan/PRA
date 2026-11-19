@@ -1,4 +1,4 @@
-# Case Study: Schedule Risk Analysis of a Resource-Loaded Building Project with Causal Risk Networks
+# Case Study: Schedule Risk Analysis of a Resource-Loaded Project with Causal Networks
 
 ``` r
 
