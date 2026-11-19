@@ -6,5 +6,6 @@
   Analysis](https://paulgovan.github.io/PRA/articles/network.md):
 - [Quantitative Project Risk Analysis with
   PRA](https://paulgovan.github.io/PRA/articles/pra.md):
-- [Critical Path and Schedule Risk Analysis of Resource-Loaded
-  Schedules](https://paulgovan.github.io/PRA/articles/schedule-risk.md):
+- [Case Study: Schedule Risk Analysis of a Resource-Loaded Building
+  Project with Causal Risk
+  Networks](https://paulgovan.github.io/PRA/articles/schedule-risk.md):

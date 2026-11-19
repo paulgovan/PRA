@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Critical Path and Schedule Risk Analysis of Resource-Loaded Schedules • PRA</title>
+<title>Case Study: Schedule Risk Analysis of a Resource-Loaded Building Project with Causal Risk Networks • PRA</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Critical Path and Schedule Risk Analysis of Resource-Loaded Schedules">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Case Study: Schedule Risk Analysis of a Resource-Loaded Building Project with Causal Risk Networks">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -34,7 +34,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/network.html">Causal Networks for Project Portfolio Risk Analysis</a></li>
     <li><a class="dropdown-item" href="../articles/pra.html">Quantitative Project Risk Analysis with PRA</a></li>
-    <li><a class="dropdown-item" href="../articles/schedule-risk.html">Critical Path and Schedule Risk Analysis of Resource-Loaded Schedules</a></li>
+    <li><a class="dropdown-item" href="../articles/schedule-risk.html">Case Study: Schedule Risk Analysis of a Resource-Loaded Building Project with Causal Risk Networks</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -57,7 +57,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Critical Path and Schedule Risk Analysis of Resource-Loaded Schedules</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Case Study: Schedule Risk Analysis of a Resource-Loaded Building Project with Causal Risk Networks</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/paulgovan/PRA/blob/main/vignettes/schedule-risk.Rmd" class="external-link"><code>vignettes/schedule-risk.Rmd</code></a></small>
@@ -72,76 +72,23 @@
 <span><span class="co"># 10,000 iterations locally; fewer on CRAN so the vignette builds quickly.</span></span>
 <span><span class="va">n_sims</span> <span class="op">&lt;-</span> <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nchar.html" class="external-link">nzchar</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"NOT_CRAN"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="fl">10000L</span> <span class="kw">else</span> <span class="fl">1000L</span></span>
 <span><span class="va">n_lev</span>  <span class="op">&lt;-</span> <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nchar.html" class="external-link">nzchar</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"NOT_CRAN"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="fl">5000L</span> <span class="kw">else</span> <span class="fl">500L</span></span></code></pre></div>
-<p><code><a href="../reference/mcs.html">mcs()</a></code> treats a project as the <strong>sum</strong> of
-its task durations. That is exact for a single chain of tasks, but real
-schedules have parallel paths, overlapping work and shared crews. Where
-paths merge, the finish is set by whichever path runs longest in that
-iteration. This <em>merge bias</em> makes the expected finish later than
-any single path suggests, even when every estimate is symmetric. A
-shared resource can also hold an activity back after its predecessors
-are done.</p>
-<p>PRA’s schedule functions analyze the network itself:</p>
-<table class="table">
-<colgroup>
-<col width="50%">
-<col width="50%">
-</colgroup>
-<thead><tr class="header">
-<th>Function</th>
-<th>Does</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code><a href="../reference/project_schedule.html">project_schedule()</a></code></td>
-<td>Validates activities, links, duration distributions, resources,
-assignments and risk events</td>
-</tr>
-<tr class="even">
-<td><code><a href="../reference/cpm.html">cpm()</a></code></td>
-<td>Deterministic critical path method, optionally resource-leveled</td>
-</tr>
-<tr class="odd">
-<td><code><a href="../reference/sra.html">sra()</a></code></td>
-<td>Monte Carlo schedule risk analysis: reruns CPM in every
-iteration</td>
-</tr>
-</tbody>
-</table>
-<p>All three results have <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>
-and <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> methods.</p>
+<p>This case study analyzes the schedule of a mid-rise building. Its six
+work packages run on overlapping paths, share one tower crane and two
+finishing crews, and face two discrete risk events. Adding up task
+durations misses two effects. Where parallel paths merge, the finish is
+set by whichever path runs longest, so the expected finish is later than
+any single path suggests (merge bias). And a shared resource can hold an
+activity back after its predecessors are done. The analysis therefore
+works on the network itself: a deterministic critical path, resource
+leveling, and a Monte Carlo schedule risk analysis that reschedules the
+network in every iteration. A causal risk network then replaces
+independent risk events with risks that share a root cause and act
+through the resources every activity depends on.</p>
 <div class="section level2">
-<h2 id="why-not-just-add-up-durations">Why not just add up durations?<a class="anchor" aria-label="anchor" href="#why-not-just-add-up-durations"></a>
+<h2 id="the-project">The project<a class="anchor" aria-label="anchor" href="#the-project"></a>
 </h2>
-<p>Two 10-week activities run in parallel, each with a symmetric
-triangular estimate of 8 to 12 weeks. On paper the project takes 10
-weeks.</p>
+<p>The schedule has six work packages, with durations in weeks:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">parallel</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/project_schedule.html">project_schedule</a></span><span class="op">(</span></span>
-<span>  activities <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Start"</span>, <span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Finish"</span><span class="op">)</span>,</span>
-<span>                          duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span>, <span class="fl">10</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  links <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Start"</span>, <span class="st">"Start"</span>, <span class="st">"X"</span>, <span class="st">"Y"</span><span class="op">)</span>,</span>
-<span>                     target <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Finish"</span>, <span class="st">"Finish"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  duration_dists <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"triangular"</span>, a <span class="op">=</span> <span class="fl">8</span>, b <span class="op">=</span> <span class="fl">10</span>, c <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>,</span>
-<span>    Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"triangular"</span>, a <span class="op">=</span> <span class="fl">8</span>, b <span class="op">=</span> <span class="fl">10</span>, c <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  time_unit <span class="op">=</span> <span class="st">"weeks"</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">par_risk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sra.html">sra</a></span><span class="op">(</span><span class="va">parallel</span>, <span class="va">n_sims</span><span class="op">)</span></span>
-<span><span class="va">par_risk</span><span class="op">$</span><span class="va">prob_deterministic</span></span>
-<span><span class="co">#&gt; [1] 0.2527</span></span>
-<span><span class="va">par_risk</span><span class="op">$</span><span class="va">total_mean</span></span>
-<span><span class="co">#&gt; [1] 10.46753</span></span></code></pre></div>
-<p>The 10-week plan has only about a one-in-four chance of being met. A
-task-sum model of either path would put it at one in two.</p>
-</div>
-<div class="section level2">
-<h2 id="the-building-project-schedule">The building project schedule<a class="anchor" aria-label="anchor" href="#the-building-project-schedule"></a>
-</h2>
-<p><code>building_project</code> includes a resource-loaded schedule for
-the six work packages of a mid-rise building, in weeks:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bp</span> <span class="op">&lt;-</span> <span class="va">building_project</span></span>
 <span><span class="va">bp</span><span class="op">$</span><span class="va">schedule_activities</span></span>
 <span><span class="co">#&gt;   id                           name duration fixed_cost</span></span>
@@ -165,9 +112,9 @@ the six work packages of a mid-rise building, in weeks:</p>
 (start-to-start) and finishes at least 2 weeks after it
 (finish-to-finish). MEP rough-in starts 4 weeks into the envelope.
 Fit-out follows envelope dry-in and must finish at least 4 weeks after
-MEP. Fit-out has no duration of its own: it is 24 crew-weeks of work by
-two finishing crews, so its duration depends on crew productivity.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+MEP. Fit-out has no fixed duration: it is 24 crew-weeks of work by two
+finishing crews, so its duration depends on crew productivity.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bp</span><span class="op">$</span><span class="va">schedule_resources</span></span>
 <span><span class="co">#&gt;                  id capacity  rate</span></span>
 <span><span class="co">#&gt; 1   Excavation crew        1 18000</span></span>
@@ -191,9 +138,13 @@ two finishing crews, so its duration depends on crew productivity.</p>
 <span><span class="co">#&gt; 11       T5    Finishing crew     1   NA</span></span>
 <span><span class="co">#&gt; 12       T6    Finishing crew     2   24</span></span></code></pre></div>
 <p>A single tower crane serves the foundations, frame and envelope. Each
-resource’s <code>rate</code> is its cost per unit per week, and
-<code>fixed_cost</code> carries materials and lump sums.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+resource has a cost per unit per week, and each activity can carry a
+fixed cost for materials and lump sums.</p>
+<p>The schedule model combines the network with the uncertainty: a
+duration distribution for each estimated activity, a productivity
+distribution for the finishing crews, a correlation matrix across the
+five estimated durations, and the risk register.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">proj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/project_schedule.html">project_schedule</a></span><span class="op">(</span></span>
 <span>  activities         <span class="op">=</span> <span class="va">bp</span><span class="op">$</span><span class="va">schedule_activities</span>,</span>
 <span>  links              <span class="op">=</span> <span class="va">bp</span><span class="op">$</span><span class="va">schedule_links</span>,</span>
@@ -218,7 +169,7 @@ resource’s <code>rate</code> is its cost per unit per week, and
 <span><span class="co">#&gt;  T4              Building Envelope       11 distribution     T3SS+8, T3FF+2</span></span>
 <span><span class="co">#&gt;  T5 Mechanical/Electrical/Plumbing       14 distribution             T4SS+4</span></span>
 <span><span class="co">#&gt;  T6    Interior Fit-out &amp; Finishes       12     resource T4, T5SS+6, T5FF+4</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">proj</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="schedule-risk_files/figure-html/network-plot-1.png" class="r-plt" alt="Activity-on-node network. Red marks the deterministic critical path; edge labels give non-FS link types and lags." width="672"><p class="caption">
@@ -230,7 +181,7 @@ edge labels give non-FS link types and lags.
 <div class="section level2">
 <h2 id="deterministic-critical-path">Deterministic critical path<a class="anchor" aria-label="anchor" href="#deterministic-critical-path"></a>
 </h2>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plan</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cpm.html">cpm</a></span><span class="op">(</span><span class="va">proj</span><span class="op">)</span></span>
 <span><span class="va">plan</span></span>
 <span><span class="co">#&gt; Critical Path Method </span></span>
@@ -244,15 +195,18 @@ edge labels give non-FS link types and lags.
 <span><span class="co">#&gt;  T4       11 22 33 22 33           0          0     TRUE</span></span>
 <span><span class="co">#&gt;  T5       14 26 40 27 41           1          1    FALSE</span></span>
 <span><span class="co">#&gt;  T6       12 33 45 33 45           0          0     TRUE</span></span></code></pre></div>
-<p>The forward pass gives each activity’s early start: the latest of
-zero and the constraint of each incoming link. FS gives predecessor
-finish + lag, SS gives predecessor start + lag, FF gives predecessor
-finish + lag − duration, and SF gives predecessor start + lag −
-duration. The backward pass mirrors this from the project finish.
-<em>Total float</em> is late start minus early start. <em>Free
-float</em> is the slip an activity can absorb before it delays any
-successor.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<p>The critical path method (Kelley and Walker, 1959) makes two passes
+through the network. The forward pass gives each activity’s early start:
+the latest of zero and the constraint of each incoming link. A
+finish-to-start (FS) link gives predecessor finish + lag, start-to-start
+(SS) gives predecessor start + lag, finish-to-finish (FF) gives
+predecessor finish + lag − duration, and start-to-finish (SF) gives
+predecessor start + lag − duration. The backward pass mirrors this from
+the project finish to give late starts. <em>Total float</em> is late
+start minus early start, and activities with zero total float form the
+critical path. <em>Free float</em> is the slip an activity can absorb
+before it delays any successor.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">plan</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="schedule-risk_files/figure-html/cpm-gantt-1.png" class="r-plt" alt="Deterministic schedule. Grey bars show total float; the dashed line is the project finish." width="672"><p class="caption">
@@ -263,36 +217,37 @@ the project finish.
 <div class="section level3">
 <h3 id="resource-leveling">Resource leveling<a class="anchor" aria-label="anchor" href="#resource-leveling"></a>
 </h3>
-<p>The baseline overlaps the envelope with the frame, but both need the
-one crane. <code>level = TRUE</code> schedules activities with a serial
-schedule-generation scheme. It repeatedly takes the eligible activity
-with the smallest late start and places it at the earliest time that
-satisfies its links and keeps every resource within capacity for the
-activity’s whole duration.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<p>The critical path plan overlaps the envelope with the frame, but both
+need the one crane. Resource leveling resolves the conflict with a
+serial schedule-generation scheme (Kolisch, 1996). It repeatedly takes
+the eligible activity with the smallest late start and places it at the
+earliest time that satisfies its links and keeps every resource within
+capacity for the activity’s whole duration.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">leveled</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cpm.html">cpm</a></span><span class="op">(</span><span class="va">proj</span>, level <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">leveled</span><span class="op">$</span><span class="va">finish</span> <span class="op">-</span> <span class="va">plan</span><span class="op">$</span><span class="va">finish</span></span>
 <span><span class="co">#&gt; [1] 8</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">leveled</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="schedule-risk_files/figure-html/leveled-gantt-1.png" class="r-plt" alt="Resource-leveled schedule: the envelope waits for the crane." width="672"><p class="caption">
 Resource-leveled schedule: the envelope waits for the crane.
 </p>
 </div>
-<p>The crane conflict costs eight weeks. Under leveling, criticality
-comes from the <em>driving path</em>. It traces back from the finish
-through binding links and through resource hand-offs, because float has
-no meaning once resources move dates.</p>
+<p>The crane conflict costs eight weeks. Once resources move dates,
+float no longer identifies the critical activities. Criticality instead
+comes from the <em>driving path</em>, traced back from the finish
+through binding links and through resource hand-offs.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="schedule-risk-analysis">Schedule risk analysis<a class="anchor" aria-label="anchor" href="#schedule-risk-analysis"></a>
 </h2>
-<p><code><a href="../reference/sra.html">sra()</a></code> samples durations, crew productivity and risk
-events, then reschedules the network in every iteration. Here the crane
-constraint is respected throughout:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<p>Schedule risk analysis repeats the leveled schedule calculation many
+times. In each iteration it samples correlated activity durations, crew
+productivity and risk events, then reschedules the network with the
+crane constraint in force:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2027</span><span class="op">)</span></span>
 <span><span class="va">risk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sra.html">sra</a></span><span class="op">(</span><span class="va">proj</span>, num_sims <span class="op">=</span> <span class="va">n_lev</span>, level <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">risk</span></span>
@@ -313,7 +268,7 @@ constraint is respected throughout:</p>
 <span><span class="co">#&gt;  T3           1      0.706</span></span>
 <span><span class="co">#&gt;  T4           1      0.562</span></span>
 <span><span class="co">#&gt;  T6           1      0.114</span></span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">risk</span>, type <span class="op">=</span> <span class="st">"finish"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">risk</span>, type <span class="op">=</span> <span class="st">"cdf"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
@@ -322,16 +277,18 @@ Project finish: histogram and cumulative probability.
 </p>
 </div>
 <p>The leveled deterministic plan sits low on the cumulative curve. The
-gap reflects correlated, right-skewed durations, uncertain crew
-productivity and the two risk events. Contingency follows directly:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+gap reflects merge bias, correlated and right-skewed durations,
+uncertain crew productivity and the two risk events. Schedule
+contingency is the gap between a high-confidence finish (P80) and the
+median (P50):</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/contingency.html">contingency</a></span><span class="op">(</span><span class="va">risk</span>, phigh <span class="op">=</span> <span class="fl">0.80</span>, pbase <span class="op">=</span> <span class="fl">0.50</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      80% </span></span>
 <span><span class="co">#&gt; 4.871851</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="which-activities-drive-the-finish">Which activities drive the finish?<a class="anchor" aria-label="anchor" href="#which-activities-drive-the-finish"></a>
 </h3>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">risk</span><span class="op">)</span><span class="op">$</span><span class="va">activities</span></span>
 <span><span class="co">#&gt;   id mean_duration mean_finish finish_p90 criticality sensitivity cruciality</span></span>
 <span><span class="co">#&gt; 3 T3     17.346264    34.29191  40.150880      1.0000   0.7060928  0.7060928</span></span>
@@ -360,7 +317,7 @@ cruciality of zero.</li>
 <li>The <strong>schedule sensitivity index</strong> (SSI) is criticality
 × sd(duration) / sd(finish) (PMI, 2009).</li>
 </ul>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">risk</span>, type <span class="op">=</span> <span class="st">"gantt"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="schedule-risk_files/figure-html/gantt-1.png" class="r-plt" alt="Deterministic bars shaded by criticality index, with P10-P90 finish whiskers and P50 ticks." width="672"><p class="caption">
@@ -368,14 +325,14 @@ Deterministic bars shaded by criticality index, with P10-P90 finish
 whiskers and P50 ticks.
 </p>
 </div>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">risk</span>, type <span class="op">=</span> <span class="st">"tornado"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="schedule-risk_files/figure-html/tornado-1.png" class="r-plt" alt="Activities ranked by cruciality." width="672"><p class="caption">
 Activities ranked by cruciality.
 </p>
 </div>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">risk</span>, type <span class="op">=</span> <span class="st">"network"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="schedule-risk_files/figure-html/crit-network-1.png" class="r-plt" alt="Network shaded by criticality index." width="672"><p class="caption">
@@ -390,17 +347,17 @@ Network shaded by criticality index.
 its stated probability. When it occurs, a sampled delay is added to
 every activity it affects, and its cost impact is added to project
 cost.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">risk</span><span class="op">$</span><span class="va">risk_stats</span></span>
 <span><span class="co">#&gt;                    id prob occurrence finish_impact cost_impact rank</span></span>
 <span><span class="co">#&gt; 1     Adverse weather 0.35     0.3520      4.572095    262732.7    1</span></span>
 <span><span class="co">#&gt; 2 Late design changes 0.25     0.2432      3.515081    642740.6    2</span></span></code></pre></div>
-<p><code>finish_impact</code> is the mean finish in iterations where the
-risk occurred minus the mean where it did not. <code>cost_impact</code>
-is the same difference in total cost, so it includes the extra resource
-cost of the delay as well as the risk’s own cost. Rank risk responses by
-these impacts:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<p>A risk’s finish impact is the mean finish in iterations where it
+occurred minus the mean where it did not. Its cost impact is the same
+difference in total cost, so it includes the extra resource cost of the
+delay as well as the risk’s own cost. These impacts rank where risk
+responses pay off most:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">risk</span>, type <span class="op">=</span> <span class="st">"tornado"</span>, metric <span class="op">=</span> <span class="st">"risk"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="schedule-risk_files/figure-html/risk-tornado-1.png" class="r-plt" alt="Risk events ranked by mean finish impact." width="672"><p class="caption">
@@ -409,26 +366,121 @@ Risk events ranked by mean finish impact.
 </div>
 </div>
 <div class="section level3">
+<h3 id="risks-with-a-shared-cause">Risks with a shared cause<a class="anchor" aria-label="anchor" href="#risks-with-a-shared-cause"></a>
+</h3>
+<p>The risk register treats each risk as independent and aims it at
+named activities. Real risks are rarely like that. A regional
+construction boom tightens the labor market and the supply chain at the
+same time, and a labor shortage does not hit one activity: it slows
+every activity that uses the affected crews.</p>
+<p>A causal risk network captures both effects. Its nodes are root
+causes and risk events, its arcs carry conditional probabilities, and
+every node is sampled jointly in each iteration, so risks that share a
+cause occur together. Each risk node is then linked to resources rather
+than activities. A <em>productivity</em> effect multiplies the
+productivity of the named resources, so a multiplier of 0.8 makes their
+work take 1 / 0.8 = 1.25 times longer. A <em>rate</em> effect multiplies
+their cost rate.</p>
+<p>In this network a construction boom (probability 0.4) raises the
+chance of a labor shortage from 0.15 to 0.8 and the chance of
+supply-chain pressure from 0.1 to 0.7. The labor shortage slows the MEP
+subcontractor and the finishing crews, and so the envelope, MEP and
+fit-out. Supply-chain pressure raises the cost rates of the concrete and
+steel crews.</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">boom_net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prob_net.html">prob_net</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Boom"</span>, <span class="st">"Labor"</span>, <span class="st">"Supply"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Boom"</span>, <span class="st">"Boom"</span><span class="op">)</span>, target <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Labor"</span>, <span class="st">"Supply"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    Boom <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"discrete"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.4</span>, <span class="fl">0.6</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    Labor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"conditional"</span>, condition <span class="op">=</span> <span class="st">"Boom"</span>,</span>
+<span>      true_dist  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"discrete"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>      false_dist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"discrete"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.15</span>, <span class="fl">0.85</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    Supply <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"conditional"</span>, condition <span class="op">=</span> <span class="st">"Boom"</span>,</span>
+<span>      true_dist  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"discrete"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.7</span>, <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>      false_dist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"discrete"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">boom_effects</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>node <span class="op">=</span> <span class="st">"Labor"</span>, resources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MEP subcontractor"</span>, <span class="st">"Finishing crew"</span><span class="op">)</span>,</span>
+<span>       effect <span class="op">=</span> <span class="st">"productivity"</span>,</span>
+<span>       magnitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"pert"</span>, a <span class="op">=</span> <span class="fl">0.7</span>, b <span class="op">=</span> <span class="fl">0.85</span>, c <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>node <span class="op">=</span> <span class="st">"Supply"</span>, resources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Concrete crew"</span>, <span class="st">"Steel erector"</span><span class="op">)</span>,</span>
+<span>       effect <span class="op">=</span> <span class="st">"rate"</span>,</span>
+<span>       magnitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"uniform"</span>, min <span class="op">=</span> <span class="fl">1.1</span>, max <span class="op">=</span> <span class="fl">1.3</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">proj_boom</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/project_schedule.html">project_schedule</a></span><span class="op">(</span></span>
+<span>  activities         <span class="op">=</span> <span class="va">bp</span><span class="op">$</span><span class="va">schedule_activities</span>,</span>
+<span>  links              <span class="op">=</span> <span class="va">bp</span><span class="op">$</span><span class="va">schedule_links</span>,</span>
+<span>  duration_dists     <span class="op">=</span> <span class="va">bp</span><span class="op">$</span><span class="va">duration_dists</span>,</span>
+<span>  resources          <span class="op">=</span> <span class="va">bp</span><span class="op">$</span><span class="va">schedule_resources</span>,</span>
+<span>  productivity_dists <span class="op">=</span> <span class="va">bp</span><span class="op">$</span><span class="va">productivity_dists</span>,</span>
+<span>  assignments        <span class="op">=</span> <span class="va">bp</span><span class="op">$</span><span class="va">schedule_assignments</span>,</span>
+<span>  risks              <span class="op">=</span> <span class="va">bp</span><span class="op">$</span><span class="va">risk_register</span>,</span>
+<span>  cor_mat            <span class="op">=</span> <span class="va">bp</span><span class="op">$</span><span class="va">cor_mat</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,</span>
+<span>  start_date         <span class="op">=</span> <span class="va">bp</span><span class="op">$</span><span class="va">start_date</span>,</span>
+<span>  time_unit          <span class="op">=</span> <span class="st">"weeks"</span>,</span>
+<span>  risk_net           <span class="op">=</span> <span class="va">boom_net</span>,</span>
+<span>  risk_effects       <span class="op">=</span> <span class="va">boom_effects</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2027</span><span class="op">)</span></span>
+<span><span class="va">risk_boom</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sra.html">sra</a></span><span class="op">(</span><span class="va">proj_boom</span>, num_sims <span class="op">=</span> <span class="va">n_lev</span>, level <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
+<span>  register_only <span class="op">=</span> <span class="va">risk</span><span class="op">$</span><span class="va">percentiles</span>,</span>
+<span>  with_network  <span class="op">=</span> <span class="va">risk_boom</span><span class="op">$</span><span class="va">percentiles</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt;                    10%      50%      80%      90%</span></span>
+<span><span class="co">#&gt; register_only 52.81628 59.31473 64.18658 66.63852</span></span>
+<span><span class="co">#&gt; with_network  53.81813 60.99216 66.43572 69.28463</span></span></code></pre></div>
+<p>With the network, the P80 finish moves from 64.2 to 66.4 weeks. One
+node now slows three activities at once, and because labor and supply
+share a root cause, bad news arrives in clusters. The node statistics
+measure each node’s finish and cost impact the same way as for the
+register’s risks:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">risk_boom</span><span class="op">$</span><span class="va">risk_net_stats</span></span>
+<span><span class="co">#&gt;       id  kind occurrence   mean finish_impact cost_impact finish_sensitivity</span></span>
+<span><span class="co">#&gt; 1   Boom event     0.4066 0.4066      2.859162    368514.6          0.2302500</span></span>
+<span><span class="co">#&gt; 2  Labor event     0.4126 0.4126      4.387817    456768.5          0.3533804</span></span>
+<span><span class="co">#&gt; 3 Supply event     0.3494 0.3494      1.715606    366571.9          0.1375045</span></span>
+<span><span class="co">#&gt;   cost_sensitivity rank</span></span>
+<span><span class="co">#&gt; 1        0.3451554    2</span></span>
+<span><span class="co">#&gt; 2        0.4318314    1</span></span>
+<span><span class="co">#&gt; 3        0.3338707    3</span></span></code></pre></div>
+<p>Supply-chain pressure only raises cost rates, yet it shows a finish
+impact. The impact compares iterations where the node occurred with
+those where it did not, so it is an <em>observational</em> measure:
+supply-chain pressure is credited with part of the labor shortage’s
+delay because both follow the boom. The root cause’s impact likewise
+includes every effect it drives. Deciding which risk to mitigate is an
+<em>interventional</em> question: it asks what happens when a node is
+forced off (Pearl, 2009), which means cutting its incoming arcs and
+rerunning the analysis.</p>
+</div>
+<div class="section level3">
 <h3 id="cost-and-resources-over-time">Cost and resources over time<a class="anchor" aria-label="anchor" href="#cost-and-resources-over-time"></a>
 </h3>
-<p>Each activity’s cost is its resource cost
-(<code>units × rate × duration</code>) plus fixed cost plus its share of
-risk costs. It is spread over the activity’s dates and accumulated into
-a cost S-curve band:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<p>Each activity’s cost is its resource cost (units × rate × duration)
+plus fixed cost plus its share of risk costs. It is spread over the
+activity’s dates in each iteration and accumulated into a cost S-curve
+band:</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">risk</span>, type <span class="op">=</span> <span class="st">"cost"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="schedule-risk_files/figure-html/cost-1.png" class="r-plt" alt="Cumulative cost: P50 line and P10-P90 band." width="672"><p class="caption">
 Cumulative cost: P50 line and P10-P90 band.
 </p>
 </div>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">risk</span><span class="op">$</span><span class="va">cost_percentiles</span></span>
 <span><span class="co">#&gt;     10%     50%     80%     90% </span></span>
 <span><span class="co">#&gt; 8450214 8926197 9338805 9577579</span></span></code></pre></div>
 <p>Resource usage is summarized the same way. With leveling, no
 iteration exceeds capacity:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">risk</span>, type <span class="op">=</span> <span class="st">"resources"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="schedule-risk_files/figure-html/resource-usage-1.png" class="r-plt" alt="Resource usage against capacity." width="672"><p class="caption">
@@ -439,9 +491,9 @@ Resource usage against capacity.
 <div class="section level3">
 <h3 id="what-does-the-crane-constraint-cost">What does the crane constraint cost?<a class="anchor" aria-label="anchor" href="#what-does-the-crane-constraint-cost"></a>
 </h3>
-<p>Comparing the leveled analysis with an unconstrained one prices the
-resource constraint in probabilistic terms:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<p>Repeating the analysis without leveling prices the resource
+constraint in probabilistic terms:</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2027</span><span class="op">)</span></span>
 <span><span class="va">free</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sra.html">sra</a></span><span class="op">(</span><span class="va">proj</span>, num_sims <span class="op">=</span> <span class="va">n_sims</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
@@ -456,20 +508,20 @@ That is the figure to weigh against the cost of a second crane.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="notes-and-limitations">Notes and limitations<a class="anchor" aria-label="anchor" href="#notes-and-limitations"></a>
+<h2 id="limitations">Limitations<a class="anchor" aria-label="anchor" href="#limitations"></a>
 </h2>
 <ul>
-<li>Time is in abstract units from a common start. A
-<code>start_date</code> with <code>time_unit = "days"</code> or
-<code>"weeks"</code> labels plot axes in calendar dates. Working
-calendars and date constraints are not modelled.</li>
-<li>Duration correlation uses the same Gaussian copula as
-<code><a href="../reference/mcs.html">mcs()</a></code>, and every marginal distribution is preserved.
-Productivity draws and risk events are independent.</li>
+<li>Time runs in weeks from a common start. Working calendars and date
+constraints are not modelled.</li>
+<li>Duration correlation uses a Gaussian copula, which preserves every
+marginal distribution. Productivity draws and risk register events are
+independent; dependence between risks enters only through the causal
+risk network.</li>
+<li>Risk-network effects act on the whole project in an iteration and do
+not change the deterministic baseline.</li>
 <li>Sampled durations are truncated at zero.</li>
 <li>Leveling uses one priority rule. It is a realistic heuristic, not an
-optimizer, and it schedules each iteration separately, so it is slower
-than unleveled analysis on large networks.</li>
+optimizer, and it reschedules each iteration separately.</li>
 </ul>
 </div>
 <div class="section level2">
@@ -481,6 +533,8 @@ Conference</em>, 160–173.</p>
 <p>Kolisch, R. (1996). Serial and parallel resource-constrained project
 scheduling methods revisited: Theory and computation. <em>European
 Journal of Operational Research</em>, 90(2), 320–333.</p>
+<p>Pearl, J. (2009). <em>Causality: Models, Reasoning, and
+Inference</em> (2nd ed.). Cambridge University Press.</p>
 <p>Project Management Institute (2009). <em>Practice Standard for
 Project Risk Management</em>. PMI.</p>
 <p>Williams, T. M. (1992). Criticality in stochastic networks.
