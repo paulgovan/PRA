@@ -1,11 +1,11 @@
 ---
-title: "Case Study: Schedule Risk Analysis of a Resource-Loaded Building Project with Causal Risk Networks"
+title: "Case Study: Schedule Risk Analysis of a Resource-Loaded Project with Causal Networks"
 output:
   html_vignette:
     fig_width: 7
     fig_height: 4.5
 vignette: >
-  %\VignetteIndexEntry{Case Study: Schedule Risk Analysis of a Resource-Loaded Building Project with Causal Risk Networks}
+  %\VignetteIndexEntry{Case Study: Schedule Risk Analysis of a Resource-Loaded Project with Causal Networks}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
